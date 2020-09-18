@@ -1,0 +1,15 @@
+FROM nginx:alpine
+
+ENV KUBECTL_VERSION="v1.17.0"
+
+RUN apk add --update ca-certificates curl bash \
+    && curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl \
+    && chmod +x /usr/local/bin/kubectl \
+    && rm /var/cache/apk/*
+
+COPY dist/aether-roc-gui /usr/share/nginx/html
+COPY build/aether-roc-gui/startup.sh /usr/local/bin
+COPY build/aether-roc-gui/docker-entrypoint.sh /usr/local/bin
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["/usr/local/bin/startup.sh"]
+EXPOSE 80
