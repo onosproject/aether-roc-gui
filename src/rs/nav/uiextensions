@@ -1,0 +1,8 @@
+[
+    {
+        "id": "topology",
+        "icon": "nav_topo",
+        "cat": "NETWORK",
+        "label": "Topology"
+    },
+]

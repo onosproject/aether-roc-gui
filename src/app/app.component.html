@@ -3,4 +3,12 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<p id="placeholder">Aether ROC GUI ({{title}}) - to be continued...</p>
+
+<div style="text-align:center">
+    <onos-mast [username]="'test'"></onos-mast>
+    <aether-nav></aether-nav>
+    <onos-veil #veil></onos-veil>
+    <div>{{ connectivity.setVeilDelegate(veil) }}</div>
+</div>
+
+<router-outlet></router-outlet>

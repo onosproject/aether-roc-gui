@@ -9,7 +9,8 @@ export const environment = {
     production: true
 };
 
-export const AETHER_ROC_API_URL = 'http://aether-roc-api:8181';
+export const AETHER_ROC_API_URL = window.location.origin + '/aether-roc-api';
+export const KUBERNETES_API_PROXY = window.location.origin + '/kubernetes-api';
 
 export const OIDC_AUTH_CLIENT_ID = undefined;
 export const OIDC_AUTH_SECRET = undefined;
