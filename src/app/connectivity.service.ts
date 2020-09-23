@@ -26,17 +26,17 @@ export class ConnectivityService {
     constructor() {
     }
 
-    showVeil(messages: string[]) {
+    showVeil(messages: string[]): void {
         this.vcd.show(messages);
     }
 
-    hideVeil() {
+    hideVeil(): void {
         this.vcd.enabled = false;
         this.vcd.messages = [];
         this.vcd.hide();
     }
 
-    setVeilDelegate(veil: any) {
+    setVeilDelegate(veil: any): void {
         this.vcd = veil;
     }
 }

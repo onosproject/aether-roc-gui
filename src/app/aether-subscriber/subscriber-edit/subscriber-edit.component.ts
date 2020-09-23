@@ -6,7 +6,7 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-    selector: 'app-subscriber-edit',
+    selector: 'aether-subscriber-edit',
     templateUrl: './subscriber-edit.component.html',
     styleUrls: ['./subscriber-edit.component.scss']
 })

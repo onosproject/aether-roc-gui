@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {RouterModule, ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DebugElement} from '@angular/core';
-import {By} from '@angular/platform-browser';
-import {of, from} from 'rxjs';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {By, Meta} from '@angular/platform-browser';
+import {of, from, Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 
 import {
     ConsoleLoggerService,
@@ -21,6 +21,8 @@ import {
     NavService
 } from 'gui2-fw-lib';
 import {NavComponent} from './nav.component';
+import {KUBERNETES_API_PROXY} from '../../environments/environment';
+import {RouterTestingModule} from '@angular/router/testing';
 
 class MockActivatedRoute extends ActivatedRoute {
     constructor(params: Params) {
@@ -30,12 +32,12 @@ class MockActivatedRoute extends ActivatedRoute {
 }
 
 class MockHttpClient {
-    get() {
+    get(): Observable<any> {
         return from(['{"id":"app","icon":"nav_apps","cat":"PLATFORM","label":"Applications"},' +
         '{"id":"settings","icon":"nav_settings","cat":"PLATFORM","label":"Settings"}']);
     }
 
-    subscribe() {
+    subscribe(): void  {
     }
 }
 
@@ -45,12 +47,20 @@ class MockNavService {
     uiOtherViews = [];
     uiHiddenViews = [];
 
-    getUiViews() {
+    getUiViews(): void {
     }
 }
 
 class MockIconService {
-    loadIconDef() {
+    loadIconDef(): void {
+    }
+}
+
+class MockMeta {
+    getTag(attrSelector: string): HTMLMetaElement {
+        return {
+            content: 'test',
+        } as HTMLMetaElement;
     }
 }
 
@@ -73,12 +83,12 @@ describe('NavComponent', () => {
         return bundleObj[key] || '%' + key + '%';
     };
 
-    beforeEach(async(() => {
+    beforeEach((() => {
         log = new ConsoleLoggerService();
-        ar = new MockActivatedRoute({'debug': 'txrx'});
+        ar = new MockActivatedRoute({debug: 'txrx'});
 
-        windowMock = <any>{
-            location: <any>{
+        windowMock = {
+            location: {
                 hostname: 'foo',
                 host: 'foo',
                 port: '80',
@@ -86,17 +96,18 @@ describe('NavComponent', () => {
                 search: {debug: 'true'},
                 href: 'ws://foo:123/onos/ui/websock/path',
                 absUrl: 'ws://foo:123/onos/ui/websock/path'
-            }
-        };
+            } as any
+        } as any;
         fs = new FnService(ar, log, windowMock);
 
         TestBed.configureTestingModule({
-            imports: [BrowserAnimationsModule, RouterModule],
+            imports: [BrowserAnimationsModule, RouterTestingModule],
             declarations: [NavComponent, IconComponent],
             providers: [
                 {provide: FnService, useValue: fs},
                 {provide: IconService, useClass: MockIconService},
                 {provide: HttpClient, useClass: MockHttpClient},
+                {provide: 'kubernetes_api_proxy', useValue: KUBERNETES_API_PROXY},
                 {
                     provide: LionService, useFactory: (() => {
                         return {
@@ -109,6 +120,7 @@ describe('NavComponent', () => {
                 {provide: LogService, useValue: log},
                 {provide: NavService, useClass: MockNavService},
                 {provide: 'Window', useValue: windowMock},
+                {provide: Meta, useClass: MockMeta}
             ]
         })
             .compileComponents();
@@ -130,18 +142,12 @@ describe('NavComponent', () => {
         expect(divDe).toBeTruthy();
     });
 
-    it('should have a platform div.nav-hdr inside a nav#nav', () => {
-        const appDe: DebugElement = fixture.debugElement;
-        const divDe = appDe.query(By.css('nav#nav div#platform.nav-hdr'));
-        const div: HTMLElement = divDe.nativeElement;
-        expect(div.textContent).toEqual('%cat_platform%');
-    });
-
     it('should have a network div.nav-hdr inside a nav#nav', () => {
         const appDe: DebugElement = fixture.debugElement;
-        const divDe = appDe.query(By.css('nav#nav div#network.nav-hdr'));
+        const divDe = appDe.query(By.css('nav#nav div div#header'));
+        expect(divDe != null).toBeTruthy();
         const div: HTMLElement = divDe.nativeElement;
-        expect(div.textContent).toEqual('%cat_network%');
+        expect(div.textContent).toEqual('No Services Detected');
     });
 
 });

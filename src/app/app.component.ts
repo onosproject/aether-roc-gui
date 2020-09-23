@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component} from '@angular/core';
-import {ConnectivityService} from '../../../onos-gui/web/onos-gui/src/app/connectivity.service';
+import {ConnectivityService} from './connectivity.service';
 
 @Component({
-    selector: 'app-root',
+    selector: 'aether-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })

@@ -9,7 +9,7 @@ import {ApiService as ApiServiceAether} from '../../../openapi3/aether/1.0.0/ser
 import {AetherV100TargetAccessProfileService} from '../../../openapi3/aether/1.0.0/services/aether-v-100-target-access-profile.service';
 
 @Component({
-    selector: 'app-subscriber-list',
+    selector: 'aether-subscriber-list',
     templateUrl: './subscriber-list.component.html',
     styleUrls: ['./subscriber-list.component.scss']
 })

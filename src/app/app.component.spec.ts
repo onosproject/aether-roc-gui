@@ -7,17 +7,38 @@ import {TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AppComponent} from './app.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {ConsoleLoggerService, Gui2FwLibModule, LogService} from 'gui2-fw-lib';
+import {KUBERNETES_API_PROXY} from '../environments/environment';
+import {NavComponent} from './nav/nav.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {Meta} from '@angular/platform-browser';
+
+class MockMeta {
+    getTag(attrSelector: string): HTMLMetaElement {
+        return {
+            content: 'test',
+        } as HTMLMetaElement;
+    }
+}
 
 describe('AppComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [
                 RouterTestingModule,
-                HttpClientTestingModule
+                HttpClientTestingModule,
+                BrowserAnimationsModule,
+                Gui2FwLibModule
             ],
             declarations: [
-                AppComponent
+                AppComponent, NavComponent
             ],
+            providers: [
+                {provide: 'Window', useValue: window},
+                {provide: 'kubernetes_api_proxy', useValue: KUBERNETES_API_PROXY},
+                {provide: LogService, useClass: ConsoleLoggerService},
+                {provide: Meta, useClass: MockMeta}
+            ]
         }).compileComponents();
     });
 
@@ -37,6 +58,6 @@ describe('AppComponent', () => {
         const fixture = TestBed.createComponent(AppComponent);
         fixture.detectChanges();
         const compiled = fixture.nativeElement;
-        expect(compiled.querySelector('#placeholder').textContent).toContain('Aether ROC GUI (aether-roc-gui) - to be continued...');
+        expect(compiled.querySelector('div').textContent).toContain('No Services Detected');
     });
 });
