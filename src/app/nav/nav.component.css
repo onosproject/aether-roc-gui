@@ -1,0 +1,50 @@
+/*
+ * SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+ */
+
+/*
+ Aether GUI -- Navigation (layout) -- CSS file
+ */
+
+#nav {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    padding: 0;
+    z-index: 5001;
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+html[data-platform='iPad'] #nav {
+    top: 60px;
+}
+
+#nav div {
+    text-align: start;
+}
+
+#nav .nav-hdr {
+    font-weight: bold;
+    font-variant: small-caps;
+    text-transform: uppercase;
+    font-size: 12pt;
+    padding: 8px 15px;
+}
+
+#nav a {
+    text-decoration: none;
+    font-size: 12pt;
+    font-weight: lighter;
+    display: block;
+    padding: 6px 10px;
+    margin: 0 7px;
+}
+
+#nav a div {
+    display: inline-block;
+    vertical-align: middle;
+    padding-right: 4px;
+}

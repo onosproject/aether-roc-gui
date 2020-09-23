@@ -6,11 +6,28 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
-const routes: Routes = [];
+/**
+ * The set of Routes in the application - can be chosen from nav menu or
+ * elsewhere like tabular icon for flows etc
+ */
+const aetherRoutes: Routes = [
+    {
+        path: 'subscriber-list',
+        loadChildren: () =>  import('./aether-subscriber/aether-subscriber.module').then(m => m.AetherSubscriberModule)
+    },
+    {
+        path: '',
+        redirectTo: 'subscriber-list',
+        pathMatch: 'full'
+    }
+];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+    imports: [
+        RouterModule.forRoot(aetherRoutes, {useHash: true})
+    ],
+    exports: [RouterModule],
+    providers: []
 })
 export class AppRoutingModule {
 }
