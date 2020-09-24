@@ -12,12 +12,12 @@ import {Routes, RouterModule} from '@angular/router';
  */
 const aetherRoutes: Routes = [
     {
-        path: 'subscriber-list',
+        path: 'subscribers',
         loadChildren: () =>  import('./aether-subscriber/aether-subscriber.module').then(m => m.AetherSubscriberModule)
     },
     {
         path: '',
-        redirectTo: 'subscriber-list',
+        redirectTo: 'subscribers',
         pathMatch: 'full'
     }
 ];
@@ -29,5 +29,5 @@ const aetherRoutes: Routes = [
     exports: [RouterModule],
     providers: []
 })
-export class AppRoutingModule {
+export class AetherRoutingModule {
 }

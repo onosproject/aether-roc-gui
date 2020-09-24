@@ -1,0 +1,22 @@
+<!--
+~ SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+
+<div style="text-align:center">
+    <mat-toolbar>
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="example-icon" aria-label="Aether menu icon">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <img class="mast-margin" src="/assets/AETHER.png" alt="Aether" width="270" height="53"/>
+    </mat-toolbar>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+            <mat-icon>smartphone</mat-icon>
+            <span routerLink="/subscribers">Subscribers</span>
+        </button>
+    </mat-menu>
+</div>
+
+<router-outlet></router-outlet>
