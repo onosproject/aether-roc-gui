@@ -4,18 +4,15 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component} from '@angular/core';
-import {ConnectivityService} from './connectivity.service';
 
 @Component({
     selector: 'aether-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    templateUrl: './aether.component.html',
+    styleUrls: ['./aether.component.scss']
 })
-export class AppComponent {
-    title = 'aether-roc-gui';
+export class AetherComponent {
 
     constructor(
-        public connectivity: ConnectivityService,
     ) {
     }
 }

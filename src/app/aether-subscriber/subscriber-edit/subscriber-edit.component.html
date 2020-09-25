@@ -3,4 +3,76 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<p>subscriber-edit works!</p>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Subscriber. UE ID Range: {{ueid}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="row">
+            <!--            &lt;!&ndash;    <mat-form-field appearance="legacy">&ndash;&gt;-->
+            <mat-label>Priority</mat-label>
+            <mat-slider min="1" max="10" step="1" [value]=data?.priority></mat-slider>
+            <mat-hint>1-10</mat-hint>
+            <!--                            </mat-form-field>-->
+            <mat-checkbox class="field-margin">Enabled</mat-checkbox>
+        </div>
+        <div class="row">
+            <mat-label>Serving PLMN:</mat-label>
+            <mat-form-field class="field-margin">
+                <input matInput placeholder="{{data?.AetherV100targetSubscriberUeServingPlmn?.mcc}}">
+                <mat-hint>MCC</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="field-margin">
+                <input matInput placeholder="{{data?.AetherV100targetSubscriberUeServingPlmn?.mnc}}">
+                <mat-hint>MNC</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="field-margin">
+                <input matInput placeholder="{{data?.AetherV100targetSubscriberUeServingPlmn?.tac}}">
+                <mat-hint>TAC</mat-hint>
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field class="full-width subscriber-section">
+                <mat-select [placeholder]="data?.AetherV100targetSubscriberUeProfiles['apn-profile']">
+                    <mat-option *ngFor="let apnp of apnProfiles"
+                                [value]="apnp.id">{{apnp.id}} {{apnp.description}}</mat-option>
+                </mat-select>
+                <mat-hint>APN Profile</mat-hint>
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field class="full-width subscriber-section">
+                <mat-select [placeholder]="data?.AetherV100targetSubscriberUeProfiles['qos-profile']">
+                    <mat-option *ngFor="let qosp of qosProfiles"
+                                [value]="qosp.id">{{qosp.id}} {{qosp.description}}</mat-option>
+                </mat-select>
+                <mat-hint>QOS Profile</mat-hint>
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field class="full-width subscriber-section">
+                <mat-select [placeholder]="data?.AetherV100targetSubscriberUeProfiles['up-profile']">
+                    <mat-option *ngFor="let upp of upProfiles"
+                                [value]="upp.id">{{upp.id}} {{upp.description}}</mat-option>
+                </mat-select>
+                <mat-hint>UP Profile</mat-hint>
+            </mat-form-field>
+        </div>
+        <mat-label>Access Profiles</mat-label>
+        <mat-icon>add</mat-icon>
+        <div class="row"
+             *ngFor="let ap of data?.AetherV100targetSubscriberUeProfiles.ListAetherV100targetSubscriberUeProfilesAccessProfile">
+            <mat-form-field class="full-width subscriber-section">
+                <mat-select [placeholder]="ap['access-profile']">
+                    <mat-option *ngFor="let app of accessProfiles"
+                                [value]="app.id">{{app.id}} {{app.description}}</mat-option>
+                </mat-select>
+                <mat-icon>remove</mat-icon>
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" routerLink="/subscribers/">< Back</button>
+        <button mat-raised-button color="primary" type="submit">Update</button>
+    </mat-card-actions>
+</mat-card>

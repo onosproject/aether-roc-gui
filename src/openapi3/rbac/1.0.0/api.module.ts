@@ -39,15 +39,15 @@ export class ApiModule {
     }
   }
 
-  constructor( 
+  constructor(
     @Optional() @SkipSelf() parentModule: ApiModule,
     @Optional() http: HttpClient
   ) {
     if (parentModule) {
-      throw new Error('ApiModule is already loaded. Import in your base AppModule only.');
+      throw new Error('ApiModule is already loaded. Import in your base AetherModule only.');
     }
     if (!http) {
-      throw new Error('You need to import the HttpClientModule in your AppModule! \n' +
+      throw new Error('You need to import the HttpClientModule in your AetherModule! \n' +
       'See also https://github.com/angular/angular/issues/20575');
     }
   }
