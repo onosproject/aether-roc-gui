@@ -45,6 +45,7 @@ kind: images
 all: build images
 
 publish: build images
+	./../build-tools/publish-version ${VERSION} onosproject/aether-roc-gui
 
 clean: # @HELP remove all the build artifacts
 	rm -rf ./dist ./node-modules
