@@ -4,8 +4,11 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {AetherV100TargetService, AetherV100TargetSubscriberService} from '../../../openapi3/aether/1.0.0/services';
+import {ActivatedRoute, Router} from '@angular/router';
+import {
+    AetherV100TargetService,
+    AetherV100TargetSubscriberService, ApiService
+} from '../../../openapi3/aether/1.0.0/services';
 import {AetherV100TargetSubscriberUe} from '../../../openapi3/aether/1.0.0/models/aether-v-100-target-subscriber-ue';
 import {TARGETS} from '../../../environments/environment';
 import {FormBuilder, Validators} from '@angular/forms';
@@ -27,25 +30,45 @@ export class SubscriberEditComponent implements OnInit {
     qosProfiles: Array<AetherV100TargetQosProfileQosProfile>;
     upProfiles: Array<AetherV100TargetUpProfileUpProfile>;
     accessProfiles: Array<AetherV100TargetAccessProfileAccessProfile>;
-
     subscriberUeForm = this.fb.group({
-        company: null,
-        firstName: [null, Validators.required],
-        lastName: [null, Validators.required],
-        address: [null, Validators.required],
-        address2: null,
-        city: [null, Validators.required],
-        state: [null, Validators.required],
-        postalCode: [null, Validators.compose([
-            Validators.required, Validators.minLength(5), Validators.maxLength(5)])
+        ueid: [''],
+        priority: [0, Validators.compose([
+            Validators.min(0),
+            Validators.max(1000)])
         ],
-        shipping: ['free', Validators.required]
+        enabled: [false],
+        'requested-apn': ['', Validators.compose([
+            Validators.minLength(1),
+            Validators.maxLength(31),
+        ])],
+        AetherV100targetSubscriberUeServingPlmn: this.fb.group({
+            mcc: [0, Validators.compose([
+                Validators.min(0),
+                Validators.max(999)])
+            ],
+            mnc: [0, Validators.compose([
+                Validators.min(0),
+                Validators.max(999)])
+            ],
+            tac: [0, Validators.compose([
+                Validators.min(0),
+                Validators.max(99999999)])
+            ],
+        }),
+        AetherV100targetSubscriberUeProfiles: this.fb.group({
+                'apn-profile': [''],
+                'qos-profile': [''],
+                'up-profile': [''],
+            }
+        )
     });
 
     constructor(
         private aetherV100TargetSubscriberService: AetherV100TargetSubscriberService,
         private aetherV100TargetService: AetherV100TargetService,
+        private aetherApiService: ApiService,
         private route: ActivatedRoute,
+        private router: Router,
         private fb: FormBuilder
     ) {
     }
@@ -66,6 +89,22 @@ export class SubscriberEditComponent implements OnInit {
         }).subscribe(
             (value => {
                 this.data = value;
+                this.subscriberUeForm.get('ueid').setValue(value.ueid);
+                this.subscriberUeForm.get('priority').setValue(value.priority);
+                this.subscriberUeForm.get('enabled').setValue(value.enabled);
+                this.subscriberUeForm.get('requested-apn').setValue(value['requested-apn']);
+                this.subscriberUeForm.get('AetherV100targetSubscriberUeServingPlmn')
+                    .get('mcc').setValue(value.AetherV100targetSubscriberUeServingPlmn.mcc);
+                this.subscriberUeForm.get('AetherV100targetSubscriberUeServingPlmn')
+                    .get('mnc').setValue(value.AetherV100targetSubscriberUeServingPlmn.mnc);
+                this.subscriberUeForm.get('AetherV100targetSubscriberUeServingPlmn')
+                    .get('tac').setValue(value.AetherV100targetSubscriberUeServingPlmn.tac);
+                this.subscriberUeForm.get('AetherV100targetSubscriberUeProfiles')
+                    .get('apn-profile').setValue(value.AetherV100targetSubscriberUeProfiles['apn-profile']);
+                this.subscriberUeForm.get('AetherV100targetSubscriberUeProfiles')
+                    .get('qos-profile').setValue(value.AetherV100targetSubscriberUeProfiles['qos-profile']);
+                this.subscriberUeForm.get('AetherV100targetSubscriberUeProfiles')
+                    .get('up-profile').setValue(value.AetherV100targetSubscriberUeProfiles['up-profile']);
                 console.log('Got Subscriber', value);
             }),
             error => {
@@ -146,6 +185,18 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     onSubmit(): void {
-        alert('Thanks!');
+        console.log('Submitted!', this.subscriberUeForm.getRawValue());
+        this.aetherApiService.postAetherV100TargetSubscriberUe({
+            ueid: this.data.ueid,
+            target: TARGETS[0],
+            body: this.subscriberUeForm.getRawValue()
+        }).subscribe(
+            value => console.log('POST Response', value),
+            error => console.warn('POST error', error),
+            () => {
+                console.log('POST finished');
+                this.router.navigate(['/subscribers']);
+            }
+        );
     }
 }

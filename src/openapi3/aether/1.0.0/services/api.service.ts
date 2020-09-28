@@ -9,6 +9,7 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
+import { AetherV100TargetSubscriberUe } from '../models/aether-v-100-target-subscriber-ue';
 
 @Injectable({
   providedIn: 'root',
@@ -1162,7 +1163,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetSubscriberUe()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetSubscriberUe$Response(params: {
 
@@ -1175,7 +1176,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * SubscriberUe
+     */
+    body?: AetherV100TargetSubscriberUe
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUePath, 'post');
@@ -1184,6 +1189,7 @@ export class ApiService extends BaseService {
       rb.path('ueid', params.ueid, {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -1204,7 +1210,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetSubscriberUe$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetSubscriberUe(params: {
 
@@ -1217,7 +1223,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * SubscriberUe
+     */
+    body?: AetherV100TargetSubscriberUe
   }): Observable<void> {
 
     return this.postAetherV100TargetSubscriberUe$Response(params).pipe(

@@ -1,0 +1,45 @@
+/*
+ * SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+ */
+$header-height: 40px;
+
+.card {
+    padding: 0;
+    margin: -$header-height auto 0;
+    width: 75%;
+    position: absolute;
+    left: 100px;
+    top: 160px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    height: $header-height;
+    box-sizing: border-box;
+    border-bottom: solid 1px rgba(0,0,0,0.12);
+    //color: rgba(0,0,0,0.6);
+
+    .title {
+        margin-right: auto;
+        font-weight: 400;
+    }
+}
+
+.content {
+    height: 520px;
+}
+
+.field-margin {
+    margin: 0 12px;
+}
+
+.divider-margin {
+    margin: 6px 12px;
+}
+
+.icon-pointer {
+    cursor: pointer;
+}

@@ -3,7 +3,12 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    OnInit,
+    ViewChild
+} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
@@ -23,6 +28,7 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<AetherV100TargetSubscriberUe>;
     dataSource: SubscriberUeDataSource;
+    selectedSubscriber: AetherV100TargetSubscriberUe;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
@@ -33,26 +39,25 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
 
     constructor(
         private aetherV100TargetService: AetherV100TargetService,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
     ) {
     }
 
     ngOnInit(): void {
         this.dataSource = new SubscriberUeDataSource(this.aetherV100TargetService, TARGETS);
-        this.openSnackBar('BUG: When the page is displayed, the entries are not displayed.' +
-            ' Click in the header to display them');
+        this.openSnackBar('Loading data from ' + TARGETS.join(','));
     }
 
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadSubscriberUe(this.table);
+        this.dataSource.loadSubscriberUe();
     }
 
     openSnackBar(message: string): void {
         this.snackBar.open(message, undefined, {
-            duration: 5000,
+            duration: 1000,
         });
     }
 
