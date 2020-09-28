@@ -1,0 +1,50 @@
+<!--
+~ SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<mat-card class="card mat-elevation-z8">
+    <mat-card-header class="header">
+        <mat-card-title class="subheading-1 title">
+            Subscriber {{subscriber?.ueid}}</mat-card-title>
+        <mat-icon class="icon-pointer"
+            routerLink="/subscribers/subscriber-edit/{{subscriber?.ueid}}">edit
+        </mat-icon>
+        <mat-icon  class="icon-pointer" (click)="closeCard()">close</mat-icon>
+    </mat-card-header>
+    <mat-card-content class="content">
+        <mat-list>
+            <mat-list-item class="field-margin">
+                Priority: <strong>{{subscriber?.priority}}</strong></mat-list-item>
+            <mat-list-item class="field-margin">Enabled:
+                <mat-icon>{{subscriber?.enabled ? 'check_box' : 'check_box_outline_blank'}}</mat-icon>
+            </mat-list-item>
+            <mat-list-item class="field-margin">Requested
+                APN: <strong>{{subscriber != undefined ? subscriber["requested-apn"] : ''}}</strong></mat-list-item>
+            <mat-divider></mat-divider>
+            <p class="divider-margin">Serving PLMN: </p>
+            <mat-list-item class="field-margin">
+                <mat-label class="field-margin">
+                    MCC: <strong>{{subscriber?.AetherV100targetSubscriberUeServingPlmn?.mcc}}</strong></mat-label>
+                <mat-label class="field-margin">
+                    MNC: <strong>{{subscriber?.AetherV100targetSubscriberUeServingPlmn?.mnc}}</strong></mat-label>
+                <mat-label class="field-margin">
+                    TAC: <strong>{{subscriber?.AetherV100targetSubscriberUeServingPlmn?.tac}}</strong></mat-label>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <p class="divider-margin">Profiles:</p>
+            <mat-list-item class="field-margin">APN Profile: <strong>
+                {{subscriber?.AetherV100targetSubscriberUeProfiles["apn-profile"]}}</strong></mat-list-item>
+            <mat-list-item class="field-margin">QOS Profile: <strong>
+                {{subscriber?.AetherV100targetSubscriberUeProfiles["qos-profile"]}}</strong></mat-list-item>
+            <mat-list-item class="field-margin">UP Profile: <strong>
+                {{subscriber?.AetherV100targetSubscriberUeProfiles["up-profile"]}}</strong></mat-list-item>
+            <p class="field-margin">Access Profile(s):</p>
+            <mat-list-item class="field-margin"
+                           *ngFor="let ap of subscriber?.AetherV100targetSubscriberUeProfiles?.ListAetherV100targetSubscriberUeProfilesAccessProfile">
+                ACCESS Profile: <strong>{{ap['access-profile']}}</strong>. Allowed:
+                <mat-icon>{{ap.allowed ? 'check_box' : 'check_box_outline_blank'}}</mat-icon>
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+</mat-card>

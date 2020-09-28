@@ -9,12 +9,12 @@ import {AetherV100TargetSubscriber, AetherV100TargetSubscriberUe} from '../../..
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {map, mergeMap} from 'rxjs/operators';
-import {Observable, of as observableOf, merge, from} from 'rxjs';
+import {Observable, of as observableOf, merge, from, Subscriber} from 'rxjs';
 import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services';
 import {MatTable} from '@angular/material/table';
 
 export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscriberUe> {
-    data: AetherV100TargetSubscriberUe[] = [];
+    data: Array<AetherV100TargetSubscriberUe> = [];
     paginator: MatPaginator;
     sort: MatSort;
 
@@ -78,28 +78,23 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
         });
     }
 
-    loadSubscriberUe(table: MatTable<AetherV100TargetSubscriberUe>): void {
+    loadSubscriberUe(): void {
         this.aetherV100TargetService.getAetherV100TargetSubscriber({
             target: this.targets[0]
         })
-            .pipe(
-                mergeMap((items: AetherV100TargetSubscriber) => from(items.ListAetherV100targetSubscriberUe))
-            )
             .subscribe(
                 (value => {
-                    this.data.push(value);
-                    table.renderRows();
-                    console.log('Got Subscriber', value.ueid);
+                    this.data = value.ListAetherV100targetSubscriberUe;
+                    console.log('Got ', value.ListAetherV100targetSubscriberUe.length, ' Subscribers from ', this.targets);
                 }),
                 error => {
                     console.warn('Error getting Subscribers for ', this.targets, error);
                 },
                 () => {
-                    table.renderRows();
-                    console.log('Finished loading subscribers');
+                    // table.refreshRows() does not seem to work - using this trick instead
+                    this.paginator._changePageSize(this.paginator.pageSize);
                 }
             );
-
     }
 }
 
