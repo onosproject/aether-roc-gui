@@ -6,17 +6,56 @@
 
 <div style="text-align:center">
     <mat-toolbar>
-        <button mat-icon-button [matMenuTriggerFor]="menu" class="example-icon" aria-label="Aether menu icon">
-            <mat-icon>menu</mat-icon>
+        <img class="mast-margin" src="/assets/AETHER.png" alt="Aether"
+             width="270" height="53"/>
+        <span class="mast-spacer"></span>
+        <button mat-icon-button [matMenuTriggerFor]="menu"
+                aria-label="Aether menu icon">
+            <mat-icon>person</mat-icon>
+            <mat-icon>arrow_drop_down</mat-icon>
         </button>
-        <img class="mast-margin" src="/assets/AETHER.png" alt="Aether" width="270" height="53"/>
     </mat-toolbar>
     <mat-menu #menu="matMenu">
         <button mat-menu-item>
+            <span mat-menu-item (click)="userProfileDisplay = true">sean@opennetworking.org</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item>
             <mat-icon>smartphone</mat-icon>
             <span routerLink="/subscribers">Subscribers</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item [matMenuTriggerFor]="rbac">
+            <mat-icon>groups</mat-icon>
+            <span routerLink="/rbac/groups">RBAC</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item>
+            <mat-icon>help</mat-icon>
+            <span (click)="showhelp()">Help</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>exit_to_app</mat-icon>
+            <span (click)="signingOut()">Sign out</span>
+        </button>
+    </mat-menu>
+    <mat-menu #rbac="matMenu">
+        <button mat-menu-item>
+            <mat-icon>ballot</mat-icon>
+            <span routerLink="/rbac/roles">Roles</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>groups</mat-icon>
+            <span routerLink="/rbac/groups">Groups</span>
         </button>
     </mat-menu>
 </div>
 
 <router-outlet></router-outlet>
+
+<aether-user-profile *ngIf="userProfileDisplay"
+                     [name]="'Sean Condon'"
+                     [email]="'sean@opennetworking.org'"
+                     [groups]="['menlo-admins', 'super-user']"
+                (closeEvent)="userProfileDisplay = false">
+</aether-user-profile>

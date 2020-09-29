@@ -11,7 +11,8 @@ export const environment = {
 
 export const AETHER_ROC_API_URL = window.location.origin + '/aether-roc-api';
 export const KUBERNETES_API_PROXY = window.location.origin + '/kubernetes-api';
-export const TARGETS = ['sdcore-adapter']
+export const AETHER_TARGETS = ['sdcore-adapter'];
+export const RBAC_TARGET = 'internal';
 
 export const OIDC_AUTH_CLIENT_ID = undefined;
 export const OIDC_AUTH_SECRET = undefined;

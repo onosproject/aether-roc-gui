@@ -1,0 +1,52 @@
+<!--
+~ SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<div>
+    <table mat-table class="full-width-table" matSort aria-label="Elements">
+        <!-- Role Column -->
+        <ng-container matColumnDef="roleid">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Role ID</th>
+            <td mat-cell *matCellDef="let row">{{row.roleid}}</td>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+            <td mat-cell *matCellDef="let row">{{row.description}}</td>
+        </ng-container>
+
+        <!-- Operation Column -->
+        <ng-container matColumnDef="operation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Operation</th>
+            <td mat-cell *matCellDef="let row">{{row.RbacV100targetRbacRolePermission.operation}}</td>
+        </ng-container>
+
+        <!-- Type Column -->
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Type</th>
+            <td mat-cell *matCellDef="let row">{{row.RbacV100targetRbacRolePermission.type}}</td>
+        </ng-container>
+
+        <!-- Noun Count Column -->
+        <ng-container matColumnDef="nouncount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header># Noun(s)</th>
+            <td mat-cell *matCellDef="let row">{{row.RbacV100targetRbacRolePermission['leaf-list-noun'].length}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="selectedRole = row"></tr>
+    </table>
+
+    <mat-paginator #paginator
+                   [length]="dataSource?.data?.length"
+                   [pageIndex]="0"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[10, 20, 40]">
+    </mat-paginator>
+</div>
+<!--<aether-subscriber-view *ngIf="selectedRole != undefined"-->
+<!--                        [subscriber]="selectedRole"-->
+<!--                        (closeEvent)="selectedRole = undefined"></aether-subscriber-view>-->

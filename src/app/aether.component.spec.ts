@@ -13,6 +13,9 @@ import {Meta} from '@angular/platform-browser';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatCardModule} from '@angular/material/card';
+import {MatListModule} from '@angular/material/list';
 
 class MockMeta {
     getTag(attrSelector: string): HTMLMetaElement {
@@ -32,6 +35,9 @@ describe('AppComponent', () => {
                 MatToolbarModule,
                 MatIconModule,
                 MatMenuModule,
+                MatDividerModule,
+                MatCardModule,
+                MatListModule,
             ],
             declarations: [
                 AetherComponent
@@ -54,6 +60,6 @@ describe('AppComponent', () => {
         const fixture = TestBed.createComponent(AetherComponent);
         fixture.detectChanges();
         const compiled = fixture.nativeElement;
-        expect(compiled.querySelector('div').textContent).toContain('menu');
+        expect(compiled.querySelector('div').textContent).toContain('person');
     });
 });

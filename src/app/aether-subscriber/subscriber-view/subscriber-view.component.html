@@ -3,14 +3,13 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<mat-card class="card mat-elevation-z8">
+<mat-card class="card mat-elevation-z8" (click)="closeCard()">
     <mat-card-header class="header">
         <mat-card-title class="subheading-1 title">
             Subscriber {{subscriber?.ueid}}</mat-card-title>
         <mat-icon class="icon-pointer"
             routerLink="/subscribers/subscriber-edit/{{subscriber?.ueid}}">edit
         </mat-icon>
-        <mat-icon  class="icon-pointer" (click)="closeCard()">close</mat-icon>
     </mat-card-header>
     <mat-card-content class="content">
         <mat-list>

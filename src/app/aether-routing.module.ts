@@ -16,6 +16,10 @@ const aetherRoutes: Routes = [
         loadChildren: () =>  import('./aether-subscriber/aether-subscriber.module').then(m => m.AetherSubscriberModule)
     },
     {
+        path: 'rbac',
+        loadChildren: () =>  import('./rbac/rbac.module').then(m => m.RbacModule)
+    },
+    {
         path: '',
         redirectTo: 'subscribers',
         pathMatch: 'full'

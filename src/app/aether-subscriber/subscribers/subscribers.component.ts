@@ -15,7 +15,7 @@ import {MatTable} from '@angular/material/table';
 import {SubscriberUeDataSource} from './subscriber-ue-datasource';
 import {AetherV100TargetSubscriberUe} from '../../../openapi3/aether/1.0.0/models';
 import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services';
-import {TARGETS} from '../../../environments/environment';
+import {AETHER_TARGETS} from '../../../environments/environment';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
@@ -44,8 +44,8 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.dataSource = new SubscriberUeDataSource(this.aetherV100TargetService, TARGETS);
-        this.openSnackBar('Loading data from ' + TARGETS.join(','));
+        this.dataSource = new SubscriberUeDataSource(this.aetherV100TargetService, AETHER_TARGETS);
+        this.openSnackBar('Loading data from ' + AETHER_TARGETS.join(','));
     }
 
     ngAfterViewInit(): void {

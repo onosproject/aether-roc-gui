@@ -9,6 +9,11 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
+import { RbacV100TargetRbac } from '../models/rbac-v-100-target-rbac';
+import { RbacV100TargetRbacGroup } from '../models/rbac-v-100-target-rbac-group';
+import { RbacV100TargetRbacGroupRole } from '../models/rbac-v-100-target-rbac-group-role';
+import { RbacV100TargetRbacRole } from '../models/rbac-v-100-target-rbac-role';
+import { RbacV100TargetRbacRolePermission } from '../models/rbac-v-100-target-rbac-role-permission';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +39,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postRbacV100TargetRbac()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postRbacV100TargetRbac$Response(params: {
 
@@ -42,7 +47,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * Rbac
+     */
+    body?: RbacV100TargetRbac
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostRbacV100TargetRbacPath, 'post');
@@ -50,6 +59,7 @@ export class ApiService extends BaseService {
 
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -70,7 +80,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postRbacV100TargetRbac$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postRbacV100TargetRbac(params: {
 
@@ -78,7 +88,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * Rbac
+     */
+    body?: RbacV100TargetRbac
   }): Observable<void> {
 
     return this.postRbacV100TargetRbac$Response(params).pipe(
@@ -164,7 +178,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postRbacV100TargetRbacGroup()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postRbacV100TargetRbacGroup$Response(params: {
 
@@ -177,7 +191,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * RbacGroup
+     */
+    body?: RbacV100TargetRbacGroup
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostRbacV100TargetRbacGroupPath, 'post');
@@ -186,6 +204,7 @@ export class ApiService extends BaseService {
       rb.path('groupid', params.groupid, {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -206,7 +225,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postRbacV100TargetRbacGroup$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postRbacV100TargetRbacGroup(params: {
 
@@ -219,7 +238,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * RbacGroup
+     */
+    body?: RbacV100TargetRbacGroup
   }): Observable<void> {
 
     return this.postRbacV100TargetRbacGroup$Response(params).pipe(
@@ -316,7 +339,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postRbacV100TargetRbacGroupRole()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postRbacV100TargetRbacGroupRole$Response(params: {
 
@@ -334,7 +357,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * RbacGroupRole
+     */
+    body?: RbacV100TargetRbacGroupRole
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostRbacV100TargetRbacGroupRolePath, 'post');
@@ -344,6 +371,7 @@ export class ApiService extends BaseService {
       rb.path('roleid', params.roleid, {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -364,7 +392,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postRbacV100TargetRbacGroupRole$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postRbacV100TargetRbacGroupRole(params: {
 
@@ -382,7 +410,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * RbacGroupRole
+     */
+    body?: RbacV100TargetRbacGroupRole
   }): Observable<void> {
 
     return this.postRbacV100TargetRbacGroupRole$Response(params).pipe(
@@ -490,7 +522,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postRbacV100TargetRbacRole()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postRbacV100TargetRbacRole$Response(params: {
 
@@ -503,7 +535,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * RbacRole
+     */
+    body?: RbacV100TargetRbacRole
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostRbacV100TargetRbacRolePath, 'post');
@@ -512,6 +548,7 @@ export class ApiService extends BaseService {
       rb.path('roleid', params.roleid, {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -532,7 +569,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postRbacV100TargetRbacRole$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postRbacV100TargetRbacRole(params: {
 
@@ -545,7 +582,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * RbacRole
+     */
+    body?: RbacV100TargetRbacRole
   }): Observable<void> {
 
     return this.postRbacV100TargetRbacRole$Response(params).pipe(
@@ -642,7 +683,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postRbacV100TargetRbacRolePermission()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postRbacV100TargetRbacRolePermission$Response(params: {
 
@@ -655,7 +696,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * RbacRolePermission
+     */
+    body?: RbacV100TargetRbacRolePermission
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostRbacV100TargetRbacRolePermissionPath, 'post');
@@ -664,6 +709,7 @@ export class ApiService extends BaseService {
       rb.path('roleid', params.roleid, {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -684,7 +730,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postRbacV100TargetRbacRolePermission$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postRbacV100TargetRbacRolePermission(params: {
 
@@ -697,7 +743,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * RbacRolePermission
+     */
+    body?: RbacV100TargetRbacRolePermission
   }): Observable<void> {
 
     return this.postRbacV100TargetRbacRolePermission$Response(params).pipe(

@@ -10,7 +10,7 @@ import {
     AetherV100TargetSubscriberService, ApiService
 } from '../../../openapi3/aether/1.0.0/services';
 import {AetherV100TargetSubscriberUe} from '../../../openapi3/aether/1.0.0/models/aether-v-100-target-subscriber-ue';
-import {TARGETS} from '../../../environments/environment';
+import {AETHER_TARGETS} from '../../../environments/environment';
 import {FormBuilder, Validators} from '@angular/forms';
 import {AetherV100TargetQosProfileQosProfile} from '../../../openapi3/aether/1.0.0/models/aether-v-100-target-qos-profile-qos-profile';
 import {AetherV100TargetApnProfileApnProfile} from '../../../openapi3/aether/1.0.0/models/aether-v-100-target-apn-profile-apn-profile';
@@ -23,7 +23,7 @@ import {AetherV100TargetAccessProfileAccessProfile} from '../../../openapi3/aeth
     styleUrls: ['./subscriber-edit.component.scss']
 })
 export class SubscriberEditComponent implements OnInit {
-    @Input() target: string = TARGETS[0];
+    @Input() target: string = AETHER_TARGETS[0];
     @Input() ueid: string;
     data: AetherV100TargetSubscriberUe;
     apnProfiles: Array<AetherV100TargetApnProfileApnProfile>;
@@ -188,7 +188,7 @@ export class SubscriberEditComponent implements OnInit {
         console.log('Submitted!', this.subscriberUeForm.getRawValue());
         this.aetherApiService.postAetherV100TargetSubscriberUe({
             ueid: this.data.ueid,
-            target: TARGETS[0],
+            target: AETHER_TARGETS[0],
             body: this.subscriberUeForm.getRawValue()
         }).subscribe(
             value => console.log('POST Response', value),
