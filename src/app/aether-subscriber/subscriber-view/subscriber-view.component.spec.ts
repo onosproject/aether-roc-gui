@@ -8,6 +8,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SubscriberViewComponent} from './subscriber-view.component';
 import {MatCardModule} from '@angular/material/card';
+import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 describe('SubscriberViewComponent', () => {
     let component: SubscriberViewComponent;
@@ -17,8 +20,11 @@ describe('SubscriberViewComponent', () => {
         await TestBed.configureTestingModule({
             imports: [
                 MatCardModule,
+                MatListModule,
+                MatIconModule,
+                MatFormFieldModule
             ],
-            declarations: [SubscriberViewComponent]
+            declarations: [SubscriberViewComponent],
         })
             .compileComponents();
     });

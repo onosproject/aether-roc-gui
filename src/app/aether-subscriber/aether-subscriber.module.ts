@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ApiModule as ApiModuleAether} from '../../openapi3/aether/1.0.0/api.module';
 import {AETHER_ROC_API_URL} from '../../environments/environment';
@@ -61,7 +61,7 @@ import {MatListModule} from '@angular/material/list';
     ],
     providers: [
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
-    ]
+    ],
 })
 export class AetherSubscriberModule {
 }

@@ -7,11 +7,17 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UpProfilesComponent} from './up-profiles.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {
+    BrowserAnimationsModule,
+} from '@angular/platform-browser/animations';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {ActivatedRoute, Params} from '@angular/router';
+import {from, of} from 'rxjs';
+import {RouterTestingModule} from '@angular/router/testing';
+import {ApiModule} from '../../../openapi3/aether/1.0.0/api.module';
 
 describe('UpProfilesComponent', () => {
     let component: UpProfilesComponent;
@@ -22,12 +28,17 @@ describe('UpProfilesComponent', () => {
             declarations: [UpProfilesComponent],
             imports: [
                 HttpClientTestingModule,
-                NoopAnimationsModule,
+                RouterTestingModule,
+                BrowserAnimationsModule,
                 MatPaginatorModule,
                 MatSortModule,
                 MatTableModule,
-                MatSnackBarModule
-            ]
+                MatSnackBarModule,
+                ApiModule
+            ],
+            providers: [
+                {provide: ActivatedRoute, useValue: {paramMap: of({ get: (key) => 'value' })}},
+            ],
         })
             .compileComponents();
     });
