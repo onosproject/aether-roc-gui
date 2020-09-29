@@ -37,6 +37,7 @@ import {MatListModule} from '@angular/material/list';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'subscribers', component: SubscribersComponent},
+            {path: 'subscribers/:lastChange', component: SubscribersComponent},
             {path: 'subscriber-edit/:ueid', component: SubscriberEditComponent},
             {path: '', component: SubscribersComponent, pathMatch: 'full'}
         ]),

@@ -3,17 +3,16 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-
 import {DataSource} from '@angular/cdk/collections';
-import {AetherV100TargetSubscriberUe} from '../../../openapi3/aether/1.0.0/models';
+import {AetherV100TargetUpProfileUpProfile} from '../../../openapi3/aether/1.0.0/models/aether-v-100-target-up-profile-up-profile';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services/aether-v-100-target.service';
+import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Observable, of as observableOf, merge} from 'rxjs';
-import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services';
 
-export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscriberUe> {
-    data: Array<AetherV100TargetSubscriberUe> = [];
+export class UpProfilesDatasource extends DataSource<AetherV100TargetUpProfileUpProfile> {
+    data: Array<AetherV100TargetUpProfileUpProfile> = [];
     paginator: MatPaginator;
     sort: MatSort;
 
@@ -29,7 +28,7 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
      * the returned stream emits new items.
      * @returns A stream of the items to be rendered.
      */
-    connect(): Observable<AetherV100TargetSubscriberUe[]> {
+    connect(): Observable<AetherV100TargetUpProfileUpProfile[]> {
         // Combine everything that affects the rendered data into one update
         // stream for the data-table to consume.
         const dataMutations = [
@@ -50,7 +49,7 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
     disconnect(): void {
     }
 
-    private getPagedData(data: AetherV100TargetSubscriberUe[]): AetherV100TargetSubscriberUe[] {
+    private getPagedData(data: AetherV100TargetUpProfileUpProfile[]): AetherV100TargetUpProfileUpProfile[] {
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
         return data.splice(startIndex, this.paginator.pageSize);
     }
@@ -59,7 +58,7 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
      * Sort the data (client-side). If you're using server-side sorting,
      * this would be replaced by requesting the appropriate data from the server.
      */
-    private getSortedData(data: AetherV100TargetSubscriberUe[]): AetherV100TargetSubscriberUe[] {
+    private getSortedData(data: AetherV100TargetUpProfileUpProfile[]): AetherV100TargetUpProfileUpProfile[] {
         if (!this.sort.active || this.sort.direction === '') {
             return data;
         }
@@ -67,31 +66,31 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
         return data.sort((a, b) => {
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
-                case 'priority':
-                    return compare(a.priority, b.priority, isAsc);
-                case 'ueid':
-                    return compare(+a.ueid, +b.ueid, isAsc);
+                case 'description':
+                    return compare(a.description, b.description, isAsc);
+                case 'id':
+                    return compare(+a.id, +b.id, isAsc);
                 default:
                     return 0;
             }
         });
     }
 
-    loadSubscriberUe(): void {
-        this.aetherV100TargetService.getAetherV100TargetSubscriber({
+    loadUpProfileUpProfile(): void {
+        this.aetherV100TargetService.getAetherV100TargetUpProfile({
             target: this.targets[0]
         })
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value.ListAetherV100targetSubscriberUe;
-                        console.log('Got ', value.ListAetherV100targetSubscriberUe.length, ' Subscribers from ', this.targets);
+                        this.data = value.ListAetherV100targetUpProfileUpProfile;
+                        console.log('Got ', value.ListAetherV100targetUpProfileUpProfile.length, ' UpProfiles from ', this.targets);
                     } else {
-                        console.log('No Subscribers found');
+                        console.log('No UpProfiles found');
                     }
                 }),
                 error => {
-                    console.warn('Error getting Subscribers for ', this.targets, error);
+                    console.warn('Error getting UpProfiles for ', this.targets, error);
                 },
                 () => {
                     // table.refreshRows() does not seem to work - using this trick instead
@@ -105,3 +104,4 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
 function compare(a: string | number, b: string | number, isAsc: boolean): number {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
+
