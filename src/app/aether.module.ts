@@ -16,6 +16,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatDividerModule} from '@angular/material/divider';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatListModule} from '@angular/material/list';
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
     provide: HTTP_INTERCEPTORS,
@@ -26,6 +30,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
 @NgModule({
     declarations: [
         AetherComponent,
+        UserProfileComponent,
     ],
     imports: [
         BrowserModule,
@@ -36,6 +41,9 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
         MatToolbarModule,
         MatIconModule,
         MatMenuModule,
+        MatDividerModule,
+        MatCardModule,
+        MatListModule,
     ],
     providers: [
         {provide: 'Window', useValue: window},

@@ -24,7 +24,8 @@ export const environment = {
 export const AETHER_ROC_API_URL = 'http://localhost:8181';
 export const KUBERNETES_API_PROXY = 'http://localhost:8001';
 
-export const TARGETS = ['sdcore-adapter'];
+export const AETHER_TARGETS = ['sdcore-adapter'];
+export const RBAC_TARGET = 'internal';
 
 export const OIDC_AUTH_CLIENT_ID = undefined;
 export const OIDC_AUTH_SECRET = undefined;

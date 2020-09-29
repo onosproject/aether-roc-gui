@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
     selector: 'aether-root',
@@ -11,8 +11,17 @@ import {Component} from '@angular/core';
     styleUrls: ['./aether.component.scss']
 })
 export class AetherComponent {
+    userProfileDisplay: boolean = false;
 
     constructor(
     ) {
+    }
+
+    showhelp(): void {
+        alert('Showing help');
+    }
+
+    signingOut(): void {
+        alert('signing out');
     }
 }

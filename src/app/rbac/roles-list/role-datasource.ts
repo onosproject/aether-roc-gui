@@ -5,21 +5,21 @@
  */
 
 import {DataSource} from '@angular/cdk/collections';
-import {AetherV100TargetSubscriberUe} from '../../../openapi3/aether/1.0.0/models';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {map} from 'rxjs/operators';
 import {Observable, of as observableOf, merge} from 'rxjs';
-import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services';
+import {RbacV100TargetService} from '../../../openapi3/rbac/1.0.0/services';
+import {RbacV100TargetRbacRole} from '../../../openapi3/rbac/1.0.0/models/rbac-v-100-target-rbac-role';
 
-export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscriberUe> {
-    data: Array<AetherV100TargetSubscriberUe> = [];
+export class RoleDatasource extends DataSource<RbacV100TargetRbacRole> {
+    data: Array<RbacV100TargetRbacRole> = [];
     paginator: MatPaginator;
     sort: MatSort;
 
     constructor(
-        private aetherV100TargetService: AetherV100TargetService,
-        private targets: string[],
+        private rbacV100TargetService: RbacV100TargetService,
+        private target: string,
     ) {
         super();
     }
@@ -29,7 +29,7 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
      * the returned stream emits new items.
      * @returns A stream of the items to be rendered.
      */
-    connect(): Observable<AetherV100TargetSubscriberUe[]> {
+    connect(): Observable<RbacV100TargetRbacRole[]> {
         // Combine everything that affects the rendered data into one update
         // stream for the data-table to consume.
         const dataMutations = [
@@ -50,7 +50,7 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
     disconnect(): void {
     }
 
-    private getPagedData(data: AetherV100TargetSubscriberUe[]): AetherV100TargetSubscriberUe[] {
+    private getPagedData(data: RbacV100TargetRbacRole[]): RbacV100TargetRbacRole[] {
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
         return data.splice(startIndex, this.paginator.pageSize);
     }
@@ -59,7 +59,7 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
      * Sort the data (client-side). If you're using server-side sorting,
      * this would be replaced by requesting the appropriate data from the server.
      */
-    private getSortedData(data: AetherV100TargetSubscriberUe[]): AetherV100TargetSubscriberUe[] {
+    private getSortedData(data: RbacV100TargetRbacRole[]): RbacV100TargetRbacRole[] {
         if (!this.sort.active || this.sort.direction === '') {
             return data;
         }
@@ -67,27 +67,27 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
         return data.sort((a, b) => {
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
-                case 'priority':
-                    return compare(a.priority, b.priority, isAsc);
-                case 'ueid':
-                    return compare(+a.ueid, +b.ueid, isAsc);
+                case 'description':
+                    return compare(a.description, b.description, isAsc);
+                case 'roleid':
+                    return compare(+a.roleid, +b.roleid, isAsc);
                 default:
                     return 0;
             }
         });
     }
 
-    loadSubscriberUe(): void {
-        this.aetherV100TargetService.getAetherV100TargetSubscriber({
-            target: this.targets[0]
+    loadRoles(): void {
+        this.rbacV100TargetService.getRbacV100TargetRbac({
+            target: this.target
         })
             .subscribe(
                 (value => {
-                    this.data = value.ListAetherV100targetSubscriberUe;
-                    console.log('Got ', value.ListAetherV100targetSubscriberUe.length, ' Subscribers from ', this.targets);
+                    this.data = value.ListRbacV100targetRbacRole;
+                    console.log('Got ', value.ListRbacV100targetRbacRole.length, ' Subscribers from ', this.target);
                 }),
                 error => {
-                    console.warn('Error getting Subscribers for ', this.targets, error);
+                    console.warn('Error getting Subscribers for ', this.target, error);
                 },
                 () => {
                     // table.refreshRows() does not seem to work - using this trick instead

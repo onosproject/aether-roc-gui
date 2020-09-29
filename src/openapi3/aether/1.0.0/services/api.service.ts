@@ -9,7 +9,20 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
+import { AetherV100TargetAccessProfile } from '../models/aether-v-100-target-access-profile';
+import { AetherV100TargetAccessProfileAccessProfile } from '../models/aether-v-100-target-access-profile-access-profile';
+import { AetherV100TargetApnProfile } from '../models/aether-v-100-target-apn-profile';
+import { AetherV100TargetApnProfileApnProfile } from '../models/aether-v-100-target-apn-profile-apn-profile';
+import { AetherV100TargetQosProfile } from '../models/aether-v-100-target-qos-profile';
+import { AetherV100TargetQosProfileQosProfile } from '../models/aether-v-100-target-qos-profile-qos-profile';
+import { AetherV100TargetQosProfileQosProfileApnAmbr } from '../models/aether-v-100-target-qos-profile-qos-profile-apn-ambr';
+import { AetherV100TargetSubscriber } from '../models/aether-v-100-target-subscriber';
 import { AetherV100TargetSubscriberUe } from '../models/aether-v-100-target-subscriber-ue';
+import { AetherV100TargetSubscriberUeProfiles } from '../models/aether-v-100-target-subscriber-ue-profiles';
+import { AetherV100TargetSubscriberUeProfilesAccessProfile } from '../models/aether-v-100-target-subscriber-ue-profiles-access-profile';
+import { AetherV100TargetSubscriberUeServingPlmn } from '../models/aether-v-100-target-subscriber-ue-serving-plmn';
+import { AetherV100TargetUpProfile } from '../models/aether-v-100-target-up-profile';
+import { AetherV100TargetUpProfileUpProfile } from '../models/aether-v-100-target-up-profile-up-profile';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +48,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetAccessProfile()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetAccessProfile$Response(params: {
 
@@ -43,7 +56,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * AccessProfile
+     */
+    body?: AetherV100TargetAccessProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetAccessProfilePath, 'post');
@@ -51,6 +68,7 @@ export class ApiService extends BaseService {
 
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -71,7 +89,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetAccessProfile$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetAccessProfile(params: {
 
@@ -79,7 +97,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * AccessProfile
+     */
+    body?: AetherV100TargetAccessProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetAccessProfile$Response(params).pipe(
@@ -165,7 +187,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetAccessProfileAccessProfile()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetAccessProfileAccessProfile$Response(params: {
 
@@ -178,7 +200,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * AccessProfileAccessProfile
+     */
+    body?: AetherV100TargetAccessProfileAccessProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetAccessProfileAccessProfilePath, 'post');
@@ -187,6 +213,7 @@ export class ApiService extends BaseService {
       rb.path('id', params.id, {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -207,7 +234,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetAccessProfileAccessProfile$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetAccessProfileAccessProfile(params: {
 
@@ -220,7 +247,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * AccessProfileAccessProfile
+     */
+    body?: AetherV100TargetAccessProfileAccessProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetAccessProfileAccessProfile$Response(params).pipe(
@@ -317,7 +348,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetApnProfile()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetApnProfile$Response(params: {
 
@@ -325,7 +356,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * ApnProfile
+     */
+    body?: AetherV100TargetApnProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetApnProfilePath, 'post');
@@ -333,6 +368,7 @@ export class ApiService extends BaseService {
 
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -353,7 +389,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetApnProfile$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetApnProfile(params: {
 
@@ -361,7 +397,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * ApnProfile
+     */
+    body?: AetherV100TargetApnProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetApnProfile$Response(params).pipe(
@@ -447,7 +487,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetApnProfileApnProfile()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetApnProfileApnProfile$Response(params: {
 
@@ -460,7 +500,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * ApnProfileApnProfile
+     */
+    body?: AetherV100TargetApnProfileApnProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetApnProfileApnProfilePath, 'post');
@@ -469,6 +513,7 @@ export class ApiService extends BaseService {
       rb.path('id', params.id, {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -489,7 +534,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetApnProfileApnProfile$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetApnProfileApnProfile(params: {
 
@@ -502,7 +547,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * ApnProfileApnProfile
+     */
+    body?: AetherV100TargetApnProfileApnProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetApnProfileApnProfile$Response(params).pipe(
@@ -599,7 +648,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetQosProfile()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetQosProfile$Response(params: {
 
@@ -607,7 +656,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * QosProfile
+     */
+    body?: AetherV100TargetQosProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetQosProfilePath, 'post');
@@ -615,6 +668,7 @@ export class ApiService extends BaseService {
 
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -635,7 +689,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetQosProfile$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetQosProfile(params: {
 
@@ -643,7 +697,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * QosProfile
+     */
+    body?: AetherV100TargetQosProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetQosProfile$Response(params).pipe(
@@ -729,7 +787,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetQosProfileQosProfile()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetQosProfileQosProfile$Response(params: {
 
@@ -742,7 +800,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * QosProfileQosProfile
+     */
+    body?: AetherV100TargetQosProfileQosProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetQosProfileQosProfilePath, 'post');
@@ -751,6 +813,7 @@ export class ApiService extends BaseService {
       rb.path('id', params.id, {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -771,7 +834,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetQosProfileQosProfile$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetQosProfileQosProfile(params: {
 
@@ -784,7 +847,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * QosProfileQosProfile
+     */
+    body?: AetherV100TargetQosProfileQosProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetQosProfileQosProfile$Response(params).pipe(
@@ -881,7 +948,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetQosProfileQosProfileApnAmbr()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetQosProfileQosProfileApnAmbr$Response(params: {
 
@@ -894,7 +961,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * QosProfileQosProfileApnAmbr
+     */
+    body?: AetherV100TargetQosProfileQosProfileApnAmbr
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetQosProfileQosProfileApnAmbrPath, 'post');
@@ -903,6 +974,7 @@ export class ApiService extends BaseService {
       rb.path('id', params.id, {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -923,7 +995,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetQosProfileQosProfileApnAmbr$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetQosProfileQosProfileApnAmbr(params: {
 
@@ -936,7 +1008,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * QosProfileQosProfileApnAmbr
+     */
+    body?: AetherV100TargetQosProfileQosProfileApnAmbr
   }): Observable<void> {
 
     return this.postAetherV100TargetQosProfileQosProfileApnAmbr$Response(params).pipe(
@@ -1033,7 +1109,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetSubscriber()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetSubscriber$Response(params: {
 
@@ -1041,7 +1117,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * Subscriber
+     */
+    body?: AetherV100TargetSubscriber
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberPath, 'post');
@@ -1049,6 +1129,7 @@ export class ApiService extends BaseService {
 
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -1069,7 +1150,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetSubscriber$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetSubscriber(params: {
 
@@ -1077,7 +1158,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * Subscriber
+     */
+    body?: AetherV100TargetSubscriber
   }): Observable<void> {
 
     return this.postAetherV100TargetSubscriber$Response(params).pipe(
@@ -1324,7 +1409,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetSubscriberUeProfiles()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetSubscriberUeProfiles$Response(params: {
 
@@ -1337,7 +1422,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * SubscriberUeProfiles
+     */
+    body?: AetherV100TargetSubscriberUeProfiles
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUeProfilesPath, 'post');
@@ -1346,6 +1435,7 @@ export class ApiService extends BaseService {
       rb.path('ueid', params.ueid, {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -1366,7 +1456,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetSubscriberUeProfiles$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetSubscriberUeProfiles(params: {
 
@@ -1379,7 +1469,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * SubscriberUeProfiles
+     */
+    body?: AetherV100TargetSubscriberUeProfiles
   }): Observable<void> {
 
     return this.postAetherV100TargetSubscriberUeProfiles$Response(params).pipe(
@@ -1476,7 +1570,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetSubscriberUeProfilesAccessProfile()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetSubscriberUeProfilesAccessProfile$Response(params: {
 
@@ -1494,7 +1588,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * SubscriberUeProfilesAccessProfile
+     */
+    body?: AetherV100TargetSubscriberUeProfilesAccessProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUeProfilesAccessProfilePath, 'post');
@@ -1504,6 +1602,7 @@ export class ApiService extends BaseService {
       rb.path('access-profile', params['access-profile'], {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -1524,7 +1623,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetSubscriberUeProfilesAccessProfile$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetSubscriberUeProfilesAccessProfile(params: {
 
@@ -1542,7 +1641,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * SubscriberUeProfilesAccessProfile
+     */
+    body?: AetherV100TargetSubscriberUeProfilesAccessProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetSubscriberUeProfilesAccessProfile$Response(params).pipe(
@@ -1650,7 +1753,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetSubscriberUeServingPlmn()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetSubscriberUeServingPlmn$Response(params: {
 
@@ -1663,7 +1766,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * SubscriberUeServingPlmn
+     */
+    body?: AetherV100TargetSubscriberUeServingPlmn
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUeServingPlmnPath, 'post');
@@ -1672,6 +1779,7 @@ export class ApiService extends BaseService {
       rb.path('ueid', params.ueid, {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -1692,7 +1800,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetSubscriberUeServingPlmn$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetSubscriberUeServingPlmn(params: {
 
@@ -1705,7 +1813,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * SubscriberUeServingPlmn
+     */
+    body?: AetherV100TargetSubscriberUeServingPlmn
   }): Observable<void> {
 
     return this.postAetherV100TargetSubscriberUeServingPlmn$Response(params).pipe(
@@ -1802,7 +1914,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetUpProfile()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetUpProfile$Response(params: {
 
@@ -1810,7 +1922,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * UpProfile
+     */
+    body?: AetherV100TargetUpProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetUpProfilePath, 'post');
@@ -1818,6 +1934,7 @@ export class ApiService extends BaseService {
 
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -1838,7 +1955,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetUpProfile$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetUpProfile(params: {
 
@@ -1846,7 +1963,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * UpProfile
+     */
+    body?: AetherV100TargetUpProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetUpProfile$Response(params).pipe(
@@ -1932,7 +2053,7 @@ export class ApiService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `postAetherV100TargetUpProfileUpProfile()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetUpProfileUpProfile$Response(params: {
 
@@ -1945,7 +2066,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * UpProfileUpProfile
+     */
+    body?: AetherV100TargetUpProfileUpProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetUpProfileUpProfilePath, 'post');
@@ -1954,6 +2079,7 @@ export class ApiService extends BaseService {
       rb.path('id', params.id, {});
       rb.path('target', params.target, {});
 
+      rb.body(params.body, 'application/json');
     }
     return this.http.request(rb.build({
       responseType: 'text',
@@ -1974,7 +2100,7 @@ export class ApiService extends BaseService {
    * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `postAetherV100TargetUpProfileUpProfile$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
   postAetherV100TargetUpProfileUpProfile(params: {
 
@@ -1987,7 +2113,11 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
+  
+    /**
+     * UpProfileUpProfile
+     */
+    body?: AetherV100TargetUpProfileUpProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetUpProfileUpProfile$Response(params).pipe(
