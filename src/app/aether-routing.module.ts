@@ -16,6 +16,10 @@ const aetherRoutes: Routes = [
         loadChildren: () =>  import('./aether-subscriber/aether-subscriber.module').then(m => m.AetherSubscriberModule)
     },
     {
+        path: 'profiles',
+        loadChildren: () =>  import('./aether-profiles/aether-profiles.module').then(m => m.AetherProfilesModule)
+    },
+    {
         path: 'rbac',
         loadChildren: () =>  import('./rbac/rbac.module').then(m => m.RbacModule)
     },

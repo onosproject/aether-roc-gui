@@ -6,6 +6,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UserProfileComponent} from './user-profile.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatListModule} from '@angular/material/list';
 
 describe('UserProfileComponent', () => {
     let component: UserProfileComponent;
@@ -13,7 +15,11 @@ describe('UserProfileComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [UserProfileComponent]
+            declarations: [UserProfileComponent],
+            imports: [
+                MatCardModule,
+                MatListModule,
+            ]
         })
             .compileComponents();
     });

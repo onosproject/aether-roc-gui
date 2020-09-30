@@ -22,6 +22,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {ActivatedRoute, Params} from '@angular/router';
 import {of} from 'rxjs';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 class MockActivatedRoute extends ActivatedRoute {
     constructor(params: Params) {
@@ -56,7 +57,8 @@ describe('SubscriberEditComponent', () => {
             providers: [
                 {provide: FormBuilder, useClass: FormBuilder},
                 {provide: ActivatedRoute, useClass: new MockActivatedRoute({})}
-            ]
+            ],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA]
         })
             .compileComponents();
     });

@@ -24,6 +24,10 @@
             <mat-icon>smartphone</mat-icon>
             <span routerLink="/subscribers">Subscribers</span>
         </button>
+        <button mat-menu-item [matMenuTriggerFor]="profiles">
+            <mat-icon>groups</mat-icon>
+            <span routerLink="/rbac/groups">Profiles</span>
+        </button>
         <mat-divider></mat-divider>
         <button mat-menu-item [matMenuTriggerFor]="rbac">
             <mat-icon>groups</mat-icon>
@@ -47,6 +51,12 @@
         <button mat-menu-item>
             <mat-icon>groups</mat-icon>
             <span routerLink="/rbac/groups">Groups</span>
+        </button>
+    </mat-menu>
+    <mat-menu #profiles="matMenu">
+        <button mat-menu-item>
+            <mat-icon>ballot</mat-icon>
+            <span routerLink="/profiles/upprofiles">User Plane</span>
         </button>
     </mat-menu>
 </div>

@@ -191,11 +191,14 @@ export class SubscriberEditComponent implements OnInit {
             target: AETHER_TARGETS[0],
             body: this.subscriberUeForm.getRawValue()
         }).subscribe(
-            value => console.log('POST Response', value),
+            value => {
+                console.log('POST Response', value);
+                // TODO: Add a string to the response in the OpenAPI yaml (so that this is not unknown)
+                this.router.navigate(['/subscribers', 'subscribers', value as unknown as string]);
+            },
             error => console.warn('POST error', error),
             () => {
                 console.log('POST finished');
-                this.router.navigate(['/subscribers']);
             }
         );
     }
