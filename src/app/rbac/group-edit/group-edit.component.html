@@ -1,0 +1,41 @@
+<!--
+~ SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>RBAC Group: {{groupid}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <mat-form-field class="field-margin">
+                    <input matInput formControlName="description">
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+<!--                <div class="row"-->
+<!--                     formArrayName="ListRbacV100targetRbacGroupRole">-->
+<!--                    <mat-icon class="roleref-action" (click)="addRoleRef()">add_circle</mat-icon>-->
+<!--                    <mat-hint>Add Role Ref</mat-hint>-->
+<!--                    <div class="row" *ngFor="let roleRef of roleRefControls.controls; index as i">-->
+<!--                        <mat-icon class="roleref-action" (click)="roleRefControls.removeAt(i)">remove_circle</mat-icon>-->
+<!--                        <mat-form-field class="field-margin">-->
+<!--                            <input matInput [formControlName]="i">-->
+<!--                            <mat-hint>Role Ref</mat-hint>-->
+<!--                        </mat-form-field>-->
+<!--                        <mat-form-field class="field-margin">-->
+<!--                            <input matInput [formControlName]="i">-->
+<!--                            <mat-hint>Description</mat-hint>-->
+<!--                        </mat-form-field>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit">Update
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

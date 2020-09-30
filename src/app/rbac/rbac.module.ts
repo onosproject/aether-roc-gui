@@ -17,16 +17,27 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { RoleEditComponent } from './role-edit/role-edit.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
+import { GroupEditComponent } from './group-edit/group-edit.component';
 
 @NgModule({
-    declarations: [RolesListComponent, GroupsListComponent],
+    declarations: [RolesListComponent, GroupsListComponent, RoleEditComponent, GroupEditComponent],
     imports: [
         CommonModule,
         ApiModuleRbac.forRoot({rootUrl: AETHER_ROC_API_URL}),
         HttpClientModule,
         RouterModule.forChild([
             {path: 'roles', component: RolesListComponent},
+            {path: 'roles/:lastChange', component: RolesListComponent},
+            {path: 'role/:roleid', component: RoleEditComponent},
             {path: 'groups', component: GroupsListComponent},
+            {path: 'group/:groupid', component: GroupEditComponent},
             {path: '', component: RolesListComponent, pathMatch: 'full'}
         ]),
         FormsModule,
@@ -35,6 +46,12 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
         MatPaginatorModule,
         MatSortModule,
         MatSnackBarModule,
+        MatIconModule,
+        MatCardModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatSelectModule,
     ]
 })
 export class RbacModule {

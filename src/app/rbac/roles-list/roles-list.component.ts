@@ -11,7 +11,10 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {RBAC_TARGET} from '../../../environments/environment';
 import {RoleDatasource} from './role-datasource';
 import {RbacV100TargetRbacRole} from '../../../openapi3/rbac/1.0.0/models/rbac-v-100-target-rbac-role';
-import {RbacV100TargetService} from '../../../openapi3/rbac/1.0.0/services';
+import {
+    ApiService,
+    RbacV100TargetService
+} from '../../../openapi3/rbac/1.0.0/services';
 
 @Component({
     selector: 'aether-roles-list',
@@ -32,24 +35,31 @@ export class RolesListComponent implements AfterViewInit, OnInit {
         'operation',
         'type',
         'nouncount',
+        'edit',
+        'delete'
     ];
 
     constructor(
         private rbacV100TargetService: RbacV100TargetService,
+        private rbacApiService: ApiService,
         private snackBar: MatSnackBar,
     ) {
     }
 
     ngOnInit(): void {
-        this.dataSource = new RoleDatasource(this.rbacV100TargetService, RBAC_TARGET);
-        this.openSnackBar('Loading data from ' + RBAC_TARGET);
+        this.dataSource = new RoleDatasource(this.rbacV100TargetService, this.rbacApiService, RBAC_TARGET);
     }
 
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadRoles();
+        this.dataSource.loadRoles(this.snackBar);
+    }
+
+    deleteRole(roleid: string): void {
+        // TODO handle error
+        this.dataSource.deleteRole(roleid, this.snackBar);
     }
 
     openSnackBar(message: string): void {
@@ -57,5 +67,4 @@ export class RolesListComponent implements AfterViewInit, OnInit {
             duration: 1000,
         });
     }
-
 }

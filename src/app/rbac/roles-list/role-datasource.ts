@@ -9,8 +9,13 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {map} from 'rxjs/operators';
 import {Observable, of as observableOf, merge} from 'rxjs';
-import {RbacV100TargetService} from '../../../openapi3/rbac/1.0.0/services';
+import {
+    ApiService,
+    RbacV100TargetService
+} from '../../../openapi3/rbac/1.0.0/services';
 import {RbacV100TargetRbacRole} from '../../../openapi3/rbac/1.0.0/models/rbac-v-100-target-rbac-role';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export class RoleDatasource extends DataSource<RbacV100TargetRbacRole> {
     data: Array<RbacV100TargetRbacRole> = [];
@@ -19,6 +24,7 @@ export class RoleDatasource extends DataSource<RbacV100TargetRbacRole> {
 
     constructor(
         private rbacV100TargetService: RbacV100TargetService,
+        private rbacApiService: ApiService,
         private target: string,
     ) {
         super();
@@ -77,7 +83,7 @@ export class RoleDatasource extends DataSource<RbacV100TargetRbacRole> {
         });
     }
 
-    loadRoles(): void {
+    loadRoles(snackBar: MatSnackBar): void {
         this.rbacV100TargetService.getRbacV100TargetRbac({
             target: this.target
         })
@@ -87,13 +93,33 @@ export class RoleDatasource extends DataSource<RbacV100TargetRbacRole> {
                     console.log('Got ', value.ListRbacV100targetRbacRole.length, ' Subscribers from ', this.target);
                 }),
                 error => {
-                    console.warn('Error getting Subscribers for ', this.target, error);
+                    const errHttp = error as HttpErrorResponse;
+                    snackBar.open('Error: ' + errHttp.message + ', ' + errHttp.error, 'dismiss', {duration: 10000});
+                    throw error;
                 },
                 () => {
                     // table.refreshRows() does not seem to work - using this trick instead
                     this.paginator._changePageSize(this.paginator.pageSize);
                 }
             );
+    }
+
+    deleteRole(roleid: string, snackBar: MatSnackBar): void {
+        this.rbacApiService.deleteRbacV100TargetRbacRole({
+            roleid,
+            target: this.target,
+        }).subscribe(
+            (value => {
+                const idx = this.data.findIndex(r => r.roleid === roleid);
+                this.data = this.data.splice(idx);
+            }),
+            (error => {
+                    const errHttp = error as HttpErrorResponse;
+                    snackBar.open('Error: ' + errHttp.message + ', ' + errHttp.error, 'dismiss', {duration: 10000});
+                    throw error;
+                }
+            )
+        );
     }
 }
 
