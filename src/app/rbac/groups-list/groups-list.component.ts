@@ -29,7 +29,9 @@ export class GroupsListComponent implements AfterViewInit, OnInit {
     displayedColumns = [
         'groupid',
         'description',
-        'rolecount'
+        'rolecount',
+        'edit',
+        'delete'
     ];
 
     constructor(
