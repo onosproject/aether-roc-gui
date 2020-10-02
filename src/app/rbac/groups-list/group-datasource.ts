@@ -9,8 +9,13 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {map} from 'rxjs/operators';
 import {Observable, of as observableOf, merge} from 'rxjs';
-import {RbacV100TargetService} from '../../../openapi3/rbac/1.0.0/services';
+import {
+    ApiService,
+    RbacV100TargetService
+} from '../../../openapi3/rbac/1.0.0/services';
 import {RbacV100TargetRbacGroup} from '../../../openapi3/rbac/1.0.0/models';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export class GroupDatasource extends DataSource<RbacV100TargetRbacGroup> {
     data: Array<RbacV100TargetRbacGroup> = [];
@@ -19,6 +24,7 @@ export class GroupDatasource extends DataSource<RbacV100TargetRbacGroup> {
 
     constructor(
         private rbacV100TargetService: RbacV100TargetService,
+        private rbacApiService: ApiService,
         private target: string,
     ) {
         super();
@@ -94,6 +100,26 @@ export class GroupDatasource extends DataSource<RbacV100TargetRbacGroup> {
                     this.paginator._changePageSize(this.paginator.pageSize);
                 }
             );
+    }
+
+    deleteGroup(groupid: string, snackBar: MatSnackBar): void {
+        this.rbacApiService.deleteRbacV100TargetRbacGroup({
+            groupid,
+            target: this.target,
+        }).subscribe(
+            (value => {
+                this.data = this.data.filter(g => g.groupid !== groupid);
+                snackBar.open('Group ' + groupid + ' deleted.', null, {duration: 2000});
+                this.paginator._changePageSize(this.paginator.pageSize);
+            }),
+            (error => {
+                    const errHttp = error as HttpErrorResponse;
+                    snackBar.open('Error: ' + errHttp.message + ', ' + errHttp.error, 'dismiss', {duration: 10000});
+                    throw error;
+                }
+            ),
+            () => this.paginator._changePageSize(this.paginator.pageSize)
+    );
     }
 }
 

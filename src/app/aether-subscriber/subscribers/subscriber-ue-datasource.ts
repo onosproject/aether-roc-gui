@@ -10,7 +10,12 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {map} from 'rxjs/operators';
 import {Observable, of as observableOf, merge} from 'rxjs';
-import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services';
+import {
+    AetherV100TargetService,
+    ApiService
+} from '../../../openapi3/aether/1.0.0/services';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscriberUe> {
     data: Array<AetherV100TargetSubscriberUe> = [];
@@ -19,6 +24,7 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
 
     constructor(
         private aetherV100TargetService: AetherV100TargetService,
+        private aetherApiService: ApiService,
         private targets: string[],
     ) {
         super();
@@ -98,6 +104,25 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
                     this.paginator._changePageSize(this.paginator.pageSize);
                 }
             );
+    }
+
+    deleteSubscriberUe(ueid: string, snackBar: MatSnackBar): void {
+        this.aetherApiService.deleteAetherV100TargetSubscriberUe({
+            ueid,
+            target: this.targets[0],
+        }).subscribe(
+            (value => {
+                this.data = this.data.filter(u => u.ueid !== ueid);
+                snackBar.open('Role ' + ueid + ' deleted.', null, {duration: 2000});
+                this.paginator._changePageSize(this.paginator.pageSize);
+            }),
+            (error => {
+                    const errHttp = error as HttpErrorResponse;
+                    snackBar.open('Error: ' + errHttp.message + ', ' + errHttp.error, 'dismiss', {duration: 10000});
+                    throw error;
+                }
+            ),
+        );
     }
 }
 

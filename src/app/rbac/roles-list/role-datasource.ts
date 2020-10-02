@@ -110,15 +110,16 @@ export class RoleDatasource extends DataSource<RbacV100TargetRbacRole> {
             target: this.target,
         }).subscribe(
             (value => {
-                const idx = this.data.findIndex(r => r.roleid === roleid);
-                this.data = this.data.splice(idx);
+                this.data = this.data.filter(r => r.roleid !== roleid);
+                snackBar.open('Role ' + roleid + ' deleted.', null, {duration: 2000});
+                this.paginator._changePageSize(this.paginator.pageSize);
             }),
             (error => {
                     const errHttp = error as HttpErrorResponse;
                     snackBar.open('Error: ' + errHttp.message + ', ' + errHttp.error, 'dismiss', {duration: 10000});
                     throw error;
                 }
-            )
+            ),
         );
     }
 }
