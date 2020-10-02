@@ -9,7 +9,10 @@ import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RBAC_TARGET} from '../../../environments/environment';
-import {RbacV100TargetService} from '../../../openapi3/rbac/1.0.0/services';
+import {
+    ApiService,
+    RbacV100TargetService
+} from '../../../openapi3/rbac/1.0.0/services';
 import {RbacV100TargetRbacGroup} from '../../../openapi3/rbac/1.0.0/models/rbac-v-100-target-rbac-group';
 import {GroupDatasource} from './group-datasource';
 
@@ -36,12 +39,13 @@ export class GroupsListComponent implements AfterViewInit, OnInit {
 
     constructor(
         private rbacV100TargetService: RbacV100TargetService,
+        private rbacApiService: ApiService,
         private snackBar: MatSnackBar,
     ) {
     }
 
     ngOnInit(): void {
-        this.dataSource = new GroupDatasource(this.rbacV100TargetService, RBAC_TARGET);
+        this.dataSource = new GroupDatasource(this.rbacV100TargetService, this.rbacApiService, RBAC_TARGET);
         this.openSnackBar('Loading data from ' + RBAC_TARGET);
     }
 
@@ -50,6 +54,12 @@ export class GroupsListComponent implements AfterViewInit, OnInit {
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadGroups();
+    }
+
+    deleteGroup(groupid: string): void {
+        // TODO handle error
+        this.dataSource.deleteGroup(groupid, this.snackBar);
+        this.openSnackBar('Group ' + groupid + ' deleted');
     }
 
     openSnackBar(message: string): void {

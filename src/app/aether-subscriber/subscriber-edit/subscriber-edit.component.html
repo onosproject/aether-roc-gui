@@ -10,6 +10,13 @@
             <mat-card-title>Subscriber. UE ID Range: {{ueid}}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
+            <div class="row" *ngIf="isNew">
+                <mat-label>Name</mat-label>
+                <mat-form-field class="field-margin full-width">
+                    <input matInput formControlName="ueid">
+                    <mat-hint>Subscriber Range</mat-hint>
+                </mat-form-field>
+            </div>
             <div class="row">
                 <!--            &lt;!&ndash;    <mat-form-field appearance="legacy">&ndash;&gt;-->
                 <mat-label>Priority</mat-label>

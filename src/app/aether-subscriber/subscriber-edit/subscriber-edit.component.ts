@@ -25,6 +25,7 @@ import {AetherV100TargetAccessProfileAccessProfile} from '../../../openapi3/aeth
 export class SubscriberEditComponent implements OnInit {
     @Input() target: string = AETHER_TARGETS[0];
     @Input() ueid: string;
+    isNew: boolean;
     data: AetherV100TargetSubscriberUe;
     apnProfiles: Array<AetherV100TargetApnProfileApnProfile>;
     qosProfiles: Array<AetherV100TargetQosProfileQosProfile>;
@@ -74,8 +75,16 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.ueid = this.route.snapshot.paramMap.get('ueid');
-        this.loadSubscriberUe(this.target, this.ueid);
+        this.route.paramMap.subscribe(
+            value => {
+                if (value.get('ueid') === 'new') {
+                    this.isNew = true;
+                } else {
+                    this.ueid = value.get('ueid');
+                    this.loadSubscriberUe(this.target, this.ueid);
+                }
+            }
+        );
         this.loadAccessProfiles(this.target);
         this.loadApnProfiles(this.target);
         this.loadQosProfiles(this.target);
@@ -186,8 +195,12 @@ export class SubscriberEditComponent implements OnInit {
 
     onSubmit(): void {
         console.log('Submitted!', this.subscriberUeForm.getRawValue());
+        let submitUeid = this.ueid;
+        if (this.ueid === undefined) {
+            submitUeid = this.subscriberUeForm.get('ueid').value as unknown as string;
+        }
         this.aetherApiService.postAetherV100TargetSubscriberUe({
-            ueid: this.data.ueid,
+            ueid: submitUeid,
             target: AETHER_TARGETS[0],
             body: this.subscriberUeForm.getRawValue()
         }).subscribe(

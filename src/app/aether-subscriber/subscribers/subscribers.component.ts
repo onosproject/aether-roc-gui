@@ -14,7 +14,10 @@ import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {SubscriberUeDataSource} from './subscriber-ue-datasource';
 import {AetherV100TargetSubscriberUe} from '../../../openapi3/aether/1.0.0/models';
-import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services';
+import {
+    AetherV100TargetService,
+    ApiService
+} from '../../../openapi3/aether/1.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
@@ -36,10 +39,13 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
         'ueid',
         'priority',
         'enabled',
+        'edit',
+        'delete'
     ];
 
     constructor(
         private aetherV100TargetService: AetherV100TargetService,
+        private aetherApiService: ApiService,
         private snackBar: MatSnackBar,
         private activatedRoute: ActivatedRoute
     ) {
@@ -53,7 +59,7 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.dataSource = new SubscriberUeDataSource(this.aetherV100TargetService, AETHER_TARGETS);
+        this.dataSource = new SubscriberUeDataSource(this.aetherV100TargetService, this.aetherApiService, AETHER_TARGETS);
     }
 
     ngAfterViewInit(): void {
@@ -61,6 +67,10 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadSubscriberUe();
+    }
+
+    deleteSubscriberUe(ueid: string): void {
+        this.dataSource.deleteSubscriberUe(ueid, this.snackBar);
     }
 
     openSnackBar(message: string, durationMs: number, action: string): void {
