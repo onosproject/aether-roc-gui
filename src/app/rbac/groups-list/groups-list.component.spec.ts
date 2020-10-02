@@ -12,6 +12,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 describe('GroupsListComponent', () => {
     let component: GroupsListComponent;
@@ -26,7 +27,8 @@ describe('GroupsListComponent', () => {
                 MatPaginatorModule,
                 MatSortModule,
                 MatTableModule,
-                MatSnackBarModule
+                MatSnackBarModule,
+                MatToolbarModule
             ]
         })
             .compileComponents();

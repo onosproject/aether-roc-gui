@@ -4,6 +4,7 @@
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 <div >
+    <mat-toolbar class="profile-toolbar">User Plane Profiles</mat-toolbar>
     <table mat-table class="full-width-table" matSort aria-label="Elements">
         <!-- Id Column -->
         <ng-container matColumnDef="id">
@@ -29,7 +30,7 @@
             <td mat-cell *matCellDef="let row">{{row['access-control']}}</td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectedUpProfile = row"></tr>
     </table>
 

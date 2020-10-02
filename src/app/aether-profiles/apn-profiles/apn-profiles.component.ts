@@ -7,32 +7,35 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {UpProfilesDatasource} from '../up-profiles/up-profiles-datasource';
 import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services/aether-v-100-target.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {AetherV100TargetAccessProfileAccessProfile} from '../../../openapi3/aether/1.0.0/models';
-import {AccessProfilesDatasource} from './access-profiles-datasource';
+import {AetherV100TargetApnProfileApnProfile} from '../../../openapi3/aether/1.0.0/models';
+import {ApnProfilesDatasource} from './apn-profiles-datasource';
 
 @Component({
-    selector: 'aether-access-profiles',
-    templateUrl: './access-profiles.component.html',
+    selector: 'aether-apn-profiles',
+    templateUrl: './apn-profiles.component.html',
     styleUrls: ['../common-profiles.component.scss']
 })
-export class AccessProfilesComponent implements AfterViewInit, OnInit {
+export class ApnProfilesComponent implements AfterViewInit, OnInit {
+
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<AetherV100TargetAccessProfileAccessProfile>;
-    dataSource: AccessProfilesDatasource;
-    selectedAccessProfile: AetherV100TargetAccessProfileAccessProfile;
+    @ViewChild(MatTable) table: MatTable<AetherV100TargetApnProfileApnProfile>;
+    dataSource: ApnProfilesDatasource;
+    selectedApnProfile: AetherV100TargetApnProfileApnProfile;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
         'id',
         'description',
-        'type',
-        'filter'
+        'apn-name',
+        'dns-primary',
+        'dns-secondary',
+        'mtu',
+        'gx-enabled'
     ];
 
     constructor(
@@ -50,14 +53,14 @@ export class AccessProfilesComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.dataSource = new AccessProfilesDatasource(this.aetherV100TargetService, AETHER_TARGETS);
+        this.dataSource = new ApnProfilesDatasource(this.aetherV100TargetService, AETHER_TARGETS);
     }
 
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadAccessProfileAccessProfile();
+        this.dataSource.loadApnProfileApnProfile();
     }
 
     openSnackBar(message: string, durationMs: number, action: string): void {
@@ -65,6 +68,5 @@ export class AccessProfilesComponent implements AfterViewInit, OnInit {
             duration: durationMs,
         });
     }
-
 
 }

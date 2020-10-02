@@ -5,7 +5,7 @@
  */
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {AccessProfilesComponent} from './access-profiles.component';
+import {ApnProfilesComponent} from './apn-profiles.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -16,13 +16,13 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {ApiModule} from '../../../openapi3/aether/1.0.0/api.module';
 
-describe('AccessProfilesComponent', () => {
-    let component: AccessProfilesComponent;
-    let fixture: ComponentFixture<AccessProfilesComponent>;
+describe('ApnProfilesComponent', () => {
+    let component: ApnProfilesComponent;
+    let fixture: ComponentFixture<ApnProfilesComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [AccessProfilesComponent],
+            declarations: [ApnProfilesComponent],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
@@ -39,7 +39,7 @@ describe('AccessProfilesComponent', () => {
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AccessProfilesComponent);
+        fixture = TestBed.createComponent(ApnProfilesComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

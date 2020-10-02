@@ -1,0 +1,61 @@
+<!--
+~ SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<div >
+    <mat-toolbar class="profile-toolbar">APN Profiles</mat-toolbar>
+    <table mat-table class="full-width-table" matSort aria-label="Elements">
+        <!-- Id Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let row">{{row.id}}</td>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+            <td mat-cell *matCellDef="let row">{{row.description}}</td>
+        </ng-container>
+
+        <!-- APN Name Column -->
+        <ng-container matColumnDef="apn-name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>APN Name</th>
+            <td mat-cell *matCellDef="let row">{{row['apn-name']}}</td>
+        </ng-container>
+
+        <!-- Primary DNS Column -->
+        <ng-container matColumnDef="dns-primary">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Primary DNS</th>
+            <td mat-cell *matCellDef="let row">{{row['dns-primary']}}</td>
+        </ng-container>
+
+        <!-- Secondary DNS Column -->
+        <ng-container matColumnDef="dns-secondary">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Secondary DNS</th>
+            <td mat-cell *matCellDef="let row">{{row['dns-secondary']}}</td>
+        </ng-container>
+
+        <!-- MTU Column -->
+        <ng-container matColumnDef="mtu">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>MTU</th>
+            <td mat-cell *matCellDef="let row">{{row.mtu}}</td>
+        </ng-container>
+
+        <!-- GX Enabled Column -->
+        <ng-container matColumnDef="gx-enabled">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>GX Enabled</th>
+            <td mat-cell *matCellDef="let row">{{row['gx-enabled']}}</td>
+        </ng-container>
+
+        <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectedApnProfile = row"></tr>
+    </table>
+
+    <mat-paginator #paginator
+                   [length]="dataSource?.data?.length"
+                   [pageIndex]="0"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[10, 20, 40]">
+    </mat-paginator>
+</div>

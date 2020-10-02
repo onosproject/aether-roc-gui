@@ -28,7 +28,7 @@ export enum Type {
 @Component({
     selector: 'aether-role-edit',
     templateUrl: './role-edit.component.html',
-    styleUrls: ['./role-edit.component.scss']
+    styleUrls: ['../common.component.scss']
 })
 export class RoleEditComponent implements OnInit {
     roleid: string = 'new';

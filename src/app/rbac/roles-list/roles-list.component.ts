@@ -19,7 +19,7 @@ import {
 @Component({
     selector: 'aether-roles-list',
     templateUrl: './roles-list.component.html',
-    styleUrls: ['./roles-list.component.scss']
+    styleUrls: ['../common.component.scss']
 })
 export class RolesListComponent implements AfterViewInit, OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;

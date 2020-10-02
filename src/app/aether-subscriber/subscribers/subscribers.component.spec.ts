@@ -22,6 +22,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {ApiModule} from '../../../openapi3/aether/1.0.0/api.module';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
+import {MatToolbar, MatToolbarModule} from '@angular/material/toolbar';
 
 describe('SubscribersComponent', () => {
     let component: SubscribersComponent;
@@ -40,6 +41,7 @@ describe('SubscribersComponent', () => {
                 MatSnackBarModule,
                 MatCardModule,
                 MatListModule,
+                MatToolbarModule,
                 ApiModule
             ],
             providers: [

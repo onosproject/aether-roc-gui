@@ -14,9 +14,9 @@ import {RbacV100TargetRbacGroup} from '../../../openapi3/rbac/1.0.0/models/rbac-
 import {GroupDatasource} from './group-datasource';
 
 @Component({
-  selector: 'aether-groups-list',
-  templateUrl: './groups-list.component.html',
-  styleUrls: ['./groups-list.component.scss']
+    selector: 'aether-groups-list',
+    templateUrl: './groups-list.component.html',
+    styleUrls: ['../common.component.scss']
 })
 export class GroupsListComponent implements AfterViewInit, OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
