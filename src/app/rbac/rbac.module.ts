@@ -25,6 +25,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import { GroupEditComponent } from './group-edit/group-edit.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 @NgModule({
     declarations: [RolesListComponent, GroupsListComponent, RoleEditComponent, GroupEditComponent],
@@ -37,6 +38,7 @@ import { GroupEditComponent } from './group-edit/group-edit.component';
             {path: 'roles/:lastChange', component: RolesListComponent},
             {path: 'role/:roleid', component: RoleEditComponent},
             {path: 'groups', component: GroupsListComponent},
+            {path: 'groups/:lastChange', component: GroupsListComponent},
             {path: 'group/:groupid', component: GroupEditComponent},
             {path: '', component: RolesListComponent, pathMatch: 'full'}
         ]),
@@ -52,6 +54,7 @@ import { GroupEditComponent } from './group-edit/group-edit.component';
         MatFormFieldModule,
         MatButtonModule,
         MatSelectModule,
+        MatToolbarModule,
     ]
 })
 export class RbacModule {

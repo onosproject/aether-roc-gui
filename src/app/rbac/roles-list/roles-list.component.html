@@ -4,6 +4,7 @@
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 <div>
+    <mat-toolbar class="rbac-toolbar">RBAC Roles</mat-toolbar>
     <table mat-table class="full-width-table" matSort aria-label="Elements">
         <!-- Role Column -->
         <ng-container matColumnDef="roleid">
@@ -39,7 +40,7 @@
         <ng-container matColumnDef="edit">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
             <td mat-cell *matCellDef="let row" routerLink="/rbac/role/{{row.roleid}}">
-                <mat-icon class="role_icon">edit</mat-icon>
+                <mat-icon class="rbac_icon">edit</mat-icon>
             </td>
         </ng-container>
 
@@ -47,11 +48,11 @@
         <ng-container matColumnDef="delete">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Delete</th>
             <td mat-cell *matCellDef="let row" (click)="deleteRole(row.roleid)">
-                <mat-icon class="role_icon">remove_circle</mat-icon>
+                <mat-icon class="rbac_icon">remove_circle</mat-icon>
             </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-header-row class="rbac-header" *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"
             (click)="selectedRole = row"></tr>
     </table>

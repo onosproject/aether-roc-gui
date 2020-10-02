@@ -3,17 +3,18 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
+
 import {DataSource} from '@angular/cdk/collections';
-import {AetherV100TargetUpProfileUpProfile} from '../../../openapi3/aether/1.0.0/models/aether-v-100-target-up-profile-up-profile';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services/aether-v-100-target.service';
+import {AetherV100TargetAccessProfileAccessProfile} from '../../../openapi3/aether/1.0.0/models/aether-v-100-target-access-profile-access-profile';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {compare} from '../util';
 
-export class UpProfilesDatasource extends DataSource<AetherV100TargetUpProfileUpProfile> {
-    data: Array<AetherV100TargetUpProfileUpProfile> = [];
+export class AccessProfilesDatasource extends DataSource<AetherV100TargetAccessProfileAccessProfile> {
+    data: Array<AetherV100TargetAccessProfileAccessProfile> = [];
     paginator: MatPaginator;
     sort: MatSort;
 
@@ -29,7 +30,7 @@ export class UpProfilesDatasource extends DataSource<AetherV100TargetUpProfileUp
      * the returned stream emits new items.
      * @returns A stream of the items to be rendered.
      */
-    connect(): Observable<AetherV100TargetUpProfileUpProfile[]> {
+    connect(): Observable<AetherV100TargetAccessProfileAccessProfile[]> {
         // Combine everything that affects the rendered data into one update
         // stream for the data-table to consume.
         const dataMutations = [
@@ -50,7 +51,7 @@ export class UpProfilesDatasource extends DataSource<AetherV100TargetUpProfileUp
     disconnect(): void {
     }
 
-    private getPagedData(data: AetherV100TargetUpProfileUpProfile[]): AetherV100TargetUpProfileUpProfile[] {
+    private getPagedData(data: AetherV100TargetAccessProfileAccessProfile[]): AetherV100TargetAccessProfileAccessProfile[] {
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
         return data.splice(startIndex, this.paginator.pageSize);
     }
@@ -59,7 +60,7 @@ export class UpProfilesDatasource extends DataSource<AetherV100TargetUpProfileUp
      * Sort the data (client-side). If you're using server-side sorting,
      * this would be replaced by requesting the appropriate data from the server.
      */
-    private getSortedData(data: AetherV100TargetUpProfileUpProfile[]): AetherV100TargetUpProfileUpProfile[] {
+    private getSortedData(data: AetherV100TargetAccessProfileAccessProfile[]): AetherV100TargetAccessProfileAccessProfile[] {
         if (!this.sort.active || this.sort.direction === '') {
             return data;
         }
@@ -77,21 +78,22 @@ export class UpProfilesDatasource extends DataSource<AetherV100TargetUpProfileUp
         });
     }
 
-    loadUpProfileUpProfile(): void {
-        this.aetherV100TargetService.getAetherV100TargetUpProfile({
+    loadAccessProfileAccessProfile(): void {
+        this.aetherV100TargetService.getAetherV100TargetAccessProfile({
             target: this.targets[0]
         })
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value.ListAetherV100targetUpProfileUpProfile;
-                        console.log('Got ', value.ListAetherV100targetUpProfileUpProfile.length, ' UpProfiles from ', this.targets);
+                        this.data = value.ListAetherV100targetAccessProfileAccessProfile;
+                        console.log('Got ', value.ListAetherV100targetAccessProfileAccessProfile.length,
+                            ' AccessProfiles from ', this.targets);
                     } else {
-                        console.log('No UpProfiles found');
+                        console.log('No AccessProfiles found');
                     }
                 }),
                 error => {
-                    console.warn('Error getting UpProfiles for ', this.targets, error);
+                    console.warn('Error getting AccessProfiles for ', this.targets, error);
                 },
                 () => {
                     // table.refreshRows() does not seem to work - using this trick instead

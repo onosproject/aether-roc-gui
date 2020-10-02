@@ -17,14 +17,19 @@ import {AETHER_ROC_API_URL} from '../../environments/environment';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { ApnProfilesComponent } from './apn-profiles/apn-profiles.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 @NgModule({
-  declarations: [UpProfilesComponent, QosProfilesComponent, AccessProfilesComponent],
+  declarations: [UpProfilesComponent, QosProfilesComponent, AccessProfilesComponent, ApnProfilesComponent],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({rootUrl: AETHER_ROC_API_URL}),
         HttpClientModule,
         RouterModule.forChild([
+            {path: 'accessprofiles', component: AccessProfilesComponent},
+            {path: 'apnprofiles', component: ApnProfilesComponent},
+            {path: 'qosprofiles', component: QosProfilesComponent},
             {path: 'upprofiles', component: UpProfilesComponent},
             {path: '', component: UpProfilesComponent, pathMatch: 'full'}
         ]),
@@ -34,7 +39,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
         MatPaginatorModule,
         MatSortModule,
         MatPaginatorModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatToolbarModule
     ]
 })
 export class AetherProfilesModule { }

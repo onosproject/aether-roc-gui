@@ -11,7 +11,7 @@
         </mat-card-header>
         <mat-card-content>
             <div class="row">
-                <mat-form-field class="field-margin">
+                <mat-form-field class="field-margin full-width-table">
                     <input matInput formControlName="description">
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
@@ -32,11 +32,11 @@
                     <mat-hint>Type</mat-hint>
                 </mat-form-field>
                 <div class="row" formArrayName="leaf-list-noun">
-                    <mat-icon class="noun-action" (click)="addNoun()">add_circle</mat-icon>
+                    <mat-icon class="rbac_icon" (click)="addNoun()">add_circle</mat-icon>
                     <mat-hint>Add Noun</mat-hint>
                     <div class="row" *ngFor="let _ of nounControls.controls; index as i">
                     <mat-form-field class="field-margin full-width-table">
-                        <mat-icon class="noun-action" (click)="nounControls.removeAt(i)">remove_circle</mat-icon>
+                        <mat-icon class="rbac_icon" (click)="nounControls.removeAt(i)">remove_circle</mat-icon>
                         <input matInput [formControlName]="i">
                         <mat-hint>Noun</mat-hint>
                     </mat-form-field>

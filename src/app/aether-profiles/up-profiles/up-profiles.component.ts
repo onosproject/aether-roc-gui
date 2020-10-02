@@ -17,7 +17,7 @@ import {UpProfilesDatasource} from './up-profiles-datasource';
 @Component({
     selector: 'aether-up-profiles',
     templateUrl: './up-profiles.component.html',
-    styleUrls: ['./up-profiles.component.scss']
+    styleUrls: ['../common-profiles.component.scss']
 })
 export class UpProfilesComponent implements AfterViewInit, OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;

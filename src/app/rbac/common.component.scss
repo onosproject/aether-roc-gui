@@ -6,6 +6,15 @@
 .full-width-table {
     width: 100%;
 }
-.roleref-action {
+
+.rbac_icon {
     cursor: pointer;
+}
+
+.rbac-toolbar {
+    background: #424242;
+    height: 32px;
+}
+.rbac-header {
+    height: 22px;
 }

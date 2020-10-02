@@ -7,29 +7,22 @@ import {Component, OnInit} from '@angular/core';
 import {RbacV100TargetRbacService} from '../../../openapi3/rbac/1.0.0/services/rbac-v-100-target-rbac.service';
 import {ApiService} from '../../../openapi3/rbac/1.0.0/services/api.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {RBAC_TARGET} from '../../../environments/environment';
 import {RbacV100TargetService} from '../../../openapi3/rbac/1.0.0/services';
 
 @Component({
     selector: 'aether-group-edit',
     templateUrl: './group-edit.component.html',
-    styleUrls: ['./group-edit.component.scss']
+    styleUrls: ['../common.component.scss']
 })
 export class GroupEditComponent implements OnInit {
     groupid: string = 'new';
-    roleRefIds: Array<string> = [];
-    roleRefControls = new FormArray([
-        this.fb.group({
-            roleid: [''],
-            description: ['']
-        })
-    ]);
     roleIds: Array<string> = [];
     groupForm = this.fb.group({
         groupid: [''],
         description: [''],
-        ListRbacV100targetRbacGroupRole: this.roleRefControls
+        ListRbacV100targetRbacGroupRole: this.fb.array([])
     });
 
     constructor(
@@ -50,6 +43,10 @@ export class GroupEditComponent implements OnInit {
         this.loadRoleIds();
     }
 
+    get roleRefControls(): FormArray {
+        return this.groupForm.get('ListRbacV100targetRbacGroupRole') as FormArray;
+    }
+
     loadGroup(groupid: string): void {
         this.rbacV100TargetRbacService.getRbacV100TargetRbacGroup({
             target: RBAC_TARGET, groupid
@@ -57,10 +54,11 @@ export class GroupEditComponent implements OnInit {
             (value => {
                 this.groupForm.get('groupid').setValue(value.groupid);
                 this.groupForm.get('description').setValue(value.description);
-                this.roleRefControls.removeAt(0);
                 for (const roleref of value.ListRbacV100targetRbacGroupRole) {
-                    this.roleRefIds.push(roleref.roleid);
-                    this.roleRefControls.push(new FormControl(roleref));
+                    this.roleRefControls.push(this.fb.group({
+                        roleid: roleref.roleid,
+                        description: roleref.description,
+                    }));
                 }
                 console.log('Got Group', groupid);
             }),
@@ -84,7 +82,10 @@ export class GroupEditComponent implements OnInit {
     }
 
     addRoleRef(): void {
-        this.roleRefControls.push(new FormControl(''));
+        this.roleRefControls.push(this.fb.group({
+            roleid: 'new',
+            description: 'new role reference'
+        }));
     }
 
     onSubmit(): void {

@@ -11,26 +11,31 @@
         </mat-card-header>
         <mat-card-content>
             <div class="row">
-                <mat-form-field class="field-margin">
+                <mat-form-field class="field-margin full-width-table">
                     <input matInput formControlName="description">
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
-<!--                <div class="row"-->
-<!--                     formArrayName="ListRbacV100targetRbacGroupRole">-->
-<!--                    <mat-icon class="roleref-action" (click)="addRoleRef()">add_circle</mat-icon>-->
-<!--                    <mat-hint>Add Role Ref</mat-hint>-->
-<!--                    <div class="row" *ngFor="let roleRef of roleRefControls.controls; index as i">-->
-<!--                        <mat-icon class="roleref-action" (click)="roleRefControls.removeAt(i)">remove_circle</mat-icon>-->
-<!--                        <mat-form-field class="field-margin">-->
-<!--                            <input matInput [formControlName]="i">-->
-<!--                            <mat-hint>Role Ref</mat-hint>-->
-<!--                        </mat-form-field>-->
-<!--                        <mat-form-field class="field-margin">-->
-<!--                            <input matInput [formControlName]="i">-->
-<!--                            <mat-hint>Description</mat-hint>-->
-<!--                        </mat-form-field>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <!-- See https://netbasal.com/angular-reactive-forms-the-ultimate-guide-to-formarray-3adbe6b0b61a -->
+                <ng-container formArrayName="ListRbacV100targetRbacGroupRole">
+                    <mat-icon class="rbac_icon" (click)="addRoleRef()">add_circle</mat-icon>
+                    <mat-hint>Add Role Ref</mat-hint>
+                    <div class="row" *ngFor="let _ of roleRefControls.controls; index as i">
+                        <mat-icon class="rbac_icon" (click)="roleRefControls.removeAt(i)">remove_circle</mat-icon>
+                        <ng-container [formGroupName]="i">
+                            <mat-form-field class="field-margin">
+                                <mat-select formControlName="roleid">
+                                    <mat-option *ngFor="let t of roleIds"
+                                                [value]="t">{{t}}</mat-option>
+                                </mat-select>
+                                <mat-hint>Role Ref</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field class="field-margin half-width-table">
+                                <input matInput formControlName="description">
+                                <mat-hint>Description</mat-hint>
+                            </mat-form-field>
+                        </ng-container>
+                    </div>
+                </ng-container>
             </div>
         </mat-card-content>
         <mat-card-actions>
