@@ -35,7 +35,9 @@ export class ApnProfilesComponent implements AfterViewInit, OnInit {
         'dns-primary',
         'dns-secondary',
         'mtu',
-        'gx-enabled'
+        'gx-enabled',
+        'edit',
+        'delete'
     ];
 
     constructor(

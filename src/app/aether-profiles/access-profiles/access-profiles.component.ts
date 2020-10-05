@@ -32,7 +32,9 @@ export class AccessProfilesComponent implements AfterViewInit, OnInit {
         'id',
         'description',
         'type',
-        'filter'
+        'filter',
+        'edit',
+        'delete'
     ];
 
     constructor(

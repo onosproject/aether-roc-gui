@@ -19,6 +19,7 @@ import {RouterModule} from '@angular/router';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ApnProfilesComponent } from './apn-profiles/apn-profiles.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [UpProfilesComponent, QosProfilesComponent, AccessProfilesComponent, ApnProfilesComponent],
@@ -40,7 +41,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
         MatSortModule,
         MatPaginatorModule,
         MatSnackBarModule,
-        MatToolbarModule
+        MatToolbarModule,
+        MatIconModule
     ]
 })
 export class AetherProfilesModule { }

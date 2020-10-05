@@ -31,7 +31,9 @@ export class UpProfilesComponent implements AfterViewInit, OnInit {
         'id',
         'description',
         'userplane',
-        'accesscontrol'
+        'accesscontrol',
+        'edit',
+        'delete'
     ];
 
     constructor(
