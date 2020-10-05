@@ -32,7 +32,9 @@ export class QosProfilesComponent implements AfterViewInit, OnInit {
         'id',
         'description',
         'uplink',
-        'downlink'
+        'downlink',
+        'edit',
+        'delete'
     ];
 
     constructor(

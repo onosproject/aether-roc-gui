@@ -72,11 +72,13 @@
                     <mat-hint>UP Profile</mat-hint>
                 </mat-form-field>
             </div>
-            <mat-label>Access Profiles</mat-label>
-            <mat-icon class="subscriber-pointer">add_circle</mat-icon>
+            <mat-label class="field-margin">Access Profiles</mat-label>
+            <!-- TODO: implement a new form for Add/Edit/Remove of Access profiles
+                    It has to be done separately as otherwise it it not possible to
+                    really delete an entry-->
+            <button mat-raised-button color="primary" routerLink="/subscribers">Edit</button>
             <div class="row"
                  *ngFor="let ap of data?.AetherV100targetSubscriberUeProfiles.ListAetherV100targetSubscriberUeProfilesAccessProfile">
-                <mat-icon class="subscriber-pointer">remove_circle</mat-icon>
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select [placeholder]="ap['access-profile']">
                         <mat-option *ngFor="let app of accessProfiles"

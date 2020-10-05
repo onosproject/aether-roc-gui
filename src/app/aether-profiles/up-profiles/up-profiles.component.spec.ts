@@ -19,6 +19,7 @@ import {from, of} from 'rxjs';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ApiModule} from '../../../openapi3/aether/1.0.0/api.module';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
 
 describe('UpProfilesComponent', () => {
     let component: UpProfilesComponent;
@@ -36,6 +37,7 @@ describe('UpProfilesComponent', () => {
                 MatTableModule,
                 MatSnackBarModule,
                 MatToolbarModule,
+                MatIconModule,
                 ApiModule
             ],
             providers: [

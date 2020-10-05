@@ -15,6 +15,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {ApiModule} from '../../../openapi3/aether/1.0.0/api.module';
+import {MatIconModule} from '@angular/material/icon';
 
 describe('ApnProfilesComponent', () => {
     let component: ApnProfilesComponent;
@@ -32,6 +33,7 @@ describe('ApnProfilesComponent', () => {
                 MatTableModule,
                 MatSnackBarModule,
                 MatToolbarModule,
+                MatIconModule,
                 ApiModule
             ]
         })
