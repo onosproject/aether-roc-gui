@@ -24,23 +24,23 @@
             <p class="divider-margin">Serving PLMN: </p>
             <mat-list-item class="field-margin">
                 <mat-label class="field-margin">
-                    MCC: <strong>{{subscriber?.AetherV100targetSubscriberUeServingPlmn?.mcc}}</strong></mat-label>
+                    MCC: <strong>{{subscriber?.AetherV100targetSubscriberUeueidServingPlmn?.mcc}}</strong></mat-label>
                 <mat-label class="field-margin">
-                    MNC: <strong>{{subscriber?.AetherV100targetSubscriberUeServingPlmn?.mnc}}</strong></mat-label>
+                    MNC: <strong>{{subscriber?.AetherV100targetSubscriberUeueidServingPlmn?.mnc}}</strong></mat-label>
                 <mat-label class="field-margin">
-                    TAC: <strong>{{subscriber?.AetherV100targetSubscriberUeServingPlmn?.tac}}</strong></mat-label>
+                    TAC: <strong>{{subscriber?.AetherV100targetSubscriberUeueidServingPlmn?.tac}}</strong></mat-label>
             </mat-list-item>
             <mat-divider></mat-divider>
             <p class="divider-margin">Profiles:</p>
             <mat-list-item class="field-margin">APN Profile: <strong>
-                {{subscriber?.AetherV100targetSubscriberUeProfiles["apn-profile"]}}</strong></mat-list-item>
+                {{subscriber?.AetherV100targetSubscriberUeueidProfiles["apn-profile"]}}</strong></mat-list-item>
             <mat-list-item class="field-margin">QOS Profile: <strong>
-                {{subscriber?.AetherV100targetSubscriberUeProfiles["qos-profile"]}}</strong></mat-list-item>
+                {{subscriber?.AetherV100targetSubscriberUeueidProfiles["qos-profile"]}}</strong></mat-list-item>
             <mat-list-item class="field-margin">UP Profile: <strong>
-                {{subscriber?.AetherV100targetSubscriberUeProfiles["up-profile"]}}</strong></mat-list-item>
+                {{subscriber?.AetherV100targetSubscriberUeueidProfiles["up-profile"]}}</strong></mat-list-item>
             <p class="field-margin">Access Profile(s):</p>
             <mat-list-item class="field-margin"
-                           *ngFor="let ap of subscriber?.AetherV100targetSubscriberUeProfiles?.ListAetherV100targetSubscriberUeProfilesAccessProfile">
+                           *ngFor="let ap of subscriber?.AetherV100targetSubscriberUeueidProfiles?.ListAetherV100targetSubscriberUeueidProfilesAccessProfile">
                 ACCESS Profile: <strong>{{ap['access-profile']}}</strong>. Allowed:
                 <mat-icon>{{ap.allowed ? 'check_box' : 'check_box_outline_blank'}}</mat-icon>
             </mat-list-item>

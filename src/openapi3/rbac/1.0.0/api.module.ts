@@ -4,11 +4,11 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
-import { RbacV100TargetService } from './services/rbac-v-100-target.service';
+import { Service } from './services/service';
 import { ApiService } from './services/api.service';
-import { RbacV100TargetRbacService } from './services/rbac-v-100-target-rbac.service';
-import { RbacV100TargetRbacGroupService } from './services/rbac-v-100-target-rbac-group.service';
-import { RbacV100TargetRbacRoleService } from './services/rbac-v-100-target-rbac-role.service';
+import { RbacGroupService } from './services/rbac-group.service';
+import { RbacGroupRoleService } from './services/rbac-group-role.service';
+import { RbacRoleService } from './services/rbac-role.service';
 
 /**
  * Module that provides all services and configuration.
@@ -18,11 +18,11 @@ import { RbacV100TargetRbacRoleService } from './services/rbac-v-100-target-rbac
   exports: [],
   declarations: [],
   providers: [
-    RbacV100TargetService,
+    Service,
     ApiService,
-    RbacV100TargetRbacService,
-    RbacV100TargetRbacGroupService,
-    RbacV100TargetRbacRoleService,
+    RbacGroupService,
+    RbacGroupRoleService,
+    RbacRoleService,
     ApiConfiguration
   ],
 })

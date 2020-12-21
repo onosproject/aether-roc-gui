@@ -11,9 +11,9 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {RBAC_TARGET} from '../../../environments/environment';
 import {
     ApiService,
-    RbacV100TargetService
+    Service as RbacV100TargetService
 } from '../../../openapi3/rbac/1.0.0/services';
-import {RbacV100TargetRbacGroup} from '../../../openapi3/rbac/1.0.0/models/rbac-v-100-target-rbac-group';
+import {RbacGroup as RbacV100TargetRbacGroup} from '../../../openapi3/rbac/1.0.0/models/rbac-group';
 import {GroupDatasource} from './group-datasource';
 
 @Component({

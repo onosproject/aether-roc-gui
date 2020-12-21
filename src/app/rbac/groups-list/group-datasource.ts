@@ -11,14 +11,14 @@ import {map} from 'rxjs/operators';
 import {Observable, of as observableOf, merge} from 'rxjs';
 import {
     ApiService,
-    RbacV100TargetService
+    Service as RbacV100TargetService
 } from '../../../openapi3/rbac/1.0.0/services';
-import {RbacV100TargetRbacGroup} from '../../../openapi3/rbac/1.0.0/models';
+import {RbacGroup } from '../../../openapi3/rbac/1.0.0/models';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {HttpErrorResponse} from '@angular/common/http';
 
-export class GroupDatasource extends DataSource<RbacV100TargetRbacGroup> {
-    data: Array<RbacV100TargetRbacGroup> = [];
+export class GroupDatasource extends DataSource<RbacGroup> {
+    data: Array<RbacGroup> = [];
     paginator: MatPaginator;
     sort: MatSort;
 
@@ -35,7 +35,7 @@ export class GroupDatasource extends DataSource<RbacV100TargetRbacGroup> {
      * the returned stream emits new items.
      * @returns A stream of the items to be rendered.
      */
-    connect(): Observable<RbacV100TargetRbacGroup[]> {
+    connect(): Observable<RbacGroup[]> {
         // Combine everything that affects the rendered data into one update
         // stream for the data-table to consume.
         const dataMutations = [
@@ -56,7 +56,7 @@ export class GroupDatasource extends DataSource<RbacV100TargetRbacGroup> {
     disconnect(): void {
     }
 
-    private getPagedData(data: RbacV100TargetRbacGroup[]): RbacV100TargetRbacGroup[] {
+    private getPagedData(data: RbacGroup[]): RbacGroup[] {
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
         return data.splice(startIndex, this.paginator.pageSize);
     }
@@ -65,7 +65,7 @@ export class GroupDatasource extends DataSource<RbacV100TargetRbacGroup> {
      * Sort the data (client-side). If you're using server-side sorting,
      * this would be replaced by requesting the appropriate data from the server.
      */
-    private getSortedData(data: RbacV100TargetRbacGroup[]): RbacV100TargetRbacGroup[] {
+    private getSortedData(data: RbacGroup[]): RbacGroup[] {
         if (!this.sort.active || this.sort.direction === '') {
             return data;
         }
@@ -84,13 +84,13 @@ export class GroupDatasource extends DataSource<RbacV100TargetRbacGroup> {
     }
 
     loadGroups(): void {
-        this.rbacV100TargetService.getRbacV100TargetRbac({
+        this.rbacV100TargetService.getRbac({
             target: this.target
         })
             .subscribe(
                 (value => {
-                    this.data = value.ListRbacV100targetRbacGroup;
-                    console.log('Got ', value.ListRbacV100targetRbacGroup.length, ' Groups from ', this.target);
+                    this.data = value.Group;
+                    console.log('Got ', value.Group.length, ' Groups from ', this.target);
                 }),
                 error => {
                     console.warn('Error getting Groups for ', this.target, error);
@@ -103,7 +103,7 @@ export class GroupDatasource extends DataSource<RbacV100TargetRbacGroup> {
     }
 
     deleteGroup(groupid: string, snackBar: MatSnackBar): void {
-        this.rbacApiService.deleteRbacV100TargetRbacGroup({
+        this.rbacApiService.deleteRbacGroup({
             groupid,
             target: this.target,
         }).subscribe(

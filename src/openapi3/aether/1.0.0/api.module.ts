@@ -6,14 +6,12 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { AetherV100TargetService } from './services/aether-v-100-target.service';
 import { ApiService } from './services/api.service';
-import { AetherV100TargetAccessProfileService } from './services/aether-v-100-target-access-profile.service';
-import { AetherV100TargetApnProfileService } from './services/aether-v-100-target-apn-profile.service';
-import { AetherV100TargetQosProfileService } from './services/aether-v-100-target-qos-profile.service';
-import { AetherV100TargetQosProfileQosProfileService } from './services/aether-v-100-target-qos-profile-qos-profile.service';
-import { AetherV100TargetSubscriberService } from './services/aether-v-100-target-subscriber.service';
-import { AetherV100TargetSubscriberUeService } from './services/aether-v-100-target-subscriber-ue.service';
-import { AetherV100TargetSubscriberUeProfilesService } from './services/aether-v-100-target-subscriber-ue-profiles.service';
-import { AetherV100TargetUpProfileService } from './services/aether-v-100-target-up-profile.service';
+import { AetherV100TargetAccessProfileAccessProfileidService } from './services/aether-v-100-target-access-profile-access-profileid.service';
+import { AetherV100TargetApnProfileApnProfileidService } from './services/aether-v-100-target-apn-profile-apn-profileid.service';
+import { AetherV100TargetQosProfileQosProfileidService } from './services/aether-v-100-target-qos-profile-qos-profileid.service';
+import { AetherV100TargetSubscriberUeueidService } from './services/aether-v-100-target-subscriber-ueueid.service';
+import { AetherV100TargetSubscriberUeueidProfilesAccessProfileaccessProfileService } from './services/aether-v-100-target-subscriber-ueueid-profiles-access-profileaccess-profile.service';
+import { AetherV100TargetUpProfileUpProfileidService } from './services/aether-v-100-target-up-profile-up-profileid.service';
 
 /**
  * Module that provides all services and configuration.
@@ -25,14 +23,12 @@ import { AetherV100TargetUpProfileService } from './services/aether-v-100-target
   providers: [
     AetherV100TargetService,
     ApiService,
-    AetherV100TargetAccessProfileService,
-    AetherV100TargetApnProfileService,
-    AetherV100TargetQosProfileService,
-    AetherV100TargetQosProfileQosProfileService,
-    AetherV100TargetSubscriberService,
-    AetherV100TargetSubscriberUeService,
-    AetherV100TargetSubscriberUeProfilesService,
-    AetherV100TargetUpProfileService,
+    AetherV100TargetAccessProfileAccessProfileidService,
+    AetherV100TargetApnProfileApnProfileidService,
+    AetherV100TargetQosProfileQosProfileidService,
+    AetherV100TargetSubscriberUeueidService,
+    AetherV100TargetSubscriberUeueidProfilesAccessProfileaccessProfileService,
+    AetherV100TargetUpProfileUpProfileidService,
     ApiConfiguration
   ],
 })

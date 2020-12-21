@@ -4,12 +4,11 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, OnInit} from '@angular/core';
-import {RbacV100TargetRbacService} from '../../../openapi3/rbac/1.0.0/services/rbac-v-100-target-rbac.service';
 import {ApiService} from '../../../openapi3/rbac/1.0.0/services/api.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {RBAC_TARGET} from '../../../environments/environment';
-import {RbacV100TargetService} from '../../../openapi3/rbac/1.0.0/services';
+import {Service as RbacV100TargetService, RbacGroupService} from '../../../openapi3/rbac/1.0.0/services';
 
 @Component({
     selector: 'aether-group-edit',
@@ -26,7 +25,7 @@ export class GroupEditComponent implements OnInit {
     });
 
     constructor(
-        private rbacV100TargetRbacService: RbacV100TargetRbacService,
+        private rbacV100TargetRbacService: RbacGroupService,
         private rbacV100TargetService: RbacV100TargetService,
         private rbacApiService: ApiService,
         private route: ActivatedRoute,
@@ -48,13 +47,13 @@ export class GroupEditComponent implements OnInit {
     }
 
     loadGroup(groupid: string): void {
-        this.rbacV100TargetRbacService.getRbacV100TargetRbacGroup({
+        this.rbacV100TargetRbacService.getRbacGroup({
             target: RBAC_TARGET, groupid
         }).subscribe(
             (value => {
                 this.groupForm.get('groupid').setValue(value.groupid);
                 this.groupForm.get('description').setValue(value.description);
-                for (const roleref of value.ListRbacV100targetRbacGroupRole) {
+                for (const roleref of value.Role) {
                     this.roleRefControls.push(this.fb.group({
                         roleid: roleref.roleid,
                         description: roleref.description,
@@ -69,11 +68,11 @@ export class GroupEditComponent implements OnInit {
     }
 
     loadRoleIds(): void {
-        this.rbacV100TargetService.getRbacV100TargetRbac({
+        this.rbacV100TargetService.getRbac({
             target: RBAC_TARGET
         }).subscribe(
             (value => {
-                this.roleIds = value.ListRbacV100targetRbacRole.map(r => r.roleid);
+                this.roleIds = value.Role.map(r => r.roleid);
             }),
             error => {
                 console.warn('Error getting RBAC info for ', RBAC_TARGET, error);
@@ -90,7 +89,7 @@ export class GroupEditComponent implements OnInit {
 
     onSubmit(): void {
         console.log('Submitted!', this.groupForm.getRawValue());
-        this.rbacApiService.postRbacV100TargetRbacGroup({
+        this.rbacApiService.postRbacGroup({
             groupid: this.groupid,
             target: RBAC_TARGET,
             body: this.groupForm.getRawValue()
