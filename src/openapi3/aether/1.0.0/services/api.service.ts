@@ -15,12 +15,12 @@ import { AetherV100TargetApnProfile } from '../models/aether-v-100-target-apn-pr
 import { AetherV100TargetApnProfileApnProfile } from '../models/aether-v-100-target-apn-profile-apn-profile';
 import { AetherV100TargetQosProfile } from '../models/aether-v-100-target-qos-profile';
 import { AetherV100TargetQosProfileQosProfile } from '../models/aether-v-100-target-qos-profile-qos-profile';
-import { AetherV100TargetQosProfileQosProfileApnAmbr } from '../models/aether-v-100-target-qos-profile-qos-profile-apn-ambr';
+import { AetherV100TargetQosProfileQosProfileidApnAmbr } from '../models/aether-v-100-target-qos-profile-qos-profileid-apn-ambr';
 import { AetherV100TargetSubscriber } from '../models/aether-v-100-target-subscriber';
 import { AetherV100TargetSubscriberUe } from '../models/aether-v-100-target-subscriber-ue';
-import { AetherV100TargetSubscriberUeProfiles } from '../models/aether-v-100-target-subscriber-ue-profiles';
-import { AetherV100TargetSubscriberUeProfilesAccessProfile } from '../models/aether-v-100-target-subscriber-ue-profiles-access-profile';
-import { AetherV100TargetSubscriberUeServingPlmn } from '../models/aether-v-100-target-subscriber-ue-serving-plmn';
+import { AetherV100TargetSubscriberUeueidProfiles } from '../models/aether-v-100-target-subscriber-ueueid-profiles';
+import { AetherV100TargetSubscriberUeueidProfilesAccessProfile } from '../models/aether-v-100-target-subscriber-ueueid-profiles-access-profile';
+import { AetherV100TargetSubscriberUeueidServingPlmn } from '../models/aether-v-100-target-subscriber-ueueid-serving-plmn';
 import { AetherV100TargetUpProfile } from '../models/aether-v-100-target-up-profile';
 import { AetherV100TargetUpProfileUpProfile } from '../models/aether-v-100-target-up-profile-up-profile';
 
@@ -56,11 +56,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-  
-    /**
-     * AccessProfile
-     */
-    body?: AetherV100TargetAccessProfile
+      body?: AetherV100TargetAccessProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetAccessProfilePath, 'post');
@@ -97,11 +93,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-  
-    /**
-     * AccessProfile
-     */
-    body?: AetherV100TargetAccessProfile
+      body?: AetherV100TargetAccessProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetAccessProfile$Response(params).pipe(
@@ -192,26 +184,22 @@ export class ApiService extends BaseService {
   postAetherV100TargetAccessProfileAccessProfile$Response(params: {
 
     /**
-     * key for access-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * AccessProfileAccessProfile
+     * key {id}
      */
-    body?: AetherV100TargetAccessProfileAccessProfile
+    id: any;
+      body?: AetherV100TargetAccessProfileAccessProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetAccessProfileAccessProfilePath, 'post');
     if (params) {
 
-      rb.path('id', params.id, {});
       rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
 
       rb.body(params.body, 'application/json');
     }
@@ -239,19 +227,15 @@ export class ApiService extends BaseService {
   postAetherV100TargetAccessProfileAccessProfile(params: {
 
     /**
-     * key for access-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * AccessProfileAccessProfile
+     * key {id}
      */
-    body?: AetherV100TargetAccessProfileAccessProfile
+    id: any;
+      body?: AetherV100TargetAccessProfileAccessProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetAccessProfileAccessProfile$Response(params).pipe(
@@ -277,22 +261,22 @@ export class ApiService extends BaseService {
   deleteAetherV100TargetAccessProfileAccessProfile$Response(params: {
 
     /**
-     * key for access-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
 
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetAccessProfileAccessProfilePath, 'delete');
     if (params) {
 
-      rb.path('id', params.id, {});
       rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
 
     }
     return this.http.request(rb.build({
@@ -319,14 +303,14 @@ export class ApiService extends BaseService {
   deleteAetherV100TargetAccessProfileAccessProfile(params: {
 
     /**
-     * key for access-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
 
   }): Observable<void> {
 
@@ -356,11 +340,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-  
-    /**
-     * ApnProfile
-     */
-    body?: AetherV100TargetApnProfile
+      body?: AetherV100TargetApnProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetApnProfilePath, 'post');
@@ -397,11 +377,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-  
-    /**
-     * ApnProfile
-     */
-    body?: AetherV100TargetApnProfile
+      body?: AetherV100TargetApnProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetApnProfile$Response(params).pipe(
@@ -492,26 +468,22 @@ export class ApiService extends BaseService {
   postAetherV100TargetApnProfileApnProfile$Response(params: {
 
     /**
-     * key for apn-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * ApnProfileApnProfile
+     * key {id}
      */
-    body?: AetherV100TargetApnProfileApnProfile
+    id: any;
+      body?: AetherV100TargetApnProfileApnProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetApnProfileApnProfilePath, 'post');
     if (params) {
 
-      rb.path('id', params.id, {});
       rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
 
       rb.body(params.body, 'application/json');
     }
@@ -539,19 +511,15 @@ export class ApiService extends BaseService {
   postAetherV100TargetApnProfileApnProfile(params: {
 
     /**
-     * key for apn-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * ApnProfileApnProfile
+     * key {id}
      */
-    body?: AetherV100TargetApnProfileApnProfile
+    id: any;
+      body?: AetherV100TargetApnProfileApnProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetApnProfileApnProfile$Response(params).pipe(
@@ -577,22 +545,22 @@ export class ApiService extends BaseService {
   deleteAetherV100TargetApnProfileApnProfile$Response(params: {
 
     /**
-     * key for apn-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
 
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetApnProfileApnProfilePath, 'delete');
     if (params) {
 
-      rb.path('id', params.id, {});
       rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
 
     }
     return this.http.request(rb.build({
@@ -619,14 +587,14 @@ export class ApiService extends BaseService {
   deleteAetherV100TargetApnProfileApnProfile(params: {
 
     /**
-     * key for apn-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
 
   }): Observable<void> {
 
@@ -656,11 +624,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-  
-    /**
-     * QosProfile
-     */
-    body?: AetherV100TargetQosProfile
+      body?: AetherV100TargetQosProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetQosProfilePath, 'post');
@@ -697,11 +661,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-  
-    /**
-     * QosProfile
-     */
-    body?: AetherV100TargetQosProfile
+      body?: AetherV100TargetQosProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetQosProfile$Response(params).pipe(
@@ -792,26 +752,22 @@ export class ApiService extends BaseService {
   postAetherV100TargetQosProfileQosProfile$Response(params: {
 
     /**
-     * key for qos-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * QosProfileQosProfile
+     * key {id}
      */
-    body?: AetherV100TargetQosProfileQosProfile
+    id: any;
+      body?: AetherV100TargetQosProfileQosProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetQosProfileQosProfilePath, 'post');
     if (params) {
 
-      rb.path('id', params.id, {});
       rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
 
       rb.body(params.body, 'application/json');
     }
@@ -839,19 +795,15 @@ export class ApiService extends BaseService {
   postAetherV100TargetQosProfileQosProfile(params: {
 
     /**
-     * key for qos-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * QosProfileQosProfile
+     * key {id}
      */
-    body?: AetherV100TargetQosProfileQosProfile
+    id: any;
+      body?: AetherV100TargetQosProfileQosProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetQosProfileQosProfile$Response(params).pipe(
@@ -877,22 +829,22 @@ export class ApiService extends BaseService {
   deleteAetherV100TargetQosProfileQosProfile$Response(params: {
 
     /**
-     * key for qos-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
 
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetQosProfileQosProfilePath, 'delete');
     if (params) {
 
-      rb.path('id', params.id, {});
       rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
 
     }
     return this.http.request(rb.build({
@@ -919,14 +871,14 @@ export class ApiService extends BaseService {
   deleteAetherV100TargetQosProfileQosProfile(params: {
 
     /**
-     * key for qos-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
 
   }): Observable<void> {
 
@@ -936,9 +888,9 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * Path part for operation postAetherV100TargetQosProfileQosProfileApnAmbr
+   * Path part for operation postAetherV100TargetQosProfileQosProfileidApnAmbr
    */
-  static readonly PostAetherV100TargetQosProfileQosProfileApnAmbrPath = '/aether/v1.0.0/{target}/qos-profile/qos-profile/{id}/apn-ambr';
+  static readonly PostAetherV100TargetQosProfileQosProfileidApnAmbrPath = '/aether/v1.0.0/{target}/qos-profile/qos-profile/{id}/apn-ambr';
 
   /**
    * POST Generated from YANG model.
@@ -946,33 +898,29 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postAetherV100TargetQosProfileQosProfileApnAmbr()` instead.
+   * To access only the response body, use `postAetherV100TargetQosProfileQosProfileidApnAmbr()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postAetherV100TargetQosProfileQosProfileApnAmbr$Response(params: {
-
-    /**
-     * key for qos-profile
-     */
-    id: any;
+  postAetherV100TargetQosProfileQosProfileidApnAmbr$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * QosProfileQosProfileApnAmbr
+     * key {id}
      */
-    body?: AetherV100TargetQosProfileQosProfileApnAmbr
+    id: any;
+      body?: AetherV100TargetQosProfileQosProfileidApnAmbr
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetQosProfileQosProfileApnAmbrPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetQosProfileQosProfileidApnAmbrPath, 'post');
     if (params) {
 
-      rb.path('id', params.id, {});
       rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
 
       rb.body(params.body, 'application/json');
     }
@@ -993,37 +941,33 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postAetherV100TargetQosProfileQosProfileApnAmbr$Response()` instead.
+   * To access the full response (for headers, for example), `postAetherV100TargetQosProfileQosProfileidApnAmbr$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postAetherV100TargetQosProfileQosProfileApnAmbr(params: {
-
-    /**
-     * key for qos-profile
-     */
-    id: any;
+  postAetherV100TargetQosProfileQosProfileidApnAmbr(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * QosProfileQosProfileApnAmbr
+     * key {id}
      */
-    body?: AetherV100TargetQosProfileQosProfileApnAmbr
+    id: any;
+      body?: AetherV100TargetQosProfileQosProfileidApnAmbr
   }): Observable<void> {
 
-    return this.postAetherV100TargetQosProfileQosProfileApnAmbr$Response(params).pipe(
+    return this.postAetherV100TargetQosProfileQosProfileidApnAmbr$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteAetherV100TargetQosProfileQosProfileApnAmbr
+   * Path part for operation deleteAetherV100TargetQosProfileQosProfileidApnAmbr
    */
-  static readonly DeleteAetherV100TargetQosProfileQosProfileApnAmbrPath = '/aether/v1.0.0/{target}/qos-profile/qos-profile/{id}/apn-ambr';
+  static readonly DeleteAetherV100TargetQosProfileQosProfileidApnAmbrPath = '/aether/v1.0.0/{target}/qos-profile/qos-profile/{id}/apn-ambr';
 
   /**
    * DELETE Generated from YANG model.
@@ -1031,29 +975,29 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteAetherV100TargetQosProfileQosProfileApnAmbr()` instead.
+   * To access only the response body, use `deleteAetherV100TargetQosProfileQosProfileidApnAmbr()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteAetherV100TargetQosProfileQosProfileApnAmbr$Response(params: {
-
-    /**
-     * key for qos-profile
-     */
-    id: any;
+  deleteAetherV100TargetQosProfileQosProfileidApnAmbr$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
 
+    /**
+     * key {id}
+     */
+    id: any;
+
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetQosProfileQosProfileApnAmbrPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetQosProfileQosProfileidApnAmbrPath, 'delete');
     if (params) {
 
-      rb.path('id', params.id, {});
       rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
 
     }
     return this.http.request(rb.build({
@@ -1073,25 +1017,25 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteAetherV100TargetQosProfileQosProfileApnAmbr$Response()` instead.
+   * To access the full response (for headers, for example), `deleteAetherV100TargetQosProfileQosProfileidApnAmbr$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteAetherV100TargetQosProfileQosProfileApnAmbr(params: {
-
-    /**
-     * key for qos-profile
-     */
-    id: any;
+  deleteAetherV100TargetQosProfileQosProfileidApnAmbr(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
 
+    /**
+     * key {id}
+     */
+    id: any;
+
   }): Observable<void> {
 
-    return this.deleteAetherV100TargetQosProfileQosProfileApnAmbr$Response(params).pipe(
+    return this.deleteAetherV100TargetQosProfileQosProfileidApnAmbr$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
@@ -1117,11 +1061,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-  
-    /**
-     * Subscriber
-     */
-    body?: AetherV100TargetSubscriber
+      body?: AetherV100TargetSubscriber
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberPath, 'post');
@@ -1158,11 +1098,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-  
-    /**
-     * Subscriber
-     */
-    body?: AetherV100TargetSubscriber
+      body?: AetherV100TargetSubscriber
   }): Observable<void> {
 
     return this.postAetherV100TargetSubscriber$Response(params).pipe(
@@ -1253,26 +1189,22 @@ export class ApiService extends BaseService {
   postAetherV100TargetSubscriberUe$Response(params: {
 
     /**
-     * key for ue
-     */
-    ueid: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * SubscriberUe
+     * key {ueid}
      */
-    body?: AetherV100TargetSubscriberUe
+    ueid: any;
+      body?: AetherV100TargetSubscriberUe
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUePath, 'post');
     if (params) {
 
-      rb.path('ueid', params.ueid, {});
       rb.path('target', params.target, {});
+      rb.path('ueid', params.ueid, {});
 
       rb.body(params.body, 'application/json');
     }
@@ -1300,19 +1232,15 @@ export class ApiService extends BaseService {
   postAetherV100TargetSubscriberUe(params: {
 
     /**
-     * key for ue
-     */
-    ueid: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * SubscriberUe
+     * key {ueid}
      */
-    body?: AetherV100TargetSubscriberUe
+    ueid: any;
+      body?: AetherV100TargetSubscriberUe
   }): Observable<void> {
 
     return this.postAetherV100TargetSubscriberUe$Response(params).pipe(
@@ -1338,22 +1266,22 @@ export class ApiService extends BaseService {
   deleteAetherV100TargetSubscriberUe$Response(params: {
 
     /**
-     * key for ue
-     */
-    ueid: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {ueid}
+     */
+    ueid: any;
 
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetSubscriberUePath, 'delete');
     if (params) {
 
-      rb.path('ueid', params.ueid, {});
       rb.path('target', params.target, {});
+      rb.path('ueid', params.ueid, {});
 
     }
     return this.http.request(rb.build({
@@ -1380,14 +1308,14 @@ export class ApiService extends BaseService {
   deleteAetherV100TargetSubscriberUe(params: {
 
     /**
-     * key for ue
-     */
-    ueid: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {ueid}
+     */
+    ueid: any;
 
   }): Observable<void> {
 
@@ -1397,9 +1325,9 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * Path part for operation postAetherV100TargetSubscriberUeProfiles
+   * Path part for operation postAetherV100TargetSubscriberUeueidProfiles
    */
-  static readonly PostAetherV100TargetSubscriberUeProfilesPath = '/aether/v1.0.0/{target}/subscriber/ue/{ueid}/profiles';
+  static readonly PostAetherV100TargetSubscriberUeueidProfilesPath = '/aether/v1.0.0/{target}/subscriber/ue/{ueid}/profiles';
 
   /**
    * POST Generated from YANG model.
@@ -1407,33 +1335,29 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postAetherV100TargetSubscriberUeProfiles()` instead.
+   * To access only the response body, use `postAetherV100TargetSubscriberUeueidProfiles()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postAetherV100TargetSubscriberUeProfiles$Response(params: {
-
-    /**
-     * key for ue
-     */
-    ueid: any;
+  postAetherV100TargetSubscriberUeueidProfiles$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * SubscriberUeProfiles
+     * key {ueid}
      */
-    body?: AetherV100TargetSubscriberUeProfiles
+    ueid: any;
+      body?: AetherV100TargetSubscriberUeueidProfiles
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUeProfilesPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUeueidProfilesPath, 'post');
     if (params) {
 
-      rb.path('ueid', params.ueid, {});
       rb.path('target', params.target, {});
+      rb.path('ueid', params.ueid, {});
 
       rb.body(params.body, 'application/json');
     }
@@ -1454,37 +1378,33 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postAetherV100TargetSubscriberUeProfiles$Response()` instead.
+   * To access the full response (for headers, for example), `postAetherV100TargetSubscriberUeueidProfiles$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postAetherV100TargetSubscriberUeProfiles(params: {
-
-    /**
-     * key for ue
-     */
-    ueid: any;
+  postAetherV100TargetSubscriberUeueidProfiles(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * SubscriberUeProfiles
+     * key {ueid}
      */
-    body?: AetherV100TargetSubscriberUeProfiles
+    ueid: any;
+      body?: AetherV100TargetSubscriberUeueidProfiles
   }): Observable<void> {
 
-    return this.postAetherV100TargetSubscriberUeProfiles$Response(params).pipe(
+    return this.postAetherV100TargetSubscriberUeueidProfiles$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteAetherV100TargetSubscriberUeProfiles
+   * Path part for operation deleteAetherV100TargetSubscriberUeueidProfiles
    */
-  static readonly DeleteAetherV100TargetSubscriberUeProfilesPath = '/aether/v1.0.0/{target}/subscriber/ue/{ueid}/profiles';
+  static readonly DeleteAetherV100TargetSubscriberUeueidProfilesPath = '/aether/v1.0.0/{target}/subscriber/ue/{ueid}/profiles';
 
   /**
    * DELETE Generated from YANG model.
@@ -1492,29 +1412,29 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteAetherV100TargetSubscriberUeProfiles()` instead.
+   * To access only the response body, use `deleteAetherV100TargetSubscriberUeueidProfiles()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteAetherV100TargetSubscriberUeProfiles$Response(params: {
-
-    /**
-     * key for ue
-     */
-    ueid: any;
+  deleteAetherV100TargetSubscriberUeueidProfiles$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
 
+    /**
+     * key {ueid}
+     */
+    ueid: any;
+
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetSubscriberUeProfilesPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetSubscriberUeueidProfilesPath, 'delete');
     if (params) {
 
-      rb.path('ueid', params.ueid, {});
       rb.path('target', params.target, {});
+      rb.path('ueid', params.ueid, {});
 
     }
     return this.http.request(rb.build({
@@ -1534,33 +1454,33 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteAetherV100TargetSubscriberUeProfiles$Response()` instead.
+   * To access the full response (for headers, for example), `deleteAetherV100TargetSubscriberUeueidProfiles$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteAetherV100TargetSubscriberUeProfiles(params: {
-
-    /**
-     * key for ue
-     */
-    ueid: any;
+  deleteAetherV100TargetSubscriberUeueidProfiles(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
 
+    /**
+     * key {ueid}
+     */
+    ueid: any;
+
   }): Observable<void> {
 
-    return this.deleteAetherV100TargetSubscriberUeProfiles$Response(params).pipe(
+    return this.deleteAetherV100TargetSubscriberUeueidProfiles$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postAetherV100TargetSubscriberUeProfilesAccessProfile
+   * Path part for operation postAetherV100TargetSubscriberUeueidProfilesAccessProfile
    */
-  static readonly PostAetherV100TargetSubscriberUeProfilesAccessProfilePath = '/aether/v1.0.0/{target}/subscriber/ue/{ueid}/profiles/access-profile/{access-profile}';
+  static readonly PostAetherV100TargetSubscriberUeueidProfilesAccessProfilePath = '/aether/v1.0.0/{target}/subscriber/ue/{ueid}/profiles/access-profile/{access-profile}';
 
   /**
    * POST Generated from YANG model.
@@ -1568,39 +1488,35 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postAetherV100TargetSubscriberUeProfilesAccessProfile()` instead.
+   * To access only the response body, use `postAetherV100TargetSubscriberUeueidProfilesAccessProfile()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postAetherV100TargetSubscriberUeProfilesAccessProfile$Response(params: {
-
-    /**
-     * key for ue
-     */
-    ueid: any;
-
-    /**
-     * key for access-profile
-     */
-    'access-profile': any;
+  postAetherV100TargetSubscriberUeueidProfilesAccessProfile$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * SubscriberUeProfilesAccessProfile
+     * key {ueid}
      */
-    body?: AetherV100TargetSubscriberUeProfilesAccessProfile
+    ueid: any;
+
+    /**
+     * key {access-profile}
+     */
+    'access-profile': any;
+      body?: AetherV100TargetSubscriberUeueidProfilesAccessProfile
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUeProfilesAccessProfilePath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUeueidProfilesAccessProfilePath, 'post');
     if (params) {
 
+      rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
       rb.path('access-profile', params['access-profile'], {});
-      rb.path('target', params.target, {});
 
       rb.body(params.body, 'application/json');
     }
@@ -1621,42 +1537,38 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postAetherV100TargetSubscriberUeProfilesAccessProfile$Response()` instead.
+   * To access the full response (for headers, for example), `postAetherV100TargetSubscriberUeueidProfilesAccessProfile$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postAetherV100TargetSubscriberUeProfilesAccessProfile(params: {
-
-    /**
-     * key for ue
-     */
-    ueid: any;
-
-    /**
-     * key for access-profile
-     */
-    'access-profile': any;
+  postAetherV100TargetSubscriberUeueidProfilesAccessProfile(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * SubscriberUeProfilesAccessProfile
+     * key {ueid}
      */
-    body?: AetherV100TargetSubscriberUeProfilesAccessProfile
+    ueid: any;
+
+    /**
+     * key {access-profile}
+     */
+    'access-profile': any;
+      body?: AetherV100TargetSubscriberUeueidProfilesAccessProfile
   }): Observable<void> {
 
-    return this.postAetherV100TargetSubscriberUeProfilesAccessProfile$Response(params).pipe(
+    return this.postAetherV100TargetSubscriberUeueidProfilesAccessProfile$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteAetherV100TargetSubscriberUeProfilesAccessProfile
+   * Path part for operation deleteAetherV100TargetSubscriberUeueidProfilesAccessProfile
    */
-  static readonly DeleteAetherV100TargetSubscriberUeProfilesAccessProfilePath = '/aether/v1.0.0/{target}/subscriber/ue/{ueid}/profiles/access-profile/{access-profile}';
+  static readonly DeleteAetherV100TargetSubscriberUeueidProfilesAccessProfilePath = '/aether/v1.0.0/{target}/subscriber/ue/{ueid}/profiles/access-profile/{access-profile}';
 
   /**
    * DELETE Generated from YANG model.
@@ -1664,35 +1576,35 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteAetherV100TargetSubscriberUeProfilesAccessProfile()` instead.
+   * To access only the response body, use `deleteAetherV100TargetSubscriberUeueidProfilesAccessProfile()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteAetherV100TargetSubscriberUeProfilesAccessProfile$Response(params: {
-
-    /**
-     * key for ue
-     */
-    ueid: any;
-
-    /**
-     * key for access-profile
-     */
-    'access-profile': any;
+  deleteAetherV100TargetSubscriberUeueidProfilesAccessProfile$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
 
+    /**
+     * key {ueid}
+     */
+    ueid: any;
+
+    /**
+     * key {access-profile}
+     */
+    'access-profile': any;
+
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetSubscriberUeProfilesAccessProfilePath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetSubscriberUeueidProfilesAccessProfilePath, 'delete');
     if (params) {
 
+      rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
       rb.path('access-profile', params['access-profile'], {});
-      rb.path('target', params.target, {});
 
     }
     return this.http.request(rb.build({
@@ -1712,38 +1624,38 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteAetherV100TargetSubscriberUeProfilesAccessProfile$Response()` instead.
+   * To access the full response (for headers, for example), `deleteAetherV100TargetSubscriberUeueidProfilesAccessProfile$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteAetherV100TargetSubscriberUeProfilesAccessProfile(params: {
-
-    /**
-     * key for ue
-     */
-    ueid: any;
-
-    /**
-     * key for access-profile
-     */
-    'access-profile': any;
+  deleteAetherV100TargetSubscriberUeueidProfilesAccessProfile(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
 
+    /**
+     * key {ueid}
+     */
+    ueid: any;
+
+    /**
+     * key {access-profile}
+     */
+    'access-profile': any;
+
   }): Observable<void> {
 
-    return this.deleteAetherV100TargetSubscriberUeProfilesAccessProfile$Response(params).pipe(
+    return this.deleteAetherV100TargetSubscriberUeueidProfilesAccessProfile$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postAetherV100TargetSubscriberUeServingPlmn
+   * Path part for operation postAetherV100TargetSubscriberUeueidServingPlmn
    */
-  static readonly PostAetherV100TargetSubscriberUeServingPlmnPath = '/aether/v1.0.0/{target}/subscriber/ue/{ueid}/serving-plmn';
+  static readonly PostAetherV100TargetSubscriberUeueidServingPlmnPath = '/aether/v1.0.0/{target}/subscriber/ue/{ueid}/serving-plmn';
 
   /**
    * POST Generated from YANG model.
@@ -1751,33 +1663,29 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postAetherV100TargetSubscriberUeServingPlmn()` instead.
+   * To access only the response body, use `postAetherV100TargetSubscriberUeueidServingPlmn()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postAetherV100TargetSubscriberUeServingPlmn$Response(params: {
-
-    /**
-     * key for ue
-     */
-    ueid: any;
+  postAetherV100TargetSubscriberUeueidServingPlmn$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * SubscriberUeServingPlmn
+     * key {ueid}
      */
-    body?: AetherV100TargetSubscriberUeServingPlmn
+    ueid: any;
+      body?: AetherV100TargetSubscriberUeueidServingPlmn
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUeServingPlmnPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUeueidServingPlmnPath, 'post');
     if (params) {
 
-      rb.path('ueid', params.ueid, {});
       rb.path('target', params.target, {});
+      rb.path('ueid', params.ueid, {});
 
       rb.body(params.body, 'application/json');
     }
@@ -1798,37 +1706,33 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postAetherV100TargetSubscriberUeServingPlmn$Response()` instead.
+   * To access the full response (for headers, for example), `postAetherV100TargetSubscriberUeueidServingPlmn$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postAetherV100TargetSubscriberUeServingPlmn(params: {
-
-    /**
-     * key for ue
-     */
-    ueid: any;
+  postAetherV100TargetSubscriberUeueidServingPlmn(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * SubscriberUeServingPlmn
+     * key {ueid}
      */
-    body?: AetherV100TargetSubscriberUeServingPlmn
+    ueid: any;
+      body?: AetherV100TargetSubscriberUeueidServingPlmn
   }): Observable<void> {
 
-    return this.postAetherV100TargetSubscriberUeServingPlmn$Response(params).pipe(
+    return this.postAetherV100TargetSubscriberUeueidServingPlmn$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteAetherV100TargetSubscriberUeServingPlmn
+   * Path part for operation deleteAetherV100TargetSubscriberUeueidServingPlmn
    */
-  static readonly DeleteAetherV100TargetSubscriberUeServingPlmnPath = '/aether/v1.0.0/{target}/subscriber/ue/{ueid}/serving-plmn';
+  static readonly DeleteAetherV100TargetSubscriberUeueidServingPlmnPath = '/aether/v1.0.0/{target}/subscriber/ue/{ueid}/serving-plmn';
 
   /**
    * DELETE Generated from YANG model.
@@ -1836,29 +1740,29 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteAetherV100TargetSubscriberUeServingPlmn()` instead.
+   * To access only the response body, use `deleteAetherV100TargetSubscriberUeueidServingPlmn()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteAetherV100TargetSubscriberUeServingPlmn$Response(params: {
-
-    /**
-     * key for ue
-     */
-    ueid: any;
+  deleteAetherV100TargetSubscriberUeueidServingPlmn$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
 
+    /**
+     * key {ueid}
+     */
+    ueid: any;
+
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetSubscriberUeServingPlmnPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetSubscriberUeueidServingPlmnPath, 'delete');
     if (params) {
 
-      rb.path('ueid', params.ueid, {});
       rb.path('target', params.target, {});
+      rb.path('ueid', params.ueid, {});
 
     }
     return this.http.request(rb.build({
@@ -1878,25 +1782,25 @@ export class ApiService extends BaseService {
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteAetherV100TargetSubscriberUeServingPlmn$Response()` instead.
+   * To access the full response (for headers, for example), `deleteAetherV100TargetSubscriberUeueidServingPlmn$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteAetherV100TargetSubscriberUeServingPlmn(params: {
-
-    /**
-     * key for ue
-     */
-    ueid: any;
+  deleteAetherV100TargetSubscriberUeueidServingPlmn(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
 
+    /**
+     * key {ueid}
+     */
+    ueid: any;
+
   }): Observable<void> {
 
-    return this.deleteAetherV100TargetSubscriberUeServingPlmn$Response(params).pipe(
+    return this.deleteAetherV100TargetSubscriberUeueidServingPlmn$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
@@ -1922,11 +1826,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-  
-    /**
-     * UpProfile
-     */
-    body?: AetherV100TargetUpProfile
+      body?: AetherV100TargetUpProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetUpProfilePath, 'post');
@@ -1963,11 +1863,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-  
-    /**
-     * UpProfile
-     */
-    body?: AetherV100TargetUpProfile
+      body?: AetherV100TargetUpProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetUpProfile$Response(params).pipe(
@@ -2058,26 +1954,22 @@ export class ApiService extends BaseService {
   postAetherV100TargetUpProfileUpProfile$Response(params: {
 
     /**
-     * key for up-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * UpProfileUpProfile
+     * key {id}
      */
-    body?: AetherV100TargetUpProfileUpProfile
+    id: any;
+      body?: AetherV100TargetUpProfileUpProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetUpProfileUpProfilePath, 'post');
     if (params) {
 
-      rb.path('id', params.id, {});
       rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
 
       rb.body(params.body, 'application/json');
     }
@@ -2105,19 +1997,15 @@ export class ApiService extends BaseService {
   postAetherV100TargetUpProfileUpProfile(params: {
 
     /**
-     * key for up-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
-  
+
     /**
-     * UpProfileUpProfile
+     * key {id}
      */
-    body?: AetherV100TargetUpProfileUpProfile
+    id: any;
+      body?: AetherV100TargetUpProfileUpProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetUpProfileUpProfile$Response(params).pipe(
@@ -2143,22 +2031,22 @@ export class ApiService extends BaseService {
   deleteAetherV100TargetUpProfileUpProfile$Response(params: {
 
     /**
-     * key for up-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
 
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetUpProfileUpProfilePath, 'delete');
     if (params) {
 
-      rb.path('id', params.id, {});
       rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
 
     }
     return this.http.request(rb.build({
@@ -2185,14 +2073,14 @@ export class ApiService extends BaseService {
   deleteAetherV100TargetUpProfileUpProfile(params: {
 
     /**
-     * key for up-profile
-     */
-    id: any;
-
-    /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
 
   }): Observable<void> {
 

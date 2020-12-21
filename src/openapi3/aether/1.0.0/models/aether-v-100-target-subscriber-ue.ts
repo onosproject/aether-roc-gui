@@ -1,10 +1,10 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
-import { AetherV100TargetSubscriberUeProfiles } from './aether-v-100-target-subscriber-ue-profiles';
-import { AetherV100TargetSubscriberUeServingPlmn } from './aether-v-100-target-subscriber-ue-serving-plmn';
+import { AetherV100TargetSubscriberUeueidProfiles } from './aether-v-100-target-subscriber-ueueid-profiles';
+import { AetherV100TargetSubscriberUeueidServingPlmn } from './aether-v-100-target-subscriber-ueueid-serving-plmn';
 export interface AetherV100TargetSubscriberUe {
-  AetherV100targetSubscriberUeProfiles?: AetherV100TargetSubscriberUeProfiles;
-  AetherV100targetSubscriberUeServingPlmn?: AetherV100TargetSubscriberUeServingPlmn;
+  AetherV100targetSubscriberUeueidProfiles?: AetherV100TargetSubscriberUeueidProfiles;
+  AetherV100targetSubscriberUeueidServingPlmn?: AetherV100TargetSubscriberUeueidServingPlmn;
   enabled?: boolean;
   priority?: number;
   'requested-apn'?: string;

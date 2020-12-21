@@ -9,20 +9,20 @@ import {FormArray, FormBuilder, FormControl} from '@angular/forms';
 import {RBAC_TARGET} from '../../../environments/environment';
 import {
     ApiService,
-    RbacV100TargetRbacService,
+    RbacRoleService as RbacV100TargetRbacService,
 } from '../../../openapi3/rbac/1.0.0/services';
 
 export enum Operation {
-    UNKNOWN = 'unknown',
-    READ = 'read',
-    CREATE = 'create',
-    ALL = 'all'
+    UNKNOWN = 'UNKNOWN',
+    READ = 'READ',
+    CREATE = 'CREATE',
+    ALL = 'ALL'
 }
 
 export enum Type {
-    UNKNOWN = 'unknown',
-    CONFIG = 'config',
-    GRPC = 'grpc'
+    UNKNOWN = 'UNKNOWN',
+    CONFIG = 'CONFIG',
+    GRPC = 'GRPC'
 }
 
 @Component({
@@ -63,8 +63,8 @@ export class RoleEditComponent implements OnInit {
     }
 
     loadRole(roleid: string): void {
-        this.rbacV100TargetRbacService.getRbacV100TargetRbacRole({
-            target: RBAC_TARGET, roleid
+        this.rbacV100TargetRbacService.getRbacRole({
+            target: RBAC_TARGET, roleid,
         }).subscribe(
             (value => {
                 this.roleForm.get('roleid').setValue(value.roleid);
@@ -72,12 +72,12 @@ export class RoleEditComponent implements OnInit {
                 this.roleForm
                     .get('RbacV100targetRbacRolePermission')
                     .get('operation')
-                    .setValue(value.RbacV100targetRbacRolePermission.operation);
+                    .setValue(value.Permission.operation);
                 this.roleForm
                     .get('RbacV100targetRbacRolePermission')
                     .get('type')
-                    .setValue(value.RbacV100targetRbacRolePermission.type);
-                for (const noun of value.RbacV100targetRbacRolePermission['leaf-list-noun']) {
+                    .setValue(value.Permission.type);
+                for (const noun of value.Permission['leaf-list-noun']) {
                     this.nouns.push(noun);
                     this.nounControls.push(new FormControl(noun));
                 }
@@ -95,7 +95,7 @@ export class RoleEditComponent implements OnInit {
 
     onSubmit(): void {
         console.log('Submitted!', this.roleForm.getRawValue());
-        this.rbacApiService.postRbacV100TargetRbacRole({
+        this.rbacApiService.postRbacRole({
             roleid: this.roleid,
             target: RBAC_TARGET,
             body: this.roleForm.getRawValue()

@@ -10,10 +10,10 @@ import {MatTable} from '@angular/material/table';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RBAC_TARGET} from '../../../environments/environment';
 import {RoleDatasource} from './role-datasource';
-import {RbacV100TargetRbacRole} from '../../../openapi3/rbac/1.0.0/models/rbac-v-100-target-rbac-role';
+import {RbacRole} from '../../../openapi3/rbac/1.0.0/models';
 import {
+    Service,
     ApiService,
-    RbacV100TargetService
 } from '../../../openapi3/rbac/1.0.0/services';
 
 @Component({
@@ -24,9 +24,9 @@ import {
 export class RolesListComponent implements AfterViewInit, OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<RbacV100TargetRbacRole>;
+    @ViewChild(MatTable) table: MatTable<RbacRole>;
     dataSource: RoleDatasource;
-    selectedRole: RbacV100TargetRbacRole;
+    selectedRole: RbacRole;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
@@ -40,7 +40,7 @@ export class RolesListComponent implements AfterViewInit, OnInit {
     ];
 
     constructor(
-        private rbacV100TargetService: RbacV100TargetService,
+        private rbacV100TargetService: Service,
         private rbacApiService: ApiService,
         private snackBar: MatSnackBar,
     ) {

@@ -11,19 +11,19 @@ import {map} from 'rxjs/operators';
 import {Observable, of as observableOf, merge} from 'rxjs';
 import {
     ApiService,
-    RbacV100TargetService
+    Service as RbacService
 } from '../../../openapi3/rbac/1.0.0/services';
-import {RbacV100TargetRbacRole} from '../../../openapi3/rbac/1.0.0/models/rbac-v-100-target-rbac-role';
+import {RbacRole} from '../../../openapi3/rbac/1.0.0/models/rbac-role';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {HttpErrorResponse} from '@angular/common/http';
 
-export class RoleDatasource extends DataSource<RbacV100TargetRbacRole> {
-    data: Array<RbacV100TargetRbacRole> = [];
+export class RoleDatasource extends DataSource<RbacRole> {
+    data: Array<RbacRole> = [];
     paginator: MatPaginator;
     sort: MatSort;
 
     constructor(
-        private rbacV100TargetService: RbacV100TargetService,
+        private rbacService: RbacService,
         private rbacApiService: ApiService,
         private target: string,
     ) {
@@ -35,7 +35,7 @@ export class RoleDatasource extends DataSource<RbacV100TargetRbacRole> {
      * the returned stream emits new items.
      * @returns A stream of the items to be rendered.
      */
-    connect(): Observable<RbacV100TargetRbacRole[]> {
+    connect(): Observable<RbacRole[]> {
         // Combine everything that affects the rendered data into one update
         // stream for the data-table to consume.
         const dataMutations = [
@@ -56,7 +56,7 @@ export class RoleDatasource extends DataSource<RbacV100TargetRbacRole> {
     disconnect(): void {
     }
 
-    private getPagedData(data: RbacV100TargetRbacRole[]): RbacV100TargetRbacRole[] {
+    private getPagedData(data: RbacRole[]): RbacRole[] {
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
         return data.splice(startIndex, this.paginator.pageSize);
     }
@@ -65,7 +65,7 @@ export class RoleDatasource extends DataSource<RbacV100TargetRbacRole> {
      * Sort the data (client-side). If you're using server-side sorting,
      * this would be replaced by requesting the appropriate data from the server.
      */
-    private getSortedData(data: RbacV100TargetRbacRole[]): RbacV100TargetRbacRole[] {
+    private getSortedData(data: RbacRole[]): RbacRole[] {
         if (!this.sort.active || this.sort.direction === '') {
             return data;
         }
@@ -84,13 +84,13 @@ export class RoleDatasource extends DataSource<RbacV100TargetRbacRole> {
     }
 
     loadRoles(snackBar: MatSnackBar): void {
-        this.rbacV100TargetService.getRbacV100TargetRbac({
+        this.rbacService.getRbac({
             target: this.target
         })
             .subscribe(
                 (value => {
-                    this.data = value.ListRbacV100targetRbacRole;
-                    console.log('Got ', value.ListRbacV100targetRbacRole.length, ' Subscribers from ', this.target);
+                    this.data = value.Role;
+                    console.log('Got ', value.Role.length, ' Subscribers from ', this.target);
                 }),
                 error => {
                     const errHttp = error as HttpErrorResponse;
@@ -105,7 +105,7 @@ export class RoleDatasource extends DataSource<RbacV100TargetRbacRole> {
     }
 
     deleteRole(roleid: string, snackBar: MatSnackBar): void {
-        this.rbacApiService.deleteRbacV100TargetRbacRole({
+        this.rbacApiService.deleteRbacRole({
             roleid,
             target: this.target,
         }).subscribe(

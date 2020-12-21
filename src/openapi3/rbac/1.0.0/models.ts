@@ -1,6 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
-export { RbacV100TargetRbac } from './models/rbac-v-100-target-rbac';
-export { RbacV100TargetRbacGroup } from './models/rbac-v-100-target-rbac-group';
-export { RbacV100TargetRbacGroupRole } from './models/rbac-v-100-target-rbac-group-role';
-export { RbacV100TargetRbacRole } from './models/rbac-v-100-target-rbac-role';
-export { RbacV100TargetRbacRolePermission } from './models/rbac-v-100-target-rbac-role-permission';
+export { Rbac } from './models/rbac';
+export { RbacGroup } from './models/rbac-group';
+export { RbacGroupRole } from './models/rbac-group-role';
+export { RbacRole } from './models/rbac-role';
+export { RbacRolePermission } from './models/rbac-role-permission';
