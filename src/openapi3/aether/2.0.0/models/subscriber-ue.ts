@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { SubscriberUeProfiles } from './subscriber-ue-profiles';
 import { SubscriberUeServingPlmn } from './subscriber-ue-serving-plmn';
 export interface SubscriberUe {

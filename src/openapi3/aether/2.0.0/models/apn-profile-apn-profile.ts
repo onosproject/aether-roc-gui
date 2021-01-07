@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 export interface ApnProfileApnProfile {
   'apn-name'?: string;
   description?: string;

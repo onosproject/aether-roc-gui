@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -53,17 +54,15 @@ export class EnterpriseEnterpriseConnectivityServiceService extends BaseService 
      * key {connectivity-service}
      */
     'connectivity-service': any;
-
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseConnectivityService>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterpriseEnterpriseConnectivityServiceService.GetEnterpriseEnterpriseConnectivityServicePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
       rb.path('connectivity-service', params['connectivity-service'], {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -101,7 +100,6 @@ export class EnterpriseEnterpriseConnectivityServiceService extends BaseService 
      * key {connectivity-service}
      */
     'connectivity-service': any;
-
   }): Observable<EnterpriseEnterpriseConnectivityService> {
 
     return this.getEnterpriseEnterpriseConnectivityService$Response(params).pipe(

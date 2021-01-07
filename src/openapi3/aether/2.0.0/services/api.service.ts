@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -21,6 +22,7 @@ import { EnterpriseEnterpriseConnectivityService } from '../models/enterprise-en
 import { QosProfile } from '../models/qos-profile';
 import { QosProfileQosProfile } from '../models/qos-profile-qos-profile';
 import { QosProfileQosProfileApnAmbr } from '../models/qos-profile-qos-profile-apn-ambr';
+import { QosProfileQosProfileArp } from '../models/qos-profile-qos-profile-arp';
 import { SecurityProfile } from '../models/security-profile';
 import { SecurityProfileSecurityProfile } from '../models/security-profile-security-profile';
 import { Subscriber } from '../models/subscriber';
@@ -63,16 +65,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: AccessProfile
+    body?: AccessProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAccessProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -100,7 +101,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: AccessProfile
+    body?: AccessProfile
   }): Observable<void> {
 
     return this.postAccessProfile$Response(params).pipe(
@@ -129,15 +130,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAccessProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -165,7 +164,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteAccessProfile$Response(params).pipe(
@@ -199,17 +197,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: AccessProfileAccessProfile
+    body?: AccessProfileAccessProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAccessProfileAccessProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -242,7 +239,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: AccessProfileAccessProfile
+    body?: AccessProfileAccessProfile
   }): Observable<void> {
 
     return this.postAccessProfileAccessProfile$Response(params).pipe(
@@ -276,16 +273,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAccessProfileAccessProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -318,7 +313,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteAccessProfileAccessProfile$Response(params).pipe(
@@ -347,16 +341,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: ApnProfile
+    body?: ApnProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostApnProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -384,7 +377,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: ApnProfile
+    body?: ApnProfile
   }): Observable<void> {
 
     return this.postApnProfile$Response(params).pipe(
@@ -413,15 +406,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteApnProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -449,7 +440,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteApnProfile$Response(params).pipe(
@@ -483,17 +473,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: ApnProfileApnProfile
+    body?: ApnProfileApnProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostApnProfileApnProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -526,7 +515,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: ApnProfileApnProfile
+    body?: ApnProfileApnProfile
   }): Observable<void> {
 
     return this.postApnProfileApnProfile$Response(params).pipe(
@@ -560,16 +549,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteApnProfileApnProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -602,7 +589,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteApnProfileApnProfile$Response(params).pipe(
@@ -631,16 +617,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: ConnectivityService
+    body?: ConnectivityService
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostConnectivityServicePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -668,7 +653,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: ConnectivityService
+    body?: ConnectivityService
   }): Observable<void> {
 
     return this.postConnectivityService$Response(params).pipe(
@@ -697,15 +682,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteConnectivityServicePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -733,7 +716,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteConnectivityService$Response(params).pipe(
@@ -767,17 +749,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: ConnectivityServiceConnectivityService
+    body?: ConnectivityServiceConnectivityService
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostConnectivityServiceConnectivityServicePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -810,7 +791,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: ConnectivityServiceConnectivityService
+    body?: ConnectivityServiceConnectivityService
   }): Observable<void> {
 
     return this.postConnectivityServiceConnectivityService$Response(params).pipe(
@@ -844,16 +825,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteConnectivityServiceConnectivityServicePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -886,7 +865,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteConnectivityServiceConnectivityService$Response(params).pipe(
@@ -915,16 +893,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: Enterprise
+    body?: Enterprise
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -952,7 +929,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: Enterprise
+    body?: Enterprise
   }): Observable<void> {
 
     return this.postEnterprise$Response(params).pipe(
@@ -981,15 +958,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1017,7 +992,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteEnterprise$Response(params).pipe(
@@ -1051,17 +1025,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: EnterpriseEnterprise
+    body?: EnterpriseEnterprise
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterpriseEnterprisePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1094,7 +1067,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: EnterpriseEnterprise
+    body?: EnterpriseEnterprise
   }): Observable<void> {
 
     return this.postEnterpriseEnterprise$Response(params).pipe(
@@ -1128,16 +1101,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterpriseEnterprisePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1170,7 +1141,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteEnterpriseEnterprise$Response(params).pipe(
@@ -1209,18 +1179,17 @@ export class ApiService extends BaseService {
      * key {connectivity-service}
      */
     'connectivity-service': any;
-      body?: EnterpriseEnterpriseConnectivityService
+    body?: EnterpriseEnterpriseConnectivityService
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterpriseEnterpriseConnectivityServicePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
       rb.path('connectivity-service', params['connectivity-service'], {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1258,7 +1227,7 @@ export class ApiService extends BaseService {
      * key {connectivity-service}
      */
     'connectivity-service': any;
-      body?: EnterpriseEnterpriseConnectivityService
+    body?: EnterpriseEnterpriseConnectivityService
   }): Observable<void> {
 
     return this.postEnterpriseEnterpriseConnectivityService$Response(params).pipe(
@@ -1297,17 +1266,15 @@ export class ApiService extends BaseService {
      * key {connectivity-service}
      */
     'connectivity-service': any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterpriseEnterpriseConnectivityServicePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
       rb.path('connectivity-service', params['connectivity-service'], {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1345,7 +1312,6 @@ export class ApiService extends BaseService {
      * key {connectivity-service}
      */
     'connectivity-service': any;
-
   }): Observable<void> {
 
     return this.deleteEnterpriseEnterpriseConnectivityService$Response(params).pipe(
@@ -1374,16 +1340,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: QosProfile
+    body?: QosProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostQosProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1411,7 +1376,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: QosProfile
+    body?: QosProfile
   }): Observable<void> {
 
     return this.postQosProfile$Response(params).pipe(
@@ -1440,15 +1405,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteQosProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1476,7 +1439,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteQosProfile$Response(params).pipe(
@@ -1510,17 +1472,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: QosProfileQosProfile
+    body?: QosProfileQosProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostQosProfileQosProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1553,7 +1514,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: QosProfileQosProfile
+    body?: QosProfileQosProfile
   }): Observable<void> {
 
     return this.postQosProfileQosProfile$Response(params).pipe(
@@ -1587,16 +1548,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteQosProfileQosProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1629,7 +1588,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteQosProfileQosProfile$Response(params).pipe(
@@ -1663,17 +1621,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: QosProfileQosProfileApnAmbr
+    body?: QosProfileQosProfileApnAmbr
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostQosProfileQosProfileApnAmbrPath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1706,7 +1663,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: QosProfileQosProfileApnAmbr
+    body?: QosProfileQosProfileApnAmbr
   }): Observable<void> {
 
     return this.postQosProfileQosProfileApnAmbr$Response(params).pipe(
@@ -1740,16 +1697,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteQosProfileQosProfileApnAmbrPath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1782,10 +1737,158 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteQosProfileQosProfileApnAmbr$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postQosProfileQosProfileArp
+   */
+  static readonly PostQosProfileQosProfileArpPath = '/aether/v2.0.0/{target}/qos-profile/qos-profile/{id}/arp';
+
+  /**
+   * POST Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postQosProfileQosProfileArp()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postQosProfileQosProfileArp$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+    body?: QosProfileQosProfileArp
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostQosProfileQosProfileArpPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postQosProfileQosProfileArp$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postQosProfileQosProfileArp(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+    body?: QosProfileQosProfileArp
+  }): Observable<void> {
+
+    return this.postQosProfileQosProfileArp$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteQosProfileQosProfileArp
+   */
+  static readonly DeleteQosProfileQosProfileArpPath = '/aether/v2.0.0/{target}/qos-profile/qos-profile/{id}/arp';
+
+  /**
+   * DELETE Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteQosProfileQosProfileArp()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteQosProfileQosProfileArp$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteQosProfileQosProfileArpPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteQosProfileQosProfileArp$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteQosProfileQosProfileArp(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+  }): Observable<void> {
+
+    return this.deleteQosProfileQosProfileArp$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
@@ -1811,16 +1914,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: SecurityProfile
+    body?: SecurityProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostSecurityProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1848,7 +1950,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: SecurityProfile
+    body?: SecurityProfile
   }): Observable<void> {
 
     return this.postSecurityProfile$Response(params).pipe(
@@ -1877,15 +1979,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSecurityProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1913,7 +2013,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteSecurityProfile$Response(params).pipe(
@@ -1947,17 +2046,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: SecurityProfileSecurityProfile
+    body?: SecurityProfileSecurityProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostSecurityProfileSecurityProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1990,7 +2088,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: SecurityProfileSecurityProfile
+    body?: SecurityProfileSecurityProfile
   }): Observable<void> {
 
     return this.postSecurityProfileSecurityProfile$Response(params).pipe(
@@ -2024,16 +2122,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSecurityProfileSecurityProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2066,7 +2162,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteSecurityProfileSecurityProfile$Response(params).pipe(
@@ -2095,16 +2190,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: Subscriber
+    body?: Subscriber
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostSubscriberPath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2132,7 +2226,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: Subscriber
+    body?: Subscriber
   }): Observable<void> {
 
     return this.postSubscriber$Response(params).pipe(
@@ -2161,15 +2255,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSubscriberPath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2197,7 +2289,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteSubscriber$Response(params).pipe(
@@ -2231,17 +2322,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: SubscriberUe
+    body?: SubscriberUe
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostSubscriberUePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2274,7 +2364,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: SubscriberUe
+    body?: SubscriberUe
   }): Observable<void> {
 
     return this.postSubscriberUe$Response(params).pipe(
@@ -2308,16 +2398,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSubscriberUePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2350,7 +2438,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteSubscriberUe$Response(params).pipe(
@@ -2384,17 +2471,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: SubscriberUeProfiles
+    body?: SubscriberUeProfiles
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostSubscriberUeProfilesPath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2427,7 +2513,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: SubscriberUeProfiles
+    body?: SubscriberUeProfiles
   }): Observable<void> {
 
     return this.postSubscriberUeProfiles$Response(params).pipe(
@@ -2461,16 +2547,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSubscriberUeProfilesPath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2503,7 +2587,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteSubscriberUeProfiles$Response(params).pipe(
@@ -2542,18 +2625,17 @@ export class ApiService extends BaseService {
      * key {access-profile}
      */
     'access-profile': any;
-      body?: SubscriberUeProfilesAccessProfile
+    body?: SubscriberUeProfilesAccessProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostSubscriberUeProfilesAccessProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
       rb.path('access-profile', params['access-profile'], {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2591,7 +2673,7 @@ export class ApiService extends BaseService {
      * key {access-profile}
      */
     'access-profile': any;
-      body?: SubscriberUeProfilesAccessProfile
+    body?: SubscriberUeProfilesAccessProfile
   }): Observable<void> {
 
     return this.postSubscriberUeProfilesAccessProfile$Response(params).pipe(
@@ -2630,17 +2712,15 @@ export class ApiService extends BaseService {
      * key {access-profile}
      */
     'access-profile': any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSubscriberUeProfilesAccessProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
       rb.path('access-profile', params['access-profile'], {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2678,7 +2758,6 @@ export class ApiService extends BaseService {
      * key {access-profile}
      */
     'access-profile': any;
-
   }): Observable<void> {
 
     return this.deleteSubscriberUeProfilesAccessProfile$Response(params).pipe(
@@ -2712,17 +2791,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: SubscriberUeServingPlmn
+    body?: SubscriberUeServingPlmn
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostSubscriberUeServingPlmnPath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2755,7 +2833,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: SubscriberUeServingPlmn
+    body?: SubscriberUeServingPlmn
   }): Observable<void> {
 
     return this.postSubscriberUeServingPlmn$Response(params).pipe(
@@ -2789,16 +2867,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSubscriberUeServingPlmnPath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2831,7 +2907,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteSubscriberUeServingPlmn$Response(params).pipe(
@@ -2860,16 +2935,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: UpProfile
+    body?: UpProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostUpProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2897,7 +2971,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: UpProfile
+    body?: UpProfile
   }): Observable<void> {
 
     return this.postUpProfile$Response(params).pipe(
@@ -2926,15 +3000,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteUpProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2962,7 +3034,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteUpProfile$Response(params).pipe(
@@ -2996,17 +3067,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: UpProfileUpProfile
+    body?: UpProfileUpProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostUpProfileUpProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -3039,7 +3109,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: UpProfileUpProfile
+    body?: UpProfileUpProfile
   }): Observable<void> {
 
     return this.postUpProfileUpProfile$Response(params).pipe(
@@ -3073,16 +3143,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteUpProfileUpProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -3115,7 +3183,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteUpProfileUpProfile$Response(params).pipe(

@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -49,16 +50,14 @@ export class RbacRoleService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-
   }): Observable<StrictHttpResponse<RbacRole>> {
 
     const rb = new RequestBuilder(this.rootUrl, RbacRoleService.GetRbacRolePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('roleid', params.roleid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -91,7 +90,6 @@ export class RbacRoleService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-
   }): Observable<RbacRole> {
 
     return this.getRbacRole$Response(params).pipe(
@@ -125,16 +123,14 @@ export class RbacRoleService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-
   }): Observable<StrictHttpResponse<RbacRolePermission>> {
 
     const rb = new RequestBuilder(this.rootUrl, RbacRoleService.GetRbacRolePermissionPath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('roleid', params.roleid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -167,7 +163,6 @@ export class RbacRoleService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-
   }): Observable<RbacRolePermission> {
 
     return this.getRbacRolePermission$Response(params).pipe(

@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -50,16 +51,14 @@ export class SubscriberUeService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<SubscriberUe>> {
 
     const rb = new RequestBuilder(this.rootUrl, SubscriberUeService.GetSubscriberUePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -92,7 +91,6 @@ export class SubscriberUeService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<SubscriberUe> {
 
     return this.getSubscriberUe$Response(params).pipe(
@@ -126,16 +124,14 @@ export class SubscriberUeService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<SubscriberUeProfiles>> {
 
     const rb = new RequestBuilder(this.rootUrl, SubscriberUeService.GetSubscriberUeProfilesPath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -168,7 +164,6 @@ export class SubscriberUeService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<SubscriberUeProfiles> {
 
     return this.getSubscriberUeProfiles$Response(params).pipe(
@@ -202,16 +197,14 @@ export class SubscriberUeService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<SubscriberUeServingPlmn>> {
 
     const rb = new RequestBuilder(this.rootUrl, SubscriberUeService.GetSubscriberUeServingPlmnPath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -244,7 +237,6 @@ export class SubscriberUeService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<SubscriberUeServingPlmn> {
 
     return this.getSubscriberUeServingPlmn$Response(params).pipe(

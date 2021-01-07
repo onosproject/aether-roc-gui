@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -50,16 +51,14 @@ export class AetherV100TargetSubscriberUeueidService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-
   }): Observable<StrictHttpResponse<AetherV100TargetSubscriberUe>> {
 
     const rb = new RequestBuilder(this.rootUrl, AetherV100TargetSubscriberUeueidService.GetAetherV100TargetSubscriberUePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -92,7 +91,6 @@ export class AetherV100TargetSubscriberUeueidService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-
   }): Observable<AetherV100TargetSubscriberUe> {
 
     return this.getAetherV100TargetSubscriberUe$Response(params).pipe(
@@ -126,16 +124,14 @@ export class AetherV100TargetSubscriberUeueidService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-
   }): Observable<StrictHttpResponse<AetherV100TargetSubscriberUeueidProfiles>> {
 
     const rb = new RequestBuilder(this.rootUrl, AetherV100TargetSubscriberUeueidService.GetAetherV100TargetSubscriberUeueidProfilesPath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -168,7 +164,6 @@ export class AetherV100TargetSubscriberUeueidService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-
   }): Observable<AetherV100TargetSubscriberUeueidProfiles> {
 
     return this.getAetherV100TargetSubscriberUeueidProfiles$Response(params).pipe(
@@ -202,16 +197,14 @@ export class AetherV100TargetSubscriberUeueidService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-
   }): Observable<StrictHttpResponse<AetherV100TargetSubscriberUeueidServingPlmn>> {
 
     const rb = new RequestBuilder(this.rootUrl, AetherV100TargetSubscriberUeueidService.GetAetherV100TargetSubscriberUeueidServingPlmnPath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -244,7 +237,6 @@ export class AetherV100TargetSubscriberUeueidService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-
   }): Observable<AetherV100TargetSubscriberUeueidServingPlmn> {
 
     return this.getAetherV100TargetSubscriberUeueidServingPlmn$Response(params).pipe(

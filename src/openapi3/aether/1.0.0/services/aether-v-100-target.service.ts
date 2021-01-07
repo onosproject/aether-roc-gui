@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -47,15 +48,13 @@ export class AetherV100TargetService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<AetherV100TargetAccessProfile>> {
 
     const rb = new RequestBuilder(this.rootUrl, AetherV100TargetService.GetAetherV100TargetAccessProfilePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -83,7 +82,6 @@ export class AetherV100TargetService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<AetherV100TargetAccessProfile> {
 
     return this.getAetherV100TargetAccessProfile$Response(params).pipe(
@@ -112,15 +110,13 @@ export class AetherV100TargetService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<AetherV100TargetApnProfile>> {
 
     const rb = new RequestBuilder(this.rootUrl, AetherV100TargetService.GetAetherV100TargetApnProfilePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -148,7 +144,6 @@ export class AetherV100TargetService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<AetherV100TargetApnProfile> {
 
     return this.getAetherV100TargetApnProfile$Response(params).pipe(
@@ -177,15 +172,13 @@ export class AetherV100TargetService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<AetherV100TargetQosProfile>> {
 
     const rb = new RequestBuilder(this.rootUrl, AetherV100TargetService.GetAetherV100TargetQosProfilePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -213,7 +206,6 @@ export class AetherV100TargetService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<AetherV100TargetQosProfile> {
 
     return this.getAetherV100TargetQosProfile$Response(params).pipe(
@@ -242,15 +234,13 @@ export class AetherV100TargetService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<AetherV100TargetSubscriber>> {
 
     const rb = new RequestBuilder(this.rootUrl, AetherV100TargetService.GetAetherV100TargetSubscriberPath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -278,7 +268,6 @@ export class AetherV100TargetService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<AetherV100TargetSubscriber> {
 
     return this.getAetherV100TargetSubscriber$Response(params).pipe(
@@ -307,15 +296,13 @@ export class AetherV100TargetService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<AetherV100TargetUpProfile>> {
 
     const rb = new RequestBuilder(this.rootUrl, AetherV100TargetService.GetAetherV100TargetUpProfilePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -343,7 +330,6 @@ export class AetherV100TargetService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<AetherV100TargetUpProfile> {
 
     return this.getAetherV100TargetUpProfile$Response(params).pipe(
