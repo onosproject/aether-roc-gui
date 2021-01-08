@@ -1,10 +1,10 @@
 <!--
-~ SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 <div >
-    <mat-toolbar class="profile-toolbar">APN Profiles</mat-toolbar>
+    <mat-toolbar class="profile-toolbar">Enterprises</mat-toolbar>
     <table mat-table class="full-width-table" matSort aria-label="Elements">
         <!-- Id Column -->
         <ng-container matColumnDef="id">
@@ -24,34 +24,10 @@
             <td mat-cell *matCellDef="let row">{{row.description}}</td>
         </ng-container>
 
-        <!-- APN Name Column -->
-        <ng-container matColumnDef="apn-name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>APN Name</th>
-            <td mat-cell *matCellDef="let row">{{row['apn-name']}}</td>
-        </ng-container>
-
-        <!-- Primary DNS Column -->
-        <ng-container matColumnDef="dns-primary">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Primary DNS</th>
-            <td mat-cell *matCellDef="let row">{{row['dns-primary']}}</td>
-        </ng-container>
-
-        <!-- Secondary DNS Column -->
-        <ng-container matColumnDef="dns-secondary">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Secondary DNS</th>
-            <td mat-cell *matCellDef="let row">{{row['dns-secondary']}}</td>
-        </ng-container>
-
-        <!-- MTU Column -->
-        <ng-container matColumnDef="mtu">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>MTU</th>
-            <td mat-cell *matCellDef="let row">{{row.mtu}}</td>
-        </ng-container>
-
-        <!-- GX Enabled Column -->
-        <ng-container matColumnDef="gx-enabled">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>GX Enabled</th>
-            <td mat-cell *matCellDef="let row">{{row['gx-enabled']}}</td>
+        <!-- Connectivity Column -->
+        <ng-container matColumnDef="connectivity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Connectivity</th>
+            <td mat-cell *matCellDef="let row">{{row['Connectivity-service']?.length}}</td>
         </ng-container>
 
         <!-- Edit Column -->
@@ -73,9 +49,8 @@
         </ng-container>
 
         <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectedApnProfile = row"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectedEnterprise = row"></tr>
     </table>
-
     <mat-paginator #paginator
                    [length]="dataSource?.data?.length"
                    [pageIndex]="0"

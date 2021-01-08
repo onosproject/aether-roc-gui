@@ -12,6 +12,12 @@
             <td mat-cell *matCellDef="let row">{{row.id}}</td>
         </ng-container>
 
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let row">{{row['display-name']}}</td>
+        </ng-container>
+
         <!-- Description Column -->
         <ng-container matColumnDef="description">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
@@ -21,13 +27,41 @@
         <!-- Uplink Column -->
         <ng-container matColumnDef="uplink">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Uplink</th>
-            <td mat-cell *matCellDef="let row">{{row.AetherV100targetQosProfileQosProfileApnAmbr.uplink}}</td>
+            <td mat-cell *matCellDef="let row">{{row['Apn-ambr'].uplink}}</td>
         </ng-container>
 
         <!-- Downlink Column -->
         <ng-container matColumnDef="downlink">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Downlink</th>
-            <td mat-cell *matCellDef="let row">{{row.AetherV100targetQosProfileQosProfileApnAmbr.downlink}}</td>
+            <td mat-cell *matCellDef="let row">{{row['Apn-ambr'].downlink}}</td>
+        </ng-container>
+
+        <!-- Qci Column -->
+        <ng-container matColumnDef="qci">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>QCI</th>
+            <td mat-cell *matCellDef="let row">{{row.qci}}</td>
+        </ng-container>
+
+        <!-- Priority Column -->
+        <ng-container matColumnDef="priority">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Priority</th>
+            <td mat-cell *matCellDef="let row">{{row.Arp.priority}}</td>
+        </ng-container>
+
+        <!-- PreEmption Capability Column -->
+        <ng-container matColumnDef="capability">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Capability</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-icon class="profile_icon" *ngIf="row.Arp['preemption-capability']">done</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- PreEmption Vulnerability Column -->
+        <ng-container matColumnDef="vulnerability">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Vulnerability</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-icon class="profile_icon" *ngIf="row.Arp['preemption-vulnerability']">done</mat-icon>
+            </td>
         </ng-container>
 
         <!-- Edit Column -->
@@ -49,7 +83,7 @@
         </ng-container>
 
         <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectedUpProfile = row"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectedQosProfile = row"></tr>
     </table>
 
     <mat-paginator #paginator

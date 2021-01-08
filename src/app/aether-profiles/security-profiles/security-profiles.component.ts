@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
@@ -7,42 +7,39 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
+import {SecurityProfileSecurityProfile} from '../../../openapi3/aether/2.0.0/models/security-profile-security-profile';
 import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
+import {SecurityProfilesDatasource} from './security-profiles-datasource';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {ApnProfileApnProfile as AetherV100TargetApnProfileApnProfile} from '../../../openapi3/aether/2.0.0/models';
-import {ApnProfilesDatasource} from './apn-profiles-datasource';
 
 @Component({
-    selector: 'aether-apn-profiles',
-    templateUrl: './apn-profiles.component.html',
+    selector: 'aether-security-profiles',
+    templateUrl: './security-profiles.component.html',
     styleUrls: ['../../common-profiles.component.scss']
 })
-export class ApnProfilesComponent implements AfterViewInit, OnInit {
-
+export class SecurityProfilesComponent implements AfterViewInit, OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<AetherV100TargetApnProfileApnProfile>;
-    dataSource: ApnProfilesDatasource;
-    selectedApnProfile: AetherV100TargetApnProfileApnProfile;
+    @ViewChild(MatTable) table: MatTable<SecurityProfileSecurityProfile>;
+    dataSource: SecurityProfilesDatasource;
+    selectedUpProfile: SecurityProfileSecurityProfile;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
         'id',
         // 'name',
         'description',
-        'apn-name',
-        'dns-primary',
-        'dns-secondary',
-        'mtu',
-        'gx-enabled',
+        'key',
+        'opc',
+        'sqn',
         'edit',
         'delete'
     ];
 
     constructor(
-        private aetherV100TargetService: AetherV200TargetService,
+        private aetherV200TargetService: AetherV200TargetService,
         private snackBar: MatSnackBar,
         private activatedRoute: ActivatedRoute
     ) {
@@ -56,14 +53,14 @@ export class ApnProfilesComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.dataSource = new ApnProfilesDatasource(this.aetherV100TargetService, AETHER_TARGETS);
+        this.dataSource = new SecurityProfilesDatasource(this.aetherV200TargetService, AETHER_TARGETS);
     }
 
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadApnProfileApnProfile();
+        this.dataSource.loadSecurityProfileSecurityProfile();
     }
 
     openSnackBar(message: string, durationMs: number, action: string): void {
@@ -71,5 +68,4 @@ export class ApnProfilesComponent implements AfterViewInit, OnInit {
             duration: durationMs,
         });
     }
-
 }

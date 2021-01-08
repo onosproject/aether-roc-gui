@@ -16,6 +16,15 @@ const aetherRoutes: Routes = [
         loadChildren: () =>  import('./aether-subscriber/aether-subscriber.module').then(m => m.AetherSubscriberModule)
     },
     {
+        path: 'enterprise',
+        loadChildren: () =>  import('./aether-enterprise/aether-enterprise.module').then(m => m.AetherEnterpriseModule)
+    },
+    {
+        path: 'connectivity',
+        loadChildren: () => import('./aether-connectivity-service/aether-connectivity-service.module').
+            then(m => m.AetherConnectivityServiceModule)
+    },
+    {
         path: 'profiles',
         loadChildren: () =>  import('./aether-profiles/aether-profiles.module').then(m => m.AetherProfilesModule)
     },

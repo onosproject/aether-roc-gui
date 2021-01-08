@@ -6,7 +6,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-    AetherV100TargetService,
+    AetherV200TargetService,
     AetherV100TargetSubscriberUeueidService as AetherV100TargetSubscriberService,
     ApiService
 } from '../../../openapi3/aether/1.0.0/services';
@@ -69,7 +69,7 @@ export class SubscriberEditComponent implements OnInit {
 
     constructor(
         private aetherV100TargetSubscriberService: AetherV100TargetSubscriberService,
-        private aetherV100TargetService: AetherV100TargetService,
+        private aetherV100TargetService: AetherV200TargetService,
         private aetherApiService: ApiService,
         private route: ActivatedRoute,
         private router: Router,

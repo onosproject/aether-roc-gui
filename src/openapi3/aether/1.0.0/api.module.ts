@@ -5,7 +5,7 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
-import { AetherV100TargetService } from './services/aether-v-100-target.service';
+import { AetherV200TargetService } from './services/aether-v-100-target.service';
 import { ApiService } from './services/api.service';
 import { AetherV100TargetAccessProfileAccessProfileidService } from './services/aether-v-100-target-access-profile-access-profileid.service';
 import { AetherV100TargetApnProfileApnProfileidService } from './services/aether-v-100-target-apn-profile-apn-profileid.service';
@@ -22,7 +22,7 @@ import { AetherV100TargetUpProfileUpProfileidService } from './services/aether-v
   exports: [],
   declarations: [],
   providers: [
-    AetherV100TargetService,
+    AetherV200TargetService,
     ApiService,
     AetherV100TargetAccessProfileAccessProfileidService,
     AetherV100TargetApnProfileApnProfileidService,
@@ -46,7 +46,7 @@ export class ApiModule {
     }
   }
 
-  constructor( 
+  constructor(
     @Optional() @SkipSelf() parentModule: ApiModule,
     @Optional() http: HttpClient
   ) {

@@ -1,20 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-
 import {DataSource} from '@angular/cdk/collections';
+import {SecurityProfileSecurityProfile} from '../../../openapi3/aether/2.0.0/models/security-profile-security-profile';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
-import {AccessProfileAccessProfile as AetherV200TargetAccessProfileAccessProfile} from '../../../openapi3/aether/2.0.0/models/access-profile-access-profile';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {compare} from '../util';
 
-export class AccessProfilesDatasource extends DataSource<AetherV200TargetAccessProfileAccessProfile> {
-    data: Array<AetherV200TargetAccessProfileAccessProfile> = [];
+export class SecurityProfilesDatasource extends DataSource<SecurityProfileSecurityProfile> {
+    data: Array<SecurityProfileSecurityProfile> = [];
     paginator: MatPaginator;
     sort: MatSort;
 
@@ -30,7 +29,7 @@ export class AccessProfilesDatasource extends DataSource<AetherV200TargetAccessP
      * the returned stream emits new items.
      * @returns A stream of the items to be rendered.
      */
-    connect(): Observable<AetherV200TargetAccessProfileAccessProfile[]> {
+    connect(): Observable<SecurityProfileSecurityProfile[]> {
         // Combine everything that affects the rendered data into one update
         // stream for the data-table to consume.
         const dataMutations = [
@@ -51,7 +50,7 @@ export class AccessProfilesDatasource extends DataSource<AetherV200TargetAccessP
     disconnect(): void {
     }
 
-    private getPagedData(data: AetherV200TargetAccessProfileAccessProfile[]): AetherV200TargetAccessProfileAccessProfile[] {
+    private getPagedData(data: SecurityProfileSecurityProfile[]): SecurityProfileSecurityProfile[] {
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
         return data.splice(startIndex, this.paginator.pageSize);
     }
@@ -60,7 +59,7 @@ export class AccessProfilesDatasource extends DataSource<AetherV200TargetAccessP
      * Sort the data (client-side). If you're using server-side sorting,
      * this would be replaced by requesting the appropriate data from the server.
      */
-    private getSortedData(data: AetherV200TargetAccessProfileAccessProfile[]): AetherV200TargetAccessProfileAccessProfile[] {
+    private getSortedData(data: SecurityProfileSecurityProfile[]): SecurityProfileSecurityProfile[] {
         if (!this.sort.active || this.sort.direction === '') {
             return data;
         }
@@ -78,22 +77,21 @@ export class AccessProfilesDatasource extends DataSource<AetherV200TargetAccessP
         });
     }
 
-    loadAccessProfileAccessProfile(): void {
-        this.aetherV200TargetService.getAccessProfile({
+    loadSecurityProfileSecurityProfile(): void {
+        this.aetherV200TargetService.getSecurityProfile({
             target: this.targets[0]
         })
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value['Access-profile'];
-                        console.log('Got ', value['Access-profile'].length,
-                            ' AccessProfiles from ', this.targets);
+                        this.data = value['Security-profile'];
+                        console.log('Got ', value['Security-profile'].length, ' SecurityProfiles from ', this.targets);
                     } else {
-                        console.log('No AccessProfiles found');
+                        console.log('No SecurityProfiles found');
                     }
                 }),
                 error => {
-                    console.warn('Error getting AccessProfiles for ', this.targets, error);
+                    console.warn('Error getting SecurityProfiles for ', this.targets, error);
                 },
                 () => {
                     // table.refreshRows() does not seem to work - using this trick instead

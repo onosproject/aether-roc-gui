@@ -19,7 +19,7 @@ import { AetherV100TargetUpProfile } from '../models/aether-v-100-target-up-prof
 @Injectable({
   providedIn: 'root',
 })
-export class AetherV100TargetService extends BaseService {
+export class AetherV200TargetService extends BaseService {
   constructor(
     config: ApiConfiguration,
     http: HttpClient
@@ -50,7 +50,7 @@ export class AetherV100TargetService extends BaseService {
     target: any;
   }): Observable<StrictHttpResponse<AetherV100TargetAccessProfile>> {
 
-    const rb = new RequestBuilder(this.rootUrl, AetherV100TargetService.GetAetherV100TargetAccessProfilePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, AetherV200TargetService.GetAetherV100TargetAccessProfilePath, 'get');
     if (params) {
       rb.path('target', params.target, {});
     }
@@ -112,7 +112,7 @@ export class AetherV100TargetService extends BaseService {
     target: any;
   }): Observable<StrictHttpResponse<AetherV100TargetApnProfile>> {
 
-    const rb = new RequestBuilder(this.rootUrl, AetherV100TargetService.GetAetherV100TargetApnProfilePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, AetherV200TargetService.GetAetherV100TargetApnProfilePath, 'get');
     if (params) {
       rb.path('target', params.target, {});
     }
@@ -174,7 +174,7 @@ export class AetherV100TargetService extends BaseService {
     target: any;
   }): Observable<StrictHttpResponse<AetherV100TargetQosProfile>> {
 
-    const rb = new RequestBuilder(this.rootUrl, AetherV100TargetService.GetAetherV100TargetQosProfilePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, AetherV200TargetService.GetAetherV100TargetQosProfilePath, 'get');
     if (params) {
       rb.path('target', params.target, {});
     }
@@ -236,7 +236,7 @@ export class AetherV100TargetService extends BaseService {
     target: any;
   }): Observable<StrictHttpResponse<AetherV100TargetSubscriber>> {
 
-    const rb = new RequestBuilder(this.rootUrl, AetherV100TargetService.GetAetherV100TargetSubscriberPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, AetherV200TargetService.GetAetherV100TargetSubscriberPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
     }
@@ -298,7 +298,7 @@ export class AetherV100TargetService extends BaseService {
     target: any;
   }): Observable<StrictHttpResponse<AetherV100TargetUpProfile>> {
 
-    const rb = new RequestBuilder(this.rootUrl, AetherV100TargetService.GetAetherV100TargetUpProfilePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, AetherV200TargetService.GetAetherV100TargetUpProfilePath, 'get');
     if (params) {
       rb.path('target', params.target, {});
     }
