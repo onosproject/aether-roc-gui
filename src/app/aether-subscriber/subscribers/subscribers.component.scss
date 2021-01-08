@@ -3,20 +3,12 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-.full-width-table {
-  width: 100%;
-}
-.subscribers-toolbar {
-    background: #424242;
-    height: 32px;
-}
-.subscribers-header {
-    height: 22px;
-}
-.subscriber_icon {
-    cursor: pointer;
+.profiles-column {
+    width: 25%;
+    padding-left: 4px;
 }
 
-.toolbar-spacer {
-    flex: 1 1 auto;
+.imsi-column {
+    width: 15%;
+    padding-left: 4px;
 }

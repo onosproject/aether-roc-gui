@@ -30,7 +30,7 @@
                     <mat-hint>Requested APN</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row" formGroupName="AetherV100targetSubscriberUeueidServingPlmn">
+            <div class="row" formGroupName="ServingPlmn">
                 <mat-label>Serving PLMN:</mat-label>
                 <mat-form-field class="field-margin">
                     <input matInput type="number" formControlName="mcc">
@@ -45,7 +45,7 @@
                     <mat-hint>TAC</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row" formGroupName="AetherV100targetSubscriberUeueidProfiles">
+            <div class="row" formGroupName="Profiles">
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="apn-profile">
                         <mat-option *ngFor="let apnp of apnProfiles"
@@ -54,7 +54,7 @@
                     <mat-hint>APN Profile</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row" formGroupName="AetherV100targetSubscriberUeueidProfiles">
+            <div class="row" formGroupName="Profiles">
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="qos-profile">
                         <mat-option *ngFor="let qosp of qosProfiles"
@@ -63,7 +63,7 @@
                     <mat-hint>QOS Profile</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row"formGroupName="AetherV100targetSubscriberUeueidProfiles">
+            <div class="row"formGroupName="Profiles">
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="up-profile">
                         <mat-option *ngFor="let upp of upProfiles"
@@ -78,9 +78,9 @@
                     really delete an entry-->
             <button mat-raised-button color="primary" routerLink="/subscribers">Edit</button>
             <div class="row"
-                 *ngFor="let ap of data?.AetherV100targetSubscriberUeueidProfiles.ListAetherV100targetSubscriberUeueidProfilesAccessProfile">
+                 *ngFor="let ap of data?.Profiles['Access-profile']">
                 <mat-form-field class="half-width subscriber-section">
-                    <mat-select [placeholder]="ap['access-profile']">
+                    <mat-select [placeholder]="ap['Access-profile']">
                         <mat-option *ngFor="let app of accessProfiles"
                                     [value]="app.id">{{app.id}} {{app.description}}</mat-option>
                     </mat-select>

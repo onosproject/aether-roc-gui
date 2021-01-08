@@ -29,7 +29,6 @@ export class EnterpriseComponent implements AfterViewInit, OnInit {
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
         'id',
-        'name',
         'description',
         'connectivity',
         'edit',
