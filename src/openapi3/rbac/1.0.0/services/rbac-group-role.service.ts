@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -53,17 +54,15 @@ export class RbacGroupRoleService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-
   }): Observable<StrictHttpResponse<RbacGroupRole>> {
 
     const rb = new RequestBuilder(this.rootUrl, RbacGroupRoleService.GetRbacGroupRolePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('groupid', params.groupid, {});
       rb.path('roleid', params.roleid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -101,7 +100,6 @@ export class RbacGroupRoleService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-
   }): Observable<RbacGroupRole> {
 
     return this.getRbacGroupRole$Response(params).pipe(

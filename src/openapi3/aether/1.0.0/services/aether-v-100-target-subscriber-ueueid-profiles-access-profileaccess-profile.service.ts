@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -53,17 +54,15 @@ export class AetherV100TargetSubscriberUeueidProfilesAccessProfileaccessProfileS
      * key {access-profile}
      */
     'access-profile': any;
-
   }): Observable<StrictHttpResponse<AetherV100TargetSubscriberUeueidProfilesAccessProfile>> {
 
     const rb = new RequestBuilder(this.rootUrl, AetherV100TargetSubscriberUeueidProfilesAccessProfileaccessProfileService.GetAetherV100TargetSubscriberUeueidProfilesAccessProfilePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
       rb.path('access-profile', params['access-profile'], {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -101,7 +100,6 @@ export class AetherV100TargetSubscriberUeueidProfilesAccessProfileaccessProfileS
      * key {access-profile}
      */
     'access-profile': any;
-
   }): Observable<AetherV100TargetSubscriberUeueidProfilesAccessProfile> {
 
     return this.getAetherV100TargetSubscriberUeueidProfilesAccessProfile$Response(params).pipe(

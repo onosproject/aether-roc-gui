@@ -11,6 +11,7 @@ export { EnterpriseEnterpriseConnectivityService } from './models/enterprise-ent
 export { QosProfile } from './models/qos-profile';
 export { QosProfileQosProfile } from './models/qos-profile-qos-profile';
 export { QosProfileQosProfileApnAmbr } from './models/qos-profile-qos-profile-apn-ambr';
+export { QosProfileQosProfileArp } from './models/qos-profile-qos-profile-arp';
 export { SecurityProfile } from './models/security-profile';
 export { SecurityProfileSecurityProfile } from './models/security-profile-security-profile';
 export { Subscriber } from './models/subscriber';

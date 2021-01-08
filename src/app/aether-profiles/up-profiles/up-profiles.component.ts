@@ -7,8 +7,8 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {AetherV100TargetUpProfileUpProfile} from '../../../openapi3/aether/1.0.0/models/aether-v-100-target-up-profile-up-profile';
-import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services/aether-v-100-target.service';
+import {UpProfileUpProfile as AetherV200TargetUpProfileUpProfile} from '../../../openapi3/aether/2.0.0/models/up-profile-up-profile';
+import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
 import {AETHER_TARGETS} from '../../../environments/environment';
@@ -17,18 +17,19 @@ import {UpProfilesDatasource} from './up-profiles-datasource';
 @Component({
     selector: 'aether-up-profiles',
     templateUrl: './up-profiles.component.html',
-    styleUrls: ['../common-profiles.component.scss']
+    styleUrls: ['../../common-profiles.component.scss']
 })
 export class UpProfilesComponent implements AfterViewInit, OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<AetherV100TargetUpProfileUpProfile>;
+    @ViewChild(MatTable) table: MatTable<AetherV200TargetUpProfileUpProfile>;
     dataSource: UpProfilesDatasource;
-    selectedUpProfile: AetherV100TargetUpProfileUpProfile;
+    selectedUpProfile: AetherV200TargetUpProfileUpProfile;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
         'id',
+        // 'name',
         'description',
         'userplane',
         'accesscontrol',
@@ -37,7 +38,7 @@ export class UpProfilesComponent implements AfterViewInit, OnInit {
     ];
 
     constructor(
-        private aetherV100TargetService: AetherV100TargetService,
+        private aetherV200TargetService: AetherV200TargetService,
         private snackBar: MatSnackBar,
         private activatedRoute: ActivatedRoute
     ) {
@@ -51,7 +52,7 @@ export class UpProfilesComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.dataSource = new UpProfilesDatasource(this.aetherV100TargetService, AETHER_TARGETS);
+        this.dataSource = new UpProfilesDatasource(this.aetherV200TargetService, AETHER_TARGETS);
     }
 
     ngAfterViewInit(): void {

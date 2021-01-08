@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -47,16 +48,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: Rbac
+    body?: Rbac
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostRbacPath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -84,7 +84,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: Rbac
+    body?: Rbac
   }): Observable<void> {
 
     return this.postRbac$Response(params).pipe(
@@ -113,15 +113,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteRbacPath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -149,7 +147,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteRbac$Response(params).pipe(
@@ -183,17 +180,16 @@ export class ApiService extends BaseService {
      * key {groupid}
      */
     groupid: any;
-      body?: RbacGroup
+    body?: RbacGroup
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostRbacGroupPath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('groupid', params.groupid, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -226,7 +222,7 @@ export class ApiService extends BaseService {
      * key {groupid}
      */
     groupid: any;
-      body?: RbacGroup
+    body?: RbacGroup
   }): Observable<void> {
 
     return this.postRbacGroup$Response(params).pipe(
@@ -260,16 +256,14 @@ export class ApiService extends BaseService {
      * key {groupid}
      */
     groupid: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteRbacGroupPath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('groupid', params.groupid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -302,7 +296,6 @@ export class ApiService extends BaseService {
      * key {groupid}
      */
     groupid: any;
-
   }): Observable<void> {
 
     return this.deleteRbacGroup$Response(params).pipe(
@@ -341,18 +334,17 @@ export class ApiService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-      body?: RbacGroupRole
+    body?: RbacGroupRole
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostRbacGroupRolePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('groupid', params.groupid, {});
       rb.path('roleid', params.roleid, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -390,7 +382,7 @@ export class ApiService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-      body?: RbacGroupRole
+    body?: RbacGroupRole
   }): Observable<void> {
 
     return this.postRbacGroupRole$Response(params).pipe(
@@ -429,17 +421,15 @@ export class ApiService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteRbacGroupRolePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('groupid', params.groupid, {});
       rb.path('roleid', params.roleid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -477,7 +467,6 @@ export class ApiService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-
   }): Observable<void> {
 
     return this.deleteRbacGroupRole$Response(params).pipe(
@@ -511,17 +500,16 @@ export class ApiService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-      body?: RbacRole
+    body?: RbacRole
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostRbacRolePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('roleid', params.roleid, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -554,7 +542,7 @@ export class ApiService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-      body?: RbacRole
+    body?: RbacRole
   }): Observable<void> {
 
     return this.postRbacRole$Response(params).pipe(
@@ -588,16 +576,14 @@ export class ApiService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteRbacRolePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('roleid', params.roleid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -630,7 +616,6 @@ export class ApiService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-
   }): Observable<void> {
 
     return this.deleteRbacRole$Response(params).pipe(
@@ -664,17 +649,16 @@ export class ApiService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-      body?: RbacRolePermission
+    body?: RbacRolePermission
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostRbacRolePermissionPath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('roleid', params.roleid, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -707,7 +691,7 @@ export class ApiService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-      body?: RbacRolePermission
+    body?: RbacRolePermission
   }): Observable<void> {
 
     return this.postRbacRolePermission$Response(params).pipe(
@@ -741,16 +725,14 @@ export class ApiService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteRbacRolePermissionPath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('roleid', params.roleid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -783,7 +765,6 @@ export class ApiService extends BaseService {
      * key {roleid}
      */
     roleid: any;
-
   }): Observable<void> {
 
     return this.deleteRbacRolePermission$Response(params).pipe(

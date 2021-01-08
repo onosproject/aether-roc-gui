@@ -15,7 +15,7 @@ import {MatTable} from '@angular/material/table';
 import {SubscriberUeDataSource} from './subscriber-ue-datasource';
 import {AetherV100TargetSubscriberUe} from '../../../openapi3/aether/1.0.0/models';
 import {
-    AetherV100TargetService,
+    AetherV200TargetService,
     ApiService
 } from '../../../openapi3/aether/1.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
@@ -44,7 +44,7 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
     ];
 
     constructor(
-        private aetherV100TargetService: AetherV100TargetService,
+        private aetherV100TargetService: AetherV200TargetService,
         private aetherApiService: ApiService,
         private snackBar: MatSnackBar,
         private activatedRoute: ActivatedRoute

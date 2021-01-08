@@ -24,6 +24,14 @@
             <mat-icon>smartphone</mat-icon>
             <span routerLink="/subscribers">Subscribers</span>
         </button>
+        <button mat-menu-item>
+            <mat-icon>apartment</mat-icon>
+            <span routerLink="/enterprise">Enterprise</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>wifi_tethering</mat-icon>
+            <span routerLink="/connectivity">Connectivity</span>
+        </button>
         <button mat-menu-item [matMenuTriggerFor]="profiles">
             <mat-icon>groups</mat-icon>
             <span routerLink="/rbac/groups">Profiles</span>
@@ -69,6 +77,10 @@
         <button mat-menu-item>
             <mat-icon>ballot</mat-icon>
             <span routerLink="/profiles/upprofiles">User Plane</span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>lock</mat-icon>
+            <span routerLink="/profiles/secprofiles">Security</span>
         </button>
     </mat-menu>
 </div>

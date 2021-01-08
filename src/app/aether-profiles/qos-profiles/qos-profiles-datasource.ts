@@ -7,10 +7,10 @@
 import {DataSource} from '@angular/cdk/collections';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services/aether-v-100-target.service';
+import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {AetherV100TargetQosProfileQosProfile} from '../../../openapi3/aether/1.0.0/models';
+import {QosProfileQosProfile as AetherV100TargetQosProfileQosProfile} from '../../../openapi3/aether/2.0.0/models';
 import {compare} from '../util';
 
 export class QosProfilesDatasource extends DataSource<AetherV100TargetQosProfileQosProfile> {
@@ -19,7 +19,7 @@ export class QosProfilesDatasource extends DataSource<AetherV100TargetQosProfile
     sort: MatSort;
 
     constructor(
-        private aetherV100TargetService: AetherV100TargetService,
+        private aetherV100TargetService: AetherV200TargetService,
         private targets: string[],
     ) {
         super();
@@ -80,14 +80,14 @@ export class QosProfilesDatasource extends DataSource<AetherV100TargetQosProfile
     }
 
     loadQosProfileQosProfile(): void {
-        this.aetherV100TargetService.getAetherV100TargetQosProfile({
+        this.aetherV100TargetService.getQosProfile({
             target: this.targets[0]
         })
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value.ListAetherV100targetQosProfileQosProfile;
-                        console.log('Got ', value.ListAetherV100targetQosProfileQosProfile.length,
+                        this.data = value['Qos-profile'];
+                        console.log('Got ', value['Qos-profile'].length,
                             ' QosProfiles from ', this.targets);
                     } else {
                         console.log('No QosProfiles found');

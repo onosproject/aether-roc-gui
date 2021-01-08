@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -48,16 +49,14 @@ export class RbacGroupService extends BaseService {
      * key {groupid}
      */
     groupid: any;
-
   }): Observable<StrictHttpResponse<RbacGroup>> {
 
     const rb = new RequestBuilder(this.rootUrl, RbacGroupService.GetRbacGroupPath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('groupid', params.groupid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -90,7 +89,6 @@ export class RbacGroupService extends BaseService {
      * key {groupid}
      */
     groupid: any;
-
   }): Observable<RbacGroup> {
 
     return this.getRbacGroup$Response(params).pipe(

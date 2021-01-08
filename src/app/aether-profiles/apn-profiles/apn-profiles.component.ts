@@ -7,17 +7,17 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services/aether-v-100-target.service';
+import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {AetherV100TargetApnProfileApnProfile} from '../../../openapi3/aether/1.0.0/models';
+import {ApnProfileApnProfile as AetherV100TargetApnProfileApnProfile} from '../../../openapi3/aether/2.0.0/models';
 import {ApnProfilesDatasource} from './apn-profiles-datasource';
 
 @Component({
     selector: 'aether-apn-profiles',
     templateUrl: './apn-profiles.component.html',
-    styleUrls: ['../common-profiles.component.scss']
+    styleUrls: ['../../common-profiles.component.scss']
 })
 export class ApnProfilesComponent implements AfterViewInit, OnInit {
 
@@ -30,6 +30,7 @@ export class ApnProfilesComponent implements AfterViewInit, OnInit {
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
         'id',
+        // 'name',
         'description',
         'apn-name',
         'dns-primary',
@@ -41,7 +42,7 @@ export class ApnProfilesComponent implements AfterViewInit, OnInit {
     ];
 
     constructor(
-        private aetherV100TargetService: AetherV100TargetService,
+        private aetherV100TargetService: AetherV200TargetService,
         private snackBar: MatSnackBar,
         private activatedRoute: ActivatedRoute
     ) {

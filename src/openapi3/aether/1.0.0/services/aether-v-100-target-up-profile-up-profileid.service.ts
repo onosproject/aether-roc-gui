@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -48,16 +49,14 @@ export class AetherV100TargetUpProfileUpProfileidService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<AetherV100TargetUpProfileUpProfile>> {
 
     const rb = new RequestBuilder(this.rootUrl, AetherV100TargetUpProfileUpProfileidService.GetAetherV100TargetUpProfileUpProfilePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -90,7 +89,6 @@ export class AetherV100TargetUpProfileUpProfileidService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<AetherV100TargetUpProfileUpProfile> {
 
     return this.getAetherV100TargetUpProfileUpProfile$Response(params).pipe(

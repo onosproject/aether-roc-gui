@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -43,15 +44,13 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<Rbac>> {
 
     const rb = new RequestBuilder(this.rootUrl, Service.GetRbacPath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -79,7 +78,6 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<Rbac> {
 
     return this.getRbac$Response(params).pipe(

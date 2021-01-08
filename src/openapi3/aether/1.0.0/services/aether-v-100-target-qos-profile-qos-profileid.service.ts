@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -49,16 +50,14 @@ export class AetherV100TargetQosProfileQosProfileidService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<AetherV100TargetQosProfileQosProfile>> {
 
     const rb = new RequestBuilder(this.rootUrl, AetherV100TargetQosProfileQosProfileidService.GetAetherV100TargetQosProfileQosProfilePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -91,7 +90,6 @@ export class AetherV100TargetQosProfileQosProfileidService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<AetherV100TargetQosProfileQosProfile> {
 
     return this.getAetherV100TargetQosProfileQosProfile$Response(params).pipe(
@@ -125,16 +123,14 @@ export class AetherV100TargetQosProfileQosProfileidService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<AetherV100TargetQosProfileQosProfileidApnAmbr>> {
 
     const rb = new RequestBuilder(this.rootUrl, AetherV100TargetQosProfileQosProfileidService.GetAetherV100TargetQosProfileQosProfileidApnAmbrPath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -167,7 +163,6 @@ export class AetherV100TargetQosProfileQosProfileidService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<AetherV100TargetQosProfileQosProfileidApnAmbr> {
 
     return this.getAetherV100TargetQosProfileQosProfileidApnAmbr$Response(params).pipe(

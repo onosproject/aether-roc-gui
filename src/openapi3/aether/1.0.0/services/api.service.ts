@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -56,16 +57,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: AetherV100TargetAccessProfile
+    body?: AetherV100TargetAccessProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetAccessProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -93,7 +93,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: AetherV100TargetAccessProfile
+    body?: AetherV100TargetAccessProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetAccessProfile$Response(params).pipe(
@@ -122,15 +122,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetAccessProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -158,7 +156,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetAccessProfile$Response(params).pipe(
@@ -192,17 +189,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: AetherV100TargetAccessProfileAccessProfile
+    body?: AetherV100TargetAccessProfileAccessProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetAccessProfileAccessProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -235,7 +231,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: AetherV100TargetAccessProfileAccessProfile
+    body?: AetherV100TargetAccessProfileAccessProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetAccessProfileAccessProfile$Response(params).pipe(
@@ -269,16 +265,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetAccessProfileAccessProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -311,7 +305,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetAccessProfileAccessProfile$Response(params).pipe(
@@ -340,16 +333,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: AetherV100TargetApnProfile
+    body?: AetherV100TargetApnProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetApnProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -377,7 +369,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: AetherV100TargetApnProfile
+    body?: AetherV100TargetApnProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetApnProfile$Response(params).pipe(
@@ -406,15 +398,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetApnProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -442,7 +432,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetApnProfile$Response(params).pipe(
@@ -476,17 +465,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: AetherV100TargetApnProfileApnProfile
+    body?: AetherV100TargetApnProfileApnProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetApnProfileApnProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -519,7 +507,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: AetherV100TargetApnProfileApnProfile
+    body?: AetherV100TargetApnProfileApnProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetApnProfileApnProfile$Response(params).pipe(
@@ -553,16 +541,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetApnProfileApnProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -595,7 +581,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetApnProfileApnProfile$Response(params).pipe(
@@ -624,16 +609,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: AetherV100TargetQosProfile
+    body?: AetherV100TargetQosProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetQosProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -661,7 +645,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: AetherV100TargetQosProfile
+    body?: AetherV100TargetQosProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetQosProfile$Response(params).pipe(
@@ -690,15 +674,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetQosProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -726,7 +708,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetQosProfile$Response(params).pipe(
@@ -760,17 +741,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: AetherV100TargetQosProfileQosProfile
+    body?: AetherV100TargetQosProfileQosProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetQosProfileQosProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -803,7 +783,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: AetherV100TargetQosProfileQosProfile
+    body?: AetherV100TargetQosProfileQosProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetQosProfileQosProfile$Response(params).pipe(
@@ -837,16 +817,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetQosProfileQosProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -879,7 +857,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetQosProfileQosProfile$Response(params).pipe(
@@ -913,17 +890,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: AetherV100TargetQosProfileQosProfileidApnAmbr
+    body?: AetherV100TargetQosProfileQosProfileidApnAmbr
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetQosProfileQosProfileidApnAmbrPath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -956,7 +932,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: AetherV100TargetQosProfileQosProfileidApnAmbr
+    body?: AetherV100TargetQosProfileQosProfileidApnAmbr
   }): Observable<void> {
 
     return this.postAetherV100TargetQosProfileQosProfileidApnAmbr$Response(params).pipe(
@@ -990,16 +966,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetQosProfileQosProfileidApnAmbrPath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1032,7 +1006,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetQosProfileQosProfileidApnAmbr$Response(params).pipe(
@@ -1061,16 +1034,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: AetherV100TargetSubscriber
+    body?: AetherV100TargetSubscriber
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberPath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1098,7 +1070,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: AetherV100TargetSubscriber
+    body?: AetherV100TargetSubscriber
   }): Observable<void> {
 
     return this.postAetherV100TargetSubscriber$Response(params).pipe(
@@ -1127,15 +1099,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetSubscriberPath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1163,7 +1133,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetSubscriber$Response(params).pipe(
@@ -1197,17 +1166,16 @@ export class ApiService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-      body?: AetherV100TargetSubscriberUe
+    body?: AetherV100TargetSubscriberUe
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1240,7 +1208,7 @@ export class ApiService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-      body?: AetherV100TargetSubscriberUe
+    body?: AetherV100TargetSubscriberUe
   }): Observable<void> {
 
     return this.postAetherV100TargetSubscriberUe$Response(params).pipe(
@@ -1274,16 +1242,14 @@ export class ApiService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetSubscriberUePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1316,7 +1282,6 @@ export class ApiService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetSubscriberUe$Response(params).pipe(
@@ -1350,17 +1315,16 @@ export class ApiService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-      body?: AetherV100TargetSubscriberUeueidProfiles
+    body?: AetherV100TargetSubscriberUeueidProfiles
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUeueidProfilesPath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1393,7 +1357,7 @@ export class ApiService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-      body?: AetherV100TargetSubscriberUeueidProfiles
+    body?: AetherV100TargetSubscriberUeueidProfiles
   }): Observable<void> {
 
     return this.postAetherV100TargetSubscriberUeueidProfiles$Response(params).pipe(
@@ -1427,16 +1391,14 @@ export class ApiService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetSubscriberUeueidProfilesPath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1469,7 +1431,6 @@ export class ApiService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetSubscriberUeueidProfiles$Response(params).pipe(
@@ -1508,18 +1469,17 @@ export class ApiService extends BaseService {
      * key {access-profile}
      */
     'access-profile': any;
-      body?: AetherV100TargetSubscriberUeueidProfilesAccessProfile
+    body?: AetherV100TargetSubscriberUeueidProfilesAccessProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUeueidProfilesAccessProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
       rb.path('access-profile', params['access-profile'], {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1557,7 +1517,7 @@ export class ApiService extends BaseService {
      * key {access-profile}
      */
     'access-profile': any;
-      body?: AetherV100TargetSubscriberUeueidProfilesAccessProfile
+    body?: AetherV100TargetSubscriberUeueidProfilesAccessProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetSubscriberUeueidProfilesAccessProfile$Response(params).pipe(
@@ -1596,17 +1556,15 @@ export class ApiService extends BaseService {
      * key {access-profile}
      */
     'access-profile': any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetSubscriberUeueidProfilesAccessProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
       rb.path('access-profile', params['access-profile'], {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1644,7 +1602,6 @@ export class ApiService extends BaseService {
      * key {access-profile}
      */
     'access-profile': any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetSubscriberUeueidProfilesAccessProfile$Response(params).pipe(
@@ -1678,17 +1635,16 @@ export class ApiService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-      body?: AetherV100TargetSubscriberUeueidServingPlmn
+    body?: AetherV100TargetSubscriberUeueidServingPlmn
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetSubscriberUeueidServingPlmnPath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1721,7 +1677,7 @@ export class ApiService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-      body?: AetherV100TargetSubscriberUeueidServingPlmn
+    body?: AetherV100TargetSubscriberUeueidServingPlmn
   }): Observable<void> {
 
     return this.postAetherV100TargetSubscriberUeueidServingPlmn$Response(params).pipe(
@@ -1755,16 +1711,14 @@ export class ApiService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetSubscriberUeueidServingPlmnPath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('ueid', params.ueid, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1797,7 +1751,6 @@ export class ApiService extends BaseService {
      * key {ueid}
      */
     ueid: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetSubscriberUeueidServingPlmn$Response(params).pipe(
@@ -1826,16 +1779,15 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: AetherV100TargetUpProfile
+    body?: AetherV100TargetUpProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetUpProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1863,7 +1815,7 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-      body?: AetherV100TargetUpProfile
+    body?: AetherV100TargetUpProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetUpProfile$Response(params).pipe(
@@ -1892,15 +1844,13 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetUpProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -1928,7 +1878,6 @@ export class ApiService extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetUpProfile$Response(params).pipe(
@@ -1962,17 +1911,16 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: AetherV100TargetUpProfileUpProfile
+    body?: AetherV100TargetUpProfileUpProfile
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostAetherV100TargetUpProfileUpProfilePath, 'post');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
       rb.body(params.body, 'application/json');
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2005,7 +1953,7 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-      body?: AetherV100TargetUpProfileUpProfile
+    body?: AetherV100TargetUpProfileUpProfile
   }): Observable<void> {
 
     return this.postAetherV100TargetUpProfileUpProfile$Response(params).pipe(
@@ -2039,16 +1987,14 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteAetherV100TargetUpProfileUpProfilePath, 'delete');
     if (params) {
-
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'text',
       accept: '*/*'
@@ -2081,7 +2027,6 @@ export class ApiService extends BaseService {
      * key {id}
      */
     id: any;
-
   }): Observable<void> {
 
     return this.deleteAetherV100TargetUpProfileUpProfile$Response(params).pipe(

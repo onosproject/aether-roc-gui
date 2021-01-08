@@ -1,5 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
+/* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
@@ -50,15 +51,13 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<AccessProfile>> {
 
     const rb = new RequestBuilder(this.rootUrl, Service.GetAccessProfilePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -86,7 +85,6 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<AccessProfile> {
 
     return this.getAccessProfile$Response(params).pipe(
@@ -115,15 +113,13 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<ApnProfile>> {
 
     const rb = new RequestBuilder(this.rootUrl, Service.GetApnProfilePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -151,7 +147,6 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<ApnProfile> {
 
     return this.getApnProfile$Response(params).pipe(
@@ -180,15 +175,13 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<ConnectivityService>> {
 
     const rb = new RequestBuilder(this.rootUrl, Service.GetConnectivityServicePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -216,7 +209,6 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<ConnectivityService> {
 
     return this.getConnectivityService$Response(params).pipe(
@@ -245,15 +237,13 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<Enterprise>> {
 
     const rb = new RequestBuilder(this.rootUrl, Service.GetEnterprisePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -281,7 +271,6 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<Enterprise> {
 
     return this.getEnterprise$Response(params).pipe(
@@ -310,15 +299,13 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<QosProfile>> {
 
     const rb = new RequestBuilder(this.rootUrl, Service.GetQosProfilePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -346,7 +333,6 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<QosProfile> {
 
     return this.getQosProfile$Response(params).pipe(
@@ -375,15 +361,13 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<SecurityProfile>> {
 
     const rb = new RequestBuilder(this.rootUrl, Service.GetSecurityProfilePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -411,7 +395,6 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<SecurityProfile> {
 
     return this.getSecurityProfile$Response(params).pipe(
@@ -440,15 +423,13 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<Subscriber>> {
 
     const rb = new RequestBuilder(this.rootUrl, Service.GetSubscriberPath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -476,7 +457,6 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<Subscriber> {
 
     return this.getSubscriber$Response(params).pipe(
@@ -505,15 +485,13 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<StrictHttpResponse<UpProfile>> {
 
     const rb = new RequestBuilder(this.rootUrl, Service.GetUpProfilePath, 'get');
     if (params) {
-
       rb.path('target', params.target, {});
-
     }
+
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -541,7 +519,6 @@ export class Service extends BaseService {
      * target (device in onos-config)
      */
     target: any;
-
   }): Observable<UpProfile> {
 
     return this.getUpProfile$Response(params).pipe(

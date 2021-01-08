@@ -4,21 +4,21 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {DataSource} from '@angular/cdk/collections';
-import {AetherV100TargetUpProfileUpProfile} from '../../../openapi3/aether/1.0.0/models/aether-v-100-target-up-profile-up-profile';
+import {UpProfileUpProfile as AetherV200TargetUpProfileUpProfile} from '../../../openapi3/aether/2.0.0/models/up-profile-up-profile';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {AetherV100TargetService} from '../../../openapi3/aether/1.0.0/services/aether-v-100-target.service';
+import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {compare} from '../util';
 
-export class UpProfilesDatasource extends DataSource<AetherV100TargetUpProfileUpProfile> {
-    data: Array<AetherV100TargetUpProfileUpProfile> = [];
+export class UpProfilesDatasource extends DataSource<AetherV200TargetUpProfileUpProfile> {
+    data: Array<AetherV200TargetUpProfileUpProfile> = [];
     paginator: MatPaginator;
     sort: MatSort;
 
     constructor(
-        private aetherV100TargetService: AetherV100TargetService,
+        private aetherV200TargetService: AetherV200TargetService,
         private targets: string[],
     ) {
         super();
@@ -29,7 +29,7 @@ export class UpProfilesDatasource extends DataSource<AetherV100TargetUpProfileUp
      * the returned stream emits new items.
      * @returns A stream of the items to be rendered.
      */
-    connect(): Observable<AetherV100TargetUpProfileUpProfile[]> {
+    connect(): Observable<AetherV200TargetUpProfileUpProfile[]> {
         // Combine everything that affects the rendered data into one update
         // stream for the data-table to consume.
         const dataMutations = [
@@ -50,7 +50,7 @@ export class UpProfilesDatasource extends DataSource<AetherV100TargetUpProfileUp
     disconnect(): void {
     }
 
-    private getPagedData(data: AetherV100TargetUpProfileUpProfile[]): AetherV100TargetUpProfileUpProfile[] {
+    private getPagedData(data: AetherV200TargetUpProfileUpProfile[]): AetherV200TargetUpProfileUpProfile[] {
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
         return data.splice(startIndex, this.paginator.pageSize);
     }
@@ -59,7 +59,7 @@ export class UpProfilesDatasource extends DataSource<AetherV100TargetUpProfileUp
      * Sort the data (client-side). If you're using server-side sorting,
      * this would be replaced by requesting the appropriate data from the server.
      */
-    private getSortedData(data: AetherV100TargetUpProfileUpProfile[]): AetherV100TargetUpProfileUpProfile[] {
+    private getSortedData(data: AetherV200TargetUpProfileUpProfile[]): AetherV200TargetUpProfileUpProfile[] {
         if (!this.sort.active || this.sort.direction === '') {
             return data;
         }
@@ -78,14 +78,14 @@ export class UpProfilesDatasource extends DataSource<AetherV100TargetUpProfileUp
     }
 
     loadUpProfileUpProfile(): void {
-        this.aetherV100TargetService.getAetherV100TargetUpProfile({
+        this.aetherV200TargetService.getUpProfile({
             target: this.targets[0]
         })
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value.ListAetherV100targetUpProfileUpProfile;
-                        console.log('Got ', value.ListAetherV100targetUpProfileUpProfile.length, ' UpProfiles from ', this.targets);
+                        this.data = value['Up-profile'];
+                        console.log('Got ', value['Up-profile'].length, ' UpProfiles from ', this.targets);
                     } else {
                         console.log('No UpProfiles found');
                     }
