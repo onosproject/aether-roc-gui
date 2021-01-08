@@ -6,7 +6,9 @@
 .full-width-table {
     width: 100%;
 }
-
+.field-margin {
+    margin: 0 12px;
+}
 .profile-toolbar {
     background: #424242;
     height: 32px;
@@ -14,6 +16,10 @@
 .profile-header {
     height: 22px;
 }
-.profile_icon {
+.table_icon {
     cursor: pointer;
+}
+
+.toolbar-spacer {
+    flex: 1 1 auto;
 }

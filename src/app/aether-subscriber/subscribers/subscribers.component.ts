@@ -13,11 +13,11 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {SubscriberUeDataSource} from './subscriber-ue-datasource';
-import {AetherV100TargetSubscriberUe} from '../../../openapi3/aether/1.0.0/models';
+import {SubscriberUe} from '../../../openapi3/aether/2.0.0/models';
 import {
-    AetherV200TargetService,
+    Service as AetherV200TargetService,
     ApiService
-} from '../../../openapi3/aether/1.0.0/services';
+} from '../../../openapi3/aether/2.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
@@ -25,26 +25,30 @@ import {ActivatedRoute} from '@angular/router';
 @Component({
     selector: 'aether-subscribers',
     templateUrl: './subscribers.component.html',
-    styleUrls: ['./subscribers.component.scss']
+    styleUrls: ['../../common-profiles.component.scss', './subscribers.component.scss']
 })
 export class SubscribersComponent implements AfterViewInit, OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<AetherV100TargetSubscriberUe>;
+    @ViewChild(MatTable) table: MatTable<SubscriberUe>;
     dataSource: SubscriberUeDataSource;
-    selectedSubscriber: AetherV100TargetSubscriberUe;
+    selectedSubscriber: SubscriberUe;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
-        'ueid',
+        'id',
+        'enterprise',
+        'imsi',
         'priority',
         'enabled',
+        'serving-plmn',
+        'profiles',
         'edit',
         'delete'
     ];
 
     constructor(
-        private aetherV100TargetService: AetherV200TargetService,
+        private aetherV200TargetService: AetherV200TargetService,
         private aetherApiService: ApiService,
         private snackBar: MatSnackBar,
         private activatedRoute: ActivatedRoute
@@ -59,7 +63,7 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.dataSource = new SubscriberUeDataSource(this.aetherV100TargetService, this.aetherApiService, AETHER_TARGETS);
+        this.dataSource = new SubscriberUeDataSource(this.aetherV200TargetService, this.aetherApiService, AETHER_TARGETS);
     }
 
     ngAfterViewInit(): void {

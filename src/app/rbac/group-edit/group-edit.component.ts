@@ -13,7 +13,7 @@ import {Service as RbacV100TargetService, RbacGroupService} from '../../../opena
 @Component({
     selector: 'aether-group-edit',
     templateUrl: './group-edit.component.html',
-    styleUrls: ['../common.component.scss']
+    styleUrls: ['../../common-profiles.component.scss']
 })
 export class GroupEditComponent implements OnInit {
     groupid: string = 'new';

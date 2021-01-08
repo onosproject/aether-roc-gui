@@ -19,7 +19,7 @@ import {GroupDatasource} from './group-datasource';
 @Component({
     selector: 'aether-groups-list',
     templateUrl: './groups-list.component.html',
-    styleUrls: ['../common.component.scss']
+    styleUrls: ['../../common-profiles.component.scss']
 })
 export class GroupsListComponent implements AfterViewInit, OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;

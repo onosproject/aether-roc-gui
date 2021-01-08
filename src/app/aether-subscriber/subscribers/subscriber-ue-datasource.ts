@@ -5,25 +5,25 @@
  */
 
 import {DataSource} from '@angular/cdk/collections';
-import {AetherV100TargetSubscriberUe} from '../../../openapi3/aether/1.0.0/models';
+import {SubscriberUe} from '../../../openapi3/aether/2.0.0/models';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {map} from 'rxjs/operators';
 import {Observable, of as observableOf, merge} from 'rxjs';
 import {
-    AetherV200TargetService,
+    Service as AetherV200TargetService,
     ApiService
-} from '../../../openapi3/aether/1.0.0/services';
+} from '../../../openapi3/aether/2.0.0/services';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {HttpErrorResponse} from '@angular/common/http';
 
-export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscriberUe> {
-    data: Array<AetherV100TargetSubscriberUe> = [];
+export class SubscriberUeDataSource extends DataSource<SubscriberUe> {
+    data: Array<SubscriberUe> = [];
     paginator: MatPaginator;
     sort: MatSort;
 
     constructor(
-        private aetherV100TargetService: AetherV200TargetService,
+        private aetherV200TargetService: AetherV200TargetService,
         private aetherApiService: ApiService,
         private targets: string[],
     ) {
@@ -35,7 +35,7 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
      * the returned stream emits new items.
      * @returns A stream of the items to be rendered.
      */
-    connect(): Observable<AetherV100TargetSubscriberUe[]> {
+    connect(): Observable<SubscriberUe[]> {
         // Combine everything that affects the rendered data into one update
         // stream for the data-table to consume.
         const dataMutations = [
@@ -56,7 +56,7 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
     disconnect(): void {
     }
 
-    private getPagedData(data: AetherV100TargetSubscriberUe[]): AetherV100TargetSubscriberUe[] {
+    private getPagedData(data: SubscriberUe[]): SubscriberUe[] {
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
         return data.splice(startIndex, this.paginator.pageSize);
     }
@@ -65,7 +65,7 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
      * Sort the data (client-side). If you're using server-side sorting,
      * this would be replaced by requesting the appropriate data from the server.
      */
-    private getSortedData(data: AetherV100TargetSubscriberUe[]): AetherV100TargetSubscriberUe[] {
+    private getSortedData(data: SubscriberUe[]): SubscriberUe[] {
         if (!this.sort.active || this.sort.direction === '') {
             return data;
         }
@@ -76,7 +76,7 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
                 case 'priority':
                     return compare(a.priority, b.priority, isAsc);
                 case 'ueid':
-                    return compare(+a.ueid, +b.ueid, isAsc);
+                    return compare(+a.id, +b.id, isAsc);
                 default:
                     return 0;
             }
@@ -84,14 +84,14 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
     }
 
     loadSubscriberUe(): void {
-        this.aetherV100TargetService.getAetherV100TargetSubscriber({
+        this.aetherV200TargetService.getSubscriber({
             target: this.targets[0]
         })
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value.ListAetherV100targetSubscriberUe;
-                        console.log('Got ', value.ListAetherV100targetSubscriberUe.length, ' Subscribers from ', this.targets);
+                        this.data = value.Ue;
+                        console.log('Got ', value.Ue.length, ' Subscribers from ', this.targets);
                     } else {
                         console.log('No Subscribers found');
                     }
@@ -106,14 +106,14 @@ export class SubscriberUeDataSource extends DataSource<AetherV100TargetSubscribe
             );
     }
 
-    deleteSubscriberUe(ueid: string, snackBar: MatSnackBar): void {
-        this.aetherApiService.deleteAetherV100TargetSubscriberUe({
-            ueid,
+    deleteSubscriberUe(id: string, snackBar: MatSnackBar): void {
+        this.aetherApiService.deleteSubscriberUe({
+            id,
             target: this.targets[0],
         }).subscribe(
             (value => {
-                this.data = this.data.filter(u => u.ueid !== ueid);
-                snackBar.open('Role ' + ueid + ' deleted.', null, {duration: 2000});
+                this.data = this.data.filter(u => u.id !== id);
+                snackBar.open('Subscriber ' + id + ' deleted.', null, {duration: 2000});
                 this.paginator._changePageSize(this.paginator.pageSize);
             }),
             (error => {

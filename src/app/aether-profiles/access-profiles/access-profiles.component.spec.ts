@@ -14,7 +14,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {ApiModule} from '../../../openapi3/aether/1.0.0/api.module';
+import {ApiModule} from '../../../openapi3/aether/2.0.0/api.module';
 import {MatIconModule} from '@angular/material/icon';
 
 describe('AccessProfilesComponent', () => {

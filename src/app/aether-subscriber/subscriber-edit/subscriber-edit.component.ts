@@ -6,19 +6,19 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-    AetherV200TargetService,
-    AetherV100TargetSubscriberUeueidService as AetherV100TargetSubscriberService,
+    Service as AetherV200TargetService,
+    SubscriberUeService as AetherV100TargetSubscriberService,
     ApiService
-} from '../../../openapi3/aether/1.0.0/services';
+} from '../../../openapi3/aether/2.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {FormBuilder, Validators} from '@angular/forms';
 import {
-    AetherV100TargetSubscriberUe,
-    AetherV100TargetAccessProfileAccessProfile,
-    AetherV100TargetApnProfileApnProfile,
-    AetherV100TargetQosProfileQosProfile,
-    AetherV100TargetUpProfileUpProfile
-} from '../../../openapi3/aether/1.0.0/models';
+    SubscriberUe as AetherV100TargetSubscriberUe,
+    AccessProfileAccessProfile as AetherV100TargetAccessProfileAccessProfile,
+    ApnProfileApnProfile as AetherV100TargetApnProfileApnProfile,
+    QosProfileQosProfile as AetherV100TargetQosProfileQosProfile,
+    UpProfileUpProfile as AetherV100TargetUpProfileUpProfile
+} from '../../../openapi3/aether/2.0.0/models';
 
 @Component({
     selector: 'aether-subscriber-edit',
@@ -35,7 +35,7 @@ export class SubscriberEditComponent implements OnInit {
     upProfiles: Array<AetherV100TargetUpProfileUpProfile>;
     accessProfiles: Array<AetherV100TargetAccessProfileAccessProfile>;
     subscriberUeForm = this.fb.group({
-        ueid: [''],
+        id: [''],
         priority: [0, Validators.compose([
             Validators.min(0),
             Validators.max(1000)])
@@ -45,7 +45,7 @@ export class SubscriberEditComponent implements OnInit {
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        AetherV100targetSubscriberUeueidServingPlmn: this.fb.group({
+        ServingPlmn: this.fb.group({
             mcc: [0, Validators.compose([
                 Validators.min(0),
                 Validators.max(999)])
@@ -59,9 +59,10 @@ export class SubscriberEditComponent implements OnInit {
                 Validators.max(99999999)])
             ],
         }),
-        AetherV100targetSubscriberUeueidProfiles: this.fb.group({
+        Profiles: this.fb.group({
                 'apn-profile': [''],
                 'qos-profile': [''],
+                'security-profile': [''],
                 'up-profile': [''],
             }
         )
@@ -94,47 +95,47 @@ export class SubscriberEditComponent implements OnInit {
         this.loadUpProfiles(this.target);
     }
 
-    loadSubscriberUe(target: string, ueid: string): void {
-        this.aetherV100TargetSubscriberService.getAetherV100TargetSubscriberUe({
+    loadSubscriberUe(target: string, id: string): void {
+        this.aetherV100TargetSubscriberService.getSubscriberUe({
             target,
-            ueid
+            id,
         }).subscribe(
             (value => {
                 this.data = value;
-                this.subscriberUeForm.get('ueid').setValue(value.ueid);
+                this.subscriberUeForm.get('id').setValue(value.id);
                 this.subscriberUeForm.get('priority').setValue(value.priority);
                 this.subscriberUeForm.get('enabled').setValue(value.enabled);
                 this.subscriberUeForm.get('requested-apn').setValue(value['requested-apn']);
-                this.subscriberUeForm.get('AetherV100targetSubscriberUeueidServingPlmn')
-                    .get('mcc').setValue(value.AetherV100targetSubscriberUeueidServingPlmn.mcc);
-                this.subscriberUeForm.get('AetherV100targetSubscriberUeueidServingPlmn')
-                    .get('mnc').setValue(value.AetherV100targetSubscriberUeueidServingPlmn.mnc);
-                this.subscriberUeForm.get('AetherV100targetSubscriberUeueidServingPlmn')
-                    .get('tac').setValue(value.AetherV100targetSubscriberUeueidServingPlmn.tac);
-                this.subscriberUeForm.get('AetherV100targetSubscriberUeueidProfiles')
-                    .get('apn-profile').setValue(value.AetherV100targetSubscriberUeueidProfiles['apn-profile']);
-                this.subscriberUeForm.get('AetherV100targetSubscriberUeueidProfiles')
-                    .get('qos-profile').setValue(value.AetherV100targetSubscriberUeueidProfiles['qos-profile']);
-                this.subscriberUeForm.get('AetherV100targetSubscriberUeueidProfiles')
-                    .get('up-profile').setValue(value.AetherV100targetSubscriberUeueidProfiles['up-profile']);
+                this.subscriberUeForm.get('ServingPlmn')
+                    .get('mcc').setValue(value['Serving-plmn'].mcc);
+                this.subscriberUeForm.get('ServingPlmn')
+                    .get('mnc').setValue(value['Serving-plmn'].mnc);
+                this.subscriberUeForm.get('ServingPlmn')
+                    .get('tac').setValue(value['Serving-plmn'].tac);
+                this.subscriberUeForm.get('Profiles')
+                    .get('apn-profile').setValue(value.Profiles['apn-profile']);
+                this.subscriberUeForm.get('Profiles')
+                    .get('qos-profile').setValue(value.Profiles['qos-profile']);
+                this.subscriberUeForm.get('Profiles')
+                    .get('up-profile').setValue(value.Profiles['up-profile']);
                 console.log('Got Subscriber', value);
             }),
             error => {
                 console.warn('Error getting Subscribers for ', target, error);
             },
             () => {
-                console.log('Finished loading subscriber', target, ueid);
+                console.log('Finished loading subscriber', target, id);
             }
         );
     }
 
     loadAccessProfiles(target: string): void {
-        this.aetherV100TargetService.getAetherV100TargetAccessProfile({
+        this.aetherV100TargetService.getAccessProfile({
             target,
         }).subscribe(
             (value => {
-                this.accessProfiles = value.ListAetherV100targetAccessProfileAccessProfile;
-                console.log('Got ACCESS Profiles', value.ListAetherV100targetAccessProfileAccessProfile.length);
+                this.accessProfiles = value['Access-profile'];
+                console.log('Got ACCESS Profiles', value['Access-profile'].length);
             }),
             error => {
                 console.warn('Error getting ACCESS Profiles for ', target, error);
@@ -146,12 +147,12 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadApnProfiles(target: string): void {
-        this.aetherV100TargetService.getAetherV100TargetApnProfile({
+        this.aetherV100TargetService.getApnProfile({
             target,
         }).subscribe(
             (value => {
-                this.apnProfiles = value.ListAetherV100targetApnProfileApnProfile;
-                console.log('Got APN Profiles', value.ListAetherV100targetApnProfileApnProfile.length);
+                this.apnProfiles = value['Apn-profile'];
+                console.log('Got APN Profiles', value['Apn-profile'].length);
             }),
             error => {
                 console.warn('Error getting APN Profiles for ', target, error);
@@ -163,12 +164,12 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadQosProfiles(target: string): void {
-        this.aetherV100TargetService.getAetherV100TargetQosProfile({
+        this.aetherV100TargetService.getQosProfile({
             target,
         }).subscribe(
             (value => {
-                this.qosProfiles = value.ListAetherV100targetQosProfileQosProfile;
-                console.log('Got QOS Profiles', value.ListAetherV100targetQosProfileQosProfile.length);
+                this.qosProfiles = value['Qos-profile'];
+                console.log('Got QOS Profiles', value['Qos-profile'].length);
             }),
             error => {
                 console.warn('Error getting QOS Profiles for ', target, error);
@@ -180,12 +181,12 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadUpProfiles(target: string): void {
-        this.aetherV100TargetService.getAetherV100TargetUpProfile({
+        this.aetherV100TargetService.getUpProfile({
             target,
         }).subscribe(
             (value => {
-                this.upProfiles = value.ListAetherV100targetUpProfileUpProfile;
-                console.log('Got UP Profiles', value.ListAetherV100targetUpProfileUpProfile.length);
+                this.upProfiles = value['Up-profile'];
+                console.log('Got UP Profiles', value['Up-profile'].length);
             }),
             error => {
                 console.warn('Error getting UP Profiles for ', target, error);
@@ -202,8 +203,8 @@ export class SubscriberEditComponent implements OnInit {
         if (this.ueid === undefined) {
             submitUeid = this.subscriberUeForm.get('ueid').value as unknown as string;
         }
-        this.aetherApiService.postAetherV100TargetSubscriberUe({
-            ueid: submitUeid,
+        this.aetherApiService.postSubscriberUe({
+            id: submitUeid,
             target: AETHER_TARGETS[0],
             body: this.subscriberUeForm.getRawValue()
         }).subscribe(
