@@ -27,6 +27,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatListModule} from '@angular/material/list';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
     declarations: [SubscribersComponent, SubscriberEditComponent],
@@ -37,7 +38,7 @@ import {MatListModule} from '@angular/material/list';
         RouterModule.forChild([
             {path: 'subscribers', component: SubscribersComponent},
             {path: 'subscribers/:lastChange', component: SubscribersComponent},
-            {path: 'subscriber-edit/:ueid', component: SubscriberEditComponent},
+            {path: 'subscriber-edit/:id', component: SubscriberEditComponent},
             {path: '', component: SubscribersComponent, pathMatch: 'full'}
         ]),
         FormsModule,
@@ -55,6 +56,7 @@ import {MatListModule} from '@angular/material/list';
         MatOptionModule,
         MatCardModule,
         MatButtonModule,
+        MatRadioModule,
         MatSnackBarModule,
         MatListModule,
     ],

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, Input, OnInit} from '@angular/core';
+import { v4 as uuidv4 } from 'uuid';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
     Service as AetherV200TargetService,
@@ -11,13 +12,13 @@ import {
     ApiService
 } from '../../../openapi3/aether/2.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {
     SubscriberUe as AetherV100TargetSubscriberUe,
     AccessProfileAccessProfile as AetherV100TargetAccessProfileAccessProfile,
     ApnProfileApnProfile as AetherV100TargetApnProfileApnProfile,
     QosProfileQosProfile as AetherV100TargetQosProfileQosProfile,
-    UpProfileUpProfile as AetherV100TargetUpProfileUpProfile
+    UpProfileUpProfile as AetherV100TargetUpProfileUpProfile, SecurityProfileSecurityProfile
 } from '../../../openapi3/aether/2.0.0/models';
 
 @Component({
@@ -27,13 +28,15 @@ import {
 })
 export class SubscriberEditComponent implements OnInit {
     @Input() target: string = AETHER_TARGETS[0];
-    @Input() ueid: string;
+    @Input() id: string;
     isNew: boolean;
     data: AetherV100TargetSubscriberUe;
     apnProfiles: Array<AetherV100TargetApnProfileApnProfile>;
     qosProfiles: Array<AetherV100TargetQosProfileQosProfile>;
     upProfiles: Array<AetherV100TargetUpProfileUpProfile>;
+    securityProfiles: Array<SecurityProfileSecurityProfile>;
     accessProfiles: Array<AetherV100TargetAccessProfileAccessProfile>;
+    imsiWildcard: boolean;
     subscriberUeForm = this.fb.group({
         id: [''],
         priority: [0, Validators.compose([
@@ -41,11 +44,14 @@ export class SubscriberEditComponent implements OnInit {
             Validators.max(1000)])
         ],
         enabled: [false],
+        'imsi-range-from': [''],
+        'imsi-range-to': [''],
+        'imsi-wildcard': [''],
         'requested-apn': ['', Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        ServingPlmn: this.fb.group({
+        'Serving-plmn': this.fb.group({
             mcc: [0, Validators.compose([
                 Validators.min(0),
                 Validators.max(999)])
@@ -64,6 +70,7 @@ export class SubscriberEditComponent implements OnInit {
                 'qos-profile': [''],
                 'security-profile': [''],
                 'up-profile': [''],
+                // 'Access-profile' : this.fb.array([]),
             }
         )
     });
@@ -81,11 +88,12 @@ export class SubscriberEditComponent implements OnInit {
     ngOnInit(): void {
         this.route.paramMap.subscribe(
             value => {
-                if (value.get('ueid') === 'new') {
+                if (value.get('id') === 'new') {
+                    this.id = uuidv4();
                     this.isNew = true;
                 } else {
-                    this.ueid = value.get('ueid');
-                    this.loadSubscriberUe(this.target, this.ueid);
+                    this.id = value.get('id');
+                    this.loadSubscriberUe(this.target, this.id);
                 }
             }
         );
@@ -93,6 +101,11 @@ export class SubscriberEditComponent implements OnInit {
         this.loadApnProfiles(this.target);
         this.loadQosProfiles(this.target);
         this.loadUpProfiles(this.target);
+        this.loadSecurityProfiles(this.target);
+    }
+
+    get accessProfileControls(): FormArray {
+        return this.subscriberUeForm.get('Profiles').get('Access-profile') as FormArray;
     }
 
     loadSubscriberUe(target: string, id: string): void {
@@ -105,12 +118,16 @@ export class SubscriberEditComponent implements OnInit {
                 this.subscriberUeForm.get('id').setValue(value.id);
                 this.subscriberUeForm.get('priority').setValue(value.priority);
                 this.subscriberUeForm.get('enabled').setValue(value.enabled);
+                this.subscriberUeForm.get('imsi-range-from').setValue(value['imsi-range-from']);
+                this.subscriberUeForm.get('imsi-range-to').setValue(value['imsi-range-to']);
+                this.imsiWildcard = value['imsi-wildcard'] !== undefined;
+                this.subscriberUeForm.get('imsi-wildcard').setValue(value['imsi-wildcard']);
                 this.subscriberUeForm.get('requested-apn').setValue(value['requested-apn']);
-                this.subscriberUeForm.get('ServingPlmn')
+                this.subscriberUeForm.get('Serving-plmn')
                     .get('mcc').setValue(value['Serving-plmn'].mcc);
-                this.subscriberUeForm.get('ServingPlmn')
+                this.subscriberUeForm.get('Serving-plmn')
                     .get('mnc').setValue(value['Serving-plmn'].mnc);
-                this.subscriberUeForm.get('ServingPlmn')
+                this.subscriberUeForm.get('Serving-plmn')
                     .get('tac').setValue(value['Serving-plmn'].tac);
                 this.subscriberUeForm.get('Profiles')
                     .get('apn-profile').setValue(value.Profiles['apn-profile']);
@@ -118,6 +135,14 @@ export class SubscriberEditComponent implements OnInit {
                     .get('qos-profile').setValue(value.Profiles['qos-profile']);
                 this.subscriberUeForm.get('Profiles')
                     .get('up-profile').setValue(value.Profiles['up-profile']);
+                this.subscriberUeForm.get('Profiles')
+                    .get('security-profile').setValue(value.Profiles['security-profile']);
+                // for (const ap of value.Profiles['Access-profile']) {
+                //     this.accessProfileControls.push(this.fb.group({
+                //         'access-profile': new FormControl({value: ap['access-profile'], disabled: true}),
+                //         allowed: new FormControl({value: ap.allowed, disabled: true}),
+                //     }));
+                // }
                 console.log('Got Subscriber', value);
             }),
             error => {
@@ -197,11 +222,28 @@ export class SubscriberEditComponent implements OnInit {
         );
     }
 
+    loadSecurityProfiles(target: string): void {
+        this.aetherV100TargetService.getSecurityProfile({
+            target,
+        }).subscribe(
+            (value => {
+                this.securityProfiles = value['Security-profile'];
+                console.log('Got UP Profiles', value['Security-profile'].length);
+            }),
+            error => {
+                console.warn('Error getting Security Profiles for ', target, error);
+            },
+            () => {
+                console.log('Finished loading Security Profiles', target);
+            }
+        );
+    }
+
     onSubmit(): void {
         console.log('Submitted!', this.subscriberUeForm.getRawValue());
-        let submitUeid = this.ueid;
-        if (this.ueid === undefined) {
-            submitUeid = this.subscriberUeForm.get('ueid').value as unknown as string;
+        let submitUeid = this.id;
+        if (this.id === undefined) {
+            submitUeid = this.subscriberUeForm.get('id').value as unknown as string;
         }
         this.aetherApiService.postSubscriberUe({
             id: submitUeid,
@@ -218,5 +260,15 @@ export class SubscriberEditComponent implements OnInit {
                 console.log('POST finished');
             }
         );
+    }
+
+    toggleImsiWildcard(isWildcard: boolean): void {
+        this.imsiWildcard = isWildcard;
+        if (isWildcard) {
+            this.subscriberUeForm.get('imsi-range-from').setValue(undefined);
+            this.subscriberUeForm.get('imsi-range-to').setValue(undefined);
+        } else {
+            this.subscriberUeForm.get('imsi-wildcard').setValue(undefined);
+        }
     }
 }
