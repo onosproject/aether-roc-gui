@@ -4,38 +4,41 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, Input, OnInit} from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
     Service as AetherV200TargetService,
-    SubscriberUeService as AetherV100TargetSubscriberService,
+    SubscriberUeService,
     ApiService
 } from '../../../openapi3/aether/2.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, Validators} from '@angular/forms';
 import {
     SubscriberUe as AetherV100TargetSubscriberUe,
-    AccessProfileAccessProfile as AetherV100TargetAccessProfileAccessProfile,
-    ApnProfileApnProfile as AetherV100TargetApnProfileApnProfile,
-    QosProfileQosProfile as AetherV100TargetQosProfileQosProfile,
-    UpProfileUpProfile as AetherV100TargetUpProfileUpProfile, SecurityProfileSecurityProfile
+    AccessProfileAccessProfile,
+    ApnProfileApnProfile,
+    QosProfileQosProfile,
+    UpProfileUpProfile,
+    SecurityProfileSecurityProfile
 } from '../../../openapi3/aether/2.0.0/models';
 
 @Component({
     selector: 'aether-subscriber-edit',
     templateUrl: './subscriber-edit.component.html',
-    styleUrls: ['./subscriber-edit.component.scss']
+    styleUrls: [
+        '../../common-edit.component.scss',
+    ]
 })
 export class SubscriberEditComponent implements OnInit {
     @Input() target: string = AETHER_TARGETS[0];
     @Input() id: string;
     isNew: boolean;
     data: AetherV100TargetSubscriberUe;
-    apnProfiles: Array<AetherV100TargetApnProfileApnProfile>;
-    qosProfiles: Array<AetherV100TargetQosProfileQosProfile>;
-    upProfiles: Array<AetherV100TargetUpProfileUpProfile>;
+    apnProfiles: Array<ApnProfileApnProfile>;
+    qosProfiles: Array<QosProfileQosProfile>;
+    upProfiles: Array<UpProfileUpProfile>;
     securityProfiles: Array<SecurityProfileSecurityProfile>;
-    accessProfiles: Array<AetherV100TargetAccessProfileAccessProfile>;
+    accessProfiles: Array<AccessProfileAccessProfile>;
     imsiWildcard: boolean;
     subscriberUeForm = this.fb.group({
         id: [''],
@@ -76,8 +79,8 @@ export class SubscriberEditComponent implements OnInit {
     });
 
     constructor(
-        private aetherV100TargetSubscriberService: AetherV100TargetSubscriberService,
-        private aetherV100TargetService: AetherV200TargetService,
+        private subscriberUeService: SubscriberUeService,
+        private aetherV200TargetService: AetherV200TargetService,
         private aetherApiService: ApiService,
         private route: ActivatedRoute,
         private router: Router,
@@ -109,7 +112,7 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadSubscriberUe(target: string, id: string): void {
-        this.aetherV100TargetSubscriberService.getSubscriberUe({
+        this.subscriberUeService.getSubscriberUe({
             target,
             id,
         }).subscribe(
@@ -146,16 +149,16 @@ export class SubscriberEditComponent implements OnInit {
                 console.log('Got Subscriber', value);
             }),
             error => {
-                console.warn('Error getting Subscribers for ', target, error);
+                console.warn('Error getting SubscriberUe(s) for ', target, error);
             },
             () => {
-                console.log('Finished loading subscriber', target, id);
+                console.log('Finished loading SubscriberUe(s)', target, id);
             }
         );
     }
 
     loadAccessProfiles(target: string): void {
-        this.aetherV100TargetService.getAccessProfile({
+        this.aetherV200TargetService.getAccessProfile({
             target,
         }).subscribe(
             (value => {
@@ -172,7 +175,7 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadApnProfiles(target: string): void {
-        this.aetherV100TargetService.getApnProfile({
+        this.aetherV200TargetService.getApnProfile({
             target,
         }).subscribe(
             (value => {
@@ -189,7 +192,7 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadQosProfiles(target: string): void {
-        this.aetherV100TargetService.getQosProfile({
+        this.aetherV200TargetService.getQosProfile({
             target,
         }).subscribe(
             (value => {
@@ -206,7 +209,7 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadUpProfiles(target: string): void {
-        this.aetherV100TargetService.getUpProfile({
+        this.aetherV200TargetService.getUpProfile({
             target,
         }).subscribe(
             (value => {
@@ -223,7 +226,7 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadSecurityProfiles(target: string): void {
-        this.aetherV100TargetService.getSecurityProfile({
+        this.aetherV200TargetService.getSecurityProfile({
             target,
         }).subscribe(
             (value => {

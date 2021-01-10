@@ -1,0 +1,48 @@
+<!--
+~ SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="spForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Security Profile. ID: {{id}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <!--            &lt;!&ndash;    <mat-form-field appearance="legacy">&ndash;&gt;-->
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="description">
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="display-name">
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="key">
+                    <mat-hint>Secret key for USIM (Key)</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="opc">
+                    <mat-hint>Secret key for Operator (OPC)</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput type="number" formControlName="sqn">
+                    <mat-hint>Sequence number (SQN)</mat-hint>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit">Update</button>
+        </mat-card-actions>
+    </mat-card>
+</form>

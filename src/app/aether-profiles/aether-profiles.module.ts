@@ -21,6 +21,11 @@ import {ApnProfilesComponent} from './apn-profiles/apn-profiles.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {SecurityProfilesComponent} from './security-profiles/security-profiles.component';
+import { SecurityProfileEditComponent } from './security-profile-edit/security-profile-edit.component';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
     declarations: [
@@ -29,6 +34,7 @@ import {SecurityProfilesComponent} from './security-profiles/security-profiles.c
         AccessProfilesComponent,
         ApnProfilesComponent,
         SecurityProfilesComponent,
+        SecurityProfileEditComponent,
     ],
     imports: [
         CommonModule,
@@ -39,7 +45,9 @@ import {SecurityProfilesComponent} from './security-profiles/security-profiles.c
             {path: 'apnprofiles', component: ApnProfilesComponent},
             {path: 'qosprofiles', component: QosProfilesComponent},
             {path: 'upprofiles', component: UpProfilesComponent},
-            {path: 'secprofiles', component: SecurityProfilesComponent},
+            {path: 'securityprofiles', component: SecurityProfilesComponent},
+            {path: 'securityprofiles/:lastChange', component: SecurityProfilesComponent},
+            {path: 'securityprofile-edit/:id', component: SecurityProfileEditComponent},
             {path: '', component: UpProfilesComponent, pathMatch: 'full'}
         ]),
         FormsModule,
@@ -47,10 +55,14 @@ import {SecurityProfilesComponent} from './security-profiles/security-profiles.c
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        MatPaginatorModule,
-        MatSnackBarModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatIconModule,
         MatToolbarModule,
-        MatIconModule
+        MatCardModule,
+        MatButtonModule,
+        MatSnackBarModule,
+
     ]
 })
 export class AetherProfilesModule {}

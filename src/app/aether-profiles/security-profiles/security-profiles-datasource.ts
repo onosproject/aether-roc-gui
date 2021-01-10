@@ -7,10 +7,12 @@ import {DataSource} from '@angular/cdk/collections';
 import {SecurityProfileSecurityProfile} from '../../../openapi3/aether/2.0.0/models/security-profile-security-profile';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
+import {ApiService, Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {compare} from '../util';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export class SecurityProfilesDatasource extends DataSource<SecurityProfileSecurityProfile> {
     data: Array<SecurityProfileSecurityProfile> = [];
@@ -19,6 +21,7 @@ export class SecurityProfilesDatasource extends DataSource<SecurityProfileSecuri
 
     constructor(
         private aetherV200TargetService: AetherV200TargetService,
+        private aetherApiService: ApiService,
         private targets: string[],
     ) {
         super();
@@ -98,5 +101,24 @@ export class SecurityProfilesDatasource extends DataSource<SecurityProfileSecuri
                     this.paginator._changePageSize(this.paginator.pageSize);
                 }
             );
+    }
+
+    deleteSecurityProfileSecurityProfile(id: string, snackBar: MatSnackBar): void {
+        this.aetherApiService.deleteSecurityProfileSecurityProfile({
+            id,
+            target: this.targets[0],
+        }).subscribe(
+            (value => {
+                this.data = this.data.filter(u => u.id !== id);
+                snackBar.open('Security Profile ' + id + ' deleted.', null, {duration: 2000});
+                this.paginator._changePageSize(this.paginator.pageSize);
+            }),
+            (error => {
+                    const errHttp = error as HttpErrorResponse;
+                    snackBar.open('Error: ' + errHttp.message + ', ' + errHttp.error, 'dismiss', {duration: 10000});
+                    throw error;
+                }
+            ),
+        );
     }
 }

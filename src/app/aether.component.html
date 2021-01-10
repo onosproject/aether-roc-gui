@@ -20,67 +20,67 @@
             <span mat-menu-item (click)="userProfileDisplay = true">sean@opennetworking.org</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="/subscribers">
             <mat-icon>smartphone</mat-icon>
-            <span routerLink="/subscribers">Subscribers</span>
+            <span>Subscribers</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="/enterprise">
             <mat-icon>apartment</mat-icon>
-            <span routerLink="/enterprise">Enterprise</span>
+            <span>Enterprise</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="/connectivity">
             <mat-icon>wifi_tethering</mat-icon>
-            <span routerLink="/connectivity">Connectivity</span>
+            <span>Connectivity</span>
         </button>
         <button mat-menu-item [matMenuTriggerFor]="profiles">
             <mat-icon>groups</mat-icon>
-            <span routerLink="/rbac/groups">Profiles</span>
+            <span>Profiles</span>
         </button>
         <mat-divider></mat-divider>
         <button mat-menu-item [matMenuTriggerFor]="rbac">
             <mat-icon>groups</mat-icon>
-            <span routerLink="/rbac/groups">RBAC</span>
+            <span>RBAC</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="showhelp()">
             <mat-icon>help</mat-icon>
-            <span (click)="showhelp()">Help</span>
+            <span>Help</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="signingOut()">
             <mat-icon>exit_to_app</mat-icon>
-            <span (click)="signingOut()">Sign out</span>
+            <span>Sign out</span>
         </button>
     </mat-menu>
     <mat-menu #rbac="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="/rbac/roles">
             <mat-icon>ballot</mat-icon>
-            <span routerLink="/rbac/roles">Roles</span>
+            <span>Roles</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="/rbac/groups">
             <mat-icon>groups</mat-icon>
-            <span routerLink="/rbac/groups">Groups</span>
+            <span>Groups</span>
         </button>
     </mat-menu>
     <mat-menu #profiles="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="/profiles/accessprofiles">
             <mat-icon>ballot</mat-icon>
-            <span routerLink="/profiles/accessprofiles">Access</span>
+            <span>Access</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="/profiles/apnprofiles">
             <mat-icon>ballot</mat-icon>
-            <span routerLink="/profiles/apnprofiles">APN</span>
+            <span>APN</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="/profiles/qosprofiles">
             <mat-icon>ballot</mat-icon>
-            <span routerLink="/profiles/qosprofiles">QOS</span>
+            <span>QOS</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="/profiles/upprofiles">
             <mat-icon>ballot</mat-icon>
-            <span routerLink="/profiles/upprofiles">User Plane</span>
+            <span>User Plane</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="/profiles/securityprofiles">
             <mat-icon>lock</mat-icon>
-            <span routerLink="/profiles/secprofiles">Security</span>
+            <span>Security</span>
         </button>
     </mat-menu>
 </div>
