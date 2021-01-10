@@ -8,7 +8,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {SecurityProfileSecurityProfile} from '../../../openapi3/aether/2.0.0/models/security-profile-security-profile';
-import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
+import {ApiService, Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
 import {SecurityProfilesDatasource} from './security-profiles-datasource';
@@ -40,6 +40,7 @@ export class SecurityProfilesComponent implements AfterViewInit, OnInit {
 
     constructor(
         private aetherV200TargetService: AetherV200TargetService,
+        private apiService: ApiService,
         private snackBar: MatSnackBar,
         private activatedRoute: ActivatedRoute
     ) {
@@ -53,7 +54,7 @@ export class SecurityProfilesComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.dataSource = new SecurityProfilesDatasource(this.aetherV200TargetService, AETHER_TARGETS);
+        this.dataSource = new SecurityProfilesDatasource(this.aetherV200TargetService, this.apiService, AETHER_TARGETS);
     }
 
     ngAfterViewInit(): void {
@@ -67,5 +68,9 @@ export class SecurityProfilesComponent implements AfterViewInit, OnInit {
         this.snackBar.open(message, action, {
             duration: durationMs,
         });
+    }
+
+    deleteSecurityProfileSecurityProfile(id: string): void {
+        this.dataSource.deleteSecurityProfileSecurityProfile(id, this.snackBar);
     }
 }

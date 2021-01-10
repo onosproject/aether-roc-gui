@@ -3,17 +3,22 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<div >
+<div>
     <mat-toolbar class="profile-toolbar">
         <p>Subscribers</p>
         <span class="toolbar-spacer"></span>
-        <button mat-raised-button color="primary" type="submit" aria-label="Add subscriber" routerLink="/subscribers/subscriber-edit/new">Add</button>
+        <button mat-raised-button color="primary" type="submit" aria-label="Add subscriber"
+                routerLink="/subscribers/subscriber-edit/new">Add
+        </button>
     </mat-toolbar>
     <table mat-table class="full-width-table" matSort aria-label="Elements">
         <!-- Id Column -->
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>UE Id</th>
-            <td mat-cell *matCellDef="let row" (click)="selectedSubscriber = row">{{row.id}}</td>
+            <td mat-cell *matCellDef="let row" (click)="selectedSubscriber = row">
+                <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}<br><small>({{row.id}})</small></span>
+                <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
+            </td>
         </ng-container>
 
         <!-- Priority Column -->
@@ -25,7 +30,10 @@
         <!-- Imsi Column -->
         <ng-container matColumnDef="imsi">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Imsi</th>
-            <td mat-cell class="imsi-column" *matCellDef="let row" (click)="selectedSubscriber = row">{{row['imsi-range-from']}}<span *ngIf="row['imsi-wildcard'] === undefined">-</span>{{row['imsi-range-to']}}{{row['imsi-range-widlcard']}}</td>
+            <td mat-cell class="imsi-column" *matCellDef="let row"
+                (click)="selectedSubscriber = row">{{row['imsi-range-from']}}<span
+                *ngIf="row['imsi-wildcard'] === undefined">-</span>{{row['imsi-range-to']}}{{row['imsi-range-widlcard']}}
+            </td>
         </ng-container>
 
         <!-- Enterprise Column -->
@@ -45,13 +53,14 @@
         <!-- Serving PLMN Column -->
         <ng-container matColumnDef="serving-plmn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header title="mcc:mnc:tac">Serving PLMN</th>
-            <td mat-cell *matCellDef="let row" (click)="selectedSubscriber = row">{{row['Serving-plmn'].mcc}}:{{row['Serving-plmn'].mnc}}:{{row['Serving-plmn'].tac}}</td>
+            <td mat-cell *matCellDef="let row" (click)="selectedSubscriber = row">{{row['Serving-plmn'].mcc}}
+                :{{row['Serving-plmn'].mnc}}:{{row['Serving-plmn'].tac}}</td>
         </ng-container>
 
         <!-- Profiles Column -->
         <ng-container matColumnDef="profiles">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Profiles</th>
-            <td mat-cell  class="profiles-column" *matCellDef="let row" (click)="selectedSubscriber = row">
+            <td mat-cell class="profiles-column" *matCellDef="let row" (click)="selectedSubscriber = row">
                 <p>APN: {{row.Profiles['apn-profile']}}</p>
                 <p>Up: {{row.Profiles['up-profile']}}</p>
                 <p>QOS: {{row.Profiles['qos-profile']}}</p>

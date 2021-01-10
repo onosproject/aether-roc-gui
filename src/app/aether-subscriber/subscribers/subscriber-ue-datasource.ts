@@ -75,7 +75,7 @@ export class SubscriberUeDataSource extends DataSource<SubscriberUe> {
             switch (this.sort.active) {
                 case 'priority':
                     return compare(a.priority, b.priority, isAsc);
-                case 'ueid':
+                case 'id':
                     return compare(+a.id, +b.id, isAsc);
                 default:
                     return 0;

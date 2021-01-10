@@ -1,36 +1,34 @@
 /*
- * SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {SubscriberEditComponent} from './subscriber-edit.component';
+import {SecurityProfileEditComponent} from './security-profile-edit.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSliderModule} from '@angular/material/slider';
-import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
-import {MatOptionModule} from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {ActivatedRoute, Params} from '@angular/router';
 import {of} from 'rxjs';
-import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
-describe('SubscriberEditComponent', () => {
-    let component: SubscriberEditComponent;
-    let fixture: ComponentFixture<SubscriberEditComponent>;
+describe('SecurityProfileEditComponent', () => {
+    let component: SecurityProfileEditComponent;
+    let fixture: ComponentFixture<SecurityProfileEditComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [SubscriberEditComponent],
+            declarations: [SecurityProfileEditComponent],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
@@ -40,24 +38,19 @@ describe('SubscriberEditComponent', () => {
                 MatInputModule,
                 MatFormFieldModule,
                 MatIconModule,
-                MatSliderModule,
                 MatToolbarModule,
-                MatCheckboxModule,
-                MatSelectModule,
-                MatOptionModule,
                 MatCardModule,
-                MatButtonModule
+                MatButtonModule,
             ],
             providers: [
                 {provide: FormBuilder, useClass: FormBuilder},
             ],
-            schemas: [CUSTOM_ELEMENTS_SCHEMA]
         })
             .compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(SubscriberEditComponent);
+        fixture = TestBed.createComponent(SecurityProfileEditComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

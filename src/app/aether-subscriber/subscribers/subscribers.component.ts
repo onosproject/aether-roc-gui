@@ -73,8 +73,8 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
         this.dataSource.loadSubscriberUe();
     }
 
-    deleteSubscriberUe(ueid: string): void {
-        this.dataSource.deleteSubscriberUe(ueid, this.snackBar);
+    deleteSubscriberUe(id: string): void {
+        this.dataSource.deleteSubscriberUe(id, this.snackBar);
     }
 
     openSnackBar(message: string, durationMs: number, action: string): void {
