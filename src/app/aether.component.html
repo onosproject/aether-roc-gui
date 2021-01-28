@@ -17,7 +17,7 @@
     </mat-toolbar>
     <mat-menu #menu="matMenu">
         <button mat-menu-item>
-            <span mat-menu-item (click)="userProfileDisplay = true">sean@opennetworking.org</span>
+            <span mat-menu-item (click)="userProfileDisplay = true">{{userName()}}</span>
         </button>
         <mat-divider></mat-divider>
         <button mat-menu-item routerLink="/subscribers">
@@ -42,6 +42,10 @@
             <span>RBAC</span>
         </button>
         <mat-divider></mat-divider>
+        <button mat-menu-item (click)="apiKeyDisplay = true">
+            <mat-icon>vpn_key</mat-icon>
+            <span>API Key</span>
+        </button>
         <button mat-menu-item (click)="showhelp()">
             <mat-icon>help</mat-icon>
             <span>Help</span>
@@ -88,8 +92,13 @@
 <router-outlet></router-outlet>
 
 <aether-user-profile *ngIf="userProfileDisplay"
-                     [name]="'Sean Condon'"
-                     [email]="'sean@opennetworking.org'"
-                     [groups]="['menlo-admins', 'super-user']"
+                     [name]="userName()"
+                     [email]="userEmail()"
+                     [groups]="userGroups()"
                 (closeEvent)="userProfileDisplay = false">
 </aether-user-profile>
+<aether-api-key *ngIf="apiKeyDisplay"
+                [apiKey]="apiKey()"
+                [expiry]="expiry()"
+                (closeEvent)="apiKeyDisplay = false">
+</aether-api-key>

@@ -17,6 +17,8 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import {AuthInterceptor} from '../auth-interceptor';
+import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 
 @NgModule({
     declarations: [
@@ -39,6 +41,10 @@ import {MatIconModule} from '@angular/material/icon';
         MatSnackBarModule,
         MatToolbarModule,
         MatIconModule
+    ],
+    providers: [
+        AuthInterceptor,
+        API_INTERCEPTOR_PROVIDER,
     ]
 })
 export class AetherEnterpriseModule {}

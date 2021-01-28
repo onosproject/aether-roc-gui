@@ -7,14 +7,13 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
-    selector: 'aether-user-profile',
-    templateUrl: './user-profile.component.html',
+    selector: 'aether-api-key',
+    templateUrl: './api-key.component.html',
     styleUrls: ['../common-panel.component.scss']
 })
-export class UserProfileComponent {
-    @Input() name: string;
-    @Input() email: string;
-    @Input() groups: string[];
+export class ApiKeyComponent {
+    @Input() apiKey: string;
+    @Input() expiry: Date;
     @Output() closeEvent = new EventEmitter<boolean>();
 
     constructor() {

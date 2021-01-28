@@ -26,6 +26,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import { GroupEditComponent } from './group-edit/group-edit.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {AuthInterceptor} from '../auth-interceptor';
+import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 
 @NgModule({
     declarations: [RolesListComponent, GroupsListComponent, RoleEditComponent, GroupEditComponent],
@@ -55,6 +57,10 @@ import {MatToolbarModule} from '@angular/material/toolbar';
         MatButtonModule,
         MatSelectModule,
         MatToolbarModule,
+    ],
+    providers: [
+        AuthInterceptor,
+        API_INTERCEPTOR_PROVIDER,
     ]
 })
 export class RbacModule {

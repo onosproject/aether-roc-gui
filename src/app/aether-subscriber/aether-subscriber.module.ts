@@ -28,6 +28,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
+import {AuthInterceptor} from '../auth-interceptor';
+import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 
 @NgModule({
     declarations: [SubscribersComponent, SubscriberEditComponent],
@@ -62,6 +64,8 @@ import {MatRadioModule} from '@angular/material/radio';
     ],
     providers: [
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+        AuthInterceptor,
+        API_INTERCEPTOR_PROVIDER,
     ],
 })
 export class AetherSubscriberModule {
