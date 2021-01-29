@@ -15,7 +15,6 @@ import {
 import {
     SecurityProfileSecurityProfile
 } from "../../../openapi3/aether/2.0.0/models";
-//This is a test
 
 @Component({
     selector: 'aether-security-profile-edit',
@@ -102,12 +101,43 @@ export class SecurityProfileEditComponent implements OnInit {
     }
 
     onSubmit(): void {
+        let i = 0;
         console.log('Submitted!', this.spForm.getRawValue());
         let submitId = this.id;
         if (this.id === undefined) {
             submitId = this.spForm.get('id').value as unknown as string;
         }
-        //Test
+        //Array of the properties listed
+        let dataValues = [
+            this.spForm.get('id').value,
+            this.spForm.get('display-name').value,
+            this.spForm.get('key').value,
+            this.spForm.get('opc').value,
+            this.spForm.get('sqn').value,
+            this.spForm.get('description').value
+        ];
+        console.log('VALUE FOR SQN', dataValues[4]);
+        console.log(dataValues.length);
+        //Length of attributes
+        //First for loop for checking first attribute
+        console.log('BEFORE LOOP')
+        for(let value of dataValues) {
+            //Check if appropriate attribute is dirty, valid or touched
+            for(let i =0; i > 6; i++) {
+                if (this.spForm.get(dataValues[i]).value.valid == false) {
+                    console.log("INVALID DATA PROVIDED")
+                    break;
+                } else {
+                    if (this.spForm.get(dataValues[i]).value.pristine == false || this.spForm.get(dataValues[i]).value.touched == false) {
+                        //add to basket
+                        console.log('Sent to basket');
+                    } else {
+                        console.log('Not sent to basket');
+                    }
+                }
+            }
+        }
+        console.log('AFTER LOOP');
         this.aetherApiService.postSecurityProfileSecurityProfile({
             id: submitId,
             target: AETHER_TARGETS[0],
