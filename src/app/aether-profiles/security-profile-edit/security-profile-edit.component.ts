@@ -102,14 +102,27 @@ export class SecurityProfileEditComponent implements OnInit {
 
     onSubmit(): void {
         console.log('Submitted!', this.spForm.getRawValue());
+        console.log('Key Pristine:', this.spForm.get('key').pristine, 'Touched:', this.spForm.get('key').touched, 'Valid:', this.spForm.get('key').valid);
+        console.log('Opc Pristine:', this.spForm.get('opc').pristine, 'Touched:', this.spForm.get('opc').touched, 'Valid:', this.spForm.get('opc').valid);
+        console.log('SQN Pristine:', this.spForm.get('sqn').pristine, 'Touched:', this.spForm.get('sqn').touched, 'Valid:', this.spForm.get('sqn').valid);
         let submitId = this.id;
         if (this.id === undefined) {
             submitId = this.spForm.get('id').value as unknown as string;
         }
+        const something: SecurityProfileSecurityProfile = {};
+        if (!this.spForm.get('key').pristine && this.spForm.get('key').touched && this.spForm.get('key').valid) {
+            something.key = this.spForm.get('key').value;
+        }
+        if (!this.spForm.get('opc').pristine && this.spForm.get('opc').touched && this.spForm.get('opc').valid) {
+            something.opc = this.spForm.get('opc').value;
+        }
+        if (!this.spForm.get('sqn').pristine && this.spForm.get('sqn').touched && this.spForm.get('sqn').valid) {
+            something.sqn = this.spForm.get('sqn').value;
+        }
         this.aetherApiService.postSecurityProfileSecurityProfile({
             id: submitId,
             target: AETHER_TARGETS[0],
-            body: this.spForm.getRawValue()
+            body: something
         }).subscribe(
             value => {
                 console.log('POST Response', value);
