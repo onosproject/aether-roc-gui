@@ -14,7 +14,7 @@ import {
 } from '../../../openapi3/aether/2.0.0/services';
 import {
     SecurityProfileSecurityProfile
-} from "../../../openapi3/aether/2.0.0/models";
+} from '../../../openapi3/aether/2.0.0/models';
 
 @Component({
     selector: 'aether-security-profile-edit',
