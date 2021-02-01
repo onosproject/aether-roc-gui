@@ -104,7 +104,6 @@ export class SecurityProfileEditComponent implements OnInit {
         console.log('Submitted!', this.spForm.getRawValue());
         //This will be changed to a for loop taking in all attributes of a security profile object to be compared to later
         let dataValues = [
-            this.spForm.get('id'),
             this.spForm.get('display-name'),
             this.spForm.get('key'),
             this.spForm.get('opc'),
@@ -134,7 +133,7 @@ export class SecurityProfileEditComponent implements OnInit {
             }
         }
         console.log('AFTER LOOP');
-        
+
         //Commented this out since the POST will be 1 big POST on the basket instead of individual POSTs
 
         //POST
