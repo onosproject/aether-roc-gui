@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 $header-height: 40px;
-$content-height: 520px;
+$content-height: 320px;
 
 .card {
-    padding: 0;
+    padding: 10px;
     margin: -$header-height auto 0;
     width: 75%;
     position: absolute;
@@ -31,6 +31,7 @@ $content-height: 520px;
 
 .content {
     height: $content-height;
+    width: 70%;
 }
 
 .field-margin {

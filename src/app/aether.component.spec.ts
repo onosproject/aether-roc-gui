@@ -16,6 +16,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
+import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
 
 class MockMeta {
     getTag(attrSelector: string): HTMLMetaElement {
@@ -45,7 +46,10 @@ describe('AppComponent', () => {
             providers: [
                 {provide: 'Window', useValue: window},
                 {provide: 'kubernetes_api_proxy', useValue: KUBERNETES_API_PROXY},
-                {provide: Meta, useClass: MockMeta}
+                {provide: Meta, useClass: MockMeta},
+                {provide: OAuthService},
+                {provide: UrlHelperService},
+                {provide: OAuthLogger}
             ]
         }).compileComponents();
     });

@@ -1,0 +1,20 @@
+<!--
+~ SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+
+<mat-card class="card mat-elevation-z8" (click)="closeCard()">
+    <mat-card-header class="header">
+        <mat-card-title class="subheading-1 title">Api Key</mat-card-title>
+        <mat-card-subtitle>Valid until: {{expiry}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="content">
+        {{apiKey}}
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-icon-button>
+            <mat-icon [cdkCopyToClipboard]="apiKey" (click)="closeCard()">content_copy</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>

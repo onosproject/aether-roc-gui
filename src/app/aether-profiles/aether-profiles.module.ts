@@ -26,6 +26,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {AuthInterceptor} from '../auth-interceptor';
+import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 
 @NgModule({
     declarations: [
@@ -63,6 +65,10 @@ import {MatButtonModule} from '@angular/material/button';
         MatButtonModule,
         MatSnackBarModule,
 
+    ],
+    providers: [
+        AuthInterceptor,
+        API_INTERCEPTOR_PROVIDER,
     ]
 })
 export class AetherProfilesModule {}

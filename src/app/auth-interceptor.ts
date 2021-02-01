@@ -8,9 +8,10 @@ import {Injectable} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
+import {ID_TOKEN_ATTR} from './aether.component';
 
 const TOKEN_HEADER_KEY = 'Authorization';
-const BEARER_KEYWORD = 'Bearer';
+const BEARER_KEYWORD = 'Bearer ';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -18,13 +19,14 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>,
               next: HttpHandler): Observable<HttpEvent<any>> {
 
-        const idToken = localStorage.getItem('id_token');
+        const idToken = localStorage.getItem(ID_TOKEN_ATTR);
 
         if (idToken) {
             const cloned = req.clone({
                 headers: req.headers.set(TOKEN_HEADER_KEY,
                     BEARER_KEYWORD + idToken)
             });
+            console.log('Interceptor', cloned);
 
             return next.handle(cloned).pipe(
                 tap(x => x, err => {

@@ -20,6 +20,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
+import { ApiKeyComponent } from './api-key/api-key.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
     provide: HTTP_INTERCEPTORS,
@@ -31,6 +33,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     declarations: [
         AetherComponent,
         UserProfileComponent,
+        ApiKeyComponent,
     ],
     imports: [
         BrowserModule,
@@ -44,12 +47,13 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
         MatDividerModule,
         MatCardModule,
         MatListModule,
+        ClipboardModule,
     ],
     providers: [
         {provide: 'Window', useValue: window},
         {provide: 'kubernetes_api_proxy', useValue: KUBERNETES_API_PROXY},
-        AuthInterceptor,
-        API_INTERCEPTOR_PROVIDER,
+        // AuthInterceptor, not needed here - use in child modules
+        // API_INTERCEPTOR_PROVIDER,
     ],
     bootstrap: [AetherComponent]
 })
