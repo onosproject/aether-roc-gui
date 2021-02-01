@@ -102,6 +102,7 @@ export class SecurityProfileEditComponent implements OnInit {
 
     onSubmit(): void {
         let i = 0;
+        let c = 0;
         console.log('Submitted!', this.spForm.getRawValue());
         let submitId = this.id;
         if (this.id === undefined) {
@@ -109,31 +110,28 @@ export class SecurityProfileEditComponent implements OnInit {
         }
         //Array of the properties listed
         let dataValues = [
-            this.spForm.get('id').value,
-            this.spForm.get('display-name').value,
-            this.spForm.get('key').value,
-            this.spForm.get('opc').value,
-            this.spForm.get('sqn').value,
-            this.spForm.get('description').value
+            this.spForm.get('id'),
+            this.spForm.get('display-name'),
+            this.spForm.get('key'),
+            this.spForm.get('opc'),
+            this.spForm.get('sqn'),
+            this.spForm.get('description')
         ];
-        console.log('VALUE FOR SQN', dataValues[4]);
+        console.log('VALUE FOR SQN', dataValues[4].value);
         console.log(dataValues.length);
         //Length of attributes
         //First for loop for checking first attribute
-        console.log('BEFORE LOOP')
-        for(let value of dataValues) {
-            //Check if appropriate attribute is dirty, valid or touched
-            for(let i =0; i > 6; i++) {
-                if (this.spForm.get(dataValues[i]).value.valid == false) {
-                    console.log("INVALID DATA PROVIDED")
-                    break;
+        console.log('BEFORE LOOP');
+        for(let i =0; i < dataValues.length; i++) {
+            if (dataValues[i].valid == false) {
+                console.log("INVALID DATA PROVIDED")
+                break;
+            } else {
+                if (dataValues[i].pristine == false && dataValues[i].touched == true) {
+                    //add to basket
+                    console.log(dataValues[i].value, ' is sent to basket');
                 } else {
-                    if (this.spForm.get(dataValues[i]).value.pristine == false || this.spForm.get(dataValues[i]).value.touched == false) {
-                        //add to basket
-                        console.log('Sent to basket');
-                    } else {
-                        console.log('Not sent to basket');
-                    }
+                    console.log('Not sent to basket');
                 }
             }
         }
