@@ -101,14 +101,8 @@ export class SecurityProfileEditComponent implements OnInit {
     }
 
     onSubmit(): void {
-        let i = 0;
-        let c = 0;
         console.log('Submitted!', this.spForm.getRawValue());
-        let submitId = this.id;
-        if (this.id === undefined) {
-            submitId = this.spForm.get('id').value as unknown as string;
-        }
-        //Array of the properties listed
+        //This will be changed to a for loop taking in all attributes of a security profile object to be compared to later
         let dataValues = [
             this.spForm.get('id'),
             this.spForm.get('display-name'),
@@ -117,39 +111,47 @@ export class SecurityProfileEditComponent implements OnInit {
             this.spForm.get('sqn'),
             this.spForm.get('description')
         ];
-        console.log('VALUE FOR SQN', dataValues[4].value);
-        console.log(dataValues.length);
-        //Length of attributes
         //First for loop for checking first attribute
         console.log('BEFORE LOOP');
         for(let i =0; i < dataValues.length; i++) {
+            let submitId = this.id;
+            if (dataValues[0] === undefined) {
+                submitId = this.spForm.get('id').value as unknown as string;
+            }
             if (dataValues[i].valid == false) {
                 console.log("INVALID DATA PROVIDED")
                 break;
             } else {
-                if (dataValues[i].pristine == false && dataValues[i].touched == true) {
-                    //add to basket
+                if (dataValues[i].dirty == true && dataValues[i].touched == true) {
+                    //Add to basket
                     console.log(dataValues[i].value, ' is sent to basket');
+                    //Setting the item changed to be named itself
+                    localStorage.setItem(dataValues[i].toString(), dataValues[i].value);
                 } else {
+                    //Do nothing
                     console.log('Not sent to basket');
                 }
             }
         }
         console.log('AFTER LOOP');
-        this.aetherApiService.postSecurityProfileSecurityProfile({
-            id: submitId,
-            target: AETHER_TARGETS[0],
-            body: this.spForm.getRawValue()
-        }).subscribe(
-            value => {
-                console.log('POST Response', value);
-                // TODO: Add a string to the response in the OpenAPI yaml (so that this is not unknown)
-                this.router.navigate(['/profiles', 'securityprofiles', value as unknown as string]);
-            },
-            error => console.warn('POST error', error),
-            () => {
-                console.log('POST finished');
-            }
-        );
+        
+        //Commented this out since the POST will be 1 big POST on the basket instead of individual POSTs
+
+        //POST
+        // this.aetherApiService.postSecurityProfileSecurityProfile({
+        //     id: submitId,
+        //     target: AETHER_TARGETS[0],
+        //     body: this.spForm.getRawValue()
+        // }).subscribe(
+        //     value => {
+        //         console.log('POST Response', value);
+        //         // TODO: Add a string to the response in the OpenAPI yaml (so that this is not unknown)
+        //         this.router.navigate(['/profiles', 'securityprofiles', value as unknown as string]);
+        //     },
+        //     error => console.warn('POST error', error),
+        //     () => {
+        //         console.log('POST finished');
+        //     }
+        // );
     }
 }
