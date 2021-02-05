@@ -1,6 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
+import { AdditionalPropertyTarget } from './additional-property-target';
 export interface ApnProfileApnProfile {
   'apn-name'?: string;
   description?: string;
@@ -10,4 +11,6 @@ export interface ApnProfileApnProfile {
   'gx-enabled'?: boolean;
   id?: string;
   mtu?: number;
+
+  [key: string]: AdditionalPropertyTarget | boolean | number | string | undefined;
 }
