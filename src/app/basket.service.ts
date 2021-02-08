@@ -1,21 +1,17 @@
 import { Injectable } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {SecurityProfileSecurityProfileService} from "../openapi3/aether/2.0.0/services/security-profile-security-profile.service";
-import {Service as AetherV200TargetService} from "../openapi3/aether/2.0.0/services/service";
-import {ApiService} from "../openapi3/aether/2.0.0/services/api.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {FormGroup} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class BasketService {
 
   constructor() { }
 
     logKeyValuePairs(group: FormGroup, parent?: string): void {
-        const path = parent === undefined ? '/' : '/' + parent;
 
+        // Path is either '/' if undefined == true or '/' + parent if false
+        const path = (parent === undefined) ? '/' : '/' + parent;
         Object.keys(group.controls).forEach((key: string) => {
 
             // Get a reference to the control using the FormGroup.get() method
@@ -29,15 +25,24 @@ export class BasketService {
                 this.logKeyValuePairs(abstractControl, path === '/' ? key : parent + '/' + key);
                 // If the control is not a FormGroup then we know it's a FormControl
             } else {
-                localStorage.setItem(path + key, abstractControl.value);
-                console.log('Key = ' + path + key + ' && Value = ' + abstractControl.value);
+                if (abstractControl.pristine === false && abstractControl.touched === true) {
+                    if (abstractControl.value === '') {
+                        const fullPath = '/basket-delete' + path + '/' + key;
+                        localStorage.setItem(fullPath, abstractControl.value);
+                        console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
+                    }
+                    else {
+                        const fullPath = '/basket-update' + path + '/' + key;
+                        localStorage.setItem(fullPath, abstractControl.value);
+                        console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
+                    }
+                }
+                else {
+                    const fullPath = path + '/' + key;
+                    console.log('Unchanged PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
+                    console.log('Not touched or changed');
+                }
             }
         });
-    }
-    emptyBasket(): void {
-      //Empty everything in basket
-    }
-    switchCase(): void {
-
     }
 }
