@@ -15,6 +15,7 @@ import {
 import {
     SecurityProfileSecurityProfile
 } from '../../../openapi3/aether/2.0.0/models';
+import {BasketService} from '../../basket.service';
 
 @Component({
     selector: 'aether-security-profile-edit',
@@ -60,7 +61,8 @@ export class SecurityProfileEditComponent implements OnInit {
         private aetherApiService: ApiService,
         private route: ActivatedRoute,
         private router: Router,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private bs: BasketService
     ) {
     }
 
@@ -106,6 +108,7 @@ export class SecurityProfileEditComponent implements OnInit {
         if (this.id === undefined) {
             submitId = this.spForm.get('id').value as unknown as string;
         }
+        this.bs.logKeyValuePairs(this.spForm);
         this.aetherApiService.postSecurityProfileSecurityProfile({
             id: submitId,
             target: AETHER_TARGETS[0],

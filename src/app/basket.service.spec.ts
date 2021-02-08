@@ -1,5 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+ */
 import {TestBed} from '@angular/core/testing';
-
 import {BasketService} from './basket.service';
 import {FormBuilder} from '@angular/forms';
 
@@ -17,30 +21,28 @@ describe('BasketService', () => {
     });
 
     it('should iterate through form', () => {
-        const testFormGroup = fb.group({
-            attr1: [''],
-            attr2: [''],
-            'sub-group1': fb.group({
-                subAttr1A: [''],
-                'sub-group11': fb.group({
-                    'sub-attr-11A': ['']
+        const testFormGroup2 = fb.group({
+            'security-profile': fb.group({
+                'security-profile': fb.group({
+                    id: ['ap1'],
+                    'display-name': [''],
+                    key: [''],
+                    opc: [''],
+                    sqn: [''],
+                    description: ['']
                 })
-            }),
-            'sub-group2': fb.group({
-                subAttr2A: ['']
             })
         });
-        testFormGroup.get('attr1');
-        service.logKeyValuePairs(testFormGroup);
+        const keyObject = testFormGroup2.get('security-profile').get('security-profile').get('key');
+        keyObject.markAsDirty();
+        keyObject.markAsTouched();
+        const sqnObject = testFormGroup2.get('security-profile').get('security-profile').get('sqn');
+        sqnObject.markAsDirty();
+        sqnObject.markAsTouched();
+        sqnObject.setValue('123');
+        service.logKeyValuePairs(testFormGroup2);
         expect(service).toBeTruthy();
-        expect(localStorage.getItem('basketupdates/attr1')).toBe('testme');
-        expect(localStorage.getItem('/attr2')).toBe('10');
-        expect(localStorage.getItem('/sub-group1/subAttr1A')).toBe('');
-        expect(localStorage.getItem('/sub-group1/sub-group11/subAttr11A')).toBe('');
-        expect(localStorage.getItem('/sub-group2/subAttr2A')).toBe('');
-    });
-
-    it('should switch cases and switch REST types', () => {
-
+        expect(localStorage.getItem('/basket-delete/security-profile/security-profile/key')).toBe('');
+        expect(localStorage.getItem('/basket-update/security-profile/security-profile/sqn')).toBe('123');
     });
 });
