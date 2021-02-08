@@ -1,6 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
+import { AdditionalPropertyTarget } from './additional-property-target';
 import { SubscriberUeProfiles } from './subscriber-ue-profiles';
 import { SubscriberUeServingPlmn } from './subscriber-ue-serving-plmn';
 export interface SubscriberUe {
@@ -27,4 +28,6 @@ export interface SubscriberUe {
   'imsi-wildcard'?: string;
   priority?: number;
   'requested-apn'?: string;
+
+  [key: string]: AdditionalPropertyTarget | SubscriberUeProfiles | SubscriberUeServingPlmn | boolean | number | string | undefined;
 }
