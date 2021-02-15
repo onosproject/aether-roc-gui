@@ -5,6 +5,7 @@
  */
 
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {IdTokClaims} from '../aether.component';
 
 @Component({
     selector: 'aether-user-profile',
@@ -12,12 +13,17 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
     styleUrls: ['../common-panel.component.scss']
 })
 export class UserProfileComponent {
-    @Input() name: string;
-    @Input() email: string;
-    @Input() groups: string[];
     @Output() closeEvent = new EventEmitter<boolean>();
 
     constructor() {
+    }
+
+    get idTokClaims(): IdTokClaims {
+        const idTokClaims = localStorage.getItem('id_token_claims_obj');
+        if (idTokClaims !== null) {
+            return JSON.parse(idTokClaims) as IdTokClaims;
+        }
+        return {} as IdTokClaims;
     }
 
     closeCard(): void {

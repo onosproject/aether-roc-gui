@@ -17,7 +17,7 @@
     </mat-toolbar>
     <mat-menu #menu="matMenu">
         <button mat-menu-item>
-            <span mat-menu-item (click)="userProfileDisplay = true">{{userName()}}</span>
+            <span mat-menu-item (click)="userProfileDisplay = true">{{idTokClaims.name}}</span>
         </button>
         <mat-divider></mat-divider>
         <button mat-menu-item routerLink="/subscribers">
@@ -92,13 +92,10 @@
 <router-outlet></router-outlet>
 
 <aether-user-profile *ngIf="userProfileDisplay"
-                     [name]="userName()"
-                     [email]="userEmail()"
-                     [groups]="userGroups()"
                 (closeEvent)="userProfileDisplay = false">
 </aether-user-profile>
 <aether-api-key *ngIf="apiKeyDisplay"
-                [apiKey]="apiKey()"
-                [expiry]="expiry()"
+                [apiKey]="apiKey"
+                [expiry]="idTokenExpAt"
                 (closeEvent)="apiKeyDisplay = false">
 </aether-api-key>

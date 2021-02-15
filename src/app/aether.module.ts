@@ -10,7 +10,7 @@ import {AetherRoutingModule} from './aether-routing.module';
 import {AetherComponent} from './aether.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthInterceptor} from './auth-interceptor';
-import {OAuthModule} from 'angular-oauth2-oidc';
+import {OAuthModule, OAuthStorage} from 'angular-oauth2-oidc';
 import {KUBERNETES_API_PROXY} from '../environments/environment';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -54,6 +54,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
         {provide: 'kubernetes_api_proxy', useValue: KUBERNETES_API_PROXY},
         // AuthInterceptor, not needed here - use in child modules
         // API_INTERCEPTOR_PROVIDER,
+        {provide: OAuthStorage, useValue: localStorage},
     ],
     bootstrap: [AetherComponent]
 })
