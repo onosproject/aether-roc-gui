@@ -3,13 +3,13 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {AetherComponent} from './aether.component';
+import {AetherComponent, IdTokClaims} from './aether.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {KUBERNETES_API_PROXY} from '../environments/environment';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {Meta} from '@angular/platform-browser';
+import {By, Meta} from '@angular/platform-browser';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
@@ -26,7 +26,10 @@ class MockMeta {
     }
 }
 
-describe('AppComponent', () => {
+describe('AetherComponent', () => {
+    let component: AetherComponent;
+    let fixture: ComponentFixture<AetherComponent>;
+
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [
@@ -54,15 +57,23 @@ describe('AppComponent', () => {
         }).compileComponents();
     });
 
+    beforeEach(() => {
+        const testTokClObj = {
+            name: 'Test User',
+            email: 'test@opennetworking.org',
+            groups: ['group1', 'group2'],
+        } as IdTokClaims;
+        localStorage.setItem('id_token_claims_obj', JSON.stringify(testTokClObj));
+        fixture = TestBed.createComponent(AetherComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
     it('should create the app', () => {
-        const fixture = TestBed.createComponent(AetherComponent);
-        const app = fixture.componentInstance;
-        expect(app).toBeTruthy();
+        expect(component).toBeTruthy();
     });
 
     it('should render title', () => {
-        const fixture = TestBed.createComponent(AetherComponent);
-        fixture.detectChanges();
         const compiled = fixture.nativeElement;
         expect(compiled.querySelector('div').textContent).toContain('person');
     });

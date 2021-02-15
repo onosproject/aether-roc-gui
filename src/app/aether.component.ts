@@ -4,16 +4,30 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, OnInit} from '@angular/core';
-import {OAuthService} from 'angular-oauth2-oidc';
+import {OAuthInfoEvent, OAuthService} from 'angular-oauth2-oidc';
 import {authConfig} from '../environments/environment';
 import {Meta} from '@angular/platform-browser';
 
 export const USERNAME_ATTR = 'name';
-export const EMAIL_ATTR = 'email';
 export const GROUPS_ATTR = 'groups';
-export const ID_TOKEN_ATTR = 'idToken';
-export const ACCESS_TOKEN_ATTR = 'accessToken';
-export const EXPIRY_ATTR = 'exp';
+export const ID_TOKEN_ATTR = 'id_token';
+export const ACCESS_TOKEN_ATTR = 'access_token';
+const ID_TOKEN_CLAIMS_OBJ = 'id_token_claims_obj';
+const ID_TOKEN_EXPIRES_AT = 'id_token_expires_at';
+
+export interface IdTokClaims {
+    at_hash: string;
+    aud: string;
+    email: string;
+    email_verified: boolean;
+    exp: number;
+    groups: string[];
+    iat: number;
+    iss: string;
+    name: string;
+    nonce: string;
+    sub: string;
+}
 
 @Component({
     selector: 'aether-root',
@@ -30,7 +44,7 @@ export class AetherComponent implements OnInit {
     ) {
     }
 
-    async ngOnInit(): Promise<void> {
+    async ngOnInit(): Promise<boolean> {
         const issuerMeta = this.meta.getTag('name=openidcissuer');
         console.log('Starting onos.component with ', issuerMeta.content);
         let validToken = false;
@@ -45,21 +59,7 @@ export class AetherComponent implements OnInit {
                 validToken = true;
             }
 
-            const loggedIn = await this.oauthService.loadDiscoveryDocumentAndLogin();
-
-            if (loggedIn) {
-                localStorage.setItem(EMAIL_ATTR, this.oauthService.getIdentityClaims()[EMAIL_ATTR]);
-                localStorage.setItem(USERNAME_ATTR, this.oauthService.getIdentityClaims()[USERNAME_ATTR]);
-                localStorage.setItem(GROUPS_ATTR, this.oauthService.getIdentityClaims()[GROUPS_ATTR]);
-                localStorage.setItem(EXPIRY_ATTR, this.oauthService.getIdentityClaims()[EXPIRY_ATTR]);
-                localStorage.setItem(ACCESS_TOKEN_ATTR, this.oauthService.getIdToken());
-                localStorage.setItem(ID_TOKEN_ATTR, this.oauthService.getAccessToken());
-                console.log('Logged in', this.oauthService.hasValidIdToken(),
-                    'as', localStorage.getItem(USERNAME_ATTR),
-                    '(' + localStorage.getItem(EMAIL_ATTR) + ') Groups:' + localStorage.getItem(GROUPS_ATTR));
-            } else {
-                console.warn('Not logged in');
-            }
+            return await this.oauthService.loadDiscoveryDocumentAndLogin();
         }
 
     }
@@ -73,29 +73,22 @@ export class AetherComponent implements OnInit {
         localStorage.clear();
     }
 
-    userName(): string {
-        return localStorage.getItem(USERNAME_ATTR);
-    }
-
-    userEmail(): string {
-        return localStorage.getItem(EMAIL_ATTR);
-    }
-
-    userGroups(): string[] {
-        if (localStorage.getItem(GROUPS_ATTR) === null) {
-            return [];
+    get idTokClaims(): IdTokClaims {
+        const idTokClaims = localStorage.getItem(ID_TOKEN_CLAIMS_OBJ);
+        if (idTokClaims !== null) {
+            return JSON.parse(idTokClaims) as IdTokClaims;
         }
-        return localStorage.getItem(GROUPS_ATTR).split(',');
+        return {} as IdTokClaims;
     }
 
-    apiKey(): string {
-        return localStorage.getItem(ID_TOKEN_ATTR);
-    }
-
-    expiry(): Date {
-        const milliSeconds = Number(localStorage.getItem(EXPIRY_ATTR));
+    get idTokenExpAt(): Date {
+        const milliSeconds = Number(localStorage.getItem(ID_TOKEN_EXPIRES_AT));
         const expiry = new Date();
-        expiry.setTime(milliSeconds * 1000);
+        expiry.setTime(milliSeconds);
         return expiry;
+    }
+
+    get apiKey(): string {
+        return localStorage.getItem(ID_TOKEN_ATTR);
     }
 }

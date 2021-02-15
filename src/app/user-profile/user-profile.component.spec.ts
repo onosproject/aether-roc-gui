@@ -8,6 +8,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {UserProfileComponent} from './user-profile.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
+import {IdTokClaims} from '../aether.component';
 
 describe('UserProfileComponent', () => {
     let component: UserProfileComponent;
@@ -25,6 +26,12 @@ describe('UserProfileComponent', () => {
     });
 
     beforeEach(() => {
+        const testTokClObj = {
+            name: 'Test User',
+            email: 'test@opennetworking.org',
+            groups: ['group1', 'group2'],
+        } as IdTokClaims;
+        localStorage.setItem('id_token_claims_obj', JSON.stringify(testTokClObj));
         fixture = TestBed.createComponent(UserProfileComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
