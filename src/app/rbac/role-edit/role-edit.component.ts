@@ -11,6 +11,7 @@ import {
     ApiService,
     RbacRoleService as RbacV100TargetRbacService,
 } from '../../../openapi3/rbac/1.0.0/services';
+import {BasketService} from '../../basket.service';
 
 export enum Operation {
     UNKNOWN = 'UNKNOWN',
@@ -51,7 +52,8 @@ export class RoleEditComponent implements OnInit {
         private rbacApiService: ApiService,
         private route: ActivatedRoute,
         private router: Router,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private bs: BasketService
     ) {
     }
 
@@ -95,6 +97,7 @@ export class RoleEditComponent implements OnInit {
 
     onSubmit(): void {
         console.log('Submitted!', this.roleForm.getRawValue());
+        this.bs.logKeyValuePairs(this.roleForm);
         this.rbacApiService.postRbacRole({
             roleid: this.roleid,
             target: RBAC_TARGET,
