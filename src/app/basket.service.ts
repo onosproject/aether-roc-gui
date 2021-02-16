@@ -6,7 +6,17 @@
 import {Injectable} from '@angular/core';
 import {AbstractControl, FormArray, FormControl, FormGroup} from '@angular/forms';
 import {AETHER_TARGETS} from '../environments/environment';
-import {ArrayType} from '@angular/compiler';
+import {ArrayType, ElementSchemaRegistry} from '@angular/compiler';
+import {PatchBody, Elements} from '../openapi3/top/level/models';
+import {SecurityProfile} from '../openapi3/aether/2.0.0/models/security-profile';
+import {AccessProfile} from '../openapi3/aether/2.0.0/models/access-profile';
+import {SecurityProfileSecurityProfile} from '../openapi3/aether/2.0.0/models/security-profile-security-profile';
+import {valueReferenceToExpression} from '@angular/compiler-cli/src/ngtsc/annotations/src/util';
+import {getPropertyValueFromSymbol} from '@angular/compiler-cli/ngcc/src/host/esm2015_host';
+import {isPackageNameSafeForAnalytics} from '@angular/cli/models/analytics';
+import localizeExtractLoader from '@angular-devkit/build-angular/src/extract-i18n/ivy-extract-loader';
+import {type} from 'os';
+import {mainDiagnosticsForTest} from '@angular/compiler-cli/src/main';
 
 @Injectable({
     providedIn: 'root'
@@ -45,6 +55,67 @@ export class BasketService {
                 const fullPath = path;
                 console.log('Unchanged PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
             }
+        }
+    }
+
+    clearBasket(): void{
+        Object.keys(localStorage)
+            .filter(key => key.startsWith('/basket'))
+            .forEach((key) => {
+                localStorage.removeItem(key);
+            });
+    }
+
+    buildPatchBody(): PatchBody {
+
+        const patchBody = {
+            Updates: {},
+            Deletes: {}
+        };
+
+        Object.keys(localStorage)
+            .filter(key => key.startsWith('/basket-update'))
+            .forEach((key) => {
+                const pathParts = key.split('/');
+                const value = localStorage.getItem(key);
+                this.recursePath(pathParts.slice(2), patchBody.Updates, value);
+            });
+
+
+        Object.keys(localStorage)
+            .filter(key => key.startsWith('/basket-delete'))
+            .forEach((key) => {
+                const pathPaths = key.split('/');
+                const value = localStorage.getItem(key);
+                this.recursePath(pathPaths.slice(2), patchBody.Deletes, value);
+            });
+
+        return patchBody as PatchBody;
+    }
+
+    recursePath(path: string[], object: object, value: string): void {
+        if (path.length === 1) {
+            object[path[0]] = value;
+        } else if (path[0].endsWith('[]')) {
+            if (path.length < 3) {
+                console.warn('path too short');
+                return;
+            }
+            let arrayName = path[0];
+            const index = path[1];
+            arrayName = arrayName.substring(0, arrayName.length - 2);
+            if (object[arrayName] === undefined) {
+                object[arrayName] = [];
+            }
+            if (object[arrayName][index] === undefined) {
+                object[arrayName][index] = {};
+            }
+            this.recursePath(path.slice(2), object[arrayName][index], value);
+        } else {
+            if (object[path[0]] === undefined) {
+                object[path[0]] = {};
+            }
+            this.recursePath(path.slice(1), object[path[0]], value);
         }
     }
 }
