@@ -47,7 +47,6 @@ export class AetherComponent implements OnInit {
     async ngOnInit(): Promise<boolean> {
         const issuerMeta = this.meta.getTag('name=openidcissuer');
         console.log('Starting onos.component with ', issuerMeta.content);
-        let validToken = false;
         if (issuerMeta.content !== undefined && issuerMeta.content !== '' && issuerMeta.content !== '$OPENIDCISSUER') {
             authConfig.issuer = issuerMeta.content;
         }
@@ -55,11 +54,9 @@ export class AetherComponent implements OnInit {
 
             this.oauthService.configure(authConfig);
 
-            if (this.oauthService.hasValidAccessToken()) {
-                validToken = true;
-            }
-
-            return await this.oauthService.loadDiscoveryDocumentAndLogin();
+            return await this.oauthService.loadDiscoveryDocumentAndLogin(
+                {customHashFragment: window.location.search}
+            );
         }
 
     }
