@@ -3,8 +3,22 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
+
+
+.basket-deleted {
+    strikethrough: ''
+}
+
 .full-width-table {
     width: 100%;
+}
+
+.spacing {
+    padding-right: 20px;
+}
+
+.small-spacing {
+    padding-right: 10px;
 }
 
 .table-col-pad {

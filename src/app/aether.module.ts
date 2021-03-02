@@ -5,7 +5,6 @@
  */
 import {BrowserModule} from '@angular/platform-browser';
 import {forwardRef, NgModule, Provider} from '@angular/core';
-
 import {AetherRoutingModule} from './aether-routing.module';
 import {AetherComponent} from './aether.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
