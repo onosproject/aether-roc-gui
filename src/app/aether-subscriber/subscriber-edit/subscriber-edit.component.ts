@@ -22,10 +22,14 @@ import {
     SecurityProfileSecurityProfile
 } from '../../../openapi3/aether/2.0.0/models';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {BasketService} from '../../basket.service';
 =======
 import {BasketService} from "../../basket.service";
 >>>>>>> Created new function to generate patch body
+=======
+import {BasketService} from '../../basket.service';
+>>>>>>> Created the webpage for the Basket Service
 
 @Component({
     selector: 'aether-subscriber-edit',
@@ -256,10 +260,13 @@ export class SubscriberEditComponent implements OnInit {
         }
         this.bs.logKeyValuePairs(this.subscriberUeForm);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         console.log(this.bs.buildPatchBody());
         this.bs.clearBasket();
 >>>>>>> Created new function to generate patch body
+=======
+>>>>>>> Created the webpage for the Basket Service
         this.aetherApiService.postSubscriberUe({
             id: submitUeid,
             target: AETHER_TARGETS[0],
