@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {EnterpriseComponent} from './enterprise.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';

@@ -13,24 +13,28 @@ import {Routes, RouterModule} from '@angular/router';
 const aetherRoutes: Routes = [
     {
         path: 'subscribers',
-        loadChildren: () =>  import('./aether-subscriber/aether-subscriber.module').then(m => m.AetherSubscriberModule)
+        loadChildren: () => import('./aether-subscriber/aether-subscriber.module').then(m => m.AetherSubscriberModule)
     },
     {
         path: 'enterprise',
-        loadChildren: () =>  import('./aether-enterprise/aether-enterprise.module').then(m => m.AetherEnterpriseModule)
+        loadChildren: () => import('./aether-enterprise/aether-enterprise.module').then(m => m.AetherEnterpriseModule)
     },
     {
         path: 'connectivity',
-        loadChildren: () => import('./aether-connectivity-service/aether-connectivity-service.module').
-            then(m => m.AetherConnectivityServiceModule)
+        loadChildren: () => import('./aether-connectivity-service/aether-connectivity-service.module')
+            .then(m => m.AetherConnectivityServiceModule)
     },
     {
         path: 'profiles',
-        loadChildren: () =>  import('./aether-profiles/aether-profiles.module').then(m => m.AetherProfilesModule)
+        loadChildren: () => import('./aether-profiles/aether-profiles.module').then(m => m.AetherProfilesModule)
     },
     {
         path: 'rbac',
-        loadChildren: () =>  import('./rbac/rbac.module').then(m => m.RbacModule)
+        loadChildren: () => import('./rbac/rbac.module').then(m => m.RbacModule)
+    },
+    {
+        path: 'basket',
+        loadChildren: () => import('./basket/basket.module').then(m => m.BasketModule)
     },
     {
         path: '',

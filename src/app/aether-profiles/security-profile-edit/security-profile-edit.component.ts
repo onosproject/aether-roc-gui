@@ -103,6 +103,8 @@ export class SecurityProfileEditComponent implements OnInit {
     }
 
     onSubmit(): void {
+        const securityProfPath = SecurityProfileSecurityProfileService.GetSecurityProfileSecurityProfilePath;
+        console.log(securityProfPath);
         console.log('Submitted!', this.spForm.getRawValue());
         let submitId = this.id;
         if (this.id === undefined) {
@@ -110,7 +112,6 @@ export class SecurityProfileEditComponent implements OnInit {
         }
         this.bs.logKeyValuePairs(this.spForm);
         console.log(this.bs.buildPatchBody());
-        this.bs.clearBasket();
         this.aetherApiService.postSecurityProfileSecurityProfile({
             id: submitId,
             target: AETHER_TARGETS[0],

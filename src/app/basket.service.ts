@@ -24,10 +24,10 @@ import {mainDiagnosticsForTest} from '@angular/compiler-cli/src/main';
 export class BasketService {
 
     constructor() {
+
     }
 
     logKeyValuePairs(abstractControl: AbstractControl, parent?: string): void {
-
         // Path is either '/' if undefined == true or '/' + parent if false
         const path = (parent === undefined) ? '/' : '/' + parent;
 
@@ -56,14 +56,6 @@ export class BasketService {
                 console.log('Unchanged PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
             }
         }
-    }
-
-    clearBasket(): void{
-        Object.keys(localStorage)
-            .filter(key => key.startsWith('/basket'))
-            .forEach((key) => {
-                localStorage.removeItem(key);
-            });
     }
 
     buildPatchBody(): PatchBody {

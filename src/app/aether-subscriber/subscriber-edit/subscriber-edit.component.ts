@@ -21,6 +21,7 @@ import {
     UpProfileUpProfile,
     SecurityProfileSecurityProfile
 } from '../../../openapi3/aether/2.0.0/models';
+import {BasketService} from '../../basket.service';
 
 @Component({
     selector: 'aether-subscriber-edit',
@@ -84,7 +85,8 @@ export class SubscriberEditComponent implements OnInit {
         private aetherApiService: ApiService,
         private route: ActivatedRoute,
         private router: Router,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private bs: BasketService
     ) {
     }
 
@@ -248,6 +250,7 @@ export class SubscriberEditComponent implements OnInit {
         if (this.id === undefined) {
             submitUeid = this.subscriberUeForm.get('id').value as unknown as string;
         }
+        this.bs.logKeyValuePairs(this.subscriberUeForm);
         this.aetherApiService.postSubscriberUe({
             id: submitUeid,
             target: AETHER_TARGETS[0],
