@@ -84,8 +84,8 @@ export class EnterpriseDatasource extends DataSource<EnterpriseEnterprise> {
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value.Enterprise;
-                        console.log('Got ', value.Enterprise.length, ' Enterprise from ', this.targets);
+                        this.data = value.enterprise;
+                        console.log('Got ', value.enterprise.length, ' Enterprise from ', this.targets);
                     } else {
                         console.log('No Enterprise found');
                     }

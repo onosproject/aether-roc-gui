@@ -55,7 +55,7 @@ export class SubscriberEditComponent implements OnInit {
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'Serving-plmn': this.fb.group({
+        'serving-plmn': this.fb.group({
             mcc: [0, Validators.compose([
                 Validators.min(0),
                 Validators.max(999)])
@@ -69,12 +69,12 @@ export class SubscriberEditComponent implements OnInit {
                 Validators.max(99999999)])
             ],
         }),
-        Profiles: this.fb.group({
+        profiles: this.fb.group({
                 'apn-profile': [''],
                 'qos-profile': [''],
                 'security-profile': [''],
                 'up-profile': [''],
-                // 'Access-profile' : this.fb.array([]),
+                // 'access-profile' : this.fb.array([]),
             }
         )
     });
@@ -110,7 +110,7 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     get accessProfileControls(): FormArray {
-        return this.subscriberUeForm.get('Profiles').get('Access-profile') as FormArray;
+        return this.subscriberUeForm.get('profiles').get('access-profile') as FormArray;
     }
 
     loadSubscriberUe(target: string, id: string): void {
@@ -128,21 +128,21 @@ export class SubscriberEditComponent implements OnInit {
                 this.imsiWildcard = value['imsi-wildcard'] !== undefined;
                 this.subscriberUeForm.get('imsi-wildcard').setValue(value['imsi-wildcard']);
                 this.subscriberUeForm.get('requested-apn').setValue(value['requested-apn']);
-                this.subscriberUeForm.get('Serving-plmn')
-                    .get('mcc').setValue(value['Serving-plmn'].mcc);
-                this.subscriberUeForm.get('Serving-plmn')
-                    .get('mnc').setValue(value['Serving-plmn'].mnc);
-                this.subscriberUeForm.get('Serving-plmn')
-                    .get('tac').setValue(value['Serving-plmn'].tac);
-                this.subscriberUeForm.get('Profiles')
+                this.subscriberUeForm.get('serving-plmn')
+                    .get('mcc').setValue(value['serving-plmn'].mcc);
+                this.subscriberUeForm.get('serving-plmn')
+                    .get('mnc').setValue(value['serving-plmn'].mnc);
+                this.subscriberUeForm.get('serving-plmn')
+                    .get('tac').setValue(value['serving-plmn'].tac);
+                this.subscriberUeForm.get('profiles')
                     .get('apn-profile').setValue(value.Profiles['apn-profile']);
-                this.subscriberUeForm.get('Profiles')
+                this.subscriberUeForm.get('profiles')
                     .get('qos-profile').setValue(value.Profiles['qos-profile']);
-                this.subscriberUeForm.get('Profiles')
+                this.subscriberUeForm.get('profiles')
                     .get('up-profile').setValue(value.Profiles['up-profile']);
-                this.subscriberUeForm.get('Profiles')
+                this.subscriberUeForm.get('profiles')
                     .get('security-profile').setValue(value.Profiles['security-profile']);
-                // for (const ap of value.Profiles['Access-profile']) {
+                // for (const ap of value.Profiles['access-profile']) {
                 //     this.accessProfileControls.push(this.fb.group({
                 //         'access-profile': new FormControl({value: ap['access-profile'], disabled: true}),
                 //         allowed: new FormControl({value: ap.allowed, disabled: true}),
@@ -164,8 +164,8 @@ export class SubscriberEditComponent implements OnInit {
             target,
         }).subscribe(
             (value => {
-                this.accessProfiles = value['Access-profile'];
-                console.log('Got ACCESS Profiles', value['Access-profile'].length);
+                this.accessProfiles = value['access-profile'];
+                console.log('Got ACCESS Profiles', value['access-profile'].length);
             }),
             error => {
                 console.warn('Error getting ACCESS Profiles for ', target, error);
@@ -181,8 +181,8 @@ export class SubscriberEditComponent implements OnInit {
             target,
         }).subscribe(
             (value => {
-                this.apnProfiles = value['Apn-profile'];
-                console.log('Got APN Profiles', value['Apn-profile'].length);
+                this.apnProfiles = value['apn-profile'];
+                console.log('Got APN Profiles', value['apn-profile'].length);
             }),
             error => {
                 console.warn('Error getting APN Profiles for ', target, error);
@@ -198,8 +198,8 @@ export class SubscriberEditComponent implements OnInit {
             target,
         }).subscribe(
             (value => {
-                this.qosProfiles = value['Qos-profile'];
-                console.log('Got QOS Profiles', value['Qos-profile'].length);
+                this.qosProfiles = value['qos-profile'];
+                console.log('Got QOS Profiles', value['qos-profile'].length);
             }),
             error => {
                 console.warn('Error getting QOS Profiles for ', target, error);
@@ -215,8 +215,8 @@ export class SubscriberEditComponent implements OnInit {
             target,
         }).subscribe(
             (value => {
-                this.upProfiles = value['Up-profile'];
-                console.log('Got UP Profiles', value['Up-profile'].length);
+                this.upProfiles = value['up-profile'];
+                console.log('Got UP Profiles', value['up-profile'].length);
             }),
             error => {
                 console.warn('Error getting UP Profiles for ', target, error);
@@ -232,8 +232,8 @@ export class SubscriberEditComponent implements OnInit {
             target,
         }).subscribe(
             (value => {
-                this.securityProfiles = value['Security-profile'];
-                console.log('Got UP Profiles', value['Security-profile'].length);
+                this.securityProfiles = value['security-profile'];
+                console.log('Got UP Profiles', value['security-profile'].length);
             }),
             error => {
                 console.warn('Error getting Security Profiles for ', target, error);

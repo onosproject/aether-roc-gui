@@ -84,8 +84,8 @@ export class UpProfilesDatasource extends DataSource<AetherV200TargetUpProfileUp
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value['Up-profile'];
-                        console.log('Got ', value['Up-profile'].length, ' UpProfiles from ', this.targets);
+                        this.data = value['up-profile'];
+                        console.log('Got ', value['up-profile'].length, ' UpProfiles from ', this.targets);
                     } else {
                         console.log('No UpProfiles found');
                     }

@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { PatchBody } from '../models/patch-body';
+import { TargetsNames } from '../models/targets-names';
 
 @Injectable({
   providedIn: 'root',
@@ -74,6 +75,57 @@ export class ApiService extends BaseService {
 
     return this.patchTopLevel$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation targetsTopLevel
+   */
+  static readonly TargetsTopLevelPath = '/targets';
+
+  /**
+   * GET /targets A list of just target names.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `targetsTopLevel()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  targetsTopLevel$Response(params?: {
+  }): Observable<StrictHttpResponse<TargetsNames>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.TargetsTopLevelPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<TargetsNames>;
+      })
+    );
+  }
+
+  /**
+   * GET /targets A list of just target names.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `targetsTopLevel$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  targetsTopLevel(params?: {
+  }): Observable<TargetsNames> {
+
+    return this.targetsTopLevel$Response(params).pipe(
+      map((r: StrictHttpResponse<TargetsNames>) => r.body as TargetsNames)
     );
   }
 

@@ -4,7 +4,7 @@
 import { AdditionalPropertyTarget } from './additional-property-target';
 import { ApnProfileApnProfile } from './apn-profile-apn-profile';
 export interface ApnProfile {
-  'Apn-profile'?: Array<ApnProfileApnProfile>;
+  'apn-profile'?: Array<ApnProfileApnProfile>;
 
   [key: string]: AdditionalPropertyTarget | Array<ApnProfileApnProfile> | undefined;
 }

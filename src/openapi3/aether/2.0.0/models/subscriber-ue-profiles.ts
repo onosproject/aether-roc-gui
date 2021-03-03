@@ -4,7 +4,7 @@
 import { AdditionalPropertyTarget } from './additional-property-target';
 import { SubscriberUeProfilesAccessProfile } from './subscriber-ue-profiles-access-profile';
 export interface SubscriberUeProfiles {
-  'Access-profile'?: Array<SubscriberUeProfilesAccessProfile>;
+  'access-profile'?: Array<SubscriberUeProfilesAccessProfile>;
   'apn-profile'?: string;
   'qos-profile'?: string;
   'security-profile'?: string;

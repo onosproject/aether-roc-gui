@@ -89,8 +89,8 @@ export class GroupDatasource extends DataSource<RbacGroup> {
         })
             .subscribe(
                 (value => {
-                    this.data = value.Group;
-                    console.log('Got ', value.Group.length, ' Groups from ', this.target);
+                    this.data = value.group;
+                    console.log('Got ', value.group.length, ' Groups from ', this.target);
                 }),
                 error => {
                     console.warn('Error getting Groups for ', this.target, error);

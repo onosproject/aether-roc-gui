@@ -40,7 +40,7 @@ export class RoleEditComponent implements OnInit {
     roleForm = this.fb.group({
         roleid: [''],
         description: [''],
-        RbacV100targetRbacRolePermission: this.fb.group({
+        permission: this.fb.group({
             operation: [''],
             type: [''],
             'leaf-list-noun': this.nounControls,
@@ -72,14 +72,14 @@ export class RoleEditComponent implements OnInit {
                 this.roleForm.get('roleid').setValue(value.roleid);
                 this.roleForm.get('description').setValue(value.description);
                 this.roleForm
-                    .get('RbacV100targetRbacRolePermission')
+                    .get('permission')
                     .get('operation')
-                    .setValue(value.Permission.operation);
+                    .setValue(value.permission.operation);
                 this.roleForm
-                    .get('RbacV100targetRbacRolePermission')
+                    .get('permission')
                     .get('type')
-                    .setValue(value.Permission.type);
-                for (const noun of value.Permission['leaf-list-noun']) {
+                    .setValue(value.permission.type);
+                for (const noun of value.permission['leaf-list-noun']) {
                     this.nouns.push(noun);
                     this.nounControls.push(new FormControl(noun));
                 }

@@ -89,8 +89,8 @@ export class RoleDatasource extends DataSource<RbacRole> {
         })
             .subscribe(
                 (value => {
-                    this.data = value.Role;
-                    console.log('Got ', value.Role.length, ' Subscribers from ', this.target);
+                    this.data = value.role;
+                    console.log('Got ', value.role.length, ' Subscribers from ', this.target);
                 }),
                 error => {
                     const errHttp = error as HttpErrorResponse;
