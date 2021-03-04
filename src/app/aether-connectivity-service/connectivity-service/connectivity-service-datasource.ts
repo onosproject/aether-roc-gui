@@ -84,14 +84,14 @@ export class ConnectivityServiceDatasource extends DataSource<ConnectivityServic
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value['Connectivity-service'];
-                        console.log('Got ', value['Connectivity-service'].length, ' Connectivity-service from ', this.targets);
+                        this.data = value['connectivity-service'];
+                        console.log('Got ', value['connectivity-service'].length, ' Connectivity-service from ', this.targets);
                     } else {
-                        console.log('No Connectivity-service found');
+                        console.log('No connectivity-service found');
                     }
                 }),
                 error => {
-                    console.warn('Error getting Connectivity-service for ', this.targets, error);
+                    console.warn('Error getting connectivity-service for ', this.targets, error);
                 },
                 () => {
                     // table.refreshRows() does not seem to work - using this trick instead

@@ -4,7 +4,7 @@
 import { AdditionalPropertyTarget } from './additional-property-target';
 import { EnterpriseEnterpriseConnectivityService } from './enterprise-enterprise-connectivity-service';
 export interface EnterpriseEnterprise {
-  'Connectivity-service'?: Array<EnterpriseEnterpriseConnectivityService>;
+  'connectivity-service'?: Array<EnterpriseEnterpriseConnectivityService>;
   description?: string;
   'display-name'?: string;
   id?: string;

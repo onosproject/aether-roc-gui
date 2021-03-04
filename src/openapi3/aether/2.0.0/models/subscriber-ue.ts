@@ -5,8 +5,6 @@ import { AdditionalPropertyTarget } from './additional-property-target';
 import { SubscriberUeProfiles } from './subscriber-ue-profiles';
 import { SubscriberUeServingPlmn } from './subscriber-ue-serving-plmn';
 export interface SubscriberUe {
-  Profiles?: SubscriberUeProfiles;
-  'Serving-plmn'?: SubscriberUeServingPlmn;
   'display-name'?: string;
   enabled?: boolean;
   enterprise?: string;
@@ -27,7 +25,9 @@ export interface SubscriberUe {
    */
   'imsi-wildcard'?: string;
   priority?: number;
+  profiles?: SubscriberUeProfiles;
   'requested-apn'?: string;
+  'serving-plmn'?: SubscriberUeServingPlmn;
 
   [key: string]: AdditionalPropertyTarget | SubscriberUeProfiles | SubscriberUeServingPlmn | boolean | number | string | undefined;
 }

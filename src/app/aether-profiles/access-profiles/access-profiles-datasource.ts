@@ -85,8 +85,8 @@ export class AccessProfilesDatasource extends DataSource<AetherV200TargetAccessP
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value['Access-profile'];
-                        console.log('Got ', value['Access-profile'].length,
+                        this.data = value['access-profile'];
+                        console.log('Got ', value['access-profile'].length,
                             ' AccessProfiles from ', this.targets);
                     } else {
                         console.log('No AccessProfiles found');

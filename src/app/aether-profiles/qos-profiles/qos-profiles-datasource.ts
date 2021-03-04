@@ -86,8 +86,8 @@ export class QosProfilesDatasource extends DataSource<AetherV100TargetQosProfile
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value['Qos-profile'];
-                        console.log('Got ', value['Qos-profile'].length,
+                        this.data = value['qos-profile'];
+                        console.log('Got ', value['qos-profile'].length,
                             ' QosProfiles from ', this.targets);
                     } else {
                         console.log('No QosProfiles found');

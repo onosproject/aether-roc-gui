@@ -5,8 +5,8 @@ import { AdditionalPropertyTarget } from './additional-property-target';
 import { QosProfileQosProfileApnAmbr } from './qos-profile-qos-profile-apn-ambr';
 import { QosProfileQosProfileArp } from './qos-profile-qos-profile-arp';
 export interface QosProfileQosProfile {
-  'Apn-ambr'?: QosProfileQosProfileApnAmbr;
-  Arp?: QosProfileQosProfileArp;
+  'apn-ambr'?: QosProfileQosProfileApnAmbr;
+  arp?: QosProfileQosProfileArp;
   description?: string;
   'display-name'?: string;
   id?: string;

@@ -87,8 +87,8 @@ export class SecurityProfilesDatasource extends DataSource<SecurityProfileSecuri
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value['Security-profile'];
-                        console.log('Got ', value['Security-profile'].length, ' SecurityProfiles from ', this.targets);
+                        this.data = value['security-profile'];
+                        console.log('Got ', value['security-profile'].length, ' SecurityProfiles from ', this.targets);
                     } else {
                         console.log('No SecurityProfiles found');
                     }

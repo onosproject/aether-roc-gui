@@ -4,9 +4,9 @@
 import { AdditionalPropertyTarget } from './additional-property-target';
 import { RbacGroupRole } from './rbac-group-role';
 export interface RbacGroup {
-  Role?: Array<RbacGroupRole>;
   description?: string;
   groupid?: string;
+  role?: Array<RbacGroupRole>;
 
   [key: string]: AdditionalPropertyTarget | Array<RbacGroupRole> | string | undefined;
 }

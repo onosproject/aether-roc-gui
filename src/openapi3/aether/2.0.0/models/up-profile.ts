@@ -4,7 +4,7 @@
 import { AdditionalPropertyTarget } from './additional-property-target';
 import { UpProfileUpProfile } from './up-profile-up-profile';
 export interface UpProfile {
-  'Up-profile'?: Array<UpProfileUpProfile>;
+  'up-profile'?: Array<UpProfileUpProfile>;
 
   [key: string]: AdditionalPropertyTarget | Array<UpProfileUpProfile> | undefined;
 }

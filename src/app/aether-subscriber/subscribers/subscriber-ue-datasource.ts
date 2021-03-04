@@ -90,8 +90,8 @@ export class SubscriberUeDataSource extends DataSource<SubscriberUe> {
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value.Ue;
-                        console.log('Got ', value.Ue.length, ' Subscribers from ', this.targets);
+                        this.data = value.ue;
+                        console.log('Got ', value.ue.length, ' Subscribers from ', this.targets);
                     } else {
                         console.log('No Subscribers found');
                     }

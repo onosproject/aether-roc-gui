@@ -1,7 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
-export { AdditionalPropertyTarget } from './models/additional-property-target';
 export { AccessProfile } from './models/access-profile';
 export { AccessProfileAccessProfile } from './models/access-profile-access-profile';
+export { AdditionalPropertyTarget } from './models/additional-property-target';
 export { ApnProfile } from './models/apn-profile';
 export { ApnProfileApnProfile } from './models/apn-profile-apn-profile';
 export { ConnectivityService } from './models/connectivity-service';

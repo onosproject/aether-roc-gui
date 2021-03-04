@@ -4,7 +4,7 @@
 import { AdditionalPropertyTarget } from './additional-property-target';
 import { ConnectivityServiceConnectivityService } from './connectivity-service-connectivity-service';
 export interface ConnectivityService {
-  'Connectivity-service'?: Array<ConnectivityServiceConnectivityService>;
+  'connectivity-service'?: Array<ConnectivityServiceConnectivityService>;
 
   [key: string]: AdditionalPropertyTarget | Array<ConnectivityServiceConnectivityService> | undefined;
 }

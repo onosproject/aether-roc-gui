@@ -53,19 +53,19 @@
         <!-- Serving PLMN Column -->
         <ng-container matColumnDef="serving-plmn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header title="mcc:mnc:tac">Serving PLMN</th>
-            <td mat-cell *matCellDef="let row" (click)="selectedSubscriber = row">{{row['Serving-plmn'].mcc}}
-                :{{row['Serving-plmn'].mnc}}:{{row['Serving-plmn'].tac}}</td>
+            <td mat-cell *matCellDef="let row" (click)="selectedSubscriber = row">{{row['serving-plmn'].mcc}}
+                :{{row['serving-plmn'].mnc}}:{{row['serving-plmn'].tac}}</td>
         </ng-container>
 
         <!-- Profiles Column -->
         <ng-container matColumnDef="profiles">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Profiles</th>
             <td mat-cell class="profiles-column" *matCellDef="let row" (click)="selectedSubscriber = row">
-                <p>APN: {{row.Profiles['apn-profile']}}</p>
-                <p>Up: {{row.Profiles['up-profile']}}</p>
-                <p>QOS: {{row.Profiles['qos-profile']}}</p>
-                <p>Sec: {{row.Profiles['security-profile']}}</p>
-                <p *ngFor="let ap of row.Profiles['Access-profile']">Acc: {{ap['access-profile']}}</p>
+                <p>APN: {{row.profiles['apn-profile']}}</p>
+                <p>Up: {{row.profiles['up-profile']}}</p>
+                <p>QOS: {{row.profiles['qos-profile']}}</p>
+                <p>Sec: {{row.profiles['security-profile']}}</p>
+                <p *ngFor="let ap of row.profiles['access-profile']">Acc: {{ap['access-profile']}}</p>
             </td>
         </ng-container>
 

@@ -53,7 +53,7 @@ export class GroupEditComponent implements OnInit {
             (value => {
                 this.groupForm.get('groupid').setValue(value.groupid);
                 this.groupForm.get('description').setValue(value.description);
-                for (const roleref of value.Role) {
+                for (const roleref of value.role) {
                     this.roleRefControls.push(this.fb.group({
                         roleid: roleref.roleid,
                         description: roleref.description,
@@ -72,7 +72,7 @@ export class GroupEditComponent implements OnInit {
             target: RBAC_TARGET
         }).subscribe(
             (value => {
-                this.roleIds = value.Role.map(r => r.roleid);
+                this.roleIds = value.role.map(r => r.roleid);
             }),
             error => {
                 console.warn('Error getting RBAC info for ', RBAC_TARGET, error);

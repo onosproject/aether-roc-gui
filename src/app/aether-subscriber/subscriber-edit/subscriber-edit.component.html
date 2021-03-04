@@ -42,7 +42,7 @@
                     <mat-hint>IMSI Wildcard</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row" formGroupName="Serving-plmn">
+            <div class="row" formGroupName="serving-plmn">
                 <mat-label>Serving PLMN:</mat-label>
                 <mat-form-field class="field-margin">
                     <input matInput type="number" formControlName="mcc">
@@ -57,7 +57,7 @@
                     <mat-hint>TAC</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row" formGroupName="Profiles">
+            <div class="row" formGroupName="profiles">
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="apn-profile">
                         <mat-option *ngFor="let apnp of apnProfiles"
@@ -66,7 +66,7 @@
                     <mat-hint>APN Profile</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row" formGroupName="Profiles">
+            <div class="row" formGroupName="profiles">
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="qos-profile">
                         <mat-option *ngFor="let qosp of qosProfiles"
@@ -75,7 +75,7 @@
                     <mat-hint>QOS Profile</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row"formGroupName="Profiles">
+            <div class="row"formGroupName="profiles">
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="up-profile">
                         <mat-option *ngFor="let upp of upProfiles"
@@ -84,7 +84,7 @@
                     <mat-hint>UP Profile</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row" formGroupName="Profiles">
+            <div class="row" formGroupName="profiles">
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="security-profile">
                         <mat-option *ngFor="let sec of securityProfiles"

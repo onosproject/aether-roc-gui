@@ -85,8 +85,8 @@ export class ApnProfilesDatasource extends DataSource<AetherV200TargetApnProfile
             .subscribe(
                 (value => {
                     if (value !== null) {
-                        this.data = value['Apn-profile'];
-                        console.log('Got ', value['Apn-profile'].length,
+                        this.data = value['apn-profile'];
+                        console.log('Got ', value['apn-profile'].length,
                             ' ApnProfile from ', this.targets);
                     } else {
                         console.log('No ApnProfile found');
