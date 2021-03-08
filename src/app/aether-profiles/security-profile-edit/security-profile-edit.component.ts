@@ -103,13 +103,12 @@ export class SecurityProfileEditComponent implements OnInit {
     }
 
     onSubmit(): void {
-        const securityProfPath = SecurityProfileSecurityProfileService.GetSecurityProfileSecurityProfilePath;
-        console.log(securityProfPath);
         console.log('Submitted!', this.spForm.getRawValue());
         let submitId = this.id;
         if (this.id === undefined) {
             submitId = this.spForm.get('id').value as unknown as string;
         }
+        localStorage.setItem('pathID', 'security-profile/security-profile[]');
         this.bs.logKeyValuePairs(this.spForm);
         console.log(this.bs.buildPatchBody());
         this.aetherApiService.postSecurityProfileSecurityProfile({

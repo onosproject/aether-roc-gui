@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Injectable} from '@angular/core';
+import {Injectable, Input} from '@angular/core';
 import {AbstractControl, FormArray, FormControl, FormGroup} from '@angular/forms';
 import {AETHER_TARGETS} from '../environments/environment';
 import {ArrayType, ElementSchemaRegistry} from '@angular/compiler';
@@ -22,14 +22,25 @@ import {mainDiagnosticsForTest} from '@angular/compiler-cli/src/main';
     providedIn: 'root'
 })
 export class BasketService {
+    @Input() target: string = AETHER_TARGETS[0];
+    apiKeyDisplay: boolean = false;
 
     constructor() {
 
     }
 
+    getPatchBodyPreview(): string {
+        return this.buildPatchBody() as unknown as string;
+    }
+
     logKeyValuePairs(abstractControl: AbstractControl, parent?: string): void {
         // Path is either '/' if undefined == true or '/' + parent if false
+
         const path = (parent === undefined) ? '/' : '/' + parent;
+
+        console.log('I am abstract control value', abstractControl.value);
+        console.log('I am parent', parent);
+
 
         if (abstractControl instanceof FormGroup) {
             Object.keys(abstractControl.controls).forEach((key: string) => {
@@ -41,18 +52,23 @@ export class BasketService {
                 this.logKeyValuePairs(item, path === '/' ? 'i' + idx : parent + '/' + String(idx));
             });
         } else {
+            if (parent === 'id') {
+                localStorage.setItem('profileID', abstractControl.value);
+            }
             if (abstractControl.pristine === false && abstractControl.touched === true) {
                 if (abstractControl.value === '') {
-                    const fullPath = '/basket-delete' + path;
+                    const fullPath = '/basket-delete' + '/' + localStorage.getItem('pathID') + '/' +
+                        localStorage.getItem('profileID') + path;
                     localStorage.setItem(fullPath, abstractControl.value);
                     console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 } else {
-                    const fullPath = '/basket-update' + path;
+                    const fullPath = '/basket-update' + '/' + localStorage.getItem('pathID') + '/' +
+                        localStorage.getItem('profileID') + path;
                     localStorage.setItem(fullPath, abstractControl.value);
                     console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 }
             } else {
-                const fullPath = path;
+                const fullPath = localStorage.getItem('pathID') + '/' + localStorage.getItem('profileID') + path;
                 console.log('Unchanged PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
             }
         }

@@ -7,6 +7,10 @@
     <mat-toolbar class="profile-toolbar">
         <p>Basket</p>
         <span class="toolbar-spacer"></span>
+        <button (click)=toggleDisplayDiv() mat-raised-button color="primary">
+            <mat-icon>preview</mat-icon>
+        </button>
+        <span class="small-spacing"></span>
         <span class="spacing"><small><p>Total Updates: {{updateCounter}} <span class="small-spacing"></span> Total Deletes: {{deleteCounter}} </small></span>
         <button mat-raised-button color="primary" type="submit" aria-label="Commit changes" (click)="commitChanges()"
                 routerLink="/basket">Commit
@@ -16,6 +20,16 @@
             Discard
         </button>
     </mat-toolbar>
+    <div [hidden]="pbDisplay">
+        <mat-card>
+            <mat-toolbar class="profile-toolbar">
+                <p>Preview</p>
+            </mat-toolbar>
+            <mat-card-content class="content">
+
+            </mat-card-content>
+        </mat-card>
+    </div>
     <table mat-table class="full-width-table" matSort aria-label="Updates" [dataSource]="data">
         <ng-container matColumnDef="displayPath">
             <th mat-header-cell *matHeaderCellDef> Path</th>

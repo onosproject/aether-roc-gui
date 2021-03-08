@@ -21,6 +21,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
 import { ApiKeyComponent } from './api-key/api-key.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import { PreviewBasketComponent } from './preview-basket/preview-basket.component';
+
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
     provide: HTTP_INTERCEPTORS,
@@ -33,6 +35,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
         AetherComponent,
         UserProfileComponent,
         ApiKeyComponent,
+        PreviewBasketComponent
     ],
     imports: [
         BrowserModule,
