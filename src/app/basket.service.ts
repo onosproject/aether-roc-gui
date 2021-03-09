@@ -37,10 +37,8 @@ export class BasketService {
         // Path is either '/' if undefined == true or '/' + parent if false
 
         const path = (parent === undefined) ? '/' : '/' + parent;
-
         console.log('I am abstract control value', abstractControl.value);
         console.log('I am parent', parent);
-
 
         if (abstractControl instanceof FormGroup) {
             Object.keys(abstractControl.controls).forEach((key: string) => {
@@ -52,23 +50,18 @@ export class BasketService {
                 this.logKeyValuePairs(item, path === '/' ? 'i' + idx : parent + '/' + String(idx));
             });
         } else {
-            if (parent === 'id') {
-                localStorage.setItem('profileID', abstractControl.value);
-            }
             if (abstractControl.pristine === false && abstractControl.touched === true) {
                 if (abstractControl.value === '') {
-                    const fullPath = '/basket-delete' + '/' + localStorage.getItem('pathID') + '/' +
-                        localStorage.getItem('profileID') + path;
+                    const fullPath = '/basket-delete' + path;
                     localStorage.setItem(fullPath, abstractControl.value);
                     console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 } else {
-                    const fullPath = '/basket-update' + '/' + localStorage.getItem('pathID') + '/' +
-                        localStorage.getItem('profileID') + path;
+                    const fullPath = '/basket-update' + path;
                     localStorage.setItem(fullPath, abstractControl.value);
                     console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 }
             } else {
-                const fullPath = localStorage.getItem('pathID') + '/' + localStorage.getItem('profileID') + path;
+                const fullPath = path;
                 console.log('Unchanged PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
             }
         }

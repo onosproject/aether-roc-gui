@@ -17,5 +17,4 @@ export class PreviewBasketComponent implements OnInit {
 
     ngOnInit(): void {
     }
-
 }
