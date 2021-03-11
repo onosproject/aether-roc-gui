@@ -32,10 +32,8 @@ export class BasketComponent implements AfterViewInit, OnInit {
     @ViewChild(MatTable) table: MatTable<Array<BasketRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
-    pbDisplay: boolean = true;
-    // pbPreview = [
-    //     this.bs.buildPatchBody()
-    // ]
+
+    pbDisplay: boolean = false;
     updateCounter = 0;
     deleteCounter = 0;
     displayedColumns = [
@@ -54,11 +52,7 @@ export class BasketComponent implements AfterViewInit, OnInit {
     }
 
     toggleDisplayDiv(): void {
-        this.pbDisplay = !this.pbDisplay;
-    }
-
-    get patchBody(): string {
-        return this.bs.buildPatchBody() as unknown as string;
+        this.pbDisplay = ! this.pbDisplay;
     }
 
     ngOnInit(): void {
@@ -119,8 +113,6 @@ export class BasketComponent implements AfterViewInit, OnInit {
             .forEach((key) => {
                 localStorage.removeItem(key);
             });
-        localStorage.removeItem('profileID');
-        localStorage.removeItem('pathID');
         this.updateCounter = 0;
         this.deleteCounter = 0;
         this.data = [];

@@ -29,16 +29,10 @@ export class BasketService {
 
     }
 
-    getPatchBodyPreview(): string {
-        return this.buildPatchBody() as unknown as string;
-    }
-
     logKeyValuePairs(abstractControl: AbstractControl, parent?: string): void {
         // Path is either '/' if undefined == true or '/' + parent if false
 
         const path = (parent === undefined) ? '/' : '/' + parent;
-        console.log('I am abstract control value', abstractControl.value);
-        console.log('I am parent', parent);
 
         if (abstractControl instanceof FormGroup) {
             Object.keys(abstractControl.controls).forEach((key: string) => {
@@ -47,17 +41,17 @@ export class BasketService {
             // If the control is not a FormGroup then we know it's a FormControl
         } else if (abstractControl instanceof FormArray) {
             (abstractControl as FormArray).controls.forEach((item, idx) => {
-                this.logKeyValuePairs(item, path === '/' ? 'i' + idx : parent + '/' + String(idx));
+                this.logKeyValuePairs(item, path === '[]/' ? 'i' + idx : parent + '[]/' + String(idx));
             });
         } else {
 
             if (abstractControl.pristine === false && abstractControl.touched === true) {
                 if (abstractControl.value === '') {
-                    const fullPath = '/basket-delete' + path + '/';
+                    const fullPath = '/basket-delete' + path;
                     localStorage.setItem(fullPath, abstractControl.value);
                     console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 } else {
-                    const fullPath = '/basket-update' + path + '/' + localStorage.getItem('profileID');
+                    const fullPath = '/basket-update' + path;
                     localStorage.setItem(fullPath, abstractControl.value);
                     console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 }

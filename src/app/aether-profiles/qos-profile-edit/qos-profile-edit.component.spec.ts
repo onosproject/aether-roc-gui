@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {ApnProfileEditComponent} from './apn-profile-edit.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {QosProfileEditComponent} from './qos-profile-edit.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -16,13 +16,14 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 
-describe('ApnProfileEditComponent', () => {
-    let component: ApnProfileEditComponent;
-    let fixture: ComponentFixture<ApnProfileEditComponent>;
+
+describe('QosProfileEditComponent', () => {
+    let component: QosProfileEditComponent;
+    let fixture: ComponentFixture<QosProfileEditComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ApnProfileEditComponent],
+            declarations: [QosProfileEditComponent],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
@@ -34,14 +35,14 @@ describe('ApnProfileEditComponent', () => {
                 MatIconModule,
                 MatToolbarModule,
                 MatCardModule,
-                MatButtonModule
+                MatButtonModule,
             ]
         })
             .compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ApnProfileEditComponent);
+        fixture = TestBed.createComponent(QosProfileEditComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

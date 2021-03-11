@@ -3,7 +3,7 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<form [formGroup]="spForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="apnForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
             <mat-card-title>APN Profile. ID: {{id}}</mat-card-title>
@@ -29,6 +29,7 @@
                     <mat-hint>DNS Primary</mat-hint>
                 </mat-form-field>
             </div>
+            <!-- TODO - Type is of "inet:ip-address -->
             <div class="row">
                 <mat-form-field class="field-margin half-width">
                     <input matInput formControlName="dns-secondary">
@@ -42,7 +43,7 @@
                 </mat-form-field>
             </div>
             <div class="row">
-                <mat-slide-toggle class="field-margin half-width" formControlName="gx-enabled">Enable GX</mat-slide-toggle>
+                <mat-slide-toggle ngDefaultControl class="field-margin half-width" formControlName="gx-enabled">Enable GX</mat-slide-toggle>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">

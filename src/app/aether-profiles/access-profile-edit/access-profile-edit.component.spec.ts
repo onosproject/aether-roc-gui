@@ -3,28 +3,52 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { AccessProfileEditComponent } from './access-profile-edit.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {AccessProfileEditComponent} from './access-profile-edit.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 
 describe('AccessProfileEditComponent', () => {
-  let component: AccessProfileEditComponent;
-  let fixture: ComponentFixture<AccessProfileEditComponent>;
+    let component: AccessProfileEditComponent;
+    let fixture: ComponentFixture<AccessProfileEditComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ AccessProfileEditComponent ]
-    })
-    .compileComponents();
-  });
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [
+                AccessProfileEditComponent
+            ],
+            imports: [
+                HttpClientTestingModule,
+                RouterTestingModule,
+                BrowserAnimationsModule,
+                FormsModule,
+                ReactiveFormsModule,
+                MatInputModule,
+                MatFormFieldModule,
+                MatIconModule,
+                MatToolbarModule,
+                MatCardModule,
+                MatButtonModule
+            ]
+        })
+            .compileComponents();
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AccessProfileEditComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(AccessProfileEditComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

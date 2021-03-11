@@ -4,18 +4,18 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, Input, OnInit} from '@angular/core';
-import {AETHER_TARGETS} from "../../../environments/environment";
-import {ActivatedRoute, Router} from "@angular/router";
-import {FormBuilder, Validators} from "@angular/forms";
+import {AETHER_TARGETS} from '../../../environments/environment';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, Validators} from '@angular/forms';
 import {
     ApiService,
     Service as AetherV200TargetService,
     AccessProfileAccessProfileService
-} from "../../../openapi3/aether/2.0.0/services";
+} from '../../../openapi3/aether/2.0.0/services';
 import {
     AccessProfileAccessProfile
-} from "../../../openapi3/aether/2.0.0/models";
-import {BasketService} from "../../basket.service";
+} from '../../../openapi3/aether/2.0.0/models';
+import {BasketService} from '../../basket.service';
 
 @Component({
     selector: 'aether-access-profile-edit',
@@ -31,7 +31,7 @@ export class AccessProfileEditComponent implements OnInit {
     isNew: boolean;
     data: AccessProfileAccessProfile;
 
-    spForm = this.fb.group({
+    accForm = this.fb.group({
         id: ['', Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(31),
@@ -42,11 +42,11 @@ export class AccessProfileEditComponent implements OnInit {
         ])],
         type: ['', Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(31)
+            Validators.maxLength(32)
         ])],
         filter: ['', Validators.compose([
-            Validators.minLength(1),
-            Validators.maxLength(31)
+            Validators.minLength(0),
+            Validators.maxLength(32)
         ])],
         description: ['', Validators.compose([
             Validators.minLength(1),
@@ -87,11 +87,11 @@ export class AccessProfileEditComponent implements OnInit {
         }).subscribe(
             (value => {
                 this.data = value;
-                this.spForm.get('id').setValue(value.id);
-                this.spForm.get('display-name').setValue(value['display-name']);
-                this.spForm.get('type').setValue(value.type);
-                this.spForm.get('filter').setValue(value.filter);
-                this.spForm.get('description').setValue(value.description);
+                this.accForm.get('id').setValue(value.id);
+                this.accForm.get('display-name').setValue(value['display-name']);
+                this.accForm.get('type').setValue(value.type);
+                this.accForm.get('filter').setValue(value.filter);
+                this.accForm.get('description').setValue(value.description);
             }),
             error => {
                 console.warn('Error getting AccessProfileAccessProfile(s) for ', target, error);
@@ -103,12 +103,12 @@ export class AccessProfileEditComponent implements OnInit {
     }
 
     onSubmit(): void {
-        console.log('Submitted!', this.spForm.getRawValue());
+        console.log('Submitted!', this.accForm.getRawValue());
         let submitId = this.id;
         if (this.id === undefined) {
-            submitId = this.spForm.get('id').value as unknown as string;
+            submitId = this.accForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.spForm, 'access-profile/access-profile[]/' + this.id);
+        this.bs.logKeyValuePairs(this.accForm, 'access-profile-2.0.0' + this.id);
         console.log(this.bs.buildPatchBody());
 
         // Keeping this in for now to test
@@ -116,7 +116,7 @@ export class AccessProfileEditComponent implements OnInit {
         this.aetherApiService.postAccessProfileAccessProfile({
             id: submitId,
             target: AETHER_TARGETS[0],
-            body: this.spForm.getRawValue()
+            body: this.accForm.getRawValue()
         }).subscribe(
             value => {
                 console.log('POST Response', value);
