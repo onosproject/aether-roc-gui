@@ -29,6 +29,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import { AccessProfileEditComponent } from './access-profile-edit/access-profile-edit.component';
+import { ApnProfileEditComponent } from './apn-profile-edit/apn-profile-edit.component';
+import {A} from "@angular/cdk/keycodes";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 @NgModule({
     declarations: [
@@ -39,6 +42,7 @@ import { AccessProfileEditComponent } from './access-profile-edit/access-profile
         SecurityProfilesComponent,
         SecurityProfileEditComponent,
         AccessProfileEditComponent,
+        ApnProfileEditComponent,
     ],
     imports: [
         CommonModule,
@@ -49,6 +53,8 @@ import { AccessProfileEditComponent } from './access-profile-edit/access-profile
             {path: 'accessprofiles/:lastChange', component: AccessProfilesComponent},
             {path: 'accessprofile-edit/:id', component: AccessProfileEditComponent},
             {path: 'apnprofiles', component: ApnProfilesComponent},
+            {path: 'apnprofiles/:lastChange', component: ApnProfilesComponent},
+            {path: 'apnprofile-edit/:id', component: ApnProfileEditComponent},
             {path: 'qosprofiles', component: QosProfilesComponent},
             {path: 'upprofiles', component: UpProfilesComponent},
             {path: 'securityprofiles', component: SecurityProfilesComponent},
@@ -68,6 +74,7 @@ import { AccessProfileEditComponent } from './access-profile-edit/access-profile
         MatCardModule,
         MatButtonModule,
         MatSnackBarModule,
+        MatSlideToggleModule,
 
     ],
     providers: [
