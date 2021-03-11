@@ -50,13 +50,14 @@ export class BasketService {
                 this.logKeyValuePairs(item, path === '/' ? 'i' + idx : parent + '/' + String(idx));
             });
         } else {
+
             if (abstractControl.pristine === false && abstractControl.touched === true) {
                 if (abstractControl.value === '') {
-                    const fullPath = '/basket-delete' + path;
+                    const fullPath = '/basket-delete' + path + '/';
                     localStorage.setItem(fullPath, abstractControl.value);
                     console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 } else {
-                    const fullPath = '/basket-update' + path;
+                    const fullPath = '/basket-update' + path + '/' + localStorage.getItem('profileID');
                     localStorage.setItem(fullPath, abstractControl.value);
                     console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 }

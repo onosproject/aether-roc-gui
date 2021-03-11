@@ -21,7 +21,6 @@ import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
 import { ApiKeyComponent } from './api-key/api-key.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
-import { PreviewBasketComponent } from './preview-basket/preview-basket.component';
 
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
@@ -34,8 +33,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     declarations: [
         AetherComponent,
         UserProfileComponent,
-        ApiKeyComponent,
-        PreviewBasketComponent
+        ApiKeyComponent
     ],
     imports: [
         BrowserModule,
@@ -57,6 +55,8 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
         // AuthInterceptor, not needed here - use in child modules
         // API_INTERCEPTOR_PROVIDER,
         {provide: OAuthStorage, useValue: localStorage},
+    ],
+    exports: [
     ],
     bootstrap: [AetherComponent]
 })

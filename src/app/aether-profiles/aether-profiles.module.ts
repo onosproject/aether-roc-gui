@@ -28,6 +28,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
+import { AccessProfileEditComponent } from './access-profile-edit/access-profile-edit.component';
 
 @NgModule({
     declarations: [
@@ -37,6 +38,7 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         ApnProfilesComponent,
         SecurityProfilesComponent,
         SecurityProfileEditComponent,
+        AccessProfileEditComponent,
     ],
     imports: [
         CommonModule,
@@ -44,6 +46,8 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'accessprofiles', component: AccessProfilesComponent},
+            {path: 'accessprofiles/:lastChange', component: AccessProfilesComponent},
+            {path: 'accessprofile-edit/:id', component: AccessProfileEditComponent},
             {path: 'apnprofiles', component: ApnProfilesComponent},
             {path: 'qosprofiles', component: QosProfilesComponent},
             {path: 'upprofiles', component: UpProfilesComponent},

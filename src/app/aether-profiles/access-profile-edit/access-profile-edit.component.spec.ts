@@ -5,21 +5,21 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PreviewBasketComponent } from './preview-basket.component';
+import { AccessProfileEditComponent } from './access-profile-edit.component';
 
-describe('PreviewBasketComponent', () => {
-  let component: PreviewBasketComponent;
-  let fixture: ComponentFixture<PreviewBasketComponent>;
+describe('AccessProfileEditComponent', () => {
+  let component: AccessProfileEditComponent;
+  let fixture: ComponentFixture<AccessProfileEditComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PreviewBasketComponent ]
+      declarations: [ AccessProfileEditComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PreviewBasketComponent);
+    fixture = TestBed.createComponent(AccessProfileEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

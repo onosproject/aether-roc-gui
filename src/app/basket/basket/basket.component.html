@@ -20,16 +20,6 @@
             Discard
         </button>
     </mat-toolbar>
-    <div [hidden]="pbDisplay">
-        <mat-card>
-            <mat-toolbar class="profile-toolbar">
-                <p>Preview</p>
-            </mat-toolbar>
-            <mat-card-content class="content">
-
-            </mat-card-content>
-        </mat-card>
-    </div>
     <table mat-table class="full-width-table" matSort aria-label="Updates" [dataSource]="data">
         <ng-container matColumnDef="displayPath">
             <th mat-header-cell *matHeaderCellDef> Path</th>

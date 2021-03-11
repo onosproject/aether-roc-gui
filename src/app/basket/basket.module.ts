@@ -7,7 +7,6 @@ import {NgModule} from '@angular/core';
 import {AetherModule} from '../aether.module';
 import {CommonModule} from '@angular/common';
 import {BasketComponent} from './basket/basket.component';
-import {AetherRoutingModule} from '../aether-routing.module';
 import {RouterModule} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSortModule} from '@angular/material/sort';
@@ -46,7 +45,8 @@ import {MatCardModule} from '@angular/material/card';
         MatToolbarModule,
         MatIconModule,
         MatButtonModule,
-        MatCardModule
+        MatCardModule,
+        AetherModule
     ]
 })
 
