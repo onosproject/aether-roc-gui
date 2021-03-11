@@ -29,7 +29,7 @@ export class ApnProfileEditComponent implements OnInit {
     isNew: boolean;
     data: ApnProfileApnProfile;
 
-    spForm = this.fb.group({
+    apnForm = this.fb.group({
         id: ['', Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(31),
@@ -50,9 +50,9 @@ export class ApnProfileEditComponent implements OnInit {
             Validators.minLength(1),
             Validators.maxLength(32),
         ])],
-        mtu: ['', Validators.compose([
-            Validators.minLength(1),
-            Validators.maxLength(100),
+        mtu: [0, Validators.compose([
+            Validators.min(68),
+            Validators.max(65535),
         ])],
         'gx-enabled': [''],
         description: ['', Validators.compose([
@@ -92,14 +92,14 @@ export class ApnProfileEditComponent implements OnInit {
         }).subscribe(
             (value => {
                 this.data = value;
-                this.spForm.get('id').setValue(value.id);
-                this.spForm.get('display-name').setValue(value['display-name']);
-                this.spForm.get('apn-name').setValue(value['apn-name']);
-                this.spForm.get('dns-primary').setValue(value['dns-primary']);
-                this.spForm.get('dns-secondary').setValue(value['dns-secondary']);
-                this.spForm.get('mtu').setValue(value.mtu);
-                this.spForm.get('gx-enabled').setValue(value['gx-enabled']);
-                this.spForm.get('description').setValue(value.description);
+                this.apnForm.get('id').setValue(value.id);
+                this.apnForm.get('display-name').setValue(value['display-name']);
+                this.apnForm.get('apn-name').setValue(value['apn-name']);
+                this.apnForm.get('dns-primary').setValue(value['dns-primary']);
+                this.apnForm.get('dns-secondary').setValue(value['dns-secondary']);
+                this.apnForm.get('mtu').setValue(value.mtu);
+                this.apnForm.get('gx-enabled').setValue(value['gx-enabled']);
+                this.apnForm.get('description').setValue(value.description);
             }),
             error => {
                 console.warn('Error getting ApnProfileApnProfile(s) for ', target, error);
@@ -110,17 +110,17 @@ export class ApnProfileEditComponent implements OnInit {
         );
     }
     onSubmit(): void {
-        console.log('Submitted!', this.spForm.getRawValue());
+        console.log('Submitted!', this.apnForm.getRawValue());
         let submitId = this.id;
         if (this.id === undefined) {
-            submitId = this.spForm.get('id').value as unknown as string;
+            submitId = this.apnForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.spForm, 'apn-profile/apn-profile[]/' + this.id);
+        this.bs.logKeyValuePairs(this.apnForm, 'apn-profile/apn-profile[]/' + this.id);
         console.log(this.bs.buildPatchBody());
         this.aetherApiService.postApnProfileApnProfile({
             id: submitId,
             target: AETHER_TARGETS[0],
-            body: this.spForm.getRawValue()
+            body: this.apnForm.getRawValue()
         }).subscribe(
             value => {
                 console.log('POST Response', value);

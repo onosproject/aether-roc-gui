@@ -33,7 +33,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     declarations: [
         AetherComponent,
         UserProfileComponent,
-        ApiKeyComponent
+        ApiKeyComponent,
     ],
     imports: [
         BrowserModule,
