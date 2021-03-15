@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Injectable} from '@angular/core';
+import {Injectable, Input} from '@angular/core';
 import {AbstractControl, FormArray, FormControl, FormGroup} from '@angular/forms';
 import {AETHER_TARGETS} from '../environments/environment';
 import {ArrayType, ElementSchemaRegistry} from '@angular/compiler';
@@ -22,6 +22,8 @@ import {mainDiagnosticsForTest} from '@angular/compiler-cli/src/main';
     providedIn: 'root'
 })
 export class BasketService {
+    @Input() target: string = AETHER_TARGETS[0];
+    apiKeyDisplay: boolean = false;
 
     constructor() {
 
@@ -29,6 +31,7 @@ export class BasketService {
 
     logKeyValuePairs(abstractControl: AbstractControl, parent?: string): void {
         // Path is either '/' if undefined == true or '/' + parent if false
+
         const path = (parent === undefined) ? '/' : '/' + parent;
 
         if (abstractControl instanceof FormGroup) {
@@ -38,9 +41,10 @@ export class BasketService {
             // If the control is not a FormGroup then we know it's a FormControl
         } else if (abstractControl instanceof FormArray) {
             (abstractControl as FormArray).controls.forEach((item, idx) => {
-                this.logKeyValuePairs(item, path === '/' ? 'i' + idx : parent + '/' + String(idx));
+                this.logKeyValuePairs(item, path === '[]/' ? 'i' + idx : parent + '[]/' + String(idx));
             });
         } else {
+
             if (abstractControl.pristine === false && abstractControl.touched === true) {
                 if (abstractControl.value === '') {
                     const fullPath = '/basket-delete' + path;

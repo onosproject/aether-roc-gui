@@ -10,28 +10,26 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {
     ApiService,
     Service as AetherV200TargetService,
-    SecurityProfileSecurityProfileService
+    ApnProfileApnProfileService
 } from '../../../openapi3/aether/2.0.0/services';
 import {
-    SecurityProfileSecurityProfile
+    ApnProfileApnProfile
 } from '../../../openapi3/aether/2.0.0/models';
 import {BasketService} from '../../basket.service';
 
 @Component({
-    selector: 'aether-security-profile-edit',
-    templateUrl: './security-profile-edit.component.html',
-    styleUrls: [
-        '../../common-edit.component.scss',
-        './security-profile-edit.component.scss'
-    ]
+    selector: 'aether-apn-profile-edit',
+    templateUrl: './apn-profile-edit.component.html',
+    styleUrls: ['../../common-edit.component.scss',
+        './apn-profile-edit.component.scss']
 })
-export class SecurityProfileEditComponent implements OnInit {
+export class ApnProfileEditComponent implements OnInit {
     @Input() target: string = AETHER_TARGETS[0];
     @Input() id: string;
     isNew: boolean;
-    data: SecurityProfileSecurityProfile;
+    data: ApnProfileApnProfile;
 
-    spForm = this.fb.group({
+    apnForm = this.fb.group({
         id: ['', Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(31),
@@ -40,23 +38,31 @@ export class SecurityProfileEditComponent implements OnInit {
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        key: ['', Validators.compose([
+        'apn-name': ['', Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(32),
         ])],
-        opc: ['', Validators.compose([
+        'dns-primary': ['', Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(32),
         ])],
-        sqn: [''],
+        'dns-secondary': ['', Validators.compose([
+            Validators.minLength(1),
+            Validators.maxLength(32),
+        ])],
+        mtu: [0, Validators.compose([
+            Validators.min(68),
+            Validators.max(65535),
+        ])],
+        'gx-enabled': [''],
         description: ['', Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(100),
-        ])]
-    });
+        ])],
 
+    });
     constructor(
-        private securityProfileSecurityProfileService: SecurityProfileSecurityProfileService,
+        private apnProfileApnProfileService: ApnProfileApnProfileService,
         private aetherV200TargetService: AetherV200TargetService,
         private aetherApiService: ApiService,
         private route: ActivatedRoute,
@@ -73,52 +79,53 @@ export class SecurityProfileEditComponent implements OnInit {
                     this.isNew = true;
                 } else {
                     this.id = value.get('id');
-                    this.loadSecurityProfileSecurityProfile(this.target, this.id);
+                    this.loadApnProfileApnProfile(this.target, this.id);
                 }
             }
         );
     }
 
-    loadSecurityProfileSecurityProfile(target: string, id: string): void {
-        this.securityProfileSecurityProfileService.getSecurityProfileSecurityProfile({
+    loadApnProfileApnProfile(target: string, id: string): void{
+        this.apnProfileApnProfileService.getApnProfileApnProfile({
             target,
             id,
         }).subscribe(
             (value => {
                 this.data = value;
-                this.spForm.get('id').setValue(value.id);
-                this.spForm.get('display-name').setValue(value['display-name']);
-                this.spForm.get('key').setValue(value.key);
-                this.spForm.get('opc').setValue(value.opc);
-                this.spForm.get('sqn').setValue(value.sqn);
-                this.spForm.get('description').setValue(value.description);
+                this.apnForm.get('id').setValue(value.id);
+                this.apnForm.get('display-name').setValue(value['display-name']);
+                this.apnForm.get('apn-name').setValue(value['apn-name']);
+                this.apnForm.get('dns-primary').setValue(value['dns-primary']);
+                this.apnForm.get('dns-secondary').setValue(value['dns-secondary']);
+                this.apnForm.get('mtu').setValue(value.mtu);
+                this.apnForm.get('gx-enabled').setValue(value['gx-enabled']);
+                this.apnForm.get('description').setValue(value.description);
             }),
             error => {
-                console.warn('Error getting SecurityProfileSecurityProfile(s) for ', target, error);
+                console.warn('Error getting ApnProfileApnProfile(s) for ', target, error);
             },
             () => {
-                console.log('Finished loading SecurityProfileSecurityProfile(s)', target, id);
+                console.log('Finished loading ApnProfileApnProfile(s)', target, id);
             }
         );
     }
-
     onSubmit(): void {
-        console.log('Submitted!', this.spForm.getRawValue());
+        console.log('Submitted!', this.apnForm.getRawValue());
         let submitId = this.id;
         if (this.id === undefined) {
-            submitId = this.spForm.get('id').value as unknown as string;
+            submitId = this.apnForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.spForm, 'security-profile-2.0.0/security-profile-2.0.0' + this.id);
+        this.bs.logKeyValuePairs(this.apnForm, 'apn-profile/apn-profile[]/' + this.id);
         console.log(this.bs.buildPatchBody());
-        this.aetherApiService.postSecurityProfileSecurityProfile({
+        this.aetherApiService.postApnProfileApnProfile({
             id: submitId,
             target: AETHER_TARGETS[0],
-            body: this.spForm.getRawValue()
+            body: this.apnForm.getRawValue()
         }).subscribe(
             value => {
                 console.log('POST Response', value);
                 // TODO: Add a string to the response in the OpenAPI yaml (so that this is not unknown)
-                this.router.navigate(['/profiles', 'securityprofiles', value as unknown as string]);
+                this.router.navigate(['/profiles', 'apnprofiles', value as unknown as string]);
             },
             error => console.warn('POST error', error),
             () => {
@@ -126,4 +133,5 @@ export class SecurityProfileEditComponent implements OnInit {
             }
         );
     }
+
 }

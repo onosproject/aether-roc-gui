@@ -22,6 +22,7 @@ import {MatListModule} from '@angular/material/list';
 import { ApiKeyComponent } from './api-key/api-key.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 
+
 export const API_INTERCEPTOR_PROVIDER: Provider = {
     provide: HTTP_INTERCEPTORS,
     useExisting: forwardRef(() => AuthInterceptor),
@@ -54,6 +55,8 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
         // AuthInterceptor, not needed here - use in child modules
         // API_INTERCEPTOR_PROVIDER,
         {provide: OAuthStorage, useValue: localStorage},
+    ],
+    exports: [
     ],
     bootstrap: [AetherComponent]
 })

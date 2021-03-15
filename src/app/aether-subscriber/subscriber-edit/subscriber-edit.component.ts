@@ -251,6 +251,7 @@ export class SubscriberEditComponent implements OnInit {
             submitUeid = this.subscriberUeForm.get('id').value as unknown as string;
         }
         this.bs.logKeyValuePairs(this.subscriberUeForm);
+        console.log(this.bs.buildPatchBody());
         this.aetherApiService.postSubscriberUe({
             id: submitUeid,
             target: AETHER_TARGETS[0],

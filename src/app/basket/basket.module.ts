@@ -4,10 +4,8 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {NgModule} from '@angular/core';
-import {AetherModule} from '../aether.module';
 import {CommonModule} from '@angular/common';
 import {BasketComponent} from './basket/basket.component';
-import {AetherRoutingModule} from '../aether-routing.module';
 import {RouterModule} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSortModule} from '@angular/material/sort';
@@ -21,10 +19,13 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
+import { BasketPreviewComponent } from './basket-preview/basket-preview.component';
 
 @NgModule({
     declarations: [
-        BasketComponent
+        BasketComponent,
+        BasketPreviewComponent
     ],
     imports: [
         CommonModule,
@@ -44,7 +45,8 @@ import {MatButtonModule} from '@angular/material/button';
         MatSnackBarModule,
         MatToolbarModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        MatCardModule
     ]
 })
 

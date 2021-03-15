@@ -10,28 +10,28 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {
     ApiService,
     Service as AetherV200TargetService,
-    SecurityProfileSecurityProfileService
+    AccessProfileAccessProfileService
 } from '../../../openapi3/aether/2.0.0/services';
 import {
-    SecurityProfileSecurityProfile
+    AccessProfileAccessProfile
 } from '../../../openapi3/aether/2.0.0/models';
 import {BasketService} from '../../basket.service';
 
 @Component({
-    selector: 'aether-security-profile-edit',
-    templateUrl: './security-profile-edit.component.html',
+    selector: 'aether-access-profile-edit',
+    templateUrl: './access-profile-edit.component.html',
     styleUrls: [
         '../../common-edit.component.scss',
-        './security-profile-edit.component.scss'
+        './access-profile-edit.component.scss'
     ]
 })
-export class SecurityProfileEditComponent implements OnInit {
+export class AccessProfileEditComponent implements OnInit {
     @Input() target: string = AETHER_TARGETS[0];
     @Input() id: string;
     isNew: boolean;
-    data: SecurityProfileSecurityProfile;
+    data: AccessProfileAccessProfile;
 
-    spForm = this.fb.group({
+    accForm = this.fb.group({
         id: ['', Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(31),
@@ -40,23 +40,23 @@ export class SecurityProfileEditComponent implements OnInit {
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        key: ['', Validators.compose([
+        type: ['', Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(32),
+            Validators.maxLength(32)
         ])],
-        opc: ['', Validators.compose([
-            Validators.minLength(1),
-            Validators.maxLength(32),
+        filter: ['', Validators.compose([
+            Validators.minLength(0),
+            Validators.maxLength(32)
         ])],
-        sqn: [''],
         description: ['', Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(100),
+            Validators.maxLength(100)
         ])]
     });
 
+
     constructor(
-        private securityProfileSecurityProfileService: SecurityProfileSecurityProfileService,
+        private accessProfileAccessProfileService: AccessProfileAccessProfileService,
         private aetherV200TargetService: AetherV200TargetService,
         private aetherApiService: ApiService,
         private route: ActivatedRoute,
@@ -64,6 +64,7 @@ export class SecurityProfileEditComponent implements OnInit {
         private fb: FormBuilder,
         private bs: BasketService
     ) {
+
     }
 
     ngOnInit(): void {
@@ -73,52 +74,54 @@ export class SecurityProfileEditComponent implements OnInit {
                     this.isNew = true;
                 } else {
                     this.id = value.get('id');
-                    this.loadSecurityProfileSecurityProfile(this.target, this.id);
+                    this.loadAccessProfileAccessProfile(this.target, this.id);
                 }
             }
         );
     }
 
-    loadSecurityProfileSecurityProfile(target: string, id: string): void {
-        this.securityProfileSecurityProfileService.getSecurityProfileSecurityProfile({
+    loadAccessProfileAccessProfile(target: string, id: string): void {
+        this.accessProfileAccessProfileService.getAccessProfileAccessProfile({
             target,
-            id,
+            id
         }).subscribe(
             (value => {
                 this.data = value;
-                this.spForm.get('id').setValue(value.id);
-                this.spForm.get('display-name').setValue(value['display-name']);
-                this.spForm.get('key').setValue(value.key);
-                this.spForm.get('opc').setValue(value.opc);
-                this.spForm.get('sqn').setValue(value.sqn);
-                this.spForm.get('description').setValue(value.description);
+                this.accForm.get('id').setValue(value.id);
+                this.accForm.get('display-name').setValue(value['display-name']);
+                this.accForm.get('type').setValue(value.type);
+                this.accForm.get('filter').setValue(value.filter);
+                this.accForm.get('description').setValue(value.description);
             }),
             error => {
-                console.warn('Error getting SecurityProfileSecurityProfile(s) for ', target, error);
+                console.warn('Error getting AccessProfileAccessProfile(s) for ', target, error);
             },
             () => {
-                console.log('Finished loading SecurityProfileSecurityProfile(s)', target, id);
+                console.log('Finished loading AccessProfileAccessProfile(s)', target, id);
             }
         );
     }
 
     onSubmit(): void {
-        console.log('Submitted!', this.spForm.getRawValue());
+        console.log('Submitted!', this.accForm.getRawValue());
         let submitId = this.id;
         if (this.id === undefined) {
-            submitId = this.spForm.get('id').value as unknown as string;
+            submitId = this.accForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.spForm, 'security-profile-2.0.0/security-profile-2.0.0' + this.id);
+        this.bs.logKeyValuePairs(this.accForm, 'access-profile-2.0.0' + this.id);
         console.log(this.bs.buildPatchBody());
-        this.aetherApiService.postSecurityProfileSecurityProfile({
+
+        // Keeping this in for now to test
+
+        this.aetherApiService.postAccessProfileAccessProfile({
             id: submitId,
             target: AETHER_TARGETS[0],
-            body: this.spForm.getRawValue()
+            body: this.accForm.getRawValue()
         }).subscribe(
             value => {
                 console.log('POST Response', value);
                 // TODO: Add a string to the response in the OpenAPI yaml (so that this is not unknown)
-                this.router.navigate(['/profiles', 'securityprofiles', value as unknown as string]);
+                this.router.navigate(['/profiles', 'accessprofiles', value as unknown as string]);
             },
             error => console.warn('POST error', error),
             () => {

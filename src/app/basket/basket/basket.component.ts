@@ -12,6 +12,8 @@ import {BasketService} from '../../basket.service';
 import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
 import {ApiService} from '../../../openapi3/aether/2.0.0/services/api.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ID_TOKEN_ATTR} from '../../aether.component';
+import {PatchBody} from '../../../openapi3/top/level/models/patch-body';
 
 interface BasketRow {
     path: string;
@@ -30,6 +32,8 @@ export class BasketComponent implements AfterViewInit, OnInit {
     @ViewChild(MatTable) table: MatTable<Array<BasketRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
+
+    pbDisplay: boolean = false;
     updateCounter = 0;
     deleteCounter = 0;
     displayedColumns = [
@@ -47,6 +51,9 @@ export class BasketComponent implements AfterViewInit, OnInit {
     ) {
     }
 
+    toggleDisplayDiv(): void {
+        this.pbDisplay = ! this.pbDisplay;
+    }
 
     ngOnInit(): void {
         Object.keys(localStorage)
