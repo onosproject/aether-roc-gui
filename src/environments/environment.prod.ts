@@ -17,6 +17,8 @@ export const RBAC_TARGET = 'rbac';
 export const OIDC_AUTH_CLIENT_ID = 'aether-roc-gui';
 export const OIDC_ISSUER = undefined;
 
+export const BASKET_SERVICE_ENABLED = false;
+
 export const authConfig: AuthConfig = {
     issuer: OIDC_ISSUER,
     redirectUri: window.location.origin,

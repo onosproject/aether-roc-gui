@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, OnInit} from '@angular/core';
-import {OAuthInfoEvent, OAuthService} from 'angular-oauth2-oidc';
-import {authConfig} from '../environments/environment';
+import {OAuthService} from 'angular-oauth2-oidc';
+import {authConfig, BASKET_SERVICE_ENABLED} from '../environments/environment';
 import {Meta} from '@angular/platform-browser';
 
 export const USERNAME_ATTR = 'name';
@@ -37,6 +37,7 @@ export interface IdTokClaims {
 export class AetherComponent implements OnInit {
     userProfileDisplay: boolean = false;
     apiKeyDisplay: boolean = false;
+    basketServiceEnabled: boolean = BASKET_SERVICE_ENABLED;
 
     constructor(
         private oauthService: OAuthService,
