@@ -24,6 +24,10 @@ import {mainDiagnosticsForTest} from '@angular/compiler-cli/src/main';
 export class BasketService {
     @Input() target: string = AETHER_TARGETS[0];
     apiKeyDisplay: boolean = false;
+    arrayCounter: number;
+    pathCounter: number;
+    idMap = new Map();
+    pathMap = new Map();
 
     constructor() {
 
@@ -64,6 +68,11 @@ export class BasketService {
 
     buildPatchBody(): PatchBody {
 
+        this.idMap.clear();
+        this.pathMap.clear();
+        this.pathCounter = 0;
+        this.arrayCounter = 0;
+
         const patchBody = {
             Updates: {},
             Deletes: {}
@@ -90,24 +99,42 @@ export class BasketService {
     }
 
     recursePath(path: string[], object: object, value: string): void {
+
+        const slicedPath = path[0].slice(0, path[0].indexOf('['));
+        const slicedPathID = path[0].slice(path[0].indexOf('[') + 1, path[0].length - 1);
         if (path.length === 1) {
             object[path[0]] = value;
-        } else if (path[0].endsWith('[]')) {
-            if (path.length < 3) {
+        } else if (path[0].includes('[' && ']')) {
+
+            if (path.length < 2) {
                 console.warn('path too short');
                 return;
             }
-            let arrayName = path[0];
-            const index = path[1];
-            arrayName = arrayName.substring(0, arrayName.length - 2);
-            if (object[arrayName] === undefined) {
-                object[arrayName] = [];
+
+            if (this.pathMap.has(slicedPath) === false) {
+                this.pathMap.set(slicedPath, this.pathCounter);
+                this.arrayCounter = 0;
+                this.pathCounter++;
             }
-            if (object[arrayName][index] === undefined) {
-                object[arrayName][index] = {};
+
+            // console.log(slicedPath);
+            // console.log(slicedPathID);
+
+            if (this.idMap.has(slicedPathID) === false) {
+                this.idMap.set(slicedPathID, this.arrayCounter);
+                this.arrayCounter++;
             }
-            this.recursePath(path.slice(2), object[arrayName][index], value);
+
+            if (object[slicedPath] === undefined) {
+                object[slicedPath] = [];
+            }
+            if (object[slicedPath][this.idMap.get(slicedPathID)] === undefined) {
+                object[slicedPath][this.idMap.get(slicedPathID)] = {};
+            }
+            this.recursePath(path.slice(1), object[slicedPath][this.idMap.get(slicedPathID)], value);
         } else {
+
+
             if (object[path[0]] === undefined) {
                 object[path[0]] = {};
             }

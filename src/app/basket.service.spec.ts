@@ -65,11 +65,15 @@ describe('BasketService', () => {
 
     it('should produce a patchbody', () => {
         localStorage.clear();
-        localStorage.setItem('/basket-update/security-profile-2.0.0/security-profile-2.0.0/key', 'keyValue1');
-        localStorage.setItem('/basket-update/security-profile-2.0.0/security-profile-2.0.0/opc', 'opcValue1');
-        localStorage.setItem('/basket-update/security-profile-2.0.0/security-profile-2.0.0/id', 'ap1');
-        localStorage.setItem('/basket-update/security-profile-2.0.0/security-profile-2.0.0/key', 'keyValue2');
-        localStorage.setItem('/basket-update/security-profile-2.0.0/security-profile-2.0.0/opc', 'opcValue2');
+        localStorage.setItem('/basket-update/security-profile-2.0.0/security-profile[id1]/key', 'keyValue1');
+        localStorage.setItem('/basket-update/security-profile-2.0.0/security-profile[id1]/opc', 'opcValue1');
+        localStorage.setItem('/basket-update/security-profile-2.0.0/security-profile[id2]/opc', 'opcValue3');
+        localStorage.setItem('/basket-update/access-profile-2.0.0/access-profile[id1]/opc', 'ewquihqwoeiuhiouehqw');
+        localStorage.setItem('/basket-update/security-profile-2.0.0/security-profile[id3]/key', 'keyValue2');
+        localStorage.setItem('/basket-update/security-profile-2.0.0/security-profile[id4]/opc', 'opcValue2');
+        localStorage.setItem('/basket-update/access-profile-2.0.0/access-profile[id1]/opc', 'opcValue3');
+        localStorage.setItem('/basket-update/access-profile-2.0.0/access-profile[id2]/soemthing', 'opcValue21');
+        localStorage.setItem('/basket-update/access-profile-2.0.0/access-profile[id3]/key', 'opcValusdaa2');
         // localStorage.setItem('/basket-update/security-profile-2.0.0/security-profile-2.0.0/opc', 'opcValue2');
         // localStorage.setItem('/basket-update/Security-profile-2.0.0/Security-profile[]/1/id', 'ap2');
         // localStorage.setItem('/basket-update/Access-profile-2.0.0/Access-profile[]/0/sqn', 'sqnValue1');

@@ -108,7 +108,7 @@ export class AccessProfileEditComponent implements OnInit {
         if (this.id === undefined) {
             submitId = this.accForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.accForm, 'access-profile-2.0.0' + this.id);
+        this.bs.logKeyValuePairs(this.accForm, 'access-profile-2.0.0/access-profile[' + this.id + ']');
         console.log(this.bs.buildPatchBody());
 
         // Keeping this in for now to test

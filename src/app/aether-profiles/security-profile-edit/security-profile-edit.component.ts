@@ -108,7 +108,7 @@ export class SecurityProfileEditComponent implements OnInit {
         if (this.id === undefined) {
             submitId = this.spForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.spForm, 'security-profile-2.0.0/security-profile-2.0.0' + this.id);
+        this.bs.logKeyValuePairs(this.spForm, 'security-profile-2.0.0/security-profile[' + this.id + ']');
         console.log(this.bs.buildPatchBody());
         this.aetherApiService.postSecurityProfileSecurityProfile({
             id: submitId,
