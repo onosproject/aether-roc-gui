@@ -7,8 +7,8 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2.0.0/models/connectivity-service-connectivity-service';
-import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
+import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2.0.0/models';
+import {Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
 import {ConnectivityServiceDatasource} from './connectivity-service-datasource';
@@ -38,7 +38,7 @@ export class ConnectivityServiceComponent implements AfterViewInit, OnInit {
     ];
 
     constructor(
-        private aetherV200TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private snackBar: MatSnackBar,
         private activatedRoute: ActivatedRoute
     ) {
@@ -52,7 +52,7 @@ export class ConnectivityServiceComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.dataSource = new ConnectivityServiceDatasource(this.aetherV200TargetService, AETHER_TARGETS);
+        this.dataSource = new ConnectivityServiceDatasource(this.aetherService, AETHER_TARGETS);
     }
 
     ngAfterViewInit(): void {

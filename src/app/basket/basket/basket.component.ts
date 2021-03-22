@@ -7,13 +7,10 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {MatHeaderRow} from '@angular/material/table';
-import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService} from '../../basket.service';
-import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
+import {Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
 import {ApiService} from '../../../openapi3/aether/2.0.0/services/api.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ID_TOKEN_ATTR} from '../../aether.component';
-import {PatchBody} from '../../../openapi3/top/level/models/patch-body';
 
 interface BasketRow {
     path: string;
@@ -43,7 +40,7 @@ export class BasketComponent implements AfterViewInit, OnInit {
     ];
 
     constructor(
-        private aetherV200TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private aetherApiService: ApiService,
         private route: ActivatedRoute,
         private router: Router,

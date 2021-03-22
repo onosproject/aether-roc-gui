@@ -7,11 +7,11 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
+import {Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {ApnProfileApnProfile as AetherV100TargetApnProfileApnProfile} from '../../../openapi3/aether/2.0.0/models';
+import {ApnProfileApnProfile} from '../../../openapi3/aether/2.0.0/models';
 import {ApnProfilesDatasource} from './apn-profiles-datasource';
 
 @Component({
@@ -23,9 +23,9 @@ export class ApnProfilesComponent implements AfterViewInit, OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<AetherV100TargetApnProfileApnProfile>;
+    @ViewChild(MatTable) table: MatTable<ApnProfileApnProfile>;
     dataSource: ApnProfilesDatasource;
-    selectedApnProfile: AetherV100TargetApnProfileApnProfile;
+    selectedApnProfile: ApnProfileApnProfile;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
@@ -42,7 +42,7 @@ export class ApnProfilesComponent implements AfterViewInit, OnInit {
     ];
 
     constructor(
-        private aetherV100TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private snackBar: MatSnackBar,
         private activatedRoute: ActivatedRoute
     ) {
@@ -56,7 +56,7 @@ export class ApnProfilesComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.dataSource = new ApnProfilesDatasource(this.aetherV100TargetService, AETHER_TARGETS);
+        this.dataSource = new ApnProfilesDatasource(this.aetherService, AETHER_TARGETS);
     }
 
     ngAfterViewInit(): void {

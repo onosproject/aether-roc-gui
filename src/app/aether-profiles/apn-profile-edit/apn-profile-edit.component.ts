@@ -9,7 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {
     ApiService,
-    Service as AetherV200TargetService,
+    Service as AetherService,
     ApnProfileApnProfileService
 } from '../../../openapi3/aether/2.0.0/services';
 import {
@@ -63,7 +63,7 @@ export class ApnProfileEditComponent implements OnInit {
     });
     constructor(
         private apnProfileApnProfileService: ApnProfileApnProfileService,
-        private aetherV200TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private aetherApiService: ApiService,
         private route: ActivatedRoute,
         private router: Router,

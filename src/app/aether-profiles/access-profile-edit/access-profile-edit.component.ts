@@ -9,7 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {
     ApiService,
-    Service as AetherV200TargetService,
+    Service,
     AccessProfileAccessProfileService
 } from '../../../openapi3/aether/2.0.0/services';
 import {
@@ -57,7 +57,7 @@ export class AccessProfileEditComponent implements OnInit {
 
     constructor(
         private accessProfileAccessProfileService: AccessProfileAccessProfileService,
-        private aetherV200TargetService: AetherV200TargetService,
+        private service: Service,
         private aetherApiService: ApiService,
         private route: ActivatedRoute,
         private router: Router,

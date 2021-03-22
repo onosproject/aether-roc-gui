@@ -7,7 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {v4 as uuidv4} from 'uuid';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-    Service as AetherV200TargetService,
+    Service as AetherService,
     SubscriberUeService,
     ApiService
 } from '../../../openapi3/aether/2.0.0/services';
@@ -81,7 +81,7 @@ export class SubscriberEditComponent implements OnInit {
 
     constructor(
         private subscriberUeService: SubscriberUeService,
-        private aetherV200TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private aetherApiService: ApiService,
         private route: ActivatedRoute,
         private router: Router,
@@ -160,7 +160,7 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadAccessProfiles(target: string): void {
-        this.aetherV200TargetService.getAccessProfile({
+        this.aetherService.getAccessProfile({
             target,
         }).subscribe(
             (value => {
@@ -177,7 +177,7 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadApnProfiles(target: string): void {
-        this.aetherV200TargetService.getApnProfile({
+        this.aetherService.getApnProfile({
             target,
         }).subscribe(
             (value => {
@@ -194,7 +194,7 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadQosProfiles(target: string): void {
-        this.aetherV200TargetService.getQosProfile({
+        this.aetherService.getQosProfile({
             target,
         }).subscribe(
             (value => {
@@ -211,7 +211,7 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadUpProfiles(target: string): void {
-        this.aetherV200TargetService.getUpProfile({
+        this.aetherService.getUpProfile({
             target,
         }).subscribe(
             (value => {
@@ -228,7 +228,7 @@ export class SubscriberEditComponent implements OnInit {
     }
 
     loadSecurityProfiles(target: string): void {
-        this.aetherV200TargetService.getSecurityProfile({
+        this.aetherService.getSecurityProfile({
             target,
         }).subscribe(
             (value => {

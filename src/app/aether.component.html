@@ -37,11 +37,6 @@
             <span>Profiles</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item [matMenuTriggerFor]="rbac">
-            <mat-icon>groups</mat-icon>
-            <span>RBAC</span>
-        </button>
-        <mat-divider></mat-divider>
         <button mat-menu-item (click)="apiKeyDisplay = true">
             <mat-icon>vpn_key</mat-icon>
             <span>API Key</span>
@@ -57,16 +52,6 @@
         <button mat-menu-item (click)="signingOut()">
             <mat-icon>exit_to_app</mat-icon>
             <span>Sign out</span>
-        </button>
-    </mat-menu>
-    <mat-menu #rbac="matMenu">
-        <button mat-menu-item routerLink="/rbac/roles">
-            <mat-icon>ballot</mat-icon>
-            <span>Roles</span>
-        </button>
-        <button mat-menu-item routerLink="/rbac/groups">
-            <mat-icon>groups</mat-icon>
-            <span>Groups</span>
         </button>
     </mat-menu>
     <mat-menu #profiles="matMenu">

@@ -15,7 +15,7 @@ import {MatTable} from '@angular/material/table';
 import {SubscriberUeDataSource} from './subscriber-ue-datasource';
 import {SubscriberUe} from '../../../openapi3/aether/2.0.0/models';
 import {
-    Service as AetherV200TargetService,
+    Service as AetherService,
     ApiService
 } from '../../../openapi3/aether/2.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
@@ -48,7 +48,7 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
     ];
 
     constructor(
-        private aetherV200TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private aetherApiService: ApiService,
         private snackBar: MatSnackBar,
         private activatedRoute: ActivatedRoute
@@ -63,7 +63,7 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.dataSource = new SubscriberUeDataSource(this.aetherV200TargetService, this.aetherApiService, AETHER_TARGETS);
+        this.dataSource = new SubscriberUeDataSource(this.aetherService, this.aetherApiService, AETHER_TARGETS);
     }
 
     ngAfterViewInit(): void {

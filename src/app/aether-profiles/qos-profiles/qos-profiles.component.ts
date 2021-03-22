@@ -7,11 +7,11 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
+import {Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {QosProfileQosProfile as AetherV200TargetQosProfileQosProfile} from '../../../openapi3/aether/2.0.0/models';
+import {QosProfileQosProfile} from '../../../openapi3/aether/2.0.0/models';
 import {QosProfilesDatasource} from './qos-profiles-datasource';
 
 @Component({
@@ -23,9 +23,9 @@ export class QosProfilesComponent implements AfterViewInit, OnInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<AetherV200TargetQosProfileQosProfile>;
+    @ViewChild(MatTable) table: MatTable<QosProfileQosProfile>;
     dataSource: QosProfilesDatasource;
-    selectedQosProfile: AetherV200TargetQosProfileQosProfile;
+    selectedQosProfile: QosProfileQosProfile;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
@@ -43,7 +43,7 @@ export class QosProfilesComponent implements AfterViewInit, OnInit {
     ];
 
     constructor(
-        private aetherV100TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private snackBar: MatSnackBar,
         private activatedRoute: ActivatedRoute
     ) {
@@ -57,7 +57,7 @@ export class QosProfilesComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.dataSource = new QosProfilesDatasource(this.aetherV100TargetService, AETHER_TARGETS);
+        this.dataSource = new QosProfilesDatasource(this.aetherService, AETHER_TARGETS);
     }
 
     ngAfterViewInit(): void {
