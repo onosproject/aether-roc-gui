@@ -109,6 +109,7 @@ export class BasketService {
         this.arrayCounter = 0;
 
         const patchBody = {
+            'default-target': 'connectivity-service-v2',
             Updates: {},
             Deletes: {}
         };
