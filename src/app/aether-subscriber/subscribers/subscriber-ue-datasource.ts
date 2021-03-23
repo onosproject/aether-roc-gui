@@ -11,7 +11,7 @@ import {MatSort} from '@angular/material/sort';
 import {map} from 'rxjs/operators';
 import {Observable, of as observableOf, merge} from 'rxjs';
 import {
-    Service as AetherV200TargetService,
+    Service as AetherService,
     ApiService
 } from '../../../openapi3/aether/2.0.0/services';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -23,7 +23,7 @@ export class SubscriberUeDataSource extends DataSource<SubscriberUe> {
     sort: MatSort;
 
     constructor(
-        private aetherV200TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private aetherApiService: ApiService,
         private targets: string[],
     ) {
@@ -84,7 +84,7 @@ export class SubscriberUeDataSource extends DataSource<SubscriberUe> {
     }
 
     loadSubscriberUe(): void {
-        this.aetherV200TargetService.getSubscriber({
+        this.aetherService.getSubscriber({
             target: this.targets[0]
         })
             .subscribe(

@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {DataSource} from '@angular/cdk/collections';
-import {EnterpriseEnterprise} from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise';
+import {EnterpriseEnterprise} from '../../../openapi3/aether/2.0.0/models';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
+import {Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {compare} from '../../aether-profiles/util';
@@ -18,7 +18,7 @@ export class EnterpriseDatasource extends DataSource<EnterpriseEnterprise> {
     sort: MatSort;
 
     constructor(
-        private aetherV200TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private targets: string[],
     ) {
         super();
@@ -78,7 +78,7 @@ export class EnterpriseDatasource extends DataSource<EnterpriseEnterprise> {
     }
 
     loadEnterpriseEnterprise(): void {
-        this.aetherV200TargetService.getEnterprise({
+        this.aetherService.getEnterprise({
             target: this.targets[0]
         })
             .subscribe(

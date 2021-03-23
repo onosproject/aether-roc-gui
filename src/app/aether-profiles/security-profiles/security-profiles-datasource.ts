@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {DataSource} from '@angular/cdk/collections';
-import {SecurityProfileSecurityProfile} from '../../../openapi3/aether/2.0.0/models/security-profile-security-profile';
+import {SecurityProfileSecurityProfile} from '../../../openapi3/aether/2.0.0/models';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {ApiService, Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services';
+import {ApiService, Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {compare} from '../util';
@@ -20,7 +20,7 @@ export class SecurityProfilesDatasource extends DataSource<SecurityProfileSecuri
     sort: MatSort;
 
     constructor(
-        private aetherV200TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private aetherApiService: ApiService,
         private targets: string[],
     ) {
@@ -81,7 +81,7 @@ export class SecurityProfilesDatasource extends DataSource<SecurityProfileSecuri
     }
 
     loadSecurityProfileSecurityProfile(): void {
-        this.aetherV200TargetService.getSecurityProfile({
+        this.aetherService.getSecurityProfile({
             target: this.targets[0]
         })
             .subscribe(

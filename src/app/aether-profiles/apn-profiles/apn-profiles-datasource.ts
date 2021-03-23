@@ -7,19 +7,19 @@
 import {DataSource} from '@angular/cdk/collections';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
+import {Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {ApnProfileApnProfile as AetherV200TargetApnProfileApnProfile} from '../../../openapi3/aether/2.0.0/models/apn-profile-apn-profile';
+import {ApnProfileApnProfile} from '../../../openapi3/aether/2.0.0/models';
 import {compare} from '../util';
 
-export class ApnProfilesDatasource extends DataSource<AetherV200TargetApnProfileApnProfile> {
-    data: Array<AetherV200TargetApnProfileApnProfile> = [];
+export class ApnProfilesDatasource extends DataSource<ApnProfileApnProfile> {
+    data: Array<ApnProfileApnProfile> = [];
     paginator: MatPaginator;
     sort: MatSort;
 
     constructor(
-        private aetherV100TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private targets: string[],
     ) {
         super();
@@ -30,7 +30,7 @@ export class ApnProfilesDatasource extends DataSource<AetherV200TargetApnProfile
      * the returned stream emits new items.
      * @returns A stream of the items to be rendered.
      */
-    connect(): Observable<AetherV200TargetApnProfileApnProfile[]> {
+    connect(): Observable<ApnProfileApnProfile[]> {
         // Combine everything that affects the rendered data into one update
         // stream for the data-table to consume.
         const dataMutations = [
@@ -51,7 +51,7 @@ export class ApnProfilesDatasource extends DataSource<AetherV200TargetApnProfile
     disconnect(): void {
     }
 
-    private getPagedData(data: AetherV200TargetApnProfileApnProfile[]): AetherV200TargetApnProfileApnProfile[] {
+    private getPagedData(data: ApnProfileApnProfile[]): ApnProfileApnProfile[] {
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
         return data.splice(startIndex, this.paginator.pageSize);
     }
@@ -60,7 +60,7 @@ export class ApnProfilesDatasource extends DataSource<AetherV200TargetApnProfile
      * Sort the data (client-side). If you're using server-side sorting,
      * this would be replaced by requesting the appropriate data from the server.
      */
-    private getSortedData(data: AetherV200TargetApnProfileApnProfile[]): AetherV200TargetApnProfileApnProfile[] {
+    private getSortedData(data: ApnProfileApnProfile[]): ApnProfileApnProfile[] {
         if (!this.sort.active || this.sort.direction === '') {
             return data;
         }
@@ -79,7 +79,7 @@ export class ApnProfilesDatasource extends DataSource<AetherV200TargetApnProfile
     }
 
     loadApnProfileApnProfile(): void {
-        this.aetherV100TargetService.getApnProfile({
+        this.aetherService.getApnProfile({
             target: this.targets[0]
         })
             .subscribe(

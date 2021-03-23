@@ -6,11 +6,11 @@
 import {DataSource} from '@angular/cdk/collections';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
+import {Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {compare} from '../../aether-profiles/util';
-import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2.0.0/models/connectivity-service-connectivity-service';
+import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2.0.0/models';
 
 export class ConnectivityServiceDatasource extends DataSource<ConnectivityServiceConnectivityService> {
     data: Array<ConnectivityServiceConnectivityService> = [];
@@ -18,7 +18,7 @@ export class ConnectivityServiceDatasource extends DataSource<ConnectivityServic
     sort: MatSort;
 
     constructor(
-        private aetherV200TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private targets: string[],
     ) {
         super();
@@ -78,7 +78,7 @@ export class ConnectivityServiceDatasource extends DataSource<ConnectivityServic
     }
 
     loadConnectivityServiceConnectivityService(): void {
-        this.aetherV200TargetService.getConnectivityService({
+        this.aetherService.getConnectivityService({
             target: this.targets[0]
         })
             .subscribe(

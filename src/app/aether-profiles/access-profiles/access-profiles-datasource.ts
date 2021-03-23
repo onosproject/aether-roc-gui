@@ -7,19 +7,19 @@
 import {DataSource} from '@angular/cdk/collections';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {Service as AetherV200TargetService} from '../../../openapi3/aether/2.0.0/services/service';
-import {AccessProfileAccessProfile as AetherV200TargetAccessProfileAccessProfile} from '../../../openapi3/aether/2.0.0/models/access-profile-access-profile';
+import {Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
+import {AccessProfileAccessProfile} from '../../../openapi3/aether/2.0.0/models';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {compare} from '../util';
 
-export class AccessProfilesDatasource extends DataSource<AetherV200TargetAccessProfileAccessProfile> {
-    data: Array<AetherV200TargetAccessProfileAccessProfile> = [];
+export class AccessProfilesDatasource extends DataSource<AccessProfileAccessProfile> {
+    data: Array<AccessProfileAccessProfile> = [];
     paginator: MatPaginator;
     sort: MatSort;
 
     constructor(
-        private aetherV200TargetService: AetherV200TargetService,
+        private aetherService: AetherService,
         private targets: string[],
     ) {
         super();
@@ -30,7 +30,7 @@ export class AccessProfilesDatasource extends DataSource<AetherV200TargetAccessP
      * the returned stream emits new items.
      * @returns A stream of the items to be rendered.
      */
-    connect(): Observable<AetherV200TargetAccessProfileAccessProfile[]> {
+    connect(): Observable<AccessProfileAccessProfile[]> {
         // Combine everything that affects the rendered data into one update
         // stream for the data-table to consume.
         const dataMutations = [
@@ -51,7 +51,7 @@ export class AccessProfilesDatasource extends DataSource<AetherV200TargetAccessP
     disconnect(): void {
     }
 
-    private getPagedData(data: AetherV200TargetAccessProfileAccessProfile[]): AetherV200TargetAccessProfileAccessProfile[] {
+    private getPagedData(data: AccessProfileAccessProfile[]): AccessProfileAccessProfile[] {
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
         return data.splice(startIndex, this.paginator.pageSize);
     }
@@ -60,7 +60,7 @@ export class AccessProfilesDatasource extends DataSource<AetherV200TargetAccessP
      * Sort the data (client-side). If you're using server-side sorting,
      * this would be replaced by requesting the appropriate data from the server.
      */
-    private getSortedData(data: AetherV200TargetAccessProfileAccessProfile[]): AetherV200TargetAccessProfileAccessProfile[] {
+    private getSortedData(data: AccessProfileAccessProfile[]): AccessProfileAccessProfile[] {
         if (!this.sort.active || this.sort.direction === '') {
             return data;
         }
@@ -79,7 +79,7 @@ export class AccessProfilesDatasource extends DataSource<AetherV200TargetAccessP
     }
 
     loadAccessProfileAccessProfile(): void {
-        this.aetherV200TargetService.getAccessProfile({
+        this.aetherService.getAccessProfile({
             target: this.targets[0]
         })
             .subscribe(
