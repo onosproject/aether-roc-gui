@@ -17,6 +17,8 @@ import {
 } from '../../../openapi3/aether/2.0.0/models';
 import {BasketService} from '../../basket.service';
 
+const TYPE = 'type';
+
 @Component({
     selector: 'aether-apn-profile-edit',
     templateUrl: './apn-profile-edit.component.html',
@@ -83,6 +85,8 @@ export class ApnProfileEditComponent implements OnInit {
                 }
             }
         );
+        this.apnForm.get('mtu')[TYPE] = 'number';
+        this.apnForm.get('gx-enabled')[TYPE] = 'boolean';
     }
 
     loadApnProfileApnProfile(target: string, id: string): void{
@@ -115,7 +119,7 @@ export class ApnProfileEditComponent implements OnInit {
         if (this.id === undefined) {
             submitId = this.apnForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.apnForm, 'apn-profile/apn-profile[]/' + this.id);
+        this.bs.logKeyValuePairs(this.apnForm, 'apn-profile-2.0.0/apn-profile[' + this.id + ']');
         console.log(this.bs.buildPatchBody());
         this.aetherApiService.postApnProfileApnProfile({
             id: submitId,
