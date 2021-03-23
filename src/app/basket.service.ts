@@ -18,6 +18,8 @@ import localizeExtractLoader from '@angular-devkit/build-angular/src/extract-i18
 import {type} from 'os';
 import {mainDiagnosticsForTest} from '@angular/compiler-cli/src/main';
 
+const TYPE = 'type';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -69,7 +71,13 @@ export class BasketService {
                     const idPath = '/profile-ids' + slicedPath + '/' + 'id';
                     localStorage.setItem(idPath, slicedPathID);
                     const fullPath = '/basket-update' + path;
-                    localStorage.setItem(fullPath, abstractControl.value);
+                    if (abstractControl[TYPE] === 'boolean') {
+                        localStorage.setItem(fullPath, 'boolean (' + abstractControl.value + ')');
+                    } else if (abstractControl[TYPE] === 'number') {
+                        localStorage.setItem(fullPath, 'number (' + abstractControl.value + ')');
+                    } else {
+                        localStorage.setItem(fullPath, abstractControl.value);
+                    }
                     console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 }
             } else {
@@ -150,7 +158,19 @@ export class BasketService {
         const slicedPathID = path[0].slice(path[0].indexOf('[') + 1, path[0].length - 1);
 
         if (path.length === 1) {
-            object[path[0]] = value;
+            if (value.includes('boolean')) {
+                if (value.includes('true')) {
+                    object[path[0]] = true;
+                } else {
+                    object[path[0]] = false;
+                }
+            } else if (value.includes('number')) {
+                const numValue = Number(value.slice(value.indexOf('(') + 1, value.indexOf(')')));
+                console.log(numValue);
+                object[path[0]] = numValue;
+            } else {
+                object[path[0]] = value;
+            }
         } else if (path[0].includes('[')) {
 
             if (path.length < 2) {
