@@ -111,7 +111,11 @@ export class BasketService {
         const patchBody = {
             'default-target': 'connectivity-service-v2',
             Updates: {},
-            Deletes: {}
+            Deletes: {},
+            Extensions: {
+                "model-version-101": "2.0.0",
+                "model-type-102": "Aether"
+            }
         };
 
         this.populateIdMap();
