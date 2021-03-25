@@ -19,10 +19,20 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
+import {EnterpriseEditComponent} from "./enterprise-edit/enterprise-edit.component";
+import {MatCardModule} from "@angular/material/card";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {CdkTableModule} from "@angular/cdk/table";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
     declarations: [
-        EnterpriseComponent
+        EnterpriseComponent,
+        EnterpriseEditComponent
     ],
     imports: [
         CommonModule,
@@ -30,6 +40,9 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'enterprise', component: EnterpriseComponent},
+            {path: 'enterprise/:lastChange', component: EnterpriseComponent},
+            {path: 'enterprise-edit/:id', component: EnterpriseEditComponent},
+
             {path: '', component: EnterpriseComponent, pathMatch: 'full'}
         ]),
         FormsModule,
@@ -40,7 +53,15 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         MatPaginatorModule,
         MatSnackBarModule,
         MatToolbarModule,
-        MatIconModule
+        MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatSlideToggleModule,
+        CdkTableModule,
+        MatCheckboxModule
     ],
     providers: [
         AuthInterceptor,
