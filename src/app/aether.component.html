@@ -16,19 +16,19 @@
         </button>
     </mat-toolbar>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item id="userProfileDisplayButton">
             <span mat-menu-item (click)="userProfileDisplay = true">{{idTokClaims.name}}</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item routerLink="/subscribers">
+        <button mat-menu-item routerLink="/subscribers" id="subscriberButton">
             <mat-icon>smartphone</mat-icon>
             <span>Subscribers</span>
         </button>
-        <button mat-menu-item routerLink="/enterprise">
+        <button mat-menu-item routerLink="/enterprise" id="enterpriseButton">
             <mat-icon>apartment</mat-icon>
             <span>Enterprise</span>
         </button>
-        <button mat-menu-item routerLink="/connectivity">
+        <button mat-menu-item routerLink="/connectivity" id="connectivityButton">
             <mat-icon>wifi_tethering</mat-icon>
             <span>Connectivity</span>
         </button>
@@ -37,41 +37,41 @@
             <span>Profiles</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item (click)="apiKeyDisplay = true">
+        <button mat-menu-item (click)="apiKeyDisplay = true" id="apiButton">
             <mat-icon>vpn_key</mat-icon>
             <span>API Key</span>
         </button>
-        <button mat-menu-item routerLink="/basket" *ngIf="basketServiceEnabled">
+        <button mat-menu-item routerLink="/basket" *ngIf="basketServiceEnabled" id="basketButton">
             <mat-icon>shopping_basket</mat-icon>
             <span>Basket</span>
         </button>
-        <button mat-menu-item (click)="showhelp()">
+        <button mat-menu-item (click)="showhelp()" id="showHelpButton">
             <mat-icon>help</mat-icon>
             <span>Help</span>
         </button>
-        <button mat-menu-item (click)="signingOut()">
+        <button mat-menu-item (click)="signingOut()" id="signingOutButton">
             <mat-icon>exit_to_app</mat-icon>
             <span>Sign out</span>
         </button>
     </mat-menu>
     <mat-menu #profiles="matMenu">
-        <button mat-menu-item routerLink="/profiles/accessprofiles">
+        <button mat-menu-item routerLink="/profiles/accessprofiles" id="accessProfilesButton">
             <mat-icon>ballot</mat-icon>
             <span>Access</span>
         </button>
-        <button mat-menu-item routerLink="/profiles/apnprofiles">
+        <button mat-menu-item routerLink="/profiles/apnprofiles" id="apnProfilesButton">
             <mat-icon>ballot</mat-icon>
             <span>APN</span>
         </button>
-        <button mat-menu-item routerLink="/profiles/qosprofiles">
+        <button mat-menu-item routerLink="/profiles/qosprofiles" id="qosProfilesButton">
             <mat-icon>ballot</mat-icon>
             <span>QOS</span>
         </button>
-        <button mat-menu-item routerLink="/profiles/upprofiles">
+        <button mat-menu-item routerLink="/profiles/upprofiles" id="upProfilesButton">
             <mat-icon>ballot</mat-icon>
             <span>User Plane</span>
         </button>
-        <button mat-menu-item routerLink="/profiles/securityprofiles">
+        <button mat-menu-item routerLink="/profiles/securityprofiles" id="securityProfilesButton">
             <mat-icon>lock</mat-icon>
             <span>Security</span>
         </button>
