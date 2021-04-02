@@ -4,20 +4,20 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {AETHER_TARGETS} from "../../../environments/environment";
-import {ActivatedRoute, Router} from "@angular/router";
-import {FormArray, FormBuilder, FormControl, Validators} from "@angular/forms";
+import {AETHER_TARGETS} from '../../../environments/environment';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {
     ApiService,
     Service,
     EnterpriseEnterpriseService
-} from "../../../openapi3/aether/2.0.0/services";
+} from '../../../openapi3/aether/2.0.0/services';
 import {
     EnterpriseEnterprise, EnterpriseEnterpriseConnectivityService
-} from "../../../openapi3/aether/2.0.0/models";
-import {BasketService} from "../../basket.service";
-import {MatHeaderRow, MatTable} from "@angular/material/table";
-import {MatSort} from "@angular/material/sort";
+} from '../../../openapi3/aether/2.0.0/models';
+import {BasketService} from '../../basket.service';
+import {MatHeaderRow, MatTable} from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
 
 interface ConnectivityServiceRow {
     id: string;
@@ -38,11 +38,10 @@ export class EnterpriseEditComponent implements OnInit {
     @ViewChild(MatTable) table: MatTable<Array<ConnectivityServiceRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
-
     showConnectDisplay: boolean = false;
     isNew: boolean;
     enterpriseConnectivityServices: EnterpriseEnterpriseConnectivityService;
-    connectivityServices: Array<EnterpriseEnterpriseConnectivityService>;
+    // connectivityServices: Array<EnterpriseEnterpriseConnectivityService>;
     // tableData : Array<ConnectivityServiceRow>
     data: EnterpriseEnterprise;
 
@@ -64,8 +63,7 @@ export class EnterpriseEditComponent implements OnInit {
             Validators.minLength(1),
             Validators.maxLength(100)
         ])],
-        'connectivity-services': this.fb.array([
-        ])
+        connectivityServices: this.fb.array([])
     });
 
     constructor(
@@ -79,6 +77,10 @@ export class EnterpriseEditComponent implements OnInit {
     ) {
     }
 
+    get connectivityServices(): FormArray {
+        return this.entForm.get('connectivityServices') as FormArray;
+    }
+
     ngOnInit(): void {
         this.route.paramMap.subscribe(
             value => {
@@ -90,42 +92,9 @@ export class EnterpriseEditComponent implements OnInit {
                 }
             }
         );
-        // this.loadConnectivityServices(this.target);
     }
 
-    toggleDisplayDiv(): void {
-        this.showConnectDisplay = ! this.showConnectDisplay;
-    }
-
-    // loadConnectivityServices(target: string): void{
-    //     this.service.getConnectivityService({
-    //         target,
-    //     }).subscribe(
-    //         (value => {
-    //             this.connectivityServices = value['connectivity-service'];
-    //             // const connectivityServiceRow = {
-    //             //     display: value["connectivity-service"],
-    //             //     enabled: value.enabled
-    //             // } as unknown as ConnectivityServiceRow;
-    //             // this.tableData.push(connectivityServiceRow);
-    //             console.log('Got Connectivity Profiles', value['connectivity-service'].length);
-    //         }),
-    //         error => {
-    //             console.warn('Error getting Connectivity Services for ', target, error);
-    //         },
-    //         () => {
-    //             console.log('Finished loading Connectivity Services', target);
-    //         }
-    //     );
-    // }
-
-    pushToList(): void{
-
-    }
-
-    get connectivityServiceControls() {
-        return this.entForm.controls['connectivity-services'] as FormArray;
-    }
+    // TODO - Add toggle div function
 
     populateConnectServices(): void {
         const connectivityServiceForm = this.fb.group({
@@ -144,23 +113,29 @@ export class EnterpriseEditComponent implements OnInit {
             id
         }).subscribe(
             (value => {
+                let isDeleted = false;
                 this.data = value;
                 this.entForm.get('id').setValue(value.id);
-                this.entForm.get('display-name').setValue(value["display-name"]);
+                this.entForm.get('display-name').setValue(value['display-name']);
                 this.entForm.get('description').setValue(value.description);
-
-                // this.entForm.get('connectivity-services').get('connectivity-service').setValue(value["id"]);
-                // this.entForm.get('connectivity-services').get('connectivity-service').setValue(value['enabled']);
-
                 for (const cs of value['connectivity-service']) {
-                    (this.entForm.get('connectivity-services') as FormArray).push(this.fb.group({
-                        'connectivity-service': new FormControl({value: cs['connectivity-service']}),
-                        enabled: cs['enabled']
-                    }));
+                    isDeleted = false;
+                    Object.keys(localStorage)
+                        .filter(checkerKey => checkerKey.startsWith('/delete-ids'))
+                        .forEach((checkerKey) => {
+                            console.log(checkerKey);
+                            if (checkerKey.includes(cs['connectivity-service'])) {
+                                isDeleted = true;
+                            }
+                        });
+                    if (isDeleted === false) {
+                        (this.entForm.get('connectivityServices') as FormArray).push(this.fb.group({
+                            connectivityService: cs['connectivity-service'],
+                            enabled: [cs.enabled],
+                        }));
+                    }
+                    isDeleted = false;
                 }
-
-                console.log('PRINTING CS: ', this.entForm);
-                console.log('PRINTING CS: ', this.entForm);
             }),
             error => {
                 console.warn('Error getting Enterprise Profiles for ', target, error);
@@ -171,29 +146,18 @@ export class EnterpriseEditComponent implements OnInit {
         );
     }
 
+    deleteFromSelect(cs: any): void {
+        localStorage.setItem('/delete-ids/enterprise-2.0.0/enterprise[' + this.id + ']/connectivity-service[' + cs +
+            ']connectivity-service', cs);
+        localStorage.setItem('/basket-delete/enterprise-2.0.0/enterprise[' + this.id +
+            ']/connectivity-service[' + cs + ']connectivity-service', '');
+        const index = (this.entForm.get('connectivityServices') as FormArray)
+            .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === cs);
+        (this.entForm.get('connectivityServices') as FormArray).removeAt(index);
+    }
+
     onSubmit(): void {
-        console.log('Submitted!', this.entForm.getRawValue());
-        let submitId = this.id;
-        if (this.id === undefined) {
-            submitId = this.entForm.get('id').value as unknown as string;
-        }
         this.bs.logKeyValuePairs(this.entForm, 'enterprise-2.0.0/enterprise[' + this.id + ']');
-        console.log(this.bs.buildPatchBody());
-        this.aetherApiService.postEnterpriseEnterprise({
-            id: submitId,
-            target: AETHER_TARGETS[0],
-            body: this.entForm.getRawValue()
-        }).subscribe(
-            value => {
-                console.log('POST Response', value);
-                // TODO: Add a string to the response in the OpenAPI yaml (so that this is not unknown)
-                this.router.navigate(['/enterprise', 'enterprises', value as unknown as string]);
-            },
-            error => console.warn('POST error', error),
-            () => {
-                console.log('POST finished');
-            }
-        );
     }
 
 

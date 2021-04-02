@@ -23,77 +23,18 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
-            <br>
-            <mat-card-header>
-                <mat-card-title>Enterprise Connectivity Service</mat-card-title>
-                <button (click)="toggleDisplayDiv()">
-                    <mat-icon>add</mat-icon>
-                </button>
-            </mat-card-header>
 
-            <div [formGroup]="entForm.controls['connectivity-services']">
-                <ng-container formArrayName="connectivityServiceControls">
-                    <ng-container *ngFor="let csForm of connectivityServiceControls.controls; let i = index;">
+            <div formArrayName="connectivityServices">
+                <div *ngFor="let csForm of connectivityServices.controls; index as i">
+                    <mat-form-field class="field-margin half-width">
                         <div [formGroup]="csForm">
-                            <p formControlName="connectivity-service">{{csForm['connectivity-service']}}</p>
+                            <input matInput formControlName="connectivityService" readonly>
+                            <mat-slide-toggle ngDefaultControl class="field-margin half-width" formControlName="enabled">Enabled</mat-slide-toggle>
+                            <button (click)="deleteFromSelect(csForm.value.connectivityService)"><mat-icon class="table_icon">delete</mat-icon></button>
                         </div>
-                    </ng-container>
-                </ng-container>
+                    </mat-form-field>
+                </div>
             </div>
-
-            <!--                        -->
-            <!--                        <div *ngIf="showConnectDisplay" id="divshow">-->
-            <!--                            <mat-card class="field-margin half-width">-->
-            <!--                                <div ng-hide="showConnectDisplay">-->
-            <!--                                    <mat-card-header>-->
-            <!--                                        <mat-card-title> Add Enterprise Connectivity Service</mat-card-title>-->
-            <!--                                    </mat-card-header>-->
-            <!--                                    <div class="row" formGroupName="connectivity-services">-->
-            <!--                                        <mat-form-field class="field-margin half-width">-->
-            <!--                                            <mat-select formControlName="connectivity-service">-->
-            <!--                                                <mat-option *ngFor="let con of tableData"-->
-            <!--                                                            [value]="con.id">{{con.id}}</mat-option>-->
-            <!--                                            </mat-select>-->
-            <!--                                            <mat-hint>ID</mat-hint>-->
-            <!--                                        </mat-form-field>-->
-            <!--                                    </div>-->
-            <!--                                    <br>-->
-            <!--                                    <div class="row" formGroupName="profiles">-->
-            <!--                                        <div class="row">-->
-            <!--                                            <mat-slide-toggle ngDefaultControl class="field-margin" formControlName="gx-enabled">Enable Connectivity Service</mat-slide-toggle>-->
-            <!--                                        </div>-->
-            <!--                                    </div>-->
-            <!--                                    &lt;!&ndash; PUSH TO TABLE &ndash;&gt;-->
-            <!--                                    <mat-card-actions>-->
-            <!--                                        <button mat-raised-button color="primary" type="submit" (click)="pushToList()">Add</button>-->
-            <!--                                    </mat-card-actions>-->
-            <!--                                </div>-->
-            <!--                            </mat-card>-->
-            <!--                        </div>-->
-
-
-
-            <!--            <div class="row" formGroupName="connectivity-services">-->
-            <!--                <table mat-table class="half-width" [dataSource]="connectivityServices">-->
-            <!--                    <ng-container matColumnDef="id">-->
-            <!--                        <th mat-header-cell *matHeaderCellDef> ID</th>-->
-            <!--                        <td mat-cell *matCellDef="let element">{{element.id}}</td>-->
-            <!--                    </ng-container>-->
-
-            <!--                    <ng-container matColumnDef="enabled">-->
-            <!--                        <th mat-header-cell *matHeaderCellDef> Enabled</th>-->
-            <!--                        <td mat-cell *matCellDef="let element">-->
-            <!--                            <mat-slide-toggle ngDefaultControl class="field-margin half-width"-->
-            <!--                                              formControlName="gx-enabled">-->
-            <!--                                Enable Connectivity Service-->
-            <!--                            </mat-slide-toggle>-->
-            <!--                        </td>-->
-            <!--                    </ng-container>-->
-
-            <!--                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
-            <!--                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>-->
-            <!--                </table>-->
-            <!--            </div>-->
 
             <!--
             TODO

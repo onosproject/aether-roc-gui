@@ -111,7 +111,12 @@ export class BasketComponent implements AfterViewInit, OnInit {
                 localStorage.removeItem(key);
             });
         Object.keys(localStorage)
-            .filter(key => key.startsWith('/profile-ids'))
+            .filter(key => key.startsWith('/update-ids'))
+            .forEach((key) => {
+                localStorage.removeItem(key);
+            });
+        Object.keys(localStorage)
+            .filter(key => key.startsWith('/delete-ids'))
             .forEach((key) => {
                 localStorage.removeItem(key);
             });
