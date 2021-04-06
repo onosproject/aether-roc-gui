@@ -15,7 +15,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
-import {ApiModule} from '../../../openapi3/aether/2.0.0/api.module';
+import {ApiModule} from '../../../openapi3/aether/2.1.0/api.module';
 import {ActivatedRoute} from '@angular/router';
 import {of} from 'rxjs';
 

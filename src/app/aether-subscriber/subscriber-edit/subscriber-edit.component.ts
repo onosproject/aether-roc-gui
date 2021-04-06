@@ -10,7 +10,7 @@ import {
     Service as AetherService,
     SubscriberUeService,
     ApiService
-} from '../../../openapi3/aether/2.0.0/services';
+} from '../../../openapi3/aether/2.1.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {FormArray, FormBuilder, Validators} from '@angular/forms';
 import {
@@ -20,7 +20,7 @@ import {
     QosProfileQosProfile,
     UpProfileUpProfile,
     SecurityProfileSecurityProfile
-} from '../../../openapi3/aether/2.0.0/models';
+} from '../../../openapi3/aether/2.1.0/models';
 import {BasketService} from '../../basket.service';
 
 @Component({

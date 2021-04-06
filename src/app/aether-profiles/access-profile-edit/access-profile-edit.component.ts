@@ -11,10 +11,10 @@ import {
     ApiService,
     Service,
     AccessProfileAccessProfileService
-} from '../../../openapi3/aether/2.0.0/services';
+} from '../../../openapi3/aether/2.1.0/services';
 import {
     AccessProfileAccessProfile
-} from '../../../openapi3/aether/2.0.0/models';
+} from '../../../openapi3/aether/2.1.0/models';
 import {BasketService} from '../../basket.service';
 
 @Component({
@@ -108,7 +108,7 @@ export class AccessProfileEditComponent implements OnInit {
         if (this.id === undefined) {
             submitId = this.accForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.accForm, 'access-profile-2.0.0/access-profile[' + this.id + ']');
+        this.bs.logKeyValuePairs(this.accForm, 'access-profile-2.1.0/access-profile[' + this.id + ']');
         console.log(this.bs.buildPatchBody());
 
         // Keeping this in for now to test
