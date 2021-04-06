@@ -50,34 +50,43 @@ export class BasketService {
             // If the control is not a FormGroup then we know it's a FormControl
         } else if (abstractControl instanceof FormArray) {
             (abstractControl as FormArray).controls.forEach((item, idx) => {
-                this.logKeyValuePairs(item, path === '[]/' ? 'i' + idx : parent + '[]/' + String(idx));
+                this.logKeyValuePairs(item, path === '[]/' ? 'i' + idx : parent + '[' + item.value[Object.keys(item.value)[0]] + ']');
             });
         } else {
 
             if (abstractControl.pristine === false && abstractControl.touched === true) {
                 if (abstractControl.value === '') {
-                    const slicedPathID = path.slice(path.indexOf('[') + 1, path.indexOf(']'));
+
+                    const slicedPathValue = path.slice(path.indexOf('[') + 1, path.indexOf(']'));
                     const slicedPath = path.slice(0, path.indexOf(']') + 1);
                     const idPath = '/delete-ids' + slicedPath + '/' + 'id';
-                    localStorage.setItem(idPath, slicedPathID);
+
+                    localStorage.setItem(idPath, slicedPathValue);
                     const fullPath = '/basket-delete' + path;
                     localStorage.setItem(fullPath, abstractControl.value);
                     console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
+
                 } else {
-                    const slicedPathID = path.slice(path.indexOf('[') + 1, path.indexOf(']'));
+
+                    const slicedPathValue = path.slice(path.indexOf('[') + 1, path.indexOf(']'));
                     const slicedPath = path.slice(0, path.indexOf(']') + 1);
                     const idPath = '/update-ids' + slicedPath + '/' + 'id';
-                    localStorage.setItem(idPath, slicedPathID);
+
+                    localStorage.setItem(idPath, slicedPathValue);
                     const fullPath = '/basket-update' + path;
+
                     if (abstractControl[TYPE] === 'boolean') {
                         localStorage.setItem(fullPath, 'boolean (' + abstractControl.value + ')');
                     } else if (abstractControl[TYPE] === 'number') {
                         localStorage.setItem(fullPath, 'number (' + abstractControl.value + ')');
+                    } else if (abstractControl[TYPE] === 'formArray') {
+                        localStorage.setItem(fullPath, 'formArray (' + abstractControl.value + ')');
                     } else {
                         localStorage.setItem(fullPath, abstractControl.value);
                     }
                     console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 }
+
             } else {
                 const fullPath = path;
                 console.log('Unchanged PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
@@ -143,7 +152,7 @@ export class BasketService {
 
     recursePath(path: string[], object: object, value: string): void {
         const slicedPath = path[0].slice(0, path[0].indexOf('['));
-        const slicedPathID = path[0].slice(path[0].indexOf('[') + 1, path[0].length - 1);
+        const slicedPathValue = path[0].slice(path[0].indexOf('[') + 1, path[0].length - 1);
 
         if (path.length === 1) {
             if (value.includes('boolean')) {
@@ -171,18 +180,18 @@ export class BasketService {
                 this.pathCounter++;
             }
 
-            if (this.idMap.has(slicedPathID) === false) {
-                this.idMap.set(slicedPathID, this.arrayCounter);
+            if (this.idMap.has(slicedPathValue) === false) {
+                this.idMap.set(slicedPathValue, this.arrayCounter);
                 this.arrayCounter++;
             }
 
             if (object[slicedPath] === undefined) {
                 object[slicedPath] = [];
             }
-            if (object[slicedPath][this.idMap.get(slicedPathID)] === undefined) {
-                object[slicedPath][this.idMap.get(slicedPathID)] = {};
+            if (object[slicedPath][this.idMap.get(slicedPathValue)] === undefined) {
+                object[slicedPath][this.idMap.get(slicedPathValue)] = {};
             }
-            this.recursePath(path.slice(1), object[slicedPath][this.idMap.get(slicedPathID)], value);
+            this.recursePath(path.slice(1), object[slicedPath][this.idMap.get(slicedPathValue)], value);
         } else {
             if (object[path[0]] === undefined) {
                 object[path[0]] = {};

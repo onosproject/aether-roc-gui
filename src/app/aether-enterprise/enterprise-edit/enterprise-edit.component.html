@@ -1,0 +1,50 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="entForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Enterprise ID: {{id}}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="display-name">
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="description">
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div formArrayName="connectivityServices">
+                <div *ngFor="let csForm of connectivityServices.controls; index as i">
+                    <mat-form-field class="field-margin half-width">
+                        <div [formGroup]="csForm">
+                            <input matInput formControlName="connectivityService" readonly>
+                            <mat-slide-toggle ngDefaultControl class="field-margin half-width" formControlName="enabled">Enabled</mat-slide-toggle>
+                            <button (click)="deleteFromSelect(csForm.value.connectivityService)"><mat-icon class="table_icon">delete</mat-icon></button>
+                        </div>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <!--
+            TODO
+            Reveal a hidden div which is created when connectivity-service is chosen.
+            Allow to enable or not with slide toggle
+            -->
+
+            <mat-card-actions>
+                <button mat-raised-button color="primary" type="submit">Update</button>
+            </mat-card-actions>
+        </mat-card-content>
+    </mat-card>
+</form>
