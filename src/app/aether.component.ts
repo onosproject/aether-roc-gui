@@ -69,6 +69,7 @@ export class AetherComponent implements OnInit {
     signingOut(): void {
         this.oauthService.logOut();
         localStorage.clear();
+        window.location.reload();
     }
 
     get idTokClaims(): IdTokClaims {
