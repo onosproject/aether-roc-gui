@@ -13,11 +13,11 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {SubscriberUeDataSource} from './subscriber-ue-datasource';
-import {SubscriberUe} from '../../../openapi3/aether/2.0.0/models';
+import {SubscriberUe} from '../../../openapi3/aether/2.1.0/models';
 import {
     Service as AetherService,
     ApiService
-} from '../../../openapi3/aether/2.0.0/services';
+} from '../../../openapi3/aether/2.1.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';

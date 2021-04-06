@@ -6,11 +6,11 @@
 import {DataSource} from '@angular/cdk/collections';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/2.1.0/services';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {compare} from '../../aether-profiles/util';
-import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2.0.0/models';
+import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2.1.0/models';
 
 export class ConnectivityServiceDatasource extends DataSource<ConnectivityServiceConnectivityService> {
     data: Array<ConnectivityServiceConnectivityService> = [];

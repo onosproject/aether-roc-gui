@@ -8,9 +8,9 @@ import {AbstractControl, FormArray, FormControl, FormGroup} from '@angular/forms
 import {AETHER_TARGETS} from '../environments/environment';
 import {ArrayType, ElementSchemaRegistry} from '@angular/compiler';
 import {PatchBody, Elements} from '../openapi3/top/level/models';
-import {SecurityProfile} from '../openapi3/aether/2.0.0/models/security-profile';
-import {AccessProfile} from '../openapi3/aether/2.0.0/models/access-profile';
-import {SecurityProfileSecurityProfile} from '../openapi3/aether/2.0.0/models/security-profile-security-profile';
+import {SecurityProfile} from '../openapi3/aether/2.1.0/models/security-profile';
+import {AccessProfile} from '../openapi3/aether/2.1.0/models/access-profile';
+import {SecurityProfileSecurityProfile} from '../openapi3/aether/2.1.0/models/security-profile-security-profile';
 import {valueReferenceToExpression} from '@angular/compiler-cli/src/ngtsc/annotations/src/util';
 import {getPropertyValueFromSymbol} from '@angular/compiler-cli/ngcc/src/host/esm2015_host';
 import {isPackageNameSafeForAnalytics} from '@angular/cli/models/analytics';
@@ -108,7 +108,7 @@ export class BasketService {
             Updates: {},
             Deletes: {},
             Extensions: {
-                'model-version-101': '2.0.0',
+                'model-version-101': '2.1.0',
                 'model-type-102': 'Aether'
             }
         };

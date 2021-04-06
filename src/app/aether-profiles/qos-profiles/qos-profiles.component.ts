@@ -7,11 +7,11 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/2.1.0/services';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {QosProfileQosProfile} from '../../../openapi3/aether/2.0.0/models';
+import {QosProfileQosProfile} from '../../../openapi3/aether/2.1.0/models';
 import {QosProfilesDatasource} from './qos-profiles-datasource';
 
 @Component({

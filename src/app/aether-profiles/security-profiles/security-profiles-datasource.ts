@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {DataSource} from '@angular/cdk/collections';
-import {SecurityProfileSecurityProfile} from '../../../openapi3/aether/2.0.0/models';
+import {SecurityProfileSecurityProfile} from '../../../openapi3/aether/2.1.0/models';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {ApiService, Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
+import {ApiService, Service as AetherService} from '../../../openapi3/aether/2.1.0/services';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {compare} from '../util';
