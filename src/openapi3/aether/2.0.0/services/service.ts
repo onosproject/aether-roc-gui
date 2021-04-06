@@ -33,7 +33,7 @@ export class Service extends BaseService {
   /**
    * Path part for operation getAccessProfile
    */
-  static readonly GetAccessProfilePath = '/aether/v2.0.0/{target}/access-profile';
+  static readonly GetAccessProfilePath = '/aether/v2.1.0/{target}/access-profile';
 
   /**
    * GET /access-profile Generated from YANG model.
@@ -95,7 +95,7 @@ export class Service extends BaseService {
   /**
    * Path part for operation getApnProfile
    */
-  static readonly GetApnProfilePath = '/aether/v2.0.0/{target}/apn-profile';
+  static readonly GetApnProfilePath = '/aether/v2.1.0/{target}/apn-profile';
 
   /**
    * GET /apn-profile Generated from YANG model.
@@ -157,7 +157,7 @@ export class Service extends BaseService {
   /**
    * Path part for operation getConnectivityService
    */
-  static readonly GetConnectivityServicePath = '/aether/v2.0.0/{target}/connectivity-service';
+  static readonly GetConnectivityServicePath = '/aether/v2.1.0/{target}/connectivity-service';
 
   /**
    * GET /connectivity-service Generated from YANG model.
@@ -219,7 +219,7 @@ export class Service extends BaseService {
   /**
    * Path part for operation getEnterprise
    */
-  static readonly GetEnterprisePath = '/aether/v2.0.0/{target}/enterprise';
+  static readonly GetEnterprisePath = '/aether/v2.1.0/{target}/enterprise';
 
   /**
    * GET /enterprise Generated from YANG model.
@@ -281,7 +281,7 @@ export class Service extends BaseService {
   /**
    * Path part for operation getQosProfile
    */
-  static readonly GetQosProfilePath = '/aether/v2.0.0/{target}/qos-profile';
+  static readonly GetQosProfilePath = '/aether/v2.1.0/{target}/qos-profile';
 
   /**
    * GET /qos-profile Generated from YANG model.
@@ -343,7 +343,7 @@ export class Service extends BaseService {
   /**
    * Path part for operation getSecurityProfile
    */
-  static readonly GetSecurityProfilePath = '/aether/v2.0.0/{target}/security-profile';
+  static readonly GetSecurityProfilePath = '/aether/v2.1.0/{target}/security-profile';
 
   /**
    * GET /security-profile Generated from YANG model.
@@ -405,7 +405,7 @@ export class Service extends BaseService {
   /**
    * Path part for operation getSubscriber
    */
-  static readonly GetSubscriberPath = '/aether/v2.0.0/{target}/subscriber';
+  static readonly GetSubscriberPath = '/aether/v2.1.0/{target}/subscriber';
 
   /**
    * GET /subscriber Generated from YANG model.
@@ -467,7 +467,7 @@ export class Service extends BaseService {
   /**
    * Path part for operation getUpProfile
    */
-  static readonly GetUpProfilePath = '/aether/v2.0.0/{target}/up-profile';
+  static readonly GetUpProfilePath = '/aether/v2.1.0/{target}/up-profile';
 
   /**
    * GET /up-profile Generated from YANG model.

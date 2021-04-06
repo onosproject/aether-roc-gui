@@ -11,10 +11,10 @@ import {
     ApiService,
     Service,
     EnterpriseEnterpriseService
-} from '../../../openapi3/aether/2.0.0/services';
+} from '../../../openapi3/aether/2.1.0/services';
 import {
     EnterpriseEnterprise, EnterpriseEnterpriseConnectivityService
-} from '../../../openapi3/aether/2.0.0/models';
+} from '../../../openapi3/aether/2.1.0/models';
 import {BasketService} from '../../basket.service';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -147,9 +147,9 @@ export class EnterpriseEditComponent implements OnInit {
     }
 
     deleteFromSelect(cs: any): void {
-        localStorage.setItem('/delete-ids/enterprise-2.0.0/enterprise[' + this.id + ']/connectivity-service[' + cs +
+        localStorage.setItem('/delete-ids/enterprise-2.1.0/enterprise[' + this.id + ']/connectivity-service[' + cs +
             ']connectivity-service', cs);
-        localStorage.setItem('/basket-delete/enterprise-2.0.0/enterprise[' + this.id +
+        localStorage.setItem('/basket-delete/enterprise-2.1.0/enterprise[' + this.id +
             ']/connectivity-service[' + cs + ']connectivity-service', '');
         const index = (this.entForm.get('connectivityServices') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === cs);
@@ -157,7 +157,7 @@ export class EnterpriseEditComponent implements OnInit {
     }
 
     onSubmit(): void {
-        this.bs.logKeyValuePairs(this.entForm, 'enterprise-2.0.0/enterprise[' + this.id + ']');
+        this.bs.logKeyValuePairs(this.entForm, 'enterprise-2.1.0/enterprise[' + this.id + ']');
     }
 
 

@@ -26,7 +26,7 @@ export class AccessProfileAccessProfileService extends BaseService {
   /**
    * Path part for operation getAccessProfileAccessProfile
    */
-  static readonly GetAccessProfileAccessProfilePath = '/aether/v2.0.0/{target}/access-profile/access-profile/{id}';
+  static readonly GetAccessProfileAccessProfilePath = '/aether/v2.1.0/{target}/access-profile/access-profile/{id}';
 
   /**
    * GET /access-profile/access-profile Generated from YANG model.

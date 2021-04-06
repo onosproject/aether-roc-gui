@@ -28,7 +28,7 @@ export class QosProfileQosProfileService extends BaseService {
   /**
    * Path part for operation getQosProfileQosProfile
    */
-  static readonly GetQosProfileQosProfilePath = '/aether/v2.0.0/{target}/qos-profile/qos-profile/{id}';
+  static readonly GetQosProfileQosProfilePath = '/aether/v2.1.0/{target}/qos-profile/qos-profile/{id}';
 
   /**
    * GET /qos-profile/qos-profile Generated from YANG model.
@@ -101,7 +101,7 @@ export class QosProfileQosProfileService extends BaseService {
   /**
    * Path part for operation getQosProfileQosProfileApnAmbr
    */
-  static readonly GetQosProfileQosProfileApnAmbrPath = '/aether/v2.0.0/{target}/qos-profile/qos-profile/{id}/apn-ambr';
+  static readonly GetQosProfileQosProfileApnAmbrPath = '/aether/v2.1.0/{target}/qos-profile/qos-profile/{id}/apn-ambr';
 
   /**
    * GET /qos-profile/qos-profile/{id}/apn-ambr Generated from YANG model.
@@ -174,7 +174,7 @@ export class QosProfileQosProfileService extends BaseService {
   /**
    * Path part for operation getQosProfileQosProfileArp
    */
-  static readonly GetQosProfileQosProfileArpPath = '/aether/v2.0.0/{target}/qos-profile/qos-profile/{id}/arp';
+  static readonly GetQosProfileQosProfileArpPath = '/aether/v2.1.0/{target}/qos-profile/qos-profile/{id}/arp';
 
   /**
    * GET /qos-profile/qos-profile/{id}/arp Generated from YANG model.

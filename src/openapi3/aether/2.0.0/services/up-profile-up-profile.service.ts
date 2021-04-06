@@ -26,7 +26,7 @@ export class UpProfileUpProfileService extends BaseService {
   /**
    * Path part for operation getUpProfileUpProfile
    */
-  static readonly GetUpProfileUpProfilePath = '/aether/v2.0.0/{target}/up-profile/up-profile/{id}';
+  static readonly GetUpProfileUpProfilePath = '/aether/v2.1.0/{target}/up-profile/up-profile/{id}';
 
   /**
    * GET /up-profile/up-profile Generated from YANG model.

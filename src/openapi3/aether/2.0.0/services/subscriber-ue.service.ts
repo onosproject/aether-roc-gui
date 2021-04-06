@@ -28,7 +28,7 @@ export class SubscriberUeService extends BaseService {
   /**
    * Path part for operation getSubscriberUe
    */
-  static readonly GetSubscriberUePath = '/aether/v2.0.0/{target}/subscriber/ue/{id}';
+  static readonly GetSubscriberUePath = '/aether/v2.1.0/{target}/subscriber/ue/{id}';
 
   /**
    * GET /subscriber/ue Generated from YANG model.
@@ -101,7 +101,7 @@ export class SubscriberUeService extends BaseService {
   /**
    * Path part for operation getSubscriberUeProfiles
    */
-  static readonly GetSubscriberUeProfilesPath = '/aether/v2.0.0/{target}/subscriber/ue/{id}/profiles';
+  static readonly GetSubscriberUeProfilesPath = '/aether/v2.1.0/{target}/subscriber/ue/{id}/profiles';
 
   /**
    * GET /subscriber/ue/{id}/profiles Generated from YANG model.
@@ -174,7 +174,7 @@ export class SubscriberUeService extends BaseService {
   /**
    * Path part for operation getSubscriberUeServingPlmn
    */
-  static readonly GetSubscriberUeServingPlmnPath = '/aether/v2.0.0/{target}/subscriber/ue/{id}/serving-plmn';
+  static readonly GetSubscriberUeServingPlmnPath = '/aether/v2.1.0/{target}/subscriber/ue/{id}/serving-plmn';
 
   /**
    * GET /subscriber/ue/{id}/serving-plmn Generated from YANG model.

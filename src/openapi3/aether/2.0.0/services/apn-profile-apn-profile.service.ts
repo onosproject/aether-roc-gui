@@ -26,7 +26,7 @@ export class ApnProfileApnProfileService extends BaseService {
   /**
    * Path part for operation getApnProfileApnProfile
    */
-  static readonly GetApnProfileApnProfilePath = '/aether/v2.0.0/{target}/apn-profile/apn-profile/{id}';
+  static readonly GetApnProfileApnProfilePath = '/aether/v2.1.0/{target}/apn-profile/apn-profile/{id}';
 
   /**
    * GET /apn-profile/apn-profile Generated from YANG model.

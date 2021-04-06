@@ -26,7 +26,7 @@ export class EnterpriseEnterpriseService extends BaseService {
   /**
    * Path part for operation getEnterpriseEnterprise
    */
-  static readonly GetEnterpriseEnterprisePath = '/aether/v2.0.0/{target}/enterprise/enterprise/{id}';
+  static readonly GetEnterpriseEnterprisePath = '/aether/v2.1.0/{target}/enterprise/enterprise/{id}';
 
   /**
    * GET /enterprise/enterprise Generated from YANG model.

@@ -7,10 +7,10 @@
 import {DataSource} from '@angular/cdk/collections';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/2.1.0/services';
 import {merge, Observable, of as observableOf} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {QosProfileQosProfile} from '../../../openapi3/aether/2.0.0/models';
+import {QosProfileQosProfile} from '../../../openapi3/aether/2.1.0/models';
 import {compare} from '../util';
 
 export class QosProfilesDatasource extends DataSource<QosProfileQosProfile> {

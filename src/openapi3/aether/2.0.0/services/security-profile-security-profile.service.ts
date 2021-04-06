@@ -26,7 +26,7 @@ export class SecurityProfileSecurityProfileService extends BaseService {
   /**
    * Path part for operation getSecurityProfileSecurityProfile
    */
-  static readonly GetSecurityProfileSecurityProfilePath = '/aether/v2.0.0/{target}/security-profile/security-profile/{id}';
+  static readonly GetSecurityProfileSecurityProfilePath = '/aether/v2.1.0/{target}/security-profile/security-profile/{id}';
 
   /**
    * GET /security-profile/security-profile Generated from YANG model.

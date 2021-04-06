@@ -26,7 +26,7 @@ export class SubscriberUeProfilesAccessProfileService extends BaseService {
   /**
    * Path part for operation getSubscriberUeProfilesAccessProfile
    */
-  static readonly GetSubscriberUeProfilesAccessProfilePath = '/aether/v2.0.0/{target}/subscriber/ue/{id}/profiles/access-profile/{access-profile}';
+  static readonly GetSubscriberUeProfilesAccessProfilePath = '/aether/v2.1.0/{target}/subscriber/ue/{id}/profiles/access-profile/{access-profile}';
 
   /**
    * GET /subscriber/ue/{id}/profiles/access-profile Generated from YANG model.
