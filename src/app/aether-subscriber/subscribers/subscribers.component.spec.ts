@@ -19,7 +19,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ActivatedRoute, Params} from '@angular/router';
 import {of} from 'rxjs';
 import {RouterTestingModule} from '@angular/router/testing';
-import {ApiModule} from '../../../openapi3/aether/2.0.0/api.module';
+import {ApiModule} from '../../../openapi3/aether/2.1.0/api.module';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
 import {MatToolbar, MatToolbarModule} from '@angular/material/toolbar';

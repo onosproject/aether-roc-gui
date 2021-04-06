@@ -8,8 +8,8 @@ import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {MatHeaderRow} from '@angular/material/table';
 import {BasketService} from '../../basket.service';
-import {Service as AetherService} from '../../../openapi3/aether/2.0.0/services';
-import {ApiService} from '../../../openapi3/aether/2.0.0/services/api.service';
+import {Service as AetherService} from '../../../openapi3/aether/2.1.0/services';
+import {ApiService} from '../../../openapi3/aether/2.1.0/services/api.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
 interface BasketRow {

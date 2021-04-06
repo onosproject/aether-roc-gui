@@ -11,10 +11,10 @@ import {
     ApiService,
     Service as AetherService,
     SecurityProfileSecurityProfileService
-} from '../../../openapi3/aether/2.0.0/services';
+} from '../../../openapi3/aether/2.1.0/services';
 import {
     SecurityProfileSecurityProfile
-} from '../../../openapi3/aether/2.0.0/models';
+} from '../../../openapi3/aether/2.1.0/models';
 import {BasketService} from '../../basket.service';
 
 @Component({
@@ -108,7 +108,7 @@ export class SecurityProfileEditComponent implements OnInit {
         if (this.id === undefined) {
             submitId = this.spForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.spForm, 'security-profile-2.0.0/security-profile[' + this.id + ']');
+        this.bs.logKeyValuePairs(this.spForm, 'security-profile-2.1.0/security-profile[' + this.id + ']');
         console.log(this.bs.buildPatchBody());
         this.aetherApiService.postSecurityProfileSecurityProfile({
             id: submitId,
