@@ -6,7 +6,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {
     ApiService,
     Service,
@@ -15,7 +15,7 @@ import {
 import {
     EnterpriseEnterprise, EnterpriseEnterpriseConnectivityService
 } from '../../../openapi3/aether/2.1.0/models';
-import {BasketService} from '../../basket.service';
+import {BasketService, IDATTRIBS, TYPE} from '../../basket.service';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 
@@ -23,6 +23,8 @@ interface ConnectivityServiceRow {
     id: string;
     enabled: boolean;
 }
+
+const ISKEY = 'isKey';
 
 @Component({
     selector: 'aether-enterprise-edit',
@@ -63,7 +65,7 @@ export class EnterpriseEditComponent implements OnInit {
             Validators.minLength(1),
             Validators.maxLength(100)
         ])],
-        connectivityServices: this.fb.array([])
+        'connectivity-service': this.fb.array([])
     });
 
     constructor(
@@ -75,10 +77,11 @@ export class EnterpriseEditComponent implements OnInit {
         private fb: FormBuilder,
         private bs: BasketService
     ) {
+        this.entForm.get('connectivity-service')[IDATTRIBS] = ['connectivity-service'];
     }
 
     get connectivityServices(): FormArray {
-        return this.entForm.get('connectivityServices') as FormArray;
+        return this.entForm.get('connectivity-service') as FormArray;
     }
 
     ngOnInit(): void {
@@ -94,44 +97,34 @@ export class EnterpriseEditComponent implements OnInit {
         );
     }
 
-    // TODO - Add toggle div function
-
-    populateConnectServices(): void {
-        const connectivityServiceForm = this.fb.group({
-            'connectivity-service': ['', Validators.compose([
-                Validators.minLength(1),
-                Validators.maxLength(31),
-            ])],
-            enabled: ['']
-        });
-        this['connectivity-services'].push(connectivityServiceForm);
-    }
-
     loadEnterpriseEnterprises(target: string, id: string): void {
         this.enterpriseEnterpriseService.getEnterpriseEnterprise({
             target,
             id
         }).subscribe(
             (value => {
-                let isDeleted = false;
                 this.data = value;
                 this.entForm.get('id').setValue(value.id);
                 this.entForm.get('display-name').setValue(value['display-name']);
                 this.entForm.get('description').setValue(value.description);
                 for (const cs of value['connectivity-service']) {
-                    isDeleted = false;
+                    let isDeleted = false;
                     Object.keys(localStorage)
-                        .filter(checkerKey => checkerKey.startsWith('/delete-ids'))
+                        .filter(checkerKey => checkerKey.startsWith('/basket-delete/enterprise-2.1.0/enterprise[id=' + id +
+                            ']/connectivity-service[connectivity-service='))
                         .forEach((checkerKey) => {
                             console.log(checkerKey);
                             if (checkerKey.includes(cs['connectivity-service'])) {
                                 isDeleted = true;
                             }
                         });
-                    if (isDeleted === false) {
-                        (this.entForm.get('connectivityServices') as FormArray).push(this.fb.group({
-                            connectivityService: cs['connectivity-service'],
-                            enabled: [cs.enabled],
+                    if (!isDeleted) {
+                        const csFormControl = this.fb.control(cs['connectivity-service']);
+                        const enabledControl = this.fb.control(cs.enabled);
+                        enabledControl[TYPE] = 'boolean';
+                        (this.entForm.get('connectivity-service') as FormArray).push(this.fb.group({
+                            'connectivity-service': csFormControl,
+                            enabled: enabledControl,
                         }));
                     }
                     isDeleted = false;
@@ -146,18 +139,16 @@ export class EnterpriseEditComponent implements OnInit {
         );
     }
 
-    deleteFromSelect(cs: any): void {
-        localStorage.setItem('/delete-ids/enterprise-2.1.0/enterprise[' + this.id + ']/connectivity-service[' + cs +
-            ']connectivity-service', cs);
-        localStorage.setItem('/basket-delete/enterprise-2.1.0/enterprise[' + this.id +
-            ']/connectivity-service[' + cs + ']connectivity-service', '');
-        const index = (this.entForm.get('connectivityServices') as FormArray)
+    deleteFromSelect(cs: FormControl): void {
+        localStorage.setItem('/basket-delete/enterprise-2.1.0/enterprise[id=' + this.id +
+            ']/connectivity-service[connectivity-service=' + cs + ']/connectivity-service', undefined);
+        const index = (this.entForm.get('connectivity-service') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === cs);
-        (this.entForm.get('connectivityServices') as FormArray).removeAt(index);
+        (this.entForm.get('connectivity-service') as FormArray).removeAt(index);
     }
 
     onSubmit(): void {
-        this.bs.logKeyValuePairs(this.entForm, 'enterprise-2.1.0/enterprise[' + this.id + ']');
+        this.bs.logKeyValuePairs(this.entForm, 'enterprise-2.1.0/enterprise[id=' + this.id + ']');
     }
 
 

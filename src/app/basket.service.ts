@@ -6,19 +6,10 @@
 import {Injectable, Input} from '@angular/core';
 import {AbstractControl, FormArray, FormControl, FormGroup} from '@angular/forms';
 import {AETHER_TARGETS} from '../environments/environment';
-import {ArrayType, ElementSchemaRegistry} from '@angular/compiler';
-import {PatchBody, Elements} from '../openapi3/top/level/models';
-import {SecurityProfile} from '../openapi3/aether/2.1.0/models/security-profile';
-import {AccessProfile} from '../openapi3/aether/2.1.0/models/access-profile';
-import {SecurityProfileSecurityProfile} from '../openapi3/aether/2.1.0/models/security-profile-security-profile';
-import {valueReferenceToExpression} from '@angular/compiler-cli/src/ngtsc/annotations/src/util';
-import {getPropertyValueFromSymbol} from '@angular/compiler-cli/ngcc/src/host/esm2015_host';
-import {isPackageNameSafeForAnalytics} from '@angular/cli/models/analytics';
-import localizeExtractLoader from '@angular-devkit/build-angular/src/extract-i18n/ivy-extract-loader';
-import {type} from 'os';
-import {mainDiagnosticsForTest} from '@angular/compiler-cli/src/main';
+import {PatchBody} from '../openapi3/top/level/models';
 
-const TYPE = 'type';
+export const TYPE = 'type';
+export const IDATTRIBS = 'idAttribs';
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +18,6 @@ export class BasketService {
     @Input() target: string = AETHER_TARGETS[0];
     apiKeyDisplay: boolean = false;
     idMap = new Map();
-    profileIdPaths = new Map();
     pathMap = new Map();
     arrayCounter: number;
     pathCounter: number;
@@ -50,29 +40,27 @@ export class BasketService {
             // If the control is not a FormGroup then we know it's a FormControl
         } else if (abstractControl instanceof FormArray) {
             (abstractControl as FormArray).controls.forEach((item, idx) => {
-                this.logKeyValuePairs(item, path === '[]/' ? 'i' + idx : parent + '[' + item.value[Object.keys(item.value)[0]] + ']');
+                // There should be an extra attribute 'idAttribs' set on the Form Array after creation defining what the keys IDs are
+                // There might be more than one key for a list
+                const pathIndices: string[] = [];
+                if (!abstractControl[IDATTRIBS]) {
+                    console.warn('Expected Array Control to have IDATTRIBS');
+                    return;
+                }
+                abstractControl[IDATTRIBS].forEach(ak => {
+                    pathIndices.push('[' + ak + '=' + item.value[ak] + ']');
+                });
+                this.logKeyValuePairs(item, parent + pathIndices.join());
             });
         } else {
 
             if (abstractControl.pristine === false && abstractControl.touched === true) {
                 if (abstractControl.value === '') {
-
-                    const slicedPathValue = path.slice(path.indexOf('[') + 1, path.indexOf(']'));
-                    const slicedPath = path.slice(0, path.indexOf(']') + 1);
-                    const idPath = '/delete-ids' + slicedPath + '/' + 'id';
-
-                    localStorage.setItem(idPath, slicedPathValue);
                     const fullPath = '/basket-delete' + path;
                     localStorage.setItem(fullPath, abstractControl.value);
-                    console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
+                    console.log('Deleted PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
 
                 } else {
-
-                    const slicedPathValue = path.slice(path.indexOf('[') + 1, path.indexOf(']'));
-                    const slicedPath = path.slice(0, path.indexOf(']') + 1);
-                    const idPath = '/update-ids' + slicedPath + '/' + 'id';
-
-                    localStorage.setItem(idPath, slicedPathValue);
                     const fullPath = '/basket-update' + path;
 
                     if (abstractControl[TYPE] === 'boolean') {
@@ -84,7 +72,7 @@ export class BasketService {
                     } else {
                         localStorage.setItem(fullPath, abstractControl.value);
                     }
-                    console.log('Changed PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
+                    console.log('updated PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 }
 
             } else {
@@ -98,7 +86,6 @@ export class BasketService {
 
         this.idMap.clear();
         this.pathMap.clear();
-        this.profileIdPaths.clear();
         this.profileIdPathCounter = 0;
         this.pathCounter = 0;
         this.arrayCounter = 0;
@@ -116,34 +103,16 @@ export class BasketService {
         Object.keys(localStorage)
             .filter(updateKey => updateKey.startsWith('/basket-update'))
             .forEach((updateKey) => {
-                Object.keys(localStorage)
-                    .filter(profIDKey => profIDKey.startsWith('/update-ids'))
-                    .forEach((profIDKey) => {
-                        const idPathParts = profIDKey.split('/');
-                        const profIDValue = localStorage.getItem(profIDKey);
-                        this.recursePath(idPathParts.slice(2), patchBody.Updates, profIDValue);
-                    });
-                const updatePathParts = updateKey.split('/');
-                const updateValue = localStorage.getItem(updateKey);
+                const updatePathParts: string[] = updateKey.split('/');
+                const updateValue: string = localStorage.getItem(updateKey);
                 this.recursePath(updatePathParts.slice(2), patchBody.Updates, updateValue);
             });
-
-        this.profileIdPaths.forEach((value, key) => {
-            localStorage.setItem(key, value);
-        });
 
         Object.keys(localStorage)
             .filter(deleteKey => deleteKey.startsWith('/basket-delete'))
             .forEach((deleteKey) => {
-                const deletePathParts = deleteKey.split('/');
+                const deletePathParts: string[] = deleteKey.split('/');
                 const deleteValue = localStorage.getItem(deleteKey);
-                Object.keys(localStorage)
-                    .filter(profIDKey => profIDKey.startsWith('/delete-ids'))
-                    .forEach((profIDKey, idx) => {
-                        const idPathParts = profIDKey.split('/');
-                        const profIDValue = localStorage.getItem(profIDKey);
-                        this.recursePath(idPathParts.slice(2), patchBody.Deletes, profIDValue);
-                    });
                 this.recursePath(deletePathParts.slice(2), patchBody.Deletes, deleteValue);
             });
 
@@ -151,11 +120,11 @@ export class BasketService {
     }
 
     recursePath(path: string[], object: object, value: string): void {
-        const slicedPath = path[0].slice(0, path[0].indexOf('['));
-        const slicedPathValue = path[0].slice(path[0].indexOf('[') + 1, path[0].length - 1);
-
         if (path.length === 1) {
-            if (value.includes('boolean')) {
+            console.log('Leaf', path[0], object, value);
+            if (value === 'undefined' || value === '') {
+                // Ignore
+            } else if (value.includes('boolean')) {
                 if (value.includes('true')) {
                     object[path[0]] = true;
                 } else {
@@ -173,25 +142,32 @@ export class BasketService {
                 console.warn('path too short');
                 return;
             }
+            console.log('Handling', path);
+            // a path might contain more than one key and will be in the form [key1=value1][key2=value2]
+            const thisLevelPath: string = path[0];
+            const container: string = thisLevelPath.slice(0, thisLevelPath.indexOf('['));
+            if (object[container] === undefined) {
+                object[container] = [];
+            }
+            thisLevelPath.split('[').filter(part => part.endsWith(']')).forEach(part => {
+                const keyName = part.slice(0, part.indexOf('='));
+                const keyValue = part.slice(part.indexOf('=') + 1, part.lastIndexOf(']'));
+                let childObj = {};
 
-            if (this.pathMap.has(slicedPath) === false) {
-                this.pathMap.set(slicedPath, this.pathCounter);
-                this.arrayCounter = 0;
-                this.pathCounter++;
-            }
+                object[container].forEach(child => {
+                    if (child[keyName] === keyValue) {
+                        console.log('Found existing child', keyName, '=', keyValue);
+                        childObj = child;
+                    }
+                });
+                if (!childObj[keyName]) {
+                    childObj[keyName] = keyValue;
+                    object[container].push(childObj);
+                }
 
-            if (this.idMap.has(slicedPathValue) === false) {
-                this.idMap.set(slicedPathValue, this.arrayCounter);
-                this.arrayCounter++;
-            }
+                this.recursePath(path.slice(1), childObj, value);
+            });
 
-            if (object[slicedPath] === undefined) {
-                object[slicedPath] = [];
-            }
-            if (object[slicedPath][this.idMap.get(slicedPathValue)] === undefined) {
-                object[slicedPath][this.idMap.get(slicedPathValue)] = {};
-            }
-            this.recursePath(path.slice(1), object[slicedPath][this.idMap.get(slicedPathValue)], value);
         } else {
             if (object[path[0]] === undefined) {
                 object[path[0]] = {};

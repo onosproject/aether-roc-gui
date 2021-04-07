@@ -23,24 +23,21 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
-
-            <div formArrayName="connectivityServices">
+            <div formArrayName="connectivity-service" class="subscriber-section">
+                <mat-hint>Connectivity Services</mat-hint>
                 <div *ngFor="let csForm of connectivityServices.controls; index as i">
                     <mat-form-field class="field-margin half-width">
-                        <div [formGroup]="csForm">
-                            <input matInput formControlName="connectivityService" readonly>
-                            <mat-slide-toggle ngDefaultControl class="field-margin half-width" formControlName="enabled">Enabled</mat-slide-toggle>
-                            <button (click)="deleteFromSelect(csForm.value.connectivityService)"><mat-icon class="table_icon">delete</mat-icon></button>
+                        <div [formGroup]="csForm" >
+                            <input matInput formControlName="connectivity-service" readonly>
+                            <mat-slide-toggle
+                                  formControlName="enabled">Enabled</mat-slide-toggle>
+                            <mat-icon (click)="deleteFromSelect(csForm.value['connectivity-service'])"
+                                      class="pad-left subscriber-pointer">delete</mat-icon>
                         </div>
                     </mat-form-field>
                 </div>
             </div>
 
-            <!--
-            TODO
-            Reveal a hidden div which is created when connectivity-service is chosen.
-            Allow to enable or not with slide toggle
-            -->
 
             <mat-card-actions>
                 <button mat-raised-button color="primary" type="submit">Update</button>
@@ -48,3 +45,6 @@
         </mat-card-content>
     </mat-card>
 </form>
+
+<!-- TODO Reveal a hidden div which is created when connectivity-service is chosen.
+       Allow to enable or not with slide toggle -->

@@ -110,19 +110,10 @@ export class BasketComponent implements AfterViewInit, OnInit {
             .forEach((key) => {
                 localStorage.removeItem(key);
             });
-        Object.keys(localStorage)
-            .filter(key => key.startsWith('/update-ids'))
-            .forEach((key) => {
-                localStorage.removeItem(key);
-            });
-        Object.keys(localStorage)
-            .filter(key => key.startsWith('/delete-ids'))
-            .forEach((key) => {
-                localStorage.removeItem(key);
-            });
         this.updateCounter = 0;
         this.deleteCounter = 0;
         this.data = [];
+        this.pbDisplay = false;
     }
 
     discardAllChanges(): void {
