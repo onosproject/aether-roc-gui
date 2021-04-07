@@ -9,6 +9,9 @@
         <img class="mast-margin" src="/assets/AETHER.png" alt="Aether"
              width="270" height="53" routerLink=""/>
         <span class="mast-spacer"></span>
+        <button mat-icon-button routerLink="/basket" *ngIf="basketServiceEnabled" id="basketButton">
+            <mat-icon>shopping_basket</mat-icon>
+        </button>
         <button mat-icon-button [matMenuTriggerFor]="menu"
                 aria-label="Aether menu icon">
             <mat-icon>person</mat-icon>
@@ -40,10 +43,6 @@
         <button mat-menu-item (click)="apiKeyDisplay = true" id="apiButton">
             <mat-icon>vpn_key</mat-icon>
             <span>API Key</span>
-        </button>
-        <button mat-menu-item routerLink="/basket" *ngIf="basketServiceEnabled" id="basketButton">
-            <mat-icon>shopping_basket</mat-icon>
-            <span>Basket</span>
         </button>
         <button mat-menu-item (click)="showhelp()" id="showHelpButton">
             <mat-icon>help</mat-icon>
