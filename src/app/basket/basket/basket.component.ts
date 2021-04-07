@@ -8,9 +8,9 @@ import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {MatHeaderRow} from '@angular/material/table';
 import {BasketService} from '../../basket.service';
-import {Service as AetherService} from '../../../openapi3/aether/2.1.0/services';
-import {ApiService} from '../../../openapi3/aether/2.1.0/services/api.service';
+import {ApiService} from '../../../openapi3/top/level/services';
 import {ActivatedRoute, Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 interface BasketRow {
     path: string;
@@ -40,16 +40,16 @@ export class BasketComponent implements AfterViewInit, OnInit {
     ];
 
     constructor(
-        private aetherService: AetherService,
-        private aetherApiService: ApiService,
+        private topLevelApiService: ApiService,
         private route: ActivatedRoute,
         private router: Router,
+        private snackBar: MatSnackBar,
         private bs: BasketService
     ) {
     }
 
     toggleDisplayDiv(): void {
-        this.pbDisplay = ! this.pbDisplay;
+        this.pbDisplay = !this.pbDisplay;
     }
 
     ngOnInit(): void {
@@ -79,16 +79,23 @@ export class BasketComponent implements AfterViewInit, OnInit {
     commitChanges(): void {
         const decision = confirm('Are you sure you want to commit these changes?');
         if (decision === true) {
-            // Do post
+            const patchBody = this.bs.buildPatchBody();
+            console.log('SENDING', patchBody);
 
-            console.log(this.bs.buildPatchBody());
-            alert('Confirmed: ' + this.bs.buildPatchBody());
+            this.topLevelApiService.patchTopLevel({body: patchBody}).subscribe(
+                (resp) => {
+                    console.log('Complete', resp);
+                    this.snackBar.open('Complete' + resp, undefined, {duration: 2000});
+                },
+                (err) => {
+                    console.warn('error posting patch body', err);
+                    this.snackBar.open('Error:' + err, 'dismiss', {duration: 20000});
+                }
+            );
+
             this.clearBasket();
-        } else {
-
         }
     }
-
 
     deletePath(key: string): void {
         localStorage.removeItem(key);

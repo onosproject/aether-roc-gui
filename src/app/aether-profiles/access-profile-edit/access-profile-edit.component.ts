@@ -108,25 +108,6 @@ export class AccessProfileEditComponent implements OnInit {
         if (this.id === undefined) {
             submitId = this.accForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.accForm, 'access-profile-2.1.0/access-profile[' + this.id + ']');
-        console.log(this.bs.buildPatchBody());
-
-        // Keeping this in for now to test
-
-        this.aetherApiService.postAccessProfileAccessProfile({
-            id: submitId,
-            target: AETHER_TARGETS[0],
-            body: this.accForm.getRawValue()
-        }).subscribe(
-            value => {
-                console.log('POST Response', value);
-                // TODO: Add a string to the response in the OpenAPI yaml (so that this is not unknown)
-                this.router.navigate(['/profiles', 'accessprofiles', value as unknown as string]);
-            },
-            error => console.warn('POST error', error),
-            () => {
-                console.log('POST finished');
-            }
-        );
+        this.bs.logKeyValuePairs(this.accForm, 'access-profile-2.1.0/access-profile[id=' + this.id + ']');
     }
 }

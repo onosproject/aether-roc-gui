@@ -3,15 +3,17 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BasketService} from '../../basket.service';
 
 @Component({
     selector: 'aether-basket-preview',
     templateUrl: './basket-preview.component.html',
-    styleUrls: ['./basket-preview.component.scss']
+    styleUrls: ['../../common-panel.component.scss']
 })
 export class BasketPreviewComponent implements OnInit {
+    @Output() closeEvent = new EventEmitter<boolean>();
+
     basketPreview: string;
 
     constructor(
@@ -23,4 +25,7 @@ export class BasketPreviewComponent implements OnInit {
         this.basketPreview = JSON.stringify(this.bs.buildPatchBody() as unknown as string, null, 4);
     }
 
+    closeCard(): void {
+        this.closeEvent.emit(true);
+    }
 }

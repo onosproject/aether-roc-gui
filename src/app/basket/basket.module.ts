@@ -11,7 +11,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSortModule} from '@angular/material/sort';
 import {CdkTableModule} from '@angular/cdk/table';
 import {MatTableModule} from '@angular/material/table';
-import {ApiModule as ApiModuleAether} from '../../openapi3/aether/2.1.0/api.module';
+import {ApiModule as ApiModuleTopLevel} from '../../openapi3/top/level/api.module';
 import {AETHER_ROC_API_URL} from '../../environments/environment';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -21,6 +21,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { BasketPreviewComponent } from './basket-preview/basket-preview.component';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,7 @@ import { BasketPreviewComponent } from './basket-preview/basket-preview.componen
     ],
     imports: [
         CommonModule,
-        ApiModuleAether.forRoot({rootUrl: AETHER_ROC_API_URL}),
+        ApiModuleTopLevel.forRoot({rootUrl: AETHER_ROC_API_URL}),
         HttpClientModule,
         RouterModule.forChild([
             {path: 'basket', component: BasketComponent},
@@ -46,7 +47,9 @@ import { BasketPreviewComponent } from './basket-preview/basket-preview.componen
         MatToolbarModule,
         MatIconModule,
         MatButtonModule,
-        MatCardModule
+        MatCardModule,
+        ClipboardModule,
+        MatSnackBarModule,
     ]
 })
 

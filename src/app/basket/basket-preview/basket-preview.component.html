@@ -3,6 +3,14 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<p>Basket Preview</p>
-<pre id="json">{{basketPreview}}</pre>
-
+<mat-card class="card mat-elevation-z8" (click)="closeCard()">
+    <mat-card-header class="header">
+        <mat-card-title class="subheading-1 title">Basket preview</mat-card-title>
+    </mat-card-header>
+    <mat-card-content><pre id="json">{{basketPreview}}</pre></mat-card-content>
+    <mat-card-actions>
+        <button mat-icon-button>
+            <mat-icon [cdkCopyToClipboard]="basketPreview" (click)="closeCard()">content_copy</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>
