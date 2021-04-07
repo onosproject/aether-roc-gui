@@ -119,23 +119,7 @@ export class ApnProfileEditComponent implements OnInit {
         if (this.id === undefined) {
             submitId = this.apnForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.apnForm, 'apn-profile-2.1.0/apn-profile[' + this.id + ']');
-        console.log(this.bs.buildPatchBody());
-        this.aetherApiService.postApnProfileApnProfile({
-            id: submitId,
-            target: AETHER_TARGETS[0],
-            body: this.apnForm.getRawValue()
-        }).subscribe(
-            value => {
-                console.log('POST Response', value);
-                // TODO: Add a string to the response in the OpenAPI yaml (so that this is not unknown)
-                this.router.navigate(['/profiles', 'apnprofiles', value as unknown as string]);
-            },
-            error => console.warn('POST error', error),
-            () => {
-                console.log('POST finished');
-            }
-        );
+        this.bs.logKeyValuePairs(this.apnForm, 'apn-profile-2.1.0/apn-profile[id=' + this.id + ']');
     }
 
 }

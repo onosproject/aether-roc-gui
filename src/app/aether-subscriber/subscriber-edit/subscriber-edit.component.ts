@@ -250,23 +250,7 @@ export class SubscriberEditComponent implements OnInit {
         if (this.id === undefined) {
             submitUeid = this.subscriberUeForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.subscriberUeForm);
-        console.log(this.bs.buildPatchBody());
-        this.aetherApiService.postSubscriberUe({
-            id: submitUeid,
-            target: AETHER_TARGETS[0],
-            body: this.subscriberUeForm.getRawValue()
-        }).subscribe(
-            value => {
-                console.log('POST Response', value);
-                // TODO: Add a string to the response in the OpenAPI yaml (so that this is not unknown)
-                this.router.navigate(['/subscribers', 'subscribers', value as unknown as string]);
-            },
-            error => console.warn('POST error', error),
-            () => {
-                console.log('POST finished');
-            }
-        );
+        this.bs.logKeyValuePairs(this.subscriberUeForm, 'subscriber-2.1.0/ue[id=' + this.id + ']');
     }
 
     toggleImsiWildcard(isWildcard: boolean): void {

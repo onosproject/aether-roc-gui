@@ -20,11 +20,6 @@
             Discard
         </button>
     </mat-toolbar>
-    <div *ngIf="pbDisplay" id="divshow">
-        <mat-card>
-            <aether-basket-preview></aether-basket-preview>
-        </mat-card>
-    </div>
     <table mat-table class="full-width-table" matSort aria-label="Updates" [dataSource]="data">
         <ng-container matColumnDef="displayPath">
             <th mat-header-cell *matHeaderCellDef> Path</th>
@@ -49,4 +44,4 @@
     </table>
 </div>
 
-
+<aether-basket-preview *ngIf="pbDisplay" (closeEvent)="pbDisplay = false"></aether-basket-preview>

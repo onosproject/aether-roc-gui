@@ -118,23 +118,7 @@ export class QosProfileEditComponent implements OnInit {
         if (this.id === undefined) {
             submitId = this.qosForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.qosForm, 'qos-profile/qos-profile[]/' + this.id);
-        console.log(this.bs.buildPatchBody());
-        this.aetherApiService.postQosProfileQosProfile({
-            id: submitId,
-            target: AETHER_TARGETS[0],
-            body: this.qosForm.getRawValue()
-        }).subscribe(
-            value => {
-                console.log('POST Response', value);
-                // TODO: Add a string to the response in the OpenAPI yaml (so that this is not unknown)
-                this.router.navigate(['/profiles', 'qosprofile', value as unknown as string]);
-            },
-            error => console.warn('POST error', error),
-            () => {
-                console.log('POST finished');
-            }
-        );
+        this.bs.logKeyValuePairs(this.qosForm, 'qos-profile/qos-profile[id=' + this.id + ' ]' );
     }
 
 }
