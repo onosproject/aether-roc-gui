@@ -13,6 +13,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {AccessProfileAccessProfile} from '../../../openapi3/aether/2.1.0/models';
 import {AccessProfilesDatasource} from './access-profiles-datasource';
+import {BasketService} from '../../basket.service';
 
 @Component({
     selector: 'aether-access-profiles',
@@ -40,6 +41,7 @@ export class AccessProfilesComponent implements AfterViewInit, OnInit {
     constructor(
         private aetherService: AetherService,
         private snackBar: MatSnackBar,
+        private basketService: BasketService,
         private activatedRoute: ActivatedRoute
     ) {
         this.activatedRoute.paramMap.subscribe(params => {
@@ -52,14 +54,16 @@ export class AccessProfilesComponent implements AfterViewInit, OnInit {
     }
 
     ngOnInit(): void {
-        this.dataSource = new AccessProfilesDatasource(this.aetherService, AETHER_TARGETS);
+        this.dataSource = new AccessProfilesDatasource(this.aetherService, this.basketService, AETHER_TARGETS[0]);
     }
 
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadAccessProfileAccessProfile();
+        this.dataSource.loadData(this.aetherService.getAccessProfile({
+            target: AETHER_TARGETS[0]
+        }));
     }
 
     openSnackBar(message: string, durationMs: number, action: string): void {
@@ -68,5 +72,7 @@ export class AccessProfilesComponent implements AfterViewInit, OnInit {
         });
     }
 
-
+    deleteAccessProfileAccessProfile(id: string): void {
+        this.dataSource.delete(id);
+    }
 }

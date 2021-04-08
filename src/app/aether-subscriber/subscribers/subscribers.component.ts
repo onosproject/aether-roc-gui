@@ -14,13 +14,9 @@ import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {SubscriberUeDataSource} from './subscriber-ue-datasource';
 import {SubscriberUe} from '../../../openapi3/aether/2.1.0/models';
-import {
-    Service as AetherService,
-    ApiService
-} from '../../../openapi3/aether/2.1.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/2.1.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {ActivatedRoute} from '@angular/router';
+import {BasketService} from '../../basket.service';
 
 @Component({
     selector: 'aether-subscribers',
@@ -49,38 +45,24 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
 
     constructor(
         private aetherService: AetherService,
-        private aetherApiService: ApiService,
-        private snackBar: MatSnackBar,
-        private activatedRoute: ActivatedRoute
+        private basketService: BasketService,
     ) {
-        this.activatedRoute.paramMap.subscribe(params => {
-            const lc = params.get('lastChange');
-            if (lc != null) {
-                this.openSnackBar('Change saved as ' + lc, 2000, undefined);
-                console.log('Got params', lc);
-            }
-        });
     }
 
     ngOnInit(): void {
-        this.dataSource = new SubscriberUeDataSource(this.aetherService, this.aetherApiService, AETHER_TARGETS);
+        this.dataSource = new SubscriberUeDataSource(this.aetherService, this.basketService, AETHER_TARGETS[0]);
     }
 
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadSubscriberUe();
+        this.dataSource.loadData(this.aetherService.getSubscriber({
+            target: AETHER_TARGETS[0]
+        }));
     }
 
     deleteSubscriberUe(id: string): void {
-        this.dataSource.deleteSubscriberUe(id, this.snackBar);
+        this.dataSource.delete(id);
     }
-
-    openSnackBar(message: string, durationMs: number, action: string): void {
-        this.snackBar.open(message, action, {
-            duration: durationMs,
-        });
-    }
-
 }

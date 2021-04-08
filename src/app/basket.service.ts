@@ -23,9 +23,27 @@ export class BasketService {
     pathCounter: number;
     profileIdPathCounter: number;
 
-
     constructor() {
 
+    }
+
+    deleteIndexedEntry(path: string, indexName: string): void {
+        // If this item was already added in this basket, then remove it
+        Object.keys(localStorage)
+            .filter(p => p.startsWith('/basket-update' + path))
+            .forEach(p => {
+                console.log('Removed from basket', p);
+                localStorage.removeItem(p);
+            });
+        localStorage.setItem('/basket-delete' + path + '/' + indexName, '');
+    }
+
+    containsDeleteEntry(path: string): boolean {
+        return Object.keys(localStorage).includes('/basket-delete' + path);
+    }
+
+    containsUpdateEntry(path: string): boolean {
+        return Object.keys(localStorage).includes('/basket-update' + path);
     }
 
     logKeyValuePairs(abstractControl: AbstractControl, parent?: string): void {

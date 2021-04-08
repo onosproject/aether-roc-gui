@@ -31,7 +31,6 @@ const ISKEY = 'isKey';
     templateUrl: './enterprise-edit.component.html',
     styleUrls: [
         '../../common-edit.component.scss',
-        './enterprise-edit.component.scss'
     ]
 })
 export class EnterpriseEditComponent implements OnInit {
@@ -140,8 +139,8 @@ export class EnterpriseEditComponent implements OnInit {
     }
 
     deleteFromSelect(cs: FormControl): void {
-        localStorage.setItem('/basket-delete/enterprise-2.1.0/enterprise[id=' + this.id +
-            ']/connectivity-service[connectivity-service=' + cs + ']/connectivity-service', undefined);
+        this.bs.deleteIndexedEntry('/enterprise-2.1.0/enterprise[id=' + this.id +
+            ']/connectivity-service[connectivity-service=' + cs + ']', 'connectivity-service');
         const index = (this.entForm.get('connectivity-service') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === cs);
         (this.entForm.get('connectivity-service') as FormArray).removeAt(index);
@@ -150,6 +149,4 @@ export class EnterpriseEditComponent implements OnInit {
     onSubmit(): void {
         this.bs.logKeyValuePairs(this.entForm, 'enterprise-2.1.0/enterprise[id=' + this.id + ']');
     }
-
-
 }

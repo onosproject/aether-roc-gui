@@ -89,7 +89,7 @@ export class BasketComponent implements AfterViewInit, OnInit {
                 },
                 (err) => {
                     console.warn('error posting patch body', err);
-                    this.snackBar.open('Error:' + err, 'dismiss', {duration: 20000});
+                    this.snackBar.open('Error:' + err.error, 'Dismiss', {duration: 20000});
                 }
             );
 
