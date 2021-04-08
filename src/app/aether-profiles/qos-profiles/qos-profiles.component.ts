@@ -13,6 +13,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {QosProfileQosProfile} from '../../../openapi3/aether/2.1.0/models';
 import {QosProfilesDatasource} from './qos-profiles-datasource';
+import {BasketService} from '../../basket.service';
 
 @Component({
     selector: 'aether-qos-profiles',
@@ -44,32 +45,24 @@ export class QosProfilesComponent implements AfterViewInit, OnInit {
 
     constructor(
         private aetherService: AetherService,
-        private snackBar: MatSnackBar,
-        private activatedRoute: ActivatedRoute
+        private basketService: BasketService,
     ) {
-        this.activatedRoute.paramMap.subscribe(params => {
-            const lc = params.get('lastChange');
-            if (lc != null) {
-                this.openSnackBar('Change saved as ' + lc, 2000, undefined);
-                console.log('Got params', lc);
-            }
-        });
     }
 
     ngOnInit(): void {
-        this.dataSource = new QosProfilesDatasource(this.aetherService, AETHER_TARGETS);
+        this.dataSource = new QosProfilesDatasource(this.aetherService, this.basketService, AETHER_TARGETS[0]);
     }
 
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadQosProfileQosProfile();
+        this.dataSource.loadData(this.aetherService.getQosProfile({
+            target: AETHER_TARGETS[0]
+        }));
     }
 
-    openSnackBar(message: string, durationMs: number, action: string): void {
-        this.snackBar.open(message, action, {
-            duration: durationMs,
-        });
+    deleteQosProfileQosProfile(id: string): void {
+        this.dataSource.delete(id);
     }
 }

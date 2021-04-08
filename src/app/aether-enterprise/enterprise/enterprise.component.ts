@@ -13,6 +13,7 @@ import {EnterpriseDatasource} from './enterprise-datasource';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute} from '@angular/router';
 import {AETHER_TARGETS} from '../../../environments/environment';
+import {BasketService} from '../../basket.service';
 
 @Component({
     selector: 'aether-enterprise-profiles',
@@ -37,32 +38,24 @@ export class EnterpriseComponent implements AfterViewInit, OnInit {
 
     constructor(
         private aetherService: AetherService,
-        private snackBar: MatSnackBar,
-        private activatedRoute: ActivatedRoute
+        private basketService: BasketService,
     ) {
-        this.activatedRoute.paramMap.subscribe(params => {
-            const lc = params.get('lastChange');
-            if (lc != null) {
-                this.openSnackBar('Change saved as ' + lc, 2000, undefined);
-                console.log('Got params', lc);
-            }
-        });
     }
 
     ngOnInit(): void {
-        this.dataSource = new EnterpriseDatasource(this.aetherService, AETHER_TARGETS);
+        this.dataSource = new EnterpriseDatasource(this.aetherService, this.basketService, AETHER_TARGETS[0]);
     }
 
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadEnterpriseEnterprise();
+        this.dataSource.loadData(this.aetherService.getEnterprise({
+            target: AETHER_TARGETS[0]
+        }));
     }
 
-    openSnackBar(message: string, durationMs: number, action: string): void {
-        this.snackBar.open(message, action, {
-            duration: durationMs,
-        });
+    deleteEnterpriseEnterprise(id: string): void {
+        this.dataSource.delete(id);
     }
 }

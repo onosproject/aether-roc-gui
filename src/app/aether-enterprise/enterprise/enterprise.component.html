@@ -32,7 +32,6 @@
         </ng-container>
 
         <!-- Edit Column -->
-        <!-- TODO: Connect it up -->
         <ng-container matColumnDef="edit">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
             <td mat-cell *matCellDef="let row" routerLink="/enterprise/enterprise-edit/{{row.id}}">
@@ -41,10 +40,9 @@
         </ng-container>
 
         <!-- Delete Column -->
-        <!-- TODO: Connect it up -->
         <ng-container matColumnDef="delete">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Delete</th>
-            <td mat-cell *matCellDef="let row">
+            <td mat-cell *matCellDef="let row" (click)="deleteEnterpriseEnterprise(row.id)">
                 <mat-icon class="table_icon">delete</mat-icon>
             </td>
         </ng-container>
