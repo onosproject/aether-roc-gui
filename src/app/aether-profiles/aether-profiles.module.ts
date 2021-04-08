@@ -32,6 +32,7 @@ import { AccessProfileEditComponent } from './access-profile-edit/access-profile
 import { ApnProfileEditComponent } from './apn-profile-edit/apn-profile-edit.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { QosProfileEditComponent } from './qos-profile-edit/qos-profile-edit.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
     declarations: [
@@ -51,21 +52,17 @@ import { QosProfileEditComponent } from './qos-profile-edit/qos-profile-edit.com
         HttpClientModule,
         RouterModule.forChild([
             {path: 'accessprofiles', component: AccessProfilesComponent},
-            {path: 'accessprofiles/:lastChange', component: AccessProfilesComponent},
             {path: 'accessprofile-edit/:id', component: AccessProfileEditComponent},
 
             {path: 'apnprofiles', component: ApnProfilesComponent},
-            {path: 'apnprofiles/:lastChange', component: ApnProfilesComponent},
             {path: 'apnprofile-edit/:id', component: ApnProfileEditComponent},
 
             {path: 'qosprofiles', component: QosProfilesComponent},
-            {path: 'qosprofiles/:lastChange', component: QosProfilesComponent},
             {path: 'qosprofile-edit/:id', component: QosProfileEditComponent},
 
             {path: 'upprofiles', component: UpProfilesComponent},
 
             {path: 'securityprofiles', component: SecurityProfilesComponent},
-            {path: 'securityprofiles/:lastChange', component: SecurityProfilesComponent},
             {path: 'securityprofile-edit/:id', component: SecurityProfileEditComponent},
 
             {path: '', component: UpProfilesComponent, pathMatch: 'full'}
@@ -83,7 +80,7 @@ import { QosProfileEditComponent } from './qos-profile-edit/qos-profile-edit.com
         MatButtonModule,
         MatSnackBarModule,
         MatSlideToggleModule,
-
+        MatCheckboxModule,
     ],
     providers: [
         AuthInterceptor,

@@ -8,8 +8,6 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {Service as AetherService} from '../../../openapi3/aether/2.1.0/services';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {ActivatedRoute} from '@angular/router';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {AccessProfileAccessProfile} from '../../../openapi3/aether/2.1.0/models';
 import {AccessProfilesDatasource} from './access-profiles-datasource';
@@ -40,17 +38,8 @@ export class AccessProfilesComponent implements AfterViewInit, OnInit {
 
     constructor(
         private aetherService: AetherService,
-        private snackBar: MatSnackBar,
         private basketService: BasketService,
-        private activatedRoute: ActivatedRoute
     ) {
-        this.activatedRoute.paramMap.subscribe(params => {
-            const lc = params.get('lastChange');
-            if (lc != null) {
-                this.openSnackBar('Change saved as ' + lc, 2000, undefined);
-                console.log('Got params', lc);
-            }
-        });
     }
 
     ngOnInit(): void {
@@ -64,12 +53,6 @@ export class AccessProfilesComponent implements AfterViewInit, OnInit {
         this.dataSource.loadData(this.aetherService.getAccessProfile({
             target: AETHER_TARGETS[0]
         }));
-    }
-
-    openSnackBar(message: string, durationMs: number, action: string): void {
-        this.snackBar.open(message, action, {
-            duration: durationMs,
-        });
     }
 
     deleteAccessProfileAccessProfile(id: string): void {

@@ -15,14 +15,12 @@ import {
 import {
     QosProfileQosProfile
 } from '../../../openapi3/aether/2.1.0/models';
-import {BasketService} from '../../basket.service';
+import {BasketService, TYPE} from '../../basket.service';
 
 @Component({
     selector: 'aether-qos-profile-edit',
     templateUrl: './qos-profile-edit.component.html',
-    styleUrls: ['../../common-edit.component.scss',
-        './qos-profile-edit.component.scss'
-    ]
+    styleUrls: ['../../common-edit.component.scss']
 })
 export class QosProfileEditComponent implements OnInit {
     @Input() target: string = AETHER_TARGETS[0];
@@ -41,19 +39,19 @@ export class QosProfileEditComponent implements OnInit {
         ])],
 
         'apn-ambr': this.fb.group({
-            'up-link': [0, Validators.compose([
+            uplink: [0, Validators.compose([
                 Validators.min(0),
                 Validators.max(4294967295)])
             ],
-            'down-link': [0, Validators.compose([
+            downlink: [0, Validators.compose([
                 Validators.min(0),
                 Validators.max(4294967295)])
             ],
         }),
 
         qci: [0, Validators.compose([
-            Validators.min(1),
-            Validators.max(32),
+            Validators.min(0),
+            Validators.max(85),
         ])],
 
         arp: this.fb.group({
@@ -80,10 +78,25 @@ export class QosProfileEditComponent implements OnInit {
         private fb: FormBuilder,
         private bs: BasketService
     ) {
+        this.qosForm.get(['apn-ambr', 'uplink'])[TYPE] = 'number';
+        this.qosForm.get(['apn-ambr', 'downlink'])[TYPE] = 'number';
+        this.qosForm.get(['qci'])[TYPE] = 'number';
+        this.qosForm.get(['arp', 'priority'])[TYPE] = 'number';
+        this.qosForm.get(['arp', 'preemption-capability'])[TYPE] = 'boolean';
+        this.qosForm.get(['arp', 'preemption-vulnerability'])[TYPE] = 'boolean';
     }
 
     ngOnInit(): void {
-
+        this.route.paramMap.subscribe(
+            value => {
+                if (value.get('id') === 'new') {
+                    this.isNew = true;
+                } else {
+                    this.qosForm.get('id').setValue(value.get('id'));
+                    this.loadQosProfileQosProfile(this.target, value.get('id'));
+                }
+            }
+        );
     }
 
     loadQosProfileQosProfile(target: string, id: string): void {
@@ -93,14 +106,13 @@ export class QosProfileEditComponent implements OnInit {
         }).subscribe(
             (value => {
                 this.data = value;
-                this.qosForm.get('id').setValue(value.id);
                 this.qosForm.get('display-name').setValue(value['display-name']);
-                this.qosForm.get('apn-ambr')
-                    .get('uplink').setValue(value['apn-ambr'].uplink);
-                this.qosForm.get('apn-ambr')
-                    .get('downlink').setValue(value['apn-ambr'].downlink);
-                this.qosForm.get('opc').setValue(value.opc);
-                this.qosForm.get('sqn').setValue(value.sqn);
+                this.qosForm.get(['apn-ambr', 'uplink']).setValue(value['apn-ambr'].uplink);
+                this.qosForm.get(['apn-ambr', 'downlink']).setValue(value['apn-ambr'].downlink);
+                this.qosForm.get('qci').setValue(value.qci);
+                this.qosForm.get(['arp', 'priority']).setValue(value.arp.priority);
+                this.qosForm.get(['arp', 'preemption-capability']).setValue(value.arp['preemption-capability']);
+                this.qosForm.get(['arp', 'preemption-vulnerability']).setValue(value.arp['preemption-vulnerability']);
                 this.qosForm.get('description').setValue(value.description);
             }),
             error => {
@@ -118,7 +130,11 @@ export class QosProfileEditComponent implements OnInit {
         if (this.id === undefined) {
             submitId = this.qosForm.get('id').value as unknown as string;
         }
-        this.bs.logKeyValuePairs(this.qosForm, 'qos-profile/qos-profile[id=' + this.id + ' ]' );
+        if (submitId !== '' && submitId !== undefined) {
+            this.bs.logKeyValuePairs(this.qosForm, 'qos-profile-2.1.0/qos-profile[id=' + submitId + ']' );
+        } else {
+            console.warn('ID must be set');
+        }
     }
 
 }
