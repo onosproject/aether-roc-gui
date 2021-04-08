@@ -39,7 +39,6 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'subscribers', component: SubscribersComponent},
-            {path: 'subscribers/:lastChange', component: SubscribersComponent},
             {path: 'subscriber-edit/:id', component: SubscriberEditComponent},
             {path: '', component: SubscribersComponent, pathMatch: 'full'}
         ]),

@@ -40,7 +40,6 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'enterprise', component: EnterpriseComponent},
-            {path: 'enterprise/:lastChange', component: EnterpriseComponent},
             {path: 'enterprise-edit/:id', component: EnterpriseEditComponent},
 
             {path: '', component: EnterpriseComponent, pathMatch: 'full'}
