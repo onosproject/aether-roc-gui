@@ -26,14 +26,20 @@
 
         <!-- SPGW-C Endpoint Column -->
         <ng-container matColumnDef="spgwc-endpoint">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>SPGW-C</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>SPGW-C Endpoint</th>
             <td mat-cell *matCellDef="let row">{{row['spgwc-endpoint']}}</td>
         </ng-container>
 
         <!-- HSS Endpoint Column -->
         <ng-container matColumnDef="hss-endpoint">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>HSS</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>HSS Endpoint</th>
             <td mat-cell *matCellDef="let row">{{row['hss-endpoint']}}</td>
+        </ng-container>
+
+        <!-- PCRF Endpoint Column -->
+        <ng-container matColumnDef="pcrf-endpoint">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>PCRF Endpoint</th>
+            <td mat-cell *matCellDef="let row">{{row['pcrf-endpoint']}}</td>
         </ng-container>
 
         <!-- Edit Column -->

@@ -15,6 +15,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSelectModule} from '@angular/material/select';
 
 describe('ApnProfileEditComponent', () => {
     let component: ApnProfileEditComponent;
@@ -34,7 +36,9 @@ describe('ApnProfileEditComponent', () => {
                 MatIconModule,
                 MatToolbarModule,
                 MatCardModule,
-                MatButtonModule
+                MatButtonModule,
+                MatSnackBarModule,
+                MatSelectModule
             ]
         })
             .compileComponents();

@@ -8,33 +8,34 @@ import {AETHER_TARGETS} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {
-    ApiService,
     Service as AetherService,
     ApnProfileApnProfileService
 } from '../../../openapi3/aether/2.1.0/services';
 import {
-    ApnProfileApnProfile
+    ApnProfileApnProfile, ServiceGroupServiceGroup
 } from '../../../openapi3/aether/2.1.0/models';
 import {BasketService} from '../../basket.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {RocEditBase} from '../../roc-edit-base';
 
 const TYPE = 'type';
 
 @Component({
     selector: 'aether-apn-profile-edit',
     templateUrl: './apn-profile-edit.component.html',
-    styleUrls: ['../../common-edit.component.scss',
-        './apn-profile-edit.component.scss']
+    styleUrls: ['../../common-edit.component.scss']
 })
-export class ApnProfileEditComponent implements OnInit {
+export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> implements OnInit {
     @Input() target: string = AETHER_TARGETS[0];
     @Input() id: string;
-    isNew: boolean;
     data: ApnProfileApnProfile;
+
+    serviceGroups: Array<ServiceGroupServiceGroup>;
 
     apnForm = this.fb.group({
         id: ['', Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(31),
+            Validators.maxLength(32),
         ])],
         'display-name': ['', Validators.compose([
             Validators.minLength(1),
@@ -61,32 +62,29 @@ export class ApnProfileEditComponent implements OnInit {
             Validators.minLength(1),
             Validators.maxLength(100),
         ])],
+        'service-group': ['']
 
     });
     constructor(
         private apnProfileApnProfileService: ApnProfileApnProfileService,
         private aetherService: AetherService,
-        private aetherApiService: ApiService,
-        private route: ActivatedRoute,
-        private router: Router,
+        protected route: ActivatedRoute,
+        protected router: Router,
         private fb: FormBuilder,
-        private bs: BasketService
+        protected bs: BasketService,
+        protected snackBar: MatSnackBar,
     ) {
+        super(snackBar, bs, route, router, 'apn-profile-2.1.0', 'apn-profile');
+        super.form = this.apnForm;
+        super.target = this.target;
+        super.loadFunc = this.loadApnProfileApnProfile;
+        this.apnForm.get('mtu')[TYPE] = 'number';
+        this.apnForm.get('gx-enabled')[TYPE] = 'boolean';
     }
 
     ngOnInit(): void {
-        this.route.paramMap.subscribe(
-            value => {
-                if (value.get('id') === 'new') {
-                    this.isNew = true;
-                } else {
-                    this.id = value.get('id');
-                    this.loadApnProfileApnProfile(this.target, this.id);
-                }
-            }
-        );
-        this.apnForm.get('mtu')[TYPE] = 'number';
-        this.apnForm.get('gx-enabled')[TYPE] = 'boolean';
+        super.init();
+        this.loadServiceGroups(this.target);
     }
 
     loadApnProfileApnProfile(target: string, id: string): void{
@@ -104,6 +102,7 @@ export class ApnProfileEditComponent implements OnInit {
                 this.apnForm.get('mtu').setValue(value.mtu);
                 this.apnForm.get('gx-enabled').setValue(value['gx-enabled']);
                 this.apnForm.get('description').setValue(value.description);
+                this.apnForm.get('service-group').setValue(value['service-group']);
             }),
             error => {
                 console.warn('Error getting ApnProfileApnProfile(s) for ', target, error);
@@ -113,13 +112,21 @@ export class ApnProfileEditComponent implements OnInit {
             }
         );
     }
-    onSubmit(): void {
-        console.log('Submitted!', this.apnForm.getRawValue());
-        let submitId = this.id;
-        if (this.id === undefined) {
-            submitId = this.apnForm.get('id').value as unknown as string;
-        }
-        this.bs.logKeyValuePairs(this.apnForm, 'apn-profile-2.1.0/apn-profile[id=' + this.id + ']');
-    }
 
+    loadServiceGroups(target: string): void {
+        this.aetherService.getServiceGroup({
+            target,
+        }).subscribe(
+            (value => {
+                this.serviceGroups = value['service-group'];
+                console.log('Got Service Profiles', value['service-group'].length);
+            }),
+            error => {
+                console.warn('Error getting Service Groups for ', target, error);
+            },
+            () => {
+                console.log('Finished loading Service Groups', target);
+            }
+        );
+    }
 }

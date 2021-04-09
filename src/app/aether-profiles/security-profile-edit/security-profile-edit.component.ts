@@ -7,28 +7,20 @@ import {Component, Input, OnInit} from '@angular/core';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
-import {
-    ApiService,
-    Service as AetherService,
-    SecurityProfileSecurityProfileService
-} from '../../../openapi3/aether/2.1.0/services';
-import {
-    SecurityProfileSecurityProfile
-} from '../../../openapi3/aether/2.1.0/models';
-import {BasketService} from '../../basket.service';
+import {SecurityProfileSecurityProfileService} from '../../../openapi3/aether/2.1.0/services';
+import {SecurityProfileSecurityProfile} from '../../../openapi3/aether/2.1.0/models';
+import {BasketService, TYPE} from '../../basket.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {RocEditBase} from '../../roc-edit-base';
 
 @Component({
     selector: 'aether-security-profile-edit',
     templateUrl: './security-profile-edit.component.html',
-    styleUrls: [
-        '../../common-edit.component.scss',
-        './security-profile-edit.component.scss'
-    ]
+    styleUrls: ['../../common-edit.component.scss']
 })
-export class SecurityProfileEditComponent implements OnInit {
+export class SecurityProfileEditComponent extends RocEditBase<SecurityProfileSecurityProfile> implements OnInit {
     @Input() target: string = AETHER_TARGETS[0];
     @Input() id: string;
-    isNew: boolean;
     data: SecurityProfileSecurityProfile;
 
     spForm = this.fb.group({
@@ -57,26 +49,21 @@ export class SecurityProfileEditComponent implements OnInit {
 
     constructor(
         private securityProfileSecurityProfileService: SecurityProfileSecurityProfileService,
-        private aetherService: AetherService,
-        private aetherApiService: ApiService,
-        private route: ActivatedRoute,
-        private router: Router,
+        protected route: ActivatedRoute,
+        protected router: Router,
         private fb: FormBuilder,
-        private bs: BasketService
+        protected bs: BasketService,
+        protected snackBar: MatSnackBar,
     ) {
+        super(snackBar, bs, route, router, 'security-profile-2.1.0', 'security-profile');
+        super.form = this.spForm;
+        super.target = this.target;
+        super.loadFunc = this.loadSecurityProfileSecurityProfile;
+        this.spForm.get(['sqn'])[TYPE] = 'number';
     }
 
     ngOnInit(): void {
-        this.route.paramMap.subscribe(
-            value => {
-                if (value.get('id') === 'new') {
-                    this.isNew = true;
-                } else {
-                    this.id = value.get('id');
-                    this.loadSecurityProfileSecurityProfile(this.target, this.id);
-                }
-            }
-        );
+        super.init();
     }
 
     loadSecurityProfileSecurityProfile(target: string, id: string): void {
@@ -100,14 +87,5 @@ export class SecurityProfileEditComponent implements OnInit {
                 console.log('Finished loading SecurityProfileSecurityProfile(s)', target, id);
             }
         );
-    }
-
-    onSubmit(): void {
-        console.log('Submitted!', this.spForm.getRawValue());
-        let submitId = this.id;
-        if (this.id === undefined) {
-            submitId = this.spForm.get('id').value as unknown as string;
-        }
-        this.bs.logKeyValuePairs(this.spForm, 'security-profile-2.1.0/security-profile[id=' + this.id + ']');
     }
 }

@@ -16,6 +16,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 describe('EnterpriseEditComponent', () => {
     let component: EnterpriseEditComponent;
@@ -36,7 +37,8 @@ describe('EnterpriseEditComponent', () => {
                 MatToolbarModule,
                 MatCardModule,
                 MatButtonModule,
-                MatDividerModule
+                MatDividerModule,
+                MatSnackBarModule
             ]
         })
             .compileComponents();

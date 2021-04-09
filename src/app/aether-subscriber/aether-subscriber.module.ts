@@ -20,7 +20,6 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
 import {MatOptionModule} from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
@@ -30,6 +29,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
     declarations: [SubscribersComponent, SubscriberEditComponent],
@@ -52,7 +52,6 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         MatIconModule,
         MatSliderModule,
         MatToolbarModule,
-        MatCheckboxModule,
         MatSelectModule,
         MatOptionModule,
         MatCardModule,
@@ -60,6 +59,7 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         MatRadioModule,
         MatSnackBarModule,
         MatListModule,
+        MatSlideToggleModule,
     ],
     providers: [
         { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },

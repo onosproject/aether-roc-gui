@@ -12,7 +12,6 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatCheckboxModule} from '@angular/material/checkbox';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
@@ -20,9 +19,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatOptionModule} from '@angular/material/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
-import {ActivatedRoute, Params} from '@angular/router';
-import {of} from 'rxjs';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 describe('SubscriberEditComponent', () => {
     let component: SubscriberEditComponent;
@@ -42,11 +41,12 @@ describe('SubscriberEditComponent', () => {
                 MatIconModule,
                 MatSliderModule,
                 MatToolbarModule,
-                MatCheckboxModule,
                 MatSelectModule,
                 MatOptionModule,
                 MatCardModule,
-                MatButtonModule
+                MatButtonModule,
+                MatSnackBarModule,
+                MatSlideToggleModule
             ],
             providers: [
                 {provide: FormBuilder, useClass: FormBuilder},

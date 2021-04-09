@@ -14,13 +14,9 @@ import {MatIconModule} from '@angular/material/icon';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatSliderModule} from '@angular/material/slider';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatSelectModule} from '@angular/material/select';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
-import {ActivatedRoute, Params} from '@angular/router';
-import {of} from 'rxjs';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 describe('SecurityProfileEditComponent', () => {
     let component: SecurityProfileEditComponent;
@@ -41,6 +37,7 @@ describe('SecurityProfileEditComponent', () => {
                 MatToolbarModule,
                 MatCardModule,
                 MatButtonModule,
+                MatSnackBarModule
             ],
             providers: [
                 {provide: FormBuilder, useClass: FormBuilder},
