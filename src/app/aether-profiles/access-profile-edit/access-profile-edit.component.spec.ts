@@ -15,6 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 describe('AccessProfileEditComponent', () => {
     let component: AccessProfileEditComponent;
@@ -36,7 +37,8 @@ describe('AccessProfileEditComponent', () => {
                 MatIconModule,
                 MatToolbarModule,
                 MatCardModule,
-                MatButtonModule
+                MatButtonModule,
+                MatSnackBarModule
             ]
         })
             .compileComponents();

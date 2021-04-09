@@ -16,16 +16,17 @@ import {
     QosProfileQosProfile
 } from '../../../openapi3/aether/2.1.0/models';
 import {BasketService, TYPE} from '../../basket.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {RocEditBase} from '../../roc-edit-base';
 
 @Component({
     selector: 'aether-qos-profile-edit',
     templateUrl: './qos-profile-edit.component.html',
     styleUrls: ['../../common-edit.component.scss']
 })
-export class QosProfileEditComponent implements OnInit {
+export class QosProfileEditComponent extends RocEditBase<QosProfileQosProfile> implements OnInit {
     @Input() target: string = AETHER_TARGETS[0];
     @Input() id: string;
-    isNew: boolean;
     data: QosProfileQosProfile;
 
     qosForm = this.fb.group({
@@ -71,13 +72,16 @@ export class QosProfileEditComponent implements OnInit {
 
     constructor(
         private qosProfileQosProfileService: QosProfileQosProfileService,
-        private aetherService: AetherService,
-        private aetherApiService: ApiService,
-        private route: ActivatedRoute,
-        private router: Router,
-        private fb: FormBuilder,
-        private bs: BasketService
+        protected route: ActivatedRoute,
+        protected router: Router,
+        protected fb: FormBuilder,
+        protected bs: BasketService,
+        protected snackBar: MatSnackBar,
     ) {
+        super(snackBar, bs, route, router, 'qos-profile-2.1.0', 'qos-profile');
+        super.form = this.qosForm;
+        super.target = this.target;
+        super.loadFunc = this.loadQosProfileQosProfile;
         this.qosForm.get(['apn-ambr', 'uplink'])[TYPE] = 'number';
         this.qosForm.get(['apn-ambr', 'downlink'])[TYPE] = 'number';
         this.qosForm.get(['qci'])[TYPE] = 'number';
@@ -87,16 +91,7 @@ export class QosProfileEditComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.route.paramMap.subscribe(
-            value => {
-                if (value.get('id') === 'new') {
-                    this.isNew = true;
-                } else {
-                    this.qosForm.get('id').setValue(value.get('id'));
-                    this.loadQosProfileQosProfile(this.target, value.get('id'));
-                }
-            }
-        );
+        super.init();
     }
 
     loadQosProfileQosProfile(target: string, id: string): void {
@@ -123,18 +118,4 @@ export class QosProfileEditComponent implements OnInit {
             }
         );
     }
-
-    onSubmit(): void {
-        console.log('Submitted!', this.qosForm.getRawValue());
-        let submitId = this.id;
-        if (this.id === undefined) {
-            submitId = this.qosForm.get('id').value as unknown as string;
-        }
-        if (submitId !== '' && submitId !== undefined) {
-            this.bs.logKeyValuePairs(this.qosForm, 'qos-profile-2.1.0/qos-profile[id=' + submitId + ']' );
-        } else {
-            console.warn('ID must be set');
-        }
-    }
-
 }

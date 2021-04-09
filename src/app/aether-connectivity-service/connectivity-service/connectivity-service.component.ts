@@ -32,6 +32,7 @@ export class ConnectivityServiceComponent implements AfterViewInit, OnInit {
         'description',
         'spgwc-endpoint',
         'hss-endpoint',
+        'pcrf-endpoint',
         'edit',
         'delete'
     ];

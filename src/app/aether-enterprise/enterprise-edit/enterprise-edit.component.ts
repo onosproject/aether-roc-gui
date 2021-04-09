@@ -6,25 +6,21 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {
-    ApiService,
-    Service,
-    EnterpriseEnterpriseService
-} from '../../../openapi3/aether/2.1.0/services';
+import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {EnterpriseEnterpriseService} from '../../../openapi3/aether/2.1.0/services';
 import {
     EnterpriseEnterprise, EnterpriseEnterpriseConnectivityService
 } from '../../../openapi3/aether/2.1.0/models';
 import {BasketService, IDATTRIBS, TYPE} from '../../basket.service';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
+import {RocEditBase} from '../../roc-edit-base';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 interface ConnectivityServiceRow {
     id: string;
     enabled: boolean;
 }
-
-const ISKEY = 'isKey';
 
 @Component({
     selector: 'aether-enterprise-edit',
@@ -33,7 +29,7 @@ const ISKEY = 'isKey';
         '../../common-edit.component.scss',
     ]
 })
-export class EnterpriseEditComponent implements OnInit {
+export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> implements OnInit {
     @Input() target: string = AETHER_TARGETS[0];
     @Input() id: string;
     @ViewChild(MatTable) table: MatTable<Array<ConnectivityServiceRow>>;
@@ -42,8 +38,6 @@ export class EnterpriseEditComponent implements OnInit {
     showConnectDisplay: boolean = false;
     isNew: boolean;
     enterpriseConnectivityServices: EnterpriseEnterpriseConnectivityService;
-    // connectivityServices: Array<EnterpriseEnterpriseConnectivityService>;
-    // tableData : Array<ConnectivityServiceRow>
     data: EnterpriseEnterprise;
 
     displayedColumns = [
@@ -69,13 +63,16 @@ export class EnterpriseEditComponent implements OnInit {
 
     constructor(
         private enterpriseEnterpriseService: EnterpriseEnterpriseService,
-        private service: Service,
-        private aetherApiService: ApiService,
-        private route: ActivatedRoute,
-        private router: Router,
+        protected route: ActivatedRoute,
+        protected router: Router,
         private fb: FormBuilder,
-        private bs: BasketService
+        protected bs: BasketService,
+        protected snackBar: MatSnackBar,
     ) {
+        super(snackBar, bs, route, router, 'enterprise-2.1.0', 'enterprise');
+        super.form = this.entForm;
+        super.target = this.target;
+        super.loadFunc = this.loadEnterpriseEnterprises;
         this.entForm.get('connectivity-service')[IDATTRIBS] = ['connectivity-service'];
     }
 
@@ -84,16 +81,7 @@ export class EnterpriseEditComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.route.paramMap.subscribe(
-            value => {
-                if (value.get('id') === 'new') {
-                    this.isNew = true;
-                } else {
-                    this.id = value.get('id');
-                    this.loadEnterpriseEnterprises(this.target, this.id);
-                }
-            }
-        );
+        super.init();
     }
 
     loadEnterpriseEnterprises(target: string, id: string): void {
@@ -144,9 +132,5 @@ export class EnterpriseEditComponent implements OnInit {
         const index = (this.entForm.get('connectivity-service') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === cs);
         (this.entForm.get('connectivity-service') as FormArray).removeAt(index);
-    }
-
-    onSubmit(): void {
-        this.bs.logKeyValuePairs(this.entForm, 'enterprise-2.1.0/enterprise[id=' + this.id + ']');
     }
 }

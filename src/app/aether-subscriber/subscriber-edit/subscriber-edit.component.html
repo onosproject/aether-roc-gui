@@ -11,19 +11,17 @@
         </mat-card-header>
         <mat-card-content>
             <div class="row">
-                <!--            &lt;!&ndash;    <mat-form-field appearance="legacy">&ndash;&gt;-->
-                <mat-label>Priority</mat-label>
-                <mat-slider min="1" max="1000" step="1"
-                            formControlName="priority"></mat-slider>
-                <mat-hint>1-1000</mat-hint>
-                <!--                            </mat-form-field>-->
-                <mat-checkbox class="field-margin" formControlName="enabled">Enabled</mat-checkbox>
+                <mat-form-field class="field-margin">
+                    <input matInput type="number" formControlName="priority">
+                    <mat-hint>Priority (1-1000)</mat-hint>
+                </mat-form-field>
+                <mat-slide-toggle class="field-margin" formControlName="enabled">Enabled</mat-slide-toggle>
                 <mat-form-field class="field-margin">
                     <input matInput formControlName="requested-apn">
                     <mat-hint>Requested APN</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row">
+            <div class="row subscriber-section">
                 <mat-label>IMSI selection:</mat-label>
                 <mat-radio-group aria-label="Select an option" [disabled]="!isNew">
                     <mat-radio-button value="1" [checked]="!imsiWildcard" (change)="toggleImsiWildcard(false)">Range</mat-radio-button>
@@ -81,7 +79,7 @@
                         <mat-option *ngFor="let upp of upProfiles"
                                     [value]="upp.id">{{upp.id}} {{upp['display-name']}}</mat-option>
                     </mat-select>
-                    <mat-hint>UP Profile</mat-hint>
+                    <mat-hint>User Plane Profile</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row" formGroupName="profiles">
@@ -93,24 +91,22 @@
                     <mat-hint>Security Profile</mat-hint>
                 </mat-form-field>
             </div>
-<!--            <mat-label class="field-margin">Access Profiles</mat-label>-->
-            <!-- TODO: implement a new form for Add/Edit/Remove of Access profiles
-                    It has to be done separately as otherwise it it not possible to
-                    really delete an entry-->
-<!--            <button *ngIf="!isNew" mat-raised-button color="primary" routerLink="/subscribers">Edit</button>-->
-<!--            <button *ngIf="isNew" mat-raised-button color="primary">Add</button>-->
-            <!-- TODO: comment back in once we have fixed problem on the API side -->
-<!--            <div formGroupName="Profiles">-->
-<!--            <div class="row" formGroupName="Access-profile" *ngFor="let _ of accessProfileControls.controls; index as i">-->
-<!--                <ng-container [formGroupName]="i">-->
-<!--                    <mat-form-field class="field-margin full-width-table">-->
-<!--                        <input matInput formControlName="access-profile">-->
-<!--                        <mat-checkbox formControlName="allowed">Allowed</mat-checkbox>-->
-<!--                        <mat-hint>Access Profile {{i}}</mat-hint>-->
-<!--                    </mat-form-field>-->
-<!--                </ng-container>-->
-<!--            </div>-->
-<!--            </div>-->
+            <div formGroupName="profiles">
+                <div formArrayName="access-profile" class="subscriber-section">
+                    <mat-hint>Access Profiles</mat-hint>
+                    <div *ngFor="let apForm of accessProfileControls.controls">
+                        <mat-form-field class="field-margin half-width">
+                            <div [formGroup]="apForm">
+                                <input matInput formControlName="access-profile">
+                                <mat-slide-toggle
+                                    formControlName="allowed">Allowed</mat-slide-toggle>
+                                <mat-icon (click)="deleteFromSelect(apForm.value['access-profile'])"
+                                          class="pad-left subscriber-pointer">delete</mat-icon>
+                            </div>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button color="primary" type="submit">Update</button>

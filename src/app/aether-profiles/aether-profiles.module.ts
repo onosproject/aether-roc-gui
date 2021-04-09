@@ -33,6 +33,7 @@ import { ApnProfileEditComponent } from './apn-profile-edit/apn-profile-edit.com
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { QosProfileEditComponent } from './qos-profile-edit/qos-profile-edit.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
     declarations: [
@@ -81,6 +82,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         MatSnackBarModule,
         MatSlideToggleModule,
         MatCheckboxModule,
+        MatSelectModule,
     ],
     providers: [
         AuthInterceptor,

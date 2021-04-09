@@ -7,28 +7,20 @@ import {Component, Input, OnInit} from '@angular/core';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
-import {
-    ApiService,
-    Service,
-    AccessProfileAccessProfileService
-} from '../../../openapi3/aether/2.1.0/services';
-import {
-    AccessProfileAccessProfile
-} from '../../../openapi3/aether/2.1.0/models';
+import {AccessProfileAccessProfileService} from '../../../openapi3/aether/2.1.0/services';
+import {AccessProfileAccessProfile} from '../../../openapi3/aether/2.1.0/models';
 import {BasketService} from '../../basket.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {RocEditBase} from '../../roc-edit-base';
 
 @Component({
     selector: 'aether-access-profile-edit',
     templateUrl: './access-profile-edit.component.html',
-    styleUrls: [
-        '../../common-edit.component.scss',
-        './access-profile-edit.component.scss'
-    ]
+    styleUrls: ['../../common-edit.component.scss']
 })
-export class AccessProfileEditComponent implements OnInit {
+export class AccessProfileEditComponent extends RocEditBase<AccessProfileAccessProfile> implements OnInit {
     @Input() target: string = AETHER_TARGETS[0];
     @Input() id: string;
-    isNew: boolean;
     data: AccessProfileAccessProfile;
 
     accForm = this.fb.group({
@@ -57,27 +49,20 @@ export class AccessProfileEditComponent implements OnInit {
 
     constructor(
         private accessProfileAccessProfileService: AccessProfileAccessProfileService,
-        private service: Service,
-        private aetherApiService: ApiService,
-        private route: ActivatedRoute,
-        private router: Router,
+        protected route: ActivatedRoute,
+        protected router: Router,
         private fb: FormBuilder,
-        private bs: BasketService
+        protected bs: BasketService,
+        protected snackBar: MatSnackBar,
     ) {
-
+        super(snackBar, bs, route, router, 'access-profile-2.1.0', 'access-profile');
+        super.form = this.accForm;
+        super.target = this.target;
+        super.loadFunc = this.loadAccessProfileAccessProfile;
     }
 
     ngOnInit(): void {
-        this.route.paramMap.subscribe(
-            value => {
-                if (value.get('id') === 'new') {
-                    this.isNew = true;
-                } else {
-                    this.id = value.get('id');
-                    this.loadAccessProfileAccessProfile(this.target, this.id);
-                }
-            }
-        );
+        super.init();
     }
 
     loadAccessProfileAccessProfile(target: string, id: string): void {
@@ -100,14 +85,5 @@ export class AccessProfileEditComponent implements OnInit {
                 console.log('Finished loading AccessProfileAccessProfile(s)', target, id);
             }
         );
-    }
-
-    onSubmit(): void {
-        console.log('Submitted!', this.accForm.getRawValue());
-        let submitId = this.id;
-        if (this.id === undefined) {
-            submitId = this.accForm.get('id').value as unknown as string;
-        }
-        this.bs.logKeyValuePairs(this.accForm, 'access-profile-2.1.0/access-profile[id=' + this.id + ']');
     }
 }

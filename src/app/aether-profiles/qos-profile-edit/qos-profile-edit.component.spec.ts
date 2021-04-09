@@ -15,8 +15,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 describe('QosProfileEditComponent', () => {
     let component: QosProfileEditComponent;
@@ -36,8 +36,9 @@ describe('QosProfileEditComponent', () => {
                 MatIconModule,
                 MatToolbarModule,
                 MatCardModule,
-                MatCheckboxModule,
                 MatButtonModule,
+                MatSnackBarModule,
+                MatSlideToggleModule,
             ]
         })
             .compileComponents();
