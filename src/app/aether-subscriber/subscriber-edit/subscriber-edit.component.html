@@ -8,6 +8,7 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title>Subscriber. ID: {{id}}</mat-card-title>
+            <mat-hint *ngIf="isNew">(Auto generated)</mat-hint>
         </mat-card-header>
         <mat-card-content>
             <div class="row">
