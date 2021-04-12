@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {v4 as uuidv4} from 'uuid';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
@@ -11,7 +11,6 @@ import {
     SubscriberUeService,
     ApiService
 } from '../../../openapi3/aether/2.1.0/services';
-import {AETHER_TARGETS} from '../../../environments/environment';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {
     SubscriberUe as AetherV100TargetSubscriberUe,
@@ -33,8 +32,6 @@ import {RocEditBase} from '../../roc-edit-base';
     ]
 })
 export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implements OnInit {
-    @Input() target: string = AETHER_TARGETS[0];
-    @Input() id: string;
     data: AetherV100TargetSubscriberUe;
     apnProfiles: Array<ApnProfileApnProfile>;
     qosProfiles: Array<QosProfileQosProfile>;
@@ -93,8 +90,8 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
     ) {
         super(snackBar, bs, route, router, 'subscriber-2.1.0', 'ue');
         super.form = this.subscriberUeForm;
-        super.target = this.target;
         super.loadFunc = this.loadSubscriberUe;
+        super.initFunc = uuidv4; // Generate a new UUID if a new SubscriberUe
         this.subscriberUeForm.get(['imsi-range-from'])[TYPE] = 'number';
         this.subscriberUeForm.get(['imsi-range-to'])[TYPE] = 'number';
         this.subscriberUeForm.get(['serving-plmn', 'mcc'])[TYPE] = 'number';
@@ -124,7 +121,6 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
         }).subscribe(
             (value => {
                 this.data = value;
-                this.subscriberUeForm.get('id').setValue(value.id);
                 this.subscriberUeForm.get('priority').setValue(value.priority);
                 this.subscriberUeForm.get('enabled').setValue(value.enabled);
                 this.subscriberUeForm.get('imsi-range-from').setValue(value['imsi-range-from']);

@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {AETHER_TARGETS} from '../../../environments/environment';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {EnterpriseEnterpriseService} from '../../../openapi3/aether/2.1.0/services';
@@ -30,13 +29,10 @@ interface ConnectivityServiceRow {
     ]
 })
 export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> implements OnInit {
-    @Input() target: string = AETHER_TARGETS[0];
-    @Input() id: string;
     @ViewChild(MatTable) table: MatTable<Array<ConnectivityServiceRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
     showConnectDisplay: boolean = false;
-    isNew: boolean;
     enterpriseConnectivityServices: EnterpriseEnterpriseConnectivityService;
     data: EnterpriseEnterprise;
 
@@ -71,7 +67,6 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
     ) {
         super(snackBar, bs, route, router, 'enterprise-2.1.0', 'enterprise');
         super.form = this.entForm;
-        super.target = this.target;
         super.loadFunc = this.loadEnterpriseEnterprises;
         this.entForm.get('connectivity-service')[IDATTRIBS] = ['connectivity-service'];
     }
@@ -91,7 +86,6 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
         }).subscribe(
             (value => {
                 this.data = value;
-                this.entForm.get('id').setValue(value.id);
                 this.entForm.get('display-name').setValue(value['display-name']);
                 this.entForm.get('description').setValue(value.description);
                 for (const cs of value['connectivity-service']) {

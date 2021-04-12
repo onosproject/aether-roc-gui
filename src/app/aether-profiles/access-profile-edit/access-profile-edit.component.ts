@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, Input, OnInit} from '@angular/core';
-import {AETHER_TARGETS} from '../../../environments/environment';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {AccessProfileAccessProfileService} from '../../../openapi3/aether/2.1.0/services';
@@ -19,8 +18,6 @@ import {RocEditBase} from '../../roc-edit-base';
     styleUrls: ['../../common-edit.component.scss']
 })
 export class AccessProfileEditComponent extends RocEditBase<AccessProfileAccessProfile> implements OnInit {
-    @Input() target: string = AETHER_TARGETS[0];
-    @Input() id: string;
     data: AccessProfileAccessProfile;
 
     accForm = this.fb.group({
@@ -57,7 +54,6 @@ export class AccessProfileEditComponent extends RocEditBase<AccessProfileAccessP
     ) {
         super(snackBar, bs, route, router, 'access-profile-2.1.0', 'access-profile');
         super.form = this.accForm;
-        super.target = this.target;
         super.loadFunc = this.loadAccessProfileAccessProfile;
     }
 
@@ -72,7 +68,6 @@ export class AccessProfileEditComponent extends RocEditBase<AccessProfileAccessP
         }).subscribe(
             (value => {
                 this.data = value;
-                this.accForm.get('id').setValue(value.id);
                 this.accForm.get('display-name').setValue(value['display-name']);
                 this.accForm.get('type').setValue(value.type);
                 this.accForm.get('filter').setValue(value.filter);

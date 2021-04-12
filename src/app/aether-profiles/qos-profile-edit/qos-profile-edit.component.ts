@@ -25,8 +25,6 @@ import {RocEditBase} from '../../roc-edit-base';
     styleUrls: ['../../common-edit.component.scss']
 })
 export class QosProfileEditComponent extends RocEditBase<QosProfileQosProfile> implements OnInit {
-    @Input() target: string = AETHER_TARGETS[0];
-    @Input() id: string;
     data: QosProfileQosProfile;
 
     qosForm = this.fb.group({
@@ -80,7 +78,6 @@ export class QosProfileEditComponent extends RocEditBase<QosProfileQosProfile> i
     ) {
         super(snackBar, bs, route, router, 'qos-profile-2.1.0', 'qos-profile');
         super.form = this.qosForm;
-        super.target = this.target;
         super.loadFunc = this.loadQosProfileQosProfile;
         this.qosForm.get(['apn-ambr', 'uplink'])[TYPE] = 'number';
         this.qosForm.get(['apn-ambr', 'downlink'])[TYPE] = 'number';

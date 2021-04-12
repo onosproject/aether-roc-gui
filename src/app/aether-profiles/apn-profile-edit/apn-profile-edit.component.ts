@@ -3,8 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, Input, OnInit} from '@angular/core';
-import {AETHER_TARGETS} from '../../../environments/environment';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {
@@ -26,8 +25,6 @@ const TYPE = 'type';
     styleUrls: ['../../common-edit.component.scss']
 })
 export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> implements OnInit {
-    @Input() target: string = AETHER_TARGETS[0];
-    @Input() id: string;
     data: ApnProfileApnProfile;
 
     serviceGroups: Array<ServiceGroupServiceGroup>;
@@ -76,7 +73,6 @@ export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> i
     ) {
         super(snackBar, bs, route, router, 'apn-profile-2.1.0', 'apn-profile');
         super.form = this.apnForm;
-        super.target = this.target;
         super.loadFunc = this.loadApnProfileApnProfile;
         this.apnForm.get('mtu')[TYPE] = 'number';
         this.apnForm.get('gx-enabled')[TYPE] = 'boolean';
@@ -94,7 +90,6 @@ export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> i
         }).subscribe(
             (value => {
                 this.data = value;
-                this.apnForm.get('id').setValue(value.id);
                 this.apnForm.get('display-name').setValue(value['display-name']);
                 this.apnForm.get('apn-name').setValue(value['apn-name']);
                 this.apnForm.get('dns-primary').setValue(value['dns-primary']);
