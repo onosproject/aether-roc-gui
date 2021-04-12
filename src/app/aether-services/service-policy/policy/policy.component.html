@@ -1,0 +1,83 @@
+<!--
+~ SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<div>
+    <mat-toolbar class="profile-toolbar">SERVICE POLICY</mat-toolbar>
+    <table mat-table class="full-width-table" matSort aria-label="Elements">
+ 
+        <!-- Id Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let row">{{row.id}}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let row">{{row['display-name']}}</td>
+        </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+            <td mat-cell *matCellDef="let row">{{row.description}}</td>
+        </ng-container>
+       <!-- Uplink Column -->
+       <ng-container matColumnDef="uplink">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Uplink</th>
+        <td mat-cell *matCellDef="let row">{{row['ambr'].uplink}}</td>
+       </ng-container>
+
+    <!-- Downlink Column -->
+    <ng-container matColumnDef="downlink">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Downlink</th>
+        <td mat-cell *matCellDef="let row">{{row['ambr'].downlink}}
+    </ng-container>
+
+        <!-- Qci Column -->
+        <ng-container matColumnDef="qci">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>QCI</th>
+            <td mat-cell *matCellDef="let row">{{row.qci}}</td>
+        </ng-container>
+
+        <!-- Arp Column -->
+        <ng-container matColumnDef="arp">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Arp</th>
+            <td mat-cell *matCellDef="let row">{{row.arp}}</td>
+        </ng-container>
+
+        <!-- Rules Column -->
+        <ng-container matColumnDef="rules">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Rules</th>
+            <td mat-cell *matCellDef="let row"><p *ngFor="let sr of row['rules']">RULES: {{sr['rule']}}</p></td>
+        </ng-container>
+
+           <!-- Edit Column -->
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+            <td mat-cell *matCellDef="let row" routerLink="/service/service-rule-edit/{{row.id}}">
+                <mat-icon class="table_icon">edit</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- Delete Column -->
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Delete</th>
+            <td mat-cell *matCellDef="let row" (click)="deleteServiceRule(row.id)">
+                <mat-icon class="table_icon">delete</mat-icon>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectedServiceRule = row"></tr>
+    </table>
+
+    <mat-paginator #paginator
+                   [length]="dataSource?.data?.length"
+                   [pageIndex]="0"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[10, 20, 40]">
+    </mat-paginator>
+</div>

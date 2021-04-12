@@ -29,6 +29,10 @@ const aetherRoutes: Routes = [
         loadChildren: () => import('./aether-profiles/aether-profiles.module').then(m => m.AetherProfilesModule)
     },
     {
+        path: 'services',
+        loadChildren: () => import('./aether-services/aether-services.module').then(m => m.AetherServiceModule)
+    },
+    {
         path: 'basket',
         loadChildren: () => import('./basket/basket.module').then(m => m.BasketModule)
     },
