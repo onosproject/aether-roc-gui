@@ -31,13 +31,12 @@ export class ApnProfilesComponent implements AfterViewInit, OnInit {
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
         'id',
-        // 'name',
         'description',
         'apn-name',
-        'dns-primary',
-        'dns-secondary',
+        'dns',
         'mtu',
         'gx-enabled',
+        'service-group',
         'edit',
         'delete'
     ];

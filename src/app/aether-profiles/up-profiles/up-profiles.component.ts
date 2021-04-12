@@ -28,7 +28,6 @@ export class UpProfilesComponent implements AfterViewInit, OnInit {
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
         'id',
-        // 'name',
         'description',
         'userplane',
         'accesscontrol',

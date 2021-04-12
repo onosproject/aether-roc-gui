@@ -14,7 +14,7 @@
         <!-- Id Column -->
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>UE Id</th>
-            <td mat-cell *matCellDef="let row" (click)="selectedSubscriber = row">
+            <td mat-cell *matCellDef="let row">
                 <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}<br><small>({{row.id}})</small></span>
                 <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
             </td>
@@ -23,14 +23,13 @@
         <!-- Priority Column -->
         <ng-container matColumnDef="priority">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Priority</th>
-            <td mat-cell *matCellDef="let row" (click)="selectedSubscriber = row">{{row.priority}}</td>
+            <td mat-cell *matCellDef="let row">{{row.priority}}</td>
         </ng-container>
 
         <!-- Imsi Column -->
         <ng-container matColumnDef="imsi">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Imsi</th>
-            <td mat-cell class="imsi-column" *matCellDef="let row"
-                (click)="selectedSubscriber = row">{{row['imsi-range-from']}}<span
+            <td mat-cell class="imsi-column" *matCellDef="let row">{{row['imsi-range-from']}}<span
                 *ngIf="row['imsi-wildcard'] === undefined">-</span>{{row['imsi-range-to']}}{{row['imsi-range-widlcard']}}
             </td>
         </ng-container>
@@ -38,13 +37,16 @@
         <!-- Enterprise Column -->
         <ng-container matColumnDef="enterprise">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Enterprise</th>
-            <td mat-cell *matCellDef="let row" (click)="selectedSubscriber = row">{{row.enterprise}}</td>
+            <td mat-cell *matCellDef="let row">{{row.enterprise}}
+                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Enterprise"
+                          routerLink="/enterprise/enterprise-edit/{{row.enterprise}}">launch</mat-icon>
+            </td>
         </ng-container>
 
         <!-- Enabled Column -->
         <ng-container matColumnDef="enabled">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Enabled</th>
-            <td mat-cell *matCellDef="let row" (click)="selectedSubscriber = row">
+            <td mat-cell *matCellDef="let row">
                 <mat-icon class="table_icon" *ngIf="row.enabled">done</mat-icon>
             </td>
         </ng-container>
@@ -52,19 +54,34 @@
         <!-- Serving PLMN Column -->
         <ng-container matColumnDef="serving-plmn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header title="mcc:mnc:tac">Serving PLMN</th>
-            <td mat-cell *matCellDef="let row" (click)="selectedSubscriber = row">{{row['serving-plmn'].mcc}}
+            <td mat-cell *matCellDef="let row">{{row['serving-plmn'].mcc}}
                 :{{row['serving-plmn'].mnc}}:{{row['serving-plmn'].tac}}</td>
         </ng-container>
 
         <!-- Profiles Column -->
         <ng-container matColumnDef="profiles">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Profiles</th>
-            <td mat-cell class="profiles-column" *matCellDef="let row" (click)="selectedSubscriber = row">
-                <p>APN: {{row.profiles['apn-profile']}}</p>
-                <p>Up: {{row.profiles['up-profile']}}</p>
-                <p>QOS: {{row.profiles['qos-profile']}}</p>
-                <p>Sec: {{row.profiles['security-profile']}}</p>
-                <p *ngFor="let ap of row.profiles['access-profile']">Acc: {{ap['access-profile']}}</p>
+            <td mat-cell class="profiles-column" *matCellDef="let row">
+                <p>APN: {{row.profiles['apn-profile']}}
+                    <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="APN Profile"
+                              routerLink="/profiles/apnprofile-edit/{{row.profiles['apn-profile']}}">launch</mat-icon>
+                </p>
+                <p>Up: {{row.profiles['up-profile']}}
+                    <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="UP Profile"
+                              routerLink="/profiles/upprofile-edit/{{row.profiles['up-profile']}}">launch</mat-icon>
+                </p>
+                <p>QOS: {{row.profiles['qos-profile']}}
+                    <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="QOS Profile"
+                              routerLink="/profiles/qosprofile-edit/{{row.profiles['qos-profile']}}">launch</mat-icon>
+                </p>
+                <p>Sec: {{row.profiles['security-profile']}}
+                    <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Security Profile"
+                              routerLink="/profiles/securityprofile-edit/{{row.profiles['up-profile']}}">launch</mat-icon>
+                </p>
+                <p *ngFor="let ap of row.profiles['access-profile']">Acc: {{ap['access-profile']}}
+                    <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Access Profile"
+                              routerLink="/profiles/accessprofile-edit/{{ap['access-profile']}}">launch</mat-icon>
+                </p>
             </td>
         </ng-container>
 
