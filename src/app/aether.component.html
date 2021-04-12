@@ -39,6 +39,10 @@
             <mat-icon>groups</mat-icon>
             <span>Profiles</span>
         </button>
+        <button mat-menu-item [matMenuTriggerFor]="service">
+            <mat-icon>groups</mat-icon>
+            <span>Service</span>
+        </button>
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="apiKeyDisplay = true" id="apiButton">
             <mat-icon>vpn_key</mat-icon>
@@ -73,6 +77,20 @@
         <button mat-menu-item routerLink="/profiles/securityprofiles" id="securityProfilesButton">
             <mat-icon>lock</mat-icon>
             <span>Security</span>
+        </button>
+    </mat-menu>
+    <mat-menu #service="matMenu">
+        <button mat-menu-item routerLink="/services/servicegroup" id="groupServiceButton">
+            <mat-icon>ballot</mat-icon>
+            <span>Group</span>
+        </button>
+        <button mat-menu-item routerLink="/services/servicepolicy" id="policyServiceButton">
+            <mat-icon>ballot</mat-icon>
+            <span>Policy</span>
+        </button>
+        <button mat-menu-item routerLink="/services/servicerule" id="ruleServiceButton">
+            <mat-icon>ballot</mat-icon>
+            <span>Rule</span>
         </button>
     </mat-menu>
 </div>
