@@ -28,11 +28,14 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {ConnectivityServiceSelectComponent} from './connectivity-service-select/connectivity-service-select.component';
+
 
 @NgModule({
     declarations: [
         EnterpriseComponent,
-        EnterpriseEditComponent
+        EnterpriseEditComponent,
+        ConnectivityServiceSelectComponent,
     ],
     imports: [
         CommonModule,
