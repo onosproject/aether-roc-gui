@@ -36,12 +36,11 @@ export class PolicyComponent implements AfterViewInit, OnInit {
     'edit',
     'delete'
 ];
-  constructor( private aetherService: AetherService,
-    private basketService: BasketService,) { }
+  constructor( private aetherService: AetherService, private basketService: BasketService) { }
 
   ngOnInit(): void {
     this.dataSource = new ServicePolicyDatasource(this.aetherService, this.basketService, AETHER_TARGETS[0]);
-    console.log(this.dataSource)}
+  }
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -49,6 +48,5 @@ export class PolicyComponent implements AfterViewInit, OnInit {
     this.dataSource.loadData(this.aetherService.getServicePolicy({
         target: AETHER_TARGETS[0]
     }));
-    console.log(this.dataSource)
-}
+  }
 }

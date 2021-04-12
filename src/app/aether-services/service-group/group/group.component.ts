@@ -32,12 +32,12 @@ export class GroupComponent implements AfterViewInit, OnInit {
     'edit',
     'delete'
 ];
-  constructor( private aetherService: AetherService,
-    private basketService: BasketService,) { }
+  constructor( private aetherService: AetherService, private basketService: BasketService) { }
 
   ngOnInit(): void {
     this.dataSource = new ServiceGroupDatasource(this.aetherService, this.basketService, AETHER_TARGETS[0]);
-    console.log(this.dataSource)}
+  }
+
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -45,6 +45,5 @@ export class GroupComponent implements AfterViewInit, OnInit {
     this.dataSource.loadData(this.aetherService.getServiceGroup({
         target: AETHER_TARGETS[0]
     }));
-    console.log(this.dataSource)
-}
+  }
 }

@@ -40,11 +40,11 @@ export class RuleComponent implements AfterViewInit, OnInit {
 
   constructor(
     private aetherService: AetherService,
-    private basketService: BasketService,) { }
+    private basketService: BasketService) { }
 
   ngOnInit(): void {
     this.dataSource = new ServiceRuleDatasource(this.aetherService, this.basketService, AETHER_TARGETS[0]);
-    console.log(this.dataSource)}
+  }
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -52,6 +52,5 @@ export class RuleComponent implements AfterViewInit, OnInit {
     this.dataSource.loadData(this.aetherService.getServiceRule({
         target: AETHER_TARGETS[0]
     }));
-    console.log(this.dataSource)
 }
 }
