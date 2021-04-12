@@ -28,7 +28,6 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<SubscriberUe>;
     dataSource: SubscriberUeDataSource;
-    selectedSubscriber: SubscriberUe;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
