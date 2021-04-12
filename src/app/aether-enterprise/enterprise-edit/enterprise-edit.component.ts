@@ -75,6 +75,29 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
         return this.entForm.get('connectivity-service') as FormArray;
     }
 
+    get connectivityServiceExists(): string[] {
+        const existingList: string[] = [];
+        (this.entForm.get(['connectivity-service']) as FormArray).controls.forEach((cs) => {
+            existingList.push(cs.get('connectivity-service').value);
+        });
+        return existingList;
+    }
+
+    csSelected(selected: string): void {
+        // Push into form
+        if (selected !== undefined && selected !== '') {
+            const csFormControl = this.fb.control(selected);
+            const enabledControl = this.fb.control(false);
+            enabledControl[TYPE] = 'boolean';
+            (this.entForm.get('connectivity-service') as FormArray).push(this.fb.group({
+                'connectivity-service': csFormControl,
+                enabled: enabledControl,
+            }));
+            console.log('Adding new Value', selected);
+        }
+        this.showConnectDisplay = false;
+    }
+
     ngOnInit(): void {
         super.init();
     }
