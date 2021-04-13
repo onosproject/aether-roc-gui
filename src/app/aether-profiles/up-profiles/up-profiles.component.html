@@ -36,7 +36,7 @@
         <!-- Edit Column -->
         <ng-container matColumnDef="edit">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
-            <td mat-cell *matCellDef="let row"><!-- TODO connect it up -->
+            <td mat-cell *matCellDef="let row" routerLink="/profiles/upprofile-edit/{{row.id}}">
                 <mat-icon class="table_icon">edit</mat-icon>
             </td>
         </ng-container>

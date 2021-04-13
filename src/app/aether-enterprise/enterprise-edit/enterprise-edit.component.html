@@ -34,6 +34,8 @@
                                   formControlName="enabled">Enabled</mat-slide-toggle>
                             <mat-icon (click)="deleteFromSelect(csForm.value['connectivity-service'])"
                                       class="pad-left subscriber-pointer">delete</mat-icon>
+                            <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Connectivity Service"
+                                      routerLink="/connectivity/connectivity-edit/{{csForm.value['connectivity-service']}}">launch</mat-icon>
                         </div>
                     </mat-form-field>
                 </div>
