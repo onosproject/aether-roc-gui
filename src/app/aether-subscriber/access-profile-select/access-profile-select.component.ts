@@ -3,29 +3,29 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
+
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AETHER_TARGETS} from '../../../environments/environment';
 import {Service} from '../../../openapi3/aether/2.1.0/services/service';
 import {ApiService} from '../../../openapi3/aether/2.1.0/services/api.service';
 import {FormBuilder} from '@angular/forms';
-import {AETHER_TARGETS} from '../../../environments/environment';
+import {AccessProfileAccessProfile} from '../../../openapi3/aether/2.1.0/models';
 import {mergeMap, pluck} from 'rxjs/operators';
 import {from} from 'rxjs';
-import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2.1.0/models';
 
 @Component({
-    selector: 'aether-connectivity-service-select',
-    templateUrl: './connectivity-service-select.component.html',
-    styleUrls: [
-        '../../common-panel.component.scss',
-    ]
+    selector: 'aether-access-profile-select',
+    templateUrl: './access-profile-select.component.html',
+    styleUrls: ['../../common-panel.component.scss']
 })
-export class ConnectivityServiceSelectComponent implements OnInit {
+export class AccessProfileSelectComponent implements OnInit {
     target: string = AETHER_TARGETS[0];
-    @Input() alreadySelectedCS: string[] = [];
+    @Input() alreadySelectedAP: string[] = [];
     @Output() closeEvent = new EventEmitter<string>();
-    displayList: ConnectivityServiceConnectivityService[] = [];
-    entConnForm = this.fb.group({
-        'connectivity-service': ['']
+    displayList: AccessProfileAccessProfile[] = [];
+
+    apForm = this.fb.group({
+        'access-profile': [''],
     });
 
     constructor(
@@ -36,15 +36,15 @@ export class ConnectivityServiceSelectComponent implements OnInit {
     }
 
     loadIntoSelect(target: string): void {
-        this.service.getConnectivityService({
+        this.service.getAccessProfile({
             target
         }).pipe(
-            pluck('connectivity-service'),
-            mergeMap((items: ConnectivityServiceConnectivityService[]) => from(items)),
+            pluck('access-profile'),
+            mergeMap((items: AccessProfileAccessProfile[]) => from(items)),
         ).subscribe(
             value => {
-                const exists = this.alreadySelectedCS.indexOf(value.id);
-                if (exists === -1){
+                const exists = this.alreadySelectedAP.indexOf(value.id);
+                if (exists === -1) {
                     this.displayList.push(value);
                 }
             }
@@ -58,5 +58,4 @@ export class ConnectivityServiceSelectComponent implements OnInit {
     closeCard(selected: string): void {
         this.closeEvent.emit(selected);
     }
-
 }
