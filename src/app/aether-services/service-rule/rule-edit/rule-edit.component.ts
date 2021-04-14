@@ -11,11 +11,8 @@ import {ServiceRuleServiceRule} from '../../../../openapi3/aether/2.1.0/models';
 import {BasketService, IDATTRIBS, TYPE} from '../../../basket.service';
 import {RocEditBase} from '../../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
-interface ConnectivityServiceRow {
-    id: string;
-    enabled: boolean;
-}
 
 @Component({
     selector: 'aether-rule-edit',
@@ -94,10 +91,11 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         protected fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
+        public opaService: OpenPolicyAgentService
     ) {
         super(snackBar, bs, route, router, 'service-rule-2.1.0', 'service-rule');
         super.form = this.ruleForm;
-        super.loadFunc = this.loadQosProfileQosProfile;
+        super.loadFunc = this.loadServiceRuleServiceRule;
         this.ruleForm.get(['guaranteed-bitrate', 'GBuplink'])[TYPE] = 'number';
         this.ruleForm.get(['guaranteed-bitrate', 'GBdownlink'])[TYPE] = 'number';
         this.ruleForm.get(['aggregate-maximum-bitrate', 'AMBuplink'])[TYPE] = 'number';
@@ -114,7 +112,7 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         super.init();
     }
 
-    loadQosProfileQosProfile(target: string, id: string): void {
+    loadServiceRuleServiceRule(target: string, id: string): void {
         this.serviceRuleServiceRuleService.getServiceRuleServiceRule({
             target,
             id
