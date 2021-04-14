@@ -24,17 +24,20 @@ import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { PolicyComponent } from './service-policy/policy/policy.component';
-
+import { PolicyEditComponent } from './service-policy/policy-edit/policy-edit.component';
 import { RuleComponent } from './service-rule/rule/rule.component';
 import { RuleEditComponent } from './service-rule/rule-edit/rule-edit.component';
 import { GroupComponent } from './service-group/group/group.component';
+import { GroupEditComponent } from './service-group/group-edit/group-edit.component';
 
 @NgModule({
     declarations: [
         PolicyComponent,
         RuleComponent,
         GroupComponent,
-        RuleEditComponent
+        RuleEditComponent,
+        PolicyEditComponent,
+        GroupEditComponent
     ],
     imports: [
         CommonModule,
@@ -42,8 +45,10 @@ import { GroupComponent } from './service-group/group/group.component';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'servicegroup', component: GroupComponent},
+            {path: 'servicegroup-edit/:id', component: GroupEditComponent},
 
             {path: 'servicepolicy', component: PolicyComponent},
+            {path: 'servicepolicy-edit/:id', component: PolicyEditComponent},
 
             {path: 'servicerule', component: RuleComponent},
             {path: 'servicerule-edit/:id', component: RuleEditComponent},
