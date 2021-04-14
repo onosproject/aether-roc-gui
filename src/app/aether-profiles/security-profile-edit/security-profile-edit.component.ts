@@ -11,6 +11,7 @@ import {SecurityProfileSecurityProfile} from '../../../openapi3/aether/2.1.0/mod
 import {BasketService, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 @Component({
     selector: 'aether-security-profile-edit',
@@ -51,6 +52,7 @@ export class SecurityProfileEditComponent extends RocEditBase<SecurityProfileSec
         private fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
+        public opaService: OpenPolicyAgentService,
     ) {
         super(snackBar, bs, route, router, 'security-profile-2.1.0', 'security-profile');
         super.form = this.spForm;

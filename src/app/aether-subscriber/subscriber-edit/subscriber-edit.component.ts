@@ -23,6 +23,7 @@ import {
 import {BasketService, IDATTRIBS, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 @Component({
     selector: 'aether-subscriber-edit',
@@ -90,6 +91,7 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
         private fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
+        public opaService: OpenPolicyAgentService,
     ) {
         super(snackBar, bs, route, router, 'subscriber-2.1.0', 'ue');
         super.form = this.subscriberUeForm;

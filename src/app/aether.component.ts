@@ -7,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {authConfig, BASKET_SERVICE_ENABLED} from '../environments/environment';
 import {Meta} from '@angular/platform-browser';
+import {OpenPolicyAgentService} from './open-policy-agent.service';
 
 export const USERNAME_ATTR = 'name';
 export const GROUPS_ATTR = 'groups';
@@ -42,6 +43,7 @@ export class AetherComponent implements OnInit {
     constructor(
         private oauthService: OAuthService,
         private meta: Meta,
+        public opaService: OpenPolicyAgentService,
     ) {
     }
 
@@ -52,12 +54,17 @@ export class AetherComponent implements OnInit {
             authConfig.issuer = issuerMeta.content;
         }
         if (authConfig.issuer !== undefined) {
+            console.log('Authentication Enabled');
 
             this.oauthService.configure(authConfig);
 
             return await this.oauthService.loadDiscoveryDocumentAndLogin(
                 {customHashFragment: window.location.search}
-            );
+            ).then(fulfilled => {
+                console.log('Login', fulfilled ? 'succeeded' : 'failed', this.idTokClaims);
+                this.opaService.userGroups = this.idTokClaims.groups;
+                return fulfilled;
+            });
         }
 
     }

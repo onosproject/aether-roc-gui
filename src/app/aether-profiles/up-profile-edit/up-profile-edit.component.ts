@@ -12,6 +12,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BasketService, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {UpProfileUpProfileService} from '../../../openapi3/aether/2.1.0/services/up-profile-up-profile.service';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 @Component({
     selector: 'aether-up-profile-edit',
@@ -51,6 +52,7 @@ export class UpProfileEditComponent extends RocEditBase<UpProfileUpProfile> impl
         private fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
+        public opaService: OpenPolicyAgentService,
     ) {
         super(snackBar, bs, route, router, 'up-profile-2.1.0', 'up-profile');
         super.form = this.upForm;

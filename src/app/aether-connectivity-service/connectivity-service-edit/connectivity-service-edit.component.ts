@@ -11,6 +11,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BasketService} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ConnectivityServiceConnectivityServiceService} from '../../../openapi3/aether/2.1.0/services';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 @Component({
     selector: 'aether-connectivity-service-edit',
@@ -54,6 +55,7 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
         private fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
+        public opaService: OpenPolicyAgentService,
     ) {
         super(snackBar, bs, route, router, 'connectivity-service-2.1.0', 'connectivity-service');
         super.form = this.csForm;
