@@ -6,7 +6,7 @@
 <form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Service Policy Profile. ID: {{id}}</mat-card-title>
+            <mat-card-title>Service Group Profile. ID: {{id}}</mat-card-title>
             <mat-form-field *ngIf="isNew" class="half-width">
                 <input matInput formControlName="id">
                 <mat-hint>ID</mat-hint>

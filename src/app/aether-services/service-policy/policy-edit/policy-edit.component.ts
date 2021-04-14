@@ -11,7 +11,7 @@ import {ServicePolicyServicePolicy} from '../../../../openapi3/aether/2.1.0/mode
 import {BasketService, IDATTRIBS, TYPE} from '../../../basket.service';
 import {RocEditBase} from '../../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
 
 @Component({
     selector: 'aether-policy-edit',
