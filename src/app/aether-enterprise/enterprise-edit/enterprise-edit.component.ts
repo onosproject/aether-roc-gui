@@ -15,6 +15,7 @@ import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 interface ConnectivityServiceRow {
     id: string;
@@ -64,6 +65,7 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
         private fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
+        public opaService: OpenPolicyAgentService,
     ) {
         super(snackBar, bs, route, router, 'enterprise-2.1.0', 'enterprise');
         super.form = this.entForm;

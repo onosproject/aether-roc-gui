@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
@@ -12,18 +12,18 @@ import {Service as AetherService} from '../../../openapi3/aether/2.1.0/services'
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {UpProfilesDatasource} from './up-profiles-datasource';
 import {BasketService} from '../../basket.service';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+import {RocListBase} from '../../roc-list-base';
 
 @Component({
     selector: 'aether-up-profiles',
     templateUrl: './up-profiles.component.html',
     styleUrls: ['../../common-profiles.component.scss']
 })
-export class UpProfilesComponent implements AfterViewInit, OnInit {
+export class UpProfilesComponent extends RocListBase<UpProfilesDatasource> implements AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<UpProfileUpProfile>;
-    dataSource: UpProfilesDatasource;
-    selectedUpProfile: UpProfileUpProfile;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
@@ -38,11 +38,9 @@ export class UpProfilesComponent implements AfterViewInit, OnInit {
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
+        public opaService: OpenPolicyAgentService,
     ) {
-    }
-
-    ngOnInit(): void {
-        this.dataSource = new UpProfilesDatasource(this.aetherService, this.basketService, AETHER_TARGETS[0]);
+        super(new UpProfilesDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
     ngAfterViewInit(): void {
@@ -52,9 +50,5 @@ export class UpProfilesComponent implements AfterViewInit, OnInit {
         this.dataSource.loadData(this.aetherService.getUpProfile({
             target: AETHER_TARGETS[0]
         }));
-    }
-
-    deleteUpProfileUpProfile(id: string): void {
-        this.dataSource.delete(id);
     }
 }

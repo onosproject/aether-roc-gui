@@ -121,8 +121,11 @@
                                 <input matInput formControlName="access-profile">
                                 <mat-slide-toggle
                                     formControlName="allowed">Allowed</mat-slide-toggle>
-                                <mat-icon (click)="deleteFromSelect(apForm.value['access-profile'])"
-                                          class="pad-left subscriber-pointer">delete</mat-icon>
+                                <button mat-icon-button
+                                        [disabled]="!opaService.canWrite('/subscriber/ue[id=' + id + ']/access-profile')"
+                                        (click)="deleteFromSelect(apForm.value['access-profile'])">
+                                    <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                                </button>
                                 <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Access Profile"
                                           routerLink="/profiles/accessprofile-edit/{{apForm.value['access-profile']}}">launch</mat-icon>
                             </div>
@@ -132,11 +135,13 @@
             </div>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="primary" type="submit">Update</button>
+            <button mat-raised-button
+                    color="primary" type="submit"
+                    [disabled]="!opaService.canWrite('/subscriber/ue[id=' + id + ']')">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>
-<aether-access-profile-select *ngIf="showApSelect"
+<aether-access-profile-select *ngIf="showApSelect && opaService.canWrite('/subscriber/ue[id=' + id + ']/access-profile')"
                               [alreadySelectedAP]="accessProfileExisting"
                                 (closeEvent)="apSelected($event)">
 </aether-access-profile-select>

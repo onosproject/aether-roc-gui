@@ -17,17 +17,18 @@ import {SubscriberUe} from '../../../openapi3/aether/2.1.0/models';
 import {Service as AetherService} from '../../../openapi3/aether/2.1.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService} from '../../basket.service';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+import {RocListBase} from '../../roc-list-base';
 
 @Component({
     selector: 'aether-subscribers',
     templateUrl: './subscribers.component.html',
     styleUrls: ['../../common-profiles.component.scss', './subscribers.component.scss']
 })
-export class SubscribersComponent implements AfterViewInit, OnInit {
+export class SubscribersComponent extends RocListBase<SubscriberUeDataSource> implements AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<SubscriberUe>;
-    dataSource: SubscriberUeDataSource;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
@@ -45,11 +46,9 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
+        public opaService: OpenPolicyAgentService,
     ) {
-    }
-
-    ngOnInit(): void {
-        this.dataSource = new SubscriberUeDataSource(this.aetherService, this.basketService, AETHER_TARGETS[0]);
+        super(new SubscriberUeDataSource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
     ngAfterViewInit(): void {
@@ -59,9 +58,5 @@ export class SubscribersComponent implements AfterViewInit, OnInit {
         this.dataSource.loadData(this.aetherService.getSubscriber({
             target: AETHER_TARGETS[0]
         }));
-    }
-
-    deleteSubscriberUe(id: string): void {
-        this.dataSource.delete(id);
     }
 }

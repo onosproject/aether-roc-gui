@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
@@ -12,18 +12,18 @@ import {AETHER_TARGETS} from '../../../environments/environment';
 import {AccessProfileAccessProfile} from '../../../openapi3/aether/2.1.0/models';
 import {AccessProfilesDatasource} from './access-profiles-datasource';
 import {BasketService} from '../../basket.service';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+import {RocListBase} from '../../roc-list-base';
 
 @Component({
     selector: 'aether-access-profiles',
     templateUrl: './access-profiles.component.html',
     styleUrls: ['../../common-profiles.component.scss']
 })
-export class AccessProfilesComponent implements AfterViewInit, OnInit {
+export class AccessProfilesComponent extends RocListBase<AccessProfilesDatasource> implements AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<AccessProfileAccessProfile>;
-    dataSource: AccessProfilesDatasource;
-    selectedAccessProfile: AccessProfileAccessProfile;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = [
@@ -38,11 +38,9 @@ export class AccessProfilesComponent implements AfterViewInit, OnInit {
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
+        public opaService: OpenPolicyAgentService,
     ) {
-    }
-
-    ngOnInit(): void {
-        this.dataSource = new AccessProfilesDatasource(this.aetherService, this.basketService, AETHER_TARGETS[0]);
+        super(new AccessProfilesDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
     ngAfterViewInit(): void {
@@ -52,9 +50,5 @@ export class AccessProfilesComponent implements AfterViewInit, OnInit {
         this.dataSource.loadData(this.aetherService.getAccessProfile({
             target: AETHER_TARGETS[0]
         }));
-    }
-
-    deleteAccessProfileAccessProfile(id: string): void {
-        this.dataSource.delete(id);
     }
 }
