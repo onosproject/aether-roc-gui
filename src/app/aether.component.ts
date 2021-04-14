@@ -7,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {authConfig, BASKET_SERVICE_ENABLED} from '../environments/environment';
 import {Meta} from '@angular/platform-browser';
+import {BasketService} from './basket.service';
 
 export const USERNAME_ATTR = 'name';
 export const GROUPS_ATTR = 'groups';
@@ -14,6 +15,7 @@ export const ID_TOKEN_ATTR = 'id_token';
 export const ACCESS_TOKEN_ATTR = 'access_token';
 const ID_TOKEN_CLAIMS_OBJ = 'id_token_claims_obj';
 const ID_TOKEN_EXPIRES_AT = 'id_token_expires_at';
+
 
 export interface IdTokClaims {
     at_hash: string;
@@ -42,6 +44,7 @@ export class AetherComponent implements OnInit {
     constructor(
         private oauthService: OAuthService,
         private meta: Meta,
+        private bs: BasketService
     ) {
     }
 
@@ -59,7 +62,6 @@ export class AetherComponent implements OnInit {
                 {customHashFragment: window.location.search}
             );
         }
-
     }
 
     showhelp(): void {

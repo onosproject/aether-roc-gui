@@ -12,8 +12,9 @@ import {BasketService} from '../../basket.service';
     styleUrls: ['../../common-panel.component.scss']
 })
 export class BasketPreviewComponent implements OnInit {
+    @Input() totalThings: string;
+    patchName: string = localStorage.getItem('patchName');
     @Output() closeEvent = new EventEmitter<boolean>();
-
     basketPreview: string;
 
     constructor(

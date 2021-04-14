@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {MatHeaderRow} from '@angular/material/table';
@@ -30,6 +30,7 @@ export class BasketComponent implements AfterViewInit, OnInit {
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
 
+    patchName: string;
     pbDisplay: boolean = false;
     updateCounter = 0;
     deleteCounter = 0;
@@ -48,10 +49,13 @@ export class BasketComponent implements AfterViewInit, OnInit {
     ) {
     }
 
+    addPatchName(): void{
+        localStorage.setItem('patchName', this.patchName);
+    }
+
     toggleDisplayDiv(): void {
         this.pbDisplay = !this.pbDisplay;
     }
-
     ngOnInit(): void {
         Object.keys(localStorage)
             .filter((key) => key.startsWith('/basket'))

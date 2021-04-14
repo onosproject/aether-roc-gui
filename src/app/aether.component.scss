@@ -11,3 +11,30 @@
 .mast-spacer {
     flex: 1 1 auto;
 }
+
+.small-spacing {
+    padding-right: 10px;
+}
+
+.icon {
+    width:30px;
+    height:30px;
+    position: relative;
+}
+
+.basketIcon {
+    width:70px;
+    height:30px;
+    position: relative;
+}
+
+.txt{
+    background-color:#7b1fa2;
+    font-size:xx-small;
+    color: white;
+    position: absolute;
+    padding:4px;
+    top: 5px;
+    left: 5px;
+    border-radius: 25px;
+}

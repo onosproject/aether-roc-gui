@@ -22,6 +22,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { BasketPreviewComponent } from './basket-preview/basket-preview.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
     declarations: [
@@ -50,6 +52,8 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
         MatCardModule,
         ClipboardModule,
         MatSnackBarModule,
+        MatFormFieldModule,
+        MatInputModule,
     ]
 })
 
