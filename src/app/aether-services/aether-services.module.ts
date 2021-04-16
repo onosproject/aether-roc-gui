@@ -24,14 +24,20 @@ import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { PolicyComponent } from './service-policy/policy/policy.component';
+import { PolicyEditComponent } from './service-policy/policy-edit/policy-edit.component';
 import { RuleComponent } from './service-rule/rule/rule.component';
+import { RuleEditComponent } from './service-rule/rule-edit/rule-edit.component';
 import { GroupComponent } from './service-group/group/group.component';
+import { GroupEditComponent } from './service-group/group-edit/group-edit.component';
 
 @NgModule({
     declarations: [
         PolicyComponent,
         RuleComponent,
-        GroupComponent
+        GroupComponent,
+        RuleEditComponent,
+        PolicyEditComponent,
+        GroupEditComponent
     ],
     imports: [
         CommonModule,
@@ -39,24 +45,13 @@ import { GroupComponent } from './service-group/group/group.component';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'servicegroup', component: GroupComponent},
-            // {path: 'accessprofiles/:lastChange', component: AccessProfilesComponent},
-            // {path: 'accessprofile-edit/:id', component: AccessProfileEditComponent},
+            {path: 'servicegroup-edit/:id', component: GroupEditComponent},
 
             {path: 'servicepolicy', component: PolicyComponent},
-            // {path: 'apnprofiles/:lastChange', component: ApnProfilesComponent},
-            // {path: 'apnprofile-edit/:id', component: ApnProfileEditComponent},
+            {path: 'servicepolicy-edit/:id', component: PolicyEditComponent},
 
             {path: 'servicerule', component: RuleComponent},
-            // {path: 'qosprofiles/:lastChange', component: QosProfilesComponent},
-            // {path: 'qosprofile-edit/:id', component: QosProfileEditComponent},
-
-            // {path: 'upprofiles', component: UpProfilesComponent},
-
-            // {path: 'securityprofiles', component: SecurityProfilesComponent},
-            // {path: 'securityprofiles/:lastChange', component: SecurityProfilesComponent},
-            // {path: 'securityprofile-edit/:id', component: SecurityProfileEditComponent},
-
-            // {path: '', component: UpProfilesComponent, pathMatch: 'full'}
+            {path: 'servicerule-edit/:id', component: RuleEditComponent},
         ]),
         FormsModule,
         ReactiveFormsModule,

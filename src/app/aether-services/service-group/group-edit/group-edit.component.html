@@ -1,0 +1,50 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Service Group Profile. ID: {{id}}</mat-card-title>
+            <mat-form-field *ngIf="isNew" class="half-width">
+                <input matInput formControlName="id">
+                <mat-hint>ID</mat-hint>
+            </mat-form-field>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="display-name">
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="description">
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+            <div formArrayName="service-policies" class="subscriber-section">
+                <mat-hint>Policies</mat-hint>
+                <mat-icon class="subscriber-pointer">add</mat-icon>
+                <div *ngFor="let policyForm of policyServices.controls; index as i">
+                    <mat-form-field class="field-margin half-width">
+                        <div [formGroup]="policyForm" >
+                            <input matInput formControlName="service-policy" readonly>
+                            On-demand <mat-slide-toggle formControlName="kind">Default</mat-slide-toggle>
+                            <mat-icon (click)="deleteFromSelect(policyForm.value['service-policy'])"
+                                      class="pad-left subscriber-pointer">delete</mat-icon>
+                            <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Connectivity Service"
+                                      routerLink="/services/servicepolicy-edit/{{policyForm.value['service-policy']}}">launch</mat-icon>
+                        </div>
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit"
+                    [disabled]="!opaService.canWrite('/service-group/service-group[id=' + id + ']')">Update</button>
+        </mat-card-actions>
+    </mat-card>
+</form>
