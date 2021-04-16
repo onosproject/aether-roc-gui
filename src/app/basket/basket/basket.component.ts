@@ -11,6 +11,7 @@ import {BasketService} from '../../basket.service';
 import {ApiService} from '../../../openapi3/top/level/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 interface BasketRow {
     path: string;
@@ -45,7 +46,8 @@ export class BasketComponent implements AfterViewInit, OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private snackBar: MatSnackBar,
-        private bs: BasketService
+        private bs: BasketService,
+        public opaService: OpenPolicyAgentService,
     ) {
     }
 

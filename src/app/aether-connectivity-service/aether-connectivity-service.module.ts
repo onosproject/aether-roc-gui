@@ -19,15 +19,21 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
+import { ConnectivityServiceEditComponent } from './connectivity-service-edit/connectivity-service-edit.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
-    declarations: [ConnectivityServiceComponent],
+    declarations: [ConnectivityServiceComponent, ConnectivityServiceEditComponent],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({rootUrl: AETHER_ROC_API_URL}),
         HttpClientModule,
         RouterModule.forChild([
             {path: 'connectivity', component: ConnectivityServiceComponent},
+            {path: 'connectivity-edit/:id', component: ConnectivityServiceEditComponent},
             {path: '', component: ConnectivityServiceComponent, pathMatch: 'full'}
         ]),
         FormsModule,
@@ -35,10 +41,13 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        MatPaginatorModule,
-        MatSnackBarModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatIconModule,
         MatToolbarModule,
-        MatIconModule
+        MatCardModule,
+        MatButtonModule,
+        MatSnackBarModule,
     ],
     providers: [
         AuthInterceptor,

@@ -16,6 +16,7 @@ import {
 import {BasketService} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 const TYPE = 'type';
 
@@ -70,6 +71,7 @@ export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> i
         private fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
+        public opaService: OpenPolicyAgentService,
     ) {
         super(snackBar, bs, route, router, 'apn-profile-2.1.0', 'apn-profile');
         super.form = this.apnForm;

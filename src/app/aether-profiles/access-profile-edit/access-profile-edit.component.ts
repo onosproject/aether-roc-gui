@@ -11,6 +11,7 @@ import {AccessProfileAccessProfile} from '../../../openapi3/aether/2.1.0/models'
 import {BasketService} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 @Component({
     selector: 'aether-access-profile-edit',
@@ -51,6 +52,7 @@ export class AccessProfileEditComponent extends RocEditBase<AccessProfileAccessP
         private fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
+        public opaService: OpenPolicyAgentService,
     ) {
         super(snackBar, bs, route, router, 'access-profile-2.1.0', 'access-profile');
         super.form = this.accForm;

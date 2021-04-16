@@ -30,9 +30,10 @@ import {MatRadioModule} from '@angular/material/radio';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { AccessProfileSelectComponent } from './access-profile-select/access-profile-select.component';
 
 @NgModule({
-    declarations: [SubscribersComponent, SubscriberEditComponent],
+    declarations: [SubscribersComponent, SubscriberEditComponent, AccessProfileSelectComponent],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({rootUrl: AETHER_ROC_API_URL}),

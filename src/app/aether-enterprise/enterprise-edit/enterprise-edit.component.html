@@ -32,8 +32,13 @@
                             <input matInput formControlName="connectivity-service" readonly>
                             <mat-slide-toggle
                                   formControlName="enabled">Enabled</mat-slide-toggle>
-                            <mat-icon (click)="deleteFromSelect(csForm.value['connectivity-service'])"
-                                      class="pad-left subscriber-pointer">delete</mat-icon>
+                            <button mat-icon-button
+                                    [disabled]="!opaService.canWrite('/enterprise/enterprise[id=' + id + ']/connectivity-service')"
+                                    (click)="deleteFromSelect(csForm.value['connectivity-service'])">
+                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                            </button>
+                            <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Connectivity Service"
+                                      routerLink="/connectivity/connectivity-edit/{{csForm.value['connectivity-service']}}">launch</mat-icon>
                         </div>
                     </mat-form-field>
                 </div>
@@ -41,12 +46,12 @@
 
 
             <mat-card-actions>
-                <button mat-raised-button color="primary" type="submit">Update</button>
+                <button mat-raised-button color="primary" type="submit" [disabled]="!opaService.canWrite('/enterprise/enterprise')">Update</button>
             </mat-card-actions>
         </mat-card-content>
     </mat-card>
 </form>
-<aether-connectivity-service-select *ngIf="showConnectDisplay"
+<aether-connectivity-service-select *ngIf="showConnectDisplay && opaService.canWrite('/enterprise/enterprise[id=' + id + ']/connectivity-service')"
     [alreadySelectedCS]="connectivityServiceExists"
     (closeEvent)="csSelected($event)">
 </aether-connectivity-service-select>

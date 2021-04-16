@@ -3,10 +3,14 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<form [formGroup]="accForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="csForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Access Profile. ID: {{id}}</mat-card-title>
+            <mat-card-title>Connectivity Service. ID: {{id}}</mat-card-title>
+            <mat-form-field *ngIf="isNew" class="half-width">
+                <input matInput formControlName="id">
+                <mat-hint>ID</mat-hint>
+            </mat-form-field>
         </mat-card-header>
         <mat-card-content>
             <div class="row">
@@ -23,20 +27,26 @@
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="type">
-                    <mat-hint>Type</mat-hint>
+                    <input matInput formControlName="spgwc-endpoint">
+                    <mat-hint>SPGWC Endpoint</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="filter">
-                    <mat-hint>Filter</mat-hint>
+                    <input matInput formControlName="hss-endpoint">
+                    <mat-hint>HSS Endpoint</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="pcrf-endpoint">
+                    <mat-hint>PCRF Endpoint</mat-hint>
                 </mat-form-field>
             </div>
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button color="primary" type="submit"
-                    [disabled]="!opaService.canWrite('/access-profile/access-profile[id=' + id + ']')">Update</button>
+                    [disabled]="!opaService.canWrite('/connectivity-service/connectivity-service[id=' + id + ']')">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>

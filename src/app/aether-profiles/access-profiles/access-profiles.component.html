@@ -45,13 +45,17 @@
         <!-- Delete Column -->
         <ng-container matColumnDef="delete">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Delete</th>
-            <td mat-cell *matCellDef="let row" (click)="deleteAccessProfileAccessProfile(row.id)">
-                <mat-icon class="table_icon">delete</mat-icon>
+            <td mat-cell *matCellDef="let row">
+                <button mat-icon-button
+                        [disabled]="!opaService.canWrite('/access-profile/access-profile[id=' + row.id + ']')"
+                        (click)="delete(row.id)">
+                    <mat-icon class="table_icon">delete</mat-icon>
+                </button>
             </td>
         </ng-container>
 
         <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectedAccessProfile = row"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
     <mat-paginator #paginator

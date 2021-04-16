@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
@@ -12,18 +12,18 @@ import {ServiceGroupServiceGroup} from '../../../../openapi3/aether/2.1.0/models
 import {ServiceGroupDatasource} from './group-datasource';
 import {AETHER_TARGETS} from '../../../../environments/environment';
 import {BasketService} from '../../../basket.service';
+import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
+import {RocListBase} from '../../../roc-list-base';
 
 @Component({
     selector: 'aether-group',
     templateUrl: './group.component.html',
     styleUrls: ['../../../common-profiles.component.scss']
 })
-export class GroupComponent implements AfterViewInit, OnInit {
+export class GroupComponent extends RocListBase<ServiceGroupDatasource> implements AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<ServiceGroupServiceGroup>;
-    dataSource: ServiceGroupDatasource;
-    selectedServiceRule: ServiceGroupServiceGroup;
     displayedColumns = [
         'id',
         'name',
@@ -36,12 +36,9 @@ export class GroupComponent implements AfterViewInit, OnInit {
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
+        public opaService: OpenPolicyAgentService,
     ) {
-    }
-
-    ngOnInit(): void {
-        this.dataSource = new ServiceGroupDatasource(this.aetherService, this.basketService, AETHER_TARGETS[0]);
-        console.log(this.dataSource);
+        super(new ServiceGroupDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
     ngAfterViewInit(): void {

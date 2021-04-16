@@ -18,11 +18,12 @@ import {
     ApnProfileApnProfile,
     QosProfileQosProfile,
     UpProfileUpProfile,
-    SecurityProfileSecurityProfile, SubscriberUe
+    SecurityProfileSecurityProfile, SubscriberUe, EnterpriseEnterprise
 } from '../../../openapi3/aether/2.1.0/models';
 import {BasketService, IDATTRIBS, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 @Component({
     selector: 'aether-subscriber-edit',
@@ -33,12 +34,14 @@ import {RocEditBase} from '../../roc-edit-base';
 })
 export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implements OnInit {
     data: AetherV100TargetSubscriberUe;
+    enterprises: Array<EnterpriseEnterprise>;
     apnProfiles: Array<ApnProfileApnProfile>;
     qosProfiles: Array<QosProfileQosProfile>;
     upProfiles: Array<UpProfileUpProfile>;
     securityProfiles: Array<SecurityProfileSecurityProfile>;
     accessProfiles: Array<AccessProfileAccessProfile>;
     imsiWildcard: boolean;
+    showApSelect: boolean;
 
     subscriberUeForm = this.fb.group({
         id: [''],
@@ -47,6 +50,7 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
             Validators.max(1000)])
         ],
         enabled: [false],
+        enterprise: [''],
         'imsi-range-from': [''],
         'imsi-range-to': [''],
         'imsi-wildcard': [''],
@@ -87,6 +91,7 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
         private fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
+        public opaService: OpenPolicyAgentService,
     ) {
         super(snackBar, bs, route, router, 'subscriber-2.1.0', 'ue');
         super.form = this.subscriberUeForm;
@@ -104,6 +109,7 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
 
     ngOnInit(): void {
         super.init();
+        this.loadEnterprises(this.target);
         this.loadApnProfiles(this.target);
         this.loadQosProfiles(this.target);
         this.loadUpProfiles(this.target);
@@ -131,6 +137,7 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
                 this.subscriberUeForm.get(['serving-plmn', 'mcc']).setValue(value['serving-plmn'].mcc);
                 this.subscriberUeForm.get(['serving-plmn', 'mnc']).setValue(value['serving-plmn'].mnc);
                 this.subscriberUeForm.get(['serving-plmn', 'tac']).setValue(value['serving-plmn'].tac);
+                this.subscriberUeForm.get(['enterprise']).setValue(value.enterprise);
                 this.subscriberUeForm.get(['profiles', 'apn-profile']).setValue(value.profiles['apn-profile']);
                 this.subscriberUeForm.get(['profiles', 'qos-profile']).setValue(value.profiles['qos-profile']);
                 this.subscriberUeForm.get(['profiles', 'up-profile']).setValue(value.profiles['up-profile']);
@@ -151,6 +158,23 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
             },
             () => {
                 console.log('Finished loading SubscriberUe(s)', target, id);
+            }
+        );
+    }
+
+    loadEnterprises(target: string): void {
+        this.aetherService.getEnterprise({
+            target,
+        }).subscribe(
+            (value => {
+                this.enterprises = value.enterprise;
+                console.log('Got Enterprises', value.enterprise.length);
+            }),
+            error => {
+                console.warn('Error getting Enterprises for ', target, error);
+            },
+            () => {
+                console.log('Finished loading Enterprises', target);
             }
         );
     }
@@ -239,5 +263,28 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
         const index = (this.subscriberUeForm.get(['profiles', 'access-profile']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ap);
         (this.subscriberUeForm.get(['profiles', 'access-profile']) as FormArray).removeAt(index);
+    }
+
+    get accessProfileExisting(): string[] {
+        const existingList: string[] = [];
+        (this.subscriberUeForm.get(['profiles', 'access-profile']) as FormArray).controls.forEach((ap) => {
+            existingList.push(ap.get('access-profile').value);
+        });
+        return existingList;
+    }
+
+    apSelected(selected: string): void {
+        // Push into form
+        if (selected !== undefined && selected !== '') {
+            const apFormControl = this.fb.control(selected);
+            const allowedControl = this.fb.control(false);
+            allowedControl[TYPE] = 'boolean';
+            (this.subscriberUeForm.get(['profiles', 'access-profile']) as FormArray).push(this.fb.group({
+                'access-profile': apFormControl,
+                allowed: allowedControl,
+            }));
+            console.log('Adding new Value', selected);
+        }
+        this.showApSelect = false;
     }
 }

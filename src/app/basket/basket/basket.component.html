@@ -15,13 +15,13 @@
         </button>
         <span class="small-spacing"></span>
         <span class="spacing"><small><p>Total Updates: {{updateCounter}} <span class="small-spacing"></span> Total Deletes: {{deleteCounter}} </small></span>
-        <button mat-raised-button color="primary" type="submit" aria-label="Commit changes" (click)="commitChanges()"
-                routerLink="/basket">Commit
-        </button>
+        <button mat-raised-button color="primary" type="submit" aria-label="Commit changes"
+                (click)="commitChanges()"
+                [disabled]="!opaService.canWrite(undefined)">Commit</button>
         <span class="small-spacing"></span>
         <button mat-raised-button color="primary" type="submit" aria-label="Discard basket"
-                (click)="discardAllChanges()">
-            Discard
+                (click)="discardAllChanges()"
+                [disabled]="!opaService.canWrite(undefined)">Discard
         </button>
     </mat-toolbar>
     <table mat-table class="full-width-table" matSort aria-label="Updates" [dataSource]="data">

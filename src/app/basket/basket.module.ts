@@ -20,10 +20,12 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
-import { BasketPreviewComponent } from './basket-preview/basket-preview.component';
+import {BasketPreviewComponent} from './basket-preview/basket-preview.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {AuthInterceptor} from '../auth-interceptor';
+import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 
 @NgModule({
     declarations: [
@@ -54,6 +56,10 @@ import {MatInputModule} from '@angular/material/input';
         MatSnackBarModule,
         MatFormFieldModule,
         MatInputModule,
+    ],
+    providers: [
+        AuthInterceptor,
+        API_INTERCEPTOR_PROVIDER,
     ]
 })
 

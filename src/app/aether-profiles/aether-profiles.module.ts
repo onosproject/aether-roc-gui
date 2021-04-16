@@ -34,6 +34,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { QosProfileEditComponent } from './qos-profile-edit/qos-profile-edit.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
+import { UpProfileEditComponent } from './up-profile-edit/up-profile-edit.component';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import {MatSelectModule} from '@angular/material/select';
         AccessProfileEditComponent,
         ApnProfileEditComponent,
         QosProfileEditComponent,
+        UpProfileEditComponent,
     ],
     imports: [
         CommonModule,
@@ -62,6 +64,7 @@ import {MatSelectModule} from '@angular/material/select';
             {path: 'qosprofile-edit/:id', component: QosProfileEditComponent},
 
             {path: 'upprofiles', component: UpProfilesComponent},
+            {path: 'upprofile-edit/:id', component: UpProfileEditComponent},
 
             {path: 'securityprofiles', component: SecurityProfilesComponent},
             {path: 'securityprofile-edit/:id', component: SecurityProfileEditComponent},

@@ -22,6 +22,17 @@
                     <mat-hint>Requested APN</mat-hint>
                 </mat-form-field>
             </div>
+            <div class="row">
+                <mat-form-field class="half-width subscriber-section">
+                    <mat-select formControlName="enterprise">
+                        <mat-option *ngFor="let ent of enterprises"
+                                    [value]="ent.id">{{ent.id}}
+                            <span *ngIf="ent['display-name']"> ({{ent['display-name']}})</span>
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Enterprise</mat-hint>
+                </mat-form-field>
+            </div>
             <div class="row subscriber-section">
                 <mat-label>IMSI selection:</mat-label>
                 <mat-radio-group aria-label="Select an option" [disabled]="!isNew">
@@ -60,7 +71,9 @@
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="apn-profile">
                         <mat-option *ngFor="let apnp of apnProfiles"
-                                    [value]="apnp.id">{{apnp.id}} {{apnp['display-name']}}</mat-option>
+                                    [value]="apnp.id">{{apnp.id}}
+                            <span *ngIf="apnp['display-name']"> ({{apnp['display-name']}})</span>
+                        </mat-option>
                     </mat-select>
                     <mat-hint>APN Profile</mat-hint>
                 </mat-form-field>
@@ -69,7 +82,9 @@
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="qos-profile">
                         <mat-option *ngFor="let qosp of qosProfiles"
-                                    [value]="qosp.id">{{qosp.id}} {{qosp['display-name']}}</mat-option>
+                                    [value]="qosp.id">{{qosp.id}}
+                            <span *ngIf="qosp['display-name']"> ({{qosp['display-name']}})</span>
+                        </mat-option>
                     </mat-select>
                     <mat-hint>QOS Profile</mat-hint>
                 </mat-form-field>
@@ -78,7 +93,9 @@
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="up-profile">
                         <mat-option *ngFor="let upp of upProfiles"
-                                    [value]="upp.id">{{upp.id}} {{upp['display-name']}}</mat-option>
+                                    [value]="upp.id">{{upp.id}}
+                            <span *ngIf="upp['display-name']"> ({{upp['display-name']}})</span>
+                        </mat-option>
                     </mat-select>
                     <mat-hint>User Plane Profile</mat-hint>
                 </mat-form-field>
@@ -87,7 +104,9 @@
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="security-profile">
                         <mat-option *ngFor="let sec of securityProfiles"
-                                    [value]="sec.id">{{sec.id}} {{sec['display-name']}}</mat-option>
+                                    [value]="sec.id">{{sec.id}}
+                            <span *ngIf="sec['display-name']"> ({{sec['display-name']}})</span>
+                        </mat-option>
                     </mat-select>
                     <mat-hint>Security Profile</mat-hint>
                 </mat-form-field>
@@ -95,14 +114,20 @@
             <div formGroupName="profiles">
                 <div formArrayName="access-profile" class="subscriber-section">
                     <mat-hint>Access Profiles</mat-hint>
+                    <mat-icon (click)="showApSelect = true" class="subscriber-pointer">add</mat-icon>
                     <div *ngFor="let apForm of accessProfileControls.controls">
                         <mat-form-field class="field-margin half-width">
                             <div [formGroup]="apForm">
                                 <input matInput formControlName="access-profile">
                                 <mat-slide-toggle
                                     formControlName="allowed">Allowed</mat-slide-toggle>
-                                <mat-icon (click)="deleteFromSelect(apForm.value['access-profile'])"
-                                          class="pad-left subscriber-pointer">delete</mat-icon>
+                                <button mat-icon-button
+                                        [disabled]="!opaService.canWrite('/subscriber/ue[id=' + id + ']/access-profile')"
+                                        (click)="deleteFromSelect(apForm.value['access-profile'])">
+                                    <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                                </button>
+                                <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Access Profile"
+                                          routerLink="/profiles/accessprofile-edit/{{apForm.value['access-profile']}}">launch</mat-icon>
                             </div>
                         </mat-form-field>
                     </div>
@@ -110,7 +135,13 @@
             </div>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="primary" type="submit">Update</button>
+            <button mat-raised-button
+                    color="primary" type="submit"
+                    [disabled]="!opaService.canWrite('/subscriber/ue[id=' + id + ']')">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>
+<aether-access-profile-select *ngIf="showApSelect && opaService.canWrite('/subscriber/ue[id=' + id + ']/access-profile')"
+                              [alreadySelectedAP]="accessProfileExisting"
+                                (closeEvent)="apSelected($event)">
+</aether-access-profile-select>

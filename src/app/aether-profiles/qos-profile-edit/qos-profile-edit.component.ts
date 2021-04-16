@@ -4,12 +4,9 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, Input, OnInit} from '@angular/core';
-import {AETHER_TARGETS} from '../../../environments/environment';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {
-    ApiService,
-    Service as AetherService,
     QosProfileQosProfileService
 } from '../../../openapi3/aether/2.1.0/services';
 import {
@@ -18,6 +15,7 @@ import {
 import {BasketService, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
+import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 @Component({
     selector: 'aether-qos-profile-edit',
@@ -75,6 +73,7 @@ export class QosProfileEditComponent extends RocEditBase<QosProfileQosProfile> i
         protected fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
+        public opaService: OpenPolicyAgentService,
     ) {
         super(snackBar, bs, route, router, 'qos-profile-2.1.0', 'qos-profile');
         super.form = this.qosForm;
