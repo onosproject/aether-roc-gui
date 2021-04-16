@@ -67,7 +67,7 @@ export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy>
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'service-rule-2.1.0', 'service-rule');
+        super(snackBar, bs, route, router, 'service-policy-2.1.0', 'service-policy');
         super.form = this.policyForm;
         super.loadFunc = this.loadServicePolicyServicePolicy;
         this.policyForm.get(['ambr', 'uplink'])[TYPE] = 'number';

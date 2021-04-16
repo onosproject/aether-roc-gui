@@ -86,6 +86,16 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         super(snackBar, bs, route, router, 'service-rule-2.1.0', 'service-rule');
         super.form = this.ruleForm;
         super.loadFunc = this.loadServiceRuleServiceRule;
+        this.ruleForm.get(['qos', 'guaranteed-bitrate', 'downlink'])[TYPE] = 'number';
+        this.ruleForm.get(['qos', 'guaranteed-bitrate', 'uplink'])[TYPE] = 'number';
+        this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'downlink'])[TYPE] = 'number';
+        this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'uplink'])[TYPE] = 'number';
+        this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'downlink'])[TYPE] = 'number';
+        this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'uplink'])[TYPE] = 'number';
+        this.ruleForm.get(['qos', 'qci'])[TYPE] = 'number';
+        this.ruleForm.get(['qos', 'arp', 'priority'])[TYPE] = 'number';
+        this.ruleForm.get(['qos', 'arp', 'preemption-capability'])[TYPE] = 'boolean';
+        this.ruleForm.get(['qos', 'arp', 'preemption-vulnerability'])[TYPE] = 'boolean';
     }
 
     ngOnInit(): void {
