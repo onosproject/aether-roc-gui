@@ -27,13 +27,16 @@
             </div>
             <div formArrayName="service-policies" class="subscriber-section">
                 <mat-hint>Policies</mat-hint>
+                <mat-icon class="subscriber-pointer">add</mat-icon>
                 <div *ngFor="let policyForm of policyServices.controls; index as i">
                     <mat-form-field class="field-margin half-width">
                         <div [formGroup]="policyForm" >
                             <input matInput formControlName="service-policy" readonly>
-                            On-demand <mat-slide-toggle formControlName="enabled">Default</mat-slide-toggle>
-                            <mat-icon (click)="deleteFromSelect(policyForm.value['service-policies'])"
+                            On-demand <mat-slide-toggle formControlName="kind">Default</mat-slide-toggle>
+                            <mat-icon (click)="deleteFromSelect(policyForm.value['service-policy'])"
                                       class="pad-left subscriber-pointer">delete</mat-icon>
+                            <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Connectivity Service"
+                                      routerLink="/services/servicepolicy-edit/{{policyForm.value['service-policy']}}">launch</mat-icon>
                         </div>
                     </mat-form-field>
                 </div>

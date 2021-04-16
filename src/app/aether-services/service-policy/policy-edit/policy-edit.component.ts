@@ -22,6 +22,7 @@ import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
 })
 export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy> implements OnInit {
     data: ServicePolicyServicePolicy;
+    showConnectDisplay: boolean = false;
 
     policyForm = this.fb.group({
         id: ['', Validators.compose([
@@ -73,7 +74,7 @@ export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy>
         this.policyForm.get(['ambr', 'downlink'])[TYPE] = 'number';
         this.policyForm.get(['qci'])[TYPE] = 'number';
         this.policyForm.get(['arp'])[TYPE] = 'number';
-        this.policyForm.get(['rules'])[IDATTRIBS] = ['rules'];
+        this.policyForm.get(['rules'])[IDATTRIBS] = ['rule'];
     }
     get rulesServices(): FormArray {
         return this.policyForm.get('rules') as FormArray;
@@ -98,27 +99,27 @@ export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy>
                 this.policyForm.get('description').setValue(value.description);
                 for (const eachRule of value.rules) {
                     const ruleFormControl = this.fb.control(eachRule.rule);
-                    const allowedControl = this.fb.control(eachRule.enabled);
-                    allowedControl[TYPE] = 'boolean';
+                    const enabledControl = this.fb.control(eachRule.enabled);
+                    enabledControl[TYPE] = 'boolean';
                     (this.policyForm.get(['rules']) as FormArray).push(this.fb.group({
-                        rules: ruleFormControl,
-                        enabled: allowedControl,
+                        rule: ruleFormControl,
+                        enabled: enabledControl,
                     }));
                 }
             }),
             error => {
-                console.warn('Error getting QosProfileQosProfile(s) for ', target, error);
+                console.warn('Error getting ServicePolicyServicePolicy(s) for ', target, error);
             },
             () => {
-                console.log('Finished loading QosProfileQosProfile(s)', target, id);
+                console.log('Finished loading ServicePolicyServicePolicy(s)', target, id);
             }
         );
     }
-    deleteFromSelect(rules: FormControl): void {
-        this.bs.deleteIndexedEntry('/service-policy-2.1.0/ue[id=' + this.id +
-            ']/rules[rule=' + rules + ']', 'rule');
+    deleteFromSelect(rule: FormControl): void {
+        this.bs.deleteIndexedEntry('/service-policy-2.1.0/service-policy[id=' + this.id +
+            ']/rules[rule=' + rule + ']', 'rule');
         const index = (this.policyForm.get(['rules']) as FormArray)
-            .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === rules);
+            .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === rule);
         (this.policyForm.get(['rules']) as FormArray).removeAt(index);
     }
 }

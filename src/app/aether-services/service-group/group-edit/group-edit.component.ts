@@ -49,10 +49,10 @@ export class GroupEditComponent extends RocEditBase<ServiceGroupServiceGroup> im
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'service-rule-2.1.0', 'service-rule');
+        super(snackBar, bs, route, router, 'service-group-2.1.0', 'service-group');
         super.form = this.groupForm;
-        super.loadFunc = this.loadServicePolicyServicePolicy;
-        this.groupForm.get(['service-policies'])[IDATTRIBS] = ['service-policies'];
+        super.loadFunc = this.loadServiceGroupServiceGroup;
+        this.groupForm.get(['service-policies'])[IDATTRIBS] = ['service-policy'];
     }
     get policyServices(): FormArray {
         return this.groupForm.get('service-policies') as FormArray;
@@ -62,7 +62,7 @@ export class GroupEditComponent extends RocEditBase<ServiceGroupServiceGroup> im
         super.init();
     }
 
-    loadServicePolicyServicePolicy(target: string, id: string): void {
+    loadServiceGroupServiceGroup(target: string, id: string): void {
         this.serviceGroupServiceGroupService.getServiceGroupServiceGroup({
             target,
             id
@@ -74,23 +74,23 @@ export class GroupEditComponent extends RocEditBase<ServiceGroupServiceGroup> im
                 for (const eachPolicy of value['service-policies']) {
                     const policyFormControl = this.fb.control(eachPolicy['service-policy']);
                     const kindControl = this.fb.control((((eachPolicy.kind) === 'default') ? true : false));
-                    kindControl[TYPE] = 'boolean';
+                    kindControl[TYPE] = 'string';
                     (this.groupForm.get(['service-policies']) as FormArray).push(this.fb.group({
                     ['service-policy']: policyFormControl,
-                        enabled: kindControl,
+                        kind: kindControl,
                     }));
                 }
             }),
             error => {
-                console.warn('Error getting QosProfileQosProfile(s) for ', target, error);
+                console.warn('Error getting ServiceGroupServiceGroup(s) for ', target, error);
             },
             () => {
-                console.log('Finished loading QosProfileQosProfile(s)', target, id);
+                console.log('Finished loading ServiceGroupServiceGroup(s)', target, id);
             }
         );
     }
     deleteFromSelect(policy: FormControl): void {
-        this.bs.deleteIndexedEntry('/service-group-2.1.0/ue[id=' + this.id +
+        this.bs.deleteIndexedEntry('/service-group-2.1.0/service-group[id=' + this.id +
             ']/service-policies[service-policy=' + policy + ']', 'service-policy');
         const index = (this.groupForm.get(['service-policies']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === policy);
