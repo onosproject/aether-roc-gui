@@ -17,6 +17,7 @@ export const IDATTRIBS = 'idAttribs';
 export class BasketService {
     @Input() target: string = AETHER_TARGETS[0];
     apiKeyDisplay: boolean = false;
+    totalChanges = this.totalNumChanges();
     idMap = new Map();
     pathMap = new Map();
     arrayCounter: number;
@@ -36,6 +37,12 @@ export class BasketService {
                 localStorage.removeItem(p);
             });
         localStorage.setItem('/basket-delete' + path + '/' + indexName, '');
+    }
+
+    totalNumChanges(): number {
+        return Object.keys(localStorage)
+            .filter((key) =>
+                key.startsWith('/basket')).length;
     }
 
     containsDeleteEntry(path: string): boolean {
@@ -107,6 +114,8 @@ export class BasketService {
         this.profileIdPathCounter = 0;
         this.pathCounter = 0;
         this.arrayCounter = 0;
+
+        // TODO - Add change-name-100 back
 
         const patchBody = {
             'default-target': 'connectivity-service-v2',

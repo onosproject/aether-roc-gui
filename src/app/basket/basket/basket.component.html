@@ -7,6 +7,9 @@
     <mat-toolbar class="profile-toolbar">
         <p>Basket</p>
         <span class="toolbar-spacer"></span>
+<!--        <p class="small-spacing">Patch Name</p>-->
+<!--        <input matInput type="text" [(ngModel)]="patchName" (blur)="addPatchName()">-->
+        <span class="toolbar-spacer"></span>
         <button mat-raised-button color="primary" (click)="toggleDisplayDiv()">
             <mat-icon>preview</mat-icon>
         </button>
@@ -18,17 +21,20 @@
         <span class="small-spacing"></span>
         <button mat-raised-button color="primary" type="submit" aria-label="Discard basket"
                 (click)="discardAllChanges()"
-                [disabled]="!opaService.canWrite(undefined)">Discard</button>
+                [disabled]="!opaService.canWrite(undefined)">Discard
+        </button>
     </mat-toolbar>
     <table mat-table class="full-width-table" matSort aria-label="Updates" [dataSource]="data">
         <ng-container matColumnDef="displayPath">
             <th mat-header-cell *matHeaderCellDef> Path</th>
-            <td [style]="row.deleted? 'text-decoration: line-through': ''" mat-cell *matCellDef="let row">{{row.displayPath}}</td>
+            <td [style]="row.deleted? 'text-decoration: line-through': ''" mat-cell
+                *matCellDef="let row">{{row.displayPath}}</td>
         </ng-container>
 
         <ng-container matColumnDef="value">
             <th mat-header-cell *matHeaderCellDef> Value</th>
-            <td [style]="row.deleted? 'text-decoration: line-through': ''" mat-cell *matCellDef="let row">{{row.value}}</td>
+            <td [style]="row.deleted? 'text-decoration: line-through': ''" mat-cell
+                *matCellDef="let row">{{row.value}}</td>
         </ng-container>
 
         <!-- Delete Column -->
@@ -44,4 +50,7 @@
     </table>
 </div>
 
-<aether-basket-preview *ngIf="pbDisplay" (closeEvent)="pbDisplay = false"></aether-basket-preview>
+<aether-basket-preview
+    *ngIf="pbDisplay" (closeEvent)="pbDisplay = false">
+
+</aether-basket-preview>
