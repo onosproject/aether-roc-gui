@@ -9,6 +9,7 @@ import {authConfig, BASKET_SERVICE_ENABLED} from '../environments/environment';
 import {Meta} from '@angular/platform-browser';
 import {BasketService} from './basket.service';
 import {OpenPolicyAgentService} from './open-policy-agent.service';
+import {Router} from '@angular/router';
 
 export const USERNAME_ATTR = 'name';
 export const GROUPS_ATTR = 'groups';
@@ -46,7 +47,8 @@ export class AetherComponent implements OnInit {
         private oauthService: OAuthService,
         private meta: Meta,
         private bs: BasketService,
-        public opaService: OpenPolicyAgentService
+        public opaService: OpenPolicyAgentService,
+        private router: Router
     ) {
     }
 
@@ -66,6 +68,7 @@ export class AetherComponent implements OnInit {
             ).then(fulfilled => {
                 console.log('Login', fulfilled ? 'succeeded' : 'failed', this.idTokClaims);
                 this.opaService.userGroups = this.idTokClaims.groups;
+                this.router.navigate(['/subscribers']);
                 return fulfilled;
             });
         }

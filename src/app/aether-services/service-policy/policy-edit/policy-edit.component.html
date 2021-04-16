@@ -57,8 +57,11 @@
                             <input matInput formControlName="rule" readonly>
                             <mat-slide-toggle
                                 formControlName="enabled">Enabled</mat-slide-toggle>
-                            <mat-icon (click)="deleteFromSelect(rulesForm.value['rule'])"
-                                      class="pad-left subscriber-pointer">delete</mat-icon>
+                            <button mat-icon-button
+                                    [disabled]="!opaService.canWrite('/service-policy/service-policy[id=' + id + ']/rules')"
+                                    (click)="deleteFromSelect(rulesForm.value['rule'])">
+                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                            </button>
                             <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Connectivity Service"
                                       routerLink="/services/servicerule-edit/{{rulesForm.value['rule']}}">launch</mat-icon>
                         </div>

@@ -19,13 +19,15 @@ import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService} from '../../basket.service';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {RocListBase} from '../../roc-list-base';
+import {Router, RouterEvent, NavigationEnd} from '@angular/router';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'aether-subscribers',
     templateUrl: './subscribers.component.html',
     styleUrls: ['../../common-profiles.component.scss', './subscribers.component.scss']
 })
-export class SubscribersComponent extends RocListBase<SubscriberUeDataSource> implements AfterViewInit {
+export class SubscribersComponent extends RocListBase<SubscriberUeDataSource> implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<SubscriberUe>;
@@ -47,8 +49,18 @@ export class SubscribersComponent extends RocListBase<SubscriberUeDataSource> im
         private aetherService: AetherService,
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
+        private router: Router
     ) {
         super(new SubscriberUeDataSource(aetherService, basketService, AETHER_TARGETS[0]));
+    }
+
+    ngOnInit(): void {
+        // This is so we can navigate to same URL
+        this.router.events.pipe(
+            filter((event: RouterEvent) => event instanceof NavigationEnd)
+        ).subscribe(() => {
+            this.ngAfterViewInit();
+        });
     }
 
     ngAfterViewInit(): void {

@@ -73,8 +73,7 @@ export class GroupEditComponent extends RocEditBase<ServiceGroupServiceGroup> im
                 this.groupForm.get('description').setValue(value.description);
                 for (const eachPolicy of value['service-policies']) {
                     const policyFormControl = this.fb.control(eachPolicy['service-policy']);
-                    const kindControl = this.fb.control((((eachPolicy.kind) === 'default') ? true : false));
-                    kindControl[TYPE] = 'string';
+                    const kindControl = this.fb.control(eachPolicy.kind);
                     (this.groupForm.get(['service-policies']) as FormArray).push(this.fb.group({
                     ['service-policy']: policyFormControl,
                         kind: kindControl,
