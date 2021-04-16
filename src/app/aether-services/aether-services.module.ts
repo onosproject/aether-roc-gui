@@ -29,6 +29,7 @@ import { RuleComponent } from './service-rule/rule/rule.component';
 import { RuleEditComponent } from './service-rule/rule-edit/rule-edit.component';
 import { GroupComponent } from './service-group/group/group.component';
 import { GroupEditComponent } from './service-group/group-edit/group-edit.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
     declarations: [
@@ -66,7 +67,7 @@ import { GroupEditComponent } from './service-group/group-edit/group-edit.compon
         MatButtonModule,
         MatSnackBarModule,
         MatSlideToggleModule,
-
+        MatButtonToggleModule
     ],
     providers: [
         AuthInterceptor,

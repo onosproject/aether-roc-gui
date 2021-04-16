@@ -17,6 +17,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 describe('GroupEditComponent', () => {
     let component: GroupEditComponent;
@@ -39,6 +40,7 @@ describe('GroupEditComponent', () => {
                 MatButtonModule,
                 MatSnackBarModule,
                 MatSlideToggleModule,
+                MatButtonToggleModule
             ]
         })
             .compileComponents();

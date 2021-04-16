@@ -32,9 +32,15 @@
                     <mat-form-field class="field-margin half-width">
                         <div [formGroup]="policyForm" >
                             <input matInput formControlName="service-policy" readonly>
-                            On-demand <mat-slide-toggle formControlName="kind">Default</mat-slide-toggle>
-                            <mat-icon (click)="deleteFromSelect(policyForm.value['service-policy'])"
-                                      class="pad-left subscriber-pointer">delete</mat-icon>
+                            <mat-button-toggle-group name="fontStyle" aria-label="Font Style" formControlName="kind" #group="matButtonToggleGroup">
+                                <mat-button-toggle value="default">Default</mat-button-toggle>
+                                <mat-button-toggle value="on-demand">On Demand</mat-button-toggle>
+                            </mat-button-toggle-group>
+                            <button mat-icon-button
+                                    [disabled]="!opaService.canWrite('/service-group/service-group[id=' + id + ']/service-policies')"
+                                    (click)="deleteFromSelect(policyForm.value['service-policy'])">
+                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                            </button>
                             <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Connectivity Service"
                                       routerLink="/services/servicepolicy-edit/{{policyForm.value['service-policy']}}">launch</mat-icon>
                         </div>
