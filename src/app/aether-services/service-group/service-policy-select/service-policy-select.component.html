@@ -6,11 +6,11 @@
 <form [formGroup]="selectForm">
     <mat-card class="card mat-elevation-z8">
         <mat-card-header class="header">
-            <mat-card-title class="subheading-1 title">Choose Access Profile</mat-card-title>
+            <mat-card-title class="subheading-1 title">Choose Service Policy</mat-card-title>
         </mat-card-header>
         <mat-card-content class="content">
             <mat-form-field>
-                <mat-label>Access Profile</mat-label>
+                <mat-label>Service Policy</mat-label>
                 <mat-select formControlName="select-item">
                     <mat-option *ngFor="let item of this.displayList" (click)="closeCard(item.id)">
                         {{item.id}}

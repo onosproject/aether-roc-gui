@@ -5,9 +5,10 @@
 -->
 <div >
     <mat-toolbar class="profile-toolbar">
-        <p>QOS Profiles</p>
+        <p>QOS PROFILE</p>
         <span class="toolbar-spacer"></span>
-        <button mat-raised-button color="primary" type="submit" aria-label="Add QOS Profiles"
+        <button mat-raised-button color="primary" type="submit" aria-label="Add QOS Profile"
+                [disabled]="!opaService.canWrite('/qos-profile/qos-profile[id=newinstance]')"
                 routerLink="/profiles/qosprofile-edit/newinstance">Add</button>
     </mat-toolbar>
     <table mat-table class="full-width-table" matSort aria-label="Elements">

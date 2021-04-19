@@ -49,8 +49,8 @@
                 </mat-form-field>
             </div>
             <div formArrayName="rules" class="subscriber-section">
-                <mat-hint>Rules</mat-hint>
-                <mat-icon class="subscriber-pointer">add</mat-icon>
+                <mat-hint>RULES</mat-hint>
+                <mat-icon class="subscriber-pointer" (click)="showAddComponent = true">add</mat-icon>
                 <div *ngFor="let rulesForm of rulesServices.controls; index as i">
                     <mat-form-field class="field-margin half-width">
                         <div [formGroup]="rulesForm" >
@@ -75,3 +75,6 @@
         </mat-card-actions>
     </mat-card>
 </form>
+<aether-service-rule-select *ngIf="showAddComponent && opaService.canWrite('/service-policy/service-policy[id=' + id + ']')"
+    [alreadySelected]="serviceRuleExists" (closeEvent)="ruleSelected($event)">
+</aether-service-rule-select>

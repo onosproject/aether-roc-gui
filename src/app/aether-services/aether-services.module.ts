@@ -30,6 +30,9 @@ import { RuleEditComponent } from './service-rule/rule-edit/rule-edit.component'
 import { GroupComponent } from './service-group/group/group.component';
 import { GroupEditComponent } from './service-group/group-edit/group-edit.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { ServiceRuleSelectComponent } from './service-policy/service-rule-select/service-rule-select.component';
+import { ServicePolicySelectComponent } from './service-group/service-policy-select/service-policy-select.component';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
     declarations: [
@@ -38,7 +41,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
         GroupComponent,
         RuleEditComponent,
         PolicyEditComponent,
-        GroupEditComponent
+        GroupEditComponent,
+        ServiceRuleSelectComponent,
+        ServicePolicySelectComponent
     ],
     imports: [
         CommonModule,
@@ -67,7 +72,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
         MatButtonModule,
         MatSnackBarModule,
         MatSlideToggleModule,
-        MatButtonToggleModule
+        MatButtonToggleModule,
+        MatSelectModule
     ],
     providers: [
         AuthInterceptor,

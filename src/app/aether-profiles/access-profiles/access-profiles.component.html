@@ -4,7 +4,13 @@
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 <div >
-    <mat-toolbar class="profile-toolbar">Access Profiles</mat-toolbar>
+    <mat-toolbar class="profile-toolbar">
+        <p>ACCESS PROFILE</p>
+        <span class="toolbar-spacer"></span>
+        <button mat-raised-button color="primary" type="submit" aria-label="Add access-profile"
+                [disabled]="!opaService.canWrite('/access-profile/access-profile[id=newinstance]')"
+                routerLink="/profiles/accessprofile-edit/newinstance">Add</button>
+    </mat-toolbar>
     <table mat-table class="full-width-table" matSort aria-label="Elements">
         <!-- Id Column -->
         <ng-container matColumnDef="id">

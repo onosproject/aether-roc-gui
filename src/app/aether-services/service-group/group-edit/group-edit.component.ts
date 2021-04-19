@@ -23,6 +23,7 @@ import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
 })
 export class GroupEditComponent extends RocEditBase<ServiceGroupServiceGroup> implements OnInit {
     data: ServiceGroupServiceGroup;
+    showAddComponent: boolean = false;
 
     groupForm = this.fb.group({
         id: ['', Validators.compose([
@@ -56,6 +57,32 @@ export class GroupEditComponent extends RocEditBase<ServiceGroupServiceGroup> im
     }
     get policyServices(): FormArray {
         return this.groupForm.get('service-policies') as FormArray;
+    }
+
+    get serviceRuleExists(): string[] {
+        const existingList: string[] = [];
+        (this.groupForm.get(['service-policies']) as FormArray).controls.forEach((sp) => {
+            existingList.push(sp.get('service-policy').value);
+        });
+        return existingList;
+    }
+
+    ruleSelected(selected: string): void {
+        // Push into form
+        if (selected !== undefined && selected !== '') {
+            const policyFormControl = this.fb.control(selected);
+            policyFormControl.markAsTouched();
+            policyFormControl.markAsDirty();
+            const kindControl = this.fb.control('default');
+            kindControl.markAsTouched();
+            kindControl.markAsDirty();
+            (this.groupForm.get('service-policies') as FormArray).push(this.fb.group({
+                'service-policy': policyFormControl,
+                kind: kindControl,
+            }));
+            console.log('Adding new Value', selected);
+        }
+        this.showAddComponent = false;
     }
 
     ngOnInit(): void {
