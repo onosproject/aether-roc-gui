@@ -89,7 +89,11 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
         // Push into form
         if (selected !== undefined && selected !== '') {
             const csFormControl = this.fb.control(selected);
+            csFormControl.markAsTouched();
+            csFormControl.markAsDirty();
             const enabledControl = this.fb.control(false);
+            enabledControl.markAsTouched();
+            enabledControl.markAsDirty();
             enabledControl[TYPE] = 'boolean';
             (this.entForm.get('connectivity-service') as FormArray).push(this.fb.group({
                 'connectivity-service': csFormControl,

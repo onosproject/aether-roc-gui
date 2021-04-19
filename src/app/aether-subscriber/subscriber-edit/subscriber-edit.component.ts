@@ -277,7 +277,11 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
         // Push into form
         if (selected !== undefined && selected !== '') {
             const apFormControl = this.fb.control(selected);
+            apFormControl.markAsTouched();
+            apFormControl.markAsDirty();
             const allowedControl = this.fb.control(false);
+            allowedControl.markAsTouched();
+            allowedControl.markAsDirty();
             allowedControl[TYPE] = 'boolean';
             (this.subscriberUeForm.get(['profiles', 'access-profile']) as FormArray).push(this.fb.group({
                 'access-profile': apFormControl,

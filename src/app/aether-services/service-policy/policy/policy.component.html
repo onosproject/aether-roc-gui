@@ -4,7 +4,13 @@
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 <div>
-    <mat-toolbar class="profile-toolbar">SERVICE POLICY</mat-toolbar>
+    <mat-toolbar class="profile-toolbar">
+        <p>SERVICE POLICY</p>
+        <span class="toolbar-spacer"></span>
+        <button mat-raised-button color="primary" type="submit" aria-label="Add service-policy"
+                [disabled]="!opaService.canWrite('/service-policy/service-policy[id=newinstance]')"
+                routerLink="/services/servicepolicy-edit/newinstance">Add</button>
+    </mat-toolbar>
     <table mat-table class="full-width-table" matSort aria-label="Elements">
         <!-- Id Column -->
         <ng-container matColumnDef="id">
@@ -29,11 +35,11 @@
         <td mat-cell *matCellDef="let row">{{row['ambr'].uplink}}</td>
        </ng-container>
 
-    <!-- Downlink Column -->
-    <ng-container matColumnDef="downlink">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Downlink</th>
-        <td mat-cell *matCellDef="let row">{{row['ambr'].downlink}}
-    </ng-container>
+        <!-- Downlink Column -->
+        <ng-container matColumnDef="downlink">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Downlink</th>
+            <td mat-cell *matCellDef="let row">{{row['ambr'].downlink}}
+        </ng-container>
 
         <!-- Qci Column -->
         <ng-container matColumnDef="qci">

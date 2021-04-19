@@ -4,7 +4,13 @@
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 <div >
-    <mat-toolbar class="profile-toolbar">Security Profiles</mat-toolbar>
+    <mat-toolbar class="profile-toolbar">
+        <p>SECURITY PROFILE</p>
+        <span class="toolbar-spacer"></span>
+        <button mat-raised-button color="primary" type="submit" aria-label="Add security-profile"
+                [disabled]="!opaService.canWrite('/security-profile/security-profile[id=newinstance]')"
+                routerLink="/profiles/securityprofile-edit/newinstance">Add</button>
+    </mat-toolbar>
     <table mat-table class="full-width-table" matSort aria-label="Elements">
         <!-- Id Column -->
         <ng-container matColumnDef="id">

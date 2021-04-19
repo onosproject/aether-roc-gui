@@ -3,7 +3,7 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<form [formGroup]="entConnForm">
+<form [formGroup]="selectForm">
     <mat-card class="card mat-elevation-z8">
         <mat-card-header class="header">
             <mat-card-title class="subheading-1 title">Choose Connectivity-Service</mat-card-title>
@@ -11,10 +11,10 @@
         <mat-card-content class="content">
             <mat-form-field>
                 <mat-label>Connectivity Service</mat-label>
-                <mat-select formControlName="connectivity-service">
-                    <mat-option *ngFor="let con of this.displayList" (click)="closeCard(con.id)">
-                        {{con.id}}
-                        <span *ngIf="con['display-name']"> ({{con['display-name']}})</span>
+                <mat-select formControlName="select-item">
+                    <mat-option *ngFor="let item of this.displayList" (click)="closeCard(item.id)">
+                        {{item.id}}
+                        <span *ngIf="item['display-name']"> ({{item['display-name']}})</span>
                     </mat-option>
                 </mat-select>
             </mat-form-field>

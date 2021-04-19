@@ -52,6 +52,6 @@
     </mat-card>
 </form>
 <aether-connectivity-service-select *ngIf="showConnectDisplay && opaService.canWrite('/enterprise/enterprise[id=' + id + ']/connectivity-service')"
-    [alreadySelectedCS]="connectivityServiceExists"
+    [alreadySelected]="connectivityServiceExists"
     (closeEvent)="csSelected($event)">
 </aether-connectivity-service-select>

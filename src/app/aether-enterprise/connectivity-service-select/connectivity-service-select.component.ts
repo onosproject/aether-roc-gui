@@ -4,13 +4,11 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Service} from '../../../openapi3/aether/2.1.0/services/service';
-import {ApiService} from '../../../openapi3/aether/2.1.0/services/api.service';
+import {ConnectivityServiceConnectivityServiceService, Service} from '../../../openapi3/aether/2.1.0/services';
 import {FormBuilder} from '@angular/forms';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {mergeMap, pluck} from 'rxjs/operators';
-import {from} from 'rxjs';
-import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2.1.0/models';
+import {ConnectivityService, ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2.1.0/models';
+import {RocSelectBase} from '../../roc-select-base';
 
 @Component({
     selector: 'aether-connectivity-service-select',
@@ -19,44 +17,22 @@ import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2
         '../../common-panel.component.scss',
     ]
 })
-export class ConnectivityServiceSelectComponent implements OnInit {
-    target: string = AETHER_TARGETS[0];
-    @Input() alreadySelectedCS: string[] = [];
+export class ConnectivityServiceSelectComponent
+    extends RocSelectBase<ConnectivityServiceConnectivityServiceService, ConnectivityService>
+    implements OnInit {
+
+    @Input() alreadySelected: string[] = [];
     @Output() closeEvent = new EventEmitter<string>();
-    displayList: ConnectivityServiceConnectivityService[] = [];
-    entConnForm = this.fb.group({
-        'connectivity-service': ['']
-    });
 
     constructor(
-        private service: Service,
-        private aetherApiService: ApiService,
-        private fb: FormBuilder
+        protected service: Service,
+        protected fb: FormBuilder,
     ) {
-    }
-
-    loadIntoSelect(target: string): void {
-        this.service.getConnectivityService({
-            target
-        }).pipe(
-            pluck('connectivity-service'),
-            mergeMap((items: ConnectivityServiceConnectivityService[]) => from(items)),
-        ).subscribe(
-            value => {
-                const exists = this.alreadySelectedCS.indexOf(value.id);
-                if (exists === -1){
-                    this.displayList.push(value);
-                }
-            }
-        );
+        super(fb);
     }
 
     ngOnInit(): void {
-        this.loadIntoSelect(this.target);
+        super.getData(this.service.getConnectivityService({target: AETHER_TARGETS[0]}),
+            'connectivity-service');
     }
-
-    closeCard(selected: string): void {
-        this.closeEvent.emit(selected);
-    }
-
 }
