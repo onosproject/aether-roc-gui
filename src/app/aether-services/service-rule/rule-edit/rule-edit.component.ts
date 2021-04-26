@@ -25,7 +25,7 @@ import {map, startWith} from "rxjs/operators";
 })
 export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> implements OnInit {
     data: ServiceRuleServiceRule;
-    options: number[] = [ 1048576, 2097152, 5242880, 10485760, 26214400];
+    options: number[] = [ 1048576, 2097152, 5242880, 10485760, 26214400, 52428800, 104857600];
     bandwidthOptions: Observable<number[]>;
     ruleForm = this.fb.group({
         id: ['', Validators.compose([

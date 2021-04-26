@@ -137,7 +137,7 @@
         <mat-card-actions>
             <button mat-raised-button
                     color="primary" type="submit"
-                    [disabled]="!opaService.canWrite('/subscriber/ue[id=' + id + ']')">Update</button>
+                    [disabled]="!(subscriberUeForm.valid && subscriberUeForm.touched && opaService.canWrite('/subscriber/ue[id=' + id + ']'))">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>
