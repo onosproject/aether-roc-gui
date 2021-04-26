@@ -11,7 +11,9 @@ import {ServiceRuleServiceRule} from '../../../../openapi3/aether/2.1.0/models';
 import {BasketService, IDATTRIBS, TYPE} from '../../../basket.service';
 import {RocEditBase} from '../../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
+import {map, startWith} from "rxjs/operators";
 
 
 @Component({
@@ -23,6 +25,8 @@ import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
 })
 export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> implements OnInit {
     data: ServiceRuleServiceRule;
+    options: number[] = [ 1048576, 2097152, 5242880, 10485760, 26214400];
+    bandwidthOptions: Observable<number[]>;
     ruleForm = this.fb.group({
         id: ['', Validators.compose([
             Validators.minLength(1),
@@ -100,6 +104,11 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
 
     ngOnInit(): void {
         super.init();
+        this.bandwidthOptions = this.ruleForm.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => this.options)
+            );
     }
 
     get ambControls(): FormArray {
