@@ -10,6 +10,7 @@ import {PatchBody} from '../openapi3/top/level/models';
 
 export const TYPE = 'type';
 export const IDATTRIBS = 'idAttribs';
+export const ORIGINAL = 'original';
 
 @Injectable({
     providedIn: 'root'
@@ -81,27 +82,53 @@ export class BasketService {
 
             if (abstractControl.pristine === false && abstractControl.touched === true) {
                 if (abstractControl.value === '') {
+
                     const fullPath = '/basket-delete' + path;
-                    localStorage.setItem(fullPath, abstractControl.value);
+                    // localStorage.setItem(fullPath, abstractControl.value);
+                    const localStorageValue = {
+                        newValue: '',
+                        oldValue: abstractControl[ORIGINAL]
+                    };
+                    console.log('This is original value', abstractControl[ORIGINAL]);
+                    if (localStorageValue.newValue === localStorageValue.oldValue) {
+                        localStorage.removeItem(fullPath);
+                    }
+                    else {
+                        localStorage.setItem(fullPath, JSON.stringify(localStorageValue));
+                    }
                     console.log('Deleted PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
 
                 } else {
                     const fullPath = '/basket-update' + path;
 
-                    if (abstractControl[TYPE] === 'boolean') {
-                        localStorage.setItem(fullPath, 'boolean (' + abstractControl.value + ')');
-                    } else if (abstractControl[TYPE] === 'number') {
-                        localStorage.setItem(fullPath, 'number (' + abstractControl.value + ')');
-                    } else if (abstractControl[TYPE] === 'formArray') {
-                        localStorage.setItem(fullPath, 'formArray (' + abstractControl.value + ')');
-                    } else {
-                        localStorage.setItem(fullPath, abstractControl.value);
+                    const localStorageValue = {
+                        newValue: abstractControl.value,
+                        oldValue: abstractControl[ORIGINAL]
+                    };
+
+                    console.log('This is original value', abstractControl[ORIGINAL]);
+                    if (abstractControl.value !== abstractControl[ORIGINAL]) {
+                        localStorage.setItem(fullPath, JSON.stringify(localStorageValue));
                     }
-                    console.log('updated PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
+                    else {
+                        localStorage.removeItem(fullPath);
+                    }
+
+                    // if (abstractControl[TYPE] === 'boolean') {
+                    //     localStorage.setItem(fullPath, 'boolean (' + abstractControl.value + ')');
+                    // } else if (abstractControl[TYPE] === 'number') {
+                    //     localStorage.setItem(fullPath, 'number (' + abstractControl.value + ')');
+                    // } else if (abstractControl[TYPE] === 'formArray') {
+                    //     localStorage.setItem(fullPath, 'formArray (' + abstractControl.value + ')');
+                    // } else {
+                    //     localStorage.setItem(fullPath, abstractControl.value);
+                    // }
+                    // console.log('updated PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 }
 
             } else {
                 const fullPath = path;
+                console.log('This is original value', abstractControl[ORIGINAL]);
                 console.log('Unchanged PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
             }
         }
@@ -148,21 +175,7 @@ export class BasketService {
 
     recursePath(path: string[], object: object, value: string): void {
         if (path.length === 1) {
-            console.log('Leaf', path[0], object, value);
-            if (value === 'undefined' || value === '') {
-                // Ignore
-            } else if (value.includes('boolean')) {
-                if (value.includes('true')) {
-                    object[path[0]] = true;
-                } else {
-                    object[path[0]] = false;
-                }
-            } else if (value.includes('number')) {
-                const numValue = Number(value.slice(value.indexOf('(') + 1, value.indexOf(')')));
-                object[path[0]] = numValue;
-            } else {
-                object[path[0]] = value;
-            }
+            object[path[0]] = JSON.parse(value).newValue;
         } else if (path[0].includes('[')) {
 
             if (path.length < 2) {

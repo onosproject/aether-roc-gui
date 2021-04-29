@@ -19,6 +19,7 @@ import {RocEditBase} from '../../roc-edit-base';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 const TYPE = 'type';
+const ORIGINAL = 'original';
 
 @Component({
     selector: 'aether-apn-profile-edit',
@@ -27,7 +28,6 @@ const TYPE = 'type';
 })
 export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> implements OnInit {
     data: ApnProfileApnProfile;
-
     serviceGroups: Array<ServiceGroupServiceGroup>;
 
     apnForm = this.fb.group({
@@ -85,21 +85,37 @@ export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> i
         this.loadServiceGroups(this.target);
     }
 
-    loadApnProfileApnProfile(target: string, id: string): void{
+    loadApnProfileApnProfile(target: string, id: string): void {
         this.apnProfileApnProfileService.getApnProfileApnProfile({
             target,
             id,
         }).subscribe(
             (value => {
                 this.data = value;
+
                 this.apnForm.get('display-name').setValue(value['display-name']);
+                this.apnForm.get('display-name')[ORIGINAL] = value['display-name'];
+
                 this.apnForm.get('apn-name').setValue(value['apn-name']);
+                this.apnForm.get('apn-name')[ORIGINAL] = value['apn-name'];
+
                 this.apnForm.get('dns-primary').setValue(value['dns-primary']);
+                this.apnForm.get('dns-primary')[ORIGINAL] = value['dns-primary'];
+
                 this.apnForm.get('dns-secondary').setValue(value['dns-secondary']);
+                this.apnForm.get('dns-secondary')[ORIGINAL] = value['dns-secondary'];
+
                 this.apnForm.get('mtu').setValue(value.mtu);
+                this.apnForm.get('mtu')[ORIGINAL] = value.mtu;
+
                 this.apnForm.get('gx-enabled').setValue(value['gx-enabled']);
+                this.apnForm.get('gx-enabled')[ORIGINAL] = value['gx-enabled'];
+
                 this.apnForm.get('description').setValue(value.description);
+                this.apnForm.get('description')[ORIGINAL] = value.description;
+
                 this.apnForm.get('service-group').setValue(value['service-group']);
+                this.apnForm.get('service-group')[ORIGINAL] = value['service-group'];
             }),
             error => {
                 console.warn('Error getting ApnProfileApnProfile(s) for ', target, error);

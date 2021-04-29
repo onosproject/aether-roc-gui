@@ -31,10 +31,16 @@
                 *matCellDef="let row">{{row.displayPath}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="value">
-            <th mat-header-cell *matHeaderCellDef> Value</th>
+        <ng-container matColumnDef="oldChangeValue">
+            <th mat-header-cell *matHeaderCellDef> Old Value</th>
             <td [style]="row.deleted? 'text-decoration: line-through': ''" mat-cell
-                *matCellDef="let row">{{row.value}}</td>
+                *matCellDef="let row">{{row.oldChangeValue}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="newChangeValue">
+            <th mat-header-cell *matHeaderCellDef> New Value</th>
+            <td [style]="row.deleted? 'text-decoration: line-through': ''" mat-cell
+                *matCellDef="let row">{{row.newChangeValue}}</td>
         </ng-container>
 
         <!-- Delete Column -->
