@@ -35,6 +35,7 @@ import { QosProfileEditComponent } from './qos-profile-edit/qos-profile-edit.com
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
 import { UpProfileEditComponent } from './up-profile-edit/up-profile-edit.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
     declarations: [
@@ -86,6 +87,7 @@ import { UpProfileEditComponent } from './up-profile-edit/up-profile-edit.compon
         MatSlideToggleModule,
         MatCheckboxModule,
         MatSelectModule,
+        MatAutocompleteModule
     ],
     providers: [
         AuthInterceptor,

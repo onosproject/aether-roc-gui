@@ -15,7 +15,9 @@ import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
 import {map, startWith} from "rxjs/operators";
 
-
+export interface Bandwidths {
+    megabyte : {numerical: number, inMb: string};
+}
 @Component({
     selector: 'aether-rule-edit',
     templateUrl: './rule-edit.component.html',
@@ -25,8 +27,18 @@ import {map, startWith} from "rxjs/operators";
 })
 export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> implements OnInit {
     data: ServiceRuleServiceRule;
-    options: number[] = [ 1048576, 2097152, 5242880, 10485760, 26214400, 52428800, 104857600];
-    bandwidthOptions: Observable<number[]>;
+    options: Bandwidths[] = [
+        {megabyte : {numerical : 1048576, inMb:'1Mb'}},
+        {megabyte : {numerical : 2097152, inMb:'2Mb'}},
+        {megabyte : {numerical : 5242880, inMb:'5Mb'}},
+        {megabyte : {numerical : 1048576, inMb:'10Mb'}},
+        {megabyte : {numerical : 26214400, inMb:'25Mb'}},
+        {megabyte : {numerical : 52428800, inMb:'50Mb'}},
+        {megabyte : {numerical: 104857600, inMb:'100Mb'}},
+        {megabyte : {numerical: 524288000, inMb:'500Mb'}}
+
+    ]
+    bandwidthOptions: Observable<Bandwidths[]>;
     ruleForm = this.fb.group({
         id: ['', Validators.compose([
             Validators.minLength(1),
@@ -107,7 +119,8 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         this.bandwidthOptions = this.ruleForm.valueChanges
             .pipe(
                 startWith(''),
-                map(value => this.options)
+                map(value => typeof value === 'number' ? value : value.megabyte),
+                map(megabyte => megabyte ? this._filter(megabyte) : this.options.slice())
             );
     }
 
@@ -117,6 +130,10 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
 
     get gbControls(): FormArray {
         return this.ruleForm.get(['qos', 'guaranteed-bitrate']) as FormArray;
+    }
+    private _filter(bandwidthIndex: number): Bandwidths[] {
+        const filterValue = bandwidthIndex;
+        return this.options.filter(option => option.megabyte.numerical);
     }
 
     loadServiceRuleServiceRule(target: string, id: string): void {

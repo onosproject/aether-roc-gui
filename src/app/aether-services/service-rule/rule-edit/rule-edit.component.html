@@ -39,9 +39,10 @@
                     <td>
                         <mat-form-field class="field-margin">
                             <input matInput type="number" [matAutocomplete]="auto" formControlName="uplink">
-                            <mat-autocomplete #auto="matAutocomplete" >
-                            <mat-option *ngFor="let option of bandwidthOptions | async" [value]="option">
-                                {{option}}
+                            <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of bandwidthOptions | async" [value]="option.megabyte.numerical">
+                                {{option.megabyte.numerical}}
+                                {{option.megabyte.inMb}}
                             </mat-option>
                             </mat-autocomplete>
                             <mat-hint>Uplink (0..4294967295)</mat-hint>
