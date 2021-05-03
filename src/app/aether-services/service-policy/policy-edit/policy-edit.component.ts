@@ -12,9 +12,10 @@ import {BasketService, IDATTRIBS, TYPE} from '../../../basket.service';
 import {RocEditBase} from '../../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
-import {Observable} from "rxjs";
-import {Bandwidths} from "../../service-rule/rule-edit/rule-edit.component";
-import {map, startWith} from "rxjs/operators";
+import {Observable} from 'rxjs';
+import {Bandwidths} from '../../service-rule/rule-edit/rule-edit.component';
+import {map, startWith} from 'rxjs/operators';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @Component({
     selector: 'aether-policy-edit',
@@ -26,16 +27,15 @@ import {map, startWith} from "rxjs/operators";
 export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy> implements OnInit {
     data: ServicePolicyServicePolicy;
     options: Bandwidths[] = [
-        {megabyte : {numerical : 1048576, inMb:'1Mb'}},
-        {megabyte : {numerical : 2097152, inMb:'2Mb'}},
-        {megabyte : {numerical : 5242880, inMb:'5Mb'}},
-        {megabyte : {numerical : 1048576, inMb:'10Mb'}},
-        {megabyte : {numerical : 26214400, inMb:'25Mb'}},
-        {megabyte : {numerical : 52428800, inMb:'50Mb'}},
-        {megabyte : {numerical: 104857600, inMb:'100Mb'}},
-        {megabyte : {numerical: 524288000, inMb:'500Mb'}}
-
-    ]
+        { megabyte : { numerical : 1048576, inMb: '1Mb'} },
+        { megabyte : { numerical : 2097152, inMb: '2Mb'} },
+        { megabyte : { numerical : 5242880, inMb: '5Mb'} },
+        { megabyte : { numerical : 1048576, inMb: '10Mb'} },
+        { megabyte : { numerical : 26214400, inMb: '25Mb'} },
+        { megabyte : { numerical : 52428800, inMb: '50Mb'} },
+        { megabyte : { numerical: 104857600, inMb: '100Mb'} },
+        { megabyte : { numerical: 524288000, inMb: '500Mb'}}
+    ];
     bandwidthOptions: Observable<Bandwidths[]>;
     showAddComponent: boolean = false;
 
