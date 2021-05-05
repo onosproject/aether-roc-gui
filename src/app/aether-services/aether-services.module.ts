@@ -33,6 +33,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { ServiceRuleSelectComponent } from './service-policy/service-rule-select/service-rule-select.component';
 import { ServicePolicySelectComponent } from './service-group/service-policy-select/service-policy-select.component';
 import {MatSelectModule} from '@angular/material/select';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
     declarations: [
@@ -73,7 +74,8 @@ import {MatSelectModule} from '@angular/material/select';
         MatSnackBarModule,
         MatSlideToggleModule,
         MatButtonToggleModule,
-        MatSelectModule
+        MatSelectModule,
+        MatAutocompleteModule
     ],
     providers: [
         AuthInterceptor,

@@ -11,10 +11,16 @@ import {ServiceRuleServiceRule} from '../../../../openapi3/aether/2.1.0/models';
 import {BasketService, IDATTRIBS, TYPE} from '../../../basket.service';
 import {RocEditBase} from '../../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
-
+import {map, startWith} from 'rxjs/operators';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 const ORIGINAL = 'original';
+
+export interface Bandwidths {
+    megabyte: { numerical: number, inMb: string};
+}
 
 @Component({
     selector: 'aether-rule-edit',
@@ -25,6 +31,17 @@ const ORIGINAL = 'original';
 })
 export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> implements OnInit {
     data: ServiceRuleServiceRule;
+    options: Bandwidths[] = [
+        { megabyte : { numerical : 1048576, inMb: '1Mb'} },
+        { megabyte : { numerical : 2097152, inMb: '2Mb'} },
+        { megabyte : { numerical : 5242880, inMb: '5Mb'} },
+        { megabyte : { numerical : 1048576, inMb: '10Mb'} },
+        { megabyte : { numerical : 26214400, inMb: '25Mb'} },
+        { megabyte : { numerical : 52428800, inMb: '50Mb'} },
+        { megabyte : { numerical: 104857600, inMb: '100Mb'} },
+        { megabyte : { numerical: 524288000, inMb: '500Mb'}}
+    ];
+    bandwidthOptions: Observable<Bandwidths[]>;
     ruleForm = this.fb.group({
         id: ['', Validators.compose([
             Validators.minLength(1),
@@ -102,6 +119,12 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
 
     ngOnInit(): void {
         super.init();
+        this.bandwidthOptions = this.ruleForm.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => typeof value === 'number' ? value : value.megabyte),
+                map(megabyte => megabyte ? this._filter(megabyte) : this.options.slice())
+            );
     }
 
     get ambControls(): FormArray {
@@ -110,6 +133,10 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
 
     get gbControls(): FormArray {
         return this.ruleForm.get(['qos', 'guaranteed-bitrate']) as FormArray;
+    }
+    private _filter(bandwidthIndex: number): Bandwidths[] {
+        const filterValue = bandwidthIndex;
+        return this.options.filter(option => option.megabyte.numerical);
     }
 
     loadServiceRuleServiceRule(target: string, id: string): void {
