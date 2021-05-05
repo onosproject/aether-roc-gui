@@ -14,6 +14,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {UpProfileUpProfileService} from '../../../openapi3/aether/2.1.0/services/up-profile-up-profile.service';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
+const ORIGINAL = 'original';
+
 @Component({
     selector: 'aether-up-profile-edit',
     templateUrl: './up-profile-edit.component.html',
@@ -71,9 +73,16 @@ export class UpProfileEditComponent extends RocEditBase<UpProfileUpProfile> impl
             (value => {
                 this.data = value;
                 this.upForm.get('display-name').setValue(value['display-name']);
+                this.upForm.get('display-name')[ORIGINAL] = value['display-name'];
+
                 this.upForm.get('description').setValue(value.description);
+                this.upForm.get('description')[ORIGINAL] = value.description;
+
                 this.upForm.get('user-plane').setValue(value['user-plane']);
+                this.upForm.get('user-plane')[ORIGINAL] = value['user-plane'];
+
                 this.upForm.get('access-control').setValue(value['access-control']);
+                this.upForm.get('access-control')[ORIGINAL] = value['access-control'];
             }),
             error => {
                 console.warn('Error getting UpProfileUpProfile(s) for ', target, error);

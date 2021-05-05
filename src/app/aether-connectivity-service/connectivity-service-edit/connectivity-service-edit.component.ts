@@ -8,10 +8,12 @@ import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2
 import {RocEditBase} from '../../roc-edit-base';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BasketService} from '../../basket.service';
+import {BasketService, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ConnectivityServiceConnectivityServiceService} from '../../../openapi3/aether/2.1.0/services';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+
+const ORIGINAL = 'original';
 
 @Component({
     selector: 'aether-connectivity-service-edit',
@@ -74,10 +76,19 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
             (value => {
                 this.data = value;
                 this.csForm.get('display-name').setValue(value['display-name']);
+                this.csForm.get('display-name')[ORIGINAL] = value['display-name'];
+
                 this.csForm.get('description').setValue(value.description);
+                this.csForm.get('description')[ORIGINAL] = value.description;
+
                 this.csForm.get('spgwc-endpoint').setValue(value['spgwc-endpoint']);
+                this.csForm.get('spgwc-endpoint')[ORIGINAL] = value['spgwc-endpoint'];
+
                 this.csForm.get('hss-endpoint').setValue(value['hss-endpoint']);
+                this.csForm.get('hss-endpoint')[ORIGINAL] = value['hss-endpoint'];
+
                 this.csForm.get('pcrf-endpoint').setValue(value['pcrf-endpoint']);
+                this.csForm.get('pcrf-endpoint')[ORIGINAL] = value['pcrf-endpoint'];
             }),
             error => {
                 console.warn('Error getting ConnectivityServiceConnectivityService(s) for ', target, error);

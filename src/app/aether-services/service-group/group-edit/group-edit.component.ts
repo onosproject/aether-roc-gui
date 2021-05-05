@@ -13,6 +13,7 @@ import {RocEditBase} from '../../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
 
+const ORIGINAL = 'original';
 
 @Component({
     selector: 'aether-group-edit',
@@ -97,10 +98,17 @@ export class GroupEditComponent extends RocEditBase<ServiceGroupServiceGroup> im
             (value => {
                 this.data = value;
                 this.groupForm.get('display-name').setValue(value['display-name']);
+                this.groupForm.get('display-name')[ORIGINAL] = value['display-name'];
+
                 this.groupForm.get('description').setValue(value.description);
+                this.groupForm.get('description')[ORIGINAL] = value.description;
+
                 for (const eachPolicy of value['service-policies']) {
                     const policyFormControl = this.fb.control(eachPolicy['service-policy']);
+                    policyFormControl[ORIGINAL] = eachPolicy['service-policy'];
                     const kindControl = this.fb.control(eachPolicy.kind);
+                    kindControl[ORIGINAL] = eachPolicy.kind;
+
                     (this.groupForm.get(['service-policies']) as FormArray).push(this.fb.group({
                     ['service-policy']: policyFormControl,
                         kind: kindControl,

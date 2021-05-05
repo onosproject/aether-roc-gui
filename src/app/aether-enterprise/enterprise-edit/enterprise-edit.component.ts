@@ -17,6 +17,8 @@ import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
+const ORIGINAL = 'original';
+
 interface ConnectivityServiceRow {
     id: string;
     enabled: boolean;

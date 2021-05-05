@@ -13,6 +13,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
+const ORIGINAL = 'original';
+
 @Component({
     selector: 'aether-access-profile-edit',
     templateUrl: './access-profile-edit.component.html',
@@ -71,9 +73,16 @@ export class AccessProfileEditComponent extends RocEditBase<AccessProfileAccessP
             (value => {
                 this.data = value;
                 this.accForm.get('display-name').setValue(value['display-name']);
+                this.accForm.get('display-name')[ORIGINAL] = value['display-name'];
+
                 this.accForm.get('type').setValue(value.type);
+                this.accForm.get('type')[ORIGINAL] = value.type;
+
                 this.accForm.get('filter').setValue(value.filter);
+                this.accForm.get('filter')[ORIGINAL] = value.filter;
+
                 this.accForm.get('description').setValue(value.description);
+                this.accForm.get('description')[ORIGINAL] = value.description;
             }),
             error => {
                 console.warn('Error getting AccessProfileAccessProfile(s) for ', target, error);

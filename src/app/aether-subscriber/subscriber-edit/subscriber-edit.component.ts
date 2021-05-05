@@ -25,6 +25,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
+const ORIGINAL = 'original';
+
 @Component({
     selector: 'aether-subscriber-edit',
     templateUrl: './subscriber-edit.component.html',
@@ -128,24 +130,55 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
             (value => {
                 this.data = value;
                 this.subscriberUeForm.get('priority').setValue(value.priority);
+                this.subscriberUeForm.get('priority')[ORIGINAL] = value.priority;
+
                 this.subscriberUeForm.get('enabled').setValue(value.enabled);
+                this.subscriberUeForm.get('enabled')[ORIGINAL] = value.enabled;
+
                 this.subscriberUeForm.get('imsi-range-from').setValue(value['imsi-range-from']);
+                this.subscriberUeForm.get('imsi-range-from')[ORIGINAL] = value['imsi-range-from'];
+
                 this.subscriberUeForm.get('imsi-range-to').setValue(value['imsi-range-to']);
+                this.subscriberUeForm.get('imsi-range-to')[ORIGINAL] = value['imsi-range-to'];
+
                 this.imsiWildcard = value['imsi-wildcard'] !== undefined;
                 this.subscriberUeForm.get('imsi-wildcard').setValue(value['imsi-wildcard']);
+                this.subscriberUeForm.get('imsi-wildcard')[ORIGINAL] = value['imsi-wildcard'];
+
                 this.subscriberUeForm.get('requested-apn').setValue(value['requested-apn']);
+                this.subscriberUeForm.get('requested-apn')[ORIGINAL] = value['requested-apn'];
+
                 this.subscriberUeForm.get(['serving-plmn', 'mcc']).setValue(value['serving-plmn'].mcc);
+                this.subscriberUeForm.get(['serving-plmn', 'mcc'])[ORIGINAL] = value['serving-plmn'].mcc;
+
                 this.subscriberUeForm.get(['serving-plmn', 'mnc']).setValue(value['serving-plmn'].mnc);
+                this.subscriberUeForm.get(['serving-plmn', 'mnc'])[ORIGINAL] = value['serving-plmn'].mnc;
+
                 this.subscriberUeForm.get(['serving-plmn', 'tac']).setValue(value['serving-plmn'].tac);
+                this.subscriberUeForm.get(['serving-plmn', 'tac'])[ORIGINAL] = value['serving-plmn'].tac;
+
                 this.subscriberUeForm.get(['enterprise']).setValue(value.enterprise);
+                this.subscriberUeForm.get(['enterprise'])[ORIGINAL] = value.enterprise;
+
                 this.subscriberUeForm.get(['profiles', 'apn-profile']).setValue(value.profiles['apn-profile']);
+                this.subscriberUeForm.get(['profiles', 'apn-profile'])[ORIGINAL] = value.profiles['apn-profile'];
+
                 this.subscriberUeForm.get(['profiles', 'qos-profile']).setValue(value.profiles['qos-profile']);
+                this.subscriberUeForm.get(['profiles', 'qos-profile'])[ORIGINAL] = value.profiles['qos-profile'];
+
                 this.subscriberUeForm.get(['profiles', 'up-profile']).setValue(value.profiles['up-profile']);
+                this.subscriberUeForm.get(['profiles', 'up-profile'])[ORIGINAL] = value.profiles['up-profile'];
+
                 this.subscriberUeForm.get(['profiles', 'security-profile']).setValue(value.profiles['security-profile']);
+                this.subscriberUeForm.get(['profiles', 'security-profile'])[ORIGINAL] = value.profiles['security-profile'];
+
                 for (const ap of value.profiles['access-profile']) {
                     const apFormControl = this.fb.control(ap['access-profile']);
+                    apFormControl[ORIGINAL] = ap['access-profile'];
                     const allowedControl = this.fb.control(ap.allowed);
+                    allowedControl[ORIGINAL] = ap.allowed;
                     allowedControl[TYPE] = 'boolean';
+
                     (this.subscriberUeForm.get(['profiles', 'access-profile']) as FormArray).push(this.fb.group({
                         'access-profile': apFormControl,
                         allowed: allowedControl,

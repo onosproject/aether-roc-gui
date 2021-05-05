@@ -12,6 +12,11 @@ export const TYPE = 'type';
 export const IDATTRIBS = 'idAttribs';
 export const ORIGINAL = 'original';
 
+export interface BasketValue {
+    oldValue: any;
+    newValue: any;
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -85,16 +90,17 @@ export class BasketService {
 
                     const fullPath = '/basket-delete' + path;
                     // localStorage.setItem(fullPath, abstractControl.value);
+
                     const localStorageValue = {
-                        newValue: '',
+                        newValue: 'null',
                         oldValue: abstractControl[ORIGINAL]
                     };
+
                     console.log('This is original value', abstractControl[ORIGINAL]);
                     if (localStorageValue.newValue === localStorageValue.oldValue) {
                         localStorage.removeItem(fullPath);
-                    }
-                    else {
-                        localStorage.setItem(fullPath, JSON.stringify(localStorageValue));
+                    } else {
+                        localStorage.setItem(fullPath, JSON.stringify(localStorageValue).toString());
                     }
                     console.log('Deleted PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
 
@@ -108,9 +114,8 @@ export class BasketService {
 
                     console.log('This is original value', abstractControl[ORIGINAL]);
                     if (abstractControl.value !== abstractControl[ORIGINAL]) {
-                        localStorage.setItem(fullPath, JSON.stringify(localStorageValue));
-                    }
-                    else {
+                        localStorage.setItem(fullPath, JSON.stringify(localStorageValue).toString());
+                    } else {
                         localStorage.removeItem(fullPath);
                     }
 
@@ -158,7 +163,7 @@ export class BasketService {
             .filter(updateKey => updateKey.startsWith('/basket-update'))
             .forEach((updateKey) => {
                 const updatePathParts: string[] = updateKey.split('/');
-                const updateValue: string = localStorage.getItem(updateKey);
+                const updateValue: BasketValue = JSON.parse(localStorage.getItem(updateKey));
                 this.recursePath(updatePathParts.slice(2), patchBody.Updates, updateValue);
             });
 
@@ -166,16 +171,21 @@ export class BasketService {
             .filter(deleteKey => deleteKey.startsWith('/basket-delete'))
             .forEach((deleteKey) => {
                 const deletePathParts: string[] = deleteKey.split('/');
-                const deleteValue = localStorage.getItem(deleteKey);
+                const deleteValue: BasketValue = JSON.parse(localStorage.getItem(deleteKey));
                 this.recursePath(deletePathParts.slice(2), patchBody.Deletes, deleteValue);
             });
 
         return patchBody as PatchBody;
     }
 
-    recursePath(path: string[], object: object, value: string): void {
+    recursePath(path: string[], object: object, value: BasketValue): void {
         if (path.length === 1) {
-            object[path[0]] = JSON.parse(value).newValue;
+            if (value.newValue === 'null') {
+                object[path[0]] = '';
+            } else {
+                object[path[0]] = value.newValue;
+            }
+
         } else if (path[0].includes('[')) {
 
             if (path.length < 2) {

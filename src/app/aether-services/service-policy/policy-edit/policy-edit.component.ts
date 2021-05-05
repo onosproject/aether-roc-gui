@@ -13,6 +13,8 @@ import {RocEditBase} from '../../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
 
+const ORIGINAL = 'original';
+
 @Component({
     selector: 'aether-policy-edit',
     templateUrl: './policy-edit.component.html',
@@ -119,14 +121,30 @@ export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy>
             (value => {
                 this.data = value;
                 this.policyForm.get('display-name').setValue(value['display-name']);
+                this.policyForm.get('display-name')[ORIGINAL] = value['display-name'];
+
                 this.policyForm.get(['ambr', 'uplink']).setValue(value.ambr.uplink);
+                this.policyForm.get(['ambr', 'uplink'])[ORIGINAL] = value.ambr.uplink;
+
                 this.policyForm.get(['ambr', 'downlink']).setValue(value.ambr.downlink);
+                this.policyForm.get(['ambr', 'downlink'])[ORIGINAL] = value.ambr.downlink;
+
                 this.policyForm.get('qci').setValue(value.qci);
+                this.policyForm.get('qci')[ORIGINAL] = value.qci;
+
                 this.policyForm.get('arp').setValue(value.arp);
+                this.policyForm.get('arp')[ORIGINAL] = value.arp;
+
                 this.policyForm.get('description').setValue(value.description);
+                this.policyForm.get('description')[ORIGINAL] = value.description;
+
                 for (const eachRule of value.rules) {
                     const ruleFormControl = this.fb.control(eachRule.rule);
+                    ruleFormControl[ORIGINAL] = eachRule.rule;
+
                     const enabledControl = this.fb.control(eachRule.enabled);
+                    enabledControl[ORIGINAL] = eachRule.enabled;
+
                     enabledControl[TYPE] = 'boolean';
                     (this.policyForm.get(['rules']) as FormArray).push(this.fb.group({
                         rule: ruleFormControl,

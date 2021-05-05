@@ -14,6 +14,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
 
 
+const ORIGINAL = 'original';
+
 @Component({
     selector: 'aether-rule-edit',
     templateUrl: './rule-edit.component.html',
@@ -118,28 +120,59 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
             (value => {
                 this.data = value;
                 this.ruleForm.get('display-name').setValue(value['display-name']);
+                this.ruleForm.get('display-name')[ORIGINAL] = value['display-name'];
+
                 const gbDownlink = value.qos['guaranteed-bitrate'].downlink;
                 const gbUplink = value.qos['guaranteed-bitrate'].uplink;
+
                 this.ruleForm.get(['qos', 'guaranteed-bitrate', 'downlink']).setValue(gbDownlink);
+                this.ruleForm.get(['qos', 'guaranteed-bitrate', 'downlink'])[ORIGINAL] = gbDownlink;
+
                 this.ruleForm.get(['qos', 'guaranteed-bitrate', 'uplink']).setValue( gbUplink);
+                this.ruleForm.get(['qos', 'guaranteed-bitrate', 'uplink'])[ORIGINAL] = gbUplink;
+
                 const ambDownlink = value.qos['aggregate-maximum-bitrate'].downlink;
                 const ambUplink = value.qos['aggregate-maximum-bitrate'].uplink;
+
                 this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'downlink']).setValue(ambDownlink);
+                this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'downlink'])[ORIGINAL] =  ambDownlink;
+
                 this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'uplink']).setValue( ambUplink);
+                this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'uplink'])[ORIGINAL] = ambUplink;
+
                 const mrbDownlink = value.qos['maximum-requested-bandwidth'].downlink;
                 const mrbUplink = value.qos['maximum-requested-bandwidth'].uplink;
+
                 this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'downlink']).setValue(mrbDownlink);
+                this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'downlink'])[ORIGINAL] = mrbDownlink;
+
                 this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'uplink']).setValue( mrbUplink);
+                this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'uplink'])[ORIGINAL] = mrbUplink;
+
                 const priority = value.qos.arp.priority;
                 const preemptionCapability = value.qos.arp['preemption-capability'];
                 const preemptionVulnerability = value.qos.arp['preemption-vulnerability'];
+
                 this.ruleForm.get(['qos', 'arp', 'priority']).setValue(priority);
+                this.ruleForm.get(['qos', 'arp', 'priority'])[ORIGINAL] = priority;
+
                 this.ruleForm.get(['qos', 'arp', 'preemption-capability']).setValue(preemptionCapability);
+                this.ruleForm.get(['qos', 'arp', 'preemption-capability'])[ORIGINAL] = preemptionCapability;
+
                 this.ruleForm.get(['qos', 'arp', 'preemption-vulnerability']).setValue(preemptionVulnerability);
+                this.ruleForm.get(['qos', 'arp', 'preemption-vulnerability'])[ORIGINAL] = preemptionVulnerability;
+
                 this.ruleForm.get(['qos', 'qci']).setValue(value.qos.qci);
+                this.ruleForm.get(['qos', 'qci'])[ORIGINAL] = value.qos.qci;
+
                 this.ruleForm.get(['flow', 'specification']).setValue(value.flow.specification);
+                this.ruleForm.get(['flow', 'specification'])[ORIGINAL] = value.flow.specification;
+
                 this.ruleForm.get('description').setValue(value.description);
+                this.ruleForm.get('description')[ORIGINAL] = value.description;
+
                 this.ruleForm.get('charging-rule-name').setValue(value['charging-rule-name']);
+                this.ruleForm.get('charging-rule-name')[ORIGINAL] = value['charging-rule-name'];
             }),
             error => {
                 console.warn('Error getting ServiceRuleServiceRule(s) for ', target, error);

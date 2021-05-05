@@ -7,7 +7,7 @@ import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from 
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {MatHeaderRow} from '@angular/material/table';
-import {BasketService} from '../../basket.service';
+import {BasketService, BasketValue} from '../../basket.service';
 import {ApiService} from '../../../openapi3/top/level/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -19,11 +19,6 @@ interface BasketRow {
     newValue: any;
     deleted: boolean;
     displayPath: string;
-}
-
-interface BasketValues {
-    oldValue: any;
-    newValue: any;
 }
 
 @Component({
@@ -69,7 +64,9 @@ export class BasketComponent implements AfterViewInit, OnInit {
         Object.keys(localStorage)
             .filter((key) => key.startsWith('/basket'))
             .forEach((key => {
-                const changeObject: BasketValues = JSON.parse(localStorage.getItem(key));
+                const valueFromLocalStorage = localStorage.getItem(key).toString();
+                console.log('processing key', key, valueFromLocalStorage);
+                const changeObject: BasketValue = JSON.parse(valueFromLocalStorage);
                 if (key.startsWith('/basket-update')) {
                     this.updateCounter = this.updateCounter + 1;
                 } else if (key.startsWith('/basket-delete')) {
