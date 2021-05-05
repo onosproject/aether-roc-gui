@@ -46,7 +46,7 @@
 
 
             <mat-card-actions>
-                <button mat-raised-button color="primary" type="submit" [disabled]="!opaService.canWrite('/enterprise/enterprise')">Update</button>
+                <button mat-raised-button color="primary" type="submit" [disabled]="!(entForm.valid && entForm.touched && opaService.canWrite('/enterprise/enterprise'))">Update</button>
             </mat-card-actions>
         </mat-card-content>
     </mat-card>

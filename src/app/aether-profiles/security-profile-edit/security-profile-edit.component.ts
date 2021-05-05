@@ -8,12 +8,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {SecurityProfileSecurityProfileService} from '../../../openapi3/aether/2.1.0/services';
 import {SecurityProfileSecurityProfile} from '../../../openapi3/aether/2.1.0/models';
-import {BasketService, TYPE} from '../../basket.service';
+import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-
-const ORIGINAL = 'original';
 
 @Component({
     selector: 'aether-security-profile-edit',

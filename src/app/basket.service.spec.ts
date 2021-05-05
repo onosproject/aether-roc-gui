@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {TestBed} from '@angular/core/testing';
-import {BasketService, IDATTRIBS, TYPE} from './basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from './basket.service';
 import {FormBuilder} from '@angular/forms';
 import arrayContaining = jasmine.arrayContaining;
 import localizeExtractLoader from '@angular-devkit/build-angular/src/extract-i18n/ivy-extract-loader';
@@ -20,10 +20,12 @@ describe('BasketService', () => {
     });
 
     it('should be created', () => {
+        localStorage.clear();
         expect(service).toBeTruthy();
     });
 
     it('should iterate through form', () => {
+        localStorage.clear();
         const testFormGroup = fb.group({
             key: [''],
             'security-profile': fb.array([
@@ -47,6 +49,7 @@ describe('BasketService', () => {
         });
 
         const keyObject = testFormGroup.get(['key']);
+        keyObject[ORIGINAL] = ['key'];
         keyObject.markAsDirty();
         keyObject.markAsTouched();
         const spArray = testFormGroup.get(['security-profile']);
@@ -54,6 +57,7 @@ describe('BasketService', () => {
         const opcObject1 = spArray.get([0, 'opc', 'array1']);
         opcObject1.get([0]).get(['attr1']).markAsTouched();
         opcObject1.get([0]).get(['attr1']).markAsDirty();
+        opcObject1[ORIGINAL] = spArray.get('attr1');
         opcObject1.get([0]).get(['id'])[TYPE] = 'number';
         opcObject1[IDATTRIBS] = ['id'];
 
@@ -61,49 +65,38 @@ describe('BasketService', () => {
         const opcObject2 = spArray.get([0, 'opc', 'array2']);
         opcObject2.get([1]).get(['attr1']).markAsTouched();
         opcObject2.get([1]).get(['attr1']).markAsDirty();
+        opcObject2[ORIGINAL] = ['attr1'];
         opcObject2[IDATTRIBS] = ['name'];
 
         service.logKeyValuePairs(testFormGroup, 'security-profile-2.1.0');
         expect(service).toBeTruthy();
 
-        // expect(localStorage.getItem('/basket-delete/security-profile-2.1.0//key')).toBeNull();
-        // expect(localStorage.getItem('/basket-update/security-profile-2.1.0/security-profile
-        // [id=ap1]/opc/array1[id=1]/attr1')).toBe('One');
-        // expect(localStorage.getItem('/basket-update/security-profile-2.1.0/security-profile
-        // [id=ap1]/opc/array2[name=n2]/attr1')).toBe('N Two');
+        expect(localStorage.getItem('/basket-delete/security-profile-2.1.0//key')).toBeNull();
+        expect(localStorage.getItem('/basket-update/security-profile-2.1.0/security-profile' +
+            '[id=ap1]/opc/array1[id=1]/attr1')).toBe('{"newValue":"One"}');
+        expect(localStorage.getItem('/basket-update/security-profile-2.1.0/security-profile' +
+            '[id=ap1]/opc/array2[name=n2]/attr1')).toBe('{"newValue":"N Two"}');
         localStorage.clear();
     });
 
     it('should produce a patchbody', () => {
-        // localStorage.clear();
-        // localStorage.setItem('/basket-update/security-profile-2.1.0/security-profile[id=id1]/opc', 'opcValue1');
-        // localStorage.setItem('/basket-update/security-profile-2.1.0/security-profile[id=id2]/opc', 'opcValue2');
-        // localStorage.setItem('/basket-update/security-profile-2.1.0/security-profile[id=id2]/id', 'id2');
-        // localStorage.setItem('/basket-update/security-profile-2.1.0/security-profile[id=id3]/key', 'keyValue2');
-        // localStorage.setItem('/basket-delete/security-profile-2.1.0/security-profile[id=id2]/desc', '');
-        // localStorage.setItem('/basket-delete/security-profile-2.1.0/security-profile[id=id2]/something', '');
-        // localStorage.setItem('/basket-update/access-profile-2.1.0/access-profile[id=id1]/opc', 'opcValue3');
-        // localStorage.setItem('/basket-update/access-profile-2.1.0/access-profile[id=id2]/soemthing', 'opcValue21');
-        // localStorage.setItem('/basket-update/access-profile-2.1.0/access-profile[id=id3]/key', 'opcValusdaa2');
-        // localStorage.setItem('/basket-update/access-profile-2.1.0/access-profile[id=ap0]/sqn', 'sqnValue1');
-        // localStorage.setItem('/basket-update/access-profile-2.1.0/access-profile[id=ap0]/opc', 'opcValue1');
-        // localStorage.setItem('/basket-update/access-profile-2.1.0/access-profile[id=ap1]/id', 'ap1');
-        // localStorage.setItem('/basket-update/access-profile-2.1.0/access-profile[id=ap1]/sqn', 'sqnValue2');
-        // localStorage.setItem('/basket-update/access-profile-2.1.0/access-profile[id=ap1]/opc', 'opcValue2');
-        // localStorage.setItem('/basket-update/access-profile-2.1.0/access-profile[id=ap1]/id', 'id2');
-        // localStorage.setItem('/basket-update/access-profile-2.1.0/access-profile[id=ap1]/New-Array[]/0/id', 'id200');
-        // localStorage.setItem('/basket-update/access-profile-2.1.0/access-profile[id=ap1]/New-Array[]/0/desc', 'text');
-        // localStorage.setItem('/basket-delete/access-profile-2.1.0/access-profile[id=ap1]/id', 'id4');
-        // localStorage.setItem('/basket-delete/access-profile-2.1.0/access-profile[id=ap1]/desc', '');
-        // localStorage.setItem('/basket-delete/access-profile-2.1.0/access-profile[id=ap5]/id', 'id5');
-        // localStorage.setItem('/basket-delete/access-profile-2.1.0/access-profile[id=ap5]/desc', '');
-        // localStorage.setItem
-        // ('/basket-delete/enterprise-2.1.0/enterprise-profile[id=id3]/
-        // connectivity-service[connectivity-service=sint]/connectivity-service', 'sint');
+        localStorage.clear();
+        localStorage.setItem('/basket-update/security-profile-2.1.0/security-profile[id=id1]/opc', '{"newValue":"opcNew1","oldValue":"opcOld1"}');
+        localStorage.setItem('/basket-update/security-profile-2.1.0/security-profile[id=id2]/opc', '{"newValue":"opcNew2","oldValue":"opcOld2"}');
+        localStorage.setItem('/basket-update/security-profile-2.1.0/security-profile[id=id2]/id', '{"newValue":"idNew2","oldValue":"idOld2"}');
+        localStorage.setItem('/basket-update/security-profile-2.1.0/security-profile[id=id3]/key', '{"newValue":"keyNew1","oldValue":"keyOld1"}');
+        localStorage.setItem('/basket-update/security-profile-2.1.0/security-profile[id=id3]/number',
+            '{"newValue": 1234,"oldValue": 5678}');
+        localStorage.setItem('/basket-update/security-profile-2.1.0/security-profile[id=id3]/boolean', '{"newValue": true,"oldValue": false}');
+        localStorage.setItem('/basket-delete/security-profile-2.1.0/security-profile[id=id2]/desc', '{"newValue":"null","oldValue":"descOld1"}');
+        localStorage.setItem('/basket-delete/security-profile-2.1.0/security-profile[id=id2]/something', '{"newValue":"null","oldValue":"somethingOld1"}');
+        localStorage.setItem
+        ('/basket-delete/enterprise-2.1.0/enterprise-profile[id=id3]/' +
+            'connectivity-service[connectivity-service=sint]/connectivity-service', '{"newValue":"sint","oldValue":"null"}');
 
-        // const testPatchBody = service.buildPatchBody();
-        // console.log('Test patch body: \n' + JSON.stringify(testPatchBody));
-        // expect(testPatchBody).toBeTruthy();
+        const testPatchBody = service.buildPatchBody();
+        console.log('Test patch body: \n' + JSON.stringify(testPatchBody));
+        expect(testPatchBody).toBeTruthy();
     });
 
     it('should add a delete entry', () => {

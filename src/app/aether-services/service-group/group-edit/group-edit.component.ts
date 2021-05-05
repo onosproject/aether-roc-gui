@@ -8,12 +8,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {ServiceGroupServiceGroupService} from '../../../../openapi3/aether/2.1.0/services';
 import {ServiceGroupServiceGroup} from '../../../../openapi3/aether/2.1.0/models';
-import {BasketService, IDATTRIBS, TYPE} from '../../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../../basket.service';
 import {RocEditBase} from '../../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
-
-const ORIGINAL = 'original';
 
 @Component({
     selector: 'aether-group-edit',

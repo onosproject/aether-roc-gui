@@ -8,12 +8,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {ServicePolicyServicePolicyService} from '../../../../openapi3/aether/2.1.0/services';
 import {ServicePolicyServicePolicy} from '../../../../openapi3/aether/2.1.0/models';
-import {BasketService, IDATTRIBS, TYPE} from '../../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../../basket.service';
 import {RocEditBase} from '../../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
-
-const ORIGINAL = 'original';
+import {Observable} from 'rxjs';
+import {Bandwidths} from '../../service-rule/rule-edit/rule-edit.component';
+import {map, startWith} from 'rxjs/operators';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @Component({
     selector: 'aether-policy-edit',
@@ -24,6 +26,17 @@ const ORIGINAL = 'original';
 })
 export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy> implements OnInit {
     data: ServicePolicyServicePolicy;
+    options: Bandwidths[] = [
+        { megabyte : { numerical : 1048576, inMb: '1Mb'} },
+        { megabyte : { numerical : 2097152, inMb: '2Mb'} },
+        { megabyte : { numerical : 5242880, inMb: '5Mb'} },
+        { megabyte : { numerical : 1048576, inMb: '10Mb'} },
+        { megabyte : { numerical : 26214400, inMb: '25Mb'} },
+        { megabyte : { numerical : 52428800, inMb: '50Mb'} },
+        { megabyte : { numerical: 104857600, inMb: '100Mb'} },
+        { megabyte : { numerical: 524288000, inMb: '500Mb'}}
+    ];
+    bandwidthOptions: Observable<Bandwidths[]>;
     showAddComponent: boolean = false;
 
     policyForm = this.fb.group({
@@ -111,6 +124,17 @@ export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy>
 
     ngOnInit(): void {
         super.init();
+        this.bandwidthOptions = this.policyForm.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => typeof value === 'number' ? value : value.megabyte),
+                map(megabyte => megabyte ? this._filter(megabyte) : this.options.slice())
+            );
+    }
+
+    private _filter(bandwidthIndex: number): Bandwidths[] {
+        const filterValue = bandwidthIndex;
+        return this.options.filter(option => option.megabyte.numerical);
     }
 
     loadServicePolicyServicePolicy(target: string, id: string): void {

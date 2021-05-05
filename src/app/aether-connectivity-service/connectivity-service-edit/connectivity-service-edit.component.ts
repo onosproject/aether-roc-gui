@@ -8,12 +8,10 @@ import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2
 import {RocEditBase} from '../../roc-edit-base';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BasketService, TYPE} from '../../basket.service';
+import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ConnectivityServiceConnectivityServiceService} from '../../../openapi3/aether/2.1.0/services';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-
-const ORIGINAL = 'original';
 
 @Component({
     selector: 'aether-connectivity-service-edit',

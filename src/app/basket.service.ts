@@ -12,9 +12,11 @@ export const TYPE = 'type';
 export const IDATTRIBS = 'idAttribs';
 export const ORIGINAL = 'original';
 
+
 export interface BasketValue {
     oldValue: any;
     newValue: any;
+    type: string;
 }
 
 @Injectable({
@@ -60,8 +62,8 @@ export class BasketService {
     }
 
     logKeyValuePairs(abstractControl: AbstractControl, parent?: string): void {
-        // Path is either '/' if undefined == true or '/' + parent if false
 
+        // Path is either '/' if undefined == true or '/' + parent if false
         const path = (parent === undefined) ? '/' : '/' + parent;
 
         if (abstractControl instanceof FormGroup) {
@@ -86,17 +88,17 @@ export class BasketService {
         } else {
 
             if (abstractControl.pristine === false && abstractControl.touched === true) {
+
                 if (abstractControl.value === '') {
 
                     const fullPath = '/basket-delete' + path;
-                    // localStorage.setItem(fullPath, abstractControl.value);
 
                     const localStorageValue = {
                         newValue: 'null',
-                        oldValue: abstractControl[ORIGINAL]
+                        oldValue: abstractControl[ORIGINAL],
+                        type: abstractControl[TYPE]
                     };
 
-                    console.log('This is original value', abstractControl[ORIGINAL]);
                     if (localStorageValue.newValue === localStorageValue.oldValue) {
                         localStorage.removeItem(fullPath);
                     } else {
@@ -109,26 +111,15 @@ export class BasketService {
 
                     const localStorageValue = {
                         newValue: abstractControl.value,
-                        oldValue: abstractControl[ORIGINAL]
+                        oldValue: abstractControl[ORIGINAL],
+                        type: abstractControl[TYPE]
                     };
 
-                    console.log('This is original value', abstractControl[ORIGINAL]);
                     if (abstractControl.value !== abstractControl[ORIGINAL]) {
                         localStorage.setItem(fullPath, JSON.stringify(localStorageValue).toString());
                     } else {
                         localStorage.removeItem(fullPath);
                     }
-
-                    // if (abstractControl[TYPE] === 'boolean') {
-                    //     localStorage.setItem(fullPath, 'boolean (' + abstractControl.value + ')');
-                    // } else if (abstractControl[TYPE] === 'number') {
-                    //     localStorage.setItem(fullPath, 'number (' + abstractControl.value + ')');
-                    // } else if (abstractControl[TYPE] === 'formArray') {
-                    //     localStorage.setItem(fullPath, 'formArray (' + abstractControl.value + ')');
-                    // } else {
-                    //     localStorage.setItem(fullPath, abstractControl.value);
-                    // }
-                    // console.log('updated PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 }
 
             } else {
@@ -179,6 +170,7 @@ export class BasketService {
     }
 
     recursePath(path: string[], object: object, value: BasketValue): void {
+
         if (path.length === 1) {
             if (value.newValue === 'null') {
                 object[path[0]] = '';

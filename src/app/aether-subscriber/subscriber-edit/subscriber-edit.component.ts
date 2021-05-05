@@ -20,12 +20,12 @@ import {
     UpProfileUpProfile,
     SecurityProfileSecurityProfile, SubscriberUe, EnterpriseEnterprise
 } from '../../../openapi3/aether/2.1.0/models';
-import {BasketService, IDATTRIBS, TYPE} from '../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
-const ORIGINAL = 'original';
+
 
 @Component({
     selector: 'aether-subscriber-edit',

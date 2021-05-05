@@ -9,12 +9,10 @@ import {RocEditBase} from '../../roc-edit-base';
 import {UpProfileUpProfile} from '../../../openapi3/aether/2.1.0/models';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BasketService, TYPE} from '../../basket.service';
+import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {UpProfileUpProfileService} from '../../../openapi3/aether/2.1.0/services/up-profile-up-profile.service';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-
-const ORIGINAL = 'original';
 
 @Component({
     selector: 'aether-up-profile-edit',

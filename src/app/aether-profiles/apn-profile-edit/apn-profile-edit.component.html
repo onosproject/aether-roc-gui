@@ -62,7 +62,7 @@
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button color="primary" type="submit"
-                    [disabled]="!opaService.canWrite('/apn-profile/apn-profile[id=' + id + ']')">Update</button>
+                    [disabled]="!(apnForm.valid && apnForm.touched && opaService.canWrite('/apn-profile/apn-profile[id=' + id + ']'))">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>
