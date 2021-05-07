@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {SecurityProfileSecurityProfileService} from '../../../openapi3/aether/2.1.0/services';
 import {SecurityProfileSecurityProfile} from '../../../openapi3/aether/2.1.0/models';
-import {BasketService, TYPE} from '../../basket.service';
+import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
@@ -72,10 +72,19 @@ export class SecurityProfileEditComponent extends RocEditBase<SecurityProfileSec
             (value => {
                 this.data = value;
                 this.spForm.get('display-name').setValue(value['display-name']);
+                this.spForm.get('display-name')[ORIGINAL] = value['display-name'];
+
                 this.spForm.get('key').setValue(value.key);
+                this.spForm.get('key')[ORIGINAL] = value.key;
+
                 this.spForm.get('opc').setValue(value.opc);
+                this.spForm.get('opc')[ORIGINAL] = value.opc;
+
                 this.spForm.get('sqn').setValue(value.sqn);
+                this.spForm.get('sqn')[ORIGINAL] = value.sqn;
+
                 this.spForm.get('description').setValue(value.description);
+                this.spForm.get('description')[ORIGINAL] = value.description;
             }),
             error => {
                 console.warn('Error getting SecurityProfileSecurityProfile(s) for ', target, error);

@@ -10,7 +10,7 @@ import {EnterpriseEnterpriseService} from '../../../openapi3/aether/2.1.0/servic
 import {
     EnterpriseEnterprise, EnterpriseEnterpriseConnectivityService
 } from '../../../openapi3/aether/2.1.0/models';
-import {BasketService, IDATTRIBS, TYPE} from '../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {RocEditBase} from '../../roc-edit-base';
@@ -116,7 +116,11 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
             (value => {
                 this.data = value;
                 this.entForm.get('display-name').setValue(value['display-name']);
+                this.entForm.get('display-name')[ORIGINAL] = value['display-name'];
+
                 this.entForm.get('description').setValue(value.description);
+                this.entForm.get('description')[ORIGINAL] = value.description;
+
                 for (const cs of value['connectivity-service']) {
                     let isDeleted = false;
                     Object.keys(localStorage)
@@ -130,7 +134,11 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
                         });
                     if (!isDeleted) {
                         const csFormControl = this.fb.control(cs['connectivity-service']);
+                        csFormControl[ORIGINAL] = cs['connectivity-service'];
+
                         const enabledControl = this.fb.control(cs.enabled);
+                        enabledControl[ORIGINAL] = cs.enabled;
+
                         enabledControl[TYPE] = 'boolean';
                         (this.entForm.get('connectivity-service') as FormArray).push(this.fb.group({
                             'connectivity-service': csFormControl,
