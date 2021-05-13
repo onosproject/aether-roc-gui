@@ -22,6 +22,8 @@ import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
 })
 export class GroupEditComponent extends RocEditBase<ServiceGroupServiceGroup> implements OnInit {
     data: ServiceGroupServiceGroup;
+    pathRoot = 'service-group-2.1.0';
+    pathListAttr = 'service-group';
     showAddComponent: boolean = false;
 
     groupForm = this.fb.group({
@@ -65,6 +67,36 @@ export class GroupEditComponent extends RocEditBase<ServiceGroupServiceGroup> im
         });
         return existingList;
     }
+    private populateFormData(value: ServiceGroupServiceGroup): void{
+        if (value['display-name']) {
+            this.groupForm.get('display-name').setValue(value['display-name']);
+        }
+        if (value.description ) {
+            this.groupForm.get('description').setValue(value.description);
+        }
+        if (value['service-policies']){
+            if (this.groupForm.value['service-policies'].length === 0) {
+                for (const eachPolicy of value['service-policies']) {
+                    const policyFormControl = this.fb.control(eachPolicy['service-policy']);
+                    const kindControl = this.fb.control(eachPolicy.kind);
+                    (this.groupForm.get(['service-policies']) as FormArray).push(this.fb.group({
+                        ['service-policy']: policyFormControl,
+                        kind: kindControl,
+                    }));
+                }
+            } else {
+                for (const eachValuePolicy of value['service-policies']) {
+                    let eachFormPolicyPosition = 0;
+                    for (const eachFormPolicy of this.groupForm.value['service-policies']){
+                        if (eachValuePolicy['service-policies'] === eachFormPolicy['service-policies']){
+                            this.groupForm.value['service-policies'][eachFormPolicyPosition].kind.patchValue(eachValuePolicy.kind);
+                        }
+                        eachFormPolicyPosition++;
+                    }
+                }
+            }
+        }
+    }
 
     ruleSelected(selected: string): void {
         // Push into form
@@ -95,28 +127,20 @@ export class GroupEditComponent extends RocEditBase<ServiceGroupServiceGroup> im
         }).subscribe(
             (value => {
                 this.data = value;
-                this.groupForm.get('display-name').setValue(value['display-name']);
-                this.groupForm.get('display-name')[ORIGINAL] = value['display-name'];
-
-                this.groupForm.get('description').setValue(value.description);
-                this.groupForm.get('description')[ORIGINAL] = value.description;
-
-                for (const eachPolicy of value['service-policies']) {
-                    const policyFormControl = this.fb.control(eachPolicy['service-policy']);
-                    policyFormControl[ORIGINAL] = eachPolicy['service-policy'];
-                    const kindControl = this.fb.control(eachPolicy.kind);
-                    kindControl[ORIGINAL] = eachPolicy.kind;
-
-                    (this.groupForm.get(['service-policies']) as FormArray).push(this.fb.group({
-                    ['service-policy']: policyFormControl,
-                        kind: kindControl,
-                    }));
-                }
+                this.populateFormData(value);
             }),
             error => {
                 console.warn('Error getting ServiceGroupServiceGroup(s) for ', target, error);
             },
             () => {
+                const basketPreview = this.bs.buildPatchBody().Updates;
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['service-group-2.1.0']) {
+                    basketPreview['service-group-2.1.0']['service-group'].forEach((basketItems) => {
+                        if (basketItems.id === id){
+                            this.populateFormData(basketItems);
+                        }
+                    });
+                }
                 console.log('Finished loading ServiceGroupServiceGroup(s)', target, id);
             }
         );
