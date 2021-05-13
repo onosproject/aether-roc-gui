@@ -12,7 +12,7 @@ import {
 import {
     QosProfileQosProfile
 } from '../../../openapi3/aether/2.1.0/models';
-import {BasketService, TYPE} from '../../basket.service';
+import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
@@ -123,13 +123,28 @@ export class QosProfileEditComponent extends RocEditBase<QosProfileQosProfile> i
             (value => {
                 this.data = value;
                 this.qosForm.get('display-name').setValue(value['display-name']);
+                this.qosForm.get('display-name')[ORIGINAL] = value['display-name'];
+
                 this.qosForm.get(['apn-ambr', 'uplink']).setValue(value['apn-ambr'].uplink);
+                this.qosForm.get(['apn-ambr', 'uplink'])[ORIGINAL] = value['apn-ambr'].uplink;
+
                 this.qosForm.get(['apn-ambr', 'downlink']).setValue(value['apn-ambr'].downlink);
+                this.qosForm.get(['apn-ambr', 'downlink'])[ORIGINAL] = value['apn-ambr'].downlink;
+
                 this.qosForm.get('qci').setValue(value.qci);
+                this.qosForm.get('qci')[ORIGINAL] = value.qci;
+
                 this.qosForm.get(['arp', 'priority']).setValue(value.arp.priority);
+                this.qosForm.get(['arp', 'priority'])[ORIGINAL] = value.arp.priority;
+
                 this.qosForm.get(['arp', 'preemption-capability']).setValue(value.arp['preemption-capability']);
+                this.qosForm.get(['arp', 'preemption-capability'])[ORIGINAL] = value.arp['preemption-capability'];
+
                 this.qosForm.get(['arp', 'preemption-vulnerability']).setValue(value.arp['preemption-vulnerability']);
+                this.qosForm.get(['arp', 'preemption-vulnerability'])[ORIGINAL] = value.arp['preemption-vulnerability'];
+
                 this.qosForm.get('description').setValue(value.description);
+                this.qosForm.get('description')[ORIGINAL] = value.description;
             }),
             error => {
                 console.warn('Error getting QosProfileQosProfile(s) for ', target, error);

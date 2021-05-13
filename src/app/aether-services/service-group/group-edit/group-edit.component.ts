@@ -8,11 +8,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {ServiceGroupServiceGroupService} from '../../../../openapi3/aether/2.1.0/services';
 import {ServiceGroupServiceGroup} from '../../../../openapi3/aether/2.1.0/models';
-import {BasketService, IDATTRIBS, TYPE} from '../../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../../basket.service';
 import {RocEditBase} from '../../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
-
 
 @Component({
     selector: 'aether-group-edit',
@@ -97,10 +96,17 @@ export class GroupEditComponent extends RocEditBase<ServiceGroupServiceGroup> im
             (value => {
                 this.data = value;
                 this.groupForm.get('display-name').setValue(value['display-name']);
+                this.groupForm.get('display-name')[ORIGINAL] = value['display-name'];
+
                 this.groupForm.get('description').setValue(value.description);
+                this.groupForm.get('description')[ORIGINAL] = value.description;
+
                 for (const eachPolicy of value['service-policies']) {
                     const policyFormControl = this.fb.control(eachPolicy['service-policy']);
+                    policyFormControl[ORIGINAL] = eachPolicy['service-policy'];
                     const kindControl = this.fb.control(eachPolicy.kind);
+                    kindControl[ORIGINAL] = eachPolicy.kind;
+
                     (this.groupForm.get(['service-policies']) as FormArray).push(this.fb.group({
                     ['service-policy']: policyFormControl,
                         kind: kindControl,

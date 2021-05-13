@@ -10,6 +10,14 @@ import {PatchBody} from '../openapi3/top/level/models';
 
 export const TYPE = 'type';
 export const IDATTRIBS = 'idAttribs';
+export const ORIGINAL = 'original';
+
+
+export interface BasketValue {
+    oldValue: any;
+    newValue: any;
+    type: string;
+}
 
 @Injectable({
     providedIn: 'root'
@@ -54,8 +62,8 @@ export class BasketService {
     }
 
     logKeyValuePairs(abstractControl: AbstractControl, parent?: string): void {
-        // Path is either '/' if undefined == true or '/' + parent if false
 
+        // Path is either '/' if undefined == true or '/' + parent if false
         const path = (parent === undefined) ? '/' : '/' + parent;
 
         if (abstractControl instanceof FormGroup) {
@@ -80,28 +88,43 @@ export class BasketService {
         } else {
 
             if (abstractControl.pristine === false && abstractControl.touched === true) {
+
                 if (abstractControl.value === '') {
+
                     const fullPath = '/basket-delete' + path;
-                    localStorage.setItem(fullPath, abstractControl.value);
+
+                    const localStorageValue = {
+                        newValue: 'null',
+                        oldValue: abstractControl[ORIGINAL],
+                        type: abstractControl[TYPE]
+                    };
+
+                    if (localStorageValue.newValue === localStorageValue.oldValue) {
+                        localStorage.removeItem(fullPath);
+                    } else {
+                        localStorage.setItem(fullPath, JSON.stringify(localStorageValue).toString());
+                    }
                     console.log('Deleted PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
 
                 } else {
                     const fullPath = '/basket-update' + path;
 
-                    if (abstractControl[TYPE] === 'boolean') {
-                        localStorage.setItem(fullPath, 'boolean (' + abstractControl.value + ')');
-                    } else if (abstractControl[TYPE] === 'number') {
-                        localStorage.setItem(fullPath, 'number (' + abstractControl.value + ')');
-                    } else if (abstractControl[TYPE] === 'formArray') {
-                        localStorage.setItem(fullPath, 'formArray (' + abstractControl.value + ')');
+                    const localStorageValue = {
+                        newValue: abstractControl.value,
+                        oldValue: abstractControl[ORIGINAL],
+                        type: abstractControl[TYPE]
+                    };
+
+                    if (abstractControl.value !== abstractControl[ORIGINAL]) {
+                        localStorage.setItem(fullPath, JSON.stringify(localStorageValue).toString());
                     } else {
-                        localStorage.setItem(fullPath, abstractControl.value);
+                        localStorage.removeItem(fullPath);
                     }
-                    console.log('updated PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
                 }
 
             } else {
                 const fullPath = path;
+                console.log('This is original value', abstractControl[ORIGINAL]);
                 console.log('Unchanged PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
             }
         }
@@ -131,7 +154,7 @@ export class BasketService {
             .filter(updateKey => updateKey.startsWith('/basket-update'))
             .forEach((updateKey) => {
                 const updatePathParts: string[] = updateKey.split('/');
-                const updateValue: string = localStorage.getItem(updateKey);
+                const updateValue: BasketValue = JSON.parse(localStorage.getItem(updateKey));
                 this.recursePath(updatePathParts.slice(2), patchBody.Updates, updateValue);
             });
 
@@ -139,30 +162,22 @@ export class BasketService {
             .filter(deleteKey => deleteKey.startsWith('/basket-delete'))
             .forEach((deleteKey) => {
                 const deletePathParts: string[] = deleteKey.split('/');
-                const deleteValue = localStorage.getItem(deleteKey);
+                const deleteValue: BasketValue = JSON.parse(localStorage.getItem(deleteKey));
                 this.recursePath(deletePathParts.slice(2), patchBody.Deletes, deleteValue);
             });
 
         return patchBody as PatchBody;
     }
 
-    recursePath(path: string[], object: object, value: string): void {
+    recursePath(path: string[], object: object, value: BasketValue): void {
+
         if (path.length === 1) {
-            console.log('Leaf', path[0], object, value);
-            if (value === 'undefined' || value === '') {
-                // Ignore
-            } else if (value.includes('boolean')) {
-                if (value.includes('true')) {
-                    object[path[0]] = true;
-                } else {
-                    object[path[0]] = false;
-                }
-            } else if (value.includes('number')) {
-                const numValue = Number(value.slice(value.indexOf('(') + 1, value.indexOf(')')));
-                object[path[0]] = numValue;
+            if (value.newValue === 'null') {
+                object[path[0]] = '';
             } else {
-                object[path[0]] = value;
+                object[path[0]] = value.newValue;
             }
+
         } else if (path[0].includes('[')) {
 
             if (path.length < 2) {

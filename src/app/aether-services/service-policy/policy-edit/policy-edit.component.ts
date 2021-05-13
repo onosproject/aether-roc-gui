@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {ServicePolicyServicePolicyService} from '../../../../openapi3/aether/2.1.0/services';
 import {ServicePolicyServicePolicy} from '../../../../openapi3/aether/2.1.0/models';
-import {BasketService, IDATTRIBS, TYPE} from '../../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../../basket.service';
 import {RocEditBase} from '../../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
@@ -145,14 +145,30 @@ export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy>
             (value => {
                 this.data = value;
                 this.policyForm.get('display-name').setValue(value['display-name']);
+                this.policyForm.get('display-name')[ORIGINAL] = value['display-name'];
+
                 this.policyForm.get(['ambr', 'uplink']).setValue(value.ambr.uplink);
+                this.policyForm.get(['ambr', 'uplink'])[ORIGINAL] = value.ambr.uplink;
+
                 this.policyForm.get(['ambr', 'downlink']).setValue(value.ambr.downlink);
+                this.policyForm.get(['ambr', 'downlink'])[ORIGINAL] = value.ambr.downlink;
+
                 this.policyForm.get('qci').setValue(value.qci);
+                this.policyForm.get('qci')[ORIGINAL] = value.qci;
+
                 this.policyForm.get('arp').setValue(value.arp);
+                this.policyForm.get('arp')[ORIGINAL] = value.arp;
+
                 this.policyForm.get('description').setValue(value.description);
+                this.policyForm.get('description')[ORIGINAL] = value.description;
+
                 for (const eachRule of value.rules) {
                     const ruleFormControl = this.fb.control(eachRule.rule);
+                    ruleFormControl[ORIGINAL] = eachRule.rule;
+
                     const enabledControl = this.fb.control(eachRule.enabled);
+                    enabledControl[ORIGINAL] = eachRule.enabled;
+
                     enabledControl[TYPE] = 'boolean';
                     (this.policyForm.get(['rules']) as FormArray).push(this.fb.group({
                         rule: ruleFormControl,

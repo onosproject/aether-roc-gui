@@ -7,7 +7,7 @@ import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from 
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {MatHeaderRow} from '@angular/material/table';
-import {BasketService} from '../../basket.service';
+import {BasketService, BasketValue} from '../../basket.service';
 import {ApiService} from '../../../openapi3/top/level/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -15,7 +15,8 @@ import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 interface BasketRow {
     path: string;
-    value: any;
+    oldValue: any;
+    newValue: any;
     deleted: boolean;
     displayPath: string;
 }
@@ -37,7 +38,8 @@ export class BasketComponent implements AfterViewInit, OnInit {
     deleteCounter = 0;
     displayedColumns = [
         'displayPath',
-        'value',
+        'oldChangeValue',
+        'newChangeValue',
         'remove'
     ];
 
@@ -62,7 +64,9 @@ export class BasketComponent implements AfterViewInit, OnInit {
         Object.keys(localStorage)
             .filter((key) => key.startsWith('/basket'))
             .forEach((key => {
-                const keyValue = localStorage.getItem(key);
+                const valueFromLocalStorage = localStorage.getItem(key).toString();
+                console.log('processing key', key, valueFromLocalStorage);
+                const changeObject: BasketValue = JSON.parse(valueFromLocalStorage);
                 if (key.startsWith('/basket-update')) {
                     this.updateCounter = this.updateCounter + 1;
                 } else if (key.startsWith('/basket-delete')) {
@@ -70,10 +74,11 @@ export class BasketComponent implements AfterViewInit, OnInit {
                 }
                 const basketRow = {
                     path: key,
-                    value: keyValue,
+                    oldChangeValue: changeObject.oldValue,
+                    newChangeValue: changeObject.newValue,
                     deleted: key.startsWith('/basket-delete'),
                     displayPath: key.slice(14)
-                } as BasketRow;
+                } as unknown as BasketRow;
                 this.data.push(basketRow);
                 console.log('processing key', basketRow);
             }));
