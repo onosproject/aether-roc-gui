@@ -20,7 +20,6 @@ import {Bandwidths} from '../../aether-services/service-rule/rule-edit/rule-edit
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
-
 @Component({
     selector: 'aether-qos-profile-edit',
     templateUrl: './qos-profile-edit.component.html',

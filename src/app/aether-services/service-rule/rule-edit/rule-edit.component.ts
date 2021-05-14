@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, InjectionToken, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ServiceRuleServiceRuleService} from '../../../../openapi3/aether/2.1.0/services';
@@ -13,13 +13,11 @@ import {RocEditBase} from '../../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
-import {map, startWith} from 'rxjs/operators';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {isEmpty, map, startWith} from 'rxjs/operators';
 
 export interface Bandwidths {
     megabyte: { numerical: number, inMb: string};
 }
-
 @Component({
     selector: 'aether-rule-edit',
     templateUrl: './rule-edit.component.html',
@@ -40,6 +38,8 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         { megabyte : { numerical: 524288000, inMb: '500Mb'}}
     ];
     bandwidthOptions: Observable<Bandwidths[]>;
+    pathRoot = 'service-rule-2.1.0';
+    pathListAttr = 'service-rule';
     ruleForm = this.fb.group({
         id: ['', Validators.compose([
             Validators.minLength(1),
@@ -98,7 +98,7 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         protected fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
-        public opaService: OpenPolicyAgentService
+        public opaService: OpenPolicyAgentService,
     ) {
         super(snackBar, bs, route, router, 'service-rule-2.1.0', 'service-rule');
         super.form = this.ruleForm;
@@ -136,6 +136,60 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         const filterValue = bandwidthIndex;
         return this.options.filter(option => option.megabyte.numerical);
     }
+    private populateFormData(value: ServiceRuleServiceRule): void{
+        if (value['display-name']) {
+            this.ruleForm.get('display-name').setValue(value['display-name']);
+        }
+        if (value.qos && value.qos['guaranteed-bitrate'].downlink) {
+            const gbDownlink = value.qos['guaranteed-bitrate'].downlink;
+            this.ruleForm.get(['qos', 'guaranteed-bitrate', 'downlink']).setValue(gbDownlink);
+        }
+        if (value.qos && value.qos['guaranteed-bitrate'].uplink) {
+            const gbUplink = value.qos['guaranteed-bitrate'].uplink;
+            this.ruleForm.get(['qos', 'guaranteed-bitrate', 'uplink']).setValue(gbUplink);
+        }
+        if (value.qos && value.qos['aggregate-maximum-bitrate'].downlink){
+            const ambDownlink = value.qos['aggregate-maximum-bitrate'].downlink;
+            this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'downlink']).setValue(ambDownlink);
+        }
+        if (value.qos && value.qos['aggregate-maximum-bitrate'].uplink) {
+            const ambUplink = value.qos['aggregate-maximum-bitrate'].uplink;
+            this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'uplink']).setValue(ambUplink);
+        }
+        if (value.qos && value.qos['maximum-requested-bandwidth'].downlink) {
+            const mrbDownlink = value.qos['maximum-requested-bandwidth'].downlink;
+            this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'downlink']).setValue(mrbDownlink);
+        }
+        if (value.qos && value.qos['maximum-requested-bandwidth'].uplink) {
+            const mrbUplink = value.qos['maximum-requested-bandwidth'].uplink;
+            this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'uplink']).setValue(mrbUplink);
+        }
+        if (value.qos && value.qos.arp && value.qos.arp.priority){
+            const priority = value.qos.arp.priority;
+            this.ruleForm.get(['qos', 'arp', 'priority']).setValue(priority);
+        }
+        if (value.qos && value.qos.arp && value.qos.arp['preemption-capability']){
+            const preemptionCapability = value.qos.arp['preemption-capability'];
+            console.log(preemptionCapability);
+            this.ruleForm.get(['qos', 'arp', 'preemption-capability']).setValue(preemptionCapability);
+        }
+        if (value.qos && value.qos.arp && value.qos.arp['preemption-vulnerability']) {
+            const preemptionVulnerability = value.qos.arp['preemption-vulnerability'];
+            this.ruleForm.get(['qos', 'arp', 'preemption-vulnerability']).setValue(preemptionVulnerability);
+        }
+        if (value.qos && value.qos.qci){
+            this.ruleForm.get(['qos', 'qci']).setValue(value.qos.qci);
+        }
+        if (value.flow && value.flow.specification) {
+            this.ruleForm.get(['flow', 'specification']).setValue(value.flow.specification);
+        }
+        if (value.description){
+            this.ruleForm.get('description').setValue(value.description);
+        }
+        if (value['charging-rule-name']){
+            this.ruleForm.get('charging-rule-name').setValue(value['charging-rule-name']);
+        }
+    }
 
     loadServiceRuleServiceRule(target: string, id: string): void {
         this.serviceRuleServiceRuleService.getServiceRuleServiceRule({
@@ -144,65 +198,20 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         }).subscribe(
             (value => {
                 this.data = value;
-                this.ruleForm.get('display-name').setValue(value['display-name']);
-                this.ruleForm.get('display-name')[ORIGINAL] = value['display-name'];
-
-                const gbDownlink = value.qos['guaranteed-bitrate'].downlink;
-                const gbUplink = value.qos['guaranteed-bitrate'].uplink;
-
-                this.ruleForm.get(['qos', 'guaranteed-bitrate', 'downlink']).setValue(gbDownlink);
-                this.ruleForm.get(['qos', 'guaranteed-bitrate', 'downlink'])[ORIGINAL] = gbDownlink;
-
-                this.ruleForm.get(['qos', 'guaranteed-bitrate', 'uplink']).setValue( gbUplink);
-                this.ruleForm.get(['qos', 'guaranteed-bitrate', 'uplink'])[ORIGINAL] = gbUplink;
-
-                const ambDownlink = value.qos['aggregate-maximum-bitrate'].downlink;
-                const ambUplink = value.qos['aggregate-maximum-bitrate'].uplink;
-
-                this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'downlink']).setValue(ambDownlink);
-                this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'downlink'])[ORIGINAL] =  ambDownlink;
-
-                this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'uplink']).setValue( ambUplink);
-                this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'uplink'])[ORIGINAL] = ambUplink;
-
-                const mrbDownlink = value.qos['maximum-requested-bandwidth'].downlink;
-                const mrbUplink = value.qos['maximum-requested-bandwidth'].uplink;
-
-                this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'downlink']).setValue(mrbDownlink);
-                this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'downlink'])[ORIGINAL] = mrbDownlink;
-
-                this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'uplink']).setValue( mrbUplink);
-                this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'uplink'])[ORIGINAL] = mrbUplink;
-
-                const priority = value.qos.arp.priority;
-                const preemptionCapability = value.qos.arp['preemption-capability'];
-                const preemptionVulnerability = value.qos.arp['preemption-vulnerability'];
-
-                this.ruleForm.get(['qos', 'arp', 'priority']).setValue(priority);
-                this.ruleForm.get(['qos', 'arp', 'priority'])[ORIGINAL] = priority;
-
-                this.ruleForm.get(['qos', 'arp', 'preemption-capability']).setValue(preemptionCapability);
-                this.ruleForm.get(['qos', 'arp', 'preemption-capability'])[ORIGINAL] = preemptionCapability;
-
-                this.ruleForm.get(['qos', 'arp', 'preemption-vulnerability']).setValue(preemptionVulnerability);
-                this.ruleForm.get(['qos', 'arp', 'preemption-vulnerability'])[ORIGINAL] = preemptionVulnerability;
-
-                this.ruleForm.get(['qos', 'qci']).setValue(value.qos.qci);
-                this.ruleForm.get(['qos', 'qci'])[ORIGINAL] = value.qos.qci;
-
-                this.ruleForm.get(['flow', 'specification']).setValue(value.flow.specification);
-                this.ruleForm.get(['flow', 'specification'])[ORIGINAL] = value.flow.specification;
-
-                this.ruleForm.get('description').setValue(value.description);
-                this.ruleForm.get('description')[ORIGINAL] = value.description;
-
-                this.ruleForm.get('charging-rule-name').setValue(value['charging-rule-name']);
-                this.ruleForm.get('charging-rule-name')[ORIGINAL] = value['charging-rule-name'];
+                this.populateFormData(value);
             }),
             error => {
                 console.warn('Error getting ServiceRuleServiceRule(s) for ', target, error);
             },
             () => {
+                const basketPreview = this.bs.buildPatchBody().Updates;
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['service-rule-2.1.0']) {
+                    basketPreview['service-rule-2.1.0']['service-rule'].forEach((basketItems) => {
+                        if (basketItems.id === id){
+                            this.populateFormData(basketItems);
+                        }
+                    });
+                }
                 console.log('Finished loading ServiceRuleServiceRule(s)', target, id);
             }
         );

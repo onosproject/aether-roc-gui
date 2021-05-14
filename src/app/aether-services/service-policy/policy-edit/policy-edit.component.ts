@@ -26,6 +26,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 })
 export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy> implements OnInit {
     data: ServicePolicyServicePolicy;
+    pathRoot = 'service-policy-2.1.0';
+    pathListAttr = 'service-policy';
     options: Bandwidths[] = [
         { megabyte : { numerical : 1048576, inMb: '1Mb'} },
         { megabyte : { numerical : 2097152, inMb: '2Mb'} },
@@ -137,6 +139,51 @@ export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy>
         return this.options.filter(option => option.megabyte.numerical);
     }
 
+    private populateFormData(value: ServicePolicyServicePolicy): void{
+        if (value['display-name']) {
+            this.policyForm.get('display-name').setValue(value['display-name']);
+        }
+        if (value.ambr && value.ambr.uplink) {
+            this.policyForm.get(['ambr', 'uplink']).setValue(value.ambr.uplink);
+        }
+        if (value.ambr && value.ambr.downlink) {
+            this.policyForm.get(['ambr', 'downlink']).setValue(value.ambr.downlink);
+        }
+        if (value.qci){
+            this.policyForm.get('qci').setValue(value.qci);
+        }
+        if (value.arp) {
+            this.policyForm.get('arp').setValue(value.arp);
+        }
+        if (value.description) {
+            this.policyForm.get('description').setValue(value.description);
+        }
+        if (value.rules){
+                if (this.policyForm.value.rules.length === 0) {
+                    for (const eachRule of value.rules) {
+                        const ruleFormControl = this.fb.control(eachRule.rule);
+                        const enabledControl = this.fb.control(eachRule.enabled);
+                        enabledControl[TYPE] = 'boolean';
+                        (this.policyForm.get(['rules']) as FormArray).push(this.fb.group({
+                            rule: ruleFormControl,
+                            enabled: enabledControl,
+                        }));
+                    }
+                } else {
+                    for (const eachValueRule of value.rules) {
+                        let eachFormRulePosition = 0;
+                        for (const eachFormRule of this.policyForm.value.rules){
+                            if (eachValueRule.rule === eachFormRule.rule){
+                                this.policyForm.value.rules[eachFormRulePosition].enabled = eachValueRule.enabled;
+                            }
+                            eachFormRulePosition++;
+                        }
+                    }
+            }
+        }
+    }
+
+
     loadServicePolicyServicePolicy(target: string, id: string): void {
         this.servicePolicyServicePolicyService.getServicePolicyServicePolicy({
             target,
@@ -144,42 +191,21 @@ export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy>
         }).subscribe(
             (value => {
                 this.data = value;
-                this.policyForm.get('display-name').setValue(value['display-name']);
-                this.policyForm.get('display-name')[ORIGINAL] = value['display-name'];
-
-                this.policyForm.get(['ambr', 'uplink']).setValue(value.ambr.uplink);
-                this.policyForm.get(['ambr', 'uplink'])[ORIGINAL] = value.ambr.uplink;
-
-                this.policyForm.get(['ambr', 'downlink']).setValue(value.ambr.downlink);
-                this.policyForm.get(['ambr', 'downlink'])[ORIGINAL] = value.ambr.downlink;
-
-                this.policyForm.get('qci').setValue(value.qci);
-                this.policyForm.get('qci')[ORIGINAL] = value.qci;
-
-                this.policyForm.get('arp').setValue(value.arp);
-                this.policyForm.get('arp')[ORIGINAL] = value.arp;
-
-                this.policyForm.get('description').setValue(value.description);
-                this.policyForm.get('description')[ORIGINAL] = value.description;
-
-                for (const eachRule of value.rules) {
-                    const ruleFormControl = this.fb.control(eachRule.rule);
-                    ruleFormControl[ORIGINAL] = eachRule.rule;
-
-                    const enabledControl = this.fb.control(eachRule.enabled);
-                    enabledControl[ORIGINAL] = eachRule.enabled;
-
-                    enabledControl[TYPE] = 'boolean';
-                    (this.policyForm.get(['rules']) as FormArray).push(this.fb.group({
-                        rule: ruleFormControl,
-                        enabled: enabledControl,
-                    }));
-                }
+                this.populateFormData(value);
             }),
             error => {
                 console.warn('Error getting ServicePolicyServicePolicy(s) for ', target, error);
             },
             () => {
+                const basketPreview = this.bs.buildPatchBody().Updates;
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['service-policy-2.1.0']) {
+                    basketPreview['service-policy-2.1.0']['service-policy'].forEach((basketItems) => {
+                        if (basketItems.id === id){
+                            this.populateFormData(basketItems);
+
+                        }
+                    });
+                }
                 console.log('Finished loading ServicePolicyServicePolicy(s)', target, id);
             }
         );
