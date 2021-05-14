@@ -170,7 +170,7 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
             this.subscriberUeForm.get(['profiles', 'qos-profile']).setValue(value.profiles['qos-profile']);
             this.subscriberUeForm.get(['profiles', 'qos-profile'])[ORIGINAL] = value.profiles['qos-profile'];
         }
-        if (value.profiles && value.profiles['up-profile'] !=null){
+        if (value.profiles && value.profiles['up-profile'] != null){
             this.subscriberUeForm.get(['profiles', 'up-profile']).setValue(value.profiles['up-profile']);
             this.subscriberUeForm.get(['profiles', 'up-profile'])[ORIGINAL] = value.profiles['up-profile'];
         }
@@ -223,7 +223,7 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
                 if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['subscriber-2.1.0']) {
-                    basketPreview['subscriber-2.1.0']['ue'].forEach((basketItems) => {
+                    basketPreview['subscriber-2.1.0'].ue.forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }

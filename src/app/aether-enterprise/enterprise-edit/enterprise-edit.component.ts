@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {EnterpriseEnterpriseService} from '../../../openapi3/aether/2.1.0/services';
 import {
-    EnterpriseEnterprise, EnterpriseEnterpriseConnectivityService
+    EnterpriseEnterprise, EnterpriseEnterpriseConnectivityService, ServicePolicyServicePolicy
 } from '../../../openapi3/aether/2.1.0/models';
 import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
@@ -108,6 +108,56 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
         super.init();
     }
 
+    private populateFormData(value: EnterpriseEnterprise, id: string): void {
+        if (value['display-name']) {
+            this.entForm.get('display-name').setValue(value['display-name']);
+            this.entForm.get('display-name')[ORIGINAL] = value['display-name'];
+        }
+        if (value.description) {
+            this.entForm.get('description').setValue(value.description);
+            this.entForm.get('description')[ORIGINAL] = value.description;
+        }
+        if (value['connectivity-service'] && this.entForm.value['connectivity-service'].length === 0) {
+            for (const cs of value['connectivity-service']) {
+                let isDeleted = false;
+                Object.keys(localStorage)
+                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/enterprise-2.1.0/enterprise[id=' + id +
+                        ']/connectivity-service[connectivity-service='))
+                    .forEach((checkerKey) => {
+                        if (checkerKey.includes(cs['connectivity-service'])) {
+                            isDeleted = true;
+                        }
+                    });
+                if (!isDeleted) {
+                    const csFormControl = this.fb.control(cs['connectivity-service']);
+                    csFormControl[ORIGINAL] = cs['connectivity-service'];
+
+                    const enabledControl = this.fb.control(cs.enabled);
+                    enabledControl[ORIGINAL] = cs.enabled;
+
+                    enabledControl[TYPE] = 'boolean';
+                    (this.entForm.get('connectivity-service') as FormArray).push(this.fb.group({
+                        'connectivity-service': csFormControl,
+                        enabled: enabledControl,
+                    }));
+                }
+                isDeleted = false;
+            }
+        } else if (value['connectivity-service'] && this.entForm.value['connectivity-service'].length !== 0){
+            for (const eachValueCs of value['connectivity-service']) {
+                let eachFormCsPosition = 0;
+                for (const eachFormCs of this.entForm.value['connectivity-service']){
+                    if (eachValueCs['connectivity-service'] === eachFormCs['connectivity-service']){
+                        this.entForm.value['connectivity-service'][eachFormCsPosition].enabled = eachValueCs.enabled;
+                    }
+                    eachFormCsPosition++;
+                }
+            }
+
+        }
+
+    }
+
     loadEnterpriseEnterprises(target: string, id: string): void {
         this.enterpriseEnterpriseService.getEnterpriseEnterprise({
             target,
@@ -115,43 +165,20 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
         }).subscribe(
             (value => {
                 this.data = value;
-                this.entForm.get('display-name').setValue(value['display-name']);
-                this.entForm.get('display-name')[ORIGINAL] = value['display-name'];
-
-                this.entForm.get('description').setValue(value.description);
-                this.entForm.get('description')[ORIGINAL] = value.description;
-
-                for (const cs of value['connectivity-service']) {
-                    let isDeleted = false;
-                    Object.keys(localStorage)
-                        .filter(checkerKey => checkerKey.startsWith('/basket-delete/enterprise-2.1.0/enterprise[id=' + id +
-                            ']/connectivity-service[connectivity-service='))
-                        .forEach((checkerKey) => {
-                            console.log(checkerKey);
-                            if (checkerKey.includes(cs['connectivity-service'])) {
-                                isDeleted = true;
-                            }
-                        });
-                    if (!isDeleted) {
-                        const csFormControl = this.fb.control(cs['connectivity-service']);
-                        csFormControl[ORIGINAL] = cs['connectivity-service'];
-
-                        const enabledControl = this.fb.control(cs.enabled);
-                        enabledControl[ORIGINAL] = cs.enabled;
-
-                        enabledControl[TYPE] = 'boolean';
-                        (this.entForm.get('connectivity-service') as FormArray).push(this.fb.group({
-                            'connectivity-service': csFormControl,
-                            enabled: enabledControl,
-                        }));
-                    }
-                    isDeleted = false;
-                }
+                this.populateFormData(value, id);
             }),
             error => {
                 console.warn('Error getting Enterprise Profiles for ', target, error);
             },
             () => {
+                const basketPreview = this.bs.buildPatchBody().Updates;
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['enterprise-2.1.0']) {
+                    basketPreview['enterprise-2.1.0'].enterprise.forEach((basketItems) => {
+                        if (basketItems.id === id){
+                            this.populateFormData(basketItems, id);
+                        }
+                    });
+                }
                 console.log('Finished loading Enterprise Profiles', target);
             }
         );
