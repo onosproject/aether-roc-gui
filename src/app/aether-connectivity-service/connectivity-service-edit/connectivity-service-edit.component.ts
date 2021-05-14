@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, OnInit} from '@angular/core';
-import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2.1.0/models';
+import {
+    AccessProfileAccessProfile,
+    ConnectivityServiceConnectivityService
+} from '../../../openapi3/aether/2.1.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -66,6 +69,29 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
         super.init();
     }
 
+    private populateFormData(value: ConnectivityServiceConnectivityService): void {
+        if (value['display-name']) {
+            this.csForm.get('display-name').setValue(value['display-name']);
+            this.csForm.get('display-name')[ORIGINAL] = value['display-name'];
+        }
+        if (value.description) {
+            this.csForm.get('description').setValue(value.description);
+            this.csForm.get('description')[ORIGINAL] = value.description;
+        }
+        if (value['spgwc-endpoint']) {
+            this.csForm.get('spgwc-endpoint').setValue(value['spgwc-endpoint']);
+            this.csForm.get('spgwc-endpoint')[ORIGINAL] = value['spgwc-endpoint'];
+        }
+        if (value['hss-endpoint']) {
+            this.csForm.get('hss-endpoint').setValue(value['hss-endpoint']);
+            this.csForm.get('hss-endpoint')[ORIGINAL] = value['hss-endpoint'];
+        }
+        if (value['pcrf-endpoint']) {
+            this.csForm.get('pcrf-endpoint').setValue(value['pcrf-endpoint']);
+            this.csForm.get('pcrf-endpoint')[ORIGINAL] = value['pcrf-endpoint'];
+        }
+    }
+
     loadConnectivityServiceConnectivityService(target: string, id: string): void {
         this.connectivityServiceConnectivityServiceService.getConnectivityServiceConnectivityService({
             target,
@@ -73,25 +99,20 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
         }).subscribe(
             (value => {
                 this.data = value;
-                this.csForm.get('display-name').setValue(value['display-name']);
-                this.csForm.get('display-name')[ORIGINAL] = value['display-name'];
-
-                this.csForm.get('description').setValue(value.description);
-                this.csForm.get('description')[ORIGINAL] = value.description;
-
-                this.csForm.get('spgwc-endpoint').setValue(value['spgwc-endpoint']);
-                this.csForm.get('spgwc-endpoint')[ORIGINAL] = value['spgwc-endpoint'];
-
-                this.csForm.get('hss-endpoint').setValue(value['hss-endpoint']);
-                this.csForm.get('hss-endpoint')[ORIGINAL] = value['hss-endpoint'];
-
-                this.csForm.get('pcrf-endpoint').setValue(value['pcrf-endpoint']);
-                this.csForm.get('pcrf-endpoint')[ORIGINAL] = value['pcrf-endpoint'];
+                this.populateFormData(value);
             }),
             error => {
                 console.warn('Error getting ConnectivityServiceConnectivityService(s) for ', target, error);
             },
             () => {
+                const basketPreview = this.bs.buildPatchBody().Updates;
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['connectivity-service-2.1.0']) {
+                    basketPreview['connectivity-service-2.1.0']['connectivity-service'].forEach((basketItems) => {
+                        if (basketItems.id === id) {
+                            this.populateFormData(basketItems);
+                        }
+                    });
+                }
                 console.log('Finished loading ConnectivityServiceConnectivityService(s)', target, id);
             }
         );
