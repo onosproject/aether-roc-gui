@@ -140,44 +140,43 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         if (value['display-name']) {
             this.ruleForm.get('display-name').setValue(value['display-name']);
         }
-        if (value.qos && value.qos['guaranteed-bitrate'].downlink) {
+        if (value.qos && value.qos['guaranteed-bitrate'].downlink != null) {
             const gbDownlink = value.qos['guaranteed-bitrate'].downlink;
             this.ruleForm.get(['qos', 'guaranteed-bitrate', 'downlink']).setValue(gbDownlink);
         }
-        if (value.qos && value.qos['guaranteed-bitrate'].uplink) {
+        if (value.qos && value.qos['guaranteed-bitrate'].uplink != null) {
             const gbUplink = value.qos['guaranteed-bitrate'].uplink;
             this.ruleForm.get(['qos', 'guaranteed-bitrate', 'uplink']).setValue(gbUplink);
         }
-        if (value.qos && value.qos['aggregate-maximum-bitrate'].downlink){
+        if (value.qos && value.qos['aggregate-maximum-bitrate'].downlink != null){
             const ambDownlink = value.qos['aggregate-maximum-bitrate'].downlink;
             this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'downlink']).setValue(ambDownlink);
         }
-        if (value.qos && value.qos['aggregate-maximum-bitrate'].uplink) {
+        if (value.qos && value.qos['aggregate-maximum-bitrate'].uplink != null) {
             const ambUplink = value.qos['aggregate-maximum-bitrate'].uplink;
             this.ruleForm.get(['qos', 'aggregate-maximum-bitrate', 'uplink']).setValue(ambUplink);
         }
-        if (value.qos && value.qos['maximum-requested-bandwidth'].downlink) {
+        if (value.qos && value.qos['maximum-requested-bandwidth'].downlink != null) {
             const mrbDownlink = value.qos['maximum-requested-bandwidth'].downlink;
             this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'downlink']).setValue(mrbDownlink);
         }
-        if (value.qos && value.qos['maximum-requested-bandwidth'].uplink) {
+        if (value.qos && value.qos['maximum-requested-bandwidth'].uplink != null) {
             const mrbUplink = value.qos['maximum-requested-bandwidth'].uplink;
             this.ruleForm.get(['qos', 'maximum-requested-bandwidth', 'uplink']).setValue(mrbUplink);
         }
-        if (value.qos && value.qos.arp && value.qos.arp.priority){
+        if (value.qos && value.qos.arp && value.qos.arp.priority != null){
             const priority = value.qos.arp.priority;
             this.ruleForm.get(['qos', 'arp', 'priority']).setValue(priority);
         }
-        if (value.qos && value.qos.arp && value.qos.arp['preemption-capability']){
+        if (value.qos && value.qos.arp && value.qos.arp['preemption-capability'] != null){
             const preemptionCapability = value.qos.arp['preemption-capability'];
-            console.log(preemptionCapability);
             this.ruleForm.get(['qos', 'arp', 'preemption-capability']).setValue(preemptionCapability);
         }
-        if (value.qos && value.qos.arp && value.qos.arp['preemption-vulnerability']) {
+        if (value.qos && value.qos.arp && value.qos.arp['preemption-vulnerability'] != null) {
             const preemptionVulnerability = value.qos.arp['preemption-vulnerability'];
             this.ruleForm.get(['qos', 'arp', 'preemption-vulnerability']).setValue(preemptionVulnerability);
         }
-        if (value.qos && value.qos.qci){
+        if (value.qos && value.qos.qci != null){
             this.ruleForm.get(['qos', 'qci']).setValue(value.qos.qci);
         }
         if (value.flow && value.flow.specification) {

@@ -89,7 +89,7 @@ export class GroupEditComponent extends RocEditBase<ServiceGroupServiceGroup> im
                     let eachFormPolicyPosition = 0;
                     for (const eachFormPolicy of this.groupForm.value['service-policies']){
                         if (eachValuePolicy['service-policies'] === eachFormPolicy['service-policies']){
-                            this.groupForm.value['service-policies'][eachFormPolicyPosition].kind.patchValue(eachValuePolicy.kind);
+                            this.groupForm.value['service-policies'][eachFormPolicyPosition].kind = eachValuePolicy.kind;
                         }
                         eachFormPolicyPosition++;
                     }

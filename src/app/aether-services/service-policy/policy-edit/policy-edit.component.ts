@@ -143,16 +143,16 @@ export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy>
         if (value['display-name']) {
             this.policyForm.get('display-name').setValue(value['display-name']);
         }
-        if (value.ambr && value.ambr.uplink) {
+        if (value.ambr && value.ambr.uplink != null) {
             this.policyForm.get(['ambr', 'uplink']).setValue(value.ambr.uplink);
         }
-        if (value.ambr && value.ambr.downlink) {
+        if (value.ambr && value.ambr.downlink != null) {
             this.policyForm.get(['ambr', 'downlink']).setValue(value.ambr.downlink);
         }
-        if (value.qci){
+        if (value.qci != null){
             this.policyForm.get('qci').setValue(value.qci);
         }
-        if (value.arp) {
+        if (value.arp != null) {
             this.policyForm.get('arp').setValue(value.arp);
         }
         if (value.description) {

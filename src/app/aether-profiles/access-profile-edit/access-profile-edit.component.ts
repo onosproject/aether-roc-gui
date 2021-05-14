@@ -7,7 +7,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
 import {AccessProfileAccessProfileService} from '../../../openapi3/aether/2.1.0/services';
-import {AccessProfileAccessProfile} from '../../../openapi3/aether/2.1.0/models';
+import {AccessProfileAccessProfile, ApnProfileApnProfile} from '../../../openapi3/aether/2.1.0/models';
 import {BasketService, ORIGINAL} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
@@ -63,6 +63,25 @@ export class AccessProfileEditComponent extends RocEditBase<AccessProfileAccessP
         super.init();
     }
 
+    private populateFormData(value: AccessProfileAccessProfile): void {
+        if (value['display-name']) {
+            this.accForm.get('display-name').setValue(value['display-name']);
+            this.accForm.get('display-name')[ORIGINAL] = value['display-name'];
+        }
+        if (value.type) {
+            this.accForm.get('type').setValue(value.type);
+            this.accForm.get('type')[ORIGINAL] = value.type;
+        }
+        if (value.filter) {
+            this.accForm.get('filter').setValue(value.filter);
+            this.accForm.get('filter')[ORIGINAL] = value.filter;
+        }
+        if (value.description) {
+            this.accForm.get('description').setValue(value.description);
+            this.accForm.get('description')[ORIGINAL] = value.description;
+        }
+    }
+
     loadAccessProfileAccessProfile(target: string, id: string): void {
         this.accessProfileAccessProfileService.getAccessProfileAccessProfile({
             target,
@@ -70,22 +89,20 @@ export class AccessProfileEditComponent extends RocEditBase<AccessProfileAccessP
         }).subscribe(
             (value => {
                 this.data = value;
-                this.accForm.get('display-name').setValue(value['display-name']);
-                this.accForm.get('display-name')[ORIGINAL] = value['display-name'];
-
-                this.accForm.get('type').setValue(value.type);
-                this.accForm.get('type')[ORIGINAL] = value.type;
-
-                this.accForm.get('filter').setValue(value.filter);
-                this.accForm.get('filter')[ORIGINAL] = value.filter;
-
-                this.accForm.get('description').setValue(value.description);
-                this.accForm.get('description')[ORIGINAL] = value.description;
+                this.populateFormData(value);
             }),
             error => {
                 console.warn('Error getting AccessProfileAccessProfile(s) for ', target, error);
             },
             () => {
+                const basketPreview = this.bs.buildPatchBody().Updates;
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['access-profile-2.1.0']) {
+                    basketPreview['access-profile-2.1.0']['access-profile'].forEach((basketItems) => {
+                        if (basketItems.id === id) {
+                            this.populateFormData(basketItems);
+                        }
+                    });
+                }
                 console.log('Finished loading AccessProfileAccessProfile(s)', target, id);
             }
         );
