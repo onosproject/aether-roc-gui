@@ -10,7 +10,7 @@ import {
     QosProfileQosProfileService
 } from '../../../openapi3/aether/2.1.0/services';
 import {
-    QosProfileQosProfile
+    QosProfileQosProfile, ServiceRuleServiceRule
 } from '../../../openapi3/aether/2.1.0/models';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -114,6 +114,40 @@ export class QosProfileEditComponent extends RocEditBase<QosProfileQosProfile> i
         const filterValue = bandwidthIndex;
         return this.options.filter(option => option.megabyte.numerical);
     }
+    private populateFormData(value: QosProfileQosProfile): void {
+        if (value['display-name']) {
+            this.qosForm.get('display-name').setValue(value['display-name']);
+            this.qosForm.get('display-name')[ORIGINAL] = value['display-name'];
+        }
+        if (value['apn-ambr'] && value['apn-ambr'].uplink != null) {
+            this.qosForm.get(['apn-ambr', 'uplink']).setValue(value['apn-ambr'].uplink);
+            this.qosForm.get(['apn-ambr', 'uplink'])[ORIGINAL] = value['apn-ambr'].uplink;
+        }
+        if (value['apn-ambr'] && value['apn-ambr'].downlink != null) {
+            this.qosForm.get(['apn-ambr', 'downlink']).setValue(value['apn-ambr'].downlink);
+            this.qosForm.get(['apn-ambr', 'downlink'])[ORIGINAL] = value['apn-ambr'].downlink;
+        }
+        if (value.qci) {
+            this.qosForm.get('qci').setValue(value.qci);
+            this.qosForm.get('qci')[ORIGINAL] = value.qci;
+        }
+        if (value.arp && value.arp.priority) {
+            this.qosForm.get(['arp', 'priority']).setValue(value.arp.priority);
+            this.qosForm.get(['arp', 'priority'])[ORIGINAL] = value.arp.priority;
+        }
+        if (value.arp && value.arp['preemption-capability'] != null) {
+            this.qosForm.get(['arp', 'preemption-capability']).setValue(value.arp['preemption-capability']);
+            this.qosForm.get(['arp', 'preemption-capability'])[ORIGINAL] = value.arp['preemption-capability'];
+        }
+        if (value.arp && value.arp['preemption-vulnerability'] != null) {
+            this.qosForm.get(['arp', 'preemption-vulnerability']).setValue(value.arp['preemption-vulnerability']);
+            this.qosForm.get(['arp', 'preemption-vulnerability'])[ORIGINAL] = value.arp['preemption-vulnerability'];
+        }
+        if (value.description) {
+            this.qosForm.get('description').setValue(value.description);
+            this.qosForm.get('description')[ORIGINAL] = value.description;
+        }
+    }
 
     loadQosProfileQosProfile(target: string, id: string): void {
         this.qosProfileQosProfileService.getQosProfileQosProfile({
@@ -122,34 +156,20 @@ export class QosProfileEditComponent extends RocEditBase<QosProfileQosProfile> i
         }).subscribe(
             (value => {
                 this.data = value;
-                this.qosForm.get('display-name').setValue(value['display-name']);
-                this.qosForm.get('display-name')[ORIGINAL] = value['display-name'];
-
-                this.qosForm.get(['apn-ambr', 'uplink']).setValue(value['apn-ambr'].uplink);
-                this.qosForm.get(['apn-ambr', 'uplink'])[ORIGINAL] = value['apn-ambr'].uplink;
-
-                this.qosForm.get(['apn-ambr', 'downlink']).setValue(value['apn-ambr'].downlink);
-                this.qosForm.get(['apn-ambr', 'downlink'])[ORIGINAL] = value['apn-ambr'].downlink;
-
-                this.qosForm.get('qci').setValue(value.qci);
-                this.qosForm.get('qci')[ORIGINAL] = value.qci;
-
-                this.qosForm.get(['arp', 'priority']).setValue(value.arp.priority);
-                this.qosForm.get(['arp', 'priority'])[ORIGINAL] = value.arp.priority;
-
-                this.qosForm.get(['arp', 'preemption-capability']).setValue(value.arp['preemption-capability']);
-                this.qosForm.get(['arp', 'preemption-capability'])[ORIGINAL] = value.arp['preemption-capability'];
-
-                this.qosForm.get(['arp', 'preemption-vulnerability']).setValue(value.arp['preemption-vulnerability']);
-                this.qosForm.get(['arp', 'preemption-vulnerability'])[ORIGINAL] = value.arp['preemption-vulnerability'];
-
-                this.qosForm.get('description').setValue(value.description);
-                this.qosForm.get('description')[ORIGINAL] = value.description;
+                this.populateFormData(value);
             }),
             error => {
                 console.warn('Error getting QosProfileQosProfile(s) for ', target, error);
             },
             () => {
+                const basketPreview = this.bs.buildPatchBody().Updates;
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['qos-profile-2.1.0']) {
+                    basketPreview['qos-profile-2.1.0']['qos-profile'].forEach((basketItems) => {
+                        if (basketItems.id === id){
+                            this.populateFormData(basketItems);
+                        }
+                    });
+                }
                 console.log('Finished loading QosProfileQosProfile(s)', target, id);
             }
         );

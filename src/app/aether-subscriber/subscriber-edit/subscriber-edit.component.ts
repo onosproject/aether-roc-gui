@@ -18,7 +18,7 @@ import {
     ApnProfileApnProfile,
     QosProfileQosProfile,
     UpProfileUpProfile,
-    SecurityProfileSecurityProfile, SubscriberUe, EnterpriseEnterprise
+    SecurityProfileSecurityProfile, SubscriberUe, EnterpriseEnterprise, ServiceRuleServiceRule
 } from '../../../openapi3/aether/2.1.0/models';
 import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -122,56 +122,64 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
         return this.subscriberUeForm.get(['profiles', 'access-profile']) as FormArray;
     }
 
-    loadSubscriberUe(target: string, id: string): void {
-        this.subscriberUeService.getSubscriberUe({
-            target,
-            id,
-        }).subscribe(
-            (value => {
-                this.data = value;
-                this.subscriberUeForm.get('priority').setValue(value.priority);
-                this.subscriberUeForm.get('priority')[ORIGINAL] = value.priority;
-
-                this.subscriberUeForm.get('enabled').setValue(value.enabled);
-                this.subscriberUeForm.get('enabled')[ORIGINAL] = value.enabled;
-
-                this.subscriberUeForm.get('imsi-range-from').setValue(value['imsi-range-from']);
-                this.subscriberUeForm.get('imsi-range-from')[ORIGINAL] = value['imsi-range-from'];
-
-                this.subscriberUeForm.get('imsi-range-to').setValue(value['imsi-range-to']);
-                this.subscriberUeForm.get('imsi-range-to')[ORIGINAL] = value['imsi-range-to'];
-
-                this.imsiWildcard = value['imsi-wildcard'] !== undefined;
-                this.subscriberUeForm.get('imsi-wildcard').setValue(value['imsi-wildcard']);
-                this.subscriberUeForm.get('imsi-wildcard')[ORIGINAL] = value['imsi-wildcard'];
-
-                this.subscriberUeForm.get('requested-apn').setValue(value['requested-apn']);
-                this.subscriberUeForm.get('requested-apn')[ORIGINAL] = value['requested-apn'];
-
-                this.subscriberUeForm.get(['serving-plmn', 'mcc']).setValue(value['serving-plmn'].mcc);
-                this.subscriberUeForm.get(['serving-plmn', 'mcc'])[ORIGINAL] = value['serving-plmn'].mcc;
-
-                this.subscriberUeForm.get(['serving-plmn', 'mnc']).setValue(value['serving-plmn'].mnc);
-                this.subscriberUeForm.get(['serving-plmn', 'mnc'])[ORIGINAL] = value['serving-plmn'].mnc;
-
-                this.subscriberUeForm.get(['serving-plmn', 'tac']).setValue(value['serving-plmn'].tac);
-                this.subscriberUeForm.get(['serving-plmn', 'tac'])[ORIGINAL] = value['serving-plmn'].tac;
-
-                this.subscriberUeForm.get(['enterprise']).setValue(value.enterprise);
-                this.subscriberUeForm.get(['enterprise'])[ORIGINAL] = value.enterprise;
-
-                this.subscriberUeForm.get(['profiles', 'apn-profile']).setValue(value.profiles['apn-profile']);
-                this.subscriberUeForm.get(['profiles', 'apn-profile'])[ORIGINAL] = value.profiles['apn-profile'];
-
-                this.subscriberUeForm.get(['profiles', 'qos-profile']).setValue(value.profiles['qos-profile']);
-                this.subscriberUeForm.get(['profiles', 'qos-profile'])[ORIGINAL] = value.profiles['qos-profile'];
-
-                this.subscriberUeForm.get(['profiles', 'up-profile']).setValue(value.profiles['up-profile']);
-                this.subscriberUeForm.get(['profiles', 'up-profile'])[ORIGINAL] = value.profiles['up-profile'];
-
-                this.subscriberUeForm.get(['profiles', 'security-profile']).setValue(value.profiles['security-profile']);
-                this.subscriberUeForm.get(['profiles', 'security-profile'])[ORIGINAL] = value.profiles['security-profile'];
-
+    private populateFormData(value: AetherV100TargetSubscriberUe): void{
+        if (value.priority != null) {
+            this.subscriberUeForm.get('priority').setValue(value.priority);
+        }
+        if (value.enabled) {
+            this.subscriberUeForm.get('enabled').setValue(value.enabled);
+            this.subscriberUeForm.get('enabled')[ORIGINAL] = value.enabled;
+        }
+        if (value['imsi-range-from']) {
+            this.subscriberUeForm.get('imsi-range-from').setValue(value['imsi-range-from']);
+            this.subscriberUeForm.get('imsi-range-from')[ORIGINAL] = value['imsi-range-from'];
+        }
+        if (value['imsi-range-to']){
+            this.subscriberUeForm.get('imsi-range-to').setValue(value['imsi-range-to']);
+            this.subscriberUeForm.get('imsi-range-to')[ORIGINAL] = value['imsi-range-to'];
+        }
+        if (value['imsi-wildcard']) {
+            this.subscriberUeForm.get('imsi-wildcard').setValue(value['imsi-wildcard']);
+            this.subscriberUeForm.get('imsi-wildcard')[ORIGINAL] = value['imsi-wildcard'];
+        }
+        if (value['requested-apn']) {
+            this.subscriberUeForm.get('requested-apn').setValue(value['requested-apn']);
+            this.subscriberUeForm.get('requested-apn')[ORIGINAL] = value['requested-apn'];
+        }
+        if (value['serving-plmn'] && value['serving-plmn'].mcc != null) {
+            this.subscriberUeForm.get(['serving-plmn', 'mcc']).setValue(value['serving-plmn'].mcc);
+            this.subscriberUeForm.get(['serving-plmn', 'mcc'])[ORIGINAL] = value['serving-plmn'].mcc;
+        }
+        if (value['serving-plmn'] && value['serving-plmn'].mnc != null){
+            this.subscriberUeForm.get(['serving-plmn', 'mnc']).setValue(value['serving-plmn'].mnc);
+            this.subscriberUeForm.get(['serving-plmn', 'mnc'])[ORIGINAL] = value['serving-plmn'].mnc;
+        }
+        if (value['serving-plmn'] && value['serving-plmn'].tac != null){
+            this.subscriberUeForm.get(['serving-plmn', 'tac']).setValue(value['serving-plmn'].tac);
+            this.subscriberUeForm.get(['serving-plmn', 'tac'])[ORIGINAL] = value['serving-plmn'].tac;
+        }
+        if (value.enterprise != null) {
+            this.subscriberUeForm.get(['enterprise']).setValue(value.enterprise);
+            this.subscriberUeForm.get(['enterprise'])[ORIGINAL] = value.enterprise;
+        }
+        if (value.profiles && value.profiles['apn-profile'] != null){
+            this.subscriberUeForm.get(['profiles', 'apn-profile']).setValue(value.profiles['apn-profile']);
+            this.subscriberUeForm.get(['profiles', 'apn-profile'])[ORIGINAL] = value.profiles['apn-profile'];
+        }
+        if (value.profiles && value.profiles['qos-profile'] != null){
+            this.subscriberUeForm.get(['profiles', 'qos-profile']).setValue(value.profiles['qos-profile']);
+            this.subscriberUeForm.get(['profiles', 'qos-profile'])[ORIGINAL] = value.profiles['qos-profile'];
+        }
+        if (value.profiles && value.profiles['up-profile'] != null){
+            this.subscriberUeForm.get(['profiles', 'up-profile']).setValue(value.profiles['up-profile']);
+            this.subscriberUeForm.get(['profiles', 'up-profile'])[ORIGINAL] = value.profiles['up-profile'];
+        }
+        if (value.profiles && value.profiles['security-profile'] != null){
+            this.subscriberUeForm.get(['profiles', 'security-profile']).setValue(value.profiles['security-profile']);
+            this.subscriberUeForm.get(['profiles', 'security-profile'])[ORIGINAL] = value.profiles['security-profile'];
+        }
+        if (value.profiles && value.profiles['access-profile'] ){
+            if (this.subscriberUeForm.value.profiles['access-profile'].length === 0) {
                 for (const ap of value.profiles['access-profile']) {
                     const apFormControl = this.fb.control(ap['access-profile']);
                     apFormControl[ORIGINAL] = ap['access-profile'];
@@ -185,11 +193,42 @@ export class SubscriberEditComponent extends RocEditBase<SubscriberUe> implement
                     }));
                 }
                 console.log('Got Subscriber', value);
+            } else {
+                for (const eachValueAccessProfile of value.profiles['access-profile']) {
+                    let eachFormRulePosition = 0;
+                    for (const eachFormSubscribe of this.subscriberUeForm.value.profiles['access-profile']){
+                        if (eachValueAccessProfile['access-profile'] === eachFormSubscribe['access-profile']){
+                            this.subscriberUeForm.value.profiles['access-profile'].allowed = eachValueAccessProfile.allowed;
+                        }
+                        eachFormRulePosition++;
+                    }
+                }
+            }
+        }
+    }
+
+    loadSubscriberUe(target: string, id: string): void {
+        this.subscriberUeService.getSubscriberUe({
+            target,
+            id,
+        }).subscribe(
+            (value => {
+                this.data = value;
+                this.populateFormData(value);
+                console.log('Got Subscriber', value);
             }),
             error => {
                 console.warn('Error getting SubscriberUe(s) for ', target, error);
             },
             () => {
+                const basketPreview = this.bs.buildPatchBody().Updates;
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['subscriber-2.1.0']) {
+                    basketPreview['subscriber-2.1.0'].ue.forEach((basketItems) => {
+                        if (basketItems.id === id) {
+                            this.populateFormData(basketItems);
+                        }
+                    });
+                }
                 console.log('Finished loading SubscriberUe(s)', target, id);
             }
         );

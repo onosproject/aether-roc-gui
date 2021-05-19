@@ -6,7 +6,7 @@
 
 import {Component, OnInit} from '@angular/core';
 import {RocEditBase} from '../../roc-edit-base';
-import {UpProfileUpProfile} from '../../../openapi3/aether/2.1.0/models';
+import {ServiceRuleServiceRule, UpProfileUpProfile} from '../../../openapi3/aether/2.1.0/models';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
@@ -63,6 +63,25 @@ export class UpProfileEditComponent extends RocEditBase<UpProfileUpProfile> impl
         super.init();
     }
 
+    private populateFormData(value: UpProfileUpProfile): void {
+        if (value['display-name']) {
+            this.upForm.get('display-name').setValue(value['display-name']);
+            this.upForm.get('display-name')[ORIGINAL] = value['display-name'];
+        }
+        if (value.description) {
+            this.upForm.get('description').setValue(value.description);
+            this.upForm.get('description')[ORIGINAL] = value.description;
+        }
+        if (value['user-plane']) {
+            this.upForm.get('user-plane').setValue(value['user-plane']);
+            this.upForm.get('user-plane')[ORIGINAL] = value['user-plane'];
+        }
+        if (value['access-control']) {
+            this.upForm.get('access-control').setValue(value['access-control']);
+            this.upForm.get('access-control')[ORIGINAL] = value['access-control'];
+        }
+    }
+
     loadUpProfileUpProfile(target: string, id: string): void {
         this.upProfileUpProfileService.getUpProfileUpProfile({
             target,
@@ -70,22 +89,20 @@ export class UpProfileEditComponent extends RocEditBase<UpProfileUpProfile> impl
         }).subscribe(
             (value => {
                 this.data = value;
-                this.upForm.get('display-name').setValue(value['display-name']);
-                this.upForm.get('display-name')[ORIGINAL] = value['display-name'];
-
-                this.upForm.get('description').setValue(value.description);
-                this.upForm.get('description')[ORIGINAL] = value.description;
-
-                this.upForm.get('user-plane').setValue(value['user-plane']);
-                this.upForm.get('user-plane')[ORIGINAL] = value['user-plane'];
-
-                this.upForm.get('access-control').setValue(value['access-control']);
-                this.upForm.get('access-control')[ORIGINAL] = value['access-control'];
+                this.populateFormData(value);
             }),
             error => {
                 console.warn('Error getting UpProfileUpProfile(s) for ', target, error);
             },
             () => {
+                const basketPreview = this.bs.buildPatchBody().Updates;
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['up-profile-2.1.0']) {
+                    basketPreview['up-profile-2.1.0']['up-profile'].forEach((basketItems) => {
+                        if (basketItems.id === id){
+                            this.populateFormData(basketItems);
+                        }
+                    });
+                }
                 console.log('Finished loading UpProfileUpProfile(s)', target, id);
             }
         );
