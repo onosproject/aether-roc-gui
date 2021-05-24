@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, ViewChild, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, NgForm, Validators} from '@angular/forms';
 import {
     Service as AetherService,
     ApnProfileApnProfileService
@@ -18,13 +18,20 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {RocEditBase} from '../../roc-edit-base';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
+export const UPDATED = 'updated';
 
 @Component({
     selector: 'aether-apn-profile-edit',
     templateUrl: './apn-profile-edit.component.html',
     styleUrls: ['../../common-edit.component.scss']
 })
+
 export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> implements OnInit {
+
+    ip: string;
+    cardDisplay: number = 0;
+    primCardDisplay: boolean = false;
+    secCardDisplay: boolean = false;
     data: ApnProfileApnProfile;
     serviceGroups: Array<ServiceGroupServiceGroup>;
 
@@ -41,14 +48,8 @@ export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> i
             Validators.minLength(1),
             Validators.maxLength(32),
         ])],
-        'dns-primary': ['', Validators.compose([
-            Validators.minLength(1),
-            Validators.maxLength(32),
-        ])],
-        'dns-secondary': ['', Validators.compose([
-            Validators.minLength(1),
-            Validators.maxLength(32),
-        ])],
+        'dns-primary': [''],
+        'dns-secondary': [''],
         mtu: [0, Validators.compose([
             Validators.min(68),
             Validators.max(65535),
@@ -61,6 +62,7 @@ export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> i
         'service-group': ['']
 
     });
+
     constructor(
         private apnProfileApnProfileService: ApnProfileApnProfileService,
         private aetherService: AetherService,
@@ -69,7 +71,7 @@ export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> i
         private fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
-        public opaService: OpenPolicyAgentService,
+        public opaService: OpenPolicyAgentService
     ) {
         super(snackBar, bs, route, router, 'apn-profile-2.1.0', 'apn-profile');
         super.form = this.apnForm;
@@ -122,6 +124,51 @@ export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> i
                 console.log('Finished loading ApnProfileApnProfile(s)', target, id);
             }
         );
+    }
+
+    checkForUndefinedPrim(): string {
+        if (this.apnForm.get('dns-primary').value === undefined) {
+            return '';
+        } else {
+            this.apnForm.get(['dns-primary'])[UPDATED] = this.apnForm.get(['dns-primary']).value;
+            return this.apnForm.get(['dns-primary'])[UPDATED];
+        }
+    }
+
+    checkForUndefinedSec(): string {
+        if (this.data === undefined) {
+            return '';
+        } else {
+            this.apnForm.get(['dns-secondary'])[UPDATED] = this.apnForm.get(['dns-secondary']).value;
+            return this.apnForm.get(['dns-secondary'])[UPDATED];
+        }
+    }
+
+    openPrimaryCard(): void {
+        this.checkForUndefinedPrim();
+        this.primCardDisplay = !this.primCardDisplay;
+    }
+
+    openSecondaryCard(): void {
+        this.checkForUndefinedSec();
+        this.secCardDisplay = !this.secCardDisplay;
+    }
+
+    updateFormPrim(ip: string): void {
+        console.log('UPDATED FORM');
+        this.apnForm.get('dns-primary')[UPDATED] = ip;
+        this.apnForm.get('dns-primary').markAsDirty();
+        this.apnForm.get('dns-primary').markAsTouched();
+        this.apnForm.get('dns-primary').setValue(ip);
+    }
+
+    updateFormSec(ip: string): void {
+        console.log('UPDATED FORM');
+        this.apnForm.get('dns-secondary')[UPDATED] = ip;
+        this.apnForm.get('dns-secondary').markAsDirty();
+        this.apnForm.get('dns-secondary').markAsTouched();
+        this.apnForm.get('dns-secondary').setValue(ip);
+
     }
 
     loadServiceGroups(target: string): void {

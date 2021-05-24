@@ -60,6 +60,7 @@ export class BasketComponent implements AfterViewInit, OnInit {
     toggleDisplayDiv(): void {
         this.pbDisplay = !this.pbDisplay;
     }
+
     ngOnInit(): void {
         Object.keys(localStorage)
             .filter((key) => key.startsWith('/basket'))

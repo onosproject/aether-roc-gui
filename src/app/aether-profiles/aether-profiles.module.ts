@@ -36,6 +36,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSelectModule} from '@angular/material/select';
 import { UpProfileEditComponent } from './up-profile-edit/up-profile-edit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {IpSelectorComponent} from '../ip-selector/ip-selector.component';
+import {MatRadioModule} from '@angular/material/radio';
+import {NgxIpModule} from 'ngx-ip';
+
 
 @NgModule({
     declarations: [
@@ -49,6 +53,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         ApnProfileEditComponent,
         QosProfileEditComponent,
         UpProfileEditComponent,
+        IpSelectorComponent
     ],
     imports: [
         CommonModule,
@@ -87,7 +92,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         MatSlideToggleModule,
         MatCheckboxModule,
         MatSelectModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatRadioModule,
+        NgxIpModule
     ],
     providers: [
         AuthInterceptor,
