@@ -51,6 +51,7 @@ describe('BasketComponent', () => {
     it('should display stuff from localstorage', () => {
         localStorage.clear();
         localStorage.clear();
+        localStorage.clear();
         localStorage.setItem('/basket-update/Security-profile-2.1.0/Security-profile[]/0/key', '{"newValue":"key2","oldValue":"key1"}');
         localStorage.setItem('/basket-update/Security-profile-2.1.0/Security-profile[]/0/opc', '{"newValue":"opcValue2","oldValue":"opcValue1"}');
         localStorage.setItem('/basket-update/Security-profile-2.1.0/Security-profile[]/0/id', '{"newValue":"ap2","oldValue":"ap1"}');

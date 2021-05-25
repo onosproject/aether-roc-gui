@@ -13,12 +13,12 @@
         <mat-card-content>
             <div class="row">
                 <mat-form-field class="field-margin">
-                    <input matInput type="number" formControlName="priority">
+                    <input matInput type="number" formControlName="priority" id="inputPriority">
                     <mat-hint>Priority (1-1000)</mat-hint>
                 </mat-form-field>
-                <mat-slide-toggle class="field-margin" formControlName="enabled">Enabled</mat-slide-toggle>
+                <mat-slide-toggle class="field-margin" formControlName="enabled" id="toggleEnabled">Enabled</mat-slide-toggle>
                 <mat-form-field class="field-margin">
-                    <input matInput formControlName="requested-apn">
+                    <input matInput formControlName="requested-apn" id="inputRequestedAPN">
                     <mat-hint>Requested APN</mat-hint>
                 </mat-form-field>
             </div>
@@ -26,6 +26,7 @@
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="enterprise">
                         <mat-option *ngFor="let ent of enterprises"
+                                    id="selectEnterprise"
                                     [value]="ent.id">{{ent.id}}
                             <span *ngIf="ent['display-name']"> ({{ent['display-name']}})</span>
                         </mat-option>
@@ -36,34 +37,40 @@
             <div class="row subscriber-section">
                 <mat-label>IMSI selection:</mat-label>
                 <mat-radio-group aria-label="Select an option" [disabled]="!isNew">
-                    <mat-radio-button value="1" [checked]="!imsiWildcard" (change)="toggleImsiWildcard(false)">Range</mat-radio-button>
-                    <mat-radio-button value="2" [checked]="imsiWildcard" (change)="toggleImsiWildcard(true)">Wildcard</mat-radio-button>
+                    <mat-radio-button id="toggleImsiWildcardFalse" value="1" [checked]="!imsiWildcard" (change)="toggleImsiWildcard(false)">Range</mat-radio-button>
+                    <mat-radio-button id="toggleImsiWildcardTrue" value="2" [checked]="imsiWildcard" (change)="toggleImsiWildcard(true)">Wildcard</mat-radio-button>
                 </mat-radio-group>
                 <mat-form-field class="field-margin" [ngClass]="imsiWildcard ?'imsi-disabled':''">
-                    <input matInput type="number" formControlName="imsi-range-from" [readonly]="imsiWildcard">
+                    <input matInput type="number"
+                           id="inputImsiRangeFrom"
+                           formControlName="imsi-range-from" [readonly]="imsiWildcard">
                     <mat-hint>IMSI Range From</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="field-margin" [ngClass]="imsiWildcard ?'imsi-disabled':''">
-                    <input matInput type="number" formControlName="imsi-range-to" [readonly]="imsiWildcard">
+                    <input matInput type="number"
+                           id="inputImsiRangeTo"
+                           formControlName="imsi-range-to" [readonly]="imsiWildcard">
                     <mat-hint>IMSI Range To</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="field-margin"  [ngClass]="imsiWildcard ?'':'imsi-disabled'">
-                    <input matInput formControlName="imsi-wildcard" [readonly]="!imsiWildcard">
+                    <input matInput
+                           id="inputWildcard"
+                           formControlName="imsi-wildcard" [readonly]="!imsiWildcard">
                     <mat-hint>IMSI Wildcard</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row" formGroupName="serving-plmn">
                 <mat-label>Serving PLMN:</mat-label>
                 <mat-form-field class="field-margin">
-                    <input matInput type="number" formControlName="mcc">
+                    <input matInput type="number" formControlName="mcc" id="inputMCC">
                     <mat-hint>MCC</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="field-margin">
-                    <input matInput type="number" formControlName="mnc">
+                    <input matInput type="number" formControlName="mnc" id="inputMNC">
                     <mat-hint>MNC</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="field-margin">
-                    <input matInput type="number" formControlName="tac">
+                    <input matInput type="number" formControlName="tac" id="inputTAC">
                     <mat-hint>TAC</mat-hint>
                 </mat-form-field>
             </div>
@@ -71,6 +78,7 @@
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="apn-profile">
                         <mat-option *ngFor="let apnp of apnProfiles"
+                                    id="selectAPNProfile"
                                     [value]="apnp.id">{{apnp.id}}
                             <span *ngIf="apnp['display-name']"> ({{apnp['display-name']}})</span>
                         </mat-option>
@@ -82,6 +90,7 @@
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="qos-profile">
                         <mat-option *ngFor="let qosp of qosProfiles"
+                                    id="selectQOSProfile"
                                     [value]="qosp.id">{{qosp.id}}
                             <span *ngIf="qosp['display-name']"> ({{qosp['display-name']}})</span>
                         </mat-option>
@@ -93,6 +102,7 @@
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="up-profile">
                         <mat-option *ngFor="let upp of upProfiles"
+                                    id="selectUPProfile"
                                     [value]="upp.id">{{upp.id}}
                             <span *ngIf="upp['display-name']"> ({{upp['display-name']}})</span>
                         </mat-option>
@@ -104,6 +114,7 @@
                 <mat-form-field class="half-width subscriber-section">
                     <mat-select formControlName="security-profile">
                         <mat-option *ngFor="let sec of securityProfiles"
+                                    id="selectSecurityProfile"
                                     [value]="sec.id">{{sec.id}}
                             <span *ngIf="sec['display-name']"> ({{sec['display-name']}})</span>
                         </mat-option>
@@ -114,19 +125,23 @@
             <div formGroupName="profiles">
                 <div formArrayName="access-profile" class="subscriber-section">
                     <mat-hint>Access Profiles</mat-hint>
-                    <mat-icon (click)="showApSelect = true" class="subscriber-pointer">add</mat-icon>
+                    <mat-icon (click)="showApSelect = true"
+                              id="addNewExistingAccessProfile"
+                              class="subscriber-pointer">add</mat-icon>
                     <div *ngFor="let apForm of accessProfileControls.controls">
                         <mat-form-field class="field-margin half-width">
                             <div [formGroup]="apForm">
-                                <input matInput formControlName="access-profile">
+                                <input matInput formControlName="access-profile" id="inputAccessProfile">
                                 <mat-slide-toggle
-                                    formControlName="allowed">Allowed</mat-slide-toggle>
+                                    formControlName="allowed" id="toggleAllowed">Allowed</mat-slide-toggle>
                                 <button mat-icon-button
+                                        id="deleteExistingAccessProfileButton"
                                         [disabled]="!opaService.canWrite('/subscriber/ue[id=' + id + ']/access-profile')"
                                         (click)="deleteFromSelect(apForm.value['access-profile'])">
                                     <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
                                 </button>
                                 <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Access Profile"
+                                          id="pointerAccessProfile"
                                           routerLink="/profiles/accessprofile-edit/{{apForm.value['access-profile']}}">launch</mat-icon>
                             </div>
                         </mat-form-field>
@@ -137,11 +152,14 @@
         <mat-card-actions>
             <button mat-raised-button
                     color="primary" type="submit"
+                    id="submitButton"
                     [disabled]="!(subscriberUeForm.valid && subscriberUeForm.touched && opaService.canWrite('/subscriber/ue[id=' + id + ']'))">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>
-<aether-access-profile-select *ngIf="showApSelect && opaService.canWrite('/subscriber/ue[id=' + id + ']/access-profile')"
+<aether-access-profile-select
+    id="accessProfileSelectComponent"
+    *ngIf="showApSelect && opaService.canWrite('/subscriber/ue[id=' + id + ']/access-profile')"
                               [alreadySelectedAP]="accessProfileExisting"
                                 (closeEvent)="apSelected($event)">
 </aether-access-profile-select>

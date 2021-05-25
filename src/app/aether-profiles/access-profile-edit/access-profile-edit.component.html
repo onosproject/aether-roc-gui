@@ -11,31 +11,32 @@
         <mat-card-content>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="display-name">
+                    <input matInput formControlName="display-name" id="inputDisplayName">
                     <mat-hint>Display Name</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="description">
+                    <input matInput formControlName="description" id="inputDescription">
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="type">
+                    <input matInput formControlName="type" id="inputType">
                     <mat-hint>Type</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="filter">
+                    <input matInput formControlName="filter" id="inputFilter">
                     <mat-hint>Filter</mat-hint>
                 </mat-form-field>
             </div>
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button color="primary" type="submit"
+                    id="submitButton"
                     [disabled]="!(accForm.valid && accForm.touched && opaService.canWrite('/access-profile/access-profile[id=' + id + ']'))">Update</button>
         </mat-card-actions>
     </mat-card>
