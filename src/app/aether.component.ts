@@ -7,7 +7,7 @@ import {Component, OnInit} from '@angular/core';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {authConfig, BASKET_SERVICE_ENABLED} from '../environments/environment';
 import {Meta} from '@angular/platform-browser';
-import {BasketService} from './basket.service';
+import {BasketService, BasketValue} from './basket.service';
 import {OpenPolicyAgentService} from './open-policy-agent.service';
 import {Router} from '@angular/router';
 
@@ -79,9 +79,18 @@ export class AetherComponent implements OnInit {
     }
 
     signingOut(): void {
-        this.oauthService.logOut();
-        localStorage.clear();
-        window.location.reload();
+        if (this.bs.totalNumChanges() === 0) {
+            this.oauthService.logOut();
+            localStorage.clear();
+            window.location.reload();
+        } else {
+            const decision = confirm('You have ' + this.bs.totalNumChanges() + ' changes stored in basket. All changes made will be discarded upon signing out. Continue?');
+            if (decision === true) {
+                this.oauthService.logOut();
+                localStorage.clear();
+                window.location.reload();
+            }
+        }
     }
 
     get idTokClaims(): IdTokClaims {
