@@ -3,56 +3,59 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<div >
+<div>
     <mat-toolbar class="profile-toolbar">
         <p>QOS PROFILE</p>
         <span class="toolbar-spacer"></span>
         <button mat-raised-button color="primary" type="submit" aria-label="Add QOS Profile"
+                id="addNewQOSProfileButton"
                 [disabled]="!opaService.canWrite('/qos-profile/qos-profile[id=newinstance]')"
-                routerLink="/profiles/qosprofile-edit/newinstance">Add</button>
+                routerLink="/profiles/qosprofile-edit/newinstance">Add
+        </button>
     </mat-toolbar>
-    <table mat-table class="full-width-table" matSort aria-label="Elements">
+    <table mat-table class="full-width-table" matSort aria-label="Elements" id="qosTable">
         <!-- Id Column -->
-        <ng-container matColumnDef="id">
+        <ng-container matColumnDef="id" id="idColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
             <td mat-cell *matCellDef="let row">
-                <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}<br><small>({{row.id}})</small></span>
+                <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}
+                    <br><small>({{row.id}})</small></span>
                 <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
             </td>
         </ng-container>
 
         <!-- Description Column -->
-        <ng-container matColumnDef="description">
+        <ng-container matColumnDef="description" id="descColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
             <td mat-cell *matCellDef="let row">{{row.description}}</td>
         </ng-container>
 
         <!-- Uplink Column -->
-        <ng-container matColumnDef="uplink">
+        <ng-container matColumnDef="uplink" id="uplinkColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Uplink</th>
             <td mat-cell *matCellDef="let row">{{row['apn-ambr'].uplink}}</td>
         </ng-container>
 
         <!-- Downlink Column -->
-        <ng-container matColumnDef="downlink">
+        <ng-container matColumnDef="downlink" id="downlinkColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Downlink</th>
             <td mat-cell *matCellDef="let row">{{row['apn-ambr'].downlink}}</td>
         </ng-container>
 
         <!-- Qci Column -->
-        <ng-container matColumnDef="qci">
+        <ng-container matColumnDef="qci" id="qciColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>QCI</th>
             <td mat-cell *matCellDef="let row">{{row.qci}}</td>
         </ng-container>
 
         <!-- Priority Column -->
-        <ng-container matColumnDef="priority">
+        <ng-container matColumnDef="priority" id="priorityColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Priority</th>
             <td mat-cell *matCellDef="let row">{{row.arp.priority}}</td>
         </ng-container>
 
         <!-- PreEmption Capability Column -->
-        <ng-container matColumnDef="capability">
+        <ng-container matColumnDef="capability" id="capabilityColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Capability</th>
             <td mat-cell *matCellDef="let row">
                 <mat-icon class="table_icon" *ngIf="row.arp['preemption-capability']">done</mat-icon>
@@ -60,27 +63,28 @@
         </ng-container>
 
         <!-- PreEmption Vulnerability Column -->
-        <ng-container matColumnDef="vulnerability">
+        <ng-container matColumnDef="vulnerability" id="vulnerabilityColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Vulnerability</th>
             <td mat-cell *matCellDef="let row">
                 <mat-icon class="table_icon" *ngIf="row.arp['preemption-vulnerability']">done</mat-icon>
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="edit">
+        <ng-container matColumnDef="edit" id="editColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
-            <td mat-cell *matCellDef="let row" routerLink="/profiles/qosprofile-edit/{{row.id}}">
+            <td mat-cell *matCellDef="let row" routerLink="/profiles/qosprofile-edit/{{row.id}}" id="editButton">
                 <mat-icon class="table_icon">edit</mat-icon>
             </td>
         </ng-container>
 
         <!-- Delete Column -->
-        <ng-container matColumnDef="delete">
+        <ng-container matColumnDef="delete" id="deleteColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Delete</th>
             <td mat-cell *matCellDef="let row">
                 <button mat-icon-button
                         [disabled]="!opaService.canWrite('/qos-profile/qos-profile[id=' + row.id + ']')"
-                        (click)="delete(row.id)">
+                        (click)="delete(row.id)"
+                        id="deleteButton">
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
             </td>
@@ -90,7 +94,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator #paginator
+    <mat-paginator #paginator id="qosProfilePaginator"
                    [length]="dataSource?.data?.length"
                    [pageIndex]="0"
                    [pageSize]="10"

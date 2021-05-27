@@ -11,38 +11,39 @@
         <mat-card-content>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="display-name">
+                    <input matInput formControlName="display-name" id="inputDisplayName">
                     <mat-hint>Display Name</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <!--            &lt;!&ndash;    <mat-form-field appearance="legacy">&ndash;&gt;-->
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="description">
+                    <input matInput formControlName="description" id="inputDesc">
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="key">
+                    <input matInput formControlName="key" id="inputKey">
                     <mat-hint>Secret key for USIM (Key)</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="opc">
+                    <input matInput formControlName="opc" id="inputOPC">
                     <mat-hint>Secret key for Operator (OPC)</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput type="number" formControlName="sqn">
+                    <input matInput type="number" formControlName="sqn" id="inputSQN">
                     <mat-hint>Sequence number (SQN)</mat-hint>
                 </mat-form-field>
             </div>
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button color="primary" type="submit"
+                    id="submitButton"
                     [disabled]="!(spForm.valid && spForm.touched && opaService.canWrite('/security-profile/security-profile[id=' + id + ']'))">Update</button>
         </mat-card-actions>
     </mat-card>

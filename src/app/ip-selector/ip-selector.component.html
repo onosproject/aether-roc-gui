@@ -5,20 +5,22 @@
 -->
 <mat-card class="card mat-elevation-z8">
     <form #form="ngForm">
-        <ngx-ip name="ip"
-                [(ngModel)]="value"
-                [mode]="mode"
+        <ngx-ip
+            id="ngxIPComponent"
+            name="ip"
+            [(ngModel)]="value"
+            [mode]="mode"
         ></ngx-ip>
         <mat-radio-group name="mode" id="mode" [(ngModel)]="mode">
-            <mat-radio-button value="ipv4">IPV4</mat-radio-button>
-            <mat-radio-button value="ipv6">IPV6</mat-radio-button>
+            <mat-radio-button value="ipv4" id="selectIPV4Button">IPV4</mat-radio-button>
+            <mat-radio-button value="ipv6" id="selectIPV6Button">IPV6</mat-radio-button>
         </mat-radio-group>
     </form>
     <button
+        id="confirmButton"
         *ngIf="form.form.valid"
         (click)="emitNewIP(value)"
         (click)="closeCard()">Confirm
     </button>
-    <button (click)="closeCard()">Cancel</button>
-
+    <button (click)="closeCard()" id="cancelButton">Cancel</button>
 </mat-card>

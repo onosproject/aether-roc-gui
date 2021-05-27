@@ -3,38 +3,41 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<div >
+<div>
     <mat-toolbar class="profile-toolbar">
         <p>APN PROFILE</p>
         <span class="toolbar-spacer"></span>
         <button mat-raised-button color="primary" type="submit" aria-label="Add apn-profile"
+                id="addNewAPNProfileButton"
                 [disabled]="!opaService.canWrite('/apn-profile/apn-profile[id=newinstance]')"
-                routerLink="/profiles/apnprofile-edit/newinstance">Add</button>
+                routerLink="/profiles/apnprofile-edit/newinstance">Add
+        </button>
     </mat-toolbar>
-    <table mat-table class="full-width-table" matSort aria-label="Elements">
+    <table mat-table class="full-width-table" matSort aria-label="Elements" id="apnTable">
         <!-- Id Column -->
-        <ng-container matColumnDef="id">
+        <ng-container matColumnDef="id" id="idColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
             <td mat-cell *matCellDef="let row">
-                <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}<br><small>({{row.id}})</small></span>
+                <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}
+                    <br><small>({{row.id}})</small></span>
                 <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
             </td>
         </ng-container>
 
         <!-- Description Column -->
-        <ng-container matColumnDef="description">
+        <ng-container matColumnDef="description" id="descColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
             <td mat-cell *matCellDef="let row">{{row.description}}</td>
         </ng-container>
 
         <!-- APN Name Column -->
-        <ng-container matColumnDef="apn-name">
+        <ng-container matColumnDef="apn-name" id="apnNameColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>APN Name</th>
             <td mat-cell *matCellDef="let row">{{row['apn-name']}}</td>
         </ng-container>
 
         <!-- DNS Column -->
-        <ng-container matColumnDef="dns">
+        <ng-container matColumnDef="dns" id="dnsColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>DNS</th>
             <td mat-cell *matCellDef="let row">
                 <p>Pri: {{row['dns-primary']}}</p>
@@ -43,13 +46,13 @@
         </ng-container>
 
         <!-- MTU Column -->
-        <ng-container matColumnDef="mtu">
+        <ng-container matColumnDef="mtu" id="mtuColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>MTU</th>
             <td mat-cell *matCellDef="let row">{{row.mtu}}</td>
         </ng-container>
 
         <!-- GX Enabled Column -->
-        <ng-container matColumnDef="gx-enabled">
+        <ng-container matColumnDef="gx-enabled" id="gxEnabledColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>GX Enabled</th>
             <td mat-cell *matCellDef="let row">
                 <mat-icon class="table_icon" *ngIf="row['gx-enabled']">done</mat-icon>
@@ -57,30 +60,34 @@
         </ng-container>
 
         <!-- Service Group Column -->
-        <ng-container matColumnDef="service-group">
+        <ng-container matColumnDef="service-group" id="serviceGroupColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Service Group</th>
             <td mat-cell *matCellDef="let row">{{row['service-group']}}
                 <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Service Group"
-                          routerLink="/services/servicegroup-edit/{{row['service-group']}}">launch</mat-icon>
+                          routerLink="/services/servicegroup-edit/{{row['service-group']}}"
+                          id="pointerServiceGroup">launch
+                </mat-icon>
             </td>
         </ng-container>
 
         <!-- Edit Column -->
         <!-- TODO: Connect it up -->
-        <ng-container matColumnDef="edit">
+        <ng-container matColumnDef="edit" id="editColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
-            <td mat-cell *matCellDef="let row" routerLink="/profiles/apnprofile-edit/{{row.id}}">
+            <td mat-cell *matCellDef="let row" routerLink="/profiles/apnprofile-edit/{{row.id}}"
+                id="editButton">
                 <mat-icon class="table_icon">edit</mat-icon>
             </td>
         </ng-container>
 
         <!-- Delete Column -->
-        <ng-container matColumnDef="delete">
+        <ng-container matColumnDef="delete" id="deleteColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Delete</th>
             <td mat-cell *matCellDef="let row">
                 <button mat-icon-button
                         [disabled]="!opaService.canWrite('/apn-profile/apn-profile[id=' + row.id + ']')"
-                        (click)="delete(row.id)">
+                        (click)="delete(row.id)"
+                        id="deleteButton">
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
             </td>
@@ -91,6 +98,7 @@
     </table>
 
     <mat-paginator #paginator
+                   id="apnProfilePaginator"
                    [length]="dataSource?.data?.length"
                    [pageIndex]="0"
                    [pageSize]="10"

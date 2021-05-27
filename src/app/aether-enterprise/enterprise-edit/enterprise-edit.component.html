@@ -10,35 +10,41 @@
         </mat-card-header>
 
         <mat-card-content>
-            <div class="row">
+            <div class="row" id="displayNameRow">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="display-name">
+                    <input matInput formControlName="display-name" id="inputDisplayName">
                     <mat-hint>Display Name</mat-hint>
                 </mat-form-field>
             </div>
 
-            <div class="row">
+            <div class="row" id="descriptionRow">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="description">
+                    <input matInput formControlName="description" id="inputDescription">
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
             <div formArrayName="connectivity-service" class="subscriber-section">
                 <mat-hint>Connectivity Services</mat-hint>
-                <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer">add</mat-icon>
+                <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addConnectivityService">
+                    add
+                </mat-icon>
                 <div *ngFor="let csForm of connectivityServices.controls; index as i">
                     <mat-form-field class="field-margin half-width">
-                        <div [formGroup]="csForm" >
+                        <div [formGroup]="csForm">
                             <input matInput formControlName="connectivity-service" readonly>
                             <mat-slide-toggle
-                                      formControlName="enabled">Enabled</mat-slide-toggle>
+                                formControlName="enabled" id="toggleEnabled">Enabled
+                            </mat-slide-toggle>
                             <button mat-icon-button
                                     [disabled]="!opaService.canWrite('/enterprise/enterprise[id=' + id + ']/connectivity-service')"
-                                    (click)="deleteFromSelect(csForm.value['connectivity-service'])">
+                                    (click)="deleteFromSelect(csForm.value['connectivity-service'])"
+                                    id="deleteConnectivityService">
                                 <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
                             </button>
                             <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Connectivity Service"
-                                      routerLink="/connectivity/connectivity-edit/{{csForm.value['connectivity-service']}}">launch</mat-icon>
+                                      routerLink="/connectivity/connectivity-edit/{{csForm.value['connectivity-service']}}"
+                                      id="pointerConnectivityService">launch
+                            </mat-icon>
                         </div>
                     </mat-form-field>
                 </div>
@@ -46,12 +52,17 @@
 
 
             <mat-card-actions>
-                <button mat-raised-button color="primary" type="submit" [disabled]="!(entForm.valid && entForm.touched && opaService.canWrite('/enterprise/enterprise'))">Update</button>
+                <button mat-raised-button color="primary" type="submit"
+                        [disabled]="!(entForm.valid && entForm.touched && opaService.canWrite('/enterprise/enterprise'))"
+                        id="submitButton">Update
+                </button>
             </mat-card-actions>
         </mat-card-content>
     </mat-card>
 </form>
-<aether-connectivity-service-select *ngIf="showConnectDisplay && opaService.canWrite('/enterprise/enterprise[id=' + id + ']/connectivity-service')"
+<aether-connectivity-service-select
+    *ngIf="showConnectDisplay && opaService.canWrite('/enterprise/enterprise[id=' + id + ']/connectivity-service')"
+    id="connectivityServiceSelectComponent"
     [alreadySelected]="connectivityServiceExists"
     (closeEvent)="csSelected($event)">
 </aether-connectivity-service-select>
