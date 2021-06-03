@@ -86,7 +86,7 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
         });
     }
 
-    loadData(dataSourceObservable: Observable<U>, onDataLoaded:(dataSourceThisScope : RocDataSource<T, U>)=> void): void {
+    loadData(dataSourceObservable: Observable<U>, onDataLoaded: (dataSourceThisScope: RocDataSource<T, U>) => void): void {
         dataSourceObservable.pipe(
             pluck(this.pathListAttr),
             mergeMap((items: T[]) => from(items)),

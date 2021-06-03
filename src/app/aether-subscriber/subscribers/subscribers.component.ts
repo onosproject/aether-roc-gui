@@ -63,13 +63,13 @@ export class SubscribersComponent extends RocListBase<SubscriberUeDataSource> im
         });
     }
 
-    onDataLoaded(ScopeOfDataSource):void{
+    onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('subscriber-2.1.0' in basketPreview && 'ue' in basketPreview['subscriber-2.1.0']) {
-            basketPreview['subscriber-2.1.0']['ue'].forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount)=>{
+            basketPreview['subscriber-2.1.0'].ue.forEach((basketItems) => {
+                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
-                        if(basketItems.priority) {
+                        if (basketItems.priority) {
                             ScopeOfDataSource.data[listItemCount].priority = basketItems.priority;
                         }
                         if (basketItems['serving-plmn'] && basketItems['serving-plmn'].mcc) {
@@ -119,7 +119,8 @@ export class SubscribersComponent extends RocListBase<SubscriberUeDataSource> im
                                     let eachFormRulePosition = 0;
                                     for (const eachRule of ScopeOfDataSource.data[listItemCount].rules){
                                         if (eachValueRule.rule === eachRule.rule){
-                                            ScopeOfDataSource.data[listItemCount].rules[eachFormRulePosition].enabled = eachValueRule.enabled;
+                                            ScopeOfDataSource.data[listItemCount].rules[eachFormRulePosition].enabled
+                                            = eachValueRule.enabled;
                                         }
                                         eachFormRulePosition++;
                                     }
@@ -127,7 +128,7 @@ export class SubscribersComponent extends RocListBase<SubscriberUeDataSource> im
                             }
                         }
                     }
-                })
+                });
             });
         }
     }
@@ -138,6 +139,6 @@ export class SubscribersComponent extends RocListBase<SubscriberUeDataSource> im
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getSubscriber({
             target: AETHER_TARGETS[0]
-        }),this.onDataLoaded);
+        }), this.onDataLoaded);
     }
 }

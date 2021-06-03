@@ -41,14 +41,13 @@ export class GroupComponent extends RocListBase<ServiceGroupDatasource> implemen
         super(new ServiceGroupDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
-    onDataLoaded(ScopeOfDataSource):void{
+    onDataLoaded(ScopeOfDataSource): void{
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('service-group-2.1.0' in basketPreview && 'service-group' in basketPreview['service-group-2.1.0']) {
             basketPreview['service-group-2.1.0']['service-group'].forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount)=>{
+                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
-                        console.log(ScopeOfDataSource,"ScopeOfDataSource.description",basketItems)
-                        if(basketItems['display-name']) {
+                        if (basketItems['display-name']) {
                             ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
                         }
                         if (basketItems.description) {
@@ -62,7 +61,8 @@ export class GroupComponent extends RocListBase<ServiceGroupDatasource> implemen
                                     let eachFormRulePosition = 0;
                                     for (const eachRule of ScopeOfDataSource.data[listItemCount]['service-policies']){
                                         if (eachValueRule['service-policies'] === eachRule['service-policies']){
-                                            ScopeOfDataSource.data[listItemCount]['service-policies'][eachFormRulePosition].enabled = eachValueRule.enabled;
+                                            ScopeOfDataSource.data[listItemCount]['service-policies'][eachFormRulePosition].enabled
+                                            = eachValueRule.enabled;
                                         }
                                         eachFormRulePosition++;
                                     }
@@ -70,7 +70,7 @@ export class GroupComponent extends RocListBase<ServiceGroupDatasource> implemen
                             }
                         }
                     }
-                })
+                });
             });
         }
     }
@@ -81,7 +81,6 @@ export class GroupComponent extends RocListBase<ServiceGroupDatasource> implemen
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getServiceGroup({
             target: AETHER_TARGETS[0]
-        }),this.onDataLoaded);
-        console.log(this.dataSource);
+        }), this.onDataLoaded);
     }
 }

@@ -44,13 +44,13 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
         super(new ConnectivityServiceDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
-    onDataLoaded(ScopeOfDataSource):void{
+    onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('connectivity-service-2.1.0' in basketPreview && 'connectivity-service' in basketPreview['connectivity-service-2.1.0']) {
             basketPreview['connectivity-service-2.1.0']['connectivity-service'].forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount)=>{
+                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
-                        if(basketItems['display-name']) {
+                        if (basketItems['display-name']) {
                             ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
                         }
                         if (basketItems['spgwc-endpoint']){
@@ -66,7 +66,7 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;
                         }
                     }
-                })
+                });
             });
         }
     }
@@ -77,6 +77,6 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getConnectivityService({
             target: AETHER_TARGETS[0]
-        }),this.onDataLoaded);
+        }), this.onDataLoaded);
     }
 }

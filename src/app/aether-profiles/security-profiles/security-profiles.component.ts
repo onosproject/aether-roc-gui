@@ -44,13 +44,13 @@ export class SecurityProfilesComponent extends RocListBase<SecurityProfilesDatas
         super(new SecurityProfilesDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
-    onDataLoaded(ScopeOfDataSource):void{
+    onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('security-profile-2.1.0' in basketPreview && 'security-profile' in basketPreview['security-profile-2.1.0']) {
             basketPreview['security-profile-2.1.0']['security-profile'].forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount)=>{
+                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
-                        if(basketItems['display-name']) {
+                        if (basketItems['display-name']) {
                             ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
                         }
                         if (basketItems.key){
@@ -66,7 +66,7 @@ export class SecurityProfilesComponent extends RocListBase<SecurityProfilesDatas
                             ScopeOfDataSource.data[listItemCount].sqn = basketItems.sqn;
                         }
                     }
-                })
+                });
             });
         }
     }
@@ -77,6 +77,6 @@ export class SecurityProfilesComponent extends RocListBase<SecurityProfilesDatas
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getSecurityProfile({
             target: AETHER_TARGETS[0]
-        }),this.onDataLoaded);
+        }), this.onDataLoaded);
     }
 }

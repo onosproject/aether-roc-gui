@@ -14,7 +14,7 @@ import {AETHER_TARGETS} from '../../../../environments/environment';
 import {BasketService, TYPE} from '../../../basket.service';
 import {OpenPolicyAgentService} from '../../../open-policy-agent.service';
 import {RocListBase} from '../../../roc-list-base';
-import {FormArray} from "@angular/forms";
+import {FormArray} from '@angular/forms';
 
 @Component({
     selector: 'aether-policy',
@@ -46,13 +46,13 @@ export class PolicyComponent extends RocListBase<ServicePolicyDatasource> implem
         super(new ServicePolicyDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
-    onDataLoaded(ScopeOfDataSource):void{
+    onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('service-policy-2.1.0' in basketPreview && 'service-policy' in basketPreview['service-policy-2.1.0']) {
             basketPreview['service-policy-2.1.0']['service-policy'].forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount)=>{
+                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
-                        if(basketItems['display-name']) {
+                        if (basketItems['display-name']) {
                             ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
                         }
                         if (basketItems.ambr && basketItems.ambr.uplink) {
@@ -78,7 +78,8 @@ export class PolicyComponent extends RocListBase<ServicePolicyDatasource> implem
                                     let eachFormRulePosition = 0;
                                     for (const eachRule of ScopeOfDataSource.data[listItemCount].rules){
                                         if (eachValueRule.rule === eachRule.rule){
-                                            ScopeOfDataSource.data[listItemCount].rules[eachFormRulePosition].enabled = eachValueRule.enabled;
+                                            ScopeOfDataSource.data[listItemCount].rules[eachFormRulePosition].enabled
+                                            = eachValueRule.enabled;
                                         }
                                         eachFormRulePosition++;
                                     }
@@ -86,7 +87,7 @@ export class PolicyComponent extends RocListBase<ServicePolicyDatasource> implem
                             }
                         }
                     }
-                })
+                });
             });
         }
     }
@@ -97,7 +98,6 @@ export class PolicyComponent extends RocListBase<ServicePolicyDatasource> implem
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getServicePolicy({
             target: AETHER_TARGETS[0]
-        }),this.onDataLoaded);
-        console.log(this.dataSource);
+        }), this.onDataLoaded);
     }
 }

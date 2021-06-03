@@ -47,15 +47,13 @@ export class QosProfilesComponent extends RocListBase<QosProfilesDatasource> imp
         super(new QosProfilesDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
-    onDataLoaded(ScopeOfDataSource):void{
-        console.log(ScopeOfDataSource,"rules--------")
+    onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        console.log(ScopeOfDataSource,"rules--------3")
         if ('qos-profile-2.1.0' in basketPreview && 'qos-profile' in basketPreview['qos-profile-2.1.0']) {
             basketPreview['qos-profile-2.1.0']['qos-profile'].forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount)=>{
+                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
-                        if(basketItems['display-name']) {
+                        if (basketItems['display-name']) {
                             ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
                         }
                         if (basketItems['apn-ambr'] && basketItems['apn-ambr'].uplink) {
@@ -80,7 +78,7 @@ export class QosProfilesComponent extends RocListBase<QosProfilesDatasource> imp
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;
                         }
                     }
-                })
+                });
             });
         }
     }
@@ -91,6 +89,6 @@ export class QosProfilesComponent extends RocListBase<QosProfilesDatasource> imp
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getQosProfile({
             target: AETHER_TARGETS[0]
-        }),this.onDataLoaded);
+        }),     this.onDataLoaded);
     }
 }

@@ -14,7 +14,6 @@ import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {RocListBase} from '../../roc-list-base';
-import {FormArray} from "@angular/forms";
 
 @Component({
     selector: 'aether-enterprise-profiles',
@@ -43,13 +42,13 @@ export class EnterpriseComponent extends RocListBase<EnterpriseDatasource> imple
         super(new EnterpriseDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
-    onDataLoaded(ScopeOfDataSource):void{
+    onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('enterprise-2.1.0' in basketPreview && 'enterprise' in basketPreview['enterprise-2.1.0']) {
-            basketPreview['enterprise-2.1.0']['enterprise'].forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount)=>{
+            basketPreview['enterprise-2.1.0'].enterprise.forEach((basketItems) => {
+                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
-                        if(basketItems['display-name']) {
+                        if (basketItems['display-name']) {
                             ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
                         }
                         if (basketItems.description) {
@@ -63,7 +62,8 @@ export class EnterpriseComponent extends RocListBase<EnterpriseDatasource> imple
                                     let eachCSPosition = 0;
                                     for (const eachScopeCS of ScopeOfDataSource.data[listItemCount]['connectivity-service']){
                                         if (eachBasketCS['connectivity-service'] === eachScopeCS['connectivity-service']){
-                                            ScopeOfDataSource.data[listItemCount]['connectivity-service'][eachCSPosition].enabled = eachBasketCS.enabled;
+                                            ScopeOfDataSource.data[listItemCount]['connectivity-service'][eachCSPosition].enabled
+                                            = eachBasketCS.enabled;
                                         }
                                         eachCSPosition++;
                                     }
@@ -71,7 +71,7 @@ export class EnterpriseComponent extends RocListBase<EnterpriseDatasource> imple
                             }
                         }
                     }
-                })
+                });
             });
         }
     }

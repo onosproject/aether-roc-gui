@@ -43,13 +43,13 @@ export class UpProfilesComponent extends RocListBase<UpProfilesDatasource> imple
         super(new UpProfilesDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
-    onDataLoaded(ScopeOfDataSource):void{
+    onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('up-profile-2.1.0' in basketPreview && 'up-profile' in basketPreview['up-profile-2.1.0']) {
             basketPreview['up-profile-2.1.0']['up-profile'].forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount)=>{
+                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
-                        if(basketItems['display-name']) {
+                        if (basketItems['display-name']) {
                             ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
                         }
                         if (basketItems['user-plane']) {
@@ -62,7 +62,7 @@ export class UpProfilesComponent extends RocListBase<UpProfilesDatasource> imple
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;
                         }
                     }
-                })
+                });
             });
         }
     }
@@ -73,6 +73,6 @@ export class UpProfilesComponent extends RocListBase<UpProfilesDatasource> imple
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getUpProfile({
             target: AETHER_TARGETS[0]
-        }),this.onDataLoaded);
+        }), this.onDataLoaded);
     }
 }

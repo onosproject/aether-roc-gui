@@ -51,31 +51,31 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         ])],
         qos : this.fb.group({
             'guaranteed-bitrate' : this.fb.group({
-                uplink: [0,Validators.compose(([
+                uplink: [0, Validators.compose(([
                     Validators.minLength(0),
                     Validators.maxLength(4294967295)
                 ]))],
-                downlink: [0,Validators.compose(([
+                downlink: [0, Validators.compose(([
                     Validators.minLength(0),
                     Validators.maxLength(4294967295)
                 ]))]
             }),
             'aggregate-maximum-bitrate' : this.fb.group({
-                uplink: [0,Validators.compose(([
+                uplink: [0, Validators.compose(([
                     Validators.minLength(0),
                     Validators.maxLength(4294967295)
                 ]))],
-                downlink: [0,Validators.compose(([
+                downlink: [0, Validators.compose(([
                     Validators.minLength(0),
                     Validators.maxLength(4294967295)
                 ]))],
             }),
             'maximum-requested-bandwidth' : this.fb.group({
-                uplink: [0,Validators.compose(([
+                uplink: [0, Validators.compose(([
                     Validators.minLength(0),
                     Validators.maxLength(4294967295)
                 ]))],
-                downlink: [0,Validators.compose(([
+                downlink: [0, Validators.compose(([
                     Validators.minLength(0),
                     Validators.maxLength(4294967295)
                 ]))],
