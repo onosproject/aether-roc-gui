@@ -176,7 +176,6 @@ export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy>
                             if (eachValueRule.rule === eachFormRule.rule){
                                 this.policyForm.value.rules[eachFormRulePosition].enabled = eachValueRule.enabled;
                             }
-                            console.log(this.policyForm.value)
                             eachFormRulePosition++;
                         }
                     }
