@@ -44,12 +44,39 @@ export class SecurityProfilesComponent extends RocListBase<SecurityProfilesDatas
         super(new SecurityProfilesDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
+    onDataLoaded(ScopeOfDataSource):void{
+        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        if ('security-profile-2.1.0' in basketPreview && 'security-profile' in basketPreview['security-profile-2.1.0']) {
+            basketPreview['security-profile-2.1.0']['security-profile'].forEach((basketItems) => {
+                ScopeOfDataSource.data.forEach((listItem, listItemCount)=>{
+                    if (basketItems.id === listItem.id) {
+                        if(basketItems['display-name']) {
+                            ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
+                        }
+                        if (basketItems.key){
+                            ScopeOfDataSource.data[listItemCount].key = basketItems.key;
+                        }
+                        if (basketItems.opc) {
+                            ScopeOfDataSource.data[listItemCount].opc = basketItems.opc;
+                        }
+                        if (basketItems.description) {
+                            ScopeOfDataSource.data[listItemCount].description = basketItems.description;
+                        }
+                        if (basketItems.sqn){
+                            ScopeOfDataSource.data[listItemCount].sqn = basketItems.sqn;
+                        }
+                    }
+                })
+            });
+        }
+    }
+
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getSecurityProfile({
             target: AETHER_TARGETS[0]
-        }));
+        }),this.onDataLoaded);
     }
 }

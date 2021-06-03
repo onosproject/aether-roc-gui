@@ -63,12 +63,81 @@ export class SubscribersComponent extends RocListBase<SubscriberUeDataSource> im
         });
     }
 
+    onDataLoaded(ScopeOfDataSource):void{
+        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        if ('subscriber-2.1.0' in basketPreview && 'ue' in basketPreview['subscriber-2.1.0']) {
+            basketPreview['subscriber-2.1.0']['ue'].forEach((basketItems) => {
+                ScopeOfDataSource.data.forEach((listItem, listItemCount)=>{
+                    if (basketItems.id === listItem.id) {
+                        if(basketItems.priority) {
+                            ScopeOfDataSource.data[listItemCount].priority = basketItems.priority;
+                        }
+                        if (basketItems['serving-plmn'] && basketItems['serving-plmn'].mcc) {
+                            ScopeOfDataSource.data[listItemCount]['serving-plmn'].mcc = basketItems['serving-plmn'].mcc;
+                        }
+                        if (basketItems['serving-plmn'] && basketItems['serving-plmn'].mnc) {
+                            ScopeOfDataSource.data[listItemCount]['serving-plmn'].mnc = basketItems['serving-plmn'].mnc;
+                        }
+                        if (basketItems['serving-plmn'] && basketItems['serving-plmn'].tac) {
+                            ScopeOfDataSource.data[listItemCount]['serving-plmn'].tac = basketItems['serving-plmn'].tac;
+                        }
+                        if (basketItems.profiles && basketItems.profiles['apn-profile']) {
+                            ScopeOfDataSource.data[listItemCount].profiles['apn-profile'] = basketItems.profiles['apn-profile'];
+                        }
+                        if (basketItems.profiles && basketItems.profiles['qos-profile']) {
+                            ScopeOfDataSource.data[listItemCount].profiles['qos-profile'] = basketItems.profiles['qos-profile'];
+                        }
+                        if (basketItems.profiles && basketItems.profiles['up-profile']) {
+                            ScopeOfDataSource.data[listItemCount].profiles['up-profile'] = basketItems.profiles['up-profile'];
+                        }
+                        if (basketItems.profiles && basketItems.profiles['security-profile']) {
+                            ScopeOfDataSource.data[listItemCount].profiles['security-profile'] = basketItems.profiles['security-profile'];
+                        }
+                        if ('enabled' in basketItems){
+                            ScopeOfDataSource.data[listItemCount].enabled = basketItems.enabled;
+                        }
+                        if (basketItems['imsi-range-from']){
+                            ScopeOfDataSource.data[listItemCount]['imsi-range-from'] = basketItems['imsi-range-from'];
+                        }
+                        if (basketItems['imsi-range-to']){
+                            ScopeOfDataSource.data[listItemCount]['imsi-range-to'] = basketItems['imsi-range-to'];
+                        }
+                        if (basketItems['imsi-wildcard']){
+                            ScopeOfDataSource.data[listItemCount]['imsi-wildcard'] = basketItems['imsi-wildcard'];
+                        }
+                        if (basketItems['requested-apn']){
+                            ScopeOfDataSource.data[listItemCount]['requested-apn'] = basketItems['requested-apn'];
+                        }
+                        if (basketItems.enterprise){
+                            ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
+                        }
+                        if (basketItems.rules){
+                            if (ScopeOfDataSource.data[listItemCount].rules.length === 0) {
+                                ScopeOfDataSource.data[listItemCount].rules = basketItems.rules;
+                            } else {
+                                for (const eachValueRule of basketItems.rules) {
+                                    let eachFormRulePosition = 0;
+                                    for (const eachRule of ScopeOfDataSource.data[listItemCount].rules){
+                                        if (eachValueRule.rule === eachRule.rule){
+                                            ScopeOfDataSource.data[listItemCount].rules[eachFormRulePosition].enabled = eachValueRule.enabled;
+                                        }
+                                        eachFormRulePosition++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+            });
+        }
+    }
+
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getSubscriber({
             target: AETHER_TARGETS[0]
-        }));
+        }),this.onDataLoaded);
     }
 }

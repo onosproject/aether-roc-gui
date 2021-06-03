@@ -202,7 +202,6 @@ export class PolicyEditComponent extends RocEditBase<ServicePolicyServicePolicy>
                     basketPreview['service-policy-2.1.0']['service-policy'].forEach((basketItems) => {
                         if (basketItems.id === id){
                             this.populateFormData(basketItems);
-
                         }
                     });
                 }

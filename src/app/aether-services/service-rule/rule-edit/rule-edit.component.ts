@@ -43,7 +43,7 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
     ruleForm = this.fb.group({
         id: ['', Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(31),
+            Validators.maxLength(32),
         ])],
         'display-name': ['', Validators.compose([
             Validators.minLength(1),
@@ -51,16 +51,34 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         ])],
         qos : this.fb.group({
             'guaranteed-bitrate' : this.fb.group({
-                uplink: [''],
-                downlink: ['']
+                uplink: [0,Validators.compose(([
+                    Validators.minLength(0),
+                    Validators.maxLength(4294967295)
+                ]))],
+                downlink: [0,Validators.compose(([
+                    Validators.minLength(0),
+                    Validators.maxLength(4294967295)
+                ]))]
             }),
             'aggregate-maximum-bitrate' : this.fb.group({
-                uplink: [''],
-                downlink: ['']
+                uplink: [0,Validators.compose(([
+                    Validators.minLength(0),
+                    Validators.maxLength(4294967295)
+                ]))],
+                downlink: [0,Validators.compose(([
+                    Validators.minLength(0),
+                    Validators.maxLength(4294967295)
+                ]))],
             }),
             'maximum-requested-bandwidth' : this.fb.group({
-                uplink: [''],
-                downlink: ['']
+                uplink: [0,Validators.compose(([
+                    Validators.minLength(0),
+                    Validators.maxLength(4294967295)
+                ]))],
+                downlink: [0,Validators.compose(([
+                    Validators.minLength(0),
+                    Validators.maxLength(4294967295)
+                ]))],
             }),
             qci: [0, Validators.compose([
                     Validators.min(0),
@@ -136,6 +154,32 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         const filterValue = bandwidthIndex;
         return this.options.filter(option => option.megabyte.numerical);
     }
+    loadServiceRuleServiceRule(target: string, id: string): void {
+        this.serviceRuleServiceRuleService.getServiceRuleServiceRule({
+            target,
+            id
+        }).subscribe(
+            (value => {
+                this.data = value;
+                this.populateFormData(value);
+            }),
+            error => {
+                console.warn('Error getting ServiceRuleServiceRule(s) for ', target, error);
+            },
+            () => {
+                const basketPreview = this.bs.buildPatchBody().Updates;
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['service-rule-2.1.0']) {
+                    basketPreview['service-rule-2.1.0']['service-rule'].forEach((basketItems) => {
+                        if (basketItems.id === id){
+                            this.populateFormData(basketItems);
+                        }
+                    });
+                }
+                console.log('Finished loading ServiceRuleServiceRule(s)', target, id);
+            }
+        );
+    }
+
     private populateFormData(value: ServiceRuleServiceRule): void{
         if (value['display-name']) {
             this.ruleForm.get('display-name').setValue(value['display-name']);
@@ -168,11 +212,11 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
             const priority = value.qos.arp.priority;
             this.ruleForm.get(['qos', 'arp', 'priority']).setValue(priority);
         }
-        if (value.qos && value.qos.arp && value.qos.arp['preemption-capability'] != null){
+        if (value.qos && value.qos.arp && 'preemption-capability' in value.qos.arp ){
             const preemptionCapability = value.qos.arp['preemption-capability'];
             this.ruleForm.get(['qos', 'arp', 'preemption-capability']).setValue(preemptionCapability);
         }
-        if (value.qos && value.qos.arp && value.qos.arp['preemption-vulnerability'] != null) {
+        if (value.qos && value.qos.arp && 'preemption-vulnerability' in value.qos.arp) {
             const preemptionVulnerability = value.qos.arp['preemption-vulnerability'];
             this.ruleForm.get(['qos', 'arp', 'preemption-vulnerability']).setValue(preemptionVulnerability);
         }
@@ -188,31 +232,5 @@ export class RuleEditComponent extends RocEditBase<ServiceRuleServiceRule> imple
         if (value['charging-rule-name']){
             this.ruleForm.get('charging-rule-name').setValue(value['charging-rule-name']);
         }
-    }
-
-    loadServiceRuleServiceRule(target: string, id: string): void {
-        this.serviceRuleServiceRuleService.getServiceRuleServiceRule({
-            target,
-            id
-        }).subscribe(
-            (value => {
-                this.data = value;
-                this.populateFormData(value);
-            }),
-            error => {
-                console.warn('Error getting ServiceRuleServiceRule(s) for ', target, error);
-            },
-            () => {
-                const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['service-rule-2.1.0']) {
-                    basketPreview['service-rule-2.1.0']['service-rule'].forEach((basketItems) => {
-                        if (basketItems.id === id){
-                            this.populateFormData(basketItems);
-                        }
-                    });
-                }
-                console.log('Finished loading ServiceRuleServiceRule(s)', target, id);
-            }
-        );
     }
 }

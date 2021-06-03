@@ -47,12 +47,48 @@ export class ApnProfilesComponent extends RocListBase<ApnProfilesDatasource> imp
         super(new ApnProfilesDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
+    onDataLoaded(ScopeOfDataSource):void{
+        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        if ('apn-profile-2.1.0' in basketPreview && 'apn-profile' in basketPreview['apn-profile-2.1.0']) {
+            basketPreview['apn-profile-2.1.0']['apn-profile'].forEach((basketItems) => {
+                ScopeOfDataSource.data.forEach((listItem, listItemCount)=>{
+                    if (basketItems.id === listItem.id) {
+                        if(basketItems['display-name']) {
+                            ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
+                        }
+                        if (basketItems['dns-secondary']) {
+                            ScopeOfDataSource.data[listItemCount]['dns-secondary'] = basketItems['dns-secondary'];
+                        }
+                        if (basketItems.mtu) {
+                            ScopeOfDataSource.data[listItemCount].mtu= basketItems.mtu;
+                        }
+                        if (basketItems['apn-name']){
+                            ScopeOfDataSource.data[listItemCount]['apn-name'] = basketItems['apn-name'];
+                        }
+                        if (basketItems['dns-primary']) {
+                            ScopeOfDataSource.data[listItemCount]['dns-primary'] = basketItems['dns-primary'];
+                        }
+                        if (basketItems['gx-enabled']) {
+                            ScopeOfDataSource.data[listItemCount]['gx-enabled'] = basketItems['gx-enabled'];
+                        }
+                        if (basketItems['service-group']) {
+                            ScopeOfDataSource.data[listItemCount]['service-group']= basketItems['service-group'];
+                        }
+                        if (basketItems.description) {
+                            ScopeOfDataSource.data[listItemCount].description = basketItems.description;
+                        }
+                    }
+                })
+            });
+        }
+    }
+
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getApnProfile({
             target: AETHER_TARGETS[0]
-        }));
+        }),this.onDataLoaded);
     }
 }
