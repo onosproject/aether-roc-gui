@@ -3,15 +3,15 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, ViewChild, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, NgForm, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {
     Service as AetherService,
     ApnProfileApnProfileService
 } from '../../../openapi3/aether/2.1.0/services';
 import {
-    ApnProfileApnProfile, SecurityProfileSecurityProfile, ServiceGroupServiceGroup
+    ApnProfileApnProfile, ServiceGroupServiceGroup
 } from '../../../openapi3/aether/2.1.0/models';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -175,7 +175,6 @@ export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> i
     }
 
     updateFormPrim(ip: string): void {
-        console.log('UPDATED FORM');
         this.apnForm.get('dns-primary')[UPDATED] = ip;
         this.apnForm.get('dns-primary').markAsDirty();
         this.apnForm.get('dns-primary').markAsTouched();
@@ -183,7 +182,6 @@ export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> i
     }
 
     updateFormSec(ip: string): void {
-        console.log('UPDATED FORM');
         this.apnForm.get('dns-secondary')[UPDATED] = ip;
         this.apnForm.get('dns-secondary').markAsDirty();
         this.apnForm.get('dns-secondary').markAsTouched();
@@ -197,13 +195,10 @@ export class ApnProfileEditComponent extends RocEditBase<ApnProfileApnProfile> i
         }).subscribe(
             (value => {
                 this.serviceGroups = value['service-group'];
-                console.log('Got Service Profiles', value['service-group'].length);
+                console.log('Got', value['service-group'].length, 'Service Groups');
             }),
             error => {
                 console.warn('Error getting Service Groups for ', target, error);
-            },
-            () => {
-                console.log('Finished loading Service Groups', target);
             }
         );
     }

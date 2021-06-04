@@ -12,7 +12,7 @@ import {AETHER_TARGETS} from '../environments/environment';
 
 export abstract class RocEditBase<T> {
     protected form: FormGroup;
-    public isNew: boolean;
+    public isNewInstance: boolean;
     protected loadFunc: (target: string, id: string) => void;
     protected initFunc: () => string;
 
@@ -31,11 +31,11 @@ export abstract class RocEditBase<T> {
         this.route.paramMap.subscribe(
             value => {
                 if (value.get('id') === 'newinstance') {
-                    this.isNew = true;
+                    this.isNewInstance = true;
                     if (this.initFunc) {
                         this.form.get('id').setValue(this.initFunc());
                     }
-                    console.log('New control', this.id);
+                    console.log('New control', this.pathRoot);
                 } else {
                     this.form.get('id').setValue(value.get('id'));
                     this.loadFunc(this.target, value.get('id'));
@@ -66,5 +66,9 @@ export abstract class RocEditBase<T> {
 
     get target(): string {
         return AETHER_TARGETS[0];
+    }
+
+    public get isNew(): boolean {
+        return this.isNewInstance;
     }
 }
