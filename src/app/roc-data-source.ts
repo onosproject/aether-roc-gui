@@ -86,7 +86,7 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
         });
     }
 
-    loadData(dataSourceObservable: Observable<U>): void {
+    loadData(dataSourceObservable: Observable<U>, onDataLoaded: (dataSourceThisScope: RocDataSource<T, U>) => void): void {
         dataSourceObservable.pipe(
             pluck(this.pathListAttr),
             mergeMap((items: T[]) => from(items)),
@@ -106,6 +106,8 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
             },
             () => {
                 // table.refreshRows() does not seem to work - using this trick instead
+                // const basketPreview = this.bs.buildPatchBody().Updates;
+                onDataLoaded(this);
                 this.paginator._changePageSize(this.paginator.pageSize);
             }
         );

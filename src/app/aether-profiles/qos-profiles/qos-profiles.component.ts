@@ -47,12 +47,48 @@ export class QosProfilesComponent extends RocListBase<QosProfilesDatasource> imp
         super(new QosProfilesDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
+    onDataLoaded(ScopeOfDataSource): void {
+        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        if ('qos-profile-2.1.0' in basketPreview && 'qos-profile' in basketPreview['qos-profile-2.1.0']) {
+            basketPreview['qos-profile-2.1.0']['qos-profile'].forEach((basketItems) => {
+                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
+                    if (basketItems.id === listItem.id) {
+                        if (basketItems['display-name']) {
+                            ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
+                        }
+                        if (basketItems['apn-ambr'] && basketItems['apn-ambr'].uplink) {
+                            ScopeOfDataSource.data[listItemCount]['apn-ambr'].uplink = basketItems['apn-ambr'].uplink;
+                        }
+                        if (basketItems['apn-ambr'] && basketItems['apn-ambr'].downlink) {
+                            ScopeOfDataSource.data[listItemCount]['apn-ambr'].downlink = basketItems['apn-ambr'].downlink;
+                        }
+                        if (basketItems.qci){
+                            ScopeOfDataSource.data[listItemCount].qci = basketItems.qci;
+                        }
+                        if (basketItems.arp && basketItems.arp.priority) {
+                            ScopeOfDataSource.data[listItemCount].arp.priority = basketItems.arp.priority;
+                        }
+                        if (basketItems.arp && 'preemption-capability' in basketItems.arp) {
+                            ScopeOfDataSource.data[listItemCount].arp['preemption-capability'] = basketItems.arp['preemption-capability'];
+                        }
+                        if (basketItems.arp && 'preemption-vulnerability' in basketItems.arp) {
+                            ScopeOfDataSource.data[listItemCount].arp['preemption-vulnerability'] = basketItems.arp['preemption-vulnerability'];
+                        }
+                        if (basketItems.description) {
+                            ScopeOfDataSource.data[listItemCount].description = basketItems.description;
+                        }
+                    }
+                });
+            });
+        }
+    }
+
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getQosProfile({
             target: AETHER_TARGETS[0]
-        }));
+        }),     this.onDataLoaded);
     }
 }

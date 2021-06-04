@@ -44,12 +44,39 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
         super(new ConnectivityServiceDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
+    onDataLoaded(ScopeOfDataSource): void {
+        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        if ('connectivity-service-2.1.0' in basketPreview && 'connectivity-service' in basketPreview['connectivity-service-2.1.0']) {
+            basketPreview['connectivity-service-2.1.0']['connectivity-service'].forEach((basketItems) => {
+                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
+                    if (basketItems.id === listItem.id) {
+                        if (basketItems['display-name']) {
+                            ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
+                        }
+                        if (basketItems['spgwc-endpoint']){
+                            ScopeOfDataSource.data[listItemCount]['spgwc-endpoint'] = basketItems['spgwc-endpoint'];
+                        }
+                        if (basketItems['hss-endpoint']) {
+                            ScopeOfDataSource.data[listItemCount]['hss-endpoint'] = basketItems['hss-endpoint'];
+                        }
+                        if (basketItems['pcrf-endpoint']) {
+                            ScopeOfDataSource.data[listItemCount]['pcrf-endpoint'] = basketItems['pcrf-endpoint'];
+                        }
+                        if (basketItems.description) {
+                            ScopeOfDataSource.data[listItemCount].description = basketItems.description;
+                        }
+                    }
+                });
+            });
+        }
+    }
+
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getConnectivityService({
             target: AETHER_TARGETS[0]
-        }));
+        }), this.onDataLoaded);
     }
 }

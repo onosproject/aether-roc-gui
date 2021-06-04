@@ -11,7 +11,7 @@ import {EnterpriseEnterprise} from '../../../openapi3/aether/2.1.0/models';
 import {Service as AetherService} from '../../../openapi3/aether/2.1.0/services';
 import {EnterpriseDatasource} from './enterprise-datasource';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {BasketService} from '../../basket.service';
+import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {RocListBase} from '../../roc-list-base';
 
@@ -42,12 +42,46 @@ export class EnterpriseComponent extends RocListBase<EnterpriseDatasource> imple
         super(new EnterpriseDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
+    onDataLoaded(ScopeOfDataSource): void {
+        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        if ('enterprise-2.1.0' in basketPreview && 'enterprise' in basketPreview['enterprise-2.1.0']) {
+            basketPreview['enterprise-2.1.0'].enterprise.forEach((basketItems) => {
+                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
+                    if (basketItems.id === listItem.id) {
+                        if (basketItems['display-name']) {
+                            ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
+                        }
+                        if (basketItems.description) {
+                            ScopeOfDataSource.data[listItemCount].description = basketItems.description;
+                        }
+                        if (basketItems['connectivity-service']){
+                            if (ScopeOfDataSource.data[listItemCount]['connectivity-service'].length === 0) {
+                                ScopeOfDataSource.data[listItemCount]['connectivity-service'] = basketItems['connectivity-service'];
+                            } else {
+                                for (const eachBasketCS of basketItems['connectivity-service']) {
+                                    let eachCSPosition = 0;
+                                    for (const eachScopeCS of ScopeOfDataSource.data[listItemCount]['connectivity-service']){
+                                        if (eachBasketCS['connectivity-service'] === eachScopeCS['connectivity-service']){
+                                            ScopeOfDataSource.data[listItemCount]['connectivity-service'][eachCSPosition].enabled
+                                            = eachBasketCS.enabled;
+                                        }
+                                        eachCSPosition++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        }
+    }
+
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getEnterprise({
             target: AETHER_TARGETS[0]
-        }));
+        }), this.onDataLoaded);
     }
 }
