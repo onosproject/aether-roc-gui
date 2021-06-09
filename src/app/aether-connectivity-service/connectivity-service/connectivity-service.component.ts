@@ -7,8 +7,8 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2.1.0/models';
-import {Service as AetherService} from '../../../openapi3/aether/2.1.0/services';
+import {ConnectivityServiceConnectivityService} from '../../../openapi3/aether/3.0.0/models';
+import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
 import {ConnectivityServiceDatasource} from './connectivity-service-datasource';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService} from '../../basket.service';
@@ -32,6 +32,7 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
         'spgwc-endpoint',
         'hss-endpoint',
         'pcrf-endpoint',
+        'core-5g-endpoint',
         'edit',
         'delete'
     ];
@@ -46,8 +47,8 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('connectivity-service-2.1.0' in basketPreview && 'connectivity-service' in basketPreview['connectivity-service-2.1.0']) {
-            basketPreview['connectivity-service-2.1.0']['connectivity-service'].forEach((basketItems) => {
+        if ('connectivity-service-3.0.0' in basketPreview && 'connectivity-service' in basketPreview['connectivity-service-3.0.0']) {
+            basketPreview['connectivity-service-3.0.0']['connectivity-service'].forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -61,6 +62,9 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
                         }
                         if (basketItems['pcrf-endpoint']) {
                             ScopeOfDataSource.data[listItemCount]['pcrf-endpoint'] = basketItems['pcrf-endpoint'];
+                        }
+                        if (basketItems['core-5g-endpoint']) {
+                            ScopeOfDataSource.data[listItemCount]['core-5g-endpoint'] = basketItems['core-5g-endpoint'];
                         }
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;

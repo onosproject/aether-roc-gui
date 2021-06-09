@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ConnectivityServiceConnectivityServiceService, Service} from '../../../openapi3/aether/2.1.0/services';
+import {ConnectivityServiceConnectivityServiceService, Service} from '../../../openapi3/aether/3.0.0/services';
 import {FormBuilder} from '@angular/forms';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {ConnectivityService, ConnectivityServiceConnectivityService} from '../../../openapi3/aether/2.1.0/models';
+import {ConnectivityService, ConnectivityServiceConnectivityService} from '../../../openapi3/aether/3.0.0/models';
 import {RocSelectBase} from '../../roc-select-base';
 
 @Component({

@@ -12,10 +12,6 @@ import {Routes, RouterModule} from '@angular/router';
  */
 const aetherRoutes: Routes = [
     {
-        path: 'subscribers',
-        loadChildren: () => import('./aether-subscriber/aether-subscriber.module').then(m => m.AetherSubscriberModule)
-    },
-    {
         path: 'enterprise',
         loadChildren: () => import('./aether-enterprise/aether-enterprise.module').then(m => m.AetherEnterpriseModule)
     },
@@ -25,19 +21,11 @@ const aetherRoutes: Routes = [
             .then(m => m.AetherConnectivityServiceModule)
     },
     {
-        path: 'profiles',
-        loadChildren: () => import('./aether-profiles/aether-profiles.module').then(m => m.AetherProfilesModule)
-    },
-    {
-        path: 'services',
-        loadChildren: () => import('./aether-services/aether-services.module').then(m => m.AetherServiceModule)
-    },
-    {
         path: 'basket',
         loadChildren: () => import('./basket/basket.module').then(m => m.BasketModule)
     },
     {
-        path: '',
+        path: 'basket',
         redirectTo: 'subscribers',
         pathMatch: 'full'
     }

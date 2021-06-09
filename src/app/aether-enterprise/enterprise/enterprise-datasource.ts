@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Enterprise, EnterpriseEnterprise} from '../../../openapi3/aether/2.1.0/models';
-import {Service as AetherService} from '../../../openapi3/aether/2.1.0/services';
+import {Enterprise, EnterpriseEnterprise} from '../../../openapi3/aether/3.0.0/models';
+import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
 import {BasketService} from '../../basket.service';
 import {RocDataSource} from '../../roc-data-source';
 
@@ -17,7 +17,7 @@ export class EnterpriseDatasource extends RocDataSource<EnterpriseEnterprise, En
         protected target: string,
     ) {
         super(aetherService, bs, target,
-            '/enterprise-2.1.0', 'enterprise',
+            '/enterprise-3.0.0', 'enterprise',
         );
     }
 }
