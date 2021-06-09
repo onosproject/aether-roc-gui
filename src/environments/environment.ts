@@ -24,7 +24,7 @@ export const environment = {
 export const AETHER_ROC_API_URL = 'http://localhost:8181';
 export const KUBERNETES_API_PROXY = 'http://localhost:8001';
 
-export const AETHER_TARGETS = ['connectivity-service-v2'];
+export const AETHER_TARGETS = ['connectivity-service-v3'];
 export const RBAC_TARGET = 'rbac';
 
 export const OIDC_AUTH_CLIENT_ID = 'aether-roc-gui';

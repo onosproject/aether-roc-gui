@@ -6,10 +6,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
-import {EnterpriseEnterpriseService} from '../../../openapi3/aether/2.1.0/services';
+import {EnterpriseEnterpriseService} from '../../../openapi3/aether/3.0.0/services';
 import {
-    EnterpriseEnterprise, EnterpriseEnterpriseConnectivityService, ServicePolicyServicePolicy
-} from '../../../openapi3/aether/2.1.0/models';
+    EnterpriseEnterprise, EnterpriseEnterpriseConnectivityService
+} from '../../../openapi3/aether/3.0.0/models';
 import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -67,7 +67,7 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'enterprise-2.1.0', 'enterprise');
+        super(snackBar, bs, route, router, 'enterprise-3.0.0', 'enterprise');
         super.form = this.entForm;
         super.loadFunc = this.loadEnterpriseEnterprises;
         this.entForm.get('connectivity-service')[IDATTRIBS] = ['connectivity-service'];
@@ -121,7 +121,7 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
             for (const cs of value['connectivity-service']) {
                 let isDeleted = false;
                 Object.keys(localStorage)
-                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/enterprise-2.1.0/enterprise[id=' + id +
+                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/enterprise-3.0.0/enterprise[id=' + id +
                         ']/connectivity-service[connectivity-service='))
                     .forEach((checkerKey) => {
                         if (checkerKey.includes(cs['connectivity-service'])) {
@@ -172,8 +172,8 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['enterprise-2.1.0']) {
-                    basketPreview['enterprise-2.1.0'].enterprise.forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['enterprise-3.0.0']) {
+                    basketPreview['enterprise-3.0.0'].enterprise.forEach((basketItems) => {
                         if (basketItems.id === id){
                             this.populateFormData(basketItems, id);
                         }
@@ -185,7 +185,7 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
     }
 
     deleteFromSelect(cs: FormControl): void {
-        this.bs.deleteIndexedEntry('/enterprise-2.1.0/enterprise[id=' + this.id +
+        this.bs.deleteIndexedEntry('/enterprise-3.0.0/enterprise[id=' + this.id +
             ']/connectivity-service[connectivity-service=' + cs + ']', 'connectivity-service');
         const index = (this.entForm.get('connectivity-service') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === cs);

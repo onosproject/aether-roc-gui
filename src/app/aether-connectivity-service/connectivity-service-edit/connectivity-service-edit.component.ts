@@ -5,15 +5,14 @@
  */
 import {Component, OnInit} from '@angular/core';
 import {
-    AccessProfileAccessProfile,
     ConnectivityServiceConnectivityService
-} from '../../../openapi3/aether/2.1.0/models';
+} from '../../../openapi3/aether/3.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {ConnectivityServiceConnectivityServiceService} from '../../../openapi3/aether/2.1.0/services';
+import {ConnectivityServiceConnectivityServiceService} from '../../../openapi3/aether/3.0.0/services';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 @Component({
@@ -49,6 +48,10 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
+        'core-5g-endpoint': ['', Validators.compose([
+            Validators.minLength(1),
+            Validators.maxLength(80),
+        ])],
     });
 
     constructor(
@@ -60,7 +63,7 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'connectivity-service-2.1.0', 'connectivity-service');
+        super(snackBar, bs, route, router, 'connectivity-service-3.0.0', 'connectivity-service');
         super.form = this.csForm;
         super.loadFunc = this.loadConnectivityServiceConnectivityService;
     }
@@ -90,6 +93,10 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
             this.csForm.get('pcrf-endpoint').setValue(value['pcrf-endpoint']);
             this.csForm.get('pcrf-endpoint')[ORIGINAL] = value['pcrf-endpoint'];
         }
+        if (value['core-5g-endpoint']) {
+            this.csForm.get('core-5g-endpoint').setValue(value['core-5g-endpoint']);
+            this.csForm.get('core-5g-endpoint')[ORIGINAL] = value['core-5g-endpoint'];
+        }
     }
 
     loadConnectivityServiceConnectivityService(target: string, id: string): void {
@@ -106,8 +113,8 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['connectivity-service-2.1.0']) {
-                    basketPreview['connectivity-service-2.1.0']['connectivity-service'].forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['connectivity-service-3.0.0']) {
+                    basketPreview['connectivity-service-3.0.0']['connectivity-service'].forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }

@@ -7,7 +7,7 @@
 import {DataSource} from '@angular/cdk/collections';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {Service as AetherService} from '../openapi3/aether/2.1.0/services';
+import {Service as AetherService} from '../openapi3/aether/3.0.0/services';
 import {BasketService} from './basket.service';
 import {from, merge, Observable, of as observableOf} from 'rxjs';
 import {map, mergeMap, pluck} from 'rxjs/operators';
