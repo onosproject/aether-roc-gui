@@ -29,6 +29,10 @@ const aetherRoutes: Routes = [
         loadChildren: () => import('./aether-network/aether-network.module').then(m => m.AetherNetworkModule)
     },
     {
+        path: 'site',
+        loadChildren: () => import('./aether-site/aether-site.module').then(m => m.AetherSiteModule)
+    },
+    {
         path: 'basket',
         redirectTo: 'subscribers',
         pathMatch: 'full'
