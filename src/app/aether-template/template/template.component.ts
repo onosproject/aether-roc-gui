@@ -12,33 +12,37 @@ import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services'
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {RocListBase} from '../../roc-list-base';
-import { SiteDatasource } from './site-datasource';
-import { SiteSite} from '../../../openapi3/aether/3.0.0/models';
+import { TemplateDatasource } from './template-datasource';
+import { TemplateTemplate} from '../../../openapi3/aether/3.0.0/models';
 
 @Component({
-  selector: 'aether-site',
-  templateUrl: './site.component.html',
+  selector: 'aether-template',
+  templateUrl: './template.component.html',
   styleUrls: ['../../common-profiles.component.scss']
 })
-export class SiteComponent extends RocListBase<SiteDatasource> implements AfterViewInit {
+export class TemplateComponent  extends RocListBase<TemplateDatasource> implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatTable) table: MatTable<SiteSite>;
+  @ViewChild(MatTable) table: MatTable<TemplateTemplate>;
 
   displayedColumns = [
     'id',
     'description',
-    'enterprise',
-    'network',
+    'sd',
+    'sst',
+    'uplink',
+    'downlink',
+    'traffic-class',
     'edit',
     'delete'
 ];
+
 constructor(
   public opaService: OpenPolicyAgentService,
   private aetherService: AetherService,
   private basketService: BasketService,
 ) {
-  super(new SiteDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+  super(new TemplateDatasource(aetherService, basketService, AETHER_TARGETS[0]));
 }
 
 onDataLoaded(ScopeOfDataSource): void {
@@ -68,7 +72,7 @@ ngAfterViewInit(): void {
   this.dataSource.sort = this.sort;
   this.dataSource.paginator = this.paginator;
   this.table.dataSource = this.dataSource;
-  this.dataSource.loadData(this.aetherService.getSite({
+  this.dataSource.loadData(this.aetherService.getTemplate({
       target: AETHER_TARGETS[0]
   }), this.onDataLoaded);
 }

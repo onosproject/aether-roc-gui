@@ -27,7 +27,6 @@ export class NetworkComponent extends RocListBase<NetworkDatasource> implements 
 
   displayedColumns = [
     'id',
-    'name',
     'description',
     'mcc',
     'mnc',
