@@ -39,7 +39,7 @@ export class NetworkComponent extends RocListBase<NetworkDatasource> implements 
     public opaService: OpenPolicyAgentService,
     private aetherService: AetherService,
     private basketService: BasketService,
-  ) { 
+  ) {
     super(new NetworkDatasource(aetherService, basketService, AETHER_TARGETS[0]));
   }
 
@@ -57,11 +57,10 @@ export class NetworkComponent extends RocListBase<NetworkDatasource> implements 
                     }
                     if (basketItems.mcc) {
                       ScopeOfDataSource.data[listItemCount].mcc = basketItems.mcc;
-                  }
-                  if (basketItems.mnc) {
+                    }
+                    if (basketItems.mnc) {
                     ScopeOfDataSource.data[listItemCount].mnc = basketItems.mnc;
-                }
-                    
+                  }
                 }
             });
         });
