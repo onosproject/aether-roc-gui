@@ -25,11 +25,6 @@
         </ng-container>
 
         <!-- Description Name Column -->
-        <ng-container matColumnDef="display-name" id="displayNameColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-            <td mat-cell *matCellDef="let row">{{row['display-name']}}</td>
-        </ng-container>
-
         <ng-container matColumnDef="description" id="descriptionColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
             <td mat-cell *matCellDef="let row">{{row.description}}</td>
@@ -37,9 +32,13 @@
 
         <!-- End-Points Column -->
         <ng-container matColumnDef="Endpoint" id="endPointsColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>End-Points</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>EndPoints</th>
             <td mat-cell *matCellDef="let row">
-                <p *ngFor="let ep of row.endpoint">Name: {{ep.name}}</p>
+                <p *ngFor="let ep of row.endpoint">
+                    {{ep.name}}
+                    {{ep.address}}
+                    {{ep['port-start']}}-{{ep['port-end']}}
+                    {{ep.protocol}}</p>
             </td>
         </ng-container>
 
