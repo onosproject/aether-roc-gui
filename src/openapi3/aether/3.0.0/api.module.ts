@@ -22,6 +22,7 @@ import { IpDomainIpDomainService } from './services/ip-domain-ip-domain.service'
 import { NetworkNetworkService } from './services/network-network.service';
 import { SiteSiteService } from './services/site-site.service';
 import { TemplateTemplateService } from './services/template-template.service';
+import { TrafficClassTrafficClassService } from './services/traffic-class-traffic-class.service';
 import { UpfUpfService } from './services/upf-upf.service';
 import { VcsVcsService } from './services/vcs-vcs.service';
 import { VcsVcsApplicationService } from './services/vcs-vcs-application.service';
@@ -51,6 +52,7 @@ import { VcsVcsApplicationService } from './services/vcs-vcs-application.service
     NetworkNetworkService,
     SiteSiteService,
     TemplateTemplateService,
+    TrafficClassTrafficClassService,
     UpfUpfService,
     VcsVcsService,
     VcsVcsApplicationService,

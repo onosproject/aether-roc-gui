@@ -16,6 +16,7 @@ export { IpDomainIpDomainService } from './services/ip-domain-ip-domain.service'
 export { NetworkNetworkService } from './services/network-network.service';
 export { SiteSiteService } from './services/site-site.service';
 export { TemplateTemplateService } from './services/template-template.service';
+export { TrafficClassTrafficClassService } from './services/traffic-class-traffic-class.service';
 export { UpfUpfService } from './services/upf-upf.service';
 export { VcsVcsService } from './services/vcs-vcs.service';
 export { VcsVcsApplicationService } from './services/vcs-vcs-application.service';

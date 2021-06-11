@@ -22,6 +22,7 @@ import {IpDomain as IpDomain300} from "../../../aether/3.0.0/models";
 import {Network as Network300} from "../../../aether/3.0.0/models";
 import {Site as Site300} from "../../../aether/3.0.0/models";
 import {Template as Template300} from "../../../aether/3.0.0/models";
+import {TrafficClass as TrafficClass300} from "../../../aether/3.0.0/models";
 import {Upf as Upf300} from "../../../aether/3.0.0/models";
 import {Vcs as Vcs300} from "../../../aether/3.0.0/models";
 
@@ -47,6 +48,7 @@ export interface Elements {
     'Network-3.0.0'?: Network300;
     'Site-3.0.0'?: Site300;
     'Template-3.0.0'?: Template300;
+    'Traffic-class-3.0.0': TrafficClass300;
     'Upf-3.0.0'?: Upf300;
     'Vcs-3.0.0'?: Vcs300;
 }
