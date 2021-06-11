@@ -16,6 +16,10 @@ const aetherRoutes: Routes = [
         loadChildren: () => import('./aether-enterprise/aether-enterprise.module').then(m => m.AetherEnterpriseModule)
     },
     {
+        path: 'ipdomain',
+        loadChildren: () => import('./aether-ip-domain/aether-ip-domain.module').then(m => m.AetherIpDomainModule)
+    },
+    {
         path: 'connectivity',
         loadChildren: () => import('./aether-connectivity-service/aether-connectivity-service.module')
             .then(m => m.AetherConnectivityServiceModule)

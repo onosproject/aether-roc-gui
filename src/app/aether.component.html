@@ -62,6 +62,7 @@
             <mat-icon>recent_actors</mat-icon>
             <span>UPF</span>
         </button>
+
         <button mat-menu-item routerLink="/application"
                 id="applicationButton">
             <mat-icon>layers</mat-icon>
@@ -77,6 +78,13 @@
             <mat-icon>signal_cellular_4_bar</mat-icon>
             <span>Access Points</span>
         </button>
+
+        <button mat-menu-item routerLink="/ipdomain"
+                id="ipDomainButton">
+            <mat-icon>ballot</mat-icon>
+            <span>IP Domain</span>
+        </button>
+
         <button mat-menu-item [matMenuTriggerFor]="profiles"
                 id="dropDownProfiles">
             <mat-icon>groups</mat-icon>
