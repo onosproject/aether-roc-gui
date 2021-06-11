@@ -16,9 +16,18 @@ const aetherRoutes: Routes = [
         loadChildren: () => import('./aether-enterprise/aether-enterprise.module').then(m => m.AetherEnterpriseModule)
     },
     {
+        path: 'ipdomain',
+        loadChildren: () => import('./aether-ip-domain/aether-ip-domain.module').then(m => m.AetherIpDomainModule)
+    },
+    {
         path: 'connectivity',
         loadChildren: () => import('./aether-connectivity-service/aether-connectivity-service.module')
             .then(m => m.AetherConnectivityServiceModule)
+    },
+    {
+        path: 'aplist',
+        loadChildren: () => import('./aether-ap-list/aether-ap-list.module')
+            .then(m => m.AetherApListModule)
     },
     {
         path: 'basket',
@@ -27,6 +36,10 @@ const aetherRoutes: Routes = [
     {
         path: 'network',
         loadChildren: () => import('./aether-network/aether-network.module').then(m => m.AetherNetworkModule)
+    },
+    {
+        path: 'devicegroups',
+        loadChildren: () => import('./aether-device-group/aether-device-group.module').then(m => m.AetherDeviceGroupModule)
     },
     {
         path: 'site',

@@ -21,9 +21,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
 import { ApiKeyComponent } from './api-key/api-key.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
-import { ApplicationComponent } from './aether-application/application/application.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
-
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {
     provide: HTTP_INTERCEPTORS,
@@ -35,7 +33,7 @@ export const API_INTERCEPTOR_PROVIDER: Provider = {
     declarations: [
         AetherComponent,
         UserProfileComponent,
-        ApiKeyComponent,
+        ApiKeyComponent
     ],
     imports: [
         BrowserModule,
