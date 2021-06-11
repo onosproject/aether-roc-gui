@@ -1,0 +1,156 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<div>
+    <mat-toolbar class="profile-toolbar">
+    <p>Virtual Cellular Service</p>
+    <span class="toolbar-spacer"></span>
+    <button mat-raised-button color="primary" type="submit" aria-label="Add vcs"
+            id="addNewVcsButton"
+            [disabled]="!opaService.canWrite('/vcs/vcs[id=newinstance]')"
+            routerLink="/vcs/vcs-edit/newinstance">Add</button>
+    </mat-toolbar>
+    <table mat-table class="full-width-table" matSort aria-label="Elements" id="vcsTable">
+            <!-- Id/Name Column -->
+            <ng-container matColumnDef="id" id="nameColumn">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                <td mat-cell *matCellDef="let row">
+                    <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}<br><small>({{row.id}})</small></span>
+                    <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
+                </td>
+            </ng-container>
+
+        <!-- Description Column -->
+        <ng-container matColumnDef="description" id="descColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+            <td mat-cell *matCellDef="let row">{{row.description}}</td>
+        </ng-container>
+
+         <!-- application Column -->
+         <ng-container matColumnDef="application" id="applicationColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Application</th>
+            <td mat-cell *matCellDef="let row">
+                <p *ngFor="let sr of row.application">Policy: {{sr.application}}
+                <mat-icon class="table_icon" *ngIf="sr.allow">done</mat-icon></p>
+            </td>
+        </ng-container>
+
+         <!-- Uplink/Downlink Column -->
+         <ng-container matColumnDef="downlink/uplink" id="portColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Uplink/downlink</th>
+            <td mat-cell *matCellDef="let row">
+                <p>Uplink: {{row.uplink}}</p>
+                <p>Downlink: {{row.downlink}}</p>
+            </td>
+        </ng-container>
+
+
+        <!-- ap Column -->
+        <ng-container matColumnDef="ap" id="apColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>AP</th>
+            <td mat-cell *matCellDef="let row">
+                {{row.ap}}
+                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="AP"
+                              id="pointerAP"
+                              routerLink="/ap/ap-edit/{{row.ap}}">launch</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- Device-group Column -->
+        <ng-container matColumnDef="device-group" id="deviceGroupColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Device-group</th>
+            <td mat-cell *matCellDef="let row">
+                {{row['device-group']}}
+                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup"
+                              id="pointerDeviceGroup"
+                              routerLink="/device-group/device-group-edit/{{row['device-group']}}">launch</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- SD Column -->
+        <ng-container matColumnDef="sd" id="sdColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>SD</th>
+            <td mat-cell *matCellDef="let row">
+                {{row.sd}}
+                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="SD"
+                id="pointerSd"
+                routerLink="/sd/sd-edit/{{row.sd}}">launch</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- SST Column -->
+        <ng-container matColumnDef="sst" id="sstColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>SST</th>
+            <td mat-cell *matCellDef="let row">
+                {{row.sst}}
+                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="SST"
+                id="pointerSst"
+                routerLink="/sst/sst-edit/{{row.sst}}">launch</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- template Column -->
+        <ng-container matColumnDef="template" id="templateColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Template</th>
+            <td mat-cell *matCellDef="let row">
+                {{row.template}}
+                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Template"
+                id="pointerTemplate"
+                routerLink="/template/template-edit/{{row.template}}">launch</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- template Column -->
+        <ng-container matColumnDef="traffic-class" id="trafficClassColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Traffic-class</th>
+            <td mat-cell *matCellDef="let row">
+                {{row['traffic-class']}}
+                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="TrafficClass"
+                id="pointerTrafficClass"
+                routerLink="/traffic-class/traffic-class-edit/{{row['traffic-class']}}">launch</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- upf Column -->
+        <ng-container matColumnDef="upf" id="upfColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>UPF</th>
+            <td mat-cell *matCellDef="let row">
+                {{row.upf}}
+                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Upf"
+                id="pointerUpf"
+                routerLink="/upf/upf-edit/{{row.upf}}">launch</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- Edit Column -->
+        <ng-container matColumnDef="edit" id="editColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+            <td mat-cell *matCellDef="let row" routerLink="/vcs/vcs-edit/{{row.id}}" id="editVcsButton">
+                <mat-icon class="table_icon">edit</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- Delete Column -->
+        <ng-container matColumnDef="delete" id="deleteColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Delete</th>
+            <td mat-cell *matCellDef="let row">
+                <button mat-icon-button [disabled]="!opaService.canWrite('/vcs/vcs[id=' + row.id + ']')"
+                        (click)="delete(row.id)"
+                        id="deleteVcsButton">
+                    <mat-icon class="table_icon">delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator #paginator id="vcsPaginator"
+                   [length]="dataSource?.data?.length"
+                   [pageIndex]="0"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[10, 20, 40]">
+    </mat-paginator>
+</div>

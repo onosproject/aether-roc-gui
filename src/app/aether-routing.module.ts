@@ -41,6 +41,10 @@ const aetherRoutes: Routes = [
         loadChildren: () => import('./aether-upf/aether-upf.module').then(m => m.AetherUpfModule)
     },
     {
+        path: 'vcs',
+        loadChildren: () => import('./aether-vcs/aether-vcs.module').then(m => m.AetherVcsModule)
+    },
+    {
         path: 'basket',
         redirectTo: 'subscribers',
         pathMatch: 'full'
