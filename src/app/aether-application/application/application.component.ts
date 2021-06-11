@@ -28,7 +28,6 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
 
     displayedColumns = [
         'id',
-        'display-name',
         'description',
         'Endpoint',
         'edit',
