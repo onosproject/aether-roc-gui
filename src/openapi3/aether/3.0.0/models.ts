@@ -25,6 +25,8 @@ export { Site } from './models/site';
 export { SiteSite } from './models/site-site';
 export { Template } from './models/template';
 export { TemplateTemplate } from './models/template-template';
+export { TrafficClass } from './models/traffic-class';
+export { TrafficClassTrafficClass } from './models/traffic-class-traffic-class';
 export { Upf } from './models/upf';
 export { UpfUpf } from './models/upf-upf';
 export { Vcs } from './models/vcs';

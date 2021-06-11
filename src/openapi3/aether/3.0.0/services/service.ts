@@ -20,6 +20,7 @@ import { IpDomain } from '../models/ip-domain';
 import { Network } from '../models/network';
 import { Site } from '../models/site';
 import { Template } from '../models/template';
+import { TrafficClass } from '../models/traffic-class';
 import { Upf } from '../models/upf';
 import { Vcs } from '../models/vcs';
 
@@ -651,6 +652,68 @@ export class Service extends BaseService {
 
     return this.getTemplate$Response(params).pipe(
       map((r: StrictHttpResponse<Template>) => r.body as Template)
+    );
+  }
+
+  /**
+   * Path part for operation getTrafficClass
+   */
+  static readonly GetTrafficClassPath = '/aether/v3.0.0/{target}/traffic-class';
+
+  /**
+   * GET /traffic-class Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getTrafficClass()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getTrafficClass$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+  }): Observable<StrictHttpResponse<TrafficClass>> {
+
+    const rb = new RequestBuilder(this.rootUrl, Service.GetTrafficClassPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<TrafficClass>;
+      })
+    );
+  }
+
+  /**
+   * GET /traffic-class Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getTrafficClass$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getTrafficClass(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+  }): Observable<TrafficClass> {
+
+    return this.getTrafficClass$Response(params).pipe(
+      map((r: StrictHttpResponse<TrafficClass>) => r.body as TrafficClass)
     );
   }
 

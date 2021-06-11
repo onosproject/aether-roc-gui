@@ -2,10 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
-export interface TemplateTemplate {
+export interface TrafficClassTrafficClass {
 
   /**
-   * description of this vcs template
+   * description of this traffic class
    */
   description?: string;
 
@@ -15,34 +15,24 @@ export interface TemplateTemplate {
   'display-name'?: string;
 
   /**
-   * Downlink data rate in mbps
-   */
-  downlink?: number;
-
-  /**
-   * ID for this vcs template.
+   * ID for this traffic class.
    */
   id?: string;
 
   /**
-   * Slice differentiator
+   * PDB
    */
-  sd?: number;
+  pdb?: number;
 
   /**
-   * Slice/Service type
+   * PELR exponent
    */
-  sst?: number;
+  pelr?: number;
 
   /**
-   * Link to traffic class
+   * QCI
    */
-  'traffic-class'?: string;
-
-  /**
-   * Uplink data rate in mbps
-   */
-  uplink?: number;
+  qci?: number;
 
   [key: string]: AdditionalPropertyTarget | number | string | undefined;
 }

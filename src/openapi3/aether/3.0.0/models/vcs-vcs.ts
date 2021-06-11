@@ -53,7 +53,7 @@ export interface VcsVcs {
   template?: string;
 
   /**
-   * Class of traffic
+   * Link to traffic class
    */
   'traffic-class'?: string;
 

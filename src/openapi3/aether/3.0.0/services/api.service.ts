@@ -35,6 +35,8 @@ import { Site } from '../models/site';
 import { SiteSite } from '../models/site-site';
 import { Template } from '../models/template';
 import { TemplateTemplate } from '../models/template-template';
+import { TrafficClass } from '../models/traffic-class';
+import { TrafficClassTrafficClass } from '../models/traffic-class-traffic-class';
 import { Upf } from '../models/upf';
 import { UpfUpf } from '../models/upf-upf';
 import { Vcs } from '../models/vcs';
@@ -3663,6 +3665,282 @@ export class ApiService extends BaseService {
   }): Observable<void> {
 
     return this.deleteTemplateTemplate$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postTrafficClass
+   */
+  static readonly PostTrafficClassPath = '/aether/v3.0.0/{target}/traffic-class';
+
+  /**
+   * POST Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postTrafficClass()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postTrafficClass$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+    body?: TrafficClass
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostTrafficClassPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postTrafficClass$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postTrafficClass(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+    body?: TrafficClass
+  }): Observable<void> {
+
+    return this.postTrafficClass$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteTrafficClass
+   */
+  static readonly DeleteTrafficClassPath = '/aether/v3.0.0/{target}/traffic-class';
+
+  /**
+   * DELETE Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteTrafficClass()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteTrafficClass$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteTrafficClassPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteTrafficClass$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteTrafficClass(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+  }): Observable<void> {
+
+    return this.deleteTrafficClass$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postTrafficClassTrafficClass
+   */
+  static readonly PostTrafficClassTrafficClassPath = '/aether/v3.0.0/{target}/traffic-class/traffic-class/{id}';
+
+  /**
+   * POST Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postTrafficClassTrafficClass()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postTrafficClassTrafficClass$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+    body?: TrafficClassTrafficClass
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostTrafficClassTrafficClassPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postTrafficClassTrafficClass$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postTrafficClassTrafficClass(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+    body?: TrafficClassTrafficClass
+  }): Observable<void> {
+
+    return this.postTrafficClassTrafficClass$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteTrafficClassTrafficClass
+   */
+  static readonly DeleteTrafficClassTrafficClassPath = '/aether/v3.0.0/{target}/traffic-class/traffic-class/{id}';
+
+  /**
+   * DELETE Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteTrafficClassTrafficClass()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteTrafficClassTrafficClass$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteTrafficClassTrafficClassPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteTrafficClassTrafficClass$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteTrafficClassTrafficClass(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+  }): Observable<void> {
+
+    return this.deleteTrafficClassTrafficClass$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
