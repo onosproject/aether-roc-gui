@@ -29,6 +29,10 @@ const aetherRoutes: Routes = [
         loadChildren: () => import('./aether-network/aether-network.module').then(m => m.AetherNetworkModule)
     },
     {
+        path: 'devicegroups',
+        loadChildren: () => import('./aether-device-group/aether-device-group.module').then(m => m.AetherDeviceGroupModule)
+    },
+    {
         path: 'site',
         loadChildren: () => import('./aether-site/aether-site.module').then(m => m.AetherSiteModule)
     },

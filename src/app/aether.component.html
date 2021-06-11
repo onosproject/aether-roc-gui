@@ -55,6 +55,7 @@
             <mat-icon>layers</mat-icon>
             <span>Site</span>
         </button>
+
         <button mat-menu-item routerLink="/template"
                 id="templateButton">
             <mat-icon>topic</mat-icon>
@@ -70,6 +71,13 @@
             <mat-icon>layers</mat-icon>
             <span>Application</span>
         </button>
+
+        <button mat-menu-item routerLink="/devicegroups"
+                id="deviceGroupButton">
+            <mat-icon>smartphone</mat-icon>
+            <span>Device Group</span>
+        </button>
+
         <button mat-menu-item [matMenuTriggerFor]="profiles"
                 id="dropDownProfiles">
             <mat-icon>groups</mat-icon>
