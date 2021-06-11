@@ -41,6 +41,10 @@ const aetherRoutes: Routes = [
         loadChildren: () => import('./aether-upf/aether-upf.module').then(m => m.AetherUpfModule)
     },
     {
+        path: 'application',
+        loadChildren: () => import('./aether-application/aether-application.module').then(m => m.AetherApplicationModule)
+    },
+    {
         path: 'basket',
         redirectTo: 'subscribers',
         pathMatch: 'full'
