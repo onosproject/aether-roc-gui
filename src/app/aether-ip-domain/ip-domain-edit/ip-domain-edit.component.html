@@ -1,0 +1,111 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="ipForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>IP DOMAIN. ID: {{id}}</mat-card-title>
+            <mat-form-field *ngIf="isNew" class="half-width">
+                <input matInput formControlName="id" id="inputID">
+                <mat-hint>ID</mat-hint>
+            </mat-form-field>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="display-name" id="inputDisplayName">
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="description" id="inputDescription">
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input [readonly]="ipForm" matInput formControlName="dns-primary">
+                    <mat-hint>DNS Primary</mat-hint>
+                </mat-form-field>
+                <button class="mat-button" (click)="openPrimaryCard()" type="button">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+            <aether-ip-selector
+                id="aetherIPSelectorDNSPrimary"
+                class="row"
+                *ngIf="primCardDisplay"
+                [value]="checkForUndefinedPrim()"
+                (newIP)="updateFormPrim($event)"
+                (closeEvent)="openPrimaryCard()">
+            </aether-ip-selector>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input [readonly]="ipForm" matInput formControlName="dns-secondary">
+                    <mat-hint>DNS Secondary</mat-hint>
+                </mat-form-field>
+                <button class="mat-button" (click)="openSecondaryCard()" type="button">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+            <aether-ip-selector
+                id="aetherIPSelectorDNSSecondary"
+                class="row"
+                *ngIf="secCardDisplay"
+                [value]="checkForUndefinedSec()"
+                (newIP)="updateFormSec($event)"
+                (closeEvent)="openSecondaryCard()">
+            </aether-ip-selector>
+            <div class="row">
+                <mat-menu #options="matMenu">
+                    <button mat-menu-item [matMenuTriggerFor]="options">ENABLE</button>
+                    <button mat-menu-item [matMenuTriggerFor]="options">MAINTENANCE</button>
+                    <button mat-menu-item [matMenuTriggerFor]="options">DISABLE</button>
+                </mat-menu>
+            </div>
+            <!-- TODO Correct SUBNET-->
+            <!-- <div class="row">-->
+            <!-- <mat-form-field class="field-margin half-width">-->
+            <!-- <input [readonly]="ipForm" matInput formControlName="subnet">-->
+            <!-- <mat-hint>Subnet</mat-hint>-->
+            <!--                </mat-form-field>-->
+            <!--                <button class="mat-button" (click)="openSubnetCard()" type="button">-->
+            <!--                    <mat-icon>edit</mat-icon>-->
+            <!--                </button>-->
+            <!--            </div>-->
+            <!--            <aether-ip-selector-->
+            <!--                id="aetherSubnet"-->
+            <!--                class="row"-->
+            <!--                *ngIf="subCardDisplay"-->
+            <!--                [value]="checkForUndefinedSub()"-->
+            <!--                (newIP)="updateFormSub($event)"-->
+            <!--                (closeEvent)="openSubnetCard()">-->
+            <!--            </aether-ip-selector>-->
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="subnet"
+                           id="inputSubnet">
+                    <mat-hint>Subnet</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput type="number" formControlName="mtu"
+                           id="inputMTU">
+                    <mat-hint>MTU (68-65535)</mat-hint>
+                </mat-form-field>
+            </div>
+
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit"
+                    id="submitButton"
+                    [disabled]="!(ipForm.valid && ipForm.touched && opaService.canWrite('/ip-domain/ip-domain[id=' + id + ']'))">
+                Update
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>
