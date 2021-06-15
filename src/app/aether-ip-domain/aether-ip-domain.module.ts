@@ -27,10 +27,17 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
+import { IpDomainEditComponent } from './ip-domain-edit/ip-domain-edit.component';
+import {IpSelectorComponent} from '../ip-selector/ip-selector.component';
+import {NgxIpModule} from 'ngx-ip';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
     declarations: [
         IpDomainComponent,
+        IpDomainEditComponent,
+        IpSelectorComponent,
         // Edit page
     ],
     imports: [
@@ -39,7 +46,7 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'ipdomain', component: IpDomainComponent},
-            // {path: 'ipdomain-edit/:id', component: },
+            {path: 'ipdomain-edit/:id', component: IpDomainEditComponent},
 
             {path: '', component: IpDomainComponent, pathMatch: 'full'}
         ]),
@@ -59,7 +66,10 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         MatButtonModule,
         MatSlideToggleModule,
         CdkTableModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        NgxIpModule,
+        MatRadioModule,
+        MatMenuModule
     ],
     providers: [
         AuthInterceptor,
