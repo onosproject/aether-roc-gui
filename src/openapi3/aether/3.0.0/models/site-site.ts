@@ -15,7 +15,7 @@ export interface SiteSite {
   'display-name'?: string;
 
   /**
-   * Link to enterprise that owns this Usite
+   * Link to enterprise that owns this site
    */
   enterprise?: string;
 
