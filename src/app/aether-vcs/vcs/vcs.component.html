@@ -32,7 +32,7 @@
          <ng-container matColumnDef="application" id="applicationColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Application</th>
             <td mat-cell *matCellDef="let row">
-                <p *ngFor="let sr of row.application">Policy: {{sr.application}}
+                <p *ngFor="let sr of row.application">{{sr.application}}
                 <mat-icon class="table_icon" *ngIf="sr.allow">done</mat-icon></p>
             </td>
         </ng-container>

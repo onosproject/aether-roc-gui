@@ -27,11 +27,14 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { VcsEditComponent } from './vcs-edit/vcs-edit.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
     declarations: [
-        VcsComponent
+        VcsComponent,
+        VcsEditComponent
     ],
     imports: [
         CommonModule,
@@ -39,7 +42,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'vcs', component: VcsComponent},
-            // {path: 'upf-edit/:id', component: UpfEditComponent},
+            {path: 'vcs-edit/:id', component: VcsEditComponent},
             {path: '', component: VcsComponent, pathMatch: 'full'}
         ]),
         MatToolbarModule,
@@ -59,7 +62,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         MatButtonModule,
         MatSlideToggleModule,
         CdkTableModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatAutocompleteModule
     ],
     providers: [
         AuthInterceptor,
