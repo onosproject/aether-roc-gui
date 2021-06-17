@@ -17,6 +17,11 @@ export interface ApListApList {
   'display-name'?: string;
 
   /**
+   * Link to enterprise that owns this Access Point List
+   */
+  enterprise?: string;
+
+  /**
    * ID for this ap-list.
    */
   id?: string;

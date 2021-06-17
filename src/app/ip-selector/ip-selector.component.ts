@@ -11,7 +11,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
     styleUrls: ['../common-profiles.component.scss']
 })
 export class IpSelectorComponent implements OnInit {
-    mode = 'ipv4';
+    mode = 'ipv4WithMask';
     @Input() value: string;
     @Output() newIP = new EventEmitter<string>();
     @Output() closeEvent = new EventEmitter<boolean>();
@@ -37,7 +37,7 @@ export class IpSelectorComponent implements OnInit {
             ipType = 1;
         } else if (this.value.includes(':')) {
             ipType = 2;
-        } else {
+        } else if (this.value.includes('/')){
             ipType = 3;
         }
         switch (ipType) {
@@ -50,7 +50,7 @@ export class IpSelectorComponent implements OnInit {
                 console.log('V6');
                 break;
             case 3:
-                this.mode = 'ipv4';
+                this.mode = 'ipv4WithMask';
         }
     }
 

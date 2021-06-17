@@ -15,6 +15,11 @@ export interface NetworkNetwork {
   'display-name'?: string;
 
   /**
+   * Link to enterprise that owns this Network. If this is set to None, then the Network is globally provided by Aether.
+   */
+  enterprise?: string;
+
+  /**
    * ID for this network.
    */
   id?: string;
