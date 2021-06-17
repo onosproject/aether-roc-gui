@@ -126,7 +126,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
   get applicationExists(): string[] {
     const existingList: string[] = [];
     (this.vcsForm.get(['application']) as FormArray).controls.forEach((app) => {
-        existingList.push(app.get('applications').value);
+        existingList.push(app.get('application').value);
     });
     return existingList;
 }

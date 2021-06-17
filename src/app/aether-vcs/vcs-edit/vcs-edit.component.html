@@ -58,7 +58,7 @@
                            formControlName="uplink">
                     <mat-autocomplete #auto="matAutocomplete" >
                         <mat-option *ngFor="let option of bandwidthOptions | async" [value]="option.megabyte.numerical"
-                        id="selectDownlinkAutoOption">
+                        id="selectUplinkAutoOption">
                             {{option.megabyte.numerical}}
                             {{option.megabyte.inMb}}
                         </mat-option>
@@ -131,9 +131,9 @@
         </mat-card-actions>
     </mat-card>
 </form>
-<aether-connectivity-service-select
+<aether-application-select
     *ngIf="showConnectDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
     id="applicationSelectComponent"
     [alreadySelected]="applicationExists"
     (closeEvent)="applicationSelected($event)">
-</aether-connectivity-service-select>
+</aether-application-select>

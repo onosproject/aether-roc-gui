@@ -29,12 +29,14 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { VcsEditComponent } from './vcs-edit/vcs-edit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ApplicationSelectComponent } from './application-select/application-select.component';
 
 
 @NgModule({
     declarations: [
         VcsComponent,
-        VcsEditComponent
+        VcsEditComponent,
+        ApplicationSelectComponent
     ],
     imports: [
         CommonModule,

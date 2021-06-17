@@ -16,17 +16,16 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { VcsEditComponent } from './vcs-edit.component';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { ApplicationSelectComponent } from './application-select.component';
+import { MatSelectModule } from '@angular/material/select';
 
-describe('VcsEditComponent', () => {
-  let component: VcsEditComponent;
-  let fixture: ComponentFixture<VcsEditComponent>;
+describe('ApplicationSelectComponent', () => {
+  let component: ApplicationSelectComponent;
+  let fixture: ComponentFixture<ApplicationSelectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ VcsEditComponent ],
+      declarations: [ ApplicationSelectComponent ],
       imports: [
           HttpClientTestingModule,
           RouterTestingModule,
@@ -41,15 +40,14 @@ describe('VcsEditComponent', () => {
           MatButtonModule,
           MatDividerModule,
           MatSnackBarModule,
-          MatSlideToggleModule,
-          MatAutocompleteModule
+          MatSelectModule
       ]
   })
       .compileComponents();
 });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VcsEditComponent);
+    fixture = TestBed.createComponent(ApplicationSelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
