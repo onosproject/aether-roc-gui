@@ -18,6 +18,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {ApiModule} from '../../../openapi3/aether/3.0.0/api.module';
 import {ActivatedRoute} from '@angular/router';
 import {of} from 'rxjs';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 describe('IpDomainComponent', () => {
   let component: IpDomainComponent;
@@ -31,6 +32,7 @@ describe('IpDomainComponent', () => {
             RouterTestingModule,
             BrowserAnimationsModule,
             MatPaginatorModule,
+            MatFormFieldModule,
             MatSortModule,
             MatTableModule,
             MatSnackBarModule,

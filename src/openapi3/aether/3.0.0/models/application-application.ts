@@ -17,6 +17,11 @@ export interface ApplicationApplication {
   endpoint?: Array<ApplicationApplicationEndpoint>;
 
   /**
+   * Link to enterprise that owns this Application. May be set to None if the application is global to all Enterprises.
+   */
+  enterprise?: string;
+
+  /**
    * ID for this application.
    */
   id?: string;
