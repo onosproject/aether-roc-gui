@@ -36,6 +36,7 @@ describe('BasketPreviewComponent', () => {
 
     it('should create', () => {
         localStorage.clear();
+        localStorage.clear();
         expect(component).toBeTruthy();
     });
 });

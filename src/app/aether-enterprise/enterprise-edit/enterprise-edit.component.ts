@@ -186,7 +186,7 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
 
     deleteFromSelect(cs: FormControl): void {
         this.bs.deleteIndexedEntry('/enterprise-3.0.0/enterprise[id=' + this.id +
-            ']/connectivity-service[connectivity-service=' + cs + ']', 'connectivity-service');
+            ']/connectivity-service[connectivity-service=' + cs + ']', 'connectivity-service', '' + cs);
         const index = (this.entForm.get('connectivity-service') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === cs);
         (this.entForm.get('connectivity-service') as FormArray).removeAt(index);

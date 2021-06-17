@@ -3,32 +3,34 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {RocListBase} from '../../roc-list-base';
+import {TrafficClassDatasource} from './traffic-class-datasource';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {ApplicationApplication} from '../../../openapi3/aether/3.0.0/models/application-application';
+import {TrafficClassTrafficClass} from '../../../openapi3/aether/3.0.0/models/traffic-class-traffic-class';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services/service';
 import {BasketService} from '../../basket.service';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {RocListBase} from '../../roc-list-base';
-import {ApplicationDatasource} from './application-datasource';
 
 @Component({
-    selector: 'aether-application',
-    templateUrl: './application.component.html',
+    selector: 'aether-traffic-class',
+    templateUrl: './traffic-class.component.html',
     styleUrls: ['../../common-profiles.component.scss']
 })
-export class ApplicationComponent extends RocListBase<ApplicationDatasource> implements AfterViewInit{
+export class TrafficClassComponent extends RocListBase<TrafficClassDatasource> implements AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<ApplicationApplication>;
+    @ViewChild(MatTable) table: MatTable<TrafficClassTrafficClass>;
 
     displayedColumns = [
         'id',
         'description',
-        'Endpoint',
+        'pelr',
+        'pdb',
+        'qci',
         'edit',
         'delete'
     ];
@@ -38,13 +40,13 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(new ApplicationDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+        super(new TrafficClassDatasource(aetherService, basketService, AETHER_TARGETS[0]));
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('application-3.0.0' in basketPreview && 'application' in basketPreview['application-3.0.0']) {
-            basketPreview['enterprise-3.0.0'].application.forEach((basketItems) => {
+        if ('traffic-class-3.0.0' in basketPreview && 'traffic-class' in basketPreview['traffic-class-3.0.0']) {
+            basketPreview['traffic-class-3.0.0']['traffic-class'].forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -53,21 +55,14 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;
                         }
-                        if (basketItems.endpoint){
-                            if (ScopeOfDataSource.data[listItemCount].endpoint.length === 0) {
-                                ScopeOfDataSource.data[listItemCount].endpoint = basketItems.endpoint;
-                            } else {
-                                for (const eachBasketAPP of basketItems['connectivity-service']) {
-                                    let eachAPPPosition = 0;
-                                    for (const eachScopeAPP of ScopeOfDataSource.data[listItemCount]['connectivity-service']){
-                                        if (eachBasketAPP.endpoint === eachScopeAPP.endpoint){
-                                            ScopeOfDataSource.data[listItemCount].endpoint[eachAPPPosition].name
-                                                = eachBasketAPP.name;
-                                        }
-                                        eachAPPPosition++;
-                                    }
-                                }
-                            }
+                        if (basketItems.pelr) {
+                            ScopeOfDataSource.data[listItemCount].pelr = basketItems.pelr;
+                        }
+                        if (basketItems.pdb) {
+                            ScopeOfDataSource.data[listItemCount].pdb = basketItems.pdb;
+                        }
+                        if (basketItems.qci) {
+                            ScopeOfDataSource.data[listItemCount].qci = basketItems.qci;
                         }
                     }
                 });
@@ -79,9 +74,8 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadData(this.aetherService.getApplication({
+        this.dataSource.loadData(this.aetherService.getTrafficClass({
             target: AETHER_TARGETS[0]
         }), this.onDataLoaded);
     }
-
 }
