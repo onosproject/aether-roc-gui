@@ -27,11 +27,13 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { SiteEditComponent } from './site-edit/site-edit.component';
 
 
 @NgModule({
     declarations: [
-        SiteComponent
+        SiteComponent,
+        SiteEditComponent
     ],
     imports: [
         CommonModule,
@@ -39,7 +41,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'site', component: SiteComponent},
-            // {path: 'site-edit/:id', component: SiteEditComponent},
+            {path: 'site-edit/:id', component: SiteEditComponent},
             {path: '', component: SiteComponent, pathMatch: 'full'}
         ]),
         MatToolbarModule,

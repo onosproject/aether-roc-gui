@@ -1,0 +1,51 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="siteForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Site ID: {{id}}</mat-card-title>
+            <mat-form-field *ngIf="isNew" class="half-width">
+                <input matInput formControlName="id" id="inputID">
+                <mat-hint>ID</mat-hint>
+            </mat-form-field>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row" id="displayNameRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="display-name" id="inputDisplayName">
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="row" id="descriptionRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="description" id="inputDescription">
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="row" id="enterpriseRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="enterprise" id="inputEnterprise">
+                    <mat-hint>Enterprise</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="row" id="networkRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="network" id="inputNetwork">
+                    <mat-hint>Network</mat-hint>
+                </mat-form-field>
+            </div>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" type="submit"
+                        [disabled]="!(siteForm.valid && siteForm.touched && opaService.canWrite('/site/site'))"
+                        id="submitButton">Update
+                </button>
+            </mat-card-actions>
+        </mat-card-content>
+    </mat-card>
+</form>
