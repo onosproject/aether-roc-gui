@@ -181,6 +181,14 @@ appSelected(selected: string): void {
       );
     }
 
+    deleteFromSelect(app: FormControl): void {
+        this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
+            ']/application[application=' + app + ']', 'application');
+        const index = (this.vcsForm.get('application') as FormArray)
+            .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
+        (this.vcsForm.get('application') as FormArray).removeAt(index);
+    }
+
     private populateFormData(value: VcsVcs): void{
       if (value['display-name']) {
           this.vcsForm.get('display-name').setValue(value['display-name']);
