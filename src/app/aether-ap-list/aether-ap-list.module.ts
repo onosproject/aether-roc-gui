@@ -27,10 +27,14 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
+import { AccessPointSelectComponent } from './access-point-select/access-point-select.component';
+import {ApListEditComponent} from "./ap-list-edit/ap-list-edit.component";
 
 @NgModule({
     declarations: [
-        ApListComponent
+        ApListComponent,
+        ApListEditComponent,
+        AccessPointSelectComponent
     ],
     imports: [
         CommonModule,
@@ -38,7 +42,8 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'aplist', component: ApListComponent},
-            // {path: 'aplist-edit/:id', component: ApListComponent}
+            {path: 'aplist-edit/:id', component: ApListEditComponent},
+
             {path: '', component: ApListComponent, pathMatch: 'full'}
         ]),
         FormsModule,

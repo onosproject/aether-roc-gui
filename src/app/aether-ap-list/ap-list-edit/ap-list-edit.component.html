@@ -1,0 +1,68 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="apForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>AP List ID: {{id}}</mat-card-title>
+            <mat-form-field *ngIf="isNew" class="half-width">
+                <input matInput formControlName="id" id="inputID">
+                <mat-hint>ID</mat-hint>
+            </mat-form-field>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row" id="displayNameRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="display-name" id="inputDisplayName">
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="row" id="descriptionRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="description" id="inputDescription">
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div formArrayName="access-points" class="subscriber-section">
+                <mat-hint>Access Points</mat-hint>
+                <mat-icon (click)="showAccessDisplay = true"
+                          id="addNewExistingAccessProfile"
+                          class="subscriber-pointer">add</mat-icon>
+                <div *ngFor="let accessForm of accessPointControls.controls">
+                    <mat-form-field class="field-margin half-width">
+                        <div [formGroup]="accessForm">
+                            <input matInput formControlName="address" id="inputAddress" readonly>
+                            <input matInput formControlName="tac" id="inputTac">
+                            <mat-slide-toggle
+                                formControlName="enable" id="toggleEnable">Enable
+                            </mat-slide-toggle>
+<!--                            <button mat-icon-button-->
+<!--                                    id="deleteExistingAccessProfileButton"-->
+<!--                                    [disabled]="!opaService.canWrite('/subscriber/ue[id=' + id + ']/access-profile')"-->
+<!--                                    (click)="deleteFromSelect(apForm.value['access-profile'])">-->
+<!--                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>-->
+<!--                            </button>-->
+                        </div>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <mat-card-actions>
+                <button mat-raised-button color="primary" type="submit"
+                        [disabled]="!(apForm.valid && apForm.touched && opaService.canWrite('/aplist/aplist'))"
+                        id="submitButton">Update
+                </button>
+            </mat-card-actions>
+        </mat-card-content>
+    </mat-card>
+</form>
+<aether-access-point-select
+    *ngIf="showAccessDisplay && opaService.canWrite('/aplist/aplist[id=' + id + ']/access-point')"
+    id="accessPointSelectComponent"
+    (closeEvent)="openAccessDisplayCard()">
+</aether-access-point-select>
+
