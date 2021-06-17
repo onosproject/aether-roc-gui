@@ -62,6 +62,10 @@ const aetherRoutes: Routes = [
         loadChildren: () => import('./aether-application/aether-application.module').then(m => m.AetherApplicationModule)
     },
     {
+        path: 'traffic-class',
+        loadChildren: () => import('./aether-traffic-class/traffic-class.module').then(m => m.TrafficClassModule)
+    },
+    {
         path: '',
         redirectTo: 'vcs', // TODO change to dashboard once it has been added
         pathMatch: 'full'
