@@ -36,7 +36,7 @@ export class BasketService {
 
     }
 
-    deleteIndexedEntry(path: string, indexName: string): void {
+    deleteIndexedEntry(path: string, indexName: string, originalValue?: string): void {
         // If this item was already added in this basket, then remove it
         Object.keys(localStorage)
             .filter(p => p.startsWith('/basket-update' + path))
@@ -44,7 +44,8 @@ export class BasketService {
                 console.log('Removed from basket', p);
                 localStorage.removeItem(p);
             });
-        localStorage.setItem('/basket-delete' + path + '/' + indexName, '');
+        const value = {oldValue: originalValue, newValue: ''} as BasketValue;
+        localStorage.setItem('/basket-delete' + path + '/' + indexName, JSON.stringify(value));
     }
 
     totalNumChanges(): number {
@@ -172,8 +173,8 @@ export class BasketService {
     recursePath(path: string[], object: object, value: BasketValue): void {
 
         if (path.length === 1) {
-            if (value.newValue === 'null') {
-                object[path[0]] = '';
+            if (value.newValue === '') {
+                object[path[0]] = value.oldValue;
             } else {
                 object[path[0]] = value.newValue;
             }

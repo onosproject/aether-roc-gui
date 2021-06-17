@@ -72,23 +72,13 @@
         <!-- SD Column -->
         <ng-container matColumnDef="sd" id="sdColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SD</th>
-            <td mat-cell *matCellDef="let row">
-                {{row.sd}}
-                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="SD"
-                id="pointerSd"
-                routerLink="/sd/sd-edit/{{row.sd}}">launch</mat-icon>
-            </td>
+            <td mat-cell class="small-spacing" *matCellDef="let row">{{row.sd}}</td>
         </ng-container>
 
         <!-- SST Column -->
         <ng-container matColumnDef="sst" id="sstColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SST</th>
-            <td mat-cell *matCellDef="let row">
-                {{row.sst}}
-                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="SST"
-                id="pointerSst"
-                routerLink="/sst/sst-edit/{{row.sst}}">launch</mat-icon>
-            </td>
+            <td mat-cell class="small-spacing"*matCellDef="let row">{{row.sst}}</td>
         </ng-container>
 
         <!-- template Column -->
