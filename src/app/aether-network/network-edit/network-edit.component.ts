@@ -28,8 +28,8 @@ import { NetworkNetwork } from 'src/openapi3/aether/3.0.0/models';
 export class NetworkEditComponent extends RocEditBase<NetworkNetwork> implements OnInit {
   data: NetworkNetwork;
 
-  pathRoot = 'service-netwrok-3.0.0';
-  pathListAttr = 'service-network';
+  pathRoot = 'network-3.0.0';
+  pathListAttr = 'network';
   networkForm = this.fb.group({
     id: ['', Validators.compose([
         Validators.minLength(1),
@@ -62,7 +62,7 @@ constructor(
   protected snackBar: MatSnackBar,
   public opaService: OpenPolicyAgentService,
 ) {
-  super(snackBar, bs, route, router, 'service-network-3.0.0', 'service-network');
+  super(snackBar, bs, route, router, 'network-3.0.0', 'network');
   super.form = this.networkForm;
   super.loadFunc = this.loadNetworkNetwork;
   this.networkForm.get(['mcc'])[TYPE] = 'number';
@@ -88,8 +88,8 @@ loadNetworkNetwork(target: string, id: string): void {
       },
       () => {
           const basketPreview = this.bs.buildPatchBody().Updates;
-          if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['service-network-3.0.0']) {
-              basketPreview['service-network-3.0.0']['service-network'].forEach((basketItems) => {
+          if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['network-3.0.0']) {
+              basketPreview['network-3.0.0']['network'].forEach((basketItems) => {
                   if (basketItems.id === id){
                       this.populateFormData(basketItems);
                   }
