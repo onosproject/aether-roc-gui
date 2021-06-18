@@ -1,0 +1,48 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="upfForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>User Plane Function ID: {{id}}</mat-card-title>
+            <mat-form-field *ngIf="isNew" class="half-width">
+                <input matInput formControlName="id" id="inputID">
+                <mat-hint>ID</mat-hint>
+            </mat-form-field>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row" id="displayNameRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="display-name" id="inputDisplayName">
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="descriptionRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="description" id="inputDescription">
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="addressRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="address" id="inputAddress">
+                    <mat-hint>Address</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="portRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="port" id="inputPort">
+                    <mat-hint>Port</mat-hint>
+                </mat-form-field>
+            </div>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" type="submit"
+                        [disabled]="!(upfForm.valid && upfForm.touched && opaService.canWrite('/upf/upf'))"
+                        id="submitButton">Update
+                </button>
+            </mat-card-actions>
+        </mat-card-content>
+    </mat-card>
+</form>

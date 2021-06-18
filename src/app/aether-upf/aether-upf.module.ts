@@ -27,11 +27,13 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { UpfEditComponent } from './upf-edit/upf-edit.component';
 
 
 @NgModule({
     declarations: [
-        UpfComponent
+        UpfComponent,
+        UpfEditComponent
     ],
     imports: [
         CommonModule,
@@ -39,7 +41,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'upf', component: UpfComponent},
-            // {path: 'upf-edit/:id', component: UpfEditComponent},
+            {path: 'upf-edit/:id', component: UpfEditComponent},
             {path: '', component: UpfComponent, pathMatch: 'full'}
         ]),
         MatToolbarModule,
