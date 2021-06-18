@@ -27,11 +27,13 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { NetworkEditComponent } from './network-edit/network-edit.component';
 
 
 @NgModule({
     declarations: [
-        NetworkComponent
+        NetworkComponent,
+        NetworkEditComponent
     ],
     imports: [
         CommonModule,
@@ -39,7 +41,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'network', component: NetworkComponent},
-            // {path: 'network-edit/:id', component: NetworkEditComponent},
+            {path: 'network-edit/:id', component: NetworkEditComponent},
             {path: '', component: NetworkComponent, pathMatch: 'full'}
         ]),
         MatToolbarModule,
