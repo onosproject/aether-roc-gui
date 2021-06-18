@@ -1,0 +1,52 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+
+<form [formGroup]="endPointForm">
+    <mat-card class="card mat-elevation-z8">
+        <mat-card-header class="header">
+            <mat-card-title class="subheading-1 title">Create End Point</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="content">
+            <div>
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="name" id="inputName">
+                    <mat-hint>Name</mat-hint>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="address" id="inputAddress">
+                    <mat-hint>Address</mat-hint>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="field-margin half-width">
+                    <input matInput type="number" formControlName="port-start" id="inputPortStart">
+                    <mat-hint>Port-Start</mat-hint>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="number" formControlName="port-end" id="inputPortEnd">
+                    <mat-hint>Port-End</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="protocol" id="inputProtocol">
+                    <mat-hint>Protocol</mat-hint>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" type="button"
+                    id="cancelButton">Cancel
+            </button>
+            <button mat-raised-button color="primary" type="button"
+            >Add
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>
