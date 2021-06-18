@@ -89,7 +89,7 @@ loadNetworkNetwork(target: string, id: string): void {
       () => {
           const basketPreview = this.bs.buildPatchBody().Updates;
           if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['network-3.0.0']) {
-              basketPreview['network-3.0.0']['network'].forEach((basketItems) => {
+              basketPreview['network-3.0.0'].network.forEach((basketItems) => {
                   if (basketItems.id === id){
                       this.populateFormData(basketItems);
                   }
