@@ -68,7 +68,7 @@ export class AetherComponent implements OnInit {
             ).then(fulfilled => {
                 console.log('Login', fulfilled ? 'succeeded' : 'failed', this.idTokClaims);
                 this.opaService.userGroups = this.idTokClaims.groups;
-                this.router.navigate(['/subscribers']);
+                this.router.navigate(['/vcs']);
                 return fulfilled;
             });
         }

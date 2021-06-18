@@ -114,7 +114,7 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
     }
 
     delete(id: string): void {
-        this.bs.deleteIndexedEntry(this.pathRoot + '/' + this.pathListAttr + '[' + this.indexAttr + '=' + id + ']', 'id');
+        this.bs.deleteIndexedEntry(this.pathRoot + '/' + this.pathListAttr + '[' + this.indexAttr + '=' + id + ']', this.indexAttr, id);
         const deletedIndex = this.data.findIndex(p => p[this.indexAttr] === id);
         this.data.splice(deletedIndex, 1);
         this.paginator._changePageSize(this.paginator.pageSize);
