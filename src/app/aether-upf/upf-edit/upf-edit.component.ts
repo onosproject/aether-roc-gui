@@ -24,7 +24,7 @@ import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 })
 export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
   data: UpfUpf;
-  pathRoot = 'upf-2.1.0';
+  pathRoot = 'upf-3.0.0';
     pathListAttr = 'upf';
     upfForm = this.fb.group({
         id: ['', Validators.compose([
@@ -58,7 +58,7 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
     protected snackBar: MatSnackBar,
     public opaService: OpenPolicyAgentService,
 ) {
-    super(snackBar, bs, route, router, 'upf-2.1.0', 'upf');
+    super(snackBar, bs, route, router, 'upf-3.0.0', 'upf');
     super.form = this.upfForm;
     super.loadFunc = this.loadUpfUpf;
 }
@@ -81,8 +81,8 @@ loadUpfUpf(target: string, id: string): void {
       },
       () => {
           const basketPreview = this.bs.buildPatchBody().Updates;
-          if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['upf-2.1.0']) {
-              basketPreview['upf-2.1.0'].upf.forEach((basketItems) => {
+          if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['upf-3.0.0']) {
+              basketPreview['upf-3.0.0'].upf.forEach((basketItems) => {
                   if (basketItems.id === id){
                       this.populateFormData(basketItems);
                   }
