@@ -6,14 +6,14 @@
 import {Component, InjectionToken, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {SiteSiteService} from '../../../openapi3/aether/3.0.0/services';
+import { Service as AetherService, SiteSiteService} from '../../../openapi3/aether/3.0.0/services';
 import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {isEmpty, map, startWith} from 'rxjs/operators';
-import { SiteSite } from 'src/openapi3/aether/3.0.0/models';
+import { SiteSite, NetworkNetwork, EnterpriseEnterprise } from 'src/openapi3/aether/3.0.0/models';
 
 @Component({
   selector: 'aether-site-edit',
@@ -21,6 +21,8 @@ import { SiteSite } from 'src/openapi3/aether/3.0.0/models';
   styleUrls: ['../../common-edit.component.scss']
 })
 export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
+  enterprise: Array<EnterpriseEnterprise>;
+  network: Array<NetworkNetwork>;
   data: SiteSite;
   pathRoot = 'site-3.0.0';
   pathListAttr = 'site';
@@ -49,6 +51,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
 
   constructor(
     private siteSiteService: SiteSiteService,
+    private aetherService: AetherService,
     protected route: ActivatedRoute,
     protected router: Router,
     protected fb: FormBuilder,
@@ -62,6 +65,8 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
 }
   ngOnInit(): void {
     super.init();
+    this.loadEnterprise(this.target);
+    this.loadNetwork(this.target);
   }
   loadSiteSite(target: string, id: string): void {
     this.siteSiteService.getSiteSite({
@@ -103,4 +108,30 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         this.siteForm.get(['network']).setValue(value.network);
     }
   }
+  loadEnterprise(target: string): void {
+    this.aetherService.getEnterprise({
+        target,
+    }).subscribe(
+        (value => {
+            this.enterprise = value.enterprise;
+            console.log('Got', value.enterprise.length, 'Enterprise');
+        }),
+        error => {
+            console.warn('Error getting Enterprise for ', target, error);
+        }
+    );
+}
+loadNetwork(target: string): void {
+  this.aetherService.getNetwork({
+      target,
+  }).subscribe(
+      (value => {
+          this.network = value.network;
+          console.log('Got', value.network.length, 'Network');
+      }),
+      error => {
+          console.warn('Error getting Network for ', target, error);
+      }
+  );
+}
 }

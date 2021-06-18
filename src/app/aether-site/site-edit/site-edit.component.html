@@ -29,15 +29,23 @@
 
             <div class="row" id="enterpriseRow">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="enterprise" id="inputEnterprise">
-                    <mat-hint>Enterprise</mat-hint>
+                    <mat-select formControlName="enterprise">
+                        <mat-option id="selectEnterprise"
+                                    *ngFor="let eachEnterprise of enterprise"
+                                    [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
+                    </mat-select>
+                    <mat-hint>Service Group</mat-hint>
                 </mat-form-field>
             </div>
 
             <div class="row" id="networkRow">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="network" id="inputNetwork">
-                    <mat-hint>Network</mat-hint>
+                    <mat-select formControlName="network">
+                        <mat-option id="selectNetwork"
+                                    *ngFor="let eachNetwork of network"
+                                    [value]="eachNetwork.id">{{eachNetwork.id}} {{eachNetwork['display-name']}}</mat-option>
+                    </mat-select>
+                    <mat-hint>Service Group</mat-hint>
                 </mat-form-field>
             </div>
             <mat-card-actions>
