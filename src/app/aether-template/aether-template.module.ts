@@ -27,11 +27,14 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { TemplateEditComponent } from './template-edit/template-edit.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
     declarations: [
-        TemplateComponent
+        TemplateComponent,
+        TemplateEditComponent
     ],
     imports: [
         CommonModule,
@@ -39,7 +42,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'template', component: TemplateComponent},
-            // {path: 'template-edit/:id', component: TemplateEditComponent},
+            {path: 'template-edit/:id', component: TemplateEditComponent},
             {path: '', component: TemplateComponent, pathMatch: 'full'}
         ]),
         MatToolbarModule,
@@ -59,7 +62,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         MatButtonModule,
         MatSlideToggleModule,
         CdkTableModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatAutocompleteModule
     ],
     providers: [
         AuthInterceptor,
