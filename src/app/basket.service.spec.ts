@@ -26,6 +26,7 @@ describe('BasketService', () => {
 
     it('should iterate through form', () => {
         localStorage.clear();
+        localStorage.clear();
         const testFormGroup = fb.group({
             key: [''],
             'security-profile': fb.array([
@@ -92,14 +93,15 @@ describe('BasketService', () => {
         localStorage.setItem('/basket-delete/security-profile-3.0.0/security-profile[id=id2]/something', '{"newValue":"null","oldValue":"somethingOld1"}');
         localStorage.setItem
         ('/basket-delete/enterprise-3.0.0/enterprise-profile[id=id3]/' +
-            'connectivity-service[connectivity-service=sint]/connectivity-service', '{"newValue":"sint","oldValue":"null"}');
+            'connectivity-service[connectivity-service=sint]/connectivity-service', '{"newValue":"","oldValue":"sint"}');
 
         const testPatchBody = service.buildPatchBody();
         console.log('Test patch body: \n' + JSON.stringify(testPatchBody));
-        expect(testPatchBody).toBeTruthy();
+        expect(JSON.stringify(testPatchBody)).toEqual(expectedPatchBody);
     });
 
     it('should add a delete entry', () => {
+        localStorage.clear();
         localStorage.clear();
         localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id1]/opc', 'opcValue1');
         localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id2]/opc', 'opcValue2');
@@ -111,3 +113,5 @@ describe('BasketService', () => {
 
     });
 });
+
+const expectedPatchBody = `{"default-target":"connectivity-service-v3","Updates":{"security-profile-3.0.0":{"security-profile":[{"id":"id3","number":1234,"boolean":true,"key":"keyNew1"},{"id":"idNew2"},{"id":"id2","opc":"opcNew2"},{"id":"id1","opc":"opcNew1"}]}},"Deletes":{"enterprise-3.0.0":{"enterprise-profile":[{"id":"id3","connectivity-service":[{"connectivity-service":"sint"}]}]},"security-profile-3.0.0":{"security-profile":[{"id":"id2","desc":"null","something":"null"}]}},"Extensions":{"model-version-101":"3.0.0","model-type-102":"Aether"}}`;
