@@ -66,9 +66,13 @@
                 </mat-form-field>
             </div>
             <div class="row" id="trafficClassnRow">
-                <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="traffic-class" id="inputTrafficClass">
-                    <mat-hint>Traffic-Class</mat-hint>
+                <mat-form-field class="half-width subscriber-section">
+                    <mat-select formControlName="traffic-class">
+                        <mat-option id="selectTrafficClass"
+                                    *ngFor="let tc of trafficClass"
+                                    [value]="tc.id">{{tc.id}} {{tc['traffic-class']}}</mat-option>
+                    </mat-select>
+                    <mat-hint>Traffic Class</mat-hint>
                 </mat-form-field>
             </div>
         </mat-card-content>

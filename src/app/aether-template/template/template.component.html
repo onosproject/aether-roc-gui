@@ -55,7 +55,12 @@
         <!--Traffic-class Column -->
         <ng-container matColumnDef="traffic-class" id="TrafficclassColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Traffic-Class</th>
-            <td mat-cell *matCellDef="let row">{{row['traffic-class']}}</td>
+            <td mat-cell *matCellDef="let row">{{row['traffic-class']}}
+            <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Traffic Class"
+                          routerLink="/traffic-class/trafficclass-edit/{{row['traffic-class']}}"
+                          id="pointerTrafficClass">launch
+            </mat-icon>
+        </td>
         </ng-container>
 
         <!-- Edit Column -->

@@ -6,16 +6,16 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
-import {EnterpriseEnterpriseService, TemplateTemplateService} from '../../../openapi3/aether/3.0.0/services';
-import { TemplateTemplate } from '../../../openapi3/aether/3.0.0/models';
+import { Service as AetherService, TemplateTemplateService} from '../../../openapi3/aether/3.0.0/services';
+import { TemplateTemplate, TrafficClassTrafficClass } from '../../../openapi3/aether/3.0.0/models';
 import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { Observable } from 'rxjs';
-import {isEmpty, map, startWith} from 'rxjs/operators';
+import { map, startWith} from 'rxjs/operators';
 
 export interface Bandwidths {
   megabyte: { numerical: number, inMb: string};
@@ -32,6 +32,8 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
   // @ViewChild(MatTable) table: MatTable<Array<ConnectivityServiceRow>>;
   @ViewChild(MatHeaderRow) row: MatHeaderRow;
   @ViewChild(MatSort) sort: MatSort;
+
+  trafficClass: Array<TrafficClassTrafficClass>;
   options: Bandwidths[] = [
     { megabyte : { numerical : 1048576, inMb: '1Mb'} },
     { megabyte : { numerical : 2097152, inMb: '2Mb'} },
@@ -47,40 +49,29 @@ bandwidthOptions: Observable<Bandwidths[]>;
   tempForm = this.fb.group({
     id: ['', Validators.compose([
         Validators.minLength(1),
-        Validators.maxLength(31),
+        Validators.maxLength(32),
     ])],
     'display-name': ['', Validators.compose([
         Validators.minLength(1),
         Validators.maxLength(80),
     ])],
-    description: ['', Validators.compose([
-        Validators.minLength(1),
-        Validators.maxLength(100)
-    ])],
-    sd: ['', Validators.compose([
-      Validators.minLength(1),
-      Validators.maxLength(100)
-    ])],
-    sst: ['', Validators.compose([
-      Validators.minLength(1),
-      Validators.maxLength(100)
-    ])],
+    description: [''],
+    sd: [''],
+    sst: [''],
     uplink: [0, Validators.compose([
-      Validators.minLength(1),
-      Validators.maxLength(100)
+      Validators.minLength(0),
+      Validators.maxLength(4294967295)
     ])],
     downlink: [0, Validators.compose([
-      Validators.minLength(1),
-      Validators.maxLength(100)
+      Validators.minLength(0),
+      Validators.maxLength(4294967295)
     ])],
-    'traffic-class': ['', Validators.compose([
-      Validators.minLength(1),
-      Validators.maxLength(100)
-    ])],
+    'traffic-class': [''],
 });
 
 constructor(
   private templateTemplateService: TemplateTemplateService,
+  private aetherService: AetherService,
   protected route: ActivatedRoute,
   protected router: Router,
   protected fb: FormBuilder,
@@ -95,6 +86,7 @@ constructor(
 
    ngOnInit(): void {
     super.init();
+    this.loadTrafficClass(this.target);
     this.bandwidthOptions = this.tempForm.valueChanges
         .pipe(
             startWith(''),
@@ -155,5 +147,19 @@ private populateFormData(value: TemplateTemplate): void{
       this.tempForm.get(['traffic-class']).setValue(value['traffic-class']);
   }
 }
+
+  loadTrafficClass(target: string): void {
+    this.aetherService.getTrafficClass({
+        target,
+    }).subscribe(
+        (value => {
+            this.trafficClass = value['traffic-class'];
+            console.log('Got', value['traffic-class'].length, 'Traffic Class');
+        }),
+        error => {
+            console.warn('Error getting Traffic Class for ', target, error);
+        }
+    );
+  }
 }
 
