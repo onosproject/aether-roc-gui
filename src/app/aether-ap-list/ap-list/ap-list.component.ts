@@ -28,6 +28,7 @@ export class ApListComponent extends RocListBase<ApListDatasource> implements Af
     displayedColumns = [
         'id',
         'description',
+        'enterprise',
         'Access-Points',
         'edit',
         'delete'
@@ -52,6 +53,9 @@ export class ApListComponent extends RocListBase<ApListDatasource> implements Af
                         }
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;
+                        }
+                        if (basketItems.enterprise) {
+                            ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
                         }
                         if (basketItems['access-points']) {
                             if (ScopeOfDataSource.data[listItemCount]['access-points'].length === 0) {

@@ -5,7 +5,7 @@
  */
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {ApListComponent} from './ap-list.component';
+import {AccessPointSelectComponent} from './access-point-select.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -16,28 +16,26 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {ApiModule} from '../../../openapi3/aether/3.0.0/api.module';
-import {ActivatedRoute} from '@angular/router';
-import {of} from 'rxjs';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatSelectModule} from '@angular/material/select';
 
-describe('ApListComponent', () => {
-    let component: ApListComponent;
-    let fixture: ComponentFixture<ApListComponent>;
+describe('AccessPointSelectComponent', () => {
+    let component: AccessPointSelectComponent;
+    let fixture: ComponentFixture<AccessPointSelectComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ApListComponent],
+            declarations: [AccessPointSelectComponent],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
                 BrowserAnimationsModule,
                 FormsModule,
-                MatTableModule,
                 ReactiveFormsModule,
                 MatInputModule,
                 MatFormFieldModule,
@@ -47,17 +45,14 @@ describe('ApListComponent', () => {
                 MatButtonModule,
                 MatDividerModule,
                 MatSnackBarModule,
-                MatPaginatorModule
-            ],
-            providers: [
-                {provide: ActivatedRoute, useValue: {paramMap: of({ get: (key) => 'value' })}},
-            ],
+                MatSelectModule
+            ]
         })
             .compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ApListComponent);
+        fixture = TestBed.createComponent(AccessPointSelectComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
