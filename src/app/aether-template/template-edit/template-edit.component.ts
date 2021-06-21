@@ -33,6 +33,8 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
   @ViewChild(MatHeaderRow) row: MatHeaderRow;
   @ViewChild(MatSort) sort: MatSort;
 
+  pathRoot = 'template-3.0.0';
+  pathListAttr = 'template';
   trafficClass: Array<TrafficClassTrafficClass>;
   options: Bandwidths[] = [
     { megabyte : { numerical : 1048576, inMb: '1Mb'} },
@@ -82,7 +84,7 @@ constructor(
   protected snackBar: MatSnackBar,
   public opaService: OpenPolicyAgentService,
 ) {
-    super(snackBar, bs, route, router, 'template-2.1.0', 'template');
+    super(snackBar, bs, route, router, 'template-3.0.0', 'template');
     super.form = this.tempForm;
     super.loadFunc = this.loadTemplateTemplate;
    }

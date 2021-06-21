@@ -47,8 +47,8 @@ constructor(
 
 onDataLoaded(ScopeOfDataSource): void {
   const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-  if ('enterprise-3.0.0' in basketPreview && 'enterprise' in basketPreview['enterprise-3.0.0']) {
-      basketPreview['enterprise-3.0.0'].enterprise.forEach((basketItems) => {
+  if ('template-3.0.0' in basketPreview && 'template' in basketPreview['template-3.0.0']) {
+      basketPreview['template-3.0.0'].template.forEach((basketItems) => {
           ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
               if (basketItems.id === listItem.id) {
                   if (basketItems['display-name']) {
@@ -57,12 +57,21 @@ onDataLoaded(ScopeOfDataSource): void {
                   if (basketItems.description) {
                       ScopeOfDataSource.data[listItemCount].description = basketItems.description;
                   }
-                  if (basketItems.enterprise) {
-                    ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
+                  if (basketItems.sd) {
+                    ScopeOfDataSource.data[listItemCount].sd = basketItems.sd;
                   }
-                  if (basketItems.network) {
-                    ScopeOfDataSource.data[listItemCount].network = basketItems.network;
-                }
+                  if (basketItems.uplink) {
+                    ScopeOfDataSource.data[listItemCount].sst = basketItems.sst;
+                  }
+                  if (basketItems.uplink) {
+                    ScopeOfDataSource.data[listItemCount].uplink = basketItems.uplink;
+                  }
+                  if (basketItems.downlink) {
+                    ScopeOfDataSource.data[listItemCount].downlink = basketItems.downlink;
+                  }
+                  if (basketItems['traffic-class']) {
+                    ScopeOfDataSource.data[listItemCount]['traffic-class'] = basketItems['traffic-class'];
+                  }
               }
           });
       });
