@@ -17,6 +17,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { SiteEditComponent } from './site-edit.component';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('SiteEditComponent', () => {
   let component: SiteEditComponent;
@@ -38,7 +39,8 @@ describe('SiteEditComponent', () => {
           MatCardModule,
           MatButtonModule,
           MatDividerModule,
-          MatSnackBarModule
+          MatSnackBarModule,
+          MatSelectModule
       ]
   })
       .compileComponents();
