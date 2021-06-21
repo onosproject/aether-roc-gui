@@ -259,7 +259,7 @@ appSelected(selected: string): void {
         target,
     }).subscribe(
         (value => {
-            this.aps = value.ap;
+            this.aps = value['ap-list'];
             console.log('Got', value.ap, 'AP List');
         }),
         error => {
