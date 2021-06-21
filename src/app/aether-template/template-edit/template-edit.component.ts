@@ -55,9 +55,12 @@ bandwidthOptions: Observable<Bandwidths[]>;
         Validators.minLength(1),
         Validators.maxLength(80),
     ])],
-    description: [''],
-    sd: [''],
-    sst: [''],
+    description: ['', Validators.compose([
+        Validators.minLength(1),
+        Validators.maxLength(100),
+    ])],
+    sd: [0],
+    sst: [0],
     uplink: [0, Validators.compose([
       Validators.minLength(0),
       Validators.maxLength(4294967295)
