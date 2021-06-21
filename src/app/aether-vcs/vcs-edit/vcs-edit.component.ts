@@ -6,14 +6,15 @@
 import {Component, InjectionToken, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import { VcsVcs} from '../../../openapi3/aether/3.0.0/models';
+import { VcsVcs, ApListApList, DeviceGroupDeviceGroup, TemplateTemplate, TrafficClassTrafficClass, UpfUpf, AdditionalPropertyTarget} from '../../../openapi3/aether/3.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {isEmpty, map, startWith} from 'rxjs/operators';
-import { VcsVcsService } from 'src/openapi3/aether/3.0.0/services';
+import { VcsVcsService, Service as AetherService} from 'src/openapi3/aether/3.0.0/services';
 import { BasketService, ORIGINAL, TYPE } from 'src/app/basket.service';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 export interface Bandwidths {
   megabyte: { numerical: number, inMb: string};
@@ -26,6 +27,11 @@ export interface Bandwidths {
 })
 export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
   showConnectDisplay: boolean = false;
+  aps: Array<ApListApList> | AdditionalPropertyTarget;
+  deviceGroups: Array<DeviceGroupDeviceGroup>;
+  templates: Array<TemplateTemplate>;
+  trafficClasses: Array<TrafficClassTrafficClass>;
+  upfs: Array<UpfUpf>;
     options: Bandwidths[] = [
       { megabyte : { numerical : 1048576, inMb: '1Mb'} },
       { megabyte : { numerical : 2097152, inMb: '2Mb'} },
@@ -38,8 +44,8 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
   ];
   bandwidthOptions: Observable<Bandwidths[]>;
   data: VcsVcs;
-  pathRoot = 'service-vcs-2.1.0';
-  pathListAttr = 'service-vcs';
+  pathRoot = 'vcs-3.0.0';
+  pathListAttr = 'vcs';
 
   vcsForm = this.fb.group({
     id: ['', Validators.compose([
@@ -63,14 +69,8 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
       Validators.minLength(0),
       Validators.maxLength(4294967295)
     ])],
-    ap: ['', Validators.compose([
-      Validators.minLength(1),
-      Validators.maxLength(100),
-    ])],
-    'device-group': ['', Validators.compose([
-      Validators.minLength(1),
-      Validators.maxLength(100),
-    ])],
+    ap: [''],
+    'device-group': [''],
     sd: ['', Validators.compose([
     Validators.minLength(0),
     Validators.maxLength(100),
@@ -79,22 +79,14 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
       Validators.minLength(0),
       Validators.maxLength(100),
     ])],
-    template: ['', Validators.compose([
-      Validators.minLength(0),
-      Validators.maxLength(100),
-    ])],
-    'traffic-class': ['', Validators.compose([
-      Validators.minLength(0),
-      Validators.maxLength(100),
-      ])],
-    upf: ['', Validators.compose([
-        Validators.minLength(0),
-        Validators.maxLength(100),
-      ])]
+    template: [''],
+    'traffic-class': [''],
+    upf: ['']
   });
 
   constructor(
     private vcsVcsService: VcsVcsService,
+    private aetherService: AetherService,
     protected route: ActivatedRoute,
     protected router: Router,
     protected fb: FormBuilder,
@@ -102,7 +94,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     protected snackBar: MatSnackBar,
     public opaService: OpenPolicyAgentService
     ) {
-      super(snackBar, bs, route, router, 'service-vcs-2.1.0', 'service-vcs');
+      super(snackBar, bs, route, router, 'vcs-3.0.0', 'vcs');
       super.form = this.vcsForm;
       super.loadFunc = this.loadVcsVcs;
       this.vcsForm.get(['uplink'])[TYPE] = 'number';
@@ -111,6 +103,11 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
 
    ngOnInit(): void {
     super.init();
+    this.loadAp(this.target);
+    this.loadDeviceGoup(this.target);
+    this.loadTemplate(this.target);
+    this.loadTrafficClass(this.target);
+    this.loadUpf(this.target);
     this.bandwidthOptions = this.vcsForm.valueChanges
           .pipe(
               startWith(''),
@@ -142,8 +139,8 @@ appSelected(selected: string): void {
         enabledControl.markAsDirty();
         enabledControl[TYPE] = 'boolean';
         (this.vcsForm.get('application') as FormArray).push(this.fb.group({
-            aplication: appFormControl,
-            allow: enabledControl,
+            application: appFormControl,
+            enabled: enabledControl,
         }));
         console.log('Adding new Value', selected);
     }
@@ -169,8 +166,8 @@ appSelected(selected: string): void {
           },
           () => {
               const basketPreview = this.bs.buildPatchBody().Updates;
-              if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['service-vcs-2.1.0']) {
-                  basketPreview['service-vcs-2.1.0']['service-vcs'].forEach((basketItems) => {
+              if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['vcs-3.0.0']) {
+                  basketPreview['vcs-3.0.0'].vcs.forEach((basketItems) => {
                       if (basketItems.id === id){
                           this.populateFormData(basketItems);
                       }
@@ -262,5 +259,71 @@ appSelected(selected: string): void {
           this.vcsForm.get(['upf']).setValue(value.upf);
       }
   }
+
+  loadAp(target: string): void {
+    this.aetherService.getApList({
+        target,
+    }).subscribe(
+        (value => {
+            this.aps = value.ap;
+            console.log('Got', value.ap, 'AP List');
+        }),
+        error => {
+            console.warn('Error getting Ap List for ', target, error);
+        }
+    );
+}
+loadDeviceGoup(target: string): void {
+    this.aetherService.getDeviceGroup({
+        target,
+    }).subscribe(
+        (value => {
+            this.deviceGroups = value['device-group'];
+            console.log('Got', value['device-group'].length, 'Device Group');
+        }),
+        error => {
+            console.warn('Error getting Device Groups for ', target, error);
+        }
+    );
+}
+loadTemplate(target: string): void {
+    this.aetherService.getTemplate({
+        target,
+    }).subscribe(
+        (value => {
+            this.templates = value.template;
+            console.log('Got', value.template.length, 'Template');
+        }),
+        error => {
+            console.warn('Error getting Template for ', target, error);
+        }
+    );
+}
+loadTrafficClass(target: string): void {
+    this.aetherService.getTrafficClass({
+        target,
+    }).subscribe(
+        (value => {
+            this.trafficClasses = value['traffic-class'];
+            console.log('Got', value['traffic-class'].length, 'Traffic Class');
+        }),
+        error => {
+            console.warn('Error getting Traffic Class for ', target, error);
+        }
+    );
+}
+loadUpf(target: string): void {
+    this.aetherService.getUpf({
+        target,
+    }).subscribe(
+        (value => {
+            this.upfs = value.upf;
+            console.log('Got', value.upf.length, 'UPF');
+        }),
+        error => {
+            console.warn('Error getting UPF for ', target, error);
+        }
+    );
+}
 }
 

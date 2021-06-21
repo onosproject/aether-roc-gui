@@ -35,7 +35,7 @@
                         <div [formGroup]="appForm">
                             <input matInput formControlName="application" readonly>
                             <mat-slide-toggle
-                                formControlName="enabled" id="toggleEnabled">Enabled
+                                formControlName="enabled" id="toggleEallow">Allow
                             </mat-slide-toggle>
                             <button mat-icon-button
                                     [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
@@ -83,13 +83,21 @@
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="ap" id="inputAp">
+                    <mat-select formControlName="ap">
+                        <mat-option id="selectAp"
+                                    *ngFor="let eachAp of aps"
+                                    [value]="eachAp.id">{{eachAp.id}} {{eachAp.ap}}</mat-option>
+                    </mat-select>
                     <mat-hint>AP</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="device-group" id="inputDeviceGroup">
+                    <mat-select formControlName="device-group">
+                        <mat-option id="selectDeviceGroup"
+                                    *ngFor="let dg of deviceGroups"
+                                    [value]="dg.id">{{dg.id}} {{dg['device-group']}}</mat-option>
+                    </mat-select>
                     <mat-hint>Device Group</mat-hint>
                 </mat-form-field>
             </div>
@@ -98,7 +106,7 @@
                     <input matInput formControlName="sd" id="inputSd">
                     <mat-hint>SD</mat-hint>
                 </mat-form-field>
-            </div>
+            </div>  
             <div class="row">
                 <mat-form-field class="field-margin half-width">
                     <input matInput formControlName="sst" id="inputSst">
@@ -107,19 +115,31 @@
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="template" id="inputTemplate">
+                    <mat-select formControlName="template">
+                        <mat-option id="selectTemplate"
+                                    *ngFor="let eachTemp of templates"
+                                    [value]="eachTemp.id">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
+                    </mat-select>
                     <mat-hint>Template</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="traffic-class" id="inputTrafficClass">
+                    <mat-select formControlName="traffic-class">
+                        <mat-option id="selectTrafficClass"
+                                    *ngFor="let tc of trafficClasses"
+                                    [value]="tc.id">{{tc.id}} {{tc['traffic-class']}}</mat-option>
+                    </mat-select>
                     <mat-hint>Traffic Class</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="upf" id="inputUpf">
+                    <mat-select formControlName="upf">
+                        <mat-option id="selectUpf"
+                                    *ngFor="let eachUpf of upfs"
+                                    [value]="eachUpf.id">{{eachUpf.id}} {{eachUpf['upf']}}</mat-option>
+                    </mat-select>
                     <mat-hint>UPF</mat-hint>
                 </mat-form-field>
             </div>
@@ -135,5 +155,5 @@
     *ngIf="showConnectDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
     id="applicationSelectComponent"
     [alreadySelected]="applicationExists"
-    (closeEvent)="applicationSelected($event)">
+    (closeEvent)="appSelected($event)">
 </aether-application-select>
