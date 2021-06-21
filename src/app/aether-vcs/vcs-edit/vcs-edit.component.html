@@ -1,0 +1,159 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="vcsForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Virtual Cellular Service ID: {{id}}</mat-card-title>
+            <mat-form-field *ngIf="isNew" class="half-width">
+                <input matInput formControlName="id" id="inputID">
+                <mat-hint>ID</mat-hint>
+            </mat-form-field>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="display-name" id="inputDisplayName">
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="description" id="inputDesc">
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+            <div formArrayName="application" class="subscriber-section">
+                <mat-hint>Application</mat-hint>
+                <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addApplication">
+                    add
+                </mat-icon>
+                <div *ngFor="let appForm of applications.controls; index as i">
+                    <mat-form-field class="field-margin half-width">
+                        <div [formGroup]="appForm">
+                            <input matInput formControlName="application" readonly>
+                            <mat-slide-toggle
+                                formControlName="enabled" id="toggleEallow">Allow
+                            </mat-slide-toggle>
+                            <button mat-icon-button
+                                    [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
+                                    (click)="deleteFromSelect(appForm.value.application)"
+                                    id="deleteApplication">
+                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                            </button>
+                            <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Application"
+                                      routerLink="/application/application-edit/{{appForm.value.application}}"
+                                      id="pointerApplication">launch
+                            </mat-icon>
+                        </div>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin">
+                    <input matInput type="number" [matAutocomplete]="auto"
+                           id="inputUplink"
+                           formControlName="uplink">
+                    <mat-autocomplete #auto="matAutocomplete" >
+                        <mat-option *ngFor="let option of bandwidthOptions | async" [value]="option.megabyte.numerical"
+                        id="selectUplinkAutoOption">
+                            {{option.megabyte.numerical}}
+                            {{option.megabyte.inMb}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Uplink (0..4294967295)</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin">
+                    <input matInput type="number" [matAutocomplete]="auto"
+                           id="inputDownlink"
+                           formControlName="downlink">
+                    <mat-autocomplete #auto="matAutocomplete" >
+                        <mat-option *ngFor="let option of bandwidthOptions | async" [value]="option.megabyte.numerical"
+                        id="selectDownlinkAutoOption">
+                            {{option.megabyte.numerical}}
+                            {{option.megabyte.inMb}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Downlink (0..4294967295)</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <mat-select formControlName="ap">
+                        <mat-option id="selectAp"
+                                    *ngFor="let eachAp of aps"
+                                    [value]="eachAp.id">{{eachAp.id}} {{eachAp.ap}}</mat-option>
+                    </mat-select>
+                    <mat-hint>AP</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <mat-select formControlName="device-group">
+                        <mat-option id="selectDeviceGroup"
+                                    *ngFor="let dg of deviceGroups"
+                                    [value]="dg.id">{{dg.id}} {{dg['device-group']}}</mat-option>
+                    </mat-select>
+                    <mat-hint>Device Group</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput type=number formControlName="sd" id="inputSd">
+                    <mat-hint>SD</mat-hint>
+                </mat-form-field>
+            </div>  
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput type=number formControlName="sst" id="inputSst">
+                    <mat-hint>SST</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <mat-select formControlName="template">
+                        <mat-option id="selectTemplate"
+                                    *ngFor="let eachTemp of templates"
+                                    [value]="eachTemp.id">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
+                    </mat-select>
+                    <mat-hint>Template</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <mat-select formControlName="traffic-class">
+                        <mat-option id="selectTrafficClass"
+                                    *ngFor="let tc of trafficClasses"
+                                    [value]="tc.id">{{tc.id}} {{tc['traffic-class']}}</mat-option>
+                    </mat-select>
+                    <mat-hint>Traffic Class</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <mat-select formControlName="upf">
+                        <mat-option id="selectUpf"
+                                    *ngFor="let eachUpf of upfs"
+                                    [value]="eachUpf.id">{{eachUpf.id}} {{eachUpf['upf']}}</mat-option>
+                    </mat-select>
+                    <mat-hint>UPF</mat-hint>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" type="submit"
+                    id="submitButton"
+                    [disabled]="!(vcsForm.valid && vcsForm.touched && opaService.canWrite('/service-vcs/service-vcs [id=' + id + ']'))">Update</button>
+        </mat-card-actions>
+    </mat-card>
+</form>
+<aether-application-select
+    *ngIf="showConnectDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
+    id="applicationSelectComponent"
+    [alreadySelected]="applicationExists"
+    (closeEvent)="appSelected($event)">
+</aether-application-select>

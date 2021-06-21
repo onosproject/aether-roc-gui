@@ -51,8 +51,8 @@ constructor(
 
 onDataLoaded(ScopeOfDataSource): void {
   const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-  if ('enterprise-3.0.0' in basketPreview && 'enterprise' in basketPreview['enterprise-3.0.0']) {
-      basketPreview['enterprise-3.0.0'].enterprise.forEach((basketItems) => {
+  if ('vcs-3.0.0' in basketPreview && 'vcs' in basketPreview['vcs-3.0.0']) {
+      basketPreview['vcs-3.0.0'].vcs.forEach((basketItems) => {
           ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
               if (basketItems.id === listItem.id) {
                   if (basketItems['display-name']) {
@@ -61,12 +61,49 @@ onDataLoaded(ScopeOfDataSource): void {
                   if (basketItems.description) {
                       ScopeOfDataSource.data[listItemCount].description = basketItems.description;
                   }
-                  if (basketItems.enterprise) {
-                    ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
+                  if (basketItems.application) {
+                    if (ScopeOfDataSource.data[listItemCount].application.length === 0) {
+                      ScopeOfDataSource.data[listItemCount].application = basketItems.application;
+                  } else {
+                      for (const eachBasketApp of basketItems.application) {
+                          let eachCSPosition = 0;
+                          for (const eachScopeaApp of ScopeOfDataSource.data[listItemCount].application){
+                              if (eachBasketApp.application === eachScopeaApp.application){
+                                  ScopeOfDataSource.data[listItemCount].application[eachCSPosition].enabled
+                                  = eachBasketApp.enabled;
+                              }
+                              eachCSPosition++;
+                          }
+                      }
                   }
-                  if (basketItems.network) {
-                    ScopeOfDataSource.data[listItemCount].network = basketItems.network;
                 }
+                  if (basketItems.downlink) {
+                    ScopeOfDataSource.data[listItemCount].downlink = basketItems.downlink;
+                  }
+                  if (basketItems.uplink) {
+                    ScopeOfDataSource.data[listItemCount].uplink = basketItems.uplink;
+                  }
+                  if (basketItems.ap) {
+                    ScopeOfDataSource.data[listItemCount].ap = basketItems.ap;
+                  }
+                  if (basketItems.sst) {
+                    ScopeOfDataSource.data[listItemCount].sst = basketItems.sst;
+                  }
+                  if (basketItems.sd) {
+                    ScopeOfDataSource.data[listItemCount].sd = basketItems.sd;
+                  }
+                  if (basketItems['device-group']) {
+                    ScopeOfDataSource.data[listItemCount]['device-group'] = basketItems['device-group'];
+                  }
+                  if (basketItems.template) {
+                    ScopeOfDataSource.data[listItemCount].template = basketItems.template;
+                  }
+                  if (basketItems['traffic-class']) {
+                    ScopeOfDataSource.data[listItemCount]['traffic-class'] = basketItems['traffic-class'];
+                  }
+                  if (basketItems.upf) {
+                    ScopeOfDataSource.data[listItemCount].upf = basketItems.upf;
+                  }
               }
           });
       });
