@@ -43,8 +43,8 @@ constructor(
 
 onDataLoaded(ScopeOfDataSource): void {
   const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-  if ('enterprise-3.0.0' in basketPreview && 'enterprise' in basketPreview['enterprise-3.0.0']) {
-      basketPreview['enterprise-3.0.0'].enterprise.forEach((basketItems) => {
+  if ('site-3.0.0' in basketPreview && 'site' in basketPreview['site-3.0.0']) {
+      basketPreview['site-3.0.0'].site.forEach((basketItems) => {
           ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
               if (basketItems.id === listItem.id) {
                   if (basketItems['display-name']) {
