@@ -21,8 +21,8 @@ import { SiteSite, NetworkNetwork, EnterpriseEnterprise } from 'src/openapi3/aet
   styleUrls: ['../../common-edit.component.scss']
 })
 export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
-  enterprise: Array<EnterpriseEnterprise>;
-  network: Array<NetworkNetwork>;
+  enterprises: Array<EnterpriseEnterprise>;
+  networks: Array<NetworkNetwork>;
   data: SiteSite;
   pathRoot = 'site-3.0.0';
   pathListAttr = 'site';
@@ -65,8 +65,8 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
 }
   ngOnInit(): void {
     super.init();
-    this.loadEnterprise(this.target);
-    this.loadNetwork(this.target);
+    this.loadEnterprises(this.target);
+    this.loadNetworks(this.target);
   }
   loadSiteSite(target: string, id: string): void {
     this.siteSiteService.getSiteSite({
@@ -108,12 +108,12 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         this.siteForm.get(['network']).setValue(value.network);
     }
   }
-  loadEnterprise(target: string): void {
+  loadEnterprises(target: string): void {
     this.aetherService.getEnterprise({
         target,
     }).subscribe(
         (value => {
-            this.enterprise = value.enterprise;
+            this.enterprises = value.enterprise;
             console.log('Got', value.enterprise.length, 'Enterprise');
         }),
         error => {
@@ -121,12 +121,12 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         }
     );
 }
-loadNetwork(target: string): void {
+loadNetworks(target: string): void {
   this.aetherService.getNetwork({
       target,
   }).subscribe(
       (value => {
-          this.network = value.network;
+          this.networks = value.network;
           console.log('Got', value.network.length, 'Network');
       }),
       error => {
