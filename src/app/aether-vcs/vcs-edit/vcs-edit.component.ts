@@ -71,14 +71,8 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     ])],
     ap: [''],
     'device-group': [''],
-    sd: ['', Validators.compose([
-    Validators.minLength(0),
-    Validators.maxLength(100),
-    ])],
-    sst: ['', Validators.compose([
-      Validators.minLength(0),
-      Validators.maxLength(100),
-    ])],
+    sd: [0],
+    sst: [0],
     template: [''],
     'traffic-class': [''],
     upf: ['']

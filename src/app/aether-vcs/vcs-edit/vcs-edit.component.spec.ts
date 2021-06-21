@@ -19,6 +19,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { VcsEditComponent } from './vcs-edit.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('VcsEditComponent', () => {
   let component: VcsEditComponent;
@@ -42,7 +43,8 @@ describe('VcsEditComponent', () => {
           MatDividerModule,
           MatSnackBarModule,
           MatSlideToggleModule,
-          MatAutocompleteModule
+          MatAutocompleteModule,
+          MatSelectModule
       ]
   })
       .compileComponents();
