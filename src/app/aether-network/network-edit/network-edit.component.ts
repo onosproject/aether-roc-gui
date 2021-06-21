@@ -39,14 +39,8 @@ export class NetworkEditComponent extends RocEditBase<NetworkNetwork> implements
         Validators.minLength(1),
         Validators.maxLength(80),
     ])],
-    mcc : ['', Validators.compose([
-      Validators.minLength(1),
-      Validators.maxLength(999),
-  ])],
-    mnc : ['', Validators.compose([
-      Validators.minLength(1),
-      Validators.maxLength(999),
-  ])],
+    mcc : [0],
+    mnc : [0],
     description: ['', Validators.compose([
         Validators.minLength(1),
         Validators.maxLength(100),
