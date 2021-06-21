@@ -18,6 +18,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { TemplateEditComponent } from './template-edit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('TemplateEditComponent', () => {
   let component: TemplateEditComponent;
@@ -40,7 +41,8 @@ describe('TemplateEditComponent', () => {
           MatButtonModule,
           MatDividerModule,
           MatSnackBarModule,
-          MatAutocompleteModule
+          MatAutocompleteModule,
+          MatSelectModule
       ]
   })
       .compileComponents();
