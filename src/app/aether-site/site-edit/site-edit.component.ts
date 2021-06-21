@@ -103,9 +103,11 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
     }
     if (value.enterprise) {
         this.siteForm.get(['enterprise']).setValue(value.enterprise);
+        this.siteForm.get('enterprise')[ORIGINAL] = value.enterprise;
     }
     if (value.network){
         this.siteForm.get(['network']).setValue(value.network);
+        this.siteForm.get('network')[ORIGINAL] = value.network;
     }
   }
   loadEnterprises(target: string): void {
