@@ -1,0 +1,95 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="deviceGroupForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Device List ID: {{id}}</mat-card-title>
+            <mat-form-field *ngIf="isNew" class="half-width">
+                <input matInput formControlName="id" id="inputID">
+                <mat-hint>ID</mat-hint>
+            </mat-form-field>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row" id="displayNameRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="display-name" id="inputDisplayName">
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="row">
+                <mat-form-field class="field-margin half-width subscriber-section">
+                    <mat-select ngDefaultControl formControlName="ip-domain">
+                        <mat-option *ngFor="let ip of ipdomain"
+                                    id="selectIpDomain"
+                                    [value]="ip.id">{{ip.id}}
+                            <span *ngIf="ip['display-name']"> ({{ip['display-name']}})</span>
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Ip Domain</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="row">
+                <mat-form-field class="field-margin half-width subscriber-section">
+                    <mat-select ngDefaultControl formControlName="site">
+                        <mat-option *ngFor="let site of site"
+                                    id="selectEnterprise"
+                                    [value]="site.id">{{site.id}}
+                            <span *ngIf="site['display-name']"> ({{site['display-name']}})</span>
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Site</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div formArrayName="imsis" class="subscriber-section">
+                <mat-hint>Imsis</mat-hint>
+                <mat-icon (click)="showImsiDisplay = true"
+                          id="addNewExistingAccessProfile"
+                          class="subscriber-pointer">add</mat-icon>
+                <div *ngFor="let imsiForm of imsiControls.controls">
+                    <mat-form-field class="field-margin half-width">
+                        <div [formGroup]="imsiForm">
+                            <div>
+                                <input matInput formControlName="name" id="inputName" readonly>
+                                <small>Name</small>
+                            </div>
+                            <br>
+                            <div>
+                               <input matInput formControlName="imsi-range-from" type="number" id="inputImsiRangeFrom">
+                                <small>Imsi Range Start</small>
+                            </div>
+                            <br>
+                            <div>
+                                <input matInput formControlName="imsi-range-to" type="number" id="inputImsiRangeTo">
+                                <small>Imsi Range End</small>
+                            </div>
+                        </div>
+                    </mat-form-field>
+                    <button mat-icon-button
+                            id="deleteExistingAccessProfileButton"
+                            [disabled]="!opaService.canWrite('/devicegroups/devicegroups-edit[id=' + id + ']/imsis')"
+                            (click)="deleteFromSelect(imsiForm.value['name'])">
+                        <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <mat-card-actions>
+                <button mat-raised-button color="primary" type="submit"
+                        [disabled]="!(deviceGroupForm.valid && deviceGroupForm.touched && opaService.canWrite('/devicegroups/devicegroups'))"
+                        id="submitButton">Update
+                </button>
+            </mat-card-actions>
+        </mat-card-content>
+    </mat-card>
+</form>
+<aether-imsis-select
+    *ngIf="showImsiDisplay && opaService.canWrite('/devicegroup/devicegroup[id=' + id + ']/imsis')"
+    id="imsiSelectComponent"
+    (closeEvent)="openDeviceGroupCard($event)">
+</aether-imsis-select>
