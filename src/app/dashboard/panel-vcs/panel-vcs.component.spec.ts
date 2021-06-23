@@ -12,6 +12,8 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
+import {ResizeService} from '../resize.service';
+import {SafePipe} from '../safe.pipe';
 
 describe('PanelVcsComponent', () => {
     let component: PanelVcsComponent;
@@ -19,7 +21,7 @@ describe('PanelVcsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [PanelVcsComponent],
+            declarations: [PanelVcsComponent, SafePipe],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
@@ -27,6 +29,9 @@ describe('PanelVcsComponent', () => {
                 MatPaginatorModule,
                 MatSortModule,
                 MatTableModule,
+            ],
+            providers: [
+                ResizeService
             ]
         })
             .compileComponents();

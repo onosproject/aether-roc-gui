@@ -5,11 +5,11 @@
 -->
 <div >
     <mat-toolbar class="profile-toolbar">
-        <p>DASHBOARD (Under construction
+        <p>DASHBOARD ({{innerWidth}}x{{innerHeight}} Under construction
         <mat-icon aria-hidden="false" aria-label="Construction"
                   id="pointerUpf"
                   >construction</mat-icon>)</p>
         <span class="toolbar-spacer"></span>
     </mat-toolbar>
-    <aether-panel-vcs [top]="300" [left]="200" [width]="500" [height]="400"></aether-panel-vcs>
+    <aether-panel-vcs [top]="200" [left]="100" [width]="innerWidth/2" [height]="400"></aether-panel-vcs>
 </div>
