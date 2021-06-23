@@ -10,6 +10,7 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {ResizeService} from '../resize.service';
 
 describe('DashboardComponent', () => {
     let component: DashboardComponent;
@@ -23,6 +24,9 @@ describe('DashboardComponent', () => {
                 RouterTestingModule,
                 BrowserAnimationsModule,
                 MatToolbarModule,
+            ],
+            providers: [
+                ResizeService
             ]
         })
             .compileComponents();

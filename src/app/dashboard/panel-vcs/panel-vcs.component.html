@@ -11,17 +11,26 @@
     <table mat-table class="full-width-table" matSort aria-label="Elements" id="vcsTable">
         <!-- Id/Name Column -->
         <ng-container matColumnDef="id" id="nameColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-            <td mat-cell *matCellDef="let row">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Name</th>
+            <td mat-cell *matCellDef="let row" class="spacing">
                 <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}<br><small>({{row.id}})</small></span>
                 <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
             </td>
         </ng-container>
         <!-- Description Column -->
         <ng-container matColumnDef="description" id="descColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-            <td mat-cell *matCellDef="let row">{{row.description}}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Description</th>
+            <td mat-cell *matCellDef="let row" class="spacing">{{row.description}}</td>
         </ng-container>
+        <ng-container matColumnDef="prom1" id="prom1Column">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Prom1</th>
+            <td mat-cell *matCellDef="let row" class="spacing">{{row.prometheus_tsdb_reloads_total}}</td>
+        </ng-container>
+        <ng-container matColumnDef="prom2" id="prom2Column">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Prom2</th>
+            <td mat-cell *matCellDef="let row" class="spacing">{{row.prometheus_tsdb_wal_completed_pages_total}}</td>
+        </ng-container>
+        <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <mat-paginator #paginator id="vcsPaginator"
@@ -30,4 +39,6 @@
                    [pageSize]="4"
                    [pageSizeOptions]="[5, 10, 20]">
     </mat-paginator>
+    <iframe width="{{width}}" height="345" [src]="dashboard1 | safe">
+    </iframe>
 </div>
