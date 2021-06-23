@@ -27,11 +27,13 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
+import {ApplicationEditComponent} from './application-edit/application-edit.component';
 
 
 @NgModule({
     declarations: [
-        ApplicationComponent
+        ApplicationComponent,
+        ApplicationEditComponent
     ],
     imports: [
         CommonModule,
@@ -39,8 +41,7 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'application', component: ApplicationComponent},
-            // '{path: 'application-edit/:id', component: },
-
+            {path: 'application-edit/:id', component: ApplicationEditComponent},
             {path: '', component: ApplicationComponent, pathMatch: 'full'}
         ]),
         FormsModule,
@@ -48,6 +49,7 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatPaginatorModule,
         MatSnackBarModule,
         MatToolbarModule,
         MatIconModule,
