@@ -60,12 +60,10 @@
 
         <!-- Device-group Column -->
         <ng-container matColumnDef="device-group" id="deviceGroupColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Device-group</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Device Group</th>
             <td mat-cell *matCellDef="let row">
-                {{row['device-group']}}
-                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup"
-                              id="pointerDeviceGroup"
-                              routerLink="/device-group/device-group-edit/{{row['device-group']}}">launch</mat-icon>
+                <p *ngFor="let dg of row['device-group']">{{dg['device-group']}}
+                <mat-icon class="table_icon" *ngIf="dg.enabled">done</mat-icon></p>
             </td>
         </ng-container>
 

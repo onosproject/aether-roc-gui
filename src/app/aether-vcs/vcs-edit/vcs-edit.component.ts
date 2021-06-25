@@ -70,7 +70,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
       Validators.maxLength(4294967295)
     ])],
     ap: [''],
-    'device-group': [''],
+    'device-group': this.fb.array([]),
     sd: [0],
     sst: [0],
     template: [''],
@@ -110,9 +110,21 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
           );
     }
 
-    get applications(): FormArray {
-      return this.vcsForm.get('application') as FormArray;
+    get deviceGroup(): FormArray {
+      return this.vcsForm.get('device-group') as FormArray;
   }
+
+  get applications(): FormArray {
+    return this.vcsForm.get('application') as FormArray;
+}
+
+get deviceGroupExists(): string[] {
+    const existingList: string[] = [];
+    (this.vcsForm.get(['device-group']) as FormArray).controls.forEach((dg) => {
+        existingList.push(dg.get('device-group').value);
+    });
+    return existingList;
+}
 
   get applicationExists(): string[] {
     const existingList: string[] = [];
@@ -120,6 +132,25 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         existingList.push(app.get('application').value);
     });
     return existingList;
+}
+
+deviceGroupSelected(selected: string): void {
+    // Push into form
+    if (selected !== undefined && selected !== '') {
+        const DgFormControl = this.fb.control(selected);
+        DgFormControl.markAsTouched();
+        DgFormControl.markAsDirty();
+        const enabledControl = this.fb.control(false);
+        enabledControl.markAsTouched();
+        enabledControl.markAsDirty();
+        enabledControl[TYPE] = 'boolean';
+        (this.vcsForm.get('device-group') as FormArray).push(this.fb.group({
+            ['device-group']: DgFormControl,
+            enabled: enabledControl,
+        }));
+        console.log('Adding new Value', selected);
+    }
+    this.showConnectDisplay = false;
 }
 
 appSelected(selected: string): void {
@@ -180,6 +211,14 @@ appSelected(selected: string): void {
         (this.vcsForm.get('application') as FormArray).removeAt(index);
     }
 
+    deleteDGFromSelect(dg: FormControl): void {
+        this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
+            ']/device-group[device-group=' + dg + ']', 'device-group');
+        const index = (this.vcsForm.get('device-group') as FormArray)
+            .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === dg);
+        (this.vcsForm.get('device-group') as FormArray).removeAt(index);
+    }
+
     private populateFormData(value: VcsVcs): void{
       if (value['display-name']) {
           this.vcsForm.get('display-name').setValue(value['display-name']);
@@ -210,21 +249,21 @@ appSelected(selected: string): void {
                   application: appFormControl,
                   enabled: enabledControl,
               }));
-          }
-          isDeleted = false;
-      }
-  } else if (value.application && this.vcsForm.value.application.length !== 0){
-      for (const eachValueApp of value.application) {
-          let eachFormCsPosition = 0;
-          for (const eachFormApp of this.vcsForm.value.application){
-              if (eachValueApp.application === eachFormApp.application){
-                  this.vcsForm.value.application[eachFormCsPosition].enabled = eachValueApp.enabled;
-              }
-              eachFormCsPosition++;
-          }
-      }
+                }
+                isDeleted = false;
+            }
+        } else if (value.application && this.vcsForm.value.application.length !== 0){
+            for (const eachValueApp of value.application) {
+                let eachFormCsPosition = 0;
+                for (const eachFormApp of this.vcsForm.value.application){
+                    if (eachValueApp.application === eachFormApp.application){
+                        this.vcsForm.value.application[eachFormCsPosition].enabled = eachValueApp.enabled;
+                    }
+                    eachFormCsPosition++;
+                }
+            }
 
-  }
+        }
       if (value.downlink) {
           this.vcsForm.get(['downlink']).setValue(value.downlink);
       }
@@ -234,9 +273,44 @@ appSelected(selected: string): void {
       if (value.ap) {
           this.vcsForm.get(['ap']).setValue(value.ap);
       }
-      if (value['device-group']) {
-          this.vcsForm.get(['device-group']).setValue(value['device-group']);
-      }
+      if (value['device-group'] && this.vcsForm.value['device-group'].length === 0) {
+        for (const dg of value['device-group']) {
+          let isDeleted = false;
+          Object.keys(localStorage)
+              .filter(checkerKey => checkerKey.startsWith('/basket-delete/vcs-3.0.0/vcs[id=' + this.id +
+                  ']/device-group[device-group='))
+              .forEach((checkerKey) => {
+                  if (checkerKey.includes(dg['device-group'])) {
+                      isDeleted = true;
+                  }
+              });
+          if (!isDeleted) {
+              const dgFormControl = this.fb.control(dg['device-group']);
+              dgFormControl[ORIGINAL] = dg['device-group'];
+
+              const enabledControl = this.fb.control(dg.enable);
+              enabledControl[ORIGINAL] = dg.enable;
+
+              enabledControl[TYPE] = 'boolean';
+              (this.vcsForm.get('device-group') as FormArray).push(this.fb.group({
+                  ['device-group']: dgFormControl,
+                  enabled: enabledControl,
+              }));
+                }
+                isDeleted = false;
+            }
+        } else if (value.['device-group'] && this.vcsForm.value['device-group'].length !== 0){
+            for (const eachValueDg of value['device-group']) {
+                let eachFormDGPosition = 0;
+                for (const eachFormDg of this.vcsForm.value['device-group']){
+                    if (eachValueDg['device-group'] === eachFormDg['device-group']){
+                        this.vcsForm.value['device-group'][eachFormDGPosition].enabled = eachValueDg.enable;
+                    }
+                    eachFormDGPosition++;
+                }
+            }
+
+        }
       if (value.sd) {
           this.vcsForm.get(['sd']).setValue(value.sd);
       }

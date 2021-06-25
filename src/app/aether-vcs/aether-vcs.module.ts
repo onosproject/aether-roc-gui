@@ -30,13 +30,15 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { VcsEditComponent } from './vcs-edit/vcs-edit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ApplicationSelectComponent } from './application-select/application-select.component';
+import { DeviceGroupSelectComponent } from './device-group-select/device-group-select.component';
 
 
 @NgModule({
     declarations: [
         VcsComponent,
         VcsEditComponent,
-        ApplicationSelectComponent
+        ApplicationSelectComponent,
+        DeviceGroupSelectComponent
     ],
     imports: [
         CommonModule,
