@@ -299,7 +299,7 @@ appSelected(selected: string): void {
                 }
                 isDeleted = false;
             }
-        } else if (value.['device-group'] && this.vcsForm.value['device-group'].length !== 0){
+        } else if (value['device-group'] && this.vcsForm.value['device-group'].length !== 0){
             for (const eachValueDg of value['device-group']) {
                 let eachFormDGPosition = 0;
                 for (const eachFormDg of this.vcsForm.value['device-group']){
