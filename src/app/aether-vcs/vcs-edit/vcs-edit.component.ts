@@ -110,9 +110,11 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
           );
     }
 
-    get applications(): FormArray {
-      return this.vcsForm.get('application') as FormArray;
-  }
+
+  get applications(): FormArray {
+    return this.vcsForm.get('application') as FormArray;
+}
+
 
   get applicationExists(): string[] {
     const existingList: string[] = [];
@@ -249,21 +251,21 @@ dgSelected(selected: string): void {
                   application: appFormControl,
                   enabled: enabledControl,
               }));
-          }
-          isDeleted = false;
-      }
-  } else if (value.application && this.vcsForm.value.application.length !== 0){
-      for (const eachValueApp of value.application) {
-          let eachFormCsPosition = 0;
-          for (const eachFormApp of this.vcsForm.value.application){
-              if (eachValueApp.application === eachFormApp.application){
-                  this.vcsForm.value.application[eachFormCsPosition].enabled = eachValueApp.enabled;
-              }
-              eachFormCsPosition++;
-          }
-      }
+                }
+                isDeleted = false;
+            }
+        } else if (value.application && this.vcsForm.value.application.length !== 0){
+            for (const eachValueApp of value.application) {
+                let eachFormCsPosition = 0;
+                for (const eachFormApp of this.vcsForm.value.application){
+                    if (eachValueApp.application === eachFormApp.application){
+                        this.vcsForm.value.application[eachFormCsPosition].enabled = eachValueApp.enabled;
+                    }
+                    eachFormCsPosition++;
+                }
+            }
 
-  }
+        }
       if (value.downlink) {
           this.vcsForm.get(['downlink']).setValue(value.downlink);
       }

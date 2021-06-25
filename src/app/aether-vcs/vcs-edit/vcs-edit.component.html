@@ -91,6 +91,7 @@
                     <mat-hint>AP</mat-hint>
                 </mat-form-field>
             </div>
+<<<<<<< HEAD
             <!-- <div class="row">
                 <mat-form-field class="field-margin half-width">
                     <mat-select formControlName="device-group">
@@ -101,16 +102,23 @@
                     <mat-hint>Device Group</mat-hint>
                 </mat-form-field>
             </div> -->
+=======
+>>>>>>> 7ed4db9 (Device Group in VCS has been hanged to list type)
             <div formArrayName="device-group" class="subscriber-section">
                 <mat-hint>Device Group</mat-hint>
                 <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addDeviceGroup">
                     add
                 </mat-icon>
+<<<<<<< HEAD
                 <div *ngFor="let dgForm of device-group.controls; index as i">
+=======
+                <div *ngFor="let dgForm of deviceGroup.controls; index as i">
+>>>>>>> 7ed4db9 (Device Group in VCS has been hanged to list type)
                     <mat-form-field class="field-margin half-width">
                         <div [formGroup]="dgForm">
                             <input matInput formControlName="device-group" readonly>
                             <mat-slide-toggle
+<<<<<<< HEAD
                                 formControlName="enabled" id="toggleEallow">Allow
                             </mat-slide-toggle>
                             <button mat-icon-button
@@ -121,6 +129,18 @@
                             </button>
                             <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Device Group"
                                       routerLink="/device-group/device-group-edit/{{dgForm.value['device-group']}}"
+=======
+                                formControlName="enabled" id="toggleEallow">Enable
+                            </mat-slide-toggle>
+                            <button mat-icon-button
+                                    [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
+                                    (click)="deleteFromSelect(appForm.value['device-group'])"
+                                    id="deleteDeviceGroup">
+                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                            </button>
+                            <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Device Group"
+                                      routerLink="/device-group/device-group-edit/{{appForm.value['device-group']}}"
+>>>>>>> 7ed4db9 (Device Group in VCS has been hanged to list type)
                                       id="pointerDeviceGroup">launch
                             </mat-icon>
                         </div>
