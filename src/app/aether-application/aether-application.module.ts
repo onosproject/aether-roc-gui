@@ -28,12 +28,15 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import {ApplicationEditComponent} from './application-edit/application-edit.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { EndpointSelectComponent } from './endpoint-select/endpoint-select.component';
 
 
 @NgModule({
     declarations: [
         ApplicationComponent,
-        ApplicationEditComponent
+        ApplicationEditComponent,
+        EndpointSelectComponent,
     ],
     imports: [
         CommonModule,
@@ -60,7 +63,8 @@ import {ApplicationEditComponent} from './application-edit/application-edit.comp
         MatButtonModule,
         MatSlideToggleModule,
         CdkTableModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatAutocompleteModule
     ],
     providers: [
         AuthInterceptor,
