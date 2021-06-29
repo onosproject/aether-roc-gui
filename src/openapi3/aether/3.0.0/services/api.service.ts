@@ -1,4 +1,3 @@
-// GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
@@ -21,9 +20,6 @@ import { ConnectivityServiceConnectivityService } from '../models/connectivity-s
 import { DeviceGroup } from '../models/device-group';
 import { DeviceGroupDeviceGroup } from '../models/device-group-device-group';
 import { DeviceGroupDeviceGroupImsis } from '../models/device-group-device-group-imsis';
-import { DeviceModelList } from '../models/device-model-list';
-import { DeviceModelListDeviceModelList } from '../models/device-model-list-device-model-list';
-import { DeviceModelListDeviceModelListTac } from '../models/device-model-list-device-model-list-tac';
 import { Enterprise } from '../models/enterprise';
 import { EnterpriseEnterprise } from '../models/enterprise-enterprise';
 import { EnterpriseEnterpriseConnectivityService } from '../models/enterprise-enterprise-connectivity-service';
@@ -42,6 +38,7 @@ import { UpfUpf } from '../models/upf-upf';
 import { Vcs } from '../models/vcs';
 import { VcsVcs } from '../models/vcs-vcs';
 import { VcsVcsApplication } from '../models/vcs-vcs-application';
+import { VcsVcsDeviceGroup } from '../models/vcs-vcs-device-group';
 
 @Injectable({
   providedIn: 'root',
@@ -1667,453 +1664,6 @@ export class ApiService extends BaseService {
   }): Observable<void> {
 
     return this.deleteDeviceGroupDeviceGroupImsis$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postDeviceModelList
-   */
-  static readonly PostDeviceModelListPath = '/aether/v3.0.0/{target}/device-model-list';
-
-  /**
-   * POST Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postDeviceModelList()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceModelList$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: DeviceModelList
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostDeviceModelListPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postDeviceModelList$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceModelList(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: DeviceModelList
-  }): Observable<void> {
-
-    return this.postDeviceModelList$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteDeviceModelList
-   */
-  static readonly DeleteDeviceModelListPath = '/aether/v3.0.0/{target}/device-model-list';
-
-  /**
-   * DELETE Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteDeviceModelList()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceModelList$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteDeviceModelListPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteDeviceModelList$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceModelList(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<void> {
-
-    return this.deleteDeviceModelList$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postDeviceModelListDeviceModelList
-   */
-  static readonly PostDeviceModelListDeviceModelListPath = '/aether/v3.0.0/{target}/device-model-list/device-model-list/{id}';
-
-  /**
-   * POST Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postDeviceModelListDeviceModelList()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceModelListDeviceModelList$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: DeviceModelListDeviceModelList
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostDeviceModelListDeviceModelListPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postDeviceModelListDeviceModelList$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceModelListDeviceModelList(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: DeviceModelListDeviceModelList
-  }): Observable<void> {
-
-    return this.postDeviceModelListDeviceModelList$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteDeviceModelListDeviceModelList
-   */
-  static readonly DeleteDeviceModelListDeviceModelListPath = '/aether/v3.0.0/{target}/device-model-list/device-model-list/{id}';
-
-  /**
-   * DELETE Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteDeviceModelListDeviceModelList()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceModelListDeviceModelList$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteDeviceModelListDeviceModelListPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteDeviceModelListDeviceModelList$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceModelListDeviceModelList(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteDeviceModelListDeviceModelList$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postDeviceModelListDeviceModelListTac
-   */
-  static readonly PostDeviceModelListDeviceModelListTacPath = '/aether/v3.0.0/{target}/device-model-list/device-model-list/{id}/tac/{tac}';
-
-  /**
-   * POST Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postDeviceModelListDeviceModelListTac()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceModelListDeviceModelListTac$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-
-    /**
-     * key {tac}
-     */
-    tac: any;
-    body?: DeviceModelListDeviceModelListTac
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostDeviceModelListDeviceModelListTacPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.path('tac', params.tac, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postDeviceModelListDeviceModelListTac$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceModelListDeviceModelListTac(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-
-    /**
-     * key {tac}
-     */
-    tac: any;
-    body?: DeviceModelListDeviceModelListTac
-  }): Observable<void> {
-
-    return this.postDeviceModelListDeviceModelListTac$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteDeviceModelListDeviceModelListTac
-   */
-  static readonly DeleteDeviceModelListDeviceModelListTacPath = '/aether/v3.0.0/{target}/device-model-list/device-model-list/{id}/tac/{tac}';
-
-  /**
-   * DELETE Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteDeviceModelListDeviceModelListTac()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceModelListDeviceModelListTac$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-
-    /**
-     * key {tac}
-     */
-    tac: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteDeviceModelListDeviceModelListTacPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.path('tac', params.tac, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteDeviceModelListDeviceModelListTac$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceModelListDeviceModelListTac(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-
-    /**
-     * key {tac}
-     */
-    tac: any;
-  }): Observable<void> {
-
-    return this.deleteDeviceModelListDeviceModelListTac$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
@@ -4664,6 +4214,177 @@ export class ApiService extends BaseService {
   }): Observable<void> {
 
     return this.deleteVcsVcsApplication$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postVcsVcsDeviceGroup
+   */
+  static readonly PostVcsVcsDeviceGroupPath = '/aether/v3.0.0/{target}/vcs/vcs/{id}/device-group/{device-group}';
+
+  /**
+   * POST Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postVcsVcsDeviceGroup()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postVcsVcsDeviceGroup$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+
+    /**
+     * key {device-group}
+     */
+    'device-group': any;
+    body?: VcsVcsDeviceGroup
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostVcsVcsDeviceGroupPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
+      rb.path('device-group', params['device-group'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postVcsVcsDeviceGroup$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postVcsVcsDeviceGroup(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+
+    /**
+     * key {device-group}
+     */
+    'device-group': any;
+    body?: VcsVcsDeviceGroup
+  }): Observable<void> {
+
+    return this.postVcsVcsDeviceGroup$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteVcsVcsDeviceGroup
+   */
+  static readonly DeleteVcsVcsDeviceGroupPath = '/aether/v3.0.0/{target}/vcs/vcs/{id}/device-group/{device-group}';
+
+  /**
+   * DELETE Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteVcsVcsDeviceGroup()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteVcsVcsDeviceGroup$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+
+    /**
+     * key {device-group}
+     */
+    'device-group': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteVcsVcsDeviceGroupPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
+      rb.path('device-group', params['device-group'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteVcsVcsDeviceGroup$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteVcsVcsDeviceGroup(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+
+    /**
+     * key {device-group}
+     */
+    'device-group': any;
+  }): Observable<void> {
+
+    return this.deleteVcsVcsDeviceGroup$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

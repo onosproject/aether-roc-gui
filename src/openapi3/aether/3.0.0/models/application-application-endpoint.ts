@@ -1,4 +1,3 @@
-// GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
@@ -7,7 +6,7 @@ export interface ApplicationApplicationEndpoint {
   /**
    * Address of this endpoint. Either a hostname, and IP, or a subnet.
    */
-  address?: string;
+  address: string;
 
   /**
    * Name of this endpoint
@@ -22,7 +21,7 @@ export interface ApplicationApplicationEndpoint {
   /**
    * First port in range
    */
-  'port-start'?: number;
+  'port-start': number;
 
   /**
    * Name of this endpoint
