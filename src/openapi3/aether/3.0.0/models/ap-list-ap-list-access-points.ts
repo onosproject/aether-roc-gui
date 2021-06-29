@@ -1,4 +1,3 @@
-// GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
@@ -17,7 +16,7 @@ export interface ApListApListAccessPoints {
   /**
    * Type Allocation Code
    */
-  tac?: number;
+  tac: number;
 
   [key: string]: AdditionalPropertyTarget | boolean | number | string | undefined;
 }

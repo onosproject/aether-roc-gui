@@ -1,4 +1,3 @@
-// GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
@@ -27,12 +26,12 @@ export interface NetworkNetwork {
   /**
    * mobile country code
    */
-  mcc?: number;
+  mcc: number;
 
   /**
    * mobile network code
    */
-  mnc?: number;
+  mnc: number;
 
   [key: string]: AdditionalPropertyTarget | number | string | undefined;
 }

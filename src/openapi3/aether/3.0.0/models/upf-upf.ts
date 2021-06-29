@@ -1,4 +1,3 @@
-// GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
@@ -7,7 +6,7 @@ export interface UpfUpf {
   /**
    * Address of UPF
    */
-  address?: string;
+  address: string;
 
   /**
    * description of this UPF
@@ -30,9 +29,9 @@ export interface UpfUpf {
   id?: string;
 
   /**
-   * First port in range
+   * Port for UPF
    */
-  port?: number;
+  port: number;
 
   [key: string]: AdditionalPropertyTarget | number | string | undefined;
 }

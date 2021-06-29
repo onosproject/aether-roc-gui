@@ -1,4 +1,3 @@
-// GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
@@ -11,6 +10,10 @@ export interface ServiceRuleServiceRuleQos {
   arp?: ServiceRuleServiceRuleQosArp;
   'guaranteed-bitrate'?: ServiceRuleServiceRuleQosGuaranteedBitrate;
   'maximum-requested-bandwidth'?: ServiceRuleServiceRuleQosMaximumRequestedBandwidth;
+
+  /**
+   * QoS Class Identifier
+   */
   qci?: number;
 
   [key: string]: AdditionalPropertyTarget | ServiceRuleServiceRuleQosAggregateMaximumBitrate | ServiceRuleServiceRuleQosArp | ServiceRuleServiceRuleQosGuaranteedBitrate | ServiceRuleServiceRuleQosMaximumRequestedBandwidth | number | undefined;

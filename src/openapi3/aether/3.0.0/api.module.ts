@@ -1,4 +1,3 @@
-// GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
 import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core';
@@ -14,8 +13,6 @@ import { ApplicationApplicationEndpointService } from './services/application-ap
 import { ConnectivityServiceConnectivityServiceService } from './services/connectivity-service-connectivity-service.service';
 import { DeviceGroupDeviceGroupService } from './services/device-group-device-group.service';
 import { DeviceGroupDeviceGroupImsisService } from './services/device-group-device-group-imsis.service';
-import { DeviceModelListDeviceModelListService } from './services/device-model-list-device-model-list.service';
-import { DeviceModelListDeviceModelListTacService } from './services/device-model-list-device-model-list-tac.service';
 import { EnterpriseEnterpriseService } from './services/enterprise-enterprise.service';
 import { EnterpriseEnterpriseConnectivityServiceService } from './services/enterprise-enterprise-connectivity-service.service';
 import { IpDomainIpDomainService } from './services/ip-domain-ip-domain.service';
@@ -26,6 +23,7 @@ import { TrafficClassTrafficClassService } from './services/traffic-class-traffi
 import { UpfUpfService } from './services/upf-upf.service';
 import { VcsVcsService } from './services/vcs-vcs.service';
 import { VcsVcsApplicationService } from './services/vcs-vcs-application.service';
+import { VcsVcsDeviceGroupService } from './services/vcs-vcs-device-group.service';
 
 /**
  * Module that provides all services and configuration.
@@ -44,8 +42,6 @@ import { VcsVcsApplicationService } from './services/vcs-vcs-application.service
     ConnectivityServiceConnectivityServiceService,
     DeviceGroupDeviceGroupService,
     DeviceGroupDeviceGroupImsisService,
-    DeviceModelListDeviceModelListService,
-    DeviceModelListDeviceModelListTacService,
     EnterpriseEnterpriseService,
     EnterpriseEnterpriseConnectivityServiceService,
     IpDomainIpDomainService,
@@ -56,6 +52,7 @@ import { VcsVcsApplicationService } from './services/vcs-vcs-application.service
     UpfUpfService,
     VcsVcsService,
     VcsVcsApplicationService,
+    VcsVcsDeviceGroupService,
     ApiConfiguration
   ],
 })
