@@ -53,7 +53,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         'dns-secondary': [''],
         subnet: [''],
         'admin-status': [''],
-        mtu: [0, Validators.compose([
+        mtu: [68, Validators.compose([
             Validators.min(68),
             Validators.max(65535),
         ])],

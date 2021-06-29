@@ -27,16 +27,24 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
+import { DeviceGroupEditComponent } from './device-group-edit/device-group-edit.component';
+import { ImsisSelectComponent } from './imsis-select/imsis-select.component';
+
 
 @NgModule({
-    declarations: [DeviceGroupComponent],
+    declarations: [
+        DeviceGroupComponent,
+        DeviceGroupEditComponent,
+        ImsisSelectComponent
+    ],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({rootUrl: AETHER_ROC_API_URL}),
         HttpClientModule,
         RouterModule.forChild([
-            {path: 'devicegroup', component: DeviceGroupComponent},
-            // {path: 'devicegroup-edit', component: DeviceGroupComponent}
+            {path: 'devicegroups', component: DeviceGroupComponent},
+            {path: 'devicegroups-edit/:id', component: DeviceGroupEditComponent},
+
             {path: '', component: DeviceGroupComponent, pathMatch: 'full'}
 
         ]),
