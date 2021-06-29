@@ -1,0 +1,89 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="apForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>AP List ID: {{id}}</mat-card-title>
+            <mat-form-field *ngIf="isNew" class="half-width">
+                <input matInput formControlName="id" id="inputID">
+                <mat-hint>ID</mat-hint>
+            </mat-form-field>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row" id="displayNameRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="display-name" id="inputDisplayName">
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="row" id="descriptionRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="description" id="inputDescription">
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="row" id="enterpriseRow">
+                <mat-form-field class="field-margin half-width subscriber-section">
+                    <mat-select ngDefaultControl formControlName="enterprise">
+                        <mat-option *ngFor="let ent of enterprises"
+                                    id="selectEnterprise"
+                                    [value]="ent.id">{{ent.id}}
+                            <span *ngIf="ent['display-name']"> ({{ent['display-name']}})</span>
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Enterprise</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div formArrayName="access-points" class="subscriber-section">
+                <mat-hint>Access Points</mat-hint>
+                <mat-icon (click)="showAccessDisplay = true"
+                          id="addNewExistingAccessProfile"
+                          class="subscriber-pointer">add
+                </mat-icon>
+                <div *ngFor="let accessForm of accessPointControls.controls">
+                    <mat-form-field class="field-margin half-width">
+                        <div [formGroup]="accessForm">
+                            <div>
+                                <input matInput formControlName="address" readonly>
+                                <small>Address</small>
+                            </div>
+                            <br>
+                            <div>
+                                <input matInput type="number" formControlName="tac">
+                                <small>Number</small>
+                            </div>
+                            <br>
+                            <mat-slide-toggle
+                                formControlName="enable">Enable
+                            </mat-slide-toggle>
+                        </div>
+                    </mat-form-field>
+                    <button mat-icon-button
+                            id="deleteExistingAccessPointButton"
+                            [disabled]="!opaService.canWrite('/aplist/aplist-edit[id=' + id + ']/access-points')"
+                            (click)="deleteFromSelect(accessForm.value['address'])">
+                        <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <mat-card-actions>
+                <button mat-raised-button color="primary" type="submit"
+                        [disabled]="!(apForm.valid && apForm.touched && opaService.canWrite('/aplist/aplist'))"
+                        id="submitButton">Update
+                </button>
+            </mat-card-actions>
+        </mat-card-content>
+    </mat-card>
+</form>
+<aether-access-point-select
+    *ngIf="showAccessDisplay && opaService.canWrite('/aplist/aplist[id=' + id + ']/access-point')"
+    id="accessPointSelectComponent"
+    (closeEvent)="openAccessDisplayCard($event)">
+</aether-access-point-select>
+

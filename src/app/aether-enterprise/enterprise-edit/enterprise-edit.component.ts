@@ -30,6 +30,7 @@ interface ConnectivityServiceRow {
     ]
 })
 export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> implements OnInit {
+
     @ViewChild(MatTable) table: MatTable<Array<ConnectivityServiceRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
@@ -134,8 +135,8 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
 
                     const enabledControl = this.fb.control(cs.enabled);
                     enabledControl[ORIGINAL] = cs.enabled;
-
                     enabledControl[TYPE] = 'boolean';
+
                     (this.entForm.get('connectivity-service') as FormArray).push(this.fb.group({
                         'connectivity-service': csFormControl,
                         enabled: enabledControl,
