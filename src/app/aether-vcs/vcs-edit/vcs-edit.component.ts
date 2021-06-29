@@ -110,9 +110,21 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
           );
     }
 
-    get applications(): FormArray {
-      return this.vcsForm.get('application') as FormArray;
+    get deviceGroup(): FormArray {
+      return this.vcsForm.get('device-group') as FormArray;
   }
+
+  get applications(): FormArray {
+    return this.vcsForm.get('application') as FormArray;
+}
+
+get deviceGroupExists(): string[] {
+    const existingList: string[] = [];
+    (this.vcsForm.get(['device-group']) as FormArray).controls.forEach((dg) => {
+        existingList.push(dg.get('device-group').value);
+    });
+    return existingList;
+}
 
   get applicationExists(): string[] {
     const existingList: string[] = [];
@@ -120,18 +132,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         existingList.push(app.get('application').value);
     });
     return existingList;
-}
-
-get deviceGroup(): FormArray {
-    return this.vcsForm.get('device-group') as FormArray;
-}
-
-get deviceGroupExists(): string[] {
-  const existingList: string[] = [];
-  (this.vcsForm.get(['device-group']) as FormArray).controls.forEach((app) => {
-      existingList.push(app.get('device-group').value);
-  });
-  return existingList;
 }
 
 appSelected(selected: string): void {
@@ -249,21 +249,21 @@ dgSelected(selected: string): void {
                   application: appFormControl,
                   enabled: enabledControl,
               }));
-          }
-          isDeleted = false;
-      }
-  } else if (value.application && this.vcsForm.value.application.length !== 0){
-      for (const eachValueApp of value.application) {
-          let eachFormCsPosition = 0;
-          for (const eachFormApp of this.vcsForm.value.application){
-              if (eachValueApp.application === eachFormApp.application){
-                  this.vcsForm.value.application[eachFormCsPosition].enabled = eachValueApp.enabled;
-              }
-              eachFormCsPosition++;
-          }
-      }
+                }
+                isDeleted = false;
+            }
+        } else if (value.application && this.vcsForm.value.application.length !== 0){
+            for (const eachValueApp of value.application) {
+                let eachFormCsPosition = 0;
+                for (const eachFormApp of this.vcsForm.value.application){
+                    if (eachValueApp.application === eachFormApp.application){
+                        this.vcsForm.value.application[eachFormCsPosition].enabled = eachValueApp.enabled;
+                    }
+                    eachFormCsPosition++;
+                }
+            }
 
-  }
+        }
       if (value.downlink) {
           this.vcsForm.get(['downlink']).setValue(value.downlink);
       }
