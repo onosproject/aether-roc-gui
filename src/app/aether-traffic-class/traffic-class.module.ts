@@ -23,16 +23,17 @@ import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import { TrafficClassEditComponent } from './traffic-class-edit/traffic-class-edit.component';
 
 @NgModule({
-    declarations: [TrafficClassComponent],
+    declarations: [TrafficClassComponent, TrafficClassEditComponent],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({rootUrl: AETHER_ROC_API_URL}),
         HttpClientModule,
         RouterModule.forChild([
             {path: 'traffic-class', component: TrafficClassComponent},
-            // '{path: 'trafficclass-edit/:id', component: },
+            {path: 'traffic-class-edit/:id', component: TrafficClassEditComponent },
             {path: '', component: TrafficClassComponent},
         ]),
         FormsModule,

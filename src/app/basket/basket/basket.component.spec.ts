@@ -39,12 +39,16 @@ describe('BasketComponent', () => {
     });
 
     beforeEach(() => {
+        localStorage.clear();
+        localStorage.clear();
         fixture = TestBed.createComponent(BasketComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
     it('should create', () => {
+        localStorage.clear();
+        localStorage.clear();
         expect(component).toBeTruthy();
     });
 

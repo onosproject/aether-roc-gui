@@ -12,6 +12,10 @@ import {Routes, RouterModule} from '@angular/router';
  */
 const aetherRoutes: Routes = [
     {
+        path: 'dashboard',
+        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+    },
+    {
         path: 'enterprise',
         loadChildren: () => import('./aether-enterprise/aether-enterprise.module').then(m => m.AetherEnterpriseModule)
     },
@@ -67,7 +71,7 @@ const aetherRoutes: Routes = [
     },
     {
         path: '',
-        redirectTo: 'vcs', // TODO change to dashboard once it has been added
+        redirectTo: 'dashboard',
         pathMatch: 'full'
     }
 ];
