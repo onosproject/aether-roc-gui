@@ -1,0 +1,42 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="accessPointForm">
+    <mat-card class="card mat-elevation-z8">
+        <mat-card-header class="header">
+            <mat-card-title class="subheading-1 title">Create Access Point</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="content">
+            <mat-form-field class="field-margin half-width">
+                <input matInput formControlName="address" id="inputAddress">
+                <mat-hint>Address</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="field-margin half-width">
+                <input matInput type="number" formControlName="tac" id="inputTac">
+                <mat-hint>Tac</mat-hint>
+            </mat-form-field>
+            <div>
+                <mat-slide-toggle
+                    ngDefaultControl
+                    formControlName="enable"
+                    id="toggleEnable">
+                    Enable
+                </mat-slide-toggle>
+            </div>
+
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" type="button" (click)="closeCard(true)"
+                    id="cancelButton">Cancel
+            </button>
+            <button
+                mat-raised-button color="primary"
+                type="button"
+                id="confirmButton"
+                (click)="closeCard(false)">Confirm
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>
