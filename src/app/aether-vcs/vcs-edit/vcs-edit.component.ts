@@ -70,7 +70,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
       Validators.maxLength(4294967295)
     ])],
     ap: [''],
-    'device-group': [''],
+    'device-group': this.fb.array([]),
     sd: [0],
     sst: [0],
     template: [''],
@@ -122,6 +122,18 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     return existingList;
 }
 
+get deviceGroup(): FormArray {
+    return this.vcsForm.get('device-group') as FormArray;
+}
+
+get deviceGroupExists(): string[] {
+  const existingList: string[] = [];
+  (this.vcsForm.get(['device-group']) as FormArray).controls.forEach((app) => {
+      existingList.push(app.get('device-group').value);
+  });
+  return existingList;
+}
+
 appSelected(selected: string): void {
     // Push into form
     if (selected !== undefined && selected !== '') {
@@ -134,6 +146,25 @@ appSelected(selected: string): void {
         enabledControl[TYPE] = 'boolean';
         (this.vcsForm.get('application') as FormArray).push(this.fb.group({
             application: appFormControl,
+            enabled: enabledControl,
+        }));
+        console.log('Adding new Value', selected);
+    }
+    this.showConnectDisplay = false;
+}
+
+dgSelected(selected: string): void {
+    // Push into form
+    if (selected !== undefined && selected !== '') {
+        const dgFormControl = this.fb.control(selected);
+        dgFormControl.markAsTouched();
+        dgFormControl.markAsDirty();
+        const enabledControl = this.fb.control(false);
+        enabledControl.markAsTouched();
+        enabledControl.markAsDirty();
+        enabledControl[TYPE] = 'boolean';
+        (this.vcsForm.get('device-group') as FormArray).push(this.fb.group({
+            'device-group': dgFormControl,
             enabled: enabledControl,
         }));
         console.log('Adding new Value', selected);
@@ -172,12 +203,20 @@ appSelected(selected: string): void {
       );
     }
 
-    deleteFromSelect(app: FormControl): void {
+    deleteApplicationFromSelect(app: FormControl): void {
         this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
             ']/application[application=' + app + ']', 'application');
         const index = (this.vcsForm.get('application') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
         (this.vcsForm.get('application') as FormArray).removeAt(index);
+    }
+
+    deleteDGFromSelect(dg: FormControl): void {
+        this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
+            ']/device-group[device-group=' + dg + ']', 'device-group');
+        const index = (this.vcsForm.get('device-group') as FormArray)
+            .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === dg);
+        (this.vcsForm.get('device-group') as FormArray).removeAt(index);
     }
 
     private populateFormData(value: VcsVcs): void{
@@ -234,9 +273,47 @@ appSelected(selected: string): void {
       if (value.ap) {
           this.vcsForm.get(['ap']).setValue(value.ap);
       }
-      if (value['device-group']) {
-          this.vcsForm.get(['device-group']).setValue(value['device-group']);
+    //   if (value['device-group']) {
+    //       this.vcsForm.get(['device-group']).setValue(value['device-group']);
+    //   }
+    if (value['device-group'] && this.vcsForm.value['device-group'].length === 0) {
+        for (const dg of value['device-group']) {
+          let isDeleted = false;
+          Object.keys(localStorage)
+              .filter(checkerKey => checkerKey.startsWith('/basket-delete/vcs-3.0.0/vcs[id=' + this.id +
+                  ']/device-group[device-group='))
+              .forEach((checkerKey) => {
+                  if (checkerKey.includes(dg['device-group'])) {
+                      isDeleted = true;
+                  }
+              });
+          if (!isDeleted) {
+              const dgFormControl = this.fb.control(dg['device-group']);
+              dgFormControl[ORIGINAL] = dg['device-group'];
+
+              const enabledControl = this.fb.control(dg.allow);
+              enabledControl[ORIGINAL] = dg.allow;
+
+              enabledControl[TYPE] = 'boolean';
+              (this.vcsForm.get('device-group') as FormArray).push(this.fb.group({
+                  'device-group': dgFormControl,
+                  enabled: enabledControl,
+              }));
+          }
+          isDeleted = false;
       }
+  } else if (value['device-group'] && this.vcsForm.value['device-group'].length !== 0){
+      for (const eachValuedg of value['device-group']) {
+          let eachFormCsPosition = 0;
+          for (const eachFormdg of this.vcsForm.value['device-group']){
+              if (eachValuedg['device-group'] === eachFormdg['device-group']){
+                  this.vcsForm.value['device-group'][eachFormCsPosition].enabled = eachValuedg.enabled;
+              }
+              eachFormCsPosition++;
+          }
+      }
+
+  }
       if (value.sd) {
           this.vcsForm.get(['sd']).setValue(value.sd);
       }
