@@ -165,7 +165,7 @@ dgSelected(selected: string): void {
         enabledControl[TYPE] = 'boolean';
         (this.vcsForm.get('device-group') as FormArray).push(this.fb.group({
             'device-group': dgFormControl,
-            enabled: enabledControl,
+            enable: enabledControl,
         }));
         console.log('Adding new Value', selected);
     }
@@ -211,7 +211,7 @@ dgSelected(selected: string): void {
         (this.vcsForm.get('application') as FormArray).removeAt(index);
     }
 
-    deleteDGFromSelect(dg: FormControl): void {
+    deleteDeviceGroupFromSelect(dg: FormControl): void {
         this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
             ']/device-group[device-group=' + dg + ']', 'device-group');
         const index = (this.vcsForm.get('device-group') as FormArray)
@@ -249,10 +249,10 @@ dgSelected(selected: string): void {
                   application: appFormControl,
                   enabled: enabledControl,
               }));
-                }
-                isDeleted = false;
-            }
-        } else if (value.application && this.vcsForm.value.application.length !== 0){
+          }
+          isDeleted = false;
+        }
+    } else if (value.application && this.vcsForm.value.application.length !== 0){
             for (const eachValueApp of value.application) {
                 let eachFormCsPosition = 0;
                 for (const eachFormApp of this.vcsForm.value.application){
@@ -273,10 +273,7 @@ dgSelected(selected: string): void {
       if (value.ap) {
           this.vcsForm.get(['ap']).setValue(value.ap);
       }
-    //   if (value['device-group']) {
-    //       this.vcsForm.get(['device-group']).setValue(value['device-group']);
-    //   }
-    if (value['device-group'] && this.vcsForm.value['device-group'].length === 0) {
+      if (value['device-group'] && this.vcsForm.value['device-group'].length === 0) {
         for (const dg of value['device-group']) {
           let isDeleted = false;
           Object.keys(localStorage)
@@ -297,7 +294,7 @@ dgSelected(selected: string): void {
               enabledControl[TYPE] = 'boolean';
               (this.vcsForm.get('device-group') as FormArray).push(this.fb.group({
                   'device-group': dgFormControl,
-                  enabled: enabledControl,
+                  enable: enabledControl,
               }));
           }
           isDeleted = false;
@@ -307,7 +304,7 @@ dgSelected(selected: string): void {
           let eachFormCsPosition = 0;
           for (const eachFormdg of this.vcsForm.value['device-group']){
               if (eachValuedg['device-group'] === eachFormdg['device-group']){
-                  this.vcsForm.value['device-group'][eachFormCsPosition].enabled = eachValuedg.enabled;
+                  this.vcsForm.value['device-group'][eachFormCsPosition].enable = eachValuedg.enabled;
               }
               eachFormCsPosition++;
           }
