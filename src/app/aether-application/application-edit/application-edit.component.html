@@ -28,7 +28,7 @@
             </div>
             <div formArrayName="endpoint" class="subscriber-section">
                 <mat-hint>Endpoint</mat-hint>
-                <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addEndpoint">
+                <mat-icon (click)="showConnectDisplay = true" *ngIf="showEndpointAddButton" class="subscriber-pointer" id="addEndpoint">
                     add
                 </mat-icon>
                 <div *ngFor="let endpointForm of endpointControls.controls">
@@ -37,7 +37,6 @@
                             <input matInput readonly formControlName="name" id="inputName">
                             <mat-hint>Name</mat-hint>
                         </mat-form-field>
-                        <!-- <mat-label formControlName="name"></mat-label> -->
                         <mat-form-field class="field-margin ">
                             <input matInput formControlName="address" id="inputAddress">
                             <mat-hint>Address</mat-hint>

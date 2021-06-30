@@ -35,6 +35,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         { name: 'TCP'} ,
     ];
     showConnectDisplay: boolean = false;
+    showEndpointAddButton: boolean = true;
   enterprises: Array<EnterpriseEnterprise>;
   pathRoot = 'application-3.0.0';
   pathListAttr = 'application';
@@ -74,8 +75,17 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
 
   ngOnInit(): void {
     super.init();
-    this.loadEnterprise(this.target);
+    this.loadEnterprises(this.target);
   }
+
+  deleteFromSelect(ep: FormControl): void {
+    this.bs.deleteIndexedEntry('/application-3.0.0/application[id=' + this.id +
+        ']/endpoint[endpoint=' + ep + ']', 'endpoint', '' + ep);
+    const index = (this.appForm.get('endpoint') as FormArray)
+        .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ep);
+    (this.appForm.get('endpoint') as FormArray).removeAt(index);
+    this.showEndpointAddButton = true;
+}
 
   loadApplicationApplication(target: string, id: string): void {
     this.applicationApplicationService.getApplicationApplication({
@@ -143,7 +153,12 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     if (value.description) {
         this.appForm.get(['description']).setValue(value.description);
     }
+    if (value.enterprise) {
+      this.appForm.get(['enterprise']).setValue(value.enterprise);
+      this.appForm.get('enterprise')[ORIGINAL] = value.enterprise;
+  }
     if (value.endpoint){
+      this.showEndpointAddButton = false;
       if (this.appForm.value.endpoint.length === 0) {
           for (const ep of value.endpoint) {
             const epNameControl = this.fb.control(ep.name);
@@ -193,7 +208,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     return this.appForm.get(['endpoint']) as FormArray;
 }
 
-  loadEnterprise(target: string): void {
+loadEnterprises(target: string): void {
     this.aetherService.getEnterprise({
         target,
     }).subscribe(
