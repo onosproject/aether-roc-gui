@@ -5,7 +5,7 @@
  */
 
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 
 export interface ImsiParam {
     name: string;
@@ -24,7 +24,10 @@ export class ImsisSelectComponent implements OnInit {
     @Output() closeEvent = new EventEmitter<ImsiParam>();
 
     imsiForm = this.fb.group({
-        name: [''],
+        name: ['', Validators.compose([
+            Validators.minLength(1),
+            Validators.maxLength(80),
+        ])],
         'imsi-range-from': [''],
         'imsi-range-to': ['']
     });
