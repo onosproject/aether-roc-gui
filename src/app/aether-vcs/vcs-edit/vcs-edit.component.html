@@ -106,7 +106,7 @@
                     <input matInput type=number formControlName="sd" id="inputSd">
                     <mat-hint>SD</mat-hint>
                 </mat-form-field>
-            </div>  
+            </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
                     <input matInput type=number formControlName="sst" id="inputSst">
@@ -145,7 +145,7 @@
             </div>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="primary" type="submit"
+            <button mat-raised-button color="accent" type="submit"
                     id="submitButton"
                     [disabled]="!(vcsForm.valid && vcsForm.touched && opaService.canWrite('/service-vcs/service-vcs [id=' + id + ']'))">Update</button>
         </mat-card-actions>

@@ -4,10 +4,10 @@
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 <div>
-    <mat-toolbar class="profile-toolbar">
+    <mat-toolbar class="profile-toolbar" color="primary">
         <p>DEVICE-GROUPS</p>
         <span class="toolbar-spacer"></span>
-        <button mat-raised-button color="primary" type="submit" aria-label="Add device-group"
+        <button mat-raised-button color="accent" type="submit" aria-label="Add device-group"
                 id="addDeviceGroupButton"
                 [disabled]="!opaService.canWrite('/devicegroup/devicegroup[id=newinstance]')"
                 routerLink="/devicegroups/devicegroups-edit/newinstance">Add
@@ -37,7 +37,7 @@
         <ng-container matColumnDef="ip-domain" id="descriptionColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>IP-Domain</th>
             <td mat-cell *matCellDef="let row">{{row['ip-domain']}}
-                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Network"
+                <mat-icon class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="Network"
                           id="pointerIPDomain"
                           routerLink="/ipdomain/ipdomain-edit/{{row['ip-domain']}}">launch
                 </mat-icon>
@@ -48,7 +48,7 @@
         <ng-container matColumnDef="site" id="siteColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Site</th>
             <td mat-cell *matCellDef="let row">{{row.site}}
-                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Site"
+                <mat-icon class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="Site"
                           id="pointerSite"
                           routerLink="/site/site-edit/{{row.site}}">launch
                 </mat-icon>
@@ -59,7 +59,7 @@
         <ng-container matColumnDef="edit" id="editColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
             <td mat-cell *matCellDef="let row" routerLink="/devicegroups/devicegroups-edit/{{row.id}}" id="editButton">
-                <mat-icon class="table_icon">edit</mat-icon>
+                <mat-icon class="table_icon" color="accent">edit</mat-icon>
             </td>
         </ng-container>
 
@@ -70,7 +70,9 @@
                 <button mat-icon-button
                         id="deleteButton"
                         [disabled]="!opaService.canWrite('/devicegroup/devicegroup[id=' + row.id + ']')"
-                        (click)="delete(row.id)">
+                        (click)="delete(row.id)"
+                        color="accent"
+                        id="deleteDeviceGroupButton">
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
             </td>

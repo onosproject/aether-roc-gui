@@ -1,0 +1,70 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+// See https://drive.google.com/file/d/1WndImRYAWIy9EEuq_OWDllpqseq3NZnA/view?usp=sharing
+$onf-blue: (
+    50 : #28CEFF,
+    100 : #20C4F4, // Onf palette start
+    200 : #18B2EB,
+    300 : #0E9EE1,
+    400 : #088CD1,
+    500 : #047BC1, // Onf palette middle
+    600 : #0368AD,
+    700 : #025499,
+    800 : #014687,
+    900 : #003C7F,  // Onf palette end
+    contrast: (
+        50 : #003C7F,
+        100 : #003C7F,
+        200 : #003C7F,
+        300 : #003C7F,
+        400 : #efefef,
+        500 : #efefef,
+        600 : #e0e0e0,
+        700 : #dfdfdf,
+        800 : #d0d0d0,
+        900 : #cfcfcf,
+    )
+);
+
+
+$onf-red: (
+    50 : #CD181D,
+    100 : #C4161C,
+    200 : #BB141A,
+    300 : #B21219,
+    400 : #A91018,
+    500 : #A00E17,
+    600 : #970C15,
+    700 : #8E0A14,
+    800 : #850812,
+    900 : #7B0511,
+    contrast: (
+        50 : #f0f0f0,
+        100 : #f0f0f0,
+        200 : #f0f0f0,
+        300 : #f0f0f0,
+        400 : #f0f0f0,
+        500 : #f0f0f0,
+        600 : #f0f0f0,
+        700 : #f0f0f0,
+        800 : #f0f0f0,
+        900 : #f0f0f0,
+    )
+);
+
+$custom-typography: mat-typography-config(
+    //$font-family: 'Roboto',
+    $input: mat-typography-level(inherit, 1.4, inherit),
+);
+
+$custom-primary: mat-palette($onf-blue, 500);
+
+$custom-accent:  mat-palette($onf-red, 500);
+
+$custom-warn: mat-palette($onf-red, 100);
+
+$custom-theme: mat-light-theme($custom-primary, $custom-accent, $custom-warn);
+
+@include angular-material-theme($custom-theme);
+@include mat-core($custom-typography);
