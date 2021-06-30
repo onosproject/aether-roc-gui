@@ -27,11 +27,16 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
+import {ApplicationEditComponent} from './application-edit/application-edit.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { EndpointSelectComponent } from './endpoint-select/endpoint-select.component';
 
 
 @NgModule({
     declarations: [
-        ApplicationComponent
+        ApplicationComponent,
+        ApplicationEditComponent,
+        EndpointSelectComponent,
     ],
     imports: [
         CommonModule,
@@ -39,8 +44,7 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         HttpClientModule,
         RouterModule.forChild([
             {path: 'application', component: ApplicationComponent},
-            // '{path: 'application-edit/:id', component: },
-
+            {path: 'application-edit/:id', component: ApplicationEditComponent},
             {path: '', component: ApplicationComponent, pathMatch: 'full'}
         ]),
         FormsModule,
@@ -48,6 +52,7 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatPaginatorModule,
         MatSnackBarModule,
         MatToolbarModule,
         MatIconModule,
@@ -58,7 +63,8 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         MatButtonModule,
         MatSlideToggleModule,
         CdkTableModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatAutocompleteModule
     ],
     providers: [
         AuthInterceptor,

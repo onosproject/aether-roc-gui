@@ -31,11 +31,14 @@ $content-height: 320px;
 
 .content {
     height: $content-height;
-    width: 70%;
+    width: 80%;
 }
 
 .field-margin {
     margin: 0 12px;
+}
+.button-width {
+    width: 5%;
 }
 
 .group-margin {
@@ -52,6 +55,10 @@ $content-height: 320px;
 
 .header-spacer {
     flex: 1 1 auto;
+}
+
+.float-left {
+    float: left;
 }
 
 .spacing {

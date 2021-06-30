@@ -29,6 +29,7 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
         'id',
         'description',
         'Endpoint',
+        'enterprise',
         'edit',
         'delete'
     ];
@@ -44,7 +45,7 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('application-3.0.0' in basketPreview && 'application' in basketPreview['application-3.0.0']) {
-            basketPreview['enterprise-3.0.0'].application.forEach((basketItems) => {
+            basketPreview['application-3.0.0'].application.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -57,9 +58,9 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
                             if (ScopeOfDataSource.data[listItemCount].endpoint.length === 0) {
                                 ScopeOfDataSource.data[listItemCount].endpoint = basketItems.endpoint;
                             } else {
-                                for (const eachBasketAPP of basketItems['connectivity-service']) {
+                                for (const eachBasketAPP of basketItems.endpoint) {
                                     let eachAPPPosition = 0;
-                                    for (const eachScopeAPP of ScopeOfDataSource.data[listItemCount]['connectivity-service']){
+                                    for (const eachScopeAPP of ScopeOfDataSource.data[listItemCount].endpoint){
                                         if (eachBasketAPP.endpoint === eachScopeAPP.endpoint){
                                             ScopeOfDataSource.data[listItemCount].endpoint[eachAPPPosition].name
                                                 = eachBasketAPP.name;
