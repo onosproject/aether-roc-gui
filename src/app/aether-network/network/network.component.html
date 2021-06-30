@@ -4,10 +4,10 @@
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 <div>
-    <mat-toolbar class="profile-toolbar">
+    <mat-toolbar class="profile-toolbar" color="primary">
     <p>Network</p>
     <span class="toolbar-spacer"></span>
-    <button mat-raised-button color="primary" type="submit" aria-label="Add network"
+    <button mat-raised-button color="accent" type="submit" aria-label="Add network"
             id="addNewNetworkButton"
             [disabled]="!opaService.canWrite('/network/network[id=newinstance]')"
             routerLink="/network/network-edit/newinstance">Add</button>
@@ -46,7 +46,7 @@
         <ng-container matColumnDef="edit" id="editColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
             <td mat-cell *matCellDef="let row" routerLink="/network/network-edit/{{row.id}}" id="editNetworkButton">
-                <mat-icon class="table_icon">edit</mat-icon>
+                <mat-icon class="table_icon" color="accent">edit</mat-icon>
             </td>
         </ng-container>
 
@@ -56,6 +56,7 @@
             <td mat-cell *matCellDef="let row">
                 <button mat-icon-button [disabled]="!opaService.canWrite('/network/network[id=' + row.id + ']')"
                         (click)="delete(row.id)"
+                        color="accent"
                         id="deleteNetworkButton">
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>

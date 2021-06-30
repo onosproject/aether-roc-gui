@@ -4,10 +4,10 @@
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 <div>
-    <mat-toolbar class="profile-toolbar" id="toolbar">
+    <mat-toolbar class="profile-toolbar" color="primary" id="toolbar">
         <p>CONNECTIVITY SERVICE</p>
         <span class="toolbar-spacer"></span>
-        <button mat-raised-button color="primary" type="submit" aria-label="Add connectivity-service"
+        <button mat-raised-button color="accent" type="submit" aria-label="Add connectivity-service"
                 id="addNewConnectivityServiceButton"
                 [disabled]="!opaService.canWrite('/connectivity-service/connectivity-service[id=newinstance]')"
                 routerLink="/connectivity/connectivity-edit/newinstance">Add</button>
@@ -57,7 +57,7 @@
         <ng-container matColumnDef="edit" id="editColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
             <td mat-cell *matCellDef="let row" routerLink="/connectivity/connectivity-edit/{{row.id}}" id="editColumnButton">
-                <mat-icon class="table_icon">edit</mat-icon>
+                <mat-icon class="table_icon" color="accent">edit</mat-icon>
             </td>
         </ng-container>
 
@@ -67,7 +67,9 @@
             <td mat-cell *matCellDef="let row">
                 <button mat-icon-button
                         [disabled]="!opaService.canWrite('/connectivity-service/connectivity-service[id=' + row.id + ']')"
-                        (click)="delete(row.id)" id="deleteColumnButton">
+                        (click)="delete(row.id)"
+                        color="accent"
+                        id="deleteColumnButton">
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
             </td>

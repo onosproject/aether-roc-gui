@@ -4,10 +4,10 @@
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 <div>
-    <mat-toolbar class="profile-toolbar">
+    <mat-toolbar class="profile-toolbar" color="primary">
         <p>TRAFFIC CLASS</p>
         <span class="toolbar-spacer"></span>
-        <button mat-raised-button color="primary" type="submit" aria-label="Add traffic-class"
+        <button mat-raised-button color="accent" type="submit" aria-label="Add traffic-class"
                 id="addTrafficClassButton"
                 [disabled]="!opaService.canWrite('traffic-class/traffic-class[id=newinstance]')"
                 routerLink="/traffic-class/traffic-class-edit/newinstance">Add
@@ -51,7 +51,7 @@
         <ng-container matColumnDef="edit" id="editColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
             <td mat-cell *matCellDef="let row" routerLink="/traffic-class/traffic-class-edit/{{row.id}}" id="editButton">
-                <mat-icon class="table_icon">edit</mat-icon>
+                <mat-icon class="table_icon" color="accent">edit</mat-icon>
             </td>
         </ng-container>
 
@@ -62,7 +62,9 @@
                 <button mat-icon-button
                         id="deleteButton"
                         [disabled]="!opaService.canWrite('/traffic-class/traffic-class[id=' + row.id + ']')"
-                        (click)="delete(row.id)">
+                        (click)="delete(row.id)"
+                        color="accent"
+                        id="deleteTrafficClassButton">
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
             </td>

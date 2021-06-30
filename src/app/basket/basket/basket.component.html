@@ -4,25 +4,25 @@
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 <div>
-    <mat-toolbar class="profile-toolbar">
+    <mat-toolbar class="profile-toolbar" color="primary">
         <p>Basket</p>
         <span class="toolbar-spacer"></span>
 <!--        <p class="small-spacing">Patch Name</p>-->
 <!--        <input matInput type="text" [(ngModel)]="patchName" (blur)="addPatchName()">-->
         <span class="toolbar-spacer"></span>
-        <button mat-raised-button color="primary"
+        <button mat-raised-button color="accent"
                 id="previewButton"
                 (click)="toggleDisplayDiv()">
             <mat-icon>preview</mat-icon>
         </button>
         <span class="small-spacing"></span>
         <span class="spacing"><small><p>Total Updates: {{updateCounter}} <span class="small-spacing"></span> Total Deletes: {{deleteCounter}} </small></span>
-        <button mat-raised-button color="primary" type="submit" aria-label="Commit changes"
+        <button mat-raised-button color="accent" type="submit" aria-label="Commit changes"
                 id="commitButton"
                 (click)="commitChanges()"
                 [disabled]="!opaService.canWrite(undefined)">Commit</button>
         <span class="small-spacing"></span>
-        <button mat-raised-button color="primary" type="submit" aria-label="Discard basket"
+        <button mat-raised-button color="accent" type="submit" aria-label="Discard basket"
                 id="discardButton"
                 (click)="discardAllChanges()"
                 [disabled]="!opaService.canWrite(undefined)">Discard
