@@ -1,3 +1,4 @@
+// GENERATED CODE -- DO NOT EDIT!
 export { Service } from './services/service';
 export { ApiService } from './services/api.service';
 export { ApListApListService } from './services/ap-list-ap-list.service';

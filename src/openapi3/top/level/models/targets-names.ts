@@ -1,3 +1,4 @@
+// GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
 import { TargetName } from './target-name';

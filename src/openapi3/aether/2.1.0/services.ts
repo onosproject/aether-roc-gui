@@ -1,3 +1,4 @@
+// GENERATED CODE -- DO NOT EDIT!
 export { Service } from './services/service';
 export { ApiService } from './services/api.service';
 export { AccessProfileAccessProfileService } from './services/access-profile-access-profile.service';
