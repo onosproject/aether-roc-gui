@@ -81,16 +81,6 @@
                     <mat-hint>Downlink (0..4294967295)</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row">
-                <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="ap">
-                        <mat-option id="selectAp"
-                                    *ngFor="let eachAp of aps"
-                                    [value]="eachAp.id">{{eachAp.id}} {{eachAp.ap}}</mat-option>
-                    </mat-select>
-                    <mat-hint>AP</mat-hint>
-                </mat-form-field>
-            </div>
             <div formArrayName="device-group" class="subscriber-section">
                 <mat-hint>Device Group</mat-hint>
                 <mat-icon (click)="showDeviceGroupDisplay = true" color='accent' class="subscriber-pointer" id="addADeviceGroup">
