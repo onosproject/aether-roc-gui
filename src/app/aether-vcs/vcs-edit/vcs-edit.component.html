@@ -27,7 +27,7 @@
             </div>
             <div formArrayName="application" class="subscriber-section">
                 <mat-hint>Application</mat-hint>
-                <mat-icon (click)="showApplicationDisplay = true" class="subscriber-pointer" id="addApplication">
+                <mat-icon (click)="showApplicationDisplay = true" color='accent' class="subscriber-pointer" id="addApplication">
                     add
                 </mat-icon>
                 <div *ngFor="let appForm of applications.controls; index as i">
@@ -37,13 +37,14 @@
                             <mat-slide-toggle
                                 formControlName="enabled" id="toggleApplicationAllow">Allow
                             </mat-slide-toggle>
-                            <button mat-icon-button
+                            <button mat-icon-button color="accent"
                                     [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
                                     (click)="deleteApplicationFromSelect(appForm.value.application)"
                                     id="deleteApplication">
                                 <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
                             </button>
-                            <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Application"
+                            <mat-icon color='primary' class="subscriber-pointer"
+                                      aria-hidden="false" aria-label="Application"
                                       routerLink="/application/application-edit/{{appForm.value.application}}"
                                       id="pointerApplication">launch
                             </mat-icon>
