@@ -17,6 +17,7 @@ import {ApiModule} from '../../../openapi3/aether/3.0.0/api.module';
 import {ActivatedRoute} from '@angular/router';
 import {of} from 'rxjs';
 import { UpfComponent } from './upf.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 describe('UpfComponent', () => {
   let component: UpfComponent;
@@ -30,6 +31,7 @@ describe('UpfComponent', () => {
           RouterTestingModule,
           BrowserAnimationsModule,
           MatPaginatorModule,
+          MatFormFieldModule,
           MatSortModule,
           MatTableModule,
           MatSnackBarModule,

@@ -17,6 +17,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { UpfEditComponent } from './upf-edit.component';
+import {MatSelectModule} from '@angular/material/select';
 
 describe('UpfEditComponent', () => {
   let component: UpfEditComponent;
@@ -38,7 +39,8 @@ describe('UpfEditComponent', () => {
           MatCardModule,
           MatButtonModule,
           MatDividerModule,
-          MatSnackBarModule
+          MatSnackBarModule,
+          MatSelectModule
       ]
   })
       .compileComponents();
