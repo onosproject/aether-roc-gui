@@ -30,7 +30,6 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
     accessPoints: Array<ApListApListAccessPoints>;
     showAccessDisplay: boolean = false;
 
-
     apForm = this.fb.group({
         id: ['', Validators.compose([
             Validators.minLength(1),
@@ -99,8 +98,8 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
             this.apForm.get('description')[ORIGINAL] = value.description;
         }
         if (value.enterprise != null) {
-            this.apForm.get(['enterprise']).setValue(value.enterprise);
-            this.apForm.get(['enterprise'])[ORIGINAL] = value.enterprise;
+            this.apForm.get('enterprise').setValue(value.enterprise);
+            this.apForm.get('enterprise')[ORIGINAL] = value.enterprise;
         }
         if (value['access-points'] && this.apForm.value['access-points'].length === 0) {
             for (const ap of value['access-points']) {

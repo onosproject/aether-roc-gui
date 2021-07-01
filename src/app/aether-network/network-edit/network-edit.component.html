@@ -25,6 +25,18 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
+            <div class="row" id="enterpriseRow">
+                <mat-form-field class="field-margin half-width subscriber-section">
+                    <mat-select ngDefaultControl formControlName="enterprise">
+                        <mat-option *ngFor="let ent of enterprises"
+                                    id="selectEnterprise"
+                                    [value]="ent.id">{{ent.id}}
+                            <span *ngIf="ent['display-name']"> ({{ent['display-name']}})</span>
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Enterprise</mat-hint>
+                </mat-form-field>
+            </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
                     <input matInput type=number formControlName="mcc" id="inputMcc">

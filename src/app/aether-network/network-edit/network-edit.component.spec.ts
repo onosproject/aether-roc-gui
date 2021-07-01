@@ -18,6 +18,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { NetworkEditComponent } from './network-edit.component';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatSelectModule} from '@angular/material/select';
 
 describe('NetworkEditComponent', () => {
   let component: NetworkEditComponent;
@@ -38,9 +40,9 @@ describe('NetworkEditComponent', () => {
           MatToolbarModule,
           MatCardModule,
           MatButtonModule,
+          MatDividerModule,
           MatSnackBarModule,
-          MatSlideToggleModule,
-          MatAutocompleteModule
+          MatSelectModule
       ]
   })
       .compileComponents();

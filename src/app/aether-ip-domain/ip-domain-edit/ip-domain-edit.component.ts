@@ -51,9 +51,22 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         ])],
         'dns-primary': [''],
         'dns-secondary': [''],
-        subnet: [''],
+        subnet: ['', Validators.pattern(
+            '^' +
+            '(?=\\d+\\.\\d+\\.\\d+\\.\\d+\\/\\d+$)' +
+            '(?:' +
+            '(?:' +
+            '25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])' +
+            '\\.?){4}' +
+            '(?:' +
+            '\\/?)' +
+            '(?:' +
+            '3[0-2]|2[0-9]|[1-9]|[0-9])?' +
+            '$'
+        )
+        ],
         'admin-status': [''],
-        mtu: [0, Validators.compose([
+        mtu: [68, Validators.compose([
             Validators.min(68),
             Validators.max(65535),
         ])],
