@@ -27,7 +27,7 @@
             </div>
             <div formArrayName="application" class="subscriber-section">
                 <mat-hint>Application</mat-hint>
-                <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addApplication">
+                <mat-icon (click)="showApplicationDisplay = true" class="subscriber-pointer" id="addApplication">
                     add
                 </mat-icon>
                 <div *ngFor="let appForm of applications.controls; index as i">
@@ -35,7 +35,7 @@
                         <div [formGroup]="appForm">
                             <input matInput formControlName="application" readonly>
                             <mat-slide-toggle
-                                formControlName="enabled" id="toggleEallow">Allow
+                                formControlName="enabled" id="toggleApplicationAllow">Allow
                             </mat-slide-toggle>
                             <button mat-icon-button
                                     [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
@@ -93,7 +93,7 @@
             </div>
             <div formArrayName="device-group" class="subscriber-section">
                 <mat-hint>Device Group</mat-hint>
-                <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addADeviceGroup">
+                <mat-icon (click)="showDeviceGroupDisplay = true" color='accent' class="subscriber-pointer" id="addADeviceGroup">
                     add
                 </mat-icon>
                 <div *ngFor="let dgForm of deviceGroup.controls; index as i">
@@ -101,15 +101,16 @@
                         <div [formGroup]="dgForm">
                             <input matInput formControlName="device-group" readonly>
                             <mat-slide-toggle
-                                formControlName="enable" id="toggleEallow">Allow
+                                formControlName="DeviceGroupEnable" id="toggleDeviceGroupAllow">Allow
                             </mat-slide-toggle>
-                            <button mat-icon-button
+                            <button mat-icon-button color="accent"
                                     [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
-                                    (click)="deleteDeviceGroupFromSelect(dgForm.value.device-group)"
+                                    (click)="deleteDeviceGroupFromSelect(dgForm.value['device-group'])"
                                     id="deleteDeviceGroup">
                                 <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
                             </button>
-                            <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="device-group"
+                            <mat-icon  color='primary' class="subscriber-pointer"
+                                       aria-hidden="false" aria-label="device-group"
                                       routerLink="/device-group/device-group-edit/{{dgForm.value['device-group']}}"
                                       id="pointerDeviceGroup">launch
                             </mat-icon>
@@ -173,19 +174,20 @@
         <mat-card-actions>
             <button mat-raised-button color="accent" type="submit"
                     id="submitButton"
-                    [disabled]="!(vcsForm.valid && vcsForm.touched && opaService.canWrite('/service-vcs/service-vcs [id=' + id + ']'))">Update</button>
+                    [disabled]="!(vcsForm.valid && vcsForm.touched && opaService.canWrite('/vcs/vcs [id=' + id + ']'))">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>
 <aether-application-select
-    *ngIf="showConnectDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
+    *ngIf="showApplicationDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
     id="applicationSelectComponent"
     [alreadySelected]="applicationExists"
     (closeEvent)="appSelected($event)">
 </aether-application-select>
 <aether-device-group-select
-    *ngIf="showConnectDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
+    *ngIf="showDeviceGroupDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
     id="deviceGroupSelectComponent"
     [alreadySelected]="deviceGroupExists"
     (closeEvent)="dgSelected($event)">
 </aether-device-group-select>
+

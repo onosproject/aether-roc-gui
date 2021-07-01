@@ -13,7 +13,7 @@ import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {isEmpty, map, startWith} from 'rxjs/operators';
 import { VcsVcsService, Service as AetherService} from 'src/openapi3/aether/3.0.0/services';
-import { BasketService, ORIGINAL, TYPE } from 'src/app/basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from 'src/app/basket.service';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 export interface Bandwidths {
@@ -26,7 +26,8 @@ export interface Bandwidths {
   styleUrls: ['../../common-edit.component.scss']
 })
 export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
-  showConnectDisplay: boolean = false;
+    showApplicationDisplay: boolean = false;
+    showDeviceGroupDisplay: boolean = false;
   aps: Array<ApListApList> | AdditionalPropertyTarget;
   deviceGroups: Array<DeviceGroupDeviceGroup>;
   templates: Array<TemplateTemplate>;
@@ -93,6 +94,8 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
       super.loadFunc = this.loadVcsVcs;
       this.vcsForm.get(['uplink'])[TYPE] = 'number';
       this.vcsForm.get(['downlink'])[TYPE] = 'number';
+      this.vcsForm.get('application')[IDATTRIBS] = ['application'];
+      this.vcsForm.get('device-group')[IDATTRIBS] = ['device-group'];
    }
 
    ngOnInit(): void {
@@ -152,7 +155,7 @@ appSelected(selected: string): void {
         }));
         console.log('Adding new Value', selected);
     }
-    this.showConnectDisplay = false;
+    this.showApplicationDisplay = false;
 }
 
 dgSelected(selected: string): void {
@@ -167,11 +170,11 @@ dgSelected(selected: string): void {
         enabledControl[TYPE] = 'boolean';
         (this.vcsForm.get('device-group') as FormArray).push(this.fb.group({
             'device-group': dgFormControl,
-            enable: enabledControl,
+            DeviceGroupEnable: enabledControl,
         }));
         console.log('Adding new Value', selected);
     }
-    this.showConnectDisplay = false;
+    this.showDeviceGroupDisplay = false;
 }
 
     private _filter(bandwidthIndex: number): Bandwidths[] {
@@ -296,7 +299,7 @@ dgSelected(selected: string): void {
               enabledControl[TYPE] = 'boolean';
               (this.vcsForm.get('device-group') as FormArray).push(this.fb.group({
                   'device-group': dgFormControl,
-                  enable: enabledControl,
+                  DeviceGroupEnable: enabledControl,
               }));
           }
           isDeleted = false;
@@ -306,7 +309,7 @@ dgSelected(selected: string): void {
           let eachFormCsPosition = 0;
           for (const eachFormdg of this.vcsForm.value['device-group']){
               if (eachValuedg['device-group'] === eachFormdg['device-group']){
-                  this.vcsForm.value['device-group'][eachFormCsPosition].enable = eachValuedg.enabled;
+                  this.vcsForm.value['device-group'][eachFormCsPosition].DeviceGroupEnable = eachValuedg.enabled;
               }
               eachFormCsPosition++;
           }
