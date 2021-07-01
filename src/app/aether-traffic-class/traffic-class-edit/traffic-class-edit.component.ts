@@ -30,7 +30,7 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
   pathRoot = 'traffic-class-3.0.0';
   pathListAttr = 'traffic-class';
   data: TrafficClassTrafficClass;
-  TcForm = this.fb.group({
+  tcForm = this.fb.group({
     id: ['', Validators.compose([
         Validators.minLength(1),
         Validators.maxLength(32),
@@ -43,14 +43,22 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
         Validators.minLength(1),
         Validators.maxLength(100),
     ])],
-    pelr: [0],
-    pdb: [0],
-    qci: [0],
+    pelr: [0, Validators.compose([
+        Validators.min(0),
+        Validators.max(10)
+    ])],
+    pdb: [0, Validators.compose([
+        Validators.min(0),
+        Validators.max(1000)
+    ])],
+    qci: [1, Validators.compose([
+        Validators.min(1),
+        Validators.max(32)
+    ])],
 });
 
   constructor(
     private trafficClassTrafficClassService: TrafficClassTrafficClassService,
-    private aetherService: AetherService,
     protected route: ActivatedRoute,
     protected router: Router,
     protected fb: FormBuilder,
@@ -59,7 +67,7 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
     public opaService: OpenPolicyAgentService
     ) {
       super(snackBar, bs, route, router, 'traffic-class-3.0.0', 'traffic-class');
-      super.form = this.TcForm;
+      super.form = this.tcForm;
       super.loadFunc = this.loadTrafficClassTrafficClass;
     }
 
@@ -95,19 +103,24 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
 
   private populateFormData(value: TrafficClassTrafficClass): void{
     if (value['display-name']) {
-        this.TcForm.get('display-name').setValue(value['display-name']);
+        this.tcForm.get('display-name').setValue(value['display-name']);
+        this.tcForm.get('display-name')[ORIGINAL] = value['display-name'];
     }
     if (value.description) {
-        this.TcForm.get(['description']).setValue(value.description);
+        this.tcForm.get('description').setValue(value.description);
+        this.tcForm.get('description')[ORIGINAL] = value.description;
     }
     if (value.pelr) {
-        this.TcForm.get(['pelr']).setValue(value.pelr);
+        this.tcForm.get('pelr').setValue(value.pelr);
+        this.tcForm.get('pelr')[ORIGINAL] = value.pelr;
     }
     if (value.pdb){
-        this.TcForm.get(['pdb']).setValue(value.pdb);
+        this.tcForm.get('pdb').setValue(value.pdb);
+        this.tcForm.get('pdb')[ORIGINAL] = value.pdb;
     }
     if (value.qci) {
-        this.TcForm.get(['qci']).setValue(value.qci);
+        this.tcForm.get('qci').setValue(value.qci);
+        this.tcForm.get('qci')[ORIGINAL] = value.qci;
     }
   }
 }

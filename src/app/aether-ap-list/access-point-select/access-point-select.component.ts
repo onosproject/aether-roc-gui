@@ -7,7 +7,7 @@ import {Component, Input, EventEmitter, OnInit, Output} from '@angular/core';
 import {RocSelectBase} from '../../roc-select-base';
 import {ApList} from '../../../openapi3/aether/3.0.0/models';
 import {Service} from '../../../openapi3/aether/3.0.0/services/service';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {ApListApListService} from '../../../openapi3/aether/3.0.0/services/ap-list-ap-list.service';
 import {AETHER_TARGETS} from '../../../environments/environment';
 
@@ -30,9 +30,15 @@ export class AccessPointSelectComponent implements OnInit {
     @Output() closeEvent = new EventEmitter<AccessPointParam>();
 
     accessPointForm = this.fb.group({
-        address: [''],
-        tac: [''],
-        enable: false,
+        address: ['', Validators.compose([
+            Validators.minLength(1),
+            Validators.maxLength(80),
+        ])],
+        tac: ['', Validators.compose([
+            Validators.minLength(0),
+            Validators.maxLength(99999999)
+        ])],
+        enable: true,
     });
 
     constructor(
@@ -47,8 +53,7 @@ export class AccessPointSelectComponent implements OnInit {
                 cancelled: true
             } as AccessPointParam);
             return;
-        }
-        else {
+        } else {
             this.closeEvent.emit({
                 address: this.accessPointForm.get('address').value,
                 tac: this.accessPointForm.get('tac').value,

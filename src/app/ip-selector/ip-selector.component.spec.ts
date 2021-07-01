@@ -9,11 +9,11 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {MatCardModule} from '@angular/material/card';
-import {NgxIpModule} from 'ngx-ip';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatRadioModule} from '@angular/material/radio';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NgxIpModule} from 'ngx-ip';
 
 describe('IpSelectorComponent', () => {
     let component: IpSelectorComponent;
