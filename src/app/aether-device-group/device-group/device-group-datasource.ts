@@ -7,8 +7,8 @@
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
 import {BasketService} from '../../basket.service';
 import {RocDataSource} from '../../roc-data-source';
-import {DeviceGroupDeviceGroup} from '../../../openapi3/aether/3.0.0/models/device-group-device-group';
-import {DeviceGroup} from '../../../openapi3/aether/3.0.0/models/device-group';
+import {DeviceGroupDeviceGroup} from '../../../openapi3/aether/3.0.0/models';
+import {DeviceGroup} from '../../../openapi3/aether/3.0.0/models';
 
 export class DeviceGroupDatasource extends RocDataSource<DeviceGroupDeviceGroup, DeviceGroup> {
 

@@ -24,6 +24,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import { TrafficClassEditComponent } from './traffic-class-edit/traffic-class-edit.component';
+import {AuthInterceptor} from '../auth-interceptor';
+import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 
 @NgModule({
     declarations: [TrafficClassComponent, TrafficClassEditComponent],
@@ -49,6 +51,10 @@ import { TrafficClassEditComponent } from './traffic-class-edit/traffic-class-ed
         MatSelectModule,
         MatInputModule,
         MatButtonModule,
+    ],
+    providers: [
+        AuthInterceptor,
+        API_INTERCEPTOR_PROVIDER,
     ]
 })
 export class TrafficClassModule {

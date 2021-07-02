@@ -22,13 +22,17 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Description</th>
             <td mat-cell *matCellDef="let row" class="spacing">{{row.description}}</td>
         </ng-container>
-        <ng-container matColumnDef="prom1" id="prom1Column">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Prom1</th>
-            <td mat-cell *matCellDef="let row" class="spacing">{{row.prometheus_tsdb_reloads_total}}</td>
+        <ng-container matColumnDef="latency" id="latencyColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Latency</th>
+            <td mat-cell *matCellDef="let row" class="spacing">{{row.vcs_latency[row.id] | number: '3.2'}}</td>
         </ng-container>
-        <ng-container matColumnDef="prom2" id="prom2Column">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Prom2</th>
-            <td mat-cell *matCellDef="let row" class="spacing">{{row.prometheus_tsdb_wal_completed_pages_total}}</td>
+        <ng-container matColumnDef="jitter" id="jitterColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Jitter</th>
+            <td mat-cell *matCellDef="let row" class="spacing">{{row.vcs_jitter[row.id] | number: '3.2'}}</td>
+        </ng-container>
+        <ng-container matColumnDef="throughput" id="throughputColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Throughput</th>
+            <td mat-cell *matCellDef="let row" class="spacing">{{row.vcs_throughput[row.id] | number: '3.2'}}</td>
         </ng-container>
         <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -39,6 +43,7 @@
                    [pageSize]="4"
                    [pageSizeOptions]="[5, 10, 20]">
     </mat-paginator>
-    <iframe width="{{width}}" height="345" [src]="dashboard1 | safe">
-    </iframe>
+<!--    <iframe width="{{width}}" height="345" [src]="dashboard1 | safe">-->
+<!--    </iframe>-->
+<!--    <iframe src="/grafana/d-solo/vcs_starbucks_newyork_cameras/vcs-new-york-cameras?orgId=3&theme=light&panelId=2" width="{{width}}" height="200" frameborder="0"></iframe>-->
 </div>
