@@ -150,12 +150,14 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     private populateFormData(value: ApplicationApplication): void {
         if (value['display-name']) {
             this.appForm.get('display-name').setValue(value['display-name']);
+            this.appForm.get('display-name')[ORIGINAL] = value['display-name'];
         }
         if (value.description) {
-            this.appForm.get(['description']).setValue(value.description);
+            this.appForm.get('description').setValue(value.description);
+            this.appForm.get('description')[ORIGINAL] = value.description;
         }
         if (value.enterprise) {
-            this.appForm.get(['enterprise']).setValue(value.enterprise);
+            this.appForm.get('enterprise').setValue(value.enterprise);
             this.appForm.get('enterprise')[ORIGINAL] = value.enterprise;
         }
         if (value.endpoint) {
