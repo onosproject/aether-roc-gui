@@ -17,6 +17,7 @@ export interface ResultMetric {
     __name__: string;
     instance: string;
     job: string;
+    vcs_id: string;
 }
 
 export interface ResultItem {

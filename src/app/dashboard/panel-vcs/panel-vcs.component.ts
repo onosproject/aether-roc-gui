@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
@@ -17,12 +17,18 @@ import {PanelVcsDatasource} from './panel-vcs-datasource';
 import {PanelVcsPromDataSource} from './panel-vcs-prom-data-source';
 import {HttpClient} from '@angular/common/http';
 
+const promTags = [
+    'vcs_latency',
+    'vcs_jitter',
+    'vcs_throughput',
+];
+
 @Component({
     selector: 'aether-panel-vcs',
     templateUrl: './panel-vcs.component.html',
     styleUrls: ['../../common-panel.component.scss']
 })
-export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implements AfterViewInit {
+export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implements AfterViewInit, OnDestroy {
     @Input() top: number;
     @Input() left: number;
     @Input() width: number;
@@ -30,20 +36,17 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<VcsVcs>;
+    timer: any;
 
     dashboard1: string = GRAFANA_PROXY + '/d/ROC1/roc-dashboard-1?orgId=1&kiosk';
     promData: PanelVcsPromDataSource;
 
-    promTags = [
-        'prometheus_tsdb_reloads_total',
-        `prometheus_tsdb_wal_completed_pages_total`
-    ];
-
     displayedColumns = [
         'id',
         'description',
-        'prom1',
-        'prom2'
+        'latency',
+        'jitter',
+        'throughput'
     ];
 
     constructor(
@@ -57,6 +60,10 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
     }
 
     onDataLoaded(ScopeOfDataSource): void {
+        ScopeOfDataSource.data.forEach((vcs: VcsVcs) => {
+            // Add the tag on to VCS. the data is filled in below
+            promTags.forEach((tag: string) => vcs[tag] = {});
+        });
         console.log('onDataLoaded() - not doing anything');
     }
 
@@ -68,15 +75,26 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
             target: AETHER_TARGETS[0]
         }), this.onDataLoaded);
 
-        setInterval(() => this.promData.loadData(this.promTags).subscribe(
+        this.timer = setInterval(() => this.promData.loadData(promTags).subscribe(
             (resultItem) => {
-                console.log(resultItem.metric.__name__, '=', resultItem.value[1]);
                 // Tag these new attributes on to the data in the main data source
-                // Once we have VCS identifiers in the Prom data associate it with the
-                // right VCS - until then associate the data with **all** VCS
-                this.dataSource.data.forEach((vcs) => vcs[resultItem.metric.__name__] = resultItem.value[1]);
+                // associate it with the right VCS
+                this.dataSource.data.forEach((vcs) => {
+                    if (vcs[resultItem.metric.__name__] === undefined) {
+                        vcs[resultItem.metric.__name__] = {};
+                    }
+                    const vcsIdUs = vcs.id.split('-').join('_'); // replaceAll seems not be an option
+                    if (resultItem.metric.vcs_id === vcsIdUs) {
+                        vcs[resultItem.metric.__name__][vcs.id] = resultItem.value[1];
+                        console.log('Wrote ', resultItem.metric.__name__, vcs.id, resultItem.value[1]);
+                    }
+                });
             },
             (err) => console.log('error polling ', err),
         ), 3000);
+    }
+
+    ngOnDestroy(): void {
+        clearInterval(this.timer);
     }
 }
