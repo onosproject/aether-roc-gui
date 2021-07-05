@@ -6,7 +6,7 @@
 <form [formGroup]="deviceGroupForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Device List ID: {{id}}</mat-card-title>
+            <mat-card-title>Device Group ID: {{id}}</mat-card-title>
             <mat-form-field *ngIf="isNew" class="half-width">
                 <input matInput formControlName="id" id="inputID">
                 <mat-hint>ID</mat-hint>
@@ -50,6 +50,7 @@
                 <mat-hint>Imsis</mat-hint>
                 <mat-icon (click)="showImsiDisplay = true"
                           id="addNewExistingAccessProfile"
+                          color="accent"
                           class="subscriber-pointer">add</mat-icon>
                 <div *ngFor="let imsiForm of imsiControls.controls">
                     <mat-form-field class="field-margin half-width">
@@ -71,6 +72,7 @@
                         </div>
                     </mat-form-field>
                     <button mat-icon-button
+                            color="accent"
                             id="deleteExistingAccessProfileButton"
                             [disabled]="!opaService.canWrite('/devicegroups/devicegroups-edit[id=' + id + ']/imsis')"
                             (click)="deleteFromSelect(imsiForm.value['name'])">

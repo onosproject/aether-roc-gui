@@ -31,7 +31,7 @@
                     <mat-hint>DNS Primary</mat-hint>
                 </mat-form-field>
                 <button class="mat-button" (click)="openPrimaryCard()" type="button">
-                    <mat-icon>edit</mat-icon>
+                    <mat-icon color="accent">edit</mat-icon>
                 </button>
             </div>
             <aether-ip-selector
@@ -47,8 +47,8 @@
                     <input [readonly]="ipForm" matInput formControlName="dns-secondary">
                     <mat-hint>DNS Secondary</mat-hint>
                 </mat-form-field>
-                <button class="mat-button" (click)="openSecondaryCard()" type="button">
-                    <mat-icon>edit</mat-icon>
+                <button  class="mat-button" (click)="openSecondaryCard()" type="button">
+                    <mat-icon color="accent">edit</mat-icon>
                 </button>
             </div>
             <aether-ip-selector
@@ -92,7 +92,7 @@
             <div class="row">
                 <mat-form-field class="field-margin half-width">
                     <input matInput formControlName="subnet"
-                           id="inputSubnet">
+                           id="inputSubnet" required>
                     <mat-hint>Subnet Format: (&lt;ipaddress&gt;/&lt;subnet&gt;)</mat-hint>
                 </mat-form-field>
             </div>

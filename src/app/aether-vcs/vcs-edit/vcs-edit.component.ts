@@ -48,10 +48,11 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
   pathListAttr = 'vcs';
 
   vcsForm = this.fb.group({
-    id: ['', Validators.compose([
-        Validators.minLength(1),
-        Validators.maxLength(32),
-    ])],
+      id: ['', Validators.compose([
+          Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
+          Validators.minLength(1),
+          Validators.maxLength(31),
+      ])],
     'display-name': ['', Validators.compose([
         Validators.minLength(1),
         Validators.maxLength(80),
