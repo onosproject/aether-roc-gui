@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, Input, OnDestroy, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnDestroy, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
@@ -39,6 +39,7 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
     @ViewChild(MatTable) table: MatTable<VcsVcs>;
     prometheusTimer: any;
     grafanaOrgIdTimer: any;
+    grafanaOrgIdRetry: number = 0;
     loginTokenTimer: any;
     panelUrl: string;
     grafanaOrgId: number;
@@ -58,6 +59,7 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
         private aetherService: AetherService,
         private basketService: BasketService,
         private httpClient: HttpClient,
+        @Inject('grafana_api_proxy') private grafanaUrl: string,
     ) {
         super(new PanelVcsDatasource(aetherService, basketService, AETHER_TARGETS[0]));
         this.promData = new PanelVcsPromDataSource(httpClient);
@@ -71,8 +73,15 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
                 this.panelUrl = this.vcsPanelUrl(this.grafanaOrgId, this.grafanaOrgName);
                 console.log('orgID retrieved ' + this.grafanaOrgId + '(' + this.grafanaOrgName + '). URL is', this.panelUrl);
                 clearInterval(this.grafanaOrgIdTimer);
+                return;
             }
-            console.log('waiting for orgID to be set on login');
+            if (this.grafanaOrgIdRetry > 5) {
+                clearInterval(this.grafanaOrgIdTimer);
+                console.log('Gave up waiting for orgID to be set on login after', this.grafanaOrgIdRetry, 'sec');
+                return;
+            } else {
+                this.grafanaOrgIdRetry++;
+            }
         }, 1000);
     }
 
@@ -104,6 +113,11 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
             (resultItem) => {
                 // Tag these new attributes on to the data in the main data source
                 // associate it with the right VCS
+                if (this.dataSource.data.length === 0) {
+                    clearInterval(this.prometheusTimer);
+                    console.log('No VCS to monitor');
+                    return;
+                }
                 this.dataSource.data.forEach((vcs) => {
                     if (vcs[resultItem.metric.__name__] === undefined) {
                         vcs[resultItem.metric.__name__] = {};
@@ -111,7 +125,7 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
                     const vcsIdUs = vcs.id.split('-').join('_'); // replaceAll seems not be an option
                     if (resultItem.metric.vcs_id === vcsIdUs) {
                         vcs[resultItem.metric.__name__][vcs.id] = resultItem.value[1];
-                        console.log('Wrote ', resultItem.metric.__name__, vcs.id, resultItem.value[1]);
+                        // console.log('Wrote ', resultItem.metric.__name__, vcs.id, resultItem.value[1]);
                     }
                 });
             },
@@ -127,10 +141,10 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
 
     vcsPanelUrl(orgId: number, orgName: string, vcsName?: string): string {
         if (vcsName === undefined) {
-            return '/grafana/d-solo/vcs_' + orgName + '_all?orgId=' + orgId +
+            return this.grafanaUrl + '/d-solo/vcs_' + orgName + '_all?orgId=' + orgId +
                 '&theme=light&panelId=1';
         }
-        return '/grafana/d-solo/vcs_' + vcsName + '?orgId=' + orgId +
+        return this.grafanaUrl + '/d-solo/vcs_' + vcsName + '?orgId=' + orgId +
             '&theme=light&panelId=1';
     }
 }
