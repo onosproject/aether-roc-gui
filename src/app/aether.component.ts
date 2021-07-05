@@ -7,9 +7,11 @@ import {Component, OnInit} from '@angular/core';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {authConfig, BASKET_SERVICE_ENABLED} from '../environments/environment';
 import {Meta} from '@angular/platform-browser';
-import {BasketService, BasketValue} from './basket.service';
+import {BasketService} from './basket.service';
 import {OpenPolicyAgentService} from './open-policy-agent.service';
 import {Router} from '@angular/router';
+import {Grafana, K8sClientService} from './k8sclient.service';
+import {GrafanaAdminService} from './grafana-admin.service';
 
 export const USERNAME_ATTR = 'name';
 export const GROUPS_ATTR = 'groups';
@@ -48,13 +50,15 @@ export class AetherComponent implements OnInit {
         private meta: Meta,
         private bs: BasketService,
         public opaService: OpenPolicyAgentService,
-        private router: Router
+        private router: Router,
+        private k8s: K8sClientService,
+        private grafanaAdminService: GrafanaAdminService
     ) {
     }
 
     async ngOnInit(): Promise<boolean> {
         const issuerMeta = this.meta.getTag('name=openidcissuer');
-        console.log('Starting onos.component with ', issuerMeta.content);
+        console.log('Starting aether.component with ', issuerMeta.content);
         if (issuerMeta.content !== undefined && issuerMeta.content !== '' && issuerMeta.content !== '$OPENIDCISSUER') {
             authConfig.issuer = issuerMeta.content;
         }
@@ -68,6 +72,15 @@ export class AetherComponent implements OnInit {
             ).then(fulfilled => {
                 console.log('Login', fulfilled ? 'succeeded' : 'failed', this.idTokClaims);
                 this.opaService.userGroups = this.idTokClaims.groups;
+                this.k8s.getGrafanaSecret().subscribe(
+                    (grafana: Grafana) => {
+                        console.log('Getting orgs from grafana');
+                        this.grafanaAdminService.setBasicAuth(grafana);
+                        this.grafanaAdminService.getUserOrgDetails(this.idTokClaims);
+                    },
+                    (err) => console.warn('Could not access K8s service for Grafana'),
+                    () => console.log('Login all done')
+                );
                 this.router.navigate(['/dashboard']);
                 return fulfilled;
             });
