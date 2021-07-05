@@ -28,7 +28,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
     pathListAttr = 'site';
     siteForm = this.fb.group({
         id: ['', Validators.compose([
-            Validators.pattern('([A-Za-z0-9\\-\\_]+)'),
+            Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],

@@ -10,7 +10,7 @@
     </mat-card-header>
     <mat-card-content><pre id="json">{{basketPreview}}</pre></mat-card-content>
     <mat-card-actions>
-        <button mat-icon-button>
+        <button mat-icon-button color="primary">
             <mat-icon [cdkCopyToClipboard]="basketPreview" (click)="closeCard()" id="copyButton">content_copy</mat-icon>
         </button>
     </mat-card-actions>

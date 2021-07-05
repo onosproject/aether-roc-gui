@@ -11,7 +11,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
     styleUrls: ['../common-profiles.component.scss']
 })
 export class IpSelectorComponent implements OnInit {
-    mode = 'ipv4WithMask';
+    mode = 'ipv4';
     @Input() value: string;
     @Output() newIP = new EventEmitter<string>();
     @Output() closeEvent = new EventEmitter<boolean>();

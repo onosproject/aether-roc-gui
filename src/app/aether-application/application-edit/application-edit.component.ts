@@ -42,7 +42,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     data: ApplicationApplication;
     appForm = this.fb.group({
         id: ['', Validators.compose([
-            Validators.pattern('([A-Za-z0-9\\-\\_]+)'),
+            Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],

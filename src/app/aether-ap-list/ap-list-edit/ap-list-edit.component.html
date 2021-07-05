@@ -43,6 +43,7 @@
             <div formArrayName="access-points" class="subscriber-section">
                 <mat-hint>Access Points</mat-hint>
                 <mat-icon (click)="showAccessDisplay = true"
+                          color="accent"
                           id="addNewExistingAccessProfile"
                           class="subscriber-pointer">add
                 </mat-icon>
@@ -66,6 +67,7 @@
                     </mat-form-field>
                     <button mat-icon-button
                             id="deleteExistingAccessPointButton"
+                            color="accent"
                             [disabled]="!opaService.canWrite('/aplist/aplist-edit[id=' + id + ']/access-points')"
                             (click)="deleteFromSelect(accessForm.value['address'])">
                         <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>

@@ -49,7 +49,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
 
   vcsForm = this.fb.group({
       id: ['', Validators.compose([
-          Validators.pattern('([A-Za-z0-9\\-\\_]+)'),
+          Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
           Validators.minLength(1),
           Validators.maxLength(31),
       ])],

@@ -30,7 +30,7 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
     pathListAttr = 'upf';
     upfForm = this.fb.group({
         id: ['', Validators.compose([
-            Validators.pattern('([A-Za-z0-9\\-\\_]+)'),
+            Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
