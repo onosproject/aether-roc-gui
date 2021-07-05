@@ -9,7 +9,7 @@ import {CommonModule} from '@angular/common';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {RouterModule} from '@angular/router';
 import {ApiModule as ApiModuleAether} from '../../openapi3/aether/3.0.0/api.module';
-import {AETHER_ROC_API_URL} from '../../environments/environment';
+import {AETHER_ROC_API_URL, GRAFANA_PROXY} from '../../environments/environment';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -42,6 +42,7 @@ import {ResizeService} from './resize.service';
         AuthInterceptor,
         API_INTERCEPTOR_PROVIDER,
         ResizeService,
+        {provide: 'grafana_api_proxy', useValue: GRAFANA_PROXY},
     ]
 })
 export class DashboardModule {

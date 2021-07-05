@@ -14,6 +14,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {ResizeService} from '../resize.service';
 import {SafePipe} from '../safe.pipe';
+import {GRAFANA_PROXY} from '../../../environments/environment';
 
 describe('PanelVcsComponent', () => {
     let component: PanelVcsComponent;
@@ -31,7 +32,8 @@ describe('PanelVcsComponent', () => {
                 MatTableModule,
             ],
             providers: [
-                ResizeService
+                ResizeService,
+                {provide: 'grafana_api_proxy', useValue: GRAFANA_PROXY},
             ]
         })
             .compileComponents();
