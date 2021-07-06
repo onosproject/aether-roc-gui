@@ -35,7 +35,7 @@
                         <div [formGroup]="appForm">
                             <input matInput formControlName="application" readonly>
                             <mat-slide-toggle
-                                formControlName="enabled" id="toggleApplicationAllow">Allow
+                                formControlName="allow" id="toggleApplicationAllow">Allow
                             </mat-slide-toggle>
                             <button mat-icon-button color="accent"
                                     [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
@@ -92,7 +92,7 @@
                         <div [formGroup]="dgForm">
                             <input matInput formControlName="device-group" readonly>
                             <mat-slide-toggle
-                                formControlName="DeviceGroupEnable" id="toggleDeviceGroupAllow">Allow
+                                formControlName="i.enable" id="toggleDeviceGroupAllow">Allow
                             </mat-slide-toggle>
                             <button mat-icon-button color="accent"
                                     [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
@@ -106,6 +106,7 @@
                                       id="pointerDeviceGroup">launch
                             </mat-icon>
                         </div>
+                        {{this.vcsForm.value['device-group'][0].enable}}
                     </mat-form-field>
                 </div>
             </div>

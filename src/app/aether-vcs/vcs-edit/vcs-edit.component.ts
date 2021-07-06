@@ -150,7 +150,7 @@ appSelected(selected: string): void {
         enabledControl[TYPE] = 'boolean';
         (this.vcsForm.get('application') as FormArray).push(this.fb.group({
             application: appFormControl,
-            enabled: enabledControl,
+            allow: enabledControl,
         }));
         console.log('Adding new Value', selected);
     }
@@ -169,7 +169,7 @@ dgSelected(selected: string): void {
         enabledControl[TYPE] = 'boolean';
         (this.vcsForm.get('device-group') as FormArray).push(this.fb.group({
             'device-group': dgFormControl,
-            DeviceGroupEnable: enabledControl,
+            enable: enabledControl,
         }));
         console.log('Adding new Value', selected);
     }
@@ -251,22 +251,24 @@ dgSelected(selected: string): void {
               enabledControl[TYPE] = 'boolean';
               (this.vcsForm.get('application') as FormArray).push(this.fb.group({
                   application: appFormControl,
-                  enabled: enabledControl,
+                  allow: enabledControl,
               }));
           }
           isDeleted = false;
         }
     } else if (value.application && this.vcsForm.value.application.length !== 0){
-            for (const eachValueApp of value.application) {
-                let eachFormCsPosition = 0;
-                for (const eachFormApp of this.vcsForm.value.application){
-                    if (eachValueApp.application === eachFormApp.application){
-                        this.vcsForm.value.application[eachFormCsPosition].enabled = eachValueApp.enabled;
-                    }
-                    eachFormCsPosition++;
-                }
-            }
-
+          value.application.forEach( (eachValueApp, eachValueAppPosition) => {
+              for (const eachFormApp of this.vcsForm.value.application) {
+                  if (eachValueApp.application === eachFormApp.application) {
+                      this.vcsForm.get(['application', eachValueAppPosition, 'allow']).setValue(eachValueApp.allow);
+                  } else {
+                      (this.vcsForm.get(['application']) as FormArray).push(this.fb.group({
+                          application: eachValueApp.application,
+                          allow: eachValueApp.allow
+                      }));
+                  }
+              }
+          });
         }
       if (value.downlink) {
           this.vcsForm.get(['downlink']).setValue(value.downlink);
@@ -298,22 +300,24 @@ dgSelected(selected: string): void {
               enabledControl[TYPE] = 'boolean';
               (this.vcsForm.get('device-group') as FormArray).push(this.fb.group({
                   'device-group': dgFormControl,
-                  DeviceGroupEnable: enabledControl,
+                  enable: enabledControl,
               }));
           }
           isDeleted = false;
       }
   } else if (value['device-group'] && this.vcsForm.value['device-group'].length !== 0){
-      for (const eachValuedg of value['device-group']) {
-          let eachFormCsPosition = 0;
-          for (const eachFormdg of this.vcsForm.value['device-group']){
-              if (eachValuedg['device-group'] === eachFormdg['device-group']){
-                  this.vcsForm.value['device-group'][eachFormCsPosition].DeviceGroupEnable = eachValuedg.enabled;
+          value['device-group'].forEach( (eachValuedg, eachValuedgPosition) => {
+              for (const eachFormdg of this.vcsForm.value['device-group']) {
+                  if (eachValuedg['device-group'] === eachFormdg['device-group']) {
+                      this.vcsForm.get(['device-group', eachValuedgPosition, 'enable']).setValue(eachValuedg.enable);
+                  } else {
+                      (this.vcsForm.get(['device-group']) as FormArray).push(this.fb.group({
+                          application: eachValuedg['device-group'],
+                          allow: eachValuedg.enable
+                      }));
+                  }
               }
-              eachFormCsPosition++;
-          }
-      }
-
+          });
   }
       if (value.sd) {
           this.vcsForm.get(['sd']).setValue(value.sd);
