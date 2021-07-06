@@ -17,7 +17,7 @@ export interface ApListApListAccessPoints {
   /**
    * Type Allocation Code
    */
-  tac?: number;
+  tac: number;
 
   [key: string]: AdditionalPropertyTarget | boolean | number | string | undefined;
 }

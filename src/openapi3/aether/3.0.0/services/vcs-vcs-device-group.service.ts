@@ -10,12 +10,12 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { DeviceModelListDeviceModelListTac } from '../models/device-model-list-device-model-list-tac';
+import { VcsVcsDeviceGroup } from '../models/vcs-vcs-device-group';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DeviceModelListDeviceModelListTacService extends BaseService {
+export class VcsVcsDeviceGroupService extends BaseService {
   constructor(
     config: ApiConfiguration,
     http: HttpClient
@@ -24,21 +24,21 @@ export class DeviceModelListDeviceModelListTacService extends BaseService {
   }
 
   /**
-   * Path part for operation getDeviceModelListDeviceModelListTac
+   * Path part for operation getVcsVcsDeviceGroup
    */
-  static readonly GetDeviceModelListDeviceModelListTacPath = '/aether/v3.0.0/{target}/device-model-list/device-model-list/{id}/tac/{tac}';
+  static readonly GetVcsVcsDeviceGroupPath = '/aether/v3.0.0/{target}/vcs/vcs/{id}/device-group/{device-group}';
 
   /**
-   * GET /device-model-list/device-model-list/{id}/tac Generated from YANG model.
+   * GET /vcs/vcs/{id}/device-group Generated from YANG model.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getDeviceModelListDeviceModelListTac()` instead.
+   * To access only the response body, use `getVcsVcsDeviceGroup()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getDeviceModelListDeviceModelListTac$Response(params: {
+  getVcsVcsDeviceGroup$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -51,16 +51,16 @@ export class DeviceModelListDeviceModelListTacService extends BaseService {
     id: any;
 
     /**
-     * key {tac}
+     * key {device-group}
      */
-    tac: any;
-  }): Observable<StrictHttpResponse<DeviceModelListDeviceModelListTac>> {
+    'device-group': any;
+  }): Observable<StrictHttpResponse<VcsVcsDeviceGroup>> {
 
-    const rb = new RequestBuilder(this.rootUrl, DeviceModelListDeviceModelListTacService.GetDeviceModelListDeviceModelListTacPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, VcsVcsDeviceGroupService.GetVcsVcsDeviceGroupPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-      rb.path('tac', params.tac, {});
+      rb.path('device-group', params['device-group'], {});
     }
 
     return this.http.request(rb.build({
@@ -69,22 +69,22 @@ export class DeviceModelListDeviceModelListTacService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<DeviceModelListDeviceModelListTac>;
+        return r as StrictHttpResponse<VcsVcsDeviceGroup>;
       })
     );
   }
 
   /**
-   * GET /device-model-list/device-model-list/{id}/tac Generated from YANG model.
+   * GET /vcs/vcs/{id}/device-group Generated from YANG model.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getDeviceModelListDeviceModelListTac$Response()` instead.
+   * To access the full response (for headers, for example), `getVcsVcsDeviceGroup$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getDeviceModelListDeviceModelListTac(params: {
+  getVcsVcsDeviceGroup(params: {
 
     /**
      * target (device in onos-config)
@@ -97,13 +97,13 @@ export class DeviceModelListDeviceModelListTacService extends BaseService {
     id: any;
 
     /**
-     * key {tac}
+     * key {device-group}
      */
-    tac: any;
-  }): Observable<DeviceModelListDeviceModelListTac> {
+    'device-group': any;
+  }): Observable<VcsVcsDeviceGroup> {
 
-    return this.getDeviceModelListDeviceModelListTac$Response(params).pipe(
-      map((r: StrictHttpResponse<DeviceModelListDeviceModelListTac>) => r.body as DeviceModelListDeviceModelListTac)
+    return this.getVcsVcsDeviceGroup$Response(params).pipe(
+      map((r: StrictHttpResponse<VcsVcsDeviceGroup>) => r.body as VcsVcsDeviceGroup)
     );
   }
 

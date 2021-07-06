@@ -3,6 +3,7 @@
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
 import { VcsVcsApplication } from './vcs-vcs-application';
+import { VcsVcsDeviceGroup } from './vcs-vcs-device-group';
 export interface VcsVcs {
 
   /**
@@ -15,11 +16,7 @@ export interface VcsVcs {
    * description of this vcs
    */
   description?: string;
-
-  /**
-   * Link to device group
-   */
-  'device-group'?: string;
+  'device-group'?: Array<VcsVcsDeviceGroup>;
 
   /**
    * display name to use in GUI or CLI
@@ -39,12 +36,12 @@ export interface VcsVcs {
   /**
    * Slice differentiator. Immutable.
    */
-  sd?: number;
+  sd: number;
 
   /**
    * Slice/Service type. Immutable.
    */
-  sst?: number;
+  sst: number;
 
   /**
    * Link to user vcs template that was used to initialize
@@ -55,7 +52,7 @@ export interface VcsVcs {
   /**
    * Link to traffic class
    */
-  'traffic-class'?: string;
+  'traffic-class': string;
 
   /**
    * Link to user plane that implements this vcf
@@ -67,5 +64,5 @@ export interface VcsVcs {
    */
   uplink?: number;
 
-  [key: string]: AdditionalPropertyTarget | Array<VcsVcsApplication> | number | string | undefined;
+  [key: string]: AdditionalPropertyTarget | Array<VcsVcsApplication> | Array<VcsVcsDeviceGroup> | number | string | undefined;
 }

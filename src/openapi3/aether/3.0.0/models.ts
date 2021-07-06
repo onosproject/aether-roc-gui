@@ -11,9 +11,6 @@ export { ConnectivityServiceConnectivityService } from './models/connectivity-se
 export { DeviceGroup } from './models/device-group';
 export { DeviceGroupDeviceGroup } from './models/device-group-device-group';
 export { DeviceGroupDeviceGroupImsis } from './models/device-group-device-group-imsis';
-export { DeviceModelList } from './models/device-model-list';
-export { DeviceModelListDeviceModelList } from './models/device-model-list-device-model-list';
-export { DeviceModelListDeviceModelListTac } from './models/device-model-list-device-model-list-tac';
 export { Enterprise } from './models/enterprise';
 export { EnterpriseEnterprise } from './models/enterprise-enterprise';
 export { EnterpriseEnterpriseConnectivityService } from './models/enterprise-enterprise-connectivity-service';
@@ -32,3 +29,4 @@ export { UpfUpf } from './models/upf-upf';
 export { Vcs } from './models/vcs';
 export { VcsVcs } from './models/vcs-vcs';
 export { VcsVcsApplication } from './models/vcs-vcs-application';
+export { VcsVcsDeviceGroup } from './models/vcs-vcs-device-group';
