@@ -88,7 +88,7 @@ export class AetherComponent implements OnInit {
     }
 
     showhelp(): void {
-        alert('Showing help');
+        window.open('https://aetherproject.org/', '_blank');
     }
 
     signingOut(): void {
