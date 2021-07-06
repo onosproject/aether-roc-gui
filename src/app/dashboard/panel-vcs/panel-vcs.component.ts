@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnDestroy, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
@@ -16,13 +16,20 @@ import {BasketService} from '../../basket.service';
 import {PanelVcsDatasource} from './panel-vcs-datasource';
 import {PanelVcsPromDataSource} from './panel-vcs-prom-data-source';
 import {HttpClient} from '@angular/common/http';
+import {ID_TOKEN_ATTR} from '../../aether.component';
+
+const promTags = [
+    'vcs_latency',
+    'vcs_jitter',
+    'vcs_throughput',
+];
 
 @Component({
     selector: 'aether-panel-vcs',
     templateUrl: './panel-vcs.component.html',
     styleUrls: ['../../common-panel.component.scss']
 })
-export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implements AfterViewInit {
+export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implements AfterViewInit, OnDestroy {
     @Input() top: number;
     @Input() left: number;
     @Input() width: number;
@@ -30,20 +37,21 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<VcsVcs>;
-
-    dashboard1: string = GRAFANA_PROXY + '/d/ROC1/roc-dashboard-1?orgId=1&kiosk';
+    prometheusTimer: any;
+    grafanaOrgIdTimer: any;
+    grafanaOrgIdRetry: number = 0;
+    loginTokenTimer: any;
+    panelUrl: string;
+    grafanaOrgId: number;
+    grafanaOrgName: string;
     promData: PanelVcsPromDataSource;
-
-    promTags = [
-        'prometheus_tsdb_reloads_total',
-        `prometheus_tsdb_wal_completed_pages_total`
-    ];
 
     displayedColumns = [
         'id',
         'description',
-        'prom1',
-        'prom2'
+        'latency',
+        'jitter',
+        'throughput'
     ];
 
     constructor(
@@ -51,32 +59,92 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
         private aetherService: AetherService,
         private basketService: BasketService,
         private httpClient: HttpClient,
+        @Inject('grafana_api_proxy') private grafanaUrl: string,
     ) {
         super(new PanelVcsDatasource(aetherService, basketService, AETHER_TARGETS[0]));
         this.promData = new PanelVcsPromDataSource(httpClient);
+        this.grafanaOrgIdTimer = setInterval(() => {
+            // Retry if orgID is not yet set
+            const orgIdStr = localStorage.getItem('orgID');
+            const orgName = localStorage.getItem('orgName');
+            if (orgIdStr !== null) {
+                this.grafanaOrgId = parseInt(orgIdStr, 10);
+                this.grafanaOrgName = orgName;
+                this.panelUrl = this.vcsPanelUrl(this.grafanaOrgId, this.grafanaOrgName);
+                console.log('orgID retrieved ' + this.grafanaOrgId + '(' + this.grafanaOrgName + '). URL is', this.panelUrl);
+                clearInterval(this.grafanaOrgIdTimer);
+                return;
+            }
+            if (this.grafanaOrgIdRetry > 5) {
+                clearInterval(this.grafanaOrgIdTimer);
+                console.log('Gave up waiting for orgID to be set on login after', this.grafanaOrgIdRetry, 'sec');
+                return;
+            } else {
+                this.grafanaOrgIdRetry++;
+            }
+        }, 1000);
     }
 
     onDataLoaded(ScopeOfDataSource): void {
-        console.log('onDataLoaded() - not doing anything');
+        ScopeOfDataSource.data.forEach((vcs: VcsVcs) => {
+            // Add the tag on to VCS. the data is filled in below
+            promTags.forEach((tag: string) => vcs[tag] = {});
+        });
+        console.log('VCS Data Loaded');
     }
 
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadData(this.aetherService.getVcs({
-            target: AETHER_TARGETS[0]
-        }), this.onDataLoaded);
+        console.log('Testing token', localStorage.getItem(ID_TOKEN_ATTR));
+        // Wait for token to be loaded
+        this.loginTokenTimer = setInterval(() => {
+            if (localStorage.getItem(ID_TOKEN_ATTR) !== null) {
+                console.log('Load items after token is loaded');
+                this.dataSource.loadData(this.aetherService.getVcs({
+                    target: AETHER_TARGETS[0]
+                }), this.onDataLoaded);
+                clearInterval(this.loginTokenTimer);
+            }
+        }, 10);
 
-        setInterval(() => this.promData.loadData(this.promTags).subscribe(
+        this.prometheusTimer = setInterval(() => this.promData.loadData(promTags).subscribe(
             (resultItem) => {
-                console.log(resultItem.metric.__name__, '=', resultItem.value[1]);
                 // Tag these new attributes on to the data in the main data source
-                // Once we have VCS identifiers in the Prom data associate it with the
-                // right VCS - until then associate the data with **all** VCS
-                this.dataSource.data.forEach((vcs) => vcs[resultItem.metric.__name__] = resultItem.value[1]);
+                // associate it with the right VCS
+                if (this.dataSource.data.length === 0) {
+                    clearInterval(this.prometheusTimer);
+                    console.log('No VCS to monitor');
+                    return;
+                }
+                this.dataSource.data.forEach((vcs) => {
+                    if (vcs[resultItem.metric.__name__] === undefined) {
+                        vcs[resultItem.metric.__name__] = {};
+                    }
+                    const vcsIdUs = vcs.id.split('-').join('_'); // replaceAll seems not be an option
+                    if (resultItem.metric.vcs_id === vcsIdUs) {
+                        vcs[resultItem.metric.__name__][vcs.id] = resultItem.value[1];
+                        // console.log('Wrote ', resultItem.metric.__name__, vcs.id, resultItem.value[1]);
+                    }
+                });
             },
             (err) => console.log('error polling ', err),
         ), 3000);
+    }
+
+    ngOnDestroy(): void {
+        clearInterval(this.prometheusTimer);
+        clearInterval(this.grafanaOrgIdTimer);
+        clearInterval(this.loginTokenTimer);
+    }
+
+    vcsPanelUrl(orgId: number, orgName: string, vcsName?: string): string {
+        if (vcsName === undefined) {
+            return this.grafanaUrl + '/d-solo/vcs_' + orgName + '_all?orgId=' + orgId +
+                '&theme=light&panelId=1';
+        }
+        return this.grafanaUrl + '/d-solo/vcs_' + vcsName + '?orgId=' + orgId +
+            '&theme=light&panelId=1';
     }
 }

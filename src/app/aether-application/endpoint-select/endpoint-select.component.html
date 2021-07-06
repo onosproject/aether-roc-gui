@@ -23,11 +23,11 @@
                     </mat-form-field>
                     <!-- <mat-label formControlName="name"></mat-label> -->
                     <mat-form-field class="field-margin ">
-                        <input matInput formControlName="address" id="inputAddress">
+                        <input matInput formControlName="address" id="inputAddress" required>
                         <mat-hint>Address</mat-hint>
                     </mat-form-field>
                     <mat-form-field class="field-margin ">
-                        <input matInput type=number formControlName="port-start" id="inputPortStart">
+                        <input matInput type=number formControlName="port-start" id="inputPortStart" required>
                         <mat-hint>Port Start</mat-hint>
                     </mat-form-field>
                     <mat-form-field class="field-margin ">
@@ -44,12 +44,14 @@
                     </mat-form-field>
         </mat-card-content>
         <mat-card-actions class=" button-width float-left field-margin">
-            <button mat-raised-button color="primary" type="submit" [disabled]="!(endpointForm.valid && endpointForm.touched)"
+            <button mat-raised-button color="accent" type="submit"
+                    *ngIf="endpointForm.valid"
+                    [disabled]="!(endpointForm.valid && endpointForm.touched)"
                     id="submitButton">Add
             </button>
         </mat-card-actions>
         <mat-card-actions class=" button-width float-left field-margin">
-            <button mat-raised-button color="primary" (click)="closeCard('')" id="cancelButton">Cancel</button>
+            <button mat-raised-button color="accent" (click)="closeCard('')" id="cancelButton">Cancel</button>
         </mat-card-actions>
     </mat-card>
 </form>

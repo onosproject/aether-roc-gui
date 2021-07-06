@@ -28,8 +28,9 @@ export class NetworkEditComponent extends RocEditBase<NetworkNetwork> implements
     pathListAttr = 'network';
     networkForm = this.fb.group({
         id: ['', Validators.compose([
+            Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
-            Validators.maxLength(32),
+            Validators.maxLength(31),
         ])],
         'display-name': ['', Validators.compose([
             Validators.minLength(1),

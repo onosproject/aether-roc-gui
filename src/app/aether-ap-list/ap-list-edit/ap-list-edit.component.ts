@@ -32,6 +32,7 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
 
     apForm = this.fb.group({
         id: ['', Validators.compose([
+            Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
