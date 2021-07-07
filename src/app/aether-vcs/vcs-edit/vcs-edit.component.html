@@ -94,7 +94,7 @@
                         <div [formGroup]="dgForm">
                             <input matInput formControlName="device-group" readonly>
                             <mat-slide-toggle
-                                formControlName="i.enable" id="toggleDeviceGroupAllow">Allow
+                                formControlName="enable" id="toggleDeviceGroupAllow">Enable
                             </mat-slide-toggle>
                             <button mat-icon-button color="accent"
                                     [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
@@ -108,7 +108,6 @@
                                       id="pointerDeviceGroup">launch
                             </mat-icon>
                         </div>
-                        {{this.vcsForm.value['device-group'][0].enable}}
                     </mat-form-field>
                 </div>
             </div>

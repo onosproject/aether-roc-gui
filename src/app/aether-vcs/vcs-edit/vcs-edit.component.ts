@@ -258,14 +258,14 @@ dgSelected(selected: string): void {
           isDeleted = false;
         }
     } else if (value.application && this.vcsForm.value.application.length !== 0){
-          value.application.forEach( (eachValueApp, eachValueAppPosition) => {
-              for (const eachFormApp of this.vcsForm.value.application) {
+          this.vcsForm.value.application.forEach( (eachValueApp, eachValueAppPosition) => {
+              for (const eachFormApp of value.application) {
                   if (eachValueApp.application === eachFormApp.application) {
-                      this.vcsForm.get(['application', eachValueAppPosition, 'allow']).setValue(eachValueApp.allow);
+                      this.vcsForm.get(['application', eachValueAppPosition, 'allow']).setValue(eachFormApp.allow);
                   } else {
                       (this.vcsForm.get(['application']) as FormArray).push(this.fb.group({
-                          application: eachValueApp.application,
-                          allow: eachValueApp.allow
+                          application: eachFormApp.application,
+                          allow: eachFormApp.allow
                       }));
                   }
               }
@@ -295,8 +295,8 @@ dgSelected(selected: string): void {
               const dgFormControl = this.fb.control(dg['device-group']);
               dgFormControl[ORIGINAL] = dg['device-group'];
 
-              const enabledControl = this.fb.control(dg.allow);
-              enabledControl[ORIGINAL] = dg.allow;
+              const enabledControl = this.fb.control(dg.enable);
+              enabledControl[ORIGINAL] = dg.enable;
 
               enabledControl[TYPE] = 'boolean';
               (this.vcsForm.get('device-group') as FormArray).push(this.fb.group({
@@ -307,14 +307,14 @@ dgSelected(selected: string): void {
           isDeleted = false;
       }
   } else if (value['device-group'] && this.vcsForm.value['device-group'].length !== 0){
-          value['device-group'].forEach( (eachValuedg, eachValuedgPosition) => {
-              for (const eachFormdg of this.vcsForm.value['device-group']) {
+          this.vcsForm.value['device-group'].forEach( (eachValuedg, eachValuedgPosition) => {
+              for (const eachFormdg of value['device-group']) {
                   if (eachValuedg['device-group'] === eachFormdg['device-group']) {
-                      this.vcsForm.get(['device-group', eachValuedgPosition, 'enable']).setValue(eachValuedg.enable);
+                      this.vcsForm.get(['device-group', eachValuedgPosition, 'enable']).setValue(eachFormdg.enable);
                   } else {
                       (this.vcsForm.get(['device-group']) as FormArray).push(this.fb.group({
-                          application: eachValuedg['device-group'],
-                          allow: eachValuedg.enable
+                          'device-group': eachFormdg['device-group'],
+                          enable: eachFormdg.enable
                       }));
                   }
               }
