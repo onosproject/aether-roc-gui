@@ -15,6 +15,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+import {EnterpriseEnterprise} from '../../../openapi3/aether/3.0.0/models/enterprise-enterprise';
 
 export const UPDATED = 'updated';
 
@@ -33,6 +34,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
     secCardDisplay: boolean = false;
     subCardDisplay: boolean = false;
     data: IpDomainIpDomain;
+    enterprises: Array<EnterpriseEnterprise>;
 
     displayOption: string;
 
@@ -50,6 +52,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
+        enterprise: [''],
         'dns-primary': [''],
         'dns-secondary': [''],
         subnet: ['', Validators.pattern(
@@ -91,6 +94,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
     }
 
     ngOnInit(): void {
+        this.loadEnterprises(this.target);
         super.init();
     }
 
@@ -103,6 +107,10 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         if (value.description) {
             this.ipForm.get('description').setValue(value.description);
             this.ipForm.get('description')[ORIGINAL] = value.description;
+        }
+        if (value.enterprise) {
+            this.ipForm.get('enterprise').setValue(value.enterprise);
+            this.ipForm.get('enterprise')[ORIGINAL] = value.enterprise;
         }
         if (value['dns-primary']) {
             this.ipForm.get('dns-primary').setValue(value['dns-primary']);
@@ -133,6 +141,23 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         this.ipForm.get('admin-status').markAsDirty();
         this.ipForm.get('admin-status').markAsTouched();
         this.ipForm.get('admin-status').setValue(this.option);
+    }
+
+    loadEnterprises(target: string): void {
+        this.aetherService.getEnterprise({
+            target,
+        }).subscribe(
+            (value => {
+                this.enterprises = value.enterprise;
+                console.log('Got Enterprises', value.enterprise.length);
+            }),
+            error => {
+                console.warn('Error getting Enterprises for ', target, error);
+            },
+            () => {
+                console.log('Finished loading Enterprises', target);
+            }
+        );
     }
 
     loadIpDomainIpDomain(target: string, id: string): void {

@@ -7,12 +7,14 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title>Virtual Cellular Service ID: {{id}}</mat-card-title>
-            <mat-form-field *ngIf="isNew" class="half-width">
-                <input matInput formControlName="id" id="inputID">
-                <mat-hint>ID</mat-hint>
-            </mat-form-field>
         </mat-card-header>
         <mat-card-content>
+            <div class="row" *ngIf="isNew">
+                <mat-form-field class="half-width field-margin">
+                    <input matInput formControlName="id" id="inputID">
+                    <mat-hint>ID</mat-hint>
+                </mat-form-field>
+            </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
                     <input matInput formControlName="display-name" id="inputDisplayName">
@@ -57,9 +59,9 @@
                     <input matInput type="number" [matAutocomplete]="auto"
                            id="inputUplink"
                            formControlName="uplink">
-                    <mat-autocomplete #auto="matAutocomplete" >
+                    <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let option of bandwidthOptions | async" [value]="option.megabyte.numerical"
-                        id="selectUplinkAutoOption">
+                                    id="selectUplinkAutoOption">
                             {{option.megabyte.numerical}}
                             {{option.megabyte.inMb}}
                         </mat-option>
@@ -72,9 +74,9 @@
                     <input matInput type="number" [matAutocomplete]="auto"
                            id="inputDownlink"
                            formControlName="downlink">
-                    <mat-autocomplete #auto="matAutocomplete" >
+                    <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let option of bandwidthOptions | async" [value]="option.megabyte.numerical"
-                        id="selectDownlinkAutoOption">
+                                    id="selectDownlinkAutoOption">
                             {{option.megabyte.numerical}}
                             {{option.megabyte.inMb}}
                         </mat-option>
@@ -166,7 +168,7 @@
         <mat-card-actions>
             <button mat-raised-button color="accent" type="submit"
                     id="submitButton"
-                    [disabled]="!(vcsForm.valid && vcsForm.touched && opaService.canWrite('/vcs/vcs [id=' + id + ']'))">Update</button>
+                    [disabled]="!(vcsForm.valid && vcsForm.touched && opaService.canWrite('/vcs/vcs[id=' + id + ']'))">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>
