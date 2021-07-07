@@ -153,9 +153,7 @@
         <mat-card-actions>
             <button mat-raised-button color="accent" type="submit"
                     id="submitButton"
-                    [disabled]="!(vcsForm.valid && vcsForm.touched && opaService.canWrite('/service-vcs/service-vcs [id=' + id + ']'))">
-                Update
-            </button>
+                    [disabled]="!(vcsForm.valid && vcsForm.touched && opaService.canWrite('/vcs/vcs[id=' + id + ']'))">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>

@@ -29,6 +29,7 @@ export class IpDomainComponent extends RocListBase<IpDomainDatasource> implement
     displayedColumns = [
         'id',
         'description',
+        'enterprise',
         'dns',
         'subnet',
         'admin-status',
@@ -71,6 +72,9 @@ export class IpDomainComponent extends RocListBase<IpDomainDatasource> implement
                         }
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;
+                        }
+                        if (basketItems.enterprise) {
+                            ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
                         }
                         if (basketItems.filter) {
                             ScopeOfDataSource.data[listItemCount].filter = basketItems.filter;
