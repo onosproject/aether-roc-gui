@@ -11,6 +11,10 @@ export interface ServiceRuleServiceRuleQos {
   arp?: ServiceRuleServiceRuleQosArp;
   'guaranteed-bitrate'?: ServiceRuleServiceRuleQosGuaranteedBitrate;
   'maximum-requested-bandwidth'?: ServiceRuleServiceRuleQosMaximumRequestedBandwidth;
+
+  /**
+   * QoS Class Identifier
+   */
   qci?: number;
 
   [key: string]: AdditionalPropertyTarget | ServiceRuleServiceRuleQosAggregateMaximumBitrate | ServiceRuleServiceRuleQosArp | ServiceRuleServiceRuleQosGuaranteedBitrate | ServiceRuleServiceRuleQosMaximumRequestedBandwidth | number | undefined;

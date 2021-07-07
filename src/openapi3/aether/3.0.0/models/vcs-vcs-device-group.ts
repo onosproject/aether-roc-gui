@@ -2,17 +2,17 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
-export interface ServicePolicyServicePolicyRules {
+export interface VcsVcsDeviceGroup {
 
   /**
-   * Enable or disable this service to use this rule
+   * Link to device group
    */
-  enabled?: boolean;
+  'device-group'?: string;
 
   /**
-   * Link to service rule
+   * Enable this device group
    */
-  rule?: string;
+  enable?: boolean;
 
   [key: string]: AdditionalPropertyTarget | boolean | string | undefined;
 }

@@ -30,6 +30,11 @@ export interface IpDomainIpDomain {
   'dns-secondary'?: string;
 
   /**
+   * Link to enterprise that owns this Access Point List
+   */
+  enterprise?: string;
+
+  /**
    * ID for this ip domain.
    */
   id?: string;
@@ -42,7 +47,7 @@ export interface IpDomainIpDomain {
   /**
    * subnet to allocate ip addresses from
    */
-  subnet?: string;
+  subnet: string;
 
   [key: string]: AdditionalPropertyTarget | number | string | undefined;
 }

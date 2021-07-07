@@ -27,12 +27,12 @@ export interface NetworkNetwork {
   /**
    * mobile country code
    */
-  mcc?: number;
+  mcc: number;
 
   /**
    * mobile network code
    */
-  mnc?: number;
+  mnc: number;
 
   [key: string]: AdditionalPropertyTarget | number | string | undefined;
 }

@@ -16,7 +16,6 @@ import {ApList as ApList300} from "../../../aether/3.0.0/models";
 import {Application as Application300} from "../../../aether/3.0.0/models";
 import {ConnectivityService as ConnectivityService300} from "../../../aether/3.0.0/models";
 import {DeviceGroup as DeviceGroup300} from "../../../aether/3.0.0/models";
-import {DeviceModelList as DeviceModelList300} from "../../../aether/3.0.0/models";
 import {Enterprise as Enterprise300} from "../../../aether/3.0.0/models";
 import {IpDomain as IpDomain300} from "../../../aether/3.0.0/models";
 import {Network as Network300} from "../../../aether/3.0.0/models";
@@ -42,7 +41,6 @@ export interface Elements {
     'Application-3.0.0'?: Application300;
     'Connectivity-service-3.0.0'?: ConnectivityService300;
     'Device-group-3.0.0'?: DeviceGroup300;
-    'Device-model-list-3.0.0'?: DeviceModelList300;
     'Enterprise-3.0.0'?: Enterprise300;
     'Ip-domain-3.0.0'?: IpDomain300;
     'Network-3.0.0'?: Network300;

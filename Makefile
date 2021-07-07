@@ -23,6 +23,9 @@ license_check: # @HELP examine and ensure license headers exist
 	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
 	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR} --boilerplate LicenseRef-ONF-Member-1.0
 
+# For running make openapi-gen in Mac run the below command and change sed to gsed\
+brew install gsed
+
 openapi-gen: # @HELP compile the OpenAPI files in to Typescript
 	node_modules/.bin/ng-openapi-gen --input ../aether-roc-api/api/aether-2.1.0-openapi3.yaml --output src/openapi3/aether/2.1.0
 	node_modules/.bin/ng-openapi-gen --input ../aether-roc-api/api/aether-3.0.0-openapi3.yaml --output src/openapi3/aether/3.0.0

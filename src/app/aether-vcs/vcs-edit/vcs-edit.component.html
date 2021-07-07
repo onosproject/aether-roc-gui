@@ -29,9 +29,7 @@
             </div>
             <div formArrayName="application" class="subscriber-section">
                 <mat-hint>Application</mat-hint>
-                <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer"
-                          color="accent"
-                          id="addApplication">
+                <mat-icon (click)="showApplicationDisplay = true" color='accent' class="subscriber-pointer" id="addApplication">
                     add
                 </mat-icon>
                 <div *ngFor="let appForm of applications.controls; index as i">
@@ -39,17 +37,16 @@
                         <div [formGroup]="appForm">
                             <input matInput formControlName="application" readonly>
                             <mat-slide-toggle
-                                formControlName="enabled" id="toggleEallow">Allow
+                                formControlName="allow" id="toggleApplicationAllow">Allow
                             </mat-slide-toggle>
-                            <button mat-icon-button
-                                    color="accent"
+                            <button mat-icon-button color="accent"
                                     [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
-                                    (click)="deleteFromSelect(appForm.value.application)"
+                                    (click)="deleteApplicationFromSelect(appForm.value.application)"
                                     id="deleteApplication">
                                 <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
                             </button>
-                            <mat-icon class="subscriber-pointer" aria-hidden="false" aria-label="Application"
-                                      color="primary"
+                            <mat-icon color='primary' class="subscriber-pointer"
+                                      aria-hidden="false" aria-label="Application"
                                       routerLink="/application/application-edit/{{appForm.value.application}}"
                                       id="pointerApplication">launch
                             </mat-icon>
@@ -87,6 +84,34 @@
                     <mat-hint>Downlink (0..4294967295)</mat-hint>
                 </mat-form-field>
             </div>
+            <div formArrayName="device-group" class="subscriber-section">
+                <mat-hint>Device Group</mat-hint>
+                <mat-icon (click)="showDeviceGroupDisplay = true" color='accent' class="subscriber-pointer" id="addADeviceGroup">
+                    add
+                </mat-icon>
+                <div *ngFor="let dgForm of deviceGroup.controls; index as i">
+                    <mat-form-field class="field-margin half-width">
+                        <div [formGroup]="dgForm">
+                            <input matInput formControlName="device-group" readonly>
+                            <mat-slide-toggle
+                                formControlName="i.enable" id="toggleDeviceGroupAllow">Allow
+                            </mat-slide-toggle>
+                            <button mat-icon-button color="accent"
+                                    [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
+                                    (click)="deleteDeviceGroupFromSelect(dgForm.value['device-group'])"
+                                    id="deleteDeviceGroup">
+                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                            </button>
+                            <mat-icon  color='primary' class="subscriber-pointer"
+                                       aria-hidden="false" aria-label="device-group"
+                                      routerLink="/device-group/device-group-edit/{{dgForm.value['device-group']}}"
+                                      id="pointerDeviceGroup">launch
+                            </mat-icon>
+                        </div>
+                        {{this.vcsForm.value['device-group'][0].enable}}
+                    </mat-form-field>
+                </div>
+            </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
                     <mat-select formControlName="ap">
@@ -95,16 +120,6 @@
                                     [value]="eachAp.id">{{eachAp.id}} {{eachAp.ap}}</mat-option>
                     </mat-select>
                     <mat-hint>AP</mat-hint>
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="device-group">
-                        <mat-option id="selectDeviceGroup"
-                                    *ngFor="let dg of deviceGroups"
-                                    [value]="dg.id">{{dg.id}} {{dg['device-group']}}</mat-option>
-                    </mat-select>
-                    <mat-hint>Device Group</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
@@ -158,8 +173,15 @@
     </mat-card>
 </form>
 <aether-application-select
-    *ngIf="showConnectDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
+    *ngIf="showApplicationDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
     id="applicationSelectComponent"
     [alreadySelected]="applicationExists"
     (closeEvent)="appSelected($event)">
 </aether-application-select>
+<aether-device-group-select
+    *ngIf="showDeviceGroupDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
+    id="deviceGroupSelectComponent"
+    [alreadySelected]="deviceGroupExists"
+    (closeEvent)="dgSelected($event)">
+</aether-device-group-select>
+

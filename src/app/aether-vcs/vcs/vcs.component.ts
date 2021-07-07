@@ -93,7 +93,20 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
                             ScopeOfDataSource.data[listItemCount].sd = basketItems.sd;
                         }
                         if (basketItems['device-group']) {
-                            ScopeOfDataSource.data[listItemCount]['device-group'] = basketItems['device-group'];
+                            if (ScopeOfDataSource.data[listItemCount]['device-group'].length === 0) {
+                                ScopeOfDataSource.data[listItemCount]['device-group'] = basketItems['device-group'];
+                            } else {
+                                for (const eachBasketDg of basketItems['device-group']) {
+                                    let eachCSPosition = 0;
+                                    for (const eachScopeadg of ScopeOfDataSource.data[listItemCount]['device-group']) {
+                                        if (eachBasketDg['device-group'] === eachScopeadg['device-group']) {
+                                            ScopeOfDataSource.data[listItemCount]['device-group'][eachCSPosition].enabled
+                                                = eachBasketDg.enabled;
+                                        }
+                                        eachCSPosition++;
+                                    }
+                                }
+                            }
                         }
                         if (basketItems.template) {
                             ScopeOfDataSource.data[listItemCount].template = basketItems.template;

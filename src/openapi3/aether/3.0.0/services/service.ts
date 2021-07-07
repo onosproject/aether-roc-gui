@@ -14,7 +14,6 @@ import { ApList } from '../models/ap-list';
 import { Application } from '../models/application';
 import { ConnectivityService } from '../models/connectivity-service';
 import { DeviceGroup } from '../models/device-group';
-import { DeviceModelList } from '../models/device-model-list';
 import { Enterprise } from '../models/enterprise';
 import { IpDomain } from '../models/ip-domain';
 import { Network } from '../models/network';
@@ -280,68 +279,6 @@ export class Service extends BaseService {
 
     return this.getDeviceGroup$Response(params).pipe(
       map((r: StrictHttpResponse<DeviceGroup>) => r.body as DeviceGroup)
-    );
-  }
-
-  /**
-   * Path part for operation getDeviceModelList
-   */
-  static readonly GetDeviceModelListPath = '/aether/v3.0.0/{target}/device-model-list';
-
-  /**
-   * GET /device-model-list Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getDeviceModelList()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getDeviceModelList$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<DeviceModelList>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetDeviceModelListPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<DeviceModelList>;
-      })
-    );
-  }
-
-  /**
-   * GET /device-model-list Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getDeviceModelList$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getDeviceModelList(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<DeviceModelList> {
-
-    return this.getDeviceModelList$Response(params).pipe(
-      map((r: StrictHttpResponse<DeviceModelList>) => r.body as DeviceModelList)
     );
   }
 
