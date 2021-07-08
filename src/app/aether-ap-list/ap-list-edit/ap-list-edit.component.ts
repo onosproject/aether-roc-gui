@@ -149,9 +149,6 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
         this.showAccessDisplay = !this.showAccessDisplay;
         if (event.cancelled === false) {
 
-            this.apForm.markAsDirty();
-            this.apForm.markAsTouched();
-
             const addressFormControl = this.fb.control(event.address);
             addressFormControl.markAsTouched();
             addressFormControl.markAsDirty();
@@ -171,10 +168,10 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
                 tac: tacFormControl,
                 enable: enableFormControl
             }));
+            this.apForm.get('access-points').markAsTouched();
         } else {
             return;
         }
-
     }
 
     loadEnterprises(target: string): void {
