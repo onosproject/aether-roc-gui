@@ -5,33 +5,33 @@
  */
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-import { DeviceGroupDeviceGroupService, Service } from 'src/openapi3/aether/3.0.0/services';
+import {DeviceGroupDeviceGroupService, Service} from 'src/openapi3/aether/3.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import { DeviceGroup} from '../../../openapi3/aether/3.0.0/models';
+import {DeviceGroup} from '../../../openapi3/aether/3.0.0/models';
 import {RocSelectBase} from '../../roc-select-base';
 
 @Component({
-  selector: 'aether-device-group-select',
-  templateUrl: './device-group-select.component.html',
-  styleUrls: [
-    '../../common-panel.component.scss',
-  ]
+    selector: 'aether-device-group-select',
+    templateUrl: './device-group-select.component.html',
+    styleUrls: [
+        '../../common-panel.component.scss',
+    ]
 })
 export class DeviceGroupSelectComponent extends RocSelectBase<DeviceGroupDeviceGroupService, DeviceGroup>
-implements OnInit {
+    implements OnInit {
 
-@Input() alreadySelected: string[] = [];
-@Output() closeEvent = new EventEmitter<string>();
+    @Input() alreadySelected: string[] = [];
+    @Output() closeEvent = new EventEmitter<string>();
 
-constructor(
-    protected service: Service,
-    protected fb: FormBuilder,
-) {
-    super(fb);
-}
+    constructor(
+        protected service: Service,
+        protected fb: FormBuilder,
+    ) {
+        super(fb);
+    }
 
-ngOnInit(): void {
-    super.getData(this.service.getDeviceGroup({target: AETHER_TARGETS[0]}),
-        'device-group');
-}
+    ngOnInit(): void {
+        super.getData(this.service.getDeviceGroup({target: AETHER_TARGETS[0]}),
+            'device-group');
+    }
 }

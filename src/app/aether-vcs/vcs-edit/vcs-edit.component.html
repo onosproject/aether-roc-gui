@@ -32,19 +32,11 @@
                 <mat-icon (click)="showApplicationDisplay = true" color='accent' class="subscriber-pointer" id="addApplication">
                     add
                 </mat-icon>
-                <div *ngFor="let appForm of applications.controls; index as i">
+                <div *ngFor="let appForm of applications.controls">
                     <mat-form-field class="field-margin half-width">
                         <div [formGroup]="appForm">
                             <input matInput formControlName="application" readonly>
-                            <mat-slide-toggle
-                                formControlName="allow" id="toggleApplicationAllow">Allow
-                            </mat-slide-toggle>
-                            <button mat-icon-button color="accent"
-                                    [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
-                                    (click)="deleteApplicationFromSelect(appForm.value.application)"
-                                    id="deleteApplication">
-                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
-                            </button>
+                            <mat-slide-toggle formControlName="allow">Allow</mat-slide-toggle>
                             <mat-icon color='primary' class="subscriber-pointer"
                                       aria-hidden="false" aria-label="Application"
                                       routerLink="/application/application-edit/{{appForm.value.application}}"
@@ -52,6 +44,12 @@
                             </mat-icon>
                         </div>
                     </mat-form-field>
+                    <button mat-icon-button color="accent"
+                            [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
+                            (click)="deleteApplicationFromSelect(appForm.value.application)"
+                            id="deleteApplication">
+                        <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                    </button>
                 </div>
             </div>
             <div class="row">
@@ -93,15 +91,7 @@
                     <mat-form-field class="field-margin half-width">
                         <div [formGroup]="dgForm">
                             <input matInput formControlName="device-group" readonly>
-                            <mat-slide-toggle
-                                formControlName="enable" id="toggleDeviceGroupAllow">Enable
-                            </mat-slide-toggle>
-                            <button mat-icon-button color="accent"
-                                    [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
-                                    (click)="deleteDeviceGroupFromSelect(dgForm.value['device-group'])"
-                                    id="deleteDeviceGroup">
-                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
-                            </button>
+                            <mat-slide-toggle formControlName="enable">Enable</mat-slide-toggle>
                             <mat-icon  color='primary' class="subscriber-pointer"
                                        aria-hidden="false" aria-label="device-group"
                                       routerLink="/device-group/device-group-edit/{{dgForm.value['device-group']}}"
@@ -109,6 +99,13 @@
                             </mat-icon>
                         </div>
                     </mat-form-field>
+                    <button mat-icon-button
+                            id="deleteDeviceGroup"
+                            color="accent"
+                            [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
+                            (click)="deleteDeviceGroupFromSelect(dgForm.value['device-group'])">
+                        <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                    </button>
                 </div>
             </div>
             <div class="row">
