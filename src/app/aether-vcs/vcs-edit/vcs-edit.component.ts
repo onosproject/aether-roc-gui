@@ -22,6 +22,7 @@ import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {isEmpty, map, startWith} from 'rxjs/operators';
 import {VcsVcsService, Service as AetherService} from 'src/openapi3/aether/3.0.0/services';
 import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from 'src/app/basket.service';
+import {connectableObservableDescriptor} from 'rxjs/internal/observable/ConnectableObservable';
 
 export interface Bandwidths {
     megabyte: { numerical: number, inMb: string };
@@ -160,14 +161,15 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             const appFormControl = this.fb.control(selected);
             appFormControl.markAsTouched();
             appFormControl.markAsDirty();
-            const enabledControl = this.fb.control(false);
-            enabledControl.markAsTouched();
-            enabledControl.markAsDirty();
-            enabledControl[TYPE] = 'boolean';
+            const allowControl = this.fb.control(true); // Default as true
+            allowControl.markAsTouched();
+            allowControl.markAsDirty();
+            allowControl[TYPE] = 'boolean';
             (this.vcsForm.get('application') as FormArray).push(this.fb.group({
                 application: appFormControl,
-                allow: enabledControl,
+                allow: allowControl,
             }));
+            this.vcsForm.get('application').markAsTouched();
             console.log('Adding new Value', selected);
         }
         this.showApplicationDisplay = false;
@@ -179,7 +181,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             const dgFormControl = this.fb.control(selected);
             dgFormControl.markAsTouched();
             dgFormControl.markAsDirty();
-            const enabledControl = this.fb.control(false);
+            const enabledControl = this.fb.control(true); // Default as true
             enabledControl.markAsTouched();
             enabledControl.markAsDirty();
             enabledControl[TYPE] = 'boolean';
@@ -187,6 +189,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                 'device-group': dgFormControl,
                 enable: enabledControl,
             }));
+            this.vcsForm.get('device-group').markAsTouched();
             console.log('Adding new Value', selected);
         }
         this.showDeviceGroupDisplay = false;
