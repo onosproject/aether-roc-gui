@@ -27,19 +27,18 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
+            <!--templte dropdown-->
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <mat-select formControlName="template" (selectionChange)="templateSelecte($event)">
+                        <mat-option id="selectTemplate"
+                                    *ngFor="let eachTemp of templates"
+                                    [value]="eachTemp.id">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
+                    </mat-select>
+                    <mat-hint>Template</mat-hint>
+                </mat-form-field>
+            </div>
             <div class="field-margin">
-                <!--templte dropdown-->
-                <div class="row">
-                    <mat-form-field class="field-margin half-width">
-                        <mat-select *ngIf="isNewInstance" formControlName="template" (selectionChange)="templateSelecte($event)">
-                            <mat-option id="selectTemplate"
-                                        *ngFor="let eachTemp of templates"
-                                        [value]="eachTemp.id">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
-                        </mat-select>
-                        <input matInput *ngIf="!isNewInstance" formControlName="template" readonly>
-                        <mat-hint>Template</mat-hint>
-                    </mat-form-field>
-                </div>
                 <!--Sd field-->
                 <div class="row">
                     <mat-form-field class="field-margin half-width">

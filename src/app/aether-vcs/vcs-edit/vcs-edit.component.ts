@@ -110,6 +110,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     ngOnInit(): void {
         super.init();
         if (!this.isNewInstance) {
+            this.vcsForm.get('template').disable();
             this.vcsForm.get('sd').disable();
             this.vcsForm.get('sst').disable();
             this.vcsForm.get('downlink').disable();
