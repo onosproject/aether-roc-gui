@@ -9,14 +9,15 @@ import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {VcsVcs} from '../../../openapi3/aether/3.0.0/models';
 import {RocListBase} from '../../roc-list-base';
-import {AETHER_TARGETS, GRAFANA_PROXY} from '../../../environments/environment';
+import {AETHER_TARGETS} from '../../../environments/environment';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services/service';
 import {BasketService} from '../../basket.service';
 import {PanelVcsDatasource} from './panel-vcs-datasource';
 import {PanelVcsPromDataSource} from './panel-vcs-prom-data-source';
 import {HttpClient} from '@angular/common/http';
-import {ID_TOKEN_ATTR} from '../../aether.component';
+import {OAuthService} from 'angular-oauth2-oidc';
+import {IdTokClaims} from '../../idtoken';
 
 const promTags = [
     'vcs_latency',
@@ -42,7 +43,7 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
     grafanaOrgIdRetry: number = 0;
     loginTokenTimer: any;
     panelUrl: string;
-    grafanaOrgId: number;
+    grafanaOrgId: number = 1;
     grafanaOrgName: string;
     promData: PanelVcsPromDataSource;
 
@@ -59,30 +60,11 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
         private aetherService: AetherService,
         private basketService: BasketService,
         private httpClient: HttpClient,
+        private oauthService: OAuthService,
         @Inject('grafana_api_proxy') private grafanaUrl: string,
     ) {
         super(new PanelVcsDatasource(aetherService, basketService, AETHER_TARGETS[0]));
         this.promData = new PanelVcsPromDataSource(httpClient);
-        this.grafanaOrgIdTimer = setInterval(() => {
-            // Retry if orgID is not yet set
-            const orgIdStr = localStorage.getItem('orgID');
-            const orgName = localStorage.getItem('orgName');
-            if (orgIdStr !== null) {
-                this.grafanaOrgId = parseInt(orgIdStr, 10);
-                this.grafanaOrgName = orgName;
-                this.panelUrl = this.vcsPanelUrl(this.grafanaOrgId, this.grafanaOrgName);
-                console.log('orgID retrieved ' + this.grafanaOrgId + '(' + this.grafanaOrgName + '). URL is', this.panelUrl);
-                clearInterval(this.grafanaOrgIdTimer);
-                return;
-            }
-            if (this.grafanaOrgIdRetry > 5) {
-                clearInterval(this.grafanaOrgIdTimer);
-                console.log('Gave up waiting for orgID to be set on login after', this.grafanaOrgIdRetry, 'sec');
-                return;
-            } else {
-                this.grafanaOrgIdRetry++;
-            }
-        }, 1000);
     }
 
     onDataLoaded(ScopeOfDataSource): void {
@@ -97,14 +79,17 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        console.log('Testing token', localStorage.getItem(ID_TOKEN_ATTR));
         // Wait for token to be loaded
         this.loginTokenTimer = setInterval(() => {
-            if (localStorage.getItem(ID_TOKEN_ATTR) !== null) {
+            if (this.oauthService.hasValidIdToken()) {
                 console.log('Load items after token is loaded');
                 this.dataSource.loadData(this.aetherService.getVcs({
                     target: AETHER_TARGETS[0]
                 }), this.onDataLoaded);
+                const claims = this.oauthService.getIdentityClaims() as IdTokClaims;
+                // TODO: enhance this - it takes the last group, having all lower case as the Grafana Org.
+                this.grafanaOrgName = claims.groups.find((g) => g === g.toLowerCase());
+                this.panelUrl = this.vcsPanelUrl(this.grafanaOrgId, this.grafanaOrgName);
                 clearInterval(this.loginTokenTimer);
             }
         }, 10);
@@ -130,7 +115,7 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
                 });
             },
             (err) => console.log('error polling ', err),
-        ), 3000);
+        ), 2000);
     }
 
     ngOnDestroy(): void {
