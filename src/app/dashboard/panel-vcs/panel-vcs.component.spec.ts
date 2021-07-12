@@ -15,6 +15,7 @@ import {MatTableModule} from '@angular/material/table';
 import {ResizeService} from '../resize.service';
 import {SafePipe} from '../safe.pipe';
 import {GRAFANA_PROXY} from '../../../environments/environment';
+import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
 
 describe('PanelVcsComponent', () => {
     let component: PanelVcsComponent;
@@ -33,6 +34,9 @@ describe('PanelVcsComponent', () => {
             ],
             providers: [
                 ResizeService,
+                {provide: OAuthService},
+                {provide: UrlHelperService},
+                {provide: OAuthLogger},
                 {provide: 'grafana_api_proxy', useValue: GRAFANA_PROXY},
             ]
         })
