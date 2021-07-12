@@ -110,7 +110,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     ngOnInit(): void {
         super.init();
         if (!this.isNewInstance) {
-            this.vcsForm.get('template').disable();
             this.vcsForm.get('sd').disable();
             this.vcsForm.get('sst').disable();
             this.vcsForm.get('downlink').disable();
@@ -402,10 +401,25 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             this.templates.forEach(eachTemplate => {
                 if (eachTemplate.id === templateSelected.value) {
                     this.vcsForm.get(['sd']).setValue(eachTemplate.sd);
+                    const SdFormControl = this.vcsForm.get('sd');
+                    SdFormControl.markAsTouched();
+                    SdFormControl.markAsDirty();
                     this.vcsForm.get(['sst']).setValue(eachTemplate.sst);
+                    const SstFormControl = this.vcsForm.get('sst');
+                    SstFormControl.markAsTouched();
+                    SstFormControl.markAsDirty();
                     this.vcsForm.get(['traffic-class']).setValue(eachTemplate['traffic-class']);
+                    const TcFormControl = this.vcsForm.get('traffic-class');
+                    TcFormControl.markAsTouched();
+                    TcFormControl.markAsDirty();
                     this.vcsForm.get(['uplink']).setValue(eachTemplate.uplink);
+                    const UplinkFormControl = this.vcsForm.get('uplink');
+                    UplinkFormControl.markAsTouched();
+                    UplinkFormControl.markAsDirty();
                     this.vcsForm.get(['downlink']).setValue(eachTemplate.downlink);
+                    const DownlinkFormControl = this.vcsForm.get('downlink');
+                    DownlinkFormControl.markAsTouched();
+                    DownlinkFormControl.markAsDirty();
                 }
             });
         }
