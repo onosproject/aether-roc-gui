@@ -55,7 +55,7 @@
         <mat-card-actions>
             <button mat-raised-button color="accent" type="submit"
                     id="submitButton"
-                    [disabled]="!(networkForm.valid && networkForm.touched && opaService.canWrite('/service-network/service-network[id=' + id + ']'))">
+                    [disabled]="!(networkForm.valid && networkForm.value.id && networkForm.touched && opaService.canWrite('/service-network/service-network[id=' + id + ']'))">
                 Update
             </button>
         </mat-card-actions>

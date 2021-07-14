@@ -137,8 +137,8 @@
                         <div [formGroup]="dgForm">
                             <input matInput formControlName="device-group" readonly>
                             <mat-slide-toggle formControlName="enable">Enable</mat-slide-toggle>
-                            <mat-icon  color='primary' class="subscriber-pointer"
-                                       aria-hidden="false" aria-label="device-group"
+                            <mat-icon color='primary' class="subscriber-pointer"
+                                      aria-hidden="false" aria-label="device-group"
                                       routerLink="/device-group/device-group-edit/{{dgForm.value['device-group']}}"
                                       id="pointerDeviceGroup">launch
                             </mat-icon>
@@ -179,7 +179,7 @@
         <mat-card-actions>
             <button mat-raised-button color="accent" type="submit"
                     id="submitButton"
-                    [disabled]="!(vcsForm.valid && vcsForm.touched && opaService.canWrite('/vcs/vcs[id=' + id + ']'))">
+                    [disabled]="!(vcsForm.valid && vcsForm.value.id && vcsForm.touched && opaService.canWrite('/vcs/vcs[id=' + id + ']'))">
                 Update
             </button>
         </mat-card-actions>

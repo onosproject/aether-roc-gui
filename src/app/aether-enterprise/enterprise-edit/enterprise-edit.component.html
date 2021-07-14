@@ -39,7 +39,7 @@
                         <div [formGroup]="csForm">
                             <input matInput formControlName="connectivity-service" readonly>
                             <mat-slide-toggle
-                                formControlName="enabled" id="toggleEnabled">Enabled
+                                formControlName="enabled" >Enabled
                             </mat-slide-toggle>
                             <button mat-icon-button
                                     [disabled]="!opaService.canWrite('/enterprise/enterprise[id=' + id + ']/connectivity-service')"
@@ -60,7 +60,7 @@
 
             <mat-card-actions>
                 <button mat-raised-button color="accent" type="submit"
-                        [disabled]="!(entForm.valid && entForm.touched && opaService.canWrite('/enterprise/enterprise'))"
+                        [disabled]="!(entForm.valid && entForm.value.id && entForm.touched && opaService.canWrite('/enterprise/enterprise'))"
                         id="submitButton">Update
                 </button>
             </mat-card-actions>

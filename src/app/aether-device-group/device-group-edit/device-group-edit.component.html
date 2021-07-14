@@ -53,7 +53,8 @@
                 <mat-icon (click)="showImsiDisplay = true"
                           id="addNewExistingAccessProfile"
                           color="accent"
-                          class="subscriber-pointer">add</mat-icon>
+                          class="subscriber-pointer">add
+                </mat-icon>
                 <div *ngFor="let imsiForm of imsiControls.controls">
                     <mat-form-field class="field-margin half-width">
                         <div [formGroup]="imsiForm">
@@ -63,7 +64,7 @@
                             </div>
                             <br>
                             <div>
-                               <input matInput formControlName="imsi-range-from" type="number" id="inputImsiRangeFrom">
+                                <input matInput formControlName="imsi-range-from" type="number" id="inputImsiRangeFrom">
                                 <small>Imsi Range Start</small>
                             </div>
                             <br>
@@ -85,7 +86,7 @@
 
             <mat-card-actions>
                 <button mat-raised-button color="accent" type="submit"
-                        [disabled]="!(deviceGroupForm.valid && deviceGroupForm.touched && opaService.canWrite('/devicegroups/devicegroups'))"
+                        [disabled]="!(deviceGroupForm.valid && deviceGroupForm.value.id && deviceGroupForm.touched && opaService.canWrite('/devicegroups/devicegroups'))"
                         id="submitButton">Update
                 </button>
             </mat-card-actions>

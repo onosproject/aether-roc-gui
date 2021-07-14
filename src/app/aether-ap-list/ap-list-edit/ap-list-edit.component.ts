@@ -43,7 +43,7 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
         enterprise: [''],
         description: ['', Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(80),
+            Validators.maxLength(100),
         ])],
         'access-points': this.fb.array([])
     });

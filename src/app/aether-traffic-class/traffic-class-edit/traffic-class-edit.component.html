@@ -49,7 +49,7 @@
         <mat-card-actions>
             <button mat-raised-button color="accent" type="submit"
                     id="submitButton"
-                    [disabled]="!(tcForm.valid && tcForm.touched && opaService.canWrite('/traffic-class/traffic-class[id=' + id + ']'))">Update</button>
+                    [disabled]="!(tcForm.valid && tcForm.value.id && tcForm.touched && opaService.canWrite('/traffic-class/traffic-class[id=' + id + ']'))">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>

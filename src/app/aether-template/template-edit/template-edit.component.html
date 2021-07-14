@@ -68,7 +68,7 @@
                 </mat-form-field>
             </div>
             <div class="row" id="trafficClassnRow">
-                <mat-form-field class="half-width subscriber-section">
+                <mat-form-field class="half-width field-margin">
                     <mat-select formControlName="traffic-class">
                         <mat-option id="selectTrafficClass"
                                     *ngFor="let tc of trafficClass"
@@ -81,7 +81,7 @@
         <mat-card-actions>
             <button mat-raised-button color="accent" type="submit"
                     id="submitButton"
-                    [disabled]="!(tempForm.valid && tempForm.touched && opaService.canWrite('/template/template[id=' + id + ']'))">Update</button>
+                    [disabled]="!(tempForm.valid && tempForm.value.id && tempForm.touched && opaService.canWrite('/template/template[id=' + id + ']'))">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>

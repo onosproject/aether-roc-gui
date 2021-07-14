@@ -55,7 +55,7 @@
         <mat-card-actions>
             <button mat-raised-button color="accent" type="submit"
                     id="submitButton"
-                    [disabled]="!(csForm.valid && csForm.touched && opaService.canWrite('/connectivity-service/connectivity-service[id=' + id + ']'))">Update</button>
+                    [disabled]="!(csForm.valid && csForm.value.id && csForm.touched && opaService.canWrite('/connectivity-service/connectivity-service[id=' + id + ']'))">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>
