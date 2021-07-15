@@ -21,9 +21,10 @@ import {HttpClientModule} from '@angular/common/http';
 import {MatIconModule} from '@angular/material/icon';
 import { SafePipe } from './safe.pipe';
 import {ResizeService} from './resize.service';
+import { PanelAlertsComponent } from './panel-alerts/panel-alerts.component';
 
 @NgModule({
-    declarations: [DashboardComponent, PanelVcsComponent, SafePipe],
+    declarations: [DashboardComponent, PanelVcsComponent, SafePipe, PanelAlertsComponent],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({rootUrl: AETHER_ROC_API_URL}),
