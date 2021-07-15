@@ -107,8 +107,7 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
                     if (vcs[resultItem.metric.__name__] === undefined) {
                         vcs[resultItem.metric.__name__] = {};
                     }
-                    const vcsIdUs = vcs.id.split('-').join('_'); // replaceAll seems not be an option
-                    if (resultItem.metric.vcs_id === vcsIdUs) {
+                    if (resultItem.metric.vcs_id === vcs.id) {
                         vcs[resultItem.metric.__name__][vcs.id] = resultItem.value[1];
                         // console.log('Wrote ', resultItem.metric.__name__, vcs.id, resultItem.value[1]);
                     }
@@ -126,10 +125,10 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
 
     vcsPanelUrl(orgId: number, orgName: string, vcsName?: string): string {
         if (vcsName === undefined) {
-            return this.grafanaUrl + '/d-solo/vcs_' + orgName + '_all?orgId=' + orgId +
+            return this.grafanaUrl + '/d-solo/vcs-' + orgName + '-all?orgId=' + orgId +
                 '&theme=light&panelId=1';
         }
-        return this.grafanaUrl + '/d-solo/vcs_' + vcsName + '?orgId=' + orgId +
+        return this.grafanaUrl + '/d-solo/vcs-' + vcsName + '?orgId=' + orgId +
             '&theme=light&panelId=1';
     }
 }
