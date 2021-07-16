@@ -13,9 +13,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {ResizeService} from '../resize.service';
-import {SafePipe} from '../safe.pipe';
 import {GRAFANA_PROXY} from '../../../environments/environment';
 import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
+import {UtilsModule} from '../../utils/utils.module';
 
 describe('PanelVcsComponent', () => {
     let component: PanelVcsComponent;
@@ -23,7 +23,7 @@ describe('PanelVcsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [PanelVcsComponent, SafePipe],
+            declarations: [PanelVcsComponent],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
@@ -31,6 +31,7 @@ describe('PanelVcsComponent', () => {
                 MatPaginatorModule,
                 MatSortModule,
                 MatTableModule,
+                UtilsModule
             ],
             providers: [
                 ResizeService,
