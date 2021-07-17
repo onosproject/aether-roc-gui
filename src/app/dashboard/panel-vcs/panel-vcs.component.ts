@@ -52,7 +52,8 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
         'description',
         'latency',
         'jitter',
-        'throughput'
+        'throughput',
+        'monitor'
     ];
 
     constructor(

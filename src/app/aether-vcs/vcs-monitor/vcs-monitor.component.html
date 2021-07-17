@@ -1,0 +1,30 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<div>
+    <mat-toolbar class="profile-toolbar" color="primary">
+        <p>Virtual Cellular Service {{id}}</p>
+        <span class="toolbar-spacer"></span>
+        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup" color="accent"
+                  routerLink="/vcs/vcs-edit/{{id}}">edit</mat-icon>
+    </mat-toolbar>
+    <p>Device Groups</p>
+    <mat-expansion-panel *ngFor="let dg of deviceGroups">
+        <mat-expansion-panel-header>
+            <mat-panel-title>{{dg["display-name"]}}</mat-panel-title>
+            <mat-panel-description>
+                <small>({{dg.id}})</small>
+                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup" color="primary"
+                          routerLink="/devicegroups/devicegroups-edit/{{dg.id}}">launch</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <h3>Imsi Range</h3>
+        <div *ngFor="let imsiRange of dg.imsis">
+            <p>{{imsiRange.name}}: {{imsiList(imsiRange["imsi-range-from"], imsiRange["imsi-range-to"])}}</p>
+        </div>
+    </mat-expansion-panel>
+    <iframe *ngIf="panelUrl" [src]="panelUrl | safe " width="600" height="200" frameborder="0"></iframe>
+    <p *ngIf="!panelUrl"><mat-icon color="primary">auto_graph</mat-icon> No chart available</p>
+</div>
