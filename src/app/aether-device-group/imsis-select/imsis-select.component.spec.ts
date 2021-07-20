@@ -8,7 +8,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ImsisSelectComponent} from './imsis-select.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
@@ -27,6 +27,9 @@ describe('ImsisSelectComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [ImsisSelectComponent],
+            providers: [
+                {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}}
+            ],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
