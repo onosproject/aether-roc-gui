@@ -9,7 +9,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {filter, mergeMap, pluck} from 'rxjs/operators';
-import {DeviceGroupDeviceGroup, VcsVcs, VcsVcsDeviceGroup} from '../../../openapi3/aether/3.0.0/models';
+import {
+    ApplicationApplication,
+    DeviceGroupDeviceGroup,
+    VcsVcs, VcsVcsApplication,
+    VcsVcsDeviceGroup
+} from '../../../openapi3/aether/3.0.0/models';
 import {from, Observable} from 'rxjs';
 import {IdTokClaims} from '../../idtoken';
 import {OAuthService} from 'angular-oauth2-oidc';
@@ -24,7 +29,9 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, After
     performancePanels: string[] = [];
     ueConnectivityPanels: string[] = [];
     deviceGroups: DeviceGroupDeviceGroup[];
-    panelUrl: string;
+    applications: ApplicationApplication[];
+    connectivityPanelUrl: string;
+    performancePanelUrl: string;
     grafanaOrgId: number = 1;
     grafanaOrgName: string;
 
@@ -37,6 +44,7 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, After
     ) {
         super(route, router);
         this.deviceGroups = new Array<DeviceGroupDeviceGroup>();
+        this.applications = new Array<ApplicationApplication>();
     }
 
     ngOnInit(): void {
@@ -49,7 +57,8 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, After
             const claims = this.oauthService.getIdentityClaims() as IdTokClaims;
             // TODO: enhance this - it takes the last group, having all lower case as the Grafana Org.
             this.grafanaOrgName = claims.groups.find((g) => g === g.toLowerCase());
-            this.panelUrl = this.vcsPanelUrl(this.grafanaOrgId, this.grafanaOrgName, this.id);
+            this.connectivityPanelUrl = this.generateConnectivityPanelUrl(this.grafanaOrgId, this.grafanaOrgName, this.id);
+            this.performancePanelUrl = this.generatePerformancePanelUrl(this.grafanaOrgId, this.grafanaOrgName, this.id);
         }
     }
 
@@ -65,9 +74,17 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, After
                 vcs['device-group'].filter((dg: VcsVcsDeviceGroup) => dg.enable).forEach((dg) => {
                     enabledDg.push(dg['device-group']);
                 });
+                const allowedApp = new Array<string>();
+                vcs.application.filter((app: VcsVcsApplication) => app.allow).forEach((app) => {
+                    allowedApp.push(app.application);
+                });
                 this.getDeviceGroupDetails(enabledDg).subscribe(
                     (dg) => this.deviceGroups.push(dg),
                     (err) => console.warn('Error getting device groups', enabledDg, err)
+                );
+                this.getApplicationDetails(allowedApp).subscribe(
+                    (app) => this.applications.push(app),
+                    (err) => console.warn('Error getting applications', enabledDg, err)
                 );
             },
             (err) => console.warn('VCS', this.id, 'not found.', err)
@@ -82,8 +99,21 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, After
         );
     }
 
-    vcsPanelUrl(orgId: number, orgName: string, vcsName: string): string {
+    private getApplicationDetails(application: string[]): Observable<ApplicationApplication> {
+        return this.aetherService.getApplication({target: AETHER_TARGETS[0]}).pipe(
+            pluck('application'),
+            mergeMap((items: ApplicationApplication[]) => from(items)),
+            filter((app: ApplicationApplication) => application.includes(app.id))
+        );
+    }
+
+    generateConnectivityPanelUrl(orgId: number, orgName: string, vcsName: string): string {
         return this.grafanaUrl + '/d-solo/' + vcsName + '-ue-conn?orgId=' + orgId +
+            '&theme=light&panelId=1';
+    }
+
+    generatePerformancePanelUrl(orgId: number, orgName: string, vcsName: string): string {
+        return this.grafanaUrl + '/d-solo/vcs-' + vcsName + '?orgId=' + orgId +
             '&theme=light&panelId=1';
     }
 

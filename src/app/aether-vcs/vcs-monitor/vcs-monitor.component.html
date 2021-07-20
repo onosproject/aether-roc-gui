@@ -10,10 +10,9 @@
         <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup" color="accent"
                   routerLink="/vcs/vcs-edit/{{id}}">edit</mat-icon>
     </mat-toolbar>
-    <p>Device Groups</p>
     <mat-expansion-panel *ngFor="let dg of deviceGroups">
         <mat-expansion-panel-header>
-            <mat-panel-title>{{dg["display-name"]}}</mat-panel-title>
+            <mat-panel-title><small>Device Group:</small>&nbsp;{{dg["display-name"]}}</mat-panel-title>
             <mat-panel-description>
                 <small>({{dg.id}})</small>
                 <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup" color="primary"
@@ -25,6 +24,22 @@
             <p>{{imsiRange.name}}: {{imsiList(imsiRange["imsi-range-from"], imsiRange["imsi-range-to"])}}</p>
         </div>
     </mat-expansion-panel>
-    <iframe *ngIf="panelUrl" [src]="panelUrl | safe " width="600" height="200" frameborder="0"></iframe>
-    <p *ngIf="!panelUrl"><mat-icon color="primary">auto_graph</mat-icon> No chart available</p>
+    <mat-expansion-panel *ngFor="let app of applications">
+        <mat-expansion-panel-header>
+            <mat-panel-title><small>Application:</small>&nbsp;{{app["display-name"]}}</mat-panel-title>
+            <mat-panel-description>
+                <small>({{app.id}})</small>
+                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Application" color="primary"
+                          routerLink="/application/application-edit/{{app.id}}">launch</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <h3>EndPoint</h3>
+        <div *ngFor="let ep of app.endpoint">
+            <p>{{ep.name}}: {{ep.address}} {{ep.protocol}} {{ep["port-start"]}}-{{ep["port-end"]}}</p>
+        </div>
+    </mat-expansion-panel>
+    <iframe *ngIf="connectivityPanelUrl" [src]="connectivityPanelUrl | safe " width="600" height="300" frameborder="0"></iframe>
+    <p *ngIf="!connectivityPanelUrl"><mat-icon color="primary">auto_graph</mat-icon>Connectivity chart unavailable</p>
+    <iframe *ngIf="performancePanelUrl" [src]="performancePanelUrl | safe " width="600" height="300" frameborder="0"></iframe>
+    <p *ngIf="!performancePanelUrl"><mat-icon color="primary">auto_graph</mat-icon>Performance chart unavailable</p>
 </div>
