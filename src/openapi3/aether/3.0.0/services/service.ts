@@ -16,7 +16,6 @@ import { ConnectivityService } from '../models/connectivity-service';
 import { DeviceGroup } from '../models/device-group';
 import { Enterprise } from '../models/enterprise';
 import { IpDomain } from '../models/ip-domain';
-import { Network } from '../models/network';
 import { Site } from '../models/site';
 import { Template } from '../models/template';
 import { TrafficClass } from '../models/traffic-class';
@@ -403,68 +402,6 @@ export class Service extends BaseService {
 
     return this.getIpDomain$Response(params).pipe(
       map((r: StrictHttpResponse<IpDomain>) => r.body as IpDomain)
-    );
-  }
-
-  /**
-   * Path part for operation getNetwork
-   */
-  static readonly GetNetworkPath = '/aether/v3.0.0/{target}/network';
-
-  /**
-   * GET /network Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getNetwork()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getNetwork$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<Network>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetNetworkPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Network>;
-      })
-    );
-  }
-
-  /**
-   * GET /network Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getNetwork$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getNetwork(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<Network> {
-
-    return this.getNetwork$Response(params).pipe(
-      map((r: StrictHttpResponse<Network>) => r.body as Network)
     );
   }
 

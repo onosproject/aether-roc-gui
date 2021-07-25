@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
+import { SiteSiteImsiDefinition } from './site-site-imsi-definition';
 export interface SiteSite {
 
   /**
@@ -17,17 +18,13 @@ export interface SiteSite {
   /**
    * Link to enterprise that owns this site
    */
-  enterprise?: string;
+  enterprise: string;
 
   /**
    * ID for this site.
    */
   id?: string;
+  'imsi-definition'?: SiteSiteImsiDefinition;
 
-  /**
-   * Link to network for this vcs
-   */
-  network?: string;
-
-  [key: string]: AdditionalPropertyTarget | string | undefined;
+  [key: string]: AdditionalPropertyTarget | SiteSiteImsiDefinition | string | undefined;
 }

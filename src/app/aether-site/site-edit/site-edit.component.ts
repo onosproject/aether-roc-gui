@@ -10,10 +10,8 @@ import {Service as AetherService, SiteSiteService} from '../../../openapi3/aethe
 import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {isEmpty, map, startWith} from 'rxjs/operators';
-import {SiteSite, NetworkNetwork, EnterpriseEnterprise} from 'src/openapi3/aether/3.0.0/models';
+import {SiteSite, EnterpriseEnterprise} from 'src/openapi3/aether/3.0.0/models';
 
 @Component({
     selector: 'aether-site-edit',
@@ -22,7 +20,6 @@ import {SiteSite, NetworkNetwork, EnterpriseEnterprise} from 'src/openapi3/aethe
 })
 export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
     enterprises: Array<EnterpriseEnterprise>;
-    networks: Array<NetworkNetwork>;
     data: SiteSite;
     pathRoot = 'site-3.0.0';
     pathListAttr = 'site';
@@ -41,7 +38,6 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             Validators.maxLength(80),
         ])],
         enterprise: [''],
-        network: [''],
     });
 
     constructor(
@@ -62,7 +58,6 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
     ngOnInit(): void {
         super.init();
         this.loadEnterprises(this.target);
-        this.loadNetworks(this.target);
     }
 
     loadSiteSite(target: string, id: string): void {
@@ -118,20 +113,6 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             }),
             error => {
                 console.warn('Error getting Enterprise for ', target, error);
-            }
-        );
-    }
-
-    loadNetworks(target: string): void {
-        this.aetherService.getNetwork({
-            target,
-        }).subscribe(
-            (value => {
-                this.networks = value.network;
-                console.log('Got', value.network.length, 'Network');
-            }),
-            error => {
-                console.warn('Error getting Network for ', target, error);
             }
         );
     }

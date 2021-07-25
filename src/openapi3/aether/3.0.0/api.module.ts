@@ -17,7 +17,6 @@ import { DeviceGroupDeviceGroupImsisService } from './services/device-group-devi
 import { EnterpriseEnterpriseService } from './services/enterprise-enterprise.service';
 import { EnterpriseEnterpriseConnectivityServiceService } from './services/enterprise-enterprise-connectivity-service.service';
 import { IpDomainIpDomainService } from './services/ip-domain-ip-domain.service';
-import { NetworkNetworkService } from './services/network-network.service';
 import { SiteSiteService } from './services/site-site.service';
 import { TemplateTemplateService } from './services/template-template.service';
 import { TrafficClassTrafficClassService } from './services/traffic-class-traffic-class.service';
@@ -46,7 +45,6 @@ import { VcsVcsDeviceGroupService } from './services/vcs-vcs-device-group.servic
     EnterpriseEnterpriseService,
     EnterpriseEnterpriseConnectivityServiceService,
     IpDomainIpDomainService,
-    NetworkNetworkService,
     SiteSiteService,
     TemplateTemplateService,
     TrafficClassTrafficClassService,

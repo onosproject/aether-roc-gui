@@ -1,0 +1,59 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<div>
+    <mat-toolbar class="profile-toolbar" color="primary">
+        <p>Device Group
+            <span *ngIf="thisDg && thisDg['display-name'] !== undefined" [title]="id">{{thisDg['display-name']}}&nbsp;<small>({{id}})</small></span>
+            <span *ngIf="!thisDg || thisDg['display-name'] === undefined">{{id}}</span>
+        </p>
+    </mat-toolbar>
+    <table>
+        <tr>
+            <td class="third-width">
+                <div *ngIf="thisDg">
+                    <h3>Imsis
+                    <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Device Group" color="accent"
+                              routerLink="/devicegroups/devicegroups-edit/{{id}}">edit</mat-icon>
+                    </h3>
+                    <span *ngFor="let imsi of thisDg.imsis">
+                        <strong>{{imsi.name}}</strong>&nbsp;{{imsi["imsi-range-from"] | number: '1.0'}}-{{imsi["imsi-range-to"]}}&nbsp;&nbsp;&nbsp;
+                    </span>
+                </div>
+                <mat-expansion-panel *ngIf="ipDomain">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title><small>IP Domain</small>&nbsp;{{ipDomain['display-name']}}</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <h3>Configuration
+                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="IP Domain" color="accent"
+                                  routerLink="/ipdomain/ipdomain-edit/{{ipDomain.id}}">edit
+                        </mat-icon>
+                    </h3>
+                    <p><small>DNS</small>&nbsp;{{ipDomain["dns-primary"]}}&nbsp;{{ipDomain["dns-secondary"]}}
+                    <small>Subnet</small>&nbsp;{{ipDomain.subnet}}&nbsp;&nbsp;
+                        <small>MTU</small>&nbsp;{{ipDomain.mtu}}&nbsp;&nbsp;
+                        <small>Admin State</small>&nbsp;{{ipDomain["admin-status"]}}
+                    </p>
+                </mat-expansion-panel>
+                <mat-expansion-panel *ngIf="site">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title><small>Site:</small>&nbsp;{{site["display-name"]}}</mat-panel-title>
+                        <mat-panel-description>
+                            <small>({{site.id}})</small>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <h3>Imsi Defintion
+                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="IP Domain" color="accent"
+                                  routerLink="/site/site-edit/{{site.id}}">edit
+                        </mat-icon>
+                    </h3>
+                    <p><small>MCC</small>&nbsp;{{site["imsi-definition"].mcc}}&nbsp;&nbsp;
+                        <small>MNC</small>&nbsp;{{site["imsi-definition"].mnc}}&nbsp;&nbsp;
+                        <small>Format</small>&nbsp;{{site["imsi-definition"].format}}</p>
+                </mat-expansion-panel>
+            </td>
+        </tr>
+    </table>
+</div>

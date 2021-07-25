@@ -6,7 +6,11 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {RocMonitorBase} from '../../roc-monitor-base';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {
+    ApListApListService,
+    Service as AetherService, TrafficClassTrafficClassService,
+    UpfUpfService, VcsVcsService
+} from '../../../openapi3/aether/3.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {filter, mergeMap, pluck} from 'rxjs/operators';
 import {
@@ -15,7 +19,7 @@ import {
     DeviceGroupDeviceGroup, TrafficClassTrafficClass, UpfUpf,
     VcsVcs
 } from '../../../openapi3/aether/3.0.0/models';
-import {from, Observable} from 'rxjs';
+import {from} from 'rxjs';
 import {IdTokClaims} from '../../idtoken';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {VcsPromDataSource} from '../../utils/vcs-prom-data-source';
@@ -55,6 +59,10 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
 
     constructor(
         protected aetherService: AetherService,
+        protected vcsService: VcsVcsService,
+        protected upfService: UpfUpfService,
+        protected tcService: TrafficClassTrafficClassService,
+        protected apListService: ApListApListService,
         protected route: ActivatedRoute,
         protected router: Router,
         private httpClient: HttpClient,
@@ -69,7 +77,7 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
 
     ngOnInit(): void {
         super.init();
-        this.getDeviceGroupsOfVcs();
+        this.getChildrenOfVcs();
         if (this.oauthService.hasValidIdToken()) {
             const claims = this.oauthService.getIdentityClaims() as IdTokClaims;
             // TODO: enhance this - it takes the last group, having all lower case as the Grafana Org.
@@ -106,12 +114,8 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
         clearInterval(this.prometheusTimer);
     }
 
-    private getDeviceGroupsOfVcs(): void {
-        this.aetherService.getVcs({target: AETHER_TARGETS[0]}).pipe(
-            pluck('vcs'),
-            mergeMap((items: VcsVcs[]) => from(items)),
-            filter((vcs: VcsVcs) => vcs.id === this.id)
-        ).subscribe(
+    private getChildrenOfVcs(): void {
+        this.vcsService.getVcsVcs({target: AETHER_TARGETS[0], id: this.id}).subscribe(
             (vcs) => {
                 console.log('Found VCS', vcs.id, 'Has device Groups', vcs['device-group'], 'applications', vcs.application);
                 this.thisVcs = vcs;
@@ -156,33 +160,21 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
     }
 
     private getAccessPoints(aplist: string): void {
-        this.aetherService.getApList({target: AETHER_TARGETS[0]}).pipe(
-            pluck('ap-list'),
-            mergeMap((items: ApListApList[]) => from(items)),
-            filter((apList: ApListApList) => apList.id === aplist)
-        ).subscribe(
+        this.apListService.getApListApList({target: AETHER_TARGETS[0], id: aplist}).subscribe(
             (apList: ApListApList) => this.apList = apList,
             (err) => console.warn('Error in getting APList')
         );
     }
 
     private getUpf(upfID: string): void {
-        this.aetherService.getUpf({target: AETHER_TARGETS[0]}).pipe(
-            pluck('upf'),
-            mergeMap((items: UpfUpf[]) => from(items)),
-            filter((upf: UpfUpf) => upf.id === upfID)
-        ).subscribe(
+        this.upfService.getUpfUpf({target: AETHER_TARGETS[0], id: upfID}).subscribe(
             (upf: UpfUpf) => this.upf = upf,
             (err) => console.warn('Error in getting UPF')
         );
     }
 
    private getTrafficClass(trafficClassId: string): void {
-        this.aetherService.getTrafficClass({target: AETHER_TARGETS[0]}).pipe(
-            pluck('traffic-class'),
-            mergeMap((items: TrafficClassTrafficClass[]) => from(items)),
-            filter((trafficClass: TrafficClassTrafficClass) => trafficClass.id === trafficClassId)
-        ).subscribe(
+        this.tcService.getTrafficClassTrafficClass({target: AETHER_TARGETS[0], id: trafficClassId}).subscribe(
             (tc: TrafficClassTrafficClass) => this.trafficClass = tc,
             (err) => console.warn('Error in getting Traffic Class')
         );

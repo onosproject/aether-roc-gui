@@ -26,10 +26,9 @@ import { EnterpriseEnterprise } from '../models/enterprise-enterprise';
 import { EnterpriseEnterpriseConnectivityService } from '../models/enterprise-enterprise-connectivity-service';
 import { IpDomain } from '../models/ip-domain';
 import { IpDomainIpDomain } from '../models/ip-domain-ip-domain';
-import { Network } from '../models/network';
-import { NetworkNetwork } from '../models/network-network';
 import { Site } from '../models/site';
 import { SiteSite } from '../models/site-site';
+import { SiteSiteImsiDefinition } from '../models/site-site-imsi-definition';
 import { Template } from '../models/template';
 import { TemplateTemplate } from '../models/template-template';
 import { TrafficClass } from '../models/traffic-class';
@@ -2393,282 +2392,6 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * Path part for operation postNetwork
-   */
-  static readonly PostNetworkPath = '/aether/v3.0.0/{target}/network';
-
-  /**
-   * POST Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postNetwork()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postNetwork$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: Network
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostNetworkPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postNetwork$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postNetwork(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: Network
-  }): Observable<void> {
-
-    return this.postNetwork$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteNetwork
-   */
-  static readonly DeleteNetworkPath = '/aether/v3.0.0/{target}/network';
-
-  /**
-   * DELETE Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteNetwork()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteNetwork$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteNetworkPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteNetwork$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteNetwork(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<void> {
-
-    return this.deleteNetwork$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postNetworkNetwork
-   */
-  static readonly PostNetworkNetworkPath = '/aether/v3.0.0/{target}/network/network/{id}';
-
-  /**
-   * POST Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postNetworkNetwork()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postNetworkNetwork$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: NetworkNetwork
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostNetworkNetworkPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postNetworkNetwork$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postNetworkNetwork(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: NetworkNetwork
-  }): Observable<void> {
-
-    return this.postNetworkNetwork$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteNetworkNetwork
-   */
-  static readonly DeleteNetworkNetworkPath = '/aether/v3.0.0/{target}/network/network/{id}';
-
-  /**
-   * DELETE Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteNetworkNetwork()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteNetworkNetwork$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteNetworkNetworkPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE Generated from YANG model.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteNetworkNetwork$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteNetworkNetwork(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteNetworkNetwork$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
    * Path part for operation postSite
    */
   static readonly PostSitePath = '/aether/v3.0.0/{target}/site';
@@ -2940,6 +2663,155 @@ export class ApiService extends BaseService {
   }): Observable<void> {
 
     return this.deleteSiteSite$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postSiteSiteImsiDefinition
+   */
+  static readonly PostSiteSiteImsiDefinitionPath = '/aether/v3.0.0/{target}/site/site/{id}/imsi-definition';
+
+  /**
+   * POST Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postSiteSiteImsiDefinition()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteSiteImsiDefinition$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+    body?: SiteSiteImsiDefinition
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostSiteSiteImsiDefinitionPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postSiteSiteImsiDefinition$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteSiteImsiDefinition(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+    body?: SiteSiteImsiDefinition
+  }): Observable<void> {
+
+    return this.postSiteSiteImsiDefinition$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteSiteSiteImsiDefinition
+   */
+  static readonly DeleteSiteSiteImsiDefinitionPath = '/aether/v3.0.0/{target}/site/site/{id}/imsi-definition';
+
+  /**
+   * DELETE Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSiteSiteImsiDefinition()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteSiteImsiDefinition$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSiteSiteImsiDefinitionPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE Generated from YANG model.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteSiteSiteImsiDefinition$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteSiteImsiDefinition(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+  }): Observable<void> {
+
+    return this.deleteSiteSiteImsiDefinition$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

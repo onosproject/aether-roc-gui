@@ -25,7 +25,6 @@
     </p>
     <table>
         <tr>
-<!--            <td>-->
             <td class="third-width">
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
@@ -49,13 +48,18 @@
                     </h3>
                     <p>
                         <small>Uplink</small>&nbsp;{{thisVcs?.uplink}}&nbsp;<small>Downlink</small>&nbsp;{{thisVcs?.downlink}}&nbsp;
-                        <small>SD</small>&nbsp;{{thisVcs?.sd}}&nbsp;<small>SST</small>&nbsp;{{thisVcs?.sst}}</p>
+                        <small>SD</small>&nbsp;{{thisVcs?.sd}}&nbsp;<small>SST</small>&nbsp;{{thisVcs?.sst}}
+                    </p>
                 </mat-expansion-panel>
                 <mat-expansion-panel *ngFor="let dg of deviceGroups | keyvalue">
                     <mat-expansion-panel-header>
                         <mat-panel-title><small>Device Group:</small>&nbsp;{{dg.key["display-name"]}}</mat-panel-title>
                         <mat-panel-description>
-                            <small>({{dg.key['id']}})</small>
+                            <small>({{dg.key['id']}})</small>&nbsp;
+                            <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup"
+                                      color="primary"
+                                      routerLink="/devicegroups/devicegroups-monitor/{{dg.key['id']}}">insights
+                            </mat-icon>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <h3>Imsi Range

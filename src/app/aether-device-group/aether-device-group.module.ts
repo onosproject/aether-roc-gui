@@ -29,13 +29,16 @@ import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import { DeviceGroupEditComponent } from './device-group-edit/device-group-edit.component';
 import { ImsisSelectComponent } from './imsis-select/imsis-select.component';
+import { DeviceGroupMonitorComponent } from './device-group-monitor/device-group-monitor.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
     declarations: [
         DeviceGroupComponent,
         DeviceGroupEditComponent,
-        ImsisSelectComponent
+        ImsisSelectComponent,
+        DeviceGroupMonitorComponent
     ],
     imports: [
         CommonModule,
@@ -44,7 +47,7 @@ import { ImsisSelectComponent } from './imsis-select/imsis-select.component';
         RouterModule.forChild([
             {path: 'devicegroups', component: DeviceGroupComponent},
             {path: 'devicegroups-edit/:id', component: DeviceGroupEditComponent},
-
+            {path: 'devicegroups-monitor/:id', component: DeviceGroupMonitorComponent},
             {path: '', component: DeviceGroupComponent, pathMatch: 'full'}
 
         ]),
@@ -64,7 +67,8 @@ import { ImsisSelectComponent } from './imsis-select/imsis-select.component';
         MatButtonModule,
         MatSlideToggleModule,
         CdkTableModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatExpansionModule
     ],
     providers: [
         AuthInterceptor,

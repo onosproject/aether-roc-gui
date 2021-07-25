@@ -40,16 +40,6 @@
                 </mat-form-field>
             </div>
 
-            <div class="row" id="networkRow">
-                <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="network">
-                        <mat-option id="selectNetwork"
-                                    *ngFor="let eachNetwork of networks"
-                                    [value]="eachNetwork.id">{{eachNetwork.id}} {{eachNetwork['display-name']}}</mat-option>
-                    </mat-select>
-                    <mat-hint>Network</mat-hint>
-                </mat-form-field>
-            </div>
             <mat-card-actions>
                 <button mat-raised-button color="accent" type="submit"
                         [disabled]="!(siteForm.valid && siteForm.touched && opaService.canWrite('/site/site'))"
