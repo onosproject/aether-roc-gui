@@ -5,41 +5,143 @@
 -->
 <div>
     <mat-toolbar class="profile-toolbar" color="primary">
-        <p>Virtual Cellular Service {{id}}</p>
-        <span class="toolbar-spacer"></span>
-        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup" color="accent"
-                  routerLink="/vcs/vcs-edit/{{id}}">edit</mat-icon>
+        <p>Virtual Cellular Service
+            <span *ngIf="thisVcs && thisVcs['display-name'] !== undefined" [title]="id">{{thisVcs['display-name']}}&nbsp;<small>({{id}}
+                )</small></span>
+            <span *ngIf="!thisVcs || thisVcs['display-name'] === undefined">{{id}}</span>
+        </p>
     </mat-toolbar>
-    <mat-expansion-panel *ngFor="let dg of deviceGroups">
-        <mat-expansion-panel-header>
-            <mat-panel-title><small>Device Group:</small>&nbsp;{{dg["display-name"]}}</mat-panel-title>
-            <mat-panel-description>
-                <small>({{dg.id}})</small>
-                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup" color="primary"
-                          routerLink="/devicegroups/devicegroups-edit/{{dg.id}}">launch</mat-icon>
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <h3>Imsi Range</h3>
-        <div *ngFor="let imsiRange of dg.imsis">
-            <p>{{imsiRange.name}}: {{imsiList(imsiRange["imsi-range-from"], imsiRange["imsi-range-to"])}}</p>
-        </div>
-    </mat-expansion-panel>
-    <mat-expansion-panel *ngFor="let app of applications">
-        <mat-expansion-panel-header>
-            <mat-panel-title><small>Application:</small>&nbsp;{{app["display-name"]}}</mat-panel-title>
-            <mat-panel-description>
-                <small>({{app.id}})</small>
-                <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Application" color="primary"
-                          routerLink="/application/application-edit/{{app.id}}">launch</mat-icon>
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <h3>EndPoint</h3>
-        <div *ngFor="let ep of app.endpoint">
-            <p>{{ep.name}}: {{ep.address}} {{ep.protocol}} {{ep["port-start"]}}-{{ep["port-end"]}}</p>
-        </div>
-    </mat-expansion-panel>
-    <iframe *ngIf="connectivityPanelUrl" [src]="connectivityPanelUrl | safe " width="600" height="300" frameborder="0"></iframe>
-    <p *ngIf="!connectivityPanelUrl"><mat-icon color="primary">auto_graph</mat-icon>Connectivity chart unavailable</p>
-    <iframe *ngIf="performancePanelUrl" [src]="performancePanelUrl | safe " width="600" height="300" frameborder="0"></iframe>
-    <p *ngIf="!performancePanelUrl"><mat-icon color="primary">auto_graph</mat-icon>Performance chart unavailable</p>
+    <iframe *ngIf="connectivityPanelUrl" [src]="connectivityPanelUrl | safe " width="600" height="300"
+            frameborder="0"></iframe>
+    <p *ngIf="!connectivityPanelUrl">
+        <mat-icon color="primary">auto_graph</mat-icon>
+        Connectivity chart unavailable
+    </p>
+    <iframe *ngIf="performancePanelUrl" [src]="performancePanelUrl | safe " width="600" height="300"
+            frameborder="0"></iframe>
+    <p *ngIf="!performancePanelUrl">
+        <mat-icon color="primary">auto_graph</mat-icon>
+        Performance chart unavailable
+    </p>
+    <table>
+        <tr>
+<!--            <td>-->
+            <td class="third-width">
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title><small>Details:</small></mat-panel-title>
+                        <mat-panel-description>
+                            <small>Latency</small>
+                            <span class="highlight">&nbsp;{{latency | number: "1.2"}}&nbsp;</span>
+                            <small>ms</small>&nbsp;&nbsp;
+                            <small>Jitter</small>
+                            <span class="highlight">&nbsp;{{jitter | number: "1.2"}}&nbsp;</span>
+                            <small>ms</small>&nbsp;&nbsp;
+                            <small>Throughput</small>
+                            <span class="highlight">&nbsp;{{throughput | number: "1.0"}}&nbsp;</span>
+                            <small>kb/s</small>&nbsp;&nbsp;
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <h3>Configuration
+                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="VCS" color="accent"
+                                  routerLink="/vcs/vcs-edit/{{id}}">edit
+                        </mat-icon>
+                    </h3>
+                    <p>
+                        <small>Uplink</small>&nbsp;{{thisVcs?.uplink}}&nbsp;<small>Downlink</small>&nbsp;{{thisVcs?.downlink}}&nbsp;
+                        <small>SD</small>&nbsp;{{thisVcs?.sd}}&nbsp;<small>SST</small>&nbsp;{{thisVcs?.sst}}</p>
+                </mat-expansion-panel>
+                <mat-expansion-panel *ngFor="let dg of deviceGroups | keyvalue">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title><small>Device Group:</small>&nbsp;{{dg.key["display-name"]}}</mat-panel-title>
+                        <mat-panel-description>
+                            <small>({{dg.key['id']}})</small>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <h3>Imsi Range
+                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup"
+                                  color="accent"
+                                  routerLink="/devicegroups/devicegroups-edit/{{dg.key['id']}}">edit
+                        </mat-icon>
+                    </h3>
+                    <div *ngFor="let imsiRange of dg.key['imsis']">
+                        <p>{{imsiRange.name}}
+                            : {{imsiList(imsiRange["imsi-range-from"], imsiRange["imsi-range-to"])}}</p>
+                    </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel *ngFor="let app of applications | keyvalue">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title><small>Application:</small>&nbsp;{{app.key["display-name"]}}</mat-panel-title>
+                        <mat-panel-description>
+                            <small>({{app.key['id']}})</small>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <h3>EndPoint
+                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Application"
+                                  color="accent"
+                                  routerLink="/application/application-edit/{{app.key['id']}}">edit
+                        </mat-icon>
+                    </h3>
+                    <div *ngFor="let ep of app.key['endpoint']">
+                        <p>{{ep.name}}: {{ep.address}} {{ep.protocol}} {{ep["port-start"]}}-{{ep["port-end"]}}</p>
+                    </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel *ngIf="apList">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title><small>Access Point:</small>&nbsp;{{apList["display-name"]}}</mat-panel-title>
+                        <mat-panel-description>
+                            <small>({{apList.id}})</small>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <h3>Access Points
+                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Access Point"
+                                  color="accent"
+                                  routerLink="/aplist/aplist-edit/{{apList.id}}">edit
+                        </mat-icon>
+                    </h3>
+                    <div *ngFor="let ap of apList['access-points']">
+                        <p>{{ap.address}} {{ap.tac}}
+                            <mat-icon *ngIf="ap.enable" color="primary">done</mat-icon>
+                        </p>
+                    </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel *ngIf="upf">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title><small>UPF:</small>&nbsp;{{upf["display-name"]}}</mat-panel-title>
+                        <mat-panel-description>
+                            <small>({{upf.id}})</small>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <h3>Address
+                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="UPF" color="accent"
+                                  routerLink="/upf/upf-edit/{{upf.id}}">edit
+                        </mat-icon>
+                    </h3>
+                    <div>
+                        <p>{{upf.address}} {{upf.port}}</p>
+                    </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel *ngIf="trafficClass">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title><small>Traffic Class:</small>&nbsp;{{trafficClass["display-name"]}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            <small>({{trafficClass.id}})</small>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <h3>Parameters
+                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Traffic Class"
+                                  color="accent"
+                                  routerLink="/traffic-class/traffic-class-edit/{{trafficClass.id}}">edit
+                        </mat-icon>
+                    </h3>
+                    <div>
+                        <p>
+                            <small>PELR</small>&nbsp;{{trafficClass.pelr}}&nbsp;<small>PDB</small>&nbsp;{{trafficClass.pdb}}&nbsp;<small>QCI</small>&nbsp;{{trafficClass.qci}}
+                        </p>
+                    </div>
+                </mat-expansion-panel>
+            </td>
+        </tr>
+    </table>
 </div>
