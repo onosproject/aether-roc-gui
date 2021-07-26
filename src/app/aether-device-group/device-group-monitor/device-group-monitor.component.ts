@@ -81,4 +81,12 @@ export class DeviceGroupMonitorComponent extends RocMonitorBase implements OnIni
             err => console.warn('Error loading IPDomain', ipDomainID, err)
         );
     }
+
+    generateConnectivityPanelUrl(orgId: number, orgName: string, ueId: number, panel: number): string {
+        // <iframe src="http://localhost:8183/grafana/d-solo/ue-41/ue-41-connectivity-and-
+        // throughput?orgId=1&theme=light&panelId=1" width="450" height="200" frameborder="0"></iframe>
+        return this.grafanaUrl + '/d-solo/ue-' + ueId + '?orgId=' + orgId +
+            '&theme=light&panelId=' + panel;
+    }
+
 }

@@ -14,7 +14,7 @@ import {SafePipe} from './safe.pipe';
         CommonModule
     ],
     exports: [
-        SafePipe
+        SafePipe,
     ]
 })
 export class UtilsModule {
