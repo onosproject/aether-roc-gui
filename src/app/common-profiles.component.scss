@@ -13,6 +13,10 @@
     width: 100%;
 }
 
+.third-width {
+    width: 50%;
+}
+
 .spacing {
     padding-right: 20px;
 }
@@ -43,4 +47,8 @@
 
 .toolbar-spacer {
     flex: 1 1 auto;
+}
+
+.highlight {
+    color: #A00E17; // onf-red 500
 }
