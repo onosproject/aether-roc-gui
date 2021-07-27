@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
+import { SiteSiteImisDefinition} from "./site-site-imis-definition";
+
 export interface SiteSite {
 
   /**
@@ -25,9 +27,9 @@ export interface SiteSite {
   id?: string;
 
   /**
-   * Link to network for this vcs
+   *  for this vcs
    */
-  network?: string;
+  'imsi-definition'?: SiteSiteImisDefinition;
 
-  [key: string]: AdditionalPropertyTarget | string | undefined;
+  [key: string]: AdditionalPropertyTarget | string | undefined | object;
 }

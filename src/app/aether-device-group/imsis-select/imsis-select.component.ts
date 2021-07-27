@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 
 export interface ImsiParam {
@@ -22,14 +22,21 @@ export interface ImsiParam {
 export class ImsisSelectComponent implements OnInit {
 
     @Output() closeEvent = new EventEmitter<ImsiParam>();
+    @Input() ImisLengthLimits: number = 0;
 
     imsiForm = this.fb.group({
         name: ['', Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        'imsi-range-from': [''],
-        'imsi-range-to': ['']
+        'imsi-range-from': [0, Validators.compose([
+            Validators.minLength(1),
+            Validators.max(Math.pow(10, this.ImisLengthLimits) - 1),
+        ])],
+        'imsi-range-to': [0, Validators.compose([
+            Validators.minLength(1),
+            Validators.max(Math.pow(10, this.ImisLengthLimits) - 1),
+        ])],
     });
 
     constructor(
@@ -43,8 +50,7 @@ export class ImsisSelectComponent implements OnInit {
                 cancelled: true
             } as ImsiParam);
             return;
-        }
-        else {
+        } else {
             this.closeEvent.emit({
                 name: this.imsiForm.get('name').value,
                 'imsi-range-from': this.imsiForm.get('imsi-range-from').value,

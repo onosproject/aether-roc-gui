@@ -31,7 +31,7 @@
             <button mat-raised-button color="accent" type="button" (click)="closeCard(true)"
                     id="cancelButton">Cancel
             </button>
-            <button
+            <button [disabled]="!imsiForm.valid"
                 mat-raised-button color="accent"
                 type="button"
                 id="confirmButton"

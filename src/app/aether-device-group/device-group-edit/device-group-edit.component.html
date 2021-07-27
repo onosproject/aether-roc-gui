@@ -37,7 +37,7 @@
 
             <div class="row">
                 <mat-form-field class="field-margin half-width subscriber-section">
-                    <mat-select ngDefaultControl formControlName="site">
+                    <mat-select ngDefaultControl formControlName="site" (selectionChange)="displayImsiAdd()">
                         <mat-option *ngFor="let site of site"
                                     id="selectEnterprise"
                                     [value]="site.id">{{site.id}}
@@ -49,11 +49,11 @@
             </div>
 
             <div formArrayName="imsis" class="subscriber-section">
-                <mat-hint>Imsis</mat-hint>
-                <mat-icon (click)="showImsiDisplay = true"
+                <mat-hint>IMSIs</mat-hint>
+                <mat-icon *ngIf="showAddImsi" (click)="this.showImsiDisplay = true"
                           id="addNewExistingAccessProfile"
                           color="accent"
-                          class="subscriber-pointer">add</mat-icon>
+                          class="subscriber-pointer">add </mat-icon>
                 <div *ngFor="let imsiForm of imsiControls.controls">
                     <mat-form-field class="field-margin half-width">
                         <div [formGroup]="imsiForm">
@@ -95,5 +95,6 @@
 <aether-imsis-select
     *ngIf="showImsiDisplay && opaService.canWrite('/devicegroup/devicegroup[id=' + id + ']/imsis')"
     id="imsiSelectComponent"
+    [ImisLengthLimits]="SiteImisLength"
     (closeEvent)="openDeviceGroupCard($event)">
 </aether-imsis-select>

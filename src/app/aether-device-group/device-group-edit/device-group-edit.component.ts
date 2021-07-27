@@ -31,6 +31,8 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
     site: Array<SiteSite>;
     imsis: Array<DeviceGroupDeviceGroupImsis>;
     showImsiDisplay: boolean = false;
+    showAddImsi: boolean = false;
+    SiteImisLength: number;
 
     deviceGroupForm = this.fb.group({
         id: ['', Validators.compose([
@@ -79,6 +81,16 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
             existingList.push(ap.get('imsis').value);
         });
         return existingList;
+    }
+
+    displayImsiAdd(): void {
+        this.showAddImsi = this.deviceGroupForm.get('site').value ? true : false;
+        this.site.forEach(eachSite => {
+            if (eachSite['display-name'] === this.deviceGroupForm.get('site').value) {
+                this.SiteImisLength = (eachSite['imsi-definition'].format.length - eachSite['imsi-definition'].format.indexOf('S'));
+            }
+        });
+
     }
 
     deleteFromSelect(im: FormControl): void {
@@ -227,6 +239,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
             (value => {
                 this.site = value.site;
                 console.log('Got Site', value.site.length);
+                this.displayImsiAdd();
             }),
             error => {
                 console.warn('Error getting Site for ', target, error);
