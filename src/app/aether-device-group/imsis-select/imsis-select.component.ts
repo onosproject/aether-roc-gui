@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 
 export interface ImsiParam {
@@ -19,24 +19,19 @@ export interface ImsiParam {
     templateUrl: './imsis-select.component.html',
     styleUrls: ['../../common-panel.component.scss']
 })
-export class ImsisSelectComponent implements OnInit {
+export class ImsisSelectComponent implements OnInit, OnChanges {
 
     @Output() closeEvent = new EventEmitter<ImsiParam>();
     @Input() ImisLengthLimits: number = 0;
+    ImsiRangeLimit: number = 0;
 
     imsiForm = this.fb.group({
         name: ['', Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        'imsi-range-from': [0, Validators.compose([
-            Validators.minLength(1),
-            Validators.max(Math.pow(10, this.ImisLengthLimits) - 1),
-        ])],
-        'imsi-range-to': [0, Validators.compose([
-            Validators.minLength(1),
-            Validators.max(Math.pow(10, this.ImisLengthLimits) - 1),
-        ])],
+        'imsi-range-from': [0],
+        'imsi-range-to': [0],
     });
 
     constructor(
@@ -61,6 +56,21 @@ export class ImsisSelectComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.ImsiRangeLimit = Math.pow(10, this.ImisLengthLimits) - 1;
+    }
+    ngOnChanges(): void {
+        this.imsiForm.get('imsi-range-from').clearValidators();
+        this.imsiForm.get('imsi-range-from').setValidators([
+            Validators.required,
+            Validators.min(0),
+            Validators.max(Math.pow(10, this.ImisLengthLimits) - 1),
+        ]);
+        this.imsiForm.get('imsi-range-to').clearValidators();
+        this.imsiForm.get('imsi-range-to').setValidators([
+            Validators.required,
+            Validators.min(0),
+            Validators.max(Math.pow(10, this.ImisLengthLimits) - 1),
+        ]);
     }
 
 }

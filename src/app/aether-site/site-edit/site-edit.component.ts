@@ -42,12 +42,12 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         'imsi-definition': this.fb.group({
             mcc: [0, Validators.required],
             mnc: [0, Validators.required],
-            enterprise: [''],
+            enterprise: [0],
             format: ['', Validators.compose([
+                Validators.pattern('[0-9]{9}[A-Za-z0-9]{6}'),
                 Validators.minLength(15),
                 Validators.maxLength(15)
             ])]
-
         })
     });
 
@@ -64,6 +64,9 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         super(snackBar, bs, route, router, 'site-3.0.0', 'site');
         super.form = this.siteForm;
         super.loadFunc = this.loadSiteSite;
+        this.siteForm.get(['imsi-definition', 'mcc'])[TYPE] = 'number';
+        this.siteForm.get(['imsi-definition', 'mnc'])[TYPE] = 'number';
+        this.siteForm.get(['imsi-definition', 'enterprise'])[TYPE] = 'number';
     }
 
     ngOnInit(): void {

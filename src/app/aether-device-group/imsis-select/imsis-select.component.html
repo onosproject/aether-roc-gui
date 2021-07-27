@@ -6,13 +6,13 @@
 <form [formGroup]="imsiForm">
     <mat-card class="card mat-elevation-z8">
         <mat-card-header class="header">
-            <mat-card-title class="subheading-1 title">Create Imsi Point</mat-card-title>
+            <mat-card-title class="subheading-1 title">Create Imsi Range</mat-card-title>
         </mat-card-header>
         <mat-card-content class="content">
             <div>
                 <mat-form-field class="field-margin half-width">
                     <input matInput formControlName="name" id="inputAddress">
-                    <mat-hint>Address</mat-hint>
+                    <mat-hint>Name</mat-hint>
                 </mat-form-field>
             </div>
             <div>
@@ -22,7 +22,8 @@
                 </mat-form-field>
                 <mat-form-field class="field-margin half-width">
                     <input matInput formControlName="imsi-range-to" type="number" id="inputRangeTo">
-                    <mat-hint>Imsis Range To</mat-hint>
+                    <mat-hint>Imsis Range To (Max-range:{{ImsiRangeLimit}})</mat-hint>
+                    <mat-hint></mat-hint>
                 </mat-form-field>
             </div>
 

@@ -67,8 +67,10 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
 
     ngOnInit(): void {
         this.loadIpDomains(this.target);
-        this.loadSites(this.target);
         super.init();
+        if (this.isNewInstance) {
+            this.loadSites(this.target);
+        }
     }
 
     get imsiControls(): FormArray {
@@ -86,7 +88,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
     displayImsiAdd(): void {
         this.showAddImsi = this.deviceGroupForm.get('site').value ? true : false;
         this.site.forEach(eachSite => {
-            if (eachSite['display-name'] === this.deviceGroupForm.get('site').value) {
+            if (eachSite.id === this.deviceGroupForm.get('site').value) {
                 this.SiteImisLength = (eachSite['imsi-definition'].format.length - eachSite['imsi-definition'].format.indexOf('S'));
             }
         });
@@ -114,6 +116,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         if (value.site) {
             this.deviceGroupForm.get('site').setValue(value.site);
             this.deviceGroupForm.get('site')[ORIGINAL] = value.site;
+            this.loadSites(this.target);
         }
         if (value.imsis && this.deviceGroupForm.value.imsis.length === 0) {
             for (const im of value.imsis) {
@@ -238,8 +241,8 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         }).subscribe(
             (value => {
                 this.site = value.site;
-                console.log('Got Site', value.site.length);
                 this.displayImsiAdd();
+                console.log('Got Site', value.site.length);
             }),
             error => {
                 console.warn('Error getting Site for ', target, error);
