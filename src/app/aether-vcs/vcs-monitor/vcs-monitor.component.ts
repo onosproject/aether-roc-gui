@@ -189,19 +189,4 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
         return this.grafanaUrl + '/d-solo/vcs-' + vcsName + '?orgId=' + orgId +
             '&theme=light&panelId=1';
     }
-
-    range(start: number, end: number): number[] {
-        if (start === undefined) {
-            return undefined;
-        }
-        const len = end - start + 1;
-        return Array(len).fill(start).map((x, y) => x + y);
-    }
-
-    imsiList(start: number, end: number): string {
-        if (start === undefined) {
-            return undefined;
-        }
-        return this.range(start, end).join(', ');
-    }
 }

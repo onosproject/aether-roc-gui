@@ -31,6 +31,7 @@ import { DeviceGroupEditComponent } from './device-group-edit/device-group-edit.
 import { ImsisSelectComponent } from './imsis-select/imsis-select.component';
 import { DeviceGroupMonitorComponent } from './device-group-monitor/device-group-monitor.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {UtilsModule} from '../utils/utils.module';
 
 
 @NgModule({
@@ -68,7 +69,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
         MatSlideToggleModule,
         CdkTableModule,
         MatCheckboxModule,
-        MatExpansionModule
+        MatExpansionModule,
+        UtilsModule
     ],
     providers: [
         AuthInterceptor,

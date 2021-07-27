@@ -6,33 +6,47 @@
 <div>
     <mat-toolbar class="profile-toolbar" color="primary">
         <p>Device Group
-            <span *ngIf="thisDg && thisDg['display-name'] !== undefined" [title]="id">{{thisDg['display-name']}}&nbsp;<small>({{id}})</small></span>
+            <span *ngIf="thisDg && thisDg['display-name'] !== undefined"
+                  [title]="id">{{thisDg['display-name']}}&nbsp;<small>({{id}})</small></span>
             <span *ngIf="!thisDg || thisDg['display-name'] === undefined">{{id}}</span>
         </p>
     </mat-toolbar>
     <table>
         <tr>
-            <td class="third-width">
-                <div *ngIf="thisDg">
-                    <h3>Imsis
-                    <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Device Group" color="accent"
-                              routerLink="/devicegroups/devicegroups-edit/{{id}}">edit</mat-icon>
-                    </h3>
-                    <span *ngFor="let imsi of thisDg.imsis">
-                        <strong>{{imsi.name}}</strong>&nbsp;{{imsi["imsi-range-from"] | number: '1.0'}}-{{imsi["imsi-range-to"]}}&nbsp;&nbsp;&nbsp;
-                    </span>
-                </div>
+            <td class="third-width" *ngIf="thisDg">
+                <mat-expansion-panel *ngFor="let imsi of thisDg.imsis" expanded="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title><small>IMSIs</small>&nbsp;<strong>{{imsi.name}}</strong></mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div *ngFor="let imsiNum of imsiList(imsi['imsi-range-from'], imsi['imsi-range-to'])">
+                        <p *ngIf="site">{{imsiNum}} ({{fullImsi(site, imsiNum)}})</p>
+                        <div *ngIf="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, imsiNum, 1)">
+                            <iframe
+                                [src]="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, imsiNum, 1) | safe "
+                                width="600" height="150" frameborder="0"></iframe>
+                            <iframe
+                                [src]="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, imsiNum, 2) | safe "
+                                width="600" height="150" frameborder="0"></iframe>
+                        </div>
+                        <p *ngIf="!generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, imsiNum, 1)">
+                            <mat-icon color="primary">auto_graph</mat-icon>
+                            Connectivity chart unavailable
+                        </p>
+                    </div>
+                </mat-expansion-panel>
                 <mat-expansion-panel *ngIf="ipDomain">
                     <mat-expansion-panel-header>
                         <mat-panel-title><small>IP Domain</small>&nbsp;{{ipDomain['display-name']}}</mat-panel-title>
                     </mat-expansion-panel-header>
                     <h3>Configuration
-                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="IP Domain" color="accent"
+                        <mat-icon class="table_icon small_icon"
+                                  aria-hidden="false" aria-label="IP Domain"
+                                  color="accent" title="Edit IP Domain {{ipDomain.id}}"
                                   routerLink="/ipdomain/ipdomain-edit/{{ipDomain.id}}">edit
                         </mat-icon>
                     </h3>
                     <p><small>DNS</small>&nbsp;{{ipDomain["dns-primary"]}}&nbsp;{{ipDomain["dns-secondary"]}}
-                    <small>Subnet</small>&nbsp;{{ipDomain.subnet}}&nbsp;&nbsp;
+                        <small>Subnet</small>&nbsp;{{ipDomain.subnet}}&nbsp;&nbsp;
                         <small>MTU</small>&nbsp;{{ipDomain.mtu}}&nbsp;&nbsp;
                         <small>Admin State</small>&nbsp;{{ipDomain["admin-status"]}}
                     </p>
@@ -45,7 +59,9 @@
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <h3>Imsi Defintion
-                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="IP Domain" color="accent"
+                        <mat-icon class="table_icon small_icon"
+                                  aria-hidden="false" aria-label="IP Domain"
+                                  color="accent" title="Edit Site {{site.id}}"
                                   routerLink="/site/site-edit/{{site.id}}">edit
                         </mat-icon>
                     </h3>

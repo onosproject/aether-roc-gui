@@ -28,7 +28,7 @@
             <td class="third-width">
                 <mat-expansion-panel>
                     <mat-expansion-panel-header>
-                        <mat-panel-title><small>Details:</small></mat-panel-title>
+                        <mat-panel-title><small>VCS:</small></mat-panel-title>
                         <mat-panel-description>
                             <small>Latency</small>
                             <span class="highlight">&nbsp;{{latency | number: "1.2"}}&nbsp;</span>
@@ -42,7 +42,9 @@
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <h3>Configuration
-                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="VCS" color="accent"
+                        <mat-icon class="table_icon small_icon"
+                                  aria-hidden="false" aria-label="VCS"
+                                  color="accent" title="Edit VCS {{id}}"
                                   routerLink="/vcs/vcs-edit/{{id}}">edit
                         </mat-icon>
                     </h3>
@@ -53,7 +55,10 @@
                 </mat-expansion-panel>
                 <mat-expansion-panel *ngFor="let dg of deviceGroups | keyvalue">
                     <mat-expansion-panel-header>
-                        <mat-panel-title><small>Device Group:</small>&nbsp;{{dg.key["display-name"]}}</mat-panel-title>
+                        <mat-panel-title [class]="dg.value ? '': 'semitransparent'">
+                            <small>Device Group:</small>
+                            &nbsp;{{dg.key["display-name"]}}
+                        </mat-panel-title>
                         <mat-panel-description>
                             <small>({{dg.key['id']}})</small>&nbsp;
                             <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup"
@@ -62,27 +67,43 @@
                             </mat-icon>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
+                    <p *ngIf="!dg.value" class="highlight">Disabled
+                        <mat-icon class="table_icon small_icon"
+                                  aria-hidden="false" aria-label="VCS"
+                                  color="accent" title="Edit VCS {{id}}"
+                                  routerLink="/vcs/vcs-edit/{{id}}">edit
+                        </mat-icon>
+                    </p>
                     <h3>Imsi Range
                         <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup"
-                                  color="accent"
+                                  color="accent" title="Edit Device Group {{dg.key['id']}}"
                                   routerLink="/devicegroups/devicegroups-edit/{{dg.key['id']}}">edit
                         </mat-icon>
                     </h3>
                     <div *ngFor="let imsiRange of dg.key['imsis']">
                         <p>{{imsiRange.name}}
-                            : {{imsiList(imsiRange["imsi-range-from"], imsiRange["imsi-range-to"])}}</p>
+<!--                            : {{imsiList(imsiRange["imsi-range-from"], imsiRange["imsi-range-to"])}}</p>-->
                     </div>
                 </mat-expansion-panel>
                 <mat-expansion-panel *ngFor="let app of applications | keyvalue">
                     <mat-expansion-panel-header>
-                        <mat-panel-title><small>Application:</small>&nbsp;{{app.key["display-name"]}}</mat-panel-title>
+                        <mat-panel-title [class]="app.value ? '': 'semitransparent'">
+                            <small>Application:</small>&nbsp;{{app.key["display-name"]}}
+                        </mat-panel-title>
                         <mat-panel-description>
                             <small>({{app.key['id']}})</small>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
+                    <p *ngIf="!app.value" class="highlight">Disabled
+                        <mat-icon class="table_icon small_icon"
+                                  aria-hidden="false" aria-label="VCS"
+                                  color="accent" title="Edit VCS {{id}}"
+                                  routerLink="/vcs/vcs-edit/{{id}}">edit
+                        </mat-icon>
+                    </p>
                     <h3>EndPoint
                         <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Application"
-                                  color="accent"
+                                  color="accent" title="Edit Application {{app.key['id']}}"
                                   routerLink="/application/application-edit/{{app.key['id']}}">edit
                         </mat-icon>
                     </h3>
