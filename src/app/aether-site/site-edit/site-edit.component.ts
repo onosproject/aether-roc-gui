@@ -10,7 +10,6 @@ import {Service as AetherService, SiteSiteService} from '../../../openapi3/aethe
 import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {isEmpty, map, startWith} from 'rxjs/operators';
 import {SiteSite, EnterpriseEnterprise} from 'src/openapi3/aether/3.0.0/models';

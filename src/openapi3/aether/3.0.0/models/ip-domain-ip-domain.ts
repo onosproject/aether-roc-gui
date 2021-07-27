@@ -32,7 +32,7 @@ export interface IpDomainIpDomain {
   /**
    * Link to enterprise that owns this Access Point List
    */
-  enterprise?: string;
+  enterprise: string;
 
   /**
    * ID for this ip domain.

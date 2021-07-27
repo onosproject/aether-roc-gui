@@ -14,12 +14,12 @@ import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services/service';
 import {BasketService} from '../../basket.service';
 import {PanelVcsDatasource} from './panel-vcs-datasource';
-import {PanelVcsPromDataSource} from './panel-vcs-prom-data-source';
+import {VcsPromDataSource} from '../../utils/vcs-prom-data-source';
 import {HttpClient} from '@angular/common/http';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {IdTokClaims} from '../../idtoken';
 
-const promTags = [
+const vcsPromTags = [
     'vcs_latency',
     'vcs_jitter',
     'vcs_throughput',
@@ -45,7 +45,7 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
     panelUrl: string;
     grafanaOrgId: number = 1;
     grafanaOrgName: string;
-    promData: PanelVcsPromDataSource;
+    promData: VcsPromDataSource;
 
     displayedColumns = [
         'id',
@@ -65,13 +65,13 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
         @Inject('grafana_api_proxy') private grafanaUrl: string,
     ) {
         super(new PanelVcsDatasource(aetherService, basketService, AETHER_TARGETS[0]));
-        this.promData = new PanelVcsPromDataSource(httpClient);
+        this.promData = new VcsPromDataSource(httpClient);
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         ScopeOfDataSource.data.forEach((vcs: VcsVcs) => {
             // Add the tag on to VCS. the data is filled in below
-            promTags.forEach((tag: string) => vcs[tag] = {});
+            vcsPromTags.forEach((tag: string) => vcs[tag] = {});
         });
         console.log('VCS Data Loaded');
     }
@@ -95,7 +95,7 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
             }
         }, 10);
 
-        this.prometheusTimer = setInterval(() => this.promData.loadData(promTags).subscribe(
+        this.prometheusTimer = setInterval(() => this.promData.loadData(vcsPromTags).subscribe(
             (resultItem) => {
                 // Tag these new attributes on to the data in the main data source
                 // associate it with the right VCS

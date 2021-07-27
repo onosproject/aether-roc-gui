@@ -7,6 +7,10 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title>Device Group ID: {{id}}</mat-card-title>
+            <mat-icon *ngIf="!isNew" class="subscriber-pointer"
+                      color="accent"
+                      routerLink="/devicegroups/devicegroups-monitor/{{id}}"
+                      id="monitorDgButton">insights</mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">

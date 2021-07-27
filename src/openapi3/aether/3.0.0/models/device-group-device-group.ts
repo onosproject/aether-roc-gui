@@ -25,7 +25,7 @@ export interface DeviceGroupDeviceGroup {
   /**
    * Link to site
    */
-  site?: string;
+  site: string;
 
   [key: string]: AdditionalPropertyTarget | Array<DeviceGroupDeviceGroupImsis> | string | undefined;
 }

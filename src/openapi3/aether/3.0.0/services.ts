@@ -11,7 +11,6 @@ export { DeviceGroupDeviceGroupImsisService } from './services/device-group-devi
 export { EnterpriseEnterpriseService } from './services/enterprise-enterprise.service';
 export { EnterpriseEnterpriseConnectivityServiceService } from './services/enterprise-enterprise-connectivity-service.service';
 export { IpDomainIpDomainService } from './services/ip-domain-ip-domain.service';
-export { NetworkNetworkService } from './services/network-network.service';
 export { SiteSiteService } from './services/site-site.service';
 export { TemplateTemplateService } from './services/template-template.service';
 export { TrafficClassTrafficClassService } from './services/traffic-class-traffic-class.service';
