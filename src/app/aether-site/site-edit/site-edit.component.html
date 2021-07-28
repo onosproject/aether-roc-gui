@@ -11,7 +11,9 @@
         <mat-card-content>
             <div class="row" *ngIf="isNew">
                 <mat-form-field class="half-width field-margin">
-                    <input matInput formControlName="id" id="inputID">
+                    <input matInput formControlName="id"
+                           placeholder="Please specify an ID"
+                           id="inputID">
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
@@ -31,7 +33,8 @@
 
             <div class="row" id="enterpriseRow">
                 <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="enterprise">
+                    <mat-select formControlName="enterprise"
+                                placeholder="Please specify an Enterprise">
                         <mat-option id="selectEnterprise"
                                     *ngFor="let eachEnterprise of enterprises"
                                     [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>

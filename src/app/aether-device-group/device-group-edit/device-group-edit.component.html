@@ -16,7 +16,9 @@
         <mat-card-content>
             <div class="row" *ngIf="isNew">
                 <mat-form-field class="half-width field-margin">
-                    <input matInput formControlName="id" id="inputID">
+                    <input matInput formControlName="id"
+                           placeholder="Please specify an ID"
+                           id="inputID">
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
@@ -42,7 +44,11 @@
 
             <div class="row">
                 <mat-form-field class="field-margin half-width subscriber-section">
-                    <mat-select ngDefaultControl formControlName="site" (selectionChange)="displayImsiAdd()">
+                    <mat-select ngDefaultControl formControlName="site"
+                                title="This field is mandatory."
+                                placeholder="Please specify a Site"
+                                (selectionChange)="displayImsiAdd()"
+                                required>
                         <mat-option *ngFor="let site of site"
                                     id="selectEnterprise"
                                     [value]="site.id">{{site.id}}

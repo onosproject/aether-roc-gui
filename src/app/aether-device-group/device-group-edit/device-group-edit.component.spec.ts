@@ -9,7 +9,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {DeviceGroupEditComponent} from './device-group-edit.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
@@ -28,6 +28,9 @@ describe('DeviceGroupEditComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [DeviceGroupEditComponent],
+            providers: [
+                {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}}
+            ],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,

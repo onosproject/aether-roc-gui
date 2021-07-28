@@ -21,7 +21,7 @@ import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import { ConnectivityServiceEditComponent } from './connectivity-service-edit/connectivity-service-edit.component';
 import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 
@@ -50,6 +50,7 @@ import {MatButtonModule} from '@angular/material/button';
         MatSnackBarModule,
     ],
     providers: [
+        {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},
         AuthInterceptor,
         API_INTERCEPTOR_PROVIDER,
     ]

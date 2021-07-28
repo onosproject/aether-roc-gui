@@ -77,7 +77,7 @@ const aetherRoutes: Routes = [
         RouterModule.forRoot(aetherRoutes, {useHash: true, onSameUrlNavigation: 'reload'})
     ],
     exports: [RouterModule],
-    providers: []
+    providers: [ ]
 })
 export class AetherRoutingModule {
 }

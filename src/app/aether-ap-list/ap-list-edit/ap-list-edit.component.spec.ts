@@ -18,7 +18,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {ApiModule} from '../../../openapi3/aether/3.0.0/api.module';
 import {FormBuilder, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDividerModule} from '@angular/material/divider';
@@ -31,6 +31,9 @@ describe('ApListEditComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ ApListEditComponent ],
+        providers: [
+            {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}}
+        ],
         imports: [
             HttpClientTestingModule,
             RouterTestingModule,
