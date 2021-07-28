@@ -10,7 +10,8 @@
             <mat-icon *ngIf="!isNew" class="subscriber-pointer"
                       color="accent"
                       routerLink="/devicegroups/devicegroups-monitor/{{id}}"
-                      id="monitorDgButton">insights</mat-icon>
+                      id="monitorDgButton">insights
+            </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
@@ -41,7 +42,7 @@
 
             <div class="row">
                 <mat-form-field class="field-margin half-width subscriber-section">
-                    <mat-select ngDefaultControl formControlName="site">
+                    <mat-select ngDefaultControl formControlName="site" (selectionChange)="displayImsiAdd()">
                         <mat-option *ngFor="let site of site"
                                     id="selectEnterprise"
                                     [value]="site.id">{{site.id}}
@@ -53,37 +54,34 @@
             </div>
 
             <div formArrayName="imsis" class="subscriber-section">
-                <mat-hint>Imsis</mat-hint>
-                <mat-icon (click)="showImsiDisplay = true"
+                <mat-hint>IMSIs</mat-hint>
+                <mat-icon *ngIf="showAddImsi" (click)="this.showImsiDisplay = true"
                           id="addNewExistingAccessProfile"
                           color="accent"
-                          class="subscriber-pointer">add</mat-icon>
+                          class="subscriber-pointer">add
+                </mat-icon>
                 <div *ngFor="let imsiForm of imsiControls.controls">
-                    <mat-form-field class="field-margin half-width">
-                        <div [formGroup]="imsiForm">
-                            <div>
-                                <input matInput formControlName="name" id="inputName" readonly>
-                                <small>Name</small>
-                            </div>
-                            <br>
-                            <div>
-                               <input matInput formControlName="imsi-range-from" type="number" id="inputImsiRangeFrom">
-                                <small>Imsi Range Start</small>
-                            </div>
-                            <br>
-                            <div>
-                                <input matInput formControlName="imsi-range-to" type="number" id="inputImsiRangeTo">
-                                <small>Imsi Range End</small>
-                            </div>
-                        </div>
-                    </mat-form-field>
-                    <button mat-icon-button
-                            color="accent"
-                            id="deleteExistingAccessProfileButton"
-                            [disabled]="!opaService.canWrite('/devicegroups/devicegroups-edit[id=' + id + ']/imsis')"
-                            (click)="deleteFromSelect(imsiForm.value['name'])">
-                        <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
-                    </button>
+                    <div [formGroup]="imsiForm">
+                        <mat-form-field class="field-margin">
+                            <input matInput formControlName="name" id="inputName" readonly>
+                            <mat-hint>Name</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput formControlName="imsi-range-from" type="number" id="inputImsiRangeFrom">
+                            <mat-hint>Imsi Range Start</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput formControlName="imsi-range-to" type="number" id="inputImsiRangeTo">
+                            <mat-hint>Imsi Range End</mat-hint>
+                        </mat-form-field>
+                        <button mat-icon-button
+                                color="accent"
+                                id="deleteExistingAccessProfileButton"
+                                [disabled]="!opaService.canWrite('/devicegroups/devicegroups-edit[id=' + id + ']/imsis')"
+                                (click)="deleteFromSelect(imsiForm.value['name'])">
+                            <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -99,5 +97,6 @@
 <aether-imsis-select
     *ngIf="showImsiDisplay && opaService.canWrite('/devicegroup/devicegroup[id=' + id + ']/imsis')"
     id="imsiSelectComponent"
+    [ImisLengthLimits]="SiteImisLength"
     (closeEvent)="openDeviceGroupCard($event)">
 </aether-imsis-select>

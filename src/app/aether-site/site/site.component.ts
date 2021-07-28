@@ -29,6 +29,10 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
         'id',
         'description',
         'enterprise',
+        'mcc',
+        'mnc',
+        'enterpriseID',
+        'format',
         'edit',
         'delete'
     ];
@@ -55,6 +59,19 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
                         }
                         if (basketItems.enterprise) {
                             ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
+                        }
+                        if (basketItems['imsi-definition'] && basketItems['imsi-definition'].mcc) {
+                            ScopeOfDataSource.data[listItemCount]['imsi-definition'].mcc = basketItems['imsi-definition'].mcc;
+                        }
+                        if (basketItems['imsi-definition'] && basketItems['imsi-definition'].mnc) {
+                            ScopeOfDataSource.data[listItemCount]['imsi-definition'].mnc = basketItems['imsi-definition'].mnc;
+                        }
+                        if (basketItems['imsi-definition'] && basketItems['imsi-definition'].enterprise) {
+                            ScopeOfDataSource.data[listItemCount]['imsi-definition'].enterprise = basketItems['imsi-definition'].enterprise;
+                        }
+                        if (basketItems['imsi-definition'] && basketItems['imsi-definition'].format) {
+                            ScopeOfDataSource.data[listItemCount]['imsi-definition'].format = basketItems['imsi-definition'].format;
+
                         }
                     }
                 });

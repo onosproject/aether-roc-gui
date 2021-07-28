@@ -39,6 +39,38 @@
             </td>
         </ng-container>
 
+        <!--MCC Column-->
+        <ng-container matColumnDef="mcc" id="MccColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>MCC</th>
+            <td mat-cell *matCellDef="let row">
+                {{row['imsi-definition'].mcc}}
+            </td>
+        </ng-container>
+
+        <!--MNC Column-->
+        <ng-container matColumnDef="mnc" id="MncColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>MNC</th>
+            <td mat-cell *matCellDef="let row">
+                {{row['imsi-definition'].mnc}}
+            </td>
+        </ng-container>
+
+        <!--enterprise ID Column-->
+        <ng-container matColumnDef="enterpriseID" id="EnterpriseIDColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Enterprise ID</th>
+            <td mat-cell *matCellDef="let row">
+                {{row['imsi-definition'].enterprise}}
+            </td>
+        </ng-container>
+
+        <!--Format Column-->
+        <ng-container matColumnDef="format" id= "FormatColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Format</th>
+            <td mat-cell *matCellDef="let row">
+                {{row['imsi-definition'].format}}
+            </td>
+        </ng-container>
+
         <!-- Edit Column -->
         <ng-container matColumnDef="edit" id="editColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
