@@ -56,20 +56,20 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-        this.ImsiRangeLimit = Math.pow(10, this.ImisLengthLimits) - 1;
     }
     ngOnChanges(): void {
+        this.ImsiRangeLimit = Math.pow(10, this.ImisLengthLimits) - 1;
         this.imsiForm.get('imsi-range-from').clearValidators();
         this.imsiForm.get('imsi-range-from').setValidators([
             Validators.required,
             Validators.min(0),
-            Validators.max(Math.pow(10, this.ImisLengthLimits) - 1),
+            Validators.max(this.ImsiRangeLimit),
         ]);
         this.imsiForm.get('imsi-range-to').clearValidators();
         this.imsiForm.get('imsi-range-to').setValidators([
             Validators.required,
             Validators.min(0),
-            Validators.max(Math.pow(10, this.ImisLengthLimits) - 1),
+            Validators.max(this.ImsiRangeLimit),
         ]);
     }
 

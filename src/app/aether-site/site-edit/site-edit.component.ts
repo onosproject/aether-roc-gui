@@ -44,7 +44,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             mnc: [0, Validators.required],
             enterprise: [0],
             format: ['', Validators.compose([
-                Validators.pattern('[0-9]{9}[A-Za-z0-9]{6}'),
+                Validators.pattern('[0CENS]{15}'),
                 Validators.minLength(15),
                 Validators.maxLength(15)
             ])]
