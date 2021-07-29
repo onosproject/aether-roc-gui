@@ -31,7 +31,8 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
         'ip-domain',
         'site',
         'edit',
-        'delete'
+        'delete',
+        'monitor'
     ];
 
     constructor(

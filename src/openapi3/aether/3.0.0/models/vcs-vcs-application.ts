@@ -12,7 +12,7 @@ export interface VcsVcsApplication {
   /**
    * Link to application
    */
-  application?: string;
+  application: string;
 
   [key: string]: AdditionalPropertyTarget | boolean | string | undefined;
 }

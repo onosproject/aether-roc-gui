@@ -8,7 +8,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {UserProfileComponent} from './user-profile.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
-import {IdTokClaims} from '../aether.component';
+import {IdTokClaims} from '../idtoken';
 
 describe('UserProfileComponent', () => {
     let component: UserProfileComponent;

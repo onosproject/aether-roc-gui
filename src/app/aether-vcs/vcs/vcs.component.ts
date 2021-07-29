@@ -38,7 +38,8 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
         'traffic-class',
         'upf',
         'edit',
-        'delete'
+        'delete',
+        'monitor'
     ];
 
     constructor(

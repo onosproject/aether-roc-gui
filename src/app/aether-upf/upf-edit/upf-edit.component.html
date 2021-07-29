@@ -11,7 +11,9 @@
         <mat-card-content>
             <div class="row" *ngIf="isNew">
                 <mat-form-field class="half-width field-margin">
-                    <input matInput formControlName="id" id="inputID">
+                    <input matInput formControlName="id"
+                           placeholder="Please specify an ID"
+                           id="inputID">
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
@@ -29,7 +31,8 @@
             </div>
             <div class="row" id="enterpriseRow">
                 <mat-form-field class="field-margin half-width subscriber-section">
-                    <mat-select ngDefaultControl formControlName="enterprise">
+                    <mat-select ngDefaultControl formControlName="enterprise"
+                                placeholder="Please specify an Enterprise">
                         <mat-option *ngFor="let ent of enterprises"
                                     id="selectEnterprise"
                                     [value]="ent.id">{{ent.id}}
@@ -41,13 +44,19 @@
             </div>
             <div class="row" id="addressRow">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="address" id="inputAddress" required>
+                    <input matInput formControlName="address"
+                           title="This field is mandatory."
+                           placeholder="Please specify an Address"
+                           id="inputAddress" required>
                     <mat-hint>Address</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row" id="portRow">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput type=number formControlName="port" id="inputPort" required>
+                    <input matInput type=number formControlName="port"
+                           title="This field is mandatory."
+                           placeholder="Please specify a Port"
+                           id="inputPort" required>
                     <mat-hint>Port</mat-hint>
                 </mat-form-field>
             </div>

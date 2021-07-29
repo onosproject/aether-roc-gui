@@ -38,10 +38,6 @@ const aetherRoutes: Routes = [
         loadChildren: () => import('./basket/basket.module').then(m => m.BasketModule)
     },
     {
-        path: 'network',
-        loadChildren: () => import('./aether-network/aether-network.module').then(m => m.AetherNetworkModule)
-    },
-    {
         path: 'devicegroups',
         loadChildren: () => import('./aether-device-group/aether-device-group.module').then(m => m.AetherDeviceGroupModule)
     },
@@ -81,7 +77,7 @@ const aetherRoutes: Routes = [
         RouterModule.forRoot(aetherRoutes, {useHash: true, onSameUrlNavigation: 'reload'})
     ],
     exports: [RouterModule],
-    providers: []
+    providers: [ ]
 })
 export class AetherRoutingModule {
 }

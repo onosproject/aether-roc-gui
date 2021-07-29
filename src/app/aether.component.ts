@@ -10,8 +10,7 @@ import {Meta} from '@angular/platform-browser';
 import {BasketService} from './basket.service';
 import {OpenPolicyAgentService} from './open-policy-agent.service';
 import {Router} from '@angular/router';
-import {Grafana, K8sClientService} from './k8sclient.service';
-import {GrafanaAdminService} from './grafana-admin.service';
+import {IdTokClaims} from './idtoken';
 
 export const USERNAME_ATTR = 'name';
 export const GROUPS_ATTR = 'groups';
@@ -20,20 +19,6 @@ export const ACCESS_TOKEN_ATTR = 'access_token';
 const ID_TOKEN_CLAIMS_OBJ = 'id_token_claims_obj';
 const ID_TOKEN_EXPIRES_AT = 'id_token_expires_at';
 
-
-export interface IdTokClaims {
-    at_hash: string;
-    aud: string;
-    email: string;
-    email_verified: boolean;
-    exp: number;
-    groups: string[];
-    iat: number;
-    iss: string;
-    name: string;
-    nonce: string;
-    sub: string;
-}
 
 @Component({
     selector: 'aether-root',
@@ -51,8 +36,6 @@ export class AetherComponent implements OnInit {
         private bs: BasketService,
         public opaService: OpenPolicyAgentService,
         private router: Router,
-        private k8s: K8sClientService,
-        private grafanaAdminService: GrafanaAdminService
     ) {
     }
 
@@ -72,15 +55,6 @@ export class AetherComponent implements OnInit {
             ).then(fulfilled => {
                 console.log('Login', fulfilled ? 'succeeded' : 'failed', this.idTokClaims);
                 this.opaService.userGroups = this.idTokClaims.groups;
-                this.k8s.getGrafanaSecret().subscribe(
-                    (grafana: Grafana) => {
-                        console.log('Getting orgs from grafana');
-                        this.grafanaAdminService.setBasicAuth(grafana);
-                        this.grafanaAdminService.getUserOrgDetails(this.idTokClaims);
-                    },
-                    (err) => console.warn('Could not access K8s service for Grafana'),
-                    () => console.log('Login all done')
-                );
                 this.router.navigate(['/dashboard']);
                 return fulfilled;
             });

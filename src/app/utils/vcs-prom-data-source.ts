@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {from, Observable} from 'rxjs';
-import {PROMETHEUS_PROXY} from '../../../environments/environment';
+import {PROMETHEUS_PROXY} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {mergeMap, pluck} from 'rxjs/operators';
 
@@ -35,7 +35,7 @@ export interface PromResult {
     data: PromResultData;
 }
 
-export class PanelVcsPromDataSource {
+export class VcsPromDataSource {
 
     constructor(
         private httpClient: HttpClient,

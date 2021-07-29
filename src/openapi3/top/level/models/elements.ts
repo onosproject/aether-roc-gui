@@ -18,7 +18,6 @@ import {ConnectivityService as ConnectivityService300} from "../../../aether/3.0
 import {DeviceGroup as DeviceGroup300} from "../../../aether/3.0.0/models";
 import {Enterprise as Enterprise300} from "../../../aether/3.0.0/models";
 import {IpDomain as IpDomain300} from "../../../aether/3.0.0/models";
-import {Network as Network300} from "../../../aether/3.0.0/models";
 import {Site as Site300} from "../../../aether/3.0.0/models";
 import {Template as Template300} from "../../../aether/3.0.0/models";
 import {TrafficClass as TrafficClass300} from "../../../aether/3.0.0/models";
@@ -43,7 +42,6 @@ export interface Elements {
     'Device-group-3.0.0'?: DeviceGroup300;
     'Enterprise-3.0.0'?: Enterprise300;
     'Ip-domain-3.0.0'?: IpDomain300;
-    'Network-3.0.0'?: Network300;
     'Site-3.0.0'?: Site300;
     'Template-3.0.0'?: Template300;
     'Traffic-class-3.0.0': TrafficClass300;

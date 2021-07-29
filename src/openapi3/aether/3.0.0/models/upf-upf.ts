@@ -22,7 +22,7 @@ export interface UpfUpf {
   /**
    * Link to enterprise that owns this Access Point List
    */
-  enterprise?: string;
+  enterprise: string;
 
   /**
    * ID for this upf.

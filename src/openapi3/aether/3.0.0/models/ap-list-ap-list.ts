@@ -19,7 +19,7 @@ export interface ApListApList {
   /**
    * Link to enterprise that owns this Access Point List
    */
-  enterprise?: string;
+  enterprise: string;
 
   /**
    * ID for this ap-list.

@@ -5,7 +5,7 @@
  */
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {AetherComponent, IdTokClaims} from './aether.component';
+import {AetherComponent} from './aether.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {GRAFANA_PROXY, KUBERNETES_API_PROXY} from '../environments/environment';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -17,6 +17,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
 import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
+import {IdTokClaims} from './idtoken';
 
 class MockMeta {
     getTag(attrSelector: string): HTMLMetaElement {

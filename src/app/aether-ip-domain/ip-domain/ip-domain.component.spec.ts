@@ -18,7 +18,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {ApiModule} from '../../../openapi3/aether/3.0.0/api.module';
 import {ActivatedRoute} from '@angular/router';
 import {of} from 'rxjs';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 
 describe('IpDomainComponent', () => {
   let component: IpDomainComponent;
@@ -41,7 +41,12 @@ describe('IpDomainComponent', () => {
             ApiModule
         ],
         providers: [
-            {provide: ActivatedRoute, useValue: {paramMap: of({ get: (key) => 'value' })}},
+            {
+                provide: ActivatedRoute, useValue: {paramMap: of({ get: (key) => 'value' })}
+            },
+            {
+                provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}
+            }
         ],
     })
     .compileComponents();

@@ -18,7 +18,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
@@ -29,13 +29,17 @@ import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import { DeviceGroupEditComponent } from './device-group-edit/device-group-edit.component';
 import { ImsisSelectComponent } from './imsis-select/imsis-select.component';
+import { DeviceGroupMonitorComponent } from './device-group-monitor/device-group-monitor.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {UtilsModule} from '../utils/utils.module';
 
 
 @NgModule({
     declarations: [
         DeviceGroupComponent,
         DeviceGroupEditComponent,
-        ImsisSelectComponent
+        ImsisSelectComponent,
+        DeviceGroupMonitorComponent
     ],
     imports: [
         CommonModule,
@@ -44,7 +48,7 @@ import { ImsisSelectComponent } from './imsis-select/imsis-select.component';
         RouterModule.forChild([
             {path: 'devicegroups', component: DeviceGroupComponent},
             {path: 'devicegroups-edit/:id', component: DeviceGroupEditComponent},
-
+            {path: 'devicegroups-monitor/:id', component: DeviceGroupMonitorComponent},
             {path: '', component: DeviceGroupComponent, pathMatch: 'full'}
 
         ]),
@@ -64,9 +68,12 @@ import { ImsisSelectComponent } from './imsis-select/imsis-select.component';
         MatButtonModule,
         MatSlideToggleModule,
         CdkTableModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatExpansionModule,
+        UtilsModule
     ],
     providers: [
+        {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},
         AuthInterceptor,
         API_INTERCEPTOR_PROVIDER,
     ]

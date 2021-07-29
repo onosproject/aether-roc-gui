@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {IdTokClaims} from '../aether.component';
+import {Component, EventEmitter, Output} from '@angular/core';
+import {IdTokClaims} from '../idtoken';
 
 @Component({
     selector: 'aether-user-profile',

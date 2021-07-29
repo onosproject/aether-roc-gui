@@ -20,7 +20,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
@@ -31,14 +31,17 @@ import { VcsEditComponent } from './vcs-edit/vcs-edit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ApplicationSelectComponent } from './application-select/application-select.component';
 import { DeviceGroupSelectComponent } from './device-group-select/device-group-select.component';
-
+import { VcsMonitorComponent } from './vcs-monitor/vcs-monitor.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {UtilsModule} from '../utils/utils.module';
 
 @NgModule({
     declarations: [
         VcsComponent,
         VcsEditComponent,
         ApplicationSelectComponent,
-        DeviceGroupSelectComponent
+        DeviceGroupSelectComponent,
+        VcsMonitorComponent
     ],
     imports: [
         CommonModule,
@@ -47,6 +50,7 @@ import { DeviceGroupSelectComponent } from './device-group-select/device-group-s
         RouterModule.forChild([
             {path: 'vcs', component: VcsComponent},
             {path: 'vcs-edit/:id', component: VcsEditComponent},
+            {path: 'vcs-monitor/:id', component: VcsMonitorComponent},
             {path: '', component: VcsComponent, pathMatch: 'full'}
         ]),
         MatToolbarModule,
@@ -65,9 +69,12 @@ import { DeviceGroupSelectComponent } from './device-group-select/device-group-s
         MatSlideToggleModule,
         CdkTableModule,
         MatCheckboxModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatExpansionModule,
+        UtilsModule
     ],
     providers: [
+        {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},
         AuthInterceptor,
         API_INTERCEPTOR_PROVIDER,
     ]

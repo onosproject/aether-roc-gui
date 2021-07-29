@@ -10,10 +10,9 @@ import {Service as AetherService, SiteSiteService} from '../../../openapi3/aethe
 import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {isEmpty, map, startWith} from 'rxjs/operators';
-import {SiteSite, NetworkNetwork, EnterpriseEnterprise} from 'src/openapi3/aether/3.0.0/models';
+import {SiteSite, EnterpriseEnterprise} from 'src/openapi3/aether/3.0.0/models';
 
 @Component({
     selector: 'aether-site-edit',
@@ -22,7 +21,6 @@ import {SiteSite, NetworkNetwork, EnterpriseEnterprise} from 'src/openapi3/aethe
 })
 export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
     enterprises: Array<EnterpriseEnterprise>;
-    networks: Array<NetworkNetwork>;
     data: SiteSite;
     pathRoot = 'site-3.0.0';
     pathListAttr = 'site';
@@ -41,7 +39,16 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             Validators.maxLength(80),
         ])],
         enterprise: [''],
-        network: [''],
+        'imsi-definition': this.fb.group({
+            mcc: [0, Validators.required],
+            mnc: [0, Validators.required],
+            enterprise: [0],
+            format: ['', Validators.compose([
+                Validators.pattern('[0CENS]{15}'),
+                Validators.minLength(15),
+                Validators.maxLength(15)
+            ])]
+        })
     });
 
     constructor(
@@ -57,12 +64,14 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         super(snackBar, bs, route, router, 'site-3.0.0', 'site');
         super.form = this.siteForm;
         super.loadFunc = this.loadSiteSite;
+        this.siteForm.get(['imsi-definition', 'mcc'])[TYPE] = 'number';
+        this.siteForm.get(['imsi-definition', 'mnc'])[TYPE] = 'number';
+        this.siteForm.get(['imsi-definition', 'enterprise'])[TYPE] = 'number';
     }
 
     ngOnInit(): void {
         super.init();
         this.loadEnterprises(this.target);
-        this.loadNetworks(this.target);
     }
 
     loadSiteSite(target: string, id: string): void {
@@ -91,6 +100,10 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         );
     }
 
+    get ImsiControls(): FormGroup {
+        return this.siteForm.get(['imsi-definition']) as FormGroup;
+    }
+
     private populateFormData(value: SiteSite): void {
         if (value['display-name']) {
             this.siteForm.get('display-name').setValue(value['display-name']);
@@ -102,10 +115,13 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             this.siteForm.get(['enterprise']).setValue(value.enterprise);
             this.siteForm.get('enterprise')[ORIGINAL] = value.enterprise;
         }
-        if (value.network) {
-            this.siteForm.get(['network']).setValue(value.network);
-            this.siteForm.get('network')[ORIGINAL] = value.network;
+        if (value['imsi-definition']) {
+            this.siteForm.get(['imsi-definition', 'mcc']).setValue(value['imsi-definition'].mcc);
+            this.siteForm.get(['imsi-definition', 'mnc']).setValue(value['imsi-definition'].mnc);
+            this.siteForm.get(['imsi-definition', 'enterprise']).setValue(value['imsi-definition'].enterprise);
+            this.siteForm.get(['imsi-definition', 'format']).setValue(value['imsi-definition'].format);
         }
+
     }
 
     loadEnterprises(target: string): void {
@@ -118,20 +134,6 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             }),
             error => {
                 console.warn('Error getting Enterprise for ', target, error);
-            }
-        );
-    }
-
-    loadNetworks(target: string): void {
-        this.aetherService.getNetwork({
-            target,
-        }).subscribe(
-            (value => {
-                this.networks = value.network;
-                console.log('Got', value.network.length, 'Network');
-            }),
-            error => {
-                console.warn('Error getting Network for ', target, error);
             }
         );
     }

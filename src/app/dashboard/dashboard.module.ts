@@ -19,11 +19,12 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {HttpClientModule} from '@angular/common/http';
 import {MatIconModule} from '@angular/material/icon';
-import { SafePipe } from './safe.pipe';
 import {ResizeService} from './resize.service';
+import { PanelAlertsComponent } from './panel-alerts/panel-alerts.component';
+import {UtilsModule} from '../utils/utils.module';
 
 @NgModule({
-    declarations: [DashboardComponent, PanelVcsComponent, SafePipe],
+    declarations: [DashboardComponent, PanelVcsComponent, PanelAlertsComponent],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({rootUrl: AETHER_ROC_API_URL}),
@@ -36,7 +37,8 @@ import {ResizeService} from './resize.service';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        MatIconModule
+        MatIconModule,
+        UtilsModule
     ],
     providers: [
         AuthInterceptor,
