@@ -10,6 +10,9 @@ test: # @HELP run the unit tests and source code validation
 test: deps build lint license_check
 	ng test --browsers=ChromeHeadlessNoSandbox --watch=false
 
+jenkins-test:  # @HELP run the unit tests and source code validation producing a junit style report for Jenkins
+jenkins-test: test
+
 coverage: # @HELP generate unit test coverage data
 coverage: deps build license_check test
 
