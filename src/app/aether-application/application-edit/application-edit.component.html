@@ -14,7 +14,9 @@
                 <mat-form-field class="half-width field-margin">
                     <input matInput formControlName="id"
                            placeholder="Please specify an ID"
-                           id="inputID">
+                           title="This field is mandatory."
+                           id="inputID"
+                           required>
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
@@ -80,7 +82,9 @@
             <div class="row" id="enterpriseRow">
                 <mat-form-field class="field-margin half-width">
                     <mat-select formControlName="enterprise"
-                                placeholder="Please specify an Enterprise">
+                                placeholder="Please specify an Enterprise"
+                                title="This field is mandatory."
+                                required>
                         <mat-option id="selectEnterprise"
                                     *ngFor="let eachEnterprise of enterprises"
                                     [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
