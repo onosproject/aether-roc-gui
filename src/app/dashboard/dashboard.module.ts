@@ -22,6 +22,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {ResizeService} from './resize.service';
 import { PanelAlertsComponent } from './panel-alerts/panel-alerts.component';
 import {UtilsModule} from '../utils/utils.module';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
     declarations: [DashboardComponent, PanelVcsComponent, PanelAlertsComponent],
@@ -38,7 +39,8 @@ import {UtilsModule} from '../utils/utils.module';
         MatPaginatorModule,
         MatSortModule,
         MatIconModule,
-        UtilsModule
+        UtilsModule,
+        MatExpansionModule
     ],
     providers: [
         AuthInterceptor,
