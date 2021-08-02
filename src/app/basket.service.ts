@@ -185,7 +185,7 @@ export class BasketService {
                 console.warn('path too short');
                 return;
             }
-            console.log('Handling', path);
+            // console.log('Handling', path);
             // a path might contain more than one key and will be in the form [key1=value1][key2=value2]
             const thisLevelPath: string = path[0];
             const container: string = thisLevelPath.slice(0, thisLevelPath.indexOf('['));

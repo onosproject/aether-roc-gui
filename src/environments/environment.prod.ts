@@ -13,6 +13,7 @@ export const AETHER_ROC_API_URL = window.location.origin + '/aether-roc-api';
 export const KUBERNETES_API_PROXY = window.location.origin + '/kubernetes-api';
 export const GRAFANA_PROXY = window.location.origin + '/grafana';
 export const PROMETHEUS_PROXY = window.location.origin + '/prometheus';
+export const WEBSOCKET_PROXY = window.location.origin.toString().replace('http', 'ws') + '/ws';
 
 export const AETHER_TARGETS = ['connectivity-service-v3'];
 
