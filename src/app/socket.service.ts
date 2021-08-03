@@ -7,18 +7,8 @@
 import {Injectable} from '@angular/core';
 import {webSocket, WebSocketSubject, WebSocketSubjectConfig} from 'rxjs/webSocket';
 import {WEBSOCKET_PROXY} from '../environments/environment';
-import {catchError, switchAll, tap} from 'rxjs/operators';
 import {
-    BehaviorSubject,
-    EMPTY,
-    from,
-    Observable,
-    Observer,
-    of,
-    Subject,
-    Subscriber,
-    Subscription,
-    throwError
+    Observable, Observer, Subject, Subscription, throwError
 } from 'rxjs';
 
 @Injectable({
@@ -26,8 +16,6 @@ import {
 })
 export class SocketService {
     public webSocketSubject: WebSocketSubject<any>;
-    // private messagesSubject = new Subject();
-    // public messages = this.messagesSubject.pipe(switchAll(), catchError(e => throwError(e)));
     private connectedObservers: Array<Observer<boolean>>;
     private permanentSub: Subscription;
 
@@ -95,7 +83,7 @@ export class SocketService {
                 message => message.heartbeat !== undefined
             );
             this.permanentSub = testObs.subscribe(
-                (hbVal) => console.log('Received heartbeat', hbVal),
+                (hbVal) => null, // No need to log websockets - use browser debugger
                 (err) => throwError(err),
                 () => console.log('Closed web socket subscription')
             );
@@ -118,6 +106,7 @@ export class SocketService {
     }
 
     close(): void {
+        console.log('Closed Web Socket');
         if (this.permanentSub) {
             this.permanentSub.unsubscribe();
         }

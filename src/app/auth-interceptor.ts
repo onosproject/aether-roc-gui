@@ -9,6 +9,7 @@ import {HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Observable} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {ID_TOKEN_ATTR} from './aether.component';
+import {PROMETHEUS_PROXY} from '../environments/environment';
 
 const TOKEN_HEADER_KEY = 'Authorization';
 const BEARER_KEYWORD = 'Bearer ';
@@ -18,9 +19,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>,
               next: HttpHandler): Observable<HttpEvent<any>> {
+        // Not needed for Prometheus access
+        if (req.url.includes(PROMETHEUS_PROXY)) {
+            return next.handle(req);
+        }
 
         const idToken = localStorage.getItem(ID_TOKEN_ATTR);
-
         if (idToken) {
             const cloned = req.clone({
                 headers: req.headers.set(TOKEN_HEADER_KEY,
