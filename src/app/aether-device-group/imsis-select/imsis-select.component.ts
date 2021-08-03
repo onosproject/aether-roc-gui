@@ -5,7 +5,7 @@
  */
 
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 
 export interface ImsiParam {
     name: string;
@@ -13,6 +13,13 @@ export interface ImsiParam {
     'imsi-range-to': number;
     cancelled: boolean;
 }
+
+const ValidateImsiRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const ImsiFromRange = control.get('imsi-range-from').value;
+    const ImsiToRange = control.get('imsi-range-to').value;
+    return ((ImsiFromRange < ImsiToRange) &&
+        (ImsiToRange <= (100 + ImsiFromRange))) ? null : {isRangeNotValid: true};
+};
 
 @Component({
     selector: 'aether-imsis-select',
@@ -32,7 +39,7 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
         ])],
         'imsi-range-from': [0],
         'imsi-range-to': [0],
-    });
+    }, {validators: ValidateImsiRange});
 
     constructor(
         protected fb: FormBuilder,
@@ -57,6 +64,7 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
 
     ngOnInit(): void {
     }
+
     ngOnChanges(): void {
         this.ImsiRangeLimit = Math.pow(10, this.ImisLengthLimits) - 1;
         this.imsiForm.get('imsi-range-from').clearValidators();
