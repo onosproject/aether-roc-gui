@@ -13,9 +13,7 @@
                 <mat-form-field class="half-width field-margin">
                     <input matInput formControlName="id"
                            placeholder="Please specify an ID"
-                           title="This field is mandatory."
-                           id="inputID"
-                           required>
+                           id="inputID">
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
@@ -36,10 +34,9 @@
             <div class="row" id="enterpriseRow">
                 <mat-form-field class="field-margin half-width">
                     <mat-select formControlName="enterprise"
-                                title="This field is mandatory."
                                 placeholder="Please specify an Enterprise"
-                                required>
-                        <mat-option id="selectEnterprise"
+                                id="selectEnterprise">
+                        <mat-option
                                     *ngFor="let eachEnterprise of enterprises"
                                     [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
                     </mat-select>
@@ -49,35 +46,25 @@
             <mat-hint>IMIS</mat-hint>
             <div [formGroup]="ImsiControls">
                 <mat-form-field class="field-margin">
-                    <input matInput type="number" formControlName="mcc" id="inputMCC"
-                           title="This field is mandatory."
-                           placeholder="Please specify an MCC"
-                           required>
+                    <input matInput type="number" formControlName="mcc" id="inputMCC" required>
                     <mat-hint>MCC</mat-hint>
                 </mat-form-field>
-                <mat-form-field class="field-margin">
-                    <input matInput type="number" formControlName="mnc" id="inputMNC"
-                           title="This field is mandatory."
-                           placeholder="Please specify an MNC"
-                           required>
+                <mat-form-field class="field-margin ">
+                    <input matInput type="number" formControlName="mnc" id="inputMNC" required>
                     <mat-hint>MNC</mat-hint>
                 </mat-form-field>
-                <mat-form-field class="field-margin">
-                    <input matInput type="number" formControlName="enterprise" id="inputEnterprise"
-                           title="This field is mandatory."
-                           placeholder="Please specify an Enterprise"
-                           required>
+                <mat-form-field class="field-margin ">
+                    <input matInput  type="number" formControlName="enterprise" id="inputEnterprise" required>
                     <mat-hint>Enterprise</mat-hint>
                 </mat-form-field>
-                <mat-form-field class="field-margin">
+                <mat-form-field class="field-margin ">
                     <input matInput formControlName="format" id="inputformat">
                     <mat-hint>Format <br>(Example = CCCNNNEEESSSSSS
                         <br>
                         C=MCC,
                         N=MNC,
                         E=Enterprise,
-                        S=Subscriber ID)
-                    </mat-hint>
+                        S=Subscriber ID)</mat-hint>
                 </mat-form-field>
             </div>
             <mat-card-actions>

@@ -39,9 +39,10 @@
                                 title="This field is mandatory."
                                 placeholder="Please specify an Enterprise"
                                 formControlName="enterprise"
+                                id="selectEnterprise"
                                 required>
                         <mat-option *ngFor="let ent of enterprises"
-                                    id="selectEnterprise"
+
                                     [value]="ent.id">{{ent.id}}
                             <span *ngIf="ent['display-name']"> ({{ent['display-name']}})</span>
                         </mat-option>

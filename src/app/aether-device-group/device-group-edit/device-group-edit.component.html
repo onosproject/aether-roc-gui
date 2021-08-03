@@ -33,9 +33,11 @@
 
             <div class="row">
                 <mat-form-field class="field-margin half-width subscriber-section">
-                    <mat-select ngDefaultControl formControlName="ip-domain">
+                    <mat-select ngDefaultControl
+                                formControlName="ip-domain"
+                                id="selectIpDomain">
                         <mat-option *ngFor="let ip of ipdomain"
-                                    id="selectIpDomain"
+
                                     [value]="ip.id">{{ip.id}}
                             <span *ngIf="ip['display-name']"> ({{ip['display-name']}})</span>
                         </mat-option>
@@ -50,9 +52,10 @@
                                 title="This field is mandatory."
                                 placeholder="Please specify a Site"
                                 (selectionChange)="displayImsiAdd()"
+                                id="selectEnterprise"
                                 required>
                         <mat-option *ngFor="let site of site"
-                                    id="selectEnterprise"
+
                                     [value]="site.id">{{site.id}}
                             <span *ngIf="site['display-name']"> ({{site['display-name']}})</span>
                         </mat-option>

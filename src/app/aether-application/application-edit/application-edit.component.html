@@ -63,8 +63,10 @@
                             <mat-hint>Port End</mat-hint>
                         </mat-form-field>
                         <mat-form-field class="field-margin ">
-                            <mat-select formControlName="protocol">
-                                <mat-option id="selectProtocol"
+                            <mat-select
+                                id="selectProtocol"
+                                formControlName="protocol">
+                                <mat-option
                                             *ngFor="let eachProtocol of protocolOptions"
                                             [value]="eachProtocol.name">{{eachProtocol.name}}</mat-option>
                             </mat-select>
@@ -83,9 +85,8 @@
                 <mat-form-field class="field-margin half-width">
                     <mat-select formControlName="enterprise"
                                 placeholder="Please specify an Enterprise"
-                                title="This field is mandatory."
-                                required>
-                        <mat-option id="selectEnterprise"
+                                id="selectEnterprise">
+                        <mat-option
                                     *ngFor="let eachEnterprise of enterprises"
                                     [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
                     </mat-select>
