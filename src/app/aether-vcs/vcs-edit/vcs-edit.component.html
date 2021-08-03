@@ -36,8 +36,10 @@
             <!--templte dropdown-->
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="template" (selectionChange)="templateSelecte($event)">
-                        <mat-option id="selectTemplate"
+                    <mat-select formControlName="template"
+                                (selectionChange)="templateSelecte($event)"
+                                id="selectTemplate">
+                        <mat-option
                                     *ngFor="let eachTemp of templates"
                                     [value]="eachTemp.id">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
                     </mat-select>
@@ -96,8 +98,9 @@
                 <!--traffic-class dropdown-->
                 <div class="row">
                     <mat-form-field class="field-margin half-width">
-                        <mat-select formControlName="traffic-class">
-                            <mat-option id="selectTrafficClass"
+                        <mat-select formControlName="traffic-class"
+                                    id="selectTrafficClass">
+                            <mat-option
                                         *ngFor="let tc of trafficClasses"
                                         [value]="tc.id">{{tc.id}} {{tc['traffic-class']}}</mat-option>
                         </mat-select>
@@ -162,8 +165,9 @@
             <!--AP dropdown-->
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="ap">
-                        <mat-option id="selectAp"
+                    <mat-select formControlName="ap"
+                                id="selectAp">
+                        <mat-option
                                     *ngFor="let eachAp of aps"
                                     [value]="eachAp.id">{{eachAp.id}} {{eachAp.ap}}</mat-option>
                     </mat-select>
@@ -173,8 +177,9 @@
             <!--UPF dropdown-->
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="upf">
-                        <mat-option id="selectUpf"
+                    <mat-select formControlName="upf"
+                                id="selectUpf">
+                        <mat-option
                                     *ngFor="let eachUpf of upfs"
                                     [value]="eachUpf.id">{{eachUpf.id}} {{eachUpf['upf']}}</mat-option>
                     </mat-select>

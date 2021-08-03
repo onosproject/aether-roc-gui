@@ -11,9 +11,10 @@
         <mat-card-content class="content">
             <mat-form-field>
                 <mat-label>Application</mat-label>
-                <mat-select formControlName="select-item">
+                <mat-select formControlName="select-item"
+                            id="selectApplication">
                     <mat-option *ngFor="let item of this.displayList" (click)="closeCard(item.id)"
-                        id="selectApplication">
+                        >
                         {{item.id}}
                         <span *ngIf="item['display-name']"> ({{item['display-name']}})</span>
                     </mat-option>

@@ -71,8 +71,9 @@
             </div>
             <div class="row" id="trafficClassnRow">
                 <mat-form-field class="half-width subscriber-section">
-                    <mat-select formControlName="traffic-class">
-                        <mat-option id="selectTrafficClass"
+                    <mat-select formControlName="traffic-class"
+                                id="selectTrafficClass">
+                        <mat-option
                                     *ngFor="let tc of trafficClass"
                                     [value]="tc.id">{{tc.id}} {{tc['traffic-class']}}</mat-option>
                     </mat-select>

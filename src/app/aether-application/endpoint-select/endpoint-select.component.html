@@ -44,8 +44,9 @@
                 <mat-hint>Port End</mat-hint>
             </mat-form-field>
             <mat-form-field class="field-margin ">
-                <mat-select formControlName="protocol">
-                    <mat-option id="selectProtocol"
+                <mat-select formControlName="protocol"
+                            id="selectProtocol">
+                    <mat-option
                                 *ngFor="let eachProtocol of protocolOptions"
                                 [value]="eachProtocol.name">{{eachProtocol.name}}</mat-option>
                 </mat-select>

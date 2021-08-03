@@ -11,9 +11,9 @@
         <mat-card-content class="content">
             <mat-form-field>
                 <mat-label>Connectivity Service</mat-label>
-                <mat-select formControlName="select-item">
-                    <mat-option *ngFor="let item of this.displayList" (click)="closeCard(item.id)"
-                        id="selectConnectivityService">
+                <mat-select formControlName="select-item"
+                            id="selectConnectivityService">
+                    <mat-option *ngFor="let item of this.displayList" (click)="closeCard(item.id)">
                         {{item.id}}
                         <span *ngIf="item['display-name']"> ({{item['display-name']}})</span>
                     </mat-option>
