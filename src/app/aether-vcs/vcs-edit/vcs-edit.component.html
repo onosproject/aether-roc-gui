@@ -10,14 +10,16 @@
             <mat-icon *ngIf="!isNew" class="subscriber-pointer"
                       color="accent"
                       routerLink="/vcs/vcs-monitor/{{id}}"
-                      id="monitorVcsButton">insights</mat-icon>
+                      id="monitorVcsButton">insights
+            </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
                 <mat-form-field class="half-width field-margin">
                     <input matInput formControlName="id"
                            placeholder="Please specify an ID"
-                           id="inputID">
+                           id="inputID"
+                           required>
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
@@ -146,8 +148,8 @@
                         <div [formGroup]="dgForm">
                             <input matInput formControlName="device-group" readonly>
                             <mat-slide-toggle formControlName="enable">Enable</mat-slide-toggle>
-                            <mat-icon  color='primary' class="subscriber-pointer"
-                                       aria-hidden="false" aria-label="device-group"
+                            <mat-icon color='primary' class="subscriber-pointer"
+                                      aria-hidden="false" aria-label="device-group"
                                       routerLink="/devicegroups/devicegroups-edit/{{dgForm.value['device-group']}}"
                                       id="pointerDeviceGroup">launch
                             </mat-icon>

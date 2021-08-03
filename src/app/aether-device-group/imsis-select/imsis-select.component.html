@@ -11,7 +11,10 @@
         <mat-card-content class="content">
             <div>
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="name" id="inputAddress">
+                    <input matInput formControlName="name" id="inputAddress"
+                           title="This field is mandatory."
+                           placeholder="Please specify a name"
+                           required>
                     <mat-hint>Name</mat-hint>
                 </mat-form-field>
             </div>
@@ -32,10 +35,10 @@
                     id="cancelButton">Cancel
             </button>
             <button [disabled]="!imsiForm.valid"
-                mat-raised-button color="accent"
-                type="button"
-                id="confirmButton"
-                (click)="closeCard(false)">Confirm
+                    mat-raised-button color="accent"
+                    type="button"
+                    id="confirmButton"
+                    (click)="closeCard(false)">Confirm
             </button>
         </mat-card-actions>
     </mat-card>
