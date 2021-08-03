@@ -64,3 +64,17 @@ $content-height: 320px;
 .spacing {
     padding-right: 20px;
 }
+.small_icon {
+    font-size: 18px;
+}
+
+// Automatic naming from column name
+.mat-column-startsat {
+    flex: 0 0 20%;
+}
+.mat-column-alertname {
+    flex: 0 0 20%;
+}
+.mat-column-id {
+    flex: 0 0 10%;
+}

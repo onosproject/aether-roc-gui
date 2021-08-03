@@ -16,6 +16,7 @@ import {UtilsModule} from '../../utils/utils.module';
 import {ResizeService} from '../resize.service';
 import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
 import {GRAFANA_PROXY} from '../../../environments/environment';
+import {MatToolbar, MatToolbarModule} from '@angular/material/toolbar';
 
 describe('PanelAlertsComponent', () => {
     let component: PanelAlertsComponent;
@@ -31,6 +32,7 @@ describe('PanelAlertsComponent', () => {
                 MatPaginatorModule,
                 MatSortModule,
                 MatTableModule,
+                MatToolbarModule,
                 UtilsModule
             ],
             providers: [
@@ -52,5 +54,11 @@ describe('PanelAlertsComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should replace', () => {
+        const replaced = PanelAlertsComponent.relativePromLink(
+            'http://aether-roc-umbrella-prometheus-server-59c974f84-dk4x8:9090/graph');
+        expect(replaced).toEqual('http://localhost:9090/graph');
     });
 });
