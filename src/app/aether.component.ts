@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {authConfig, BASKET_SERVICE_ENABLED} from '../environments/environment';
 import {Meta} from '@angular/platform-browser';
@@ -11,6 +11,7 @@ import {BasketService} from './basket.service';
 import {OpenPolicyAgentService} from './open-policy-agent.service';
 import {Router} from '@angular/router';
 import {IdTokClaims} from './idtoken';
+import {SocketService} from './socket.service';
 
 export const USERNAME_ATTR = 'name';
 export const GROUPS_ATTR = 'groups';
@@ -25,7 +26,7 @@ const ID_TOKEN_EXPIRES_AT = 'id_token_expires_at';
     templateUrl: './aether.component.html',
     styleUrls: ['./aether.component.scss']
 })
-export class AetherComponent implements OnInit {
+export class AetherComponent implements OnInit, OnDestroy {
     userProfileDisplay: boolean = false;
     apiKeyDisplay: boolean = false;
     basketServiceEnabled: boolean = BASKET_SERVICE_ENABLED;
@@ -36,6 +37,7 @@ export class AetherComponent implements OnInit {
         private bs: BasketService,
         public opaService: OpenPolicyAgentService,
         private router: Router,
+        private socketService: SocketService,
     ) {
     }
 
@@ -56,9 +58,17 @@ export class AetherComponent implements OnInit {
                 console.log('Login', fulfilled ? 'succeeded' : 'failed', this.idTokClaims);
                 this.opaService.userGroups = this.idTokClaims.groups;
                 this.router.navigate(['/dashboard']);
+                this.socketService.connect(this.apiKey);
                 return fulfilled;
             });
+        } else {
+            // When no auth is used just open Web socket and accept everything
+            this.socketService.connect();
         }
+    }
+
+    ngOnDestroy(): void {
+        this.socketService.close();
     }
 
     showhelp(): void {
@@ -76,6 +86,7 @@ export class AetherComponent implements OnInit {
                 this.oauthService.logOut();
                 localStorage.clear();
                 window.location.reload();
+                this.socketService.close();
             }
         }
     }

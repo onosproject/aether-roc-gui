@@ -5,7 +5,15 @@
 -->
 <div class="card" [style]="'width:'+width+'px;height:'+height+'px;top:'+top+'px;left:'+left+'px'">
     <mat-toolbar class="profile-toolbar" color="primary">
-        <p>Alerts ()</p>
+        <p>Alerts</p>
         <span class="toolbar-spacer"></span>
     </mat-toolbar>
+    <mat-expansion-panel *ngFor="let vcsAlert of vcsAlerts | keyvalue">
+        <mat-expansion-panel-header>
+            <mat-panel-title>VCS: {{vcsAlert.key}} ({{vcsAlert.value.length}})</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngFor="let alert of vcsAlert.value">
+            <p>&nbsp;{{alert['annotations']['summary']}} {{alert['startsAt'] | date: 'short'}}</p>
+        </div>
+    </mat-expansion-panel>
 </div>

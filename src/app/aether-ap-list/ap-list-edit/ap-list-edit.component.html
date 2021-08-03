@@ -13,7 +13,9 @@
                 <mat-form-field class="half-width field-margin">
                     <input matInput formControlName="id"
                            placeholder="Please specify an ID"
-                           id="inputID">
+                           title="This field is mandatory."
+                           id="inputID"
+                           required>
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
@@ -37,9 +39,10 @@
                                 title="This field is mandatory."
                                 placeholder="Please specify an Enterprise"
                                 formControlName="enterprise"
+                                id="selectEnterprise"
                                 required>
                         <mat-option *ngFor="let ent of enterprises"
-                                    id="selectEnterprise"
+
                                     [value]="ent.id">{{ent.id}}
                             <span *ngIf="ent['display-name']"> ({{ent['display-name']}})</span>
                         </mat-option>

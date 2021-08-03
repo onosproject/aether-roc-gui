@@ -34,8 +34,9 @@
             <div class="row" id="enterpriseRow">
                 <mat-form-field class="field-margin half-width">
                     <mat-select formControlName="enterprise"
-                                placeholder="Please specify an Enterprise">
-                        <mat-option id="selectEnterprise"
+                                placeholder="Please specify an Enterprise"
+                                id="selectEnterprise">
+                        <mat-option
                                     *ngFor="let eachEnterprise of enterprises"
                                     [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
                     </mat-select>

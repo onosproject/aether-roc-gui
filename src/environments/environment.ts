@@ -25,6 +25,7 @@ export const AETHER_ROC_API_URL = 'http://localhost:8181';
 export const KUBERNETES_API_PROXY = 'http://localhost:8001';
 export const GRAFANA_PROXY = 'http://localhost:3000/grafana/';
 export const PROMETHEUS_PROXY = 'http://localhost:9090';
+export const WEBSOCKET_PROXY = 'ws://localhost:8120/ws';
 
 export const AETHER_TARGETS = ['connectivity-service-v3'];
 export const RBAC_TARGET = 'rbac';

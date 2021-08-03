@@ -32,9 +32,10 @@
             <div class="row" id="enterpriseRow">
                 <mat-form-field class="field-margin half-width subscriber-section">
                     <mat-select ngDefaultControl formControlName="enterprise"
-                                placeholder="Please specify an Enterprise">
+                                placeholder="Please specify an Enterprise"
+                                id="selectEnterprise">
                         <mat-option *ngFor="let ent of enterprises"
-                                    id="selectEnterprise"
+
                                     [value]="ent.id">{{ent.id}}
                             <span *ngIf="ent['display-name']"> ({{ent['display-name']}})</span>
                         </mat-option>

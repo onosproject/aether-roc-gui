@@ -13,7 +13,9 @@
                 <mat-form-field class="half-width field-margin">
                     <input matInput formControlName="id"
                            placeholder="Please specify an ID"
-                           id="inputID">
+                           title="This field is mandatory."
+                           id="inputID"
+                           required>
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
@@ -35,9 +37,10 @@
                                 title="This field is mandatory."
                                 placeholder="Please specify an Enterprise"
                                 formControlName="enterprise"
+                                id="selectEnterprise"
                                 required>
                         <mat-option *ngFor="let ent of enterprises"
-                                    id="selectEnterprise"
+
                                     [value]="ent.id">{{ent.id}}
                             <span *ngIf="ent['display-name']"> ({{ent['display-name']}})</span>
                         </mat-option>
@@ -67,7 +70,7 @@
                     <input [readonly]="ipForm" matInput formControlName="dns-secondary">
                     <mat-hint>DNS Secondary</mat-hint>
                 </mat-form-field>
-                <button  class="mat-button" (click)="openSecondaryCard()" type="button">
+                <button class="mat-button" (click)="openSecondaryCard()" type="button">
                     <mat-icon color="accent">edit</mat-icon>
                 </button>
             </div>
@@ -83,9 +86,13 @@
                 <mat-form-field class="field-margin half-width">
                     <mat-label>{{this.displayOption}}</mat-label>
                     <mat-select formControlName="admin-status" [(value)]="this.option">
-                        <mat-option id="statusOptionEnabled" value="ENABLE" (click)="changeAdminStatus()">ENABLE</mat-option>
-                        <mat-option id="statusOptionDisabled" value="DISABLE" (click)="changeAdminStatus()">DISABLE</mat-option>
-                        <mat-option id="statusOptionMaintenance" value="MAINTENANCE" (click)="changeAdminStatus()">MAINTENANCE</mat-option>
+                        <mat-option id="statusOptionEnabled" value="ENABLE" (click)="changeAdminStatus()">ENABLE
+                        </mat-option>
+                        <mat-option id="statusOptionDisabled" value="DISABLE" (click)="changeAdminStatus()">DISABLE
+                        </mat-option>
+                        <mat-option id="statusOptionMaintenance" value="MAINTENANCE" (click)="changeAdminStatus()">
+                            MAINTENANCE
+                        </mat-option>
                     </mat-select>
                     <mat-hint>Admin Status</mat-hint>
                 </mat-form-field>
