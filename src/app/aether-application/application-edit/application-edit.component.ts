@@ -210,6 +210,10 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         }
     }
 
+    soemthing(): void {
+        this.enterprises[0]['display-name']
+    }
+
     get endpointControls(): FormArray {
         return this.appForm.get(['endpoint']) as FormArray;
     }
