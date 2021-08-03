@@ -13,9 +13,7 @@
                 <mat-form-field class="half-width field-margin">
                     <input matInput formControlName="id"
                            placeholder="Please specify an ID"
-                           title="This field is mandatory."
-                           id="inputID"
-                           required>
+                           id="inputID">
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
@@ -59,9 +57,7 @@
         <mat-card-actions>
             <button mat-raised-button color="accent" type="submit"
                     id="submitButton"
-                    [disabled]="!(csForm.valid && csForm.touched && opaService.canWrite('/connectivity-service/connectivity-service[id=' + id + ']'))">
-                Update
-            </button>
+                    [disabled]="!(csForm.valid && csForm.touched && opaService.canWrite('/connectivity-service/connectivity-service[id=' + id + ']'))">Update</button>
         </mat-card-actions>
     </mat-card>
 </form>

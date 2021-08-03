@@ -63,7 +63,7 @@
             </div>
             <mat-card-actions>
                 <button mat-raised-button color="accent" type="submit"
-                        [disabled]="!(upfForm.valid && upfForm.touched && opaService.canWrite('/upf/upf'))"
+                        [disabled]="!(upfForm.valid && upfForm.value.id && upfForm.touched && opaService.canWrite('/upf/upf'))"
                         id="submitButton">Update
                 </button>
             </mat-card-actions>
