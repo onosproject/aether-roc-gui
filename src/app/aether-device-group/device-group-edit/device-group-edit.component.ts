@@ -7,7 +7,15 @@
 import {Component, OnInit} from '@angular/core';
 import {RocEditBase} from '../../roc-edit-base';
 import {DeviceGroupDeviceGroup} from '../../../openapi3/aether/3.0.0/models/device-group-device-group';
-import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {
+    AbstractControl,
+    FormArray,
+    FormBuilder,
+    FormControl,
+    ValidationErrors,
+    ValidatorFn,
+    Validators
+} from '@angular/forms';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
@@ -19,11 +27,24 @@ import {IpDomainIpDomain} from '../../../openapi3/aether/3.0.0/models/ip-domain-
 import {SiteSite} from '../../../openapi3/aether/3.0.0/models/site-site';
 import {ImsiParam} from '../imsis-select/imsis-select.component';
 
+const ValidateImsiRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    if (control.get(['imsis']).value.length !== 0) {
+        const imsiFormvaluealue = control.get(['imsis']).value;
+        let isValid: ValidationErrors;
+        imsiFormvaluealue.every(eachImsi => {
+            isValid = (eachImsi['imsi-range-from'] < eachImsi['imsi-range-to'] &&
+                eachImsi['imsi-range-to'] <= (100 + (eachImsi['imsi-range-from']))) ? null : {isRangeNotValid: true};
+        });
+        return isValid;
+    }
+};
+
 @Component({
     selector: 'aether-device-group-edit',
     templateUrl: './device-group-edit.component.html',
     styleUrls: ['../../common-edit.component.scss']
 })
+
 export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup> implements OnInit {
 
     data: DeviceGroupDeviceGroup;
@@ -47,7 +68,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         'ip-domain': [''],
         site: [''],
         imsis: this.fb.array([])
-    });
+    }, {validators: ValidateImsiRange});
 
     constructor(
         private deviceGroupDeviceGroupService: DeviceGroupDeviceGroupService,
