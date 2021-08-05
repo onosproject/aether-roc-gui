@@ -68,13 +68,25 @@ $content-height: 320px;
     font-size: 18px;
 }
 
-// Automatic naming from column name
-.mat-column-startsat {
-    flex: 0 0 20%;
+.popup_title {
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
 }
-.mat-column-alertname {
-    flex: 0 0 20%;
+
+.popup_content {
+    text-align: center;
 }
-.mat-column-id {
-    flex: 0 0 10%;
+
+.row_title {
+    text-align: end;
+}
+
+.row_value {
+    font-weight: bold;
+}
+
+.details_table {
+    margin-left: auto;
+    margin-right: auto;
 }
