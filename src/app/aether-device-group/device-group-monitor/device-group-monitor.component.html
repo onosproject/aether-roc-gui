@@ -19,19 +19,9 @@
                         <mat-panel-title><small>IMSIs</small>&nbsp;<strong>{{imsi.name}}</strong></mat-panel-title>
                     </mat-expansion-panel-header>
                     <div *ngFor="let imsiNum of imsiList(imsi['imsi-range-from'], imsi['imsi-range-to'])">
-                        <p *ngIf="site">{{imsiNum}} ({{fullImsi(site, imsiNum)}})</p>
-                        <div *ngIf="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, imsiNum, 1)">
-                            <iframe
-                                [src]="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, imsiNum, 1) | safe "
-                                width="600" height="150" frameborder="0"></iframe>
-                            <iframe
-                                [src]="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, imsiNum, 2) | safe "
-                                width="600" height="150" frameborder="0"></iframe>
+                        <div *ngIf="site" (click)="selectedUeId = imsiNum" class="table_icon">{{imsiNum}} ({{fullImsi(site, imsiNum)}})&nbsp;
+                            <mat-icon color="accent">insights</mat-icon>
                         </div>
-                        <p *ngIf="!generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, imsiNum, 1)">
-                            <mat-icon color="primary">auto_graph</mat-icon>
-                            Connectivity chart unavailable
-                        </p>
                     </div>
                 </mat-expansion-panel>
                 <mat-expansion-panel *ngIf="ipDomain">
@@ -67,9 +57,18 @@
                     </h3>
                     <p><small>MCC</small>&nbsp;{{site["imsi-definition"].mcc}}&nbsp;&nbsp;
                         <small>MNC</small>&nbsp;{{site["imsi-definition"].mnc}}&nbsp;&nbsp;
+                        <small>Enterprise</small>&nbsp;{{site["imsi-definition"].enterprise}}&nbsp;&nbsp;
                         <small>Format</small>&nbsp;{{site["imsi-definition"].format}}</p>
                 </mat-expansion-panel>
             </td>
         </tr>
     </table>
+    <aether-ue-monitor
+        *ngIf="selectedUeId"
+        [ueId]="selectedUeId"
+        [fullImsi]="fullImsi(site, selectedUeId)"
+        [grafanaOrgId]="grafanaOrgId"
+        [grafanaOrgName]="grafanaOrgName"
+        (closeEvent)="selectedUeId = undefined">
+    </aether-ue-monitor>
 </div>

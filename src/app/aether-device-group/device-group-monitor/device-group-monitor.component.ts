@@ -29,6 +29,7 @@ export class DeviceGroupMonitorComponent extends RocMonitorBase implements OnIni
     thisDg: DeviceGroupDeviceGroup;
     site: SiteSite;
     ipDomain: IpDomainIpDomain;
+    selectedUeId: number;
 
     constructor(
         protected dgService: DeviceGroupDeviceGroupService,
@@ -38,7 +39,6 @@ export class DeviceGroupMonitorComponent extends RocMonitorBase implements OnIni
         protected router: Router,
         private httpClient: HttpClient,
         private oauthService: OAuthService,
-        @Inject('grafana_api_proxy') private grafanaUrl: string,
     ) {
         super(route, router);
     }
@@ -80,13 +80,6 @@ export class DeviceGroupMonitorComponent extends RocMonitorBase implements OnIni
             (value: IpDomainIpDomain) => this.ipDomain = value,
             err => console.warn('Error loading IPDomain', ipDomainID, err)
         );
-    }
-
-    generateConnectivityPanelUrl(orgId: number, orgName: string, ueId: number, panel: number): string {
-        // <iframe src="http://localhost:8183/grafana/d-solo/ue-41/ue-41-connectivity-and-
-        // throughput?orgId=1&theme=light&panelId=1" width="450" height="200" frameborder="0"></iframe>
-        return this.grafanaUrl + '/d-solo/ue-' + ueId + '?orgId=' + orgId +
-            '&theme=light&panelId=' + panel;
     }
 
 }
