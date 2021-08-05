@@ -74,6 +74,14 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         this.loadEnterprises(this.target);
     }
 
+    setOnlyEnterprise(lenEnterprises: number): void {
+        if (lenEnterprises === 1) {
+            this.siteForm.get('enterprise').markAsTouched();
+            this.siteForm.get('enterprise').markAsDirty();
+            this.siteForm.get('enterprise').setValue(this.enterprises[0].id);
+        }
+    }
+
     loadSiteSite(target: string, id: string): void {
         this.siteSiteService.getSiteSite({
             target,
@@ -130,6 +138,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         }).subscribe(
             (value => {
                 this.enterprises = value.enterprise;
+                this.setOnlyEnterprise(value.enterprise.length);
                 console.log('Got', value.enterprise.length, 'Enterprise');
             }),
             error => {
