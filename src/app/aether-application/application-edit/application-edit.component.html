@@ -67,8 +67,8 @@
                                 id="selectProtocol"
                                 formControlName="protocol">
                                 <mat-option
-                                            *ngFor="let eachProtocol of protocolOptions"
-                                            [value]="eachProtocol.name">{{eachProtocol.name}}</mat-option>
+                                    *ngFor="let eachProtocol of protocolOptions"
+                                    [value]="eachProtocol.name">{{eachProtocol.name}}</mat-option>
                             </mat-select>
                             <mat-hint>Protocol</mat-hint>
                         </mat-form-field>
@@ -87,8 +87,9 @@
                                 placeholder="Please specify an Enterprise"
                                 id="selectEnterprise">
                         <mat-option
-                                    *ngFor="let eachEnterprise of enterprises"
-                                    [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
+                            *ngFor="let eachEnterprise of enterprises"
+                            [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}
+                        </mat-option>
                     </mat-select>
                     <mat-hint>Enterprise</mat-hint>
                 </mat-form-field>

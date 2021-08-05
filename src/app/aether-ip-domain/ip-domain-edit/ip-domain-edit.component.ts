@@ -98,6 +98,14 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         super.init();
     }
 
+    setOnlyEnterprise(lenEnterprises: number): void {
+        if (lenEnterprises === 1) {
+            this.ipForm.get('enterprise').markAsTouched();
+            this.ipForm.get('enterprise').markAsDirty();
+            this.ipForm.get('enterprise').setValue(this.enterprises[0].id);
+        }
+    }
+
     private populateFormData(value: IpDomainIpDomain): void {
         this.displayOption = this.ipForm.get(['admin-status'])[ORIGINAL];
         if (value['display-name']) {
@@ -149,6 +157,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         }).subscribe(
             (value => {
                 this.enterprises = value.enterprise;
+                this.setOnlyEnterprise(value.enterprise.length);
                 console.log('Got Enterprises', value.enterprise.length);
             }),
             error => {
