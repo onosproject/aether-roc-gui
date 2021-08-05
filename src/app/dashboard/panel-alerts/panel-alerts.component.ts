@@ -3,13 +3,12 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {SocketService} from '../../socket.service';
-import {from, Observable, Subscription} from 'rxjs';
-import {switchAll, tap, pluck, mergeMap, filter, map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {switchAll, tap, pluck, map} from 'rxjs/operators';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
-import {AETHER_TARGETS, PROMETHEUS_PROXY} from '../../../environments/environment';
-import {VcsVcs} from '../../../openapi3/aether/3.0.0/models/vcs-vcs';
+import {PROMETHEUS_PROXY} from '../../../environments/environment';
 import {OAuthService} from 'angular-oauth2-oidc';
 
 const RECEIVER = 'receiver';
@@ -57,7 +56,7 @@ export interface PromAlerts {
 @Component({
     selector: 'aether-panel-alerts',
     templateUrl: './panel-alerts.component.html',
-    styleUrls: ['../../common-panel.component.scss']
+    styleUrls: ['../../common-panel.component.scss', 'panel-alerts.component.scss']
 })
 export class PanelAlertsComponent implements OnInit, OnDestroy {
     @Input() top: number;
@@ -66,6 +65,7 @@ export class PanelAlertsComponent implements OnInit, OnDestroy {
     @Input() height: number;
     public dataObs: Observable<PromAlert[]>;
     private loginTokenTimer: any;
+    public selectedAlert: PromAlert;
 
     public static relativePromLink(url: string): string {
         const prefix = /http(.*):9090/;

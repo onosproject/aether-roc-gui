@@ -33,6 +33,11 @@
         </ng-container>
         <!-- Header and Row Declarations -->
         <mat-header-row *matHeaderRowDef="['startsat','alertname','summary','id']"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: ['startsat','alertname','summary','id']"></mat-row>
+        <mat-row *matRowDef="let row; columns: ['startsat','alertname','summary','id']" (click)="selectedAlert = row"></mat-row>
     </mat-table>
+    <aether-alert-detail
+        *ngIf="selectedAlert"
+        [alert]="selectedAlert"
+        (closeEvent)="selectedAlert = undefined">
+    </aether-alert-detail>
 </div>
