@@ -20,6 +20,11 @@ export interface IpDomainIpDomain {
   'display-name'?: string;
 
   /**
+   * DNN/APN
+   */
+  dnn?: string;
+
+  /**
    * primary dns server name
    */
   'dns-primary'?: string;
