@@ -145,17 +145,19 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
                 }
                 isDeleted = false;
             }
-        } else if (value['connectivity-service'] && this.entForm.value['connectivity-service'].length !== 0){
-            for (const eachValueCs of value['connectivity-service']) {
-                let eachFormCsPosition = 0;
-                for (const eachFormCs of this.entForm.value['connectivity-service']){
-                    if (eachValueCs['connectivity-service'] === eachFormCs['connectivity-service']){
-                        this.entForm.value['connectivity-service'][eachFormCsPosition].enabled = eachValueCs.enabled;
+        } else if (value['connectivity-service'] && this.entForm.value['connectivity-service'].length !== 0) {
+            this.entForm.value['connectivity-service'].forEach((eachValueCs, eachFormCsPosition) => {
+                for (const eachFormCs of value['connectivity-service']) {
+                    if (eachValueCs['connectivity-service'] === eachFormCs['connectivity-service']) {
+                        this.entForm.get(['connectivity-service', eachFormCsPosition, 'enabled']).setValue(eachFormCs.allow);
+                    } else {
+                        (this.entForm.get(['connectivity-service']) as FormArray).push(this.fb.group({
+                            'connectivity-service': eachFormCs.application,
+                            enabled: eachFormCs.enabled
+                        }));
                     }
-                    eachFormCsPosition++;
                 }
-            }
-
+            });
         }
 
     }
@@ -176,7 +178,7 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
                 const basketPreview = this.bs.buildPatchBody().Updates;
                 if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['enterprise-3.0.0']) {
                     basketPreview['enterprise-3.0.0'].enterprise.forEach((basketItems) => {
-                        if (basketItems.id === id){
+                        if (basketItems.id === id) {
                             this.populateFormData(basketItems, id);
                         }
                     });

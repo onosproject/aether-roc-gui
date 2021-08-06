@@ -37,7 +37,6 @@
                                 formControlName="ip-domain"
                                 id="selectIpDomain">
                         <mat-option *ngFor="let ip of ipdomain"
-
                                     [value]="ip.id">{{ip.id}}
                             <span *ngIf="ip['display-name']"> ({{ip['display-name']}})</span>
                         </mat-option>
@@ -55,7 +54,6 @@
                                 id="selectEnterprise"
                                 required>
                         <mat-option *ngFor="let site of site"
-
                                     [value]="site.id">{{site.id}}
                             <span *ngIf="site['display-name']"> ({{site['display-name']}})</span>
                         </mat-option>
@@ -98,7 +96,7 @@
 
             <mat-card-actions>
                 <button mat-raised-button color="accent" type="submit"
-                        [disabled]="!(deviceGroupForm.valid && deviceGroupForm.touched && opaService.canWrite('/devicegroups/devicegroups'))"
+                        [disabled]="!(deviceGroupForm.valid && (deviceGroupForm.errors?.isRangeNotValid == null) && deviceGroupForm.touched && opaService.canWrite('/devicegroups/devicegroups'))"
                         id="submitButton">Update
                 </button>
             </mat-card-actions>
@@ -108,6 +106,7 @@
 <aether-imsis-select
     *ngIf="showImsiDisplay && opaService.canWrite('/devicegroup/devicegroup[id=' + id + ']/imsis')"
     id="imsiSelectComponent"
+    [OtherImsi] = "imsis"
     [ImisLengthLimits]="SiteImisLength"
     (closeEvent)="openDeviceGroupCard($event)">
 </aether-imsis-select>

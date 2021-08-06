@@ -143,7 +143,7 @@
         <mat-card-actions>
             <button mat-raised-button color="accent" type="submit"
                     id="submitButton"
-                    [disabled]="!(ipForm.valid && ipForm.touched && opaService.canWrite('/ip-domain/ip-domain[id=' + id + ']'))">
+                    [disabled]="!(ipForm.valid && ipForm.value.id && ipForm.touched && opaService.canWrite('/ip-domain/ip-domain[id=' + id + ']'))">
                 Update
             </button>
         </mat-card-actions>
