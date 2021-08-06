@@ -34,6 +34,7 @@ export class IpDomainComponent extends RocListBase<IpDomainDatasource> implement
         'subnet',
         'admin-status',
         'mtu',
+        'dnn',
         'edit',
         'delete'
     ];
@@ -69,6 +70,9 @@ export class IpDomainComponent extends RocListBase<IpDomainDatasource> implement
                         }
                         if (basketItems.mtu) {
                             ScopeOfDataSource.data[listItemCount].mtu = basketItems.mtu;
+                        }
+                        if (basketItems.dnn) {
+                            ScopeOfDataSource.data[listItemCount].dnn = basketItems.dnn;
                         }
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;

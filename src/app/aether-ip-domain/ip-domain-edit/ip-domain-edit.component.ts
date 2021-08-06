@@ -74,6 +74,10 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
             Validators.min(68),
             Validators.max(65535),
         ])],
+        dnn: ['', Validators.compose([
+            Validators.minLength(1),
+            Validators.maxLength(32),
+        ])],
     });
 
     constructor(
@@ -139,6 +143,10 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         if (value.mtu) {
             this.ipForm.get('mtu').setValue(value.mtu);
             this.ipForm.get('mtu')[ORIGINAL] = value.mtu;
+        }
+        if (value.dnn) {
+            this.ipForm.get('dnn').setValue(value.dnn);
+            this.ipForm.get('dnn')[ORIGINAL] = value.dnn;
         }
     }
 
