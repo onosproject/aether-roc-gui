@@ -56,7 +56,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
     data: DeviceGroupDeviceGroup;
     ipdomain: Array<IpDomainIpDomain>;
     site: Array<SiteSite>;
-    imsis: Array<DeviceGroupDeviceGroupImsis>;
+    imsis: Array<DeviceGroupDeviceGroupImsis> = [];
     showImsiDisplay: boolean = false;
     showAddImsi: boolean = false;
     SiteImisLength: number;
