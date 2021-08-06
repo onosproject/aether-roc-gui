@@ -23,9 +23,11 @@ import {ResizeService} from './resize.service';
 import { PanelAlertsComponent } from './panel-alerts/panel-alerts.component';
 import {UtilsModule} from '../utils/utils.module';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { AlertDetailComponent } from './alert-detail/alert-detail.component';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
-    declarations: [DashboardComponent, PanelVcsComponent, PanelAlertsComponent],
+    declarations: [DashboardComponent, PanelVcsComponent, PanelAlertsComponent, AlertDetailComponent],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({rootUrl: AETHER_ROC_API_URL}),
@@ -40,7 +42,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
         MatSortModule,
         MatIconModule,
         UtilsModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatCardModule
     ],
     providers: [
         AuthInterceptor,

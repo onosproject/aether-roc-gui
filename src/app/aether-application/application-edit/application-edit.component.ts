@@ -79,6 +79,14 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         this.loadEnterprises(this.target);
     }
 
+    setOnlyEnterprise(lenEnterprises: number): void {
+        if (lenEnterprises === 1) {
+            this.appForm.get('enterprise').markAsTouched();
+            this.appForm.get('enterprise').markAsDirty();
+            this.appForm.get('enterprise').setValue(this.enterprises[0].id);
+        }
+    }
+
     deleteFromSelect(ep: FormControl): void {
         this.bs.deleteIndexedEntry('/application-3.0.0/application[id=' + this.id +
             ']/endpoint[endpoint=' + ep + ']', 'endpoint', '' + ep);
@@ -220,6 +228,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         }).subscribe(
             (value => {
                 this.enterprises = value.enterprise;
+                this.setOnlyEnterprise(value.enterprise.length);
                 console.log('Got', value.enterprise.length, 'Enterprise');
             }),
             error => {

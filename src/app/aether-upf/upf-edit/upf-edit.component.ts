@@ -73,6 +73,14 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         super.init();
     }
 
+    setOnlyEnterprise(lenEnterprises: number): void {
+        if (lenEnterprises === 1) {
+            this.upfForm.get('enterprise').markAsTouched();
+            this.upfForm.get('enterprise').markAsDirty();
+            this.upfForm.get('enterprise').setValue(this.enterprises[0].id);
+        }
+    }
+
     loadUpfUpf(target: string, id: string): void {
         this.upfUpfService.getUpfUpf({
             target,
@@ -105,6 +113,7 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         }).subscribe(
             (value => {
                 this.enterprises = value.enterprise;
+                this.setOnlyEnterprise(value.enterprise.length);
                 console.log('Got Enterprises', value.enterprise.length);
             }),
             error => {

@@ -8,12 +8,36 @@
         <p>Alerts</p>
         <span class="toolbar-spacer"></span>
     </mat-toolbar>
-    <mat-expansion-panel *ngFor="let vcsAlert of vcsAlerts | keyvalue">
-        <mat-expansion-panel-header>
-            <mat-panel-title>VCS: {{vcsAlert.key}} ({{vcsAlert.value.length}})</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div *ngFor="let alert of vcsAlert.value">
-            <p>&nbsp;{{alert['annotations']['summary']}} {{alert['startsAt'] | date: 'short'}}</p>
-        </div>
-    </mat-expansion-panel>
+    <mat-table [dataSource]="dataObs">
+        <ng-container matColumnDef="startsat">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let row" >
+                <mat-icon [color]="row.labels.severity==='warn'?'warn':'primary'">{{row.labels.severity==='warn'?'warning':'error_outline'}}</mat-icon>
+                &nbsp;{{row.startsAt | date: 'short'}}
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="alertname">
+            <mat-header-cell *matHeaderCellDef>Alert</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{row.labels.alertname}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="summary">
+            <mat-header-cell *matHeaderCellDef>Summary</mat-header-cell>
+            <mat-cell *matCellDef="let row" [title]="row.annotations.description"> {{row.annotations.summary}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-icon title="{{row.fingerprint}}" class="icon-pointer small_icon" (click)="showPrometheus(row.generatorURL)">
+                launch</mat-icon>
+            </mat-cell>
+        </ng-container>
+        <!-- Header and Row Declarations -->
+        <mat-header-row *matHeaderRowDef="['startsat','alertname','summary','id']"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: ['startsat','alertname','summary','id']" (click)="selectedAlert = row"></mat-row>
+    </mat-table>
+    <aether-alert-detail
+        *ngIf="selectedAlert"
+        [alert]="selectedAlert"
+        (closeEvent)="selectedAlert = undefined">
+    </aether-alert-detail>
 </div>

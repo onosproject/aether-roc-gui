@@ -5,38 +5,32 @@
  */
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {PanelAlertsComponent} from './panel-alerts.component';
+import {UeMonitorComponent} from './ue-monitor.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSortModule} from '@angular/material/sort';
-import {MatTableModule} from '@angular/material/table';
-import {UtilsModule} from '../../utils/utils.module';
-import {ResizeService} from '../resize.service';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatCardModule} from '@angular/material/card';
 import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
 import {GRAFANA_PROXY} from '../../../environments/environment';
-import {MatToolbar, MatToolbarModule} from '@angular/material/toolbar';
+import {UtilsModule} from '../../utils/utils.module';
 
-describe('PanelAlertsComponent', () => {
-    let component: PanelAlertsComponent;
-    let fixture: ComponentFixture<PanelAlertsComponent>;
+describe('UeMonitorComponent', () => {
+    let component: UeMonitorComponent;
+    let fixture: ComponentFixture<UeMonitorComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [PanelAlertsComponent],
+            declarations: [UeMonitorComponent],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
                 BrowserAnimationsModule,
-                MatPaginatorModule,
-                MatSortModule,
-                MatTableModule,
                 MatToolbarModule,
+                MatCardModule,
                 UtilsModule
             ],
             providers: [
-                ResizeService,
                 {provide: OAuthService},
                 {provide: UrlHelperService},
                 {provide: OAuthLogger},
@@ -47,18 +41,12 @@ describe('PanelAlertsComponent', () => {
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(PanelAlertsComponent);
+        fixture = TestBed.createComponent(UeMonitorComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
     it('should create', () => {
         expect(component).toBeTruthy();
-    });
-
-    it('should replace', () => {
-        const replaced = PanelAlertsComponent.relativePromLink(
-            'http://aether-roc-umbrella-prometheus-server-59c974f84-dk4x8:9090/graph');
-        expect(replaced).toEqual('http://localhost:9090/graph');
     });
 });

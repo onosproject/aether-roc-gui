@@ -74,6 +74,10 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
             Validators.min(68),
             Validators.max(65535),
         ])],
+        dnn: ['', Validators.compose([
+            Validators.minLength(1),
+            Validators.maxLength(32),
+        ])],
     });
 
     constructor(
@@ -96,6 +100,14 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
     ngOnInit(): void {
         this.loadEnterprises(this.target);
         super.init();
+    }
+
+    setOnlyEnterprise(lenEnterprises: number): void {
+        if (lenEnterprises === 1) {
+            this.ipForm.get('enterprise').markAsTouched();
+            this.ipForm.get('enterprise').markAsDirty();
+            this.ipForm.get('enterprise').setValue(this.enterprises[0].id);
+        }
     }
 
     private populateFormData(value: IpDomainIpDomain): void {
@@ -132,6 +144,10 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
             this.ipForm.get('mtu').setValue(value.mtu);
             this.ipForm.get('mtu')[ORIGINAL] = value.mtu;
         }
+        if (value.dnn) {
+            this.ipForm.get('dnn').setValue(value.dnn);
+            this.ipForm.get('dnn')[ORIGINAL] = value.dnn;
+        }
     }
 
     changeAdminStatus(): void {
@@ -149,6 +165,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         }).subscribe(
             (value => {
                 this.enterprises = value.enterprise;
+                this.setOnlyEnterprise(value.enterprise.length);
                 console.log('Got Enterprises', value.enterprise.length);
             }),
             error => {

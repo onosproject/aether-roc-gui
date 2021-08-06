@@ -32,6 +32,7 @@ import { ImsisSelectComponent } from './imsis-select/imsis-select.component';
 import { DeviceGroupMonitorComponent } from './device-group-monitor/device-group-monitor.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {UtilsModule} from '../utils/utils.module';
+import { UeMonitorComponent } from './ue-monitor/ue-monitor.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import {UtilsModule} from '../utils/utils.module';
         DeviceGroupComponent,
         DeviceGroupEditComponent,
         ImsisSelectComponent,
-        DeviceGroupMonitorComponent
+        DeviceGroupMonitorComponent,
+        UeMonitorComponent
     ],
     imports: [
         CommonModule,

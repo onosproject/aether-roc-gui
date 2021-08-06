@@ -69,6 +69,14 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
         super.init();
     }
 
+    setOnlyEnterprise(lenEnterprises: number): void {
+        if (lenEnterprises === 1) {
+            this.apForm.get('enterprise').markAsTouched();
+            this.apForm.get('enterprise').markAsDirty();
+            this.apForm.get('enterprise').setValue(this.enterprises[0].id);
+        }
+    }
+
     get accessPointControls(): FormArray {
         return this.apForm.get(['access-points']) as FormArray;
     }
@@ -180,6 +188,7 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
         }).subscribe(
             (value => {
                 this.enterprises = value.enterprise;
+                this.setOnlyEnterprise(value.enterprise.length);
                 console.log('Got Enterprises', value.enterprise.length);
             }),
             error => {
