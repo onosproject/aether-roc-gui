@@ -106,6 +106,7 @@
 <aether-imsis-select
     *ngIf="showImsiDisplay && opaService.canWrite('/devicegroup/devicegroup[id=' + id + ']/imsis')"
     id="imsiSelectComponent"
+    [OtherImsi] = "imsis"
     [ImisLengthLimits]="SiteImisLength"
     (closeEvent)="openDeviceGroupCard($event)">
 </aether-imsis-select>

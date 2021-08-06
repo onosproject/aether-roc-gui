@@ -29,11 +29,17 @@ import {ImsiParam} from '../imsis-select/imsis-select.component';
 
 const ValidateImsiRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     if (control.get(['imsis']).value.length !== 0) {
-        const imsiFormvaluealue = control.get(['imsis']).value;
+        const imsiFormvalue = control.get(['imsis']).value;
         let isValid: ValidationErrors;
-        imsiFormvaluealue.every(eachImsi => {
-            isValid = (eachImsi['imsi-range-from'] < eachImsi['imsi-range-to'] &&
-                eachImsi['imsi-range-to'] <= (100 + (eachImsi['imsi-range-from']))) ? null : {isRangeNotValid: true};
+        imsiFormvalue.every(eachImsi => {
+            for (const eachImsiFormValues of imsiFormvalue) {
+                if (eachImsiFormValues.name !== eachImsi.name) {
+                    isValid = ((eachImsi['imsi-range-to'] < eachImsiFormValues['imsi-range-from'] ||
+                        eachImsi['imsi-range-from'] > eachImsiFormValues['imsi-range-to'])
+                        && (eachImsi['imsi-range-from'] < eachImsi['imsi-range-to'] &&
+                            eachImsi['imsi-range-to'] <= (100 + (eachImsi['imsi-range-from'])))) ? null : {isRangeNotValid: true};
+                }
+            }
         });
         return isValid;
     }
@@ -170,7 +176,6 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
                 }
                 isDeleted = false;
             }
-            console.log('Got imsi', value);
         } else if (value.imsis && this.deviceGroupForm.value.imsis.length !== 0) {
             for (const eachValueImsis of value.imsis) {
                 (this.deviceGroupForm.get('imsis') as FormArray).push(this.fb.group({
@@ -180,6 +185,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
                 }));
             }
         }
+        this.imsis = this.deviceGroupForm.get('imsis').value;
     }
 
     openDeviceGroupCard(event: ImsiParam): void {

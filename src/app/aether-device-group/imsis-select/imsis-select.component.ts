@@ -6,6 +6,7 @@
 
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
+import {DeviceGroupDeviceGroupImsis} from '../../../openapi3/aether/3.0.0/models/device-group-device-group-imsis';
 
 export interface ImsiParam {
     name: string;
@@ -30,6 +31,7 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
 
     @Output() closeEvent = new EventEmitter<ImsiParam>();
     @Input() ImisLengthLimits: number = 0;
+    @Input() OtherImsi: Array<DeviceGroupDeviceGroupImsis> = [];
     ImsiRangeLimit: number = 0;
 
     imsiForm = this.fb.group({
@@ -39,7 +41,7 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
         ])],
         'imsi-range-from': [0],
         'imsi-range-to': [0],
-    }, {validators: ValidateImsiRange});
+    }, {validator: ValidateImsiRange});
 
     constructor(
         protected fb: FormBuilder,
@@ -63,6 +65,25 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
+        this.formControlValueChanged();
+    }
+
+    formControlValueChanged(): void {
+        let isValid: boolean;
+        if (this.OtherImsi.length !== 0) {
+            this.imsiForm.valueChanges.subscribe((changedValue) => {
+                const ImsiFromRange = changedValue['imsi-range-from'];
+                const ImsiToRange = changedValue['imsi-range-to'];
+                this.OtherImsi.every(eachImsi => {
+                    isValid = ((ImsiToRange < eachImsi['imsi-range-from'] || ImsiFromRange > eachImsi['imsi-range-to'])
+                        && (ImsiFromRange < ImsiToRange &&
+                            ImsiToRange <= (100 + (ImsiFromRange)))) ? true : false;
+                });
+                if (!isValid) {
+                    this.imsiForm.setErrors({isRangeNotValid: true});
+                }
+            });
+        }
     }
 
     ngOnChanges(): void {
