@@ -19,7 +19,7 @@ import {
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {DeviceGroupDeviceGroupService} from '../../../openapi3/aether/3.0.0/services/device-group-device-group.service';
 import {DeviceGroupDeviceGroupImsis} from '../../../openapi3/aether/3.0.0/models/device-group-device-group-imsis';
@@ -89,6 +89,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         super(snackBar, bs, route, router, 'device-group-3.0.0', 'device-group');
         super.form = this.deviceGroupForm;
         super.loadFunc = this.loadDeviceGroupDeviceGroup;
+        this.deviceGroupForm[REQDATTRIBS] = ['site'];
         this.deviceGroupForm.get(['imsis'])[IDATTRIBS] = ['name'];
     }
 

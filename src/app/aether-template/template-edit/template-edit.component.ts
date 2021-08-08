@@ -141,24 +141,31 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
     private populateFormData(value: TemplateTemplate): void {
         if (value['display-name']) {
             this.tempForm.get('display-name').setValue(value['display-name']);
+            this.tempForm.get('display-name')[ORIGINAL] = value['display-name'];
         }
         if (value.description) {
             this.tempForm.get(['description']).setValue(value.description);
+            this.tempForm.get(['description'])[ORIGINAL] = value.description;
         }
         if (value.sd) {
             this.tempForm.get(['sd']).setValue(value.sd);
+            this.tempForm.get(['sd'])[ORIGINAL] = value.sd;
         }
         if (value.sst) {
             this.tempForm.get(['sst']).setValue(value.sst);
+            this.tempForm.get(['sst'])[ORIGINAL] = value.sst;
         }
         if (value.uplink) {
             this.tempForm.get(['uplink']).setValue(value.uplink);
+            this.tempForm.get(['uplink'])[ORIGINAL] = value.uplink;
         }
         if (value.downlinkl) {
             this.tempForm.get(['downlink']).setValue(value.downlink);
+            this.tempForm.get(['downlink'])[ORIGINAL] = value.downlink;
         }
         if (value['traffic-class']) {
             this.tempForm.get(['traffic-class']).setValue(value['traffic-class']);
+            this.tempForm.get(['traffic-class'])[ORIGINAL] = value['traffic-class'];
         }
     }
 

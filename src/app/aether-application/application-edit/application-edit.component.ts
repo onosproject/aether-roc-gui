@@ -11,7 +11,7 @@ import {
     ApplicationApplication,
     EnterpriseEnterprise
 } from '../../../openapi3/aether/3.0.0/models';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {RocEditBase} from '../../roc-edit-base';
@@ -71,6 +71,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         super(snackBar, bs, route, router, 'application-3.0.0', 'application');
         super.form = this.appForm;
         super.loadFunc = this.loadApplicationApplication;
+        this.appForm[REQDATTRIBS] = ['enterprise'];
         this.appForm.get(['endpoint'])[IDATTRIBS] = ['name'];
     }
 
@@ -139,16 +140,20 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             epPortEndControl.markAsTouched();
             epPortEndControl.markAsDirty();
             epPortEndControl[TYPE] = 'number';
-            const epPrtotocolontrol = this.fb.control(selected.protocol);
-            epPrtotocolontrol.markAsTouched();
-            epPrtotocolontrol.markAsDirty();
-            (this.appForm.get('endpoint') as FormArray).push(this.fb.group({
+            const epProtocolcontrol = this.fb.control(selected.protocol);
+            epProtocolcontrol.markAsTouched();
+            epProtocolcontrol.markAsDirty();
+
+            const epGroupControl = this.fb.group({
                 name: epNameControl,
                 address: epAddressControl,
                 ['port-start']: epPortStartControl,
                 ['port-end']: epPortEndControl,
-                protocol: epPrtotocolontrol,
-            }));
+                protocol: epProtocolcontrol,
+            });
+            epGroupControl[REQDATTRIBS] = ['port-start', 'address'];
+
+            (this.appForm.get('endpoint') as FormArray).push(epGroupControl);
             console.log('Adding new Value', selected);
             this.appForm.markAllAsTouched();
         }
@@ -180,15 +185,18 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                     epPortStartControl[ORIGINAL] = ep['port-start'];
                     const epPortEndControl = this.fb.control(ep['port-end']);
                     epPortEndControl[ORIGINAL] = ep['port-end'];
-                    const epProtocolontrol = this.fb.control(ep.protocol);
-                    epProtocolontrol[ORIGINAL] = ep.protocol;
-                    (this.appForm.get(['endpoint']) as FormArray).push(this.fb.group({
+                    const epProtocolcontrol = this.fb.control(ep.protocol);
+                    epProtocolcontrol[ORIGINAL] = ep.protocol;
+                    const epGroupControl = this.fb.group({
                         name: epNameControl,
                         address: epAddressControl,
-                        'port-start': epPortStartControl,
-                        'port-end': epPortEndControl,
-                        protocol: epProtocolontrol
-                    }));
+                        ['port-start']: epPortStartControl,
+                        ['port-end']: epPortEndControl,
+                        protocol: epProtocolcontrol,
+                    });
+                    epGroupControl[REQDATTRIBS] = ['port-start', 'address'];
+
+                    (this.appForm.get(['endpoint']) as FormArray).push(epGroupControl);
                 }
             } else {
                 value.endpoint.forEach((eachValueEndpoint, eachFormEndpointPosition) => {

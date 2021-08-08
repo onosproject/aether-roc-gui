@@ -12,7 +12,7 @@ import {
     IpDomainIpDomainService
 } from '../../../openapi3/aether/3.0.0/services';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {EnterpriseEnterprise} from '../../../openapi3/aether/3.0.0/models/enterprise-enterprise';
@@ -93,6 +93,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         super(snackBar, bs, route, router, 'ip-domain-3.0.0', 'ip-domain');
         super.form = this.ipForm;
         super.loadFunc = this.loadIpDomainIpDomain;
+        this.ipForm[REQDATTRIBS] = ['enterprise', 'subnet'];
         this.ipForm.get('mtu')[TYPE] = 'number';
 
     }

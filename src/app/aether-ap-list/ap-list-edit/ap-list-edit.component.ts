@@ -7,7 +7,7 @@ import {Component, EventEmitter, OnInit} from '@angular/core';
 import {RocEditBase} from '../../roc-edit-base';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
@@ -62,6 +62,7 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
         super.form = this.apForm;
         super.loadFunc = this.loadApListApList;
         this.apForm.get(['access-points'])[IDATTRIBS] = ['address'];
+        this.apForm[REQDATTRIBS] = ['enterprise'];
     }
 
     ngOnInit(): void {
@@ -133,11 +134,13 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
                     enabledFormControl[ORIGINAL] = ap.enable;
                     enabledFormControl[TYPE] = 'boolean';
 
-                    (this.apForm.get('access-points') as FormArray).push(this.fb.group({
+                    const apFormGroup = this.fb.group({
                         address: addressFormControl,
                         tac: tacFormControl,
                         enable: enabledFormControl
-                    }));
+                    });
+                    apFormGroup[REQDATTRIBS] = ['tac'];
+                    (this.apForm.get('access-points') as FormArray).push(apFormGroup);
                 }
                 isDeleted = false;
             }
@@ -171,11 +174,13 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
             enableFormControl.markAsDirty();
             enableFormControl[TYPE] = 'boolean';
 
-            (this.apForm.get('access-points') as FormArray).push(this.fb.group({
+            const apFormGroup = this.fb.group({
                 address: addressFormControl,
                 tac: tacFormControl,
                 enable: enableFormControl
-            }));
+            });
+            apFormGroup[REQDATTRIBS] = ['tac'];
+            (this.apForm.get('access-points') as FormArray).push(apFormGroup);
             this.apForm.get('access-points').markAsTouched();
         } else {
             return;

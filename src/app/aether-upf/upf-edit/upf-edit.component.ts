@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {UpfUpfService} from '../../../openapi3/aether/3.0.0/services';
 import {EnterpriseEnterprise, UpfUpf} from '../../../openapi3/aether/3.0.0/models';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -66,6 +66,7 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         super(snackBar, bs, route, router, 'upf-3.0.0', 'upf');
         super.form = this.upfForm;
         super.loadFunc = this.loadUpfUpf;
+        this.upfForm[REQDATTRIBS] = ['enterprise', 'port', 'address'];
     }
 
     ngOnInit(): void {

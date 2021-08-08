@@ -188,13 +188,13 @@
                     <mat-hint>UPF</mat-hint>
                 </mat-form-field>
             </div>
+            <mat-card-actions>
+                <button mat-raised-button color="accent" type="submit"
+                        id="submitButton"
+                        [disabled]="!(vcsForm.valid && vcsForm.value.id && vcsForm.touched && opaService.canWrite('/vcs/vcs[id=' + id + ']'))">
+                    Update</button>
+            </mat-card-actions>
         </mat-card-content>
-        <mat-card-actions>
-            <button mat-raised-button color="accent" type="submit"
-                    id="submitButton"
-                    [disabled]="!(vcsForm.valid && vcsForm.value.id && vcsForm.touched && opaService.canWrite('/vcs/vcs[id=' + id + ']'))">
-            </button>
-        </mat-card-actions>
     </mat-card>
 </form>
 <aether-application-select
