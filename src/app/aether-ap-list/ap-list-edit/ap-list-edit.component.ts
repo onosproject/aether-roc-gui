@@ -7,7 +7,7 @@ import {Component, EventEmitter, OnInit} from '@angular/core';
 import {RocEditBase} from '../../roc-edit-base';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
@@ -31,17 +31,17 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
     showAccessDisplay: boolean = false;
 
     apForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        enterprise: [''],
-        description: ['', Validators.compose([
+        enterprise: [undefined],
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(100),
         ])],
@@ -62,6 +62,7 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
         super.form = this.apForm;
         super.loadFunc = this.loadApListApList;
         this.apForm.get(['access-points'])[IDATTRIBS] = ['address'];
+        this.apForm[REQDATTRIBS] = ['enterprise'];
     }
 
     ngOnInit(): void {
@@ -89,12 +90,13 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
         return existingList;
     }
 
-    deleteFromSelect(ap: FormControl): void {
+    deleteFromSelect(ap: string): void {
         this.bs.deleteIndexedEntry('/ap-list-3.0.0/ap-list[id=' + this.id +
-            ']/access-points[address=' + ap + ']', 'access-points');
+            ']/access-points[address=' + ap + ']', 'access-points', ap);
         const index = (this.apForm.get(['access-points']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ap);
         (this.apForm.get(['access-points']) as FormArray).removeAt(index);
+        this.snackBar.open('Deletion of ' + ap + ' added to basket', undefined, {duration: 2000});
     }
 
     private populateFormData(value: ApListApList): void {
@@ -133,11 +135,13 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
                     enabledFormControl[ORIGINAL] = ap.enable;
                     enabledFormControl[TYPE] = 'boolean';
 
-                    (this.apForm.get('access-points') as FormArray).push(this.fb.group({
+                    const apFormGroup = this.fb.group({
                         address: addressFormControl,
                         tac: tacFormControl,
                         enable: enabledFormControl
-                    }));
+                    });
+                    apFormGroup[REQDATTRIBS] = ['tac'];
+                    (this.apForm.get('access-points') as FormArray).push(apFormGroup);
                 }
                 isDeleted = false;
             }
@@ -171,11 +175,13 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
             enableFormControl.markAsDirty();
             enableFormControl[TYPE] = 'boolean';
 
-            (this.apForm.get('access-points') as FormArray).push(this.fb.group({
+            const apFormGroup = this.fb.group({
                 address: addressFormControl,
                 tac: tacFormControl,
                 enable: enableFormControl
-            }));
+            });
+            apFormGroup[REQDATTRIBS] = ['tac'];
+            (this.apForm.get('access-points') as FormArray).push(apFormGroup);
             this.apForm.get('access-points').markAsTouched();
         } else {
             return;

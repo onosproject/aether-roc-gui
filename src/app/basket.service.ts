@@ -10,8 +10,15 @@ import {PatchBody} from '../openapi3/top/level/models';
 
 export const TYPE = 'type';
 export const IDATTRIBS = 'idAttribs';
+export const REQDATTRIBS = 'reqdAttribs';
+export const ADDITIONALPROPS = 'additionalProperties';
 export const ORIGINAL = 'original';
 
+enum ChangeResult {
+    NONE = 0,
+    UPDATED,
+    DELETED,
+}
 
 export interface BasketValue {
     oldValue: any;
@@ -62,15 +69,38 @@ export class BasketService {
         return Object.keys(localStorage).includes('/basket-update' + path);
     }
 
-    logKeyValuePairs(abstractControl: AbstractControl, parent?: string): void {
+    logKeyValuePairs(abstractControl: AbstractControl, parent?: string): ChangeResult {
 
         // Path is either '/' if undefined == true or '/' + parent if false
         const path = (parent === undefined) ? '/' : '/' + parent;
 
         if (abstractControl instanceof FormGroup) {
+            let unchangedUpdate: string[] = [];
+            let unchangedDelete: string[] = [];
+            if (abstractControl[REQDATTRIBS]) {
+                unchangedUpdate.push(...abstractControl[REQDATTRIBS]);
+                unchangedDelete.push(...abstractControl[REQDATTRIBS]);
+                // console.log(parent, 'Required', unchangedUpdate, unchangedDelete);
+            }
             Object.keys(abstractControl.controls).forEach((key: string) => {
-                this.logKeyValuePairs(abstractControl.controls[key], path === '/' ? key : parent + '/' + key);
+                const changed = this.logKeyValuePairs(
+                    abstractControl.controls[key], path === '/' ? key : parent + '/' + key);
+                if (changed === ChangeResult.UPDATED) {
+                    unchangedUpdate = unchangedUpdate.filter(val => val !== key);
+                } else if (changed === ChangeResult.DELETED) {
+                    unchangedDelete = unchangedDelete.filter(val => val !== key);
+                }
             });
+            if (unchangedUpdate.length > 0) {
+                localStorage.setItem('/unchanged-update/' + parent, unchangedUpdate.join(','));
+            } else {
+                localStorage.removeItem('/unchanged-update/' + parent);
+            }
+            if (unchangedDelete.length > 0) {
+                localStorage.setItem('/unchanged-delete/' + parent, unchangedDelete.join());
+            } else {
+                localStorage.removeItem('/unchanged-delete/' + parent);
+            }
             // If the control is not a FormGroup then we know it's a FormControl
         } else if (abstractControl instanceof FormArray) {
             (abstractControl as FormArray).controls.forEach((item, idx) => {
@@ -86,10 +116,10 @@ export class BasketService {
                 });
                 this.logKeyValuePairs(item, parent + pathIndices.join());
             });
+            return ChangeResult.NONE;
         } else {
-
+            console.log('leaf attribute', path, abstractControl.value);
             if (abstractControl.pristine === false && abstractControl.touched === true) {
-
                 if (abstractControl.value === '') {
 
                     const fullPath = '/basket-delete' + path;
@@ -102,14 +132,17 @@ export class BasketService {
 
                     if (localStorageValue.newValue === localStorageValue.oldValue) {
                         localStorage.removeItem(fullPath);
+                        return ChangeResult.NONE;
                     } else {
                         localStorage.setItem(fullPath, JSON.stringify(localStorageValue).toString());
+                        return ChangeResult.DELETED;
                     }
-                    console.log('Deleted PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
-
                 } else {
                     const fullPath = '/basket-update' + path;
 
+                    if (abstractControl.value === null) {
+                        return ChangeResult.NONE;
+                    }
                     const localStorageValue = {
                         newValue: abstractControl.value,
                         oldValue: abstractControl[ORIGINAL],
@@ -118,15 +151,18 @@ export class BasketService {
 
                     if (abstractControl.value !== abstractControl[ORIGINAL]) {
                         localStorage.setItem(fullPath, JSON.stringify(localStorageValue).toString());
+                        return ChangeResult.UPDATED;
                     } else {
+                        console.log('Dropped attribute', path, abstractControl.value);
                         localStorage.removeItem(fullPath);
+                        return ChangeResult.NONE;
                     }
                 }
-
             } else {
                 const fullPath = path;
-                console.log('This is original value', abstractControl[ORIGINAL]);
-                console.log('Unchanged PATH: ' + fullPath + ' && Value = ' + abstractControl.value);
+                console.log('Unchanged PATH: ', fullPath, 'Value', abstractControl.value,
+                    'Original', abstractControl[ORIGINAL]);
+                return ChangeResult.NONE;
             }
         }
     }
@@ -156,7 +192,7 @@ export class BasketService {
             .forEach((updateKey) => {
                 const updatePathParts: string[] = updateKey.split('/');
                 const updateValue: BasketValue = JSON.parse(localStorage.getItem(updateKey));
-                this.recursePath(updatePathParts.slice(2), patchBody.Updates, updateValue);
+                this.recursePath(updatePathParts.slice(2), patchBody.Updates, updateValue, ['/unchanged-update']);
             });
 
         Object.keys(localStorage)
@@ -164,13 +200,20 @@ export class BasketService {
             .forEach((deleteKey) => {
                 const deletePathParts: string[] = deleteKey.split('/');
                 const deleteValue: BasketValue = JSON.parse(localStorage.getItem(deleteKey));
-                this.recursePath(deletePathParts.slice(2), patchBody.Deletes, deleteValue);
+                this.recursePath(deletePathParts.slice(2), patchBody.Deletes, deleteValue, ['/unchanged-delete']);
             });
 
         return patchBody as PatchBody;
     }
 
-    recursePath(path: string[], object: object, value: BasketValue): void {
+    recursePath(path: string[], object: object, value: BasketValue, unchangedPath?: string[]): void {
+        const unchList = localStorage.getItem(unchangedPath.join('/'));
+        console.log(path, 'Search storage for', unchangedPath.join('/'), unchList);
+        if (unchList !== null) {
+            object[ADDITIONALPROPS] = {
+                unchanged: unchList
+            };
+        }
 
         if (path.length === 1) {
             if (value.newValue === '') {
@@ -185,7 +228,7 @@ export class BasketService {
                 console.warn('path too short');
                 return;
             }
-            // console.log('Handling', path);
+            unchangedPath.push(path[0]);
             // a path might contain more than one key and will be in the form [key1=value1][key2=value2]
             const thisLevelPath: string = path[0];
             const container: string = thisLevelPath.slice(0, thisLevelPath.indexOf('['));
@@ -208,14 +251,15 @@ export class BasketService {
                     object[container].push(childObj);
                 }
 
-                this.recursePath(path.slice(1), childObj, value);
+                this.recursePath(path.slice(1), childObj, value, unchangedPath);
             });
 
         } else {
             if (object[path[0]] === undefined) {
                 object[path[0]] = {};
             }
-            this.recursePath(path.slice(1), object[path[0]], value);
+            unchangedPath.push(path[0]);
+            this.recursePath(path.slice(1), object[path[0]], value, unchangedPath);
         }
     }
 }

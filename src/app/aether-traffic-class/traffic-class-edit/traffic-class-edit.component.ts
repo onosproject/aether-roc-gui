@@ -31,28 +31,28 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
     pathListAttr = 'traffic-class';
     data: TrafficClassTrafficClass;
     tcForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(100),
         ])],
-        pelr: [0, Validators.compose([
+        pelr: [undefined, Validators.compose([
             Validators.min(0),
             Validators.max(10)
         ])],
-        pdb: [0, Validators.compose([
+        pdb: [undefined, Validators.compose([
             Validators.min(0),
             Validators.max(1000)
         ])],
-        qci: [1, Validators.compose([
+        qci: [undefined, Validators.compose([
             Validators.min(1),
             Validators.max(32)
         ])],

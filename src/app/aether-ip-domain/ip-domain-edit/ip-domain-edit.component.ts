@@ -12,7 +12,7 @@ import {
     IpDomainIpDomainService
 } from '../../../openapi3/aether/3.0.0/services';
 import {ActivatedRoute, Router} from '@angular/router';
-import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {EnterpriseEnterprise} from '../../../openapi3/aether/3.0.0/models/enterprise-enterprise';
@@ -39,23 +39,23 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
     displayOption: string;
 
     ipForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        enterprise: [''],
-        'dns-primary': [''],
-        'dns-secondary': [''],
-        subnet: ['', Validators.pattern(
+        enterprise: [undefined, Validators.required],
+        'dns-primary': [undefined],
+        'dns-secondary': [undefined],
+        subnet: [undefined, Validators.pattern(
             '^' +
             '(?=\\d+\\.\\d+\\.\\d+\\.\\d+\\/\\d+$)' +
             '(?:' +
@@ -67,14 +67,13 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
             '(?:' +
             '3[0-2]|2[0-9]|[1-9]|[0-9])?' +
             '$'
-        )
-        ],
-        'admin-status': [''],
-        mtu: [68, Validators.compose([
+        )],
+        'admin-status': [undefined],
+        mtu: [undefined, Validators.compose([
             Validators.min(68),
             Validators.max(65535),
         ])],
-        dnn: ['', Validators.compose([
+        dnn: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(32),
         ])],
@@ -93,6 +92,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         super(snackBar, bs, route, router, 'ip-domain-3.0.0', 'ip-domain');
         super.form = this.ipForm;
         super.loadFunc = this.loadIpDomainIpDomain;
+        this.ipForm[REQDATTRIBS] = ['enterprise', 'subnet'];
         this.ipForm.get('mtu')[TYPE] = 'number';
 
     }

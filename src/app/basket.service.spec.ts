@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {TestBed} from '@angular/core/testing';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from './basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from './basket.service';
 import {FormBuilder} from '@angular/forms';
 import arrayContaining = jasmine.arrayContaining;
 import localizeExtractLoader from '@angular-devkit/build-angular/src/extract-i18n/ivy-extract-loader';
@@ -35,12 +35,13 @@ describe('BasketService', () => {
                     'display-name': [''],
                     opc: fb.group({
                         array1: fb.array([
-                            fb.group({id: [1], attr1: ['One']}), // List within a list
-                            fb.group({id: [2], attr1: ['Two']})
+                            fb.group({id: [1], attr1: ['One'], mand1: [10], mand2: [11]}), // List within a list
+                            fb.group({id: [2], attr1: ['Two'], mand1: [20]}),
+                            fb.group({id: [3], mand2: [30]})
                         ]),
                         array2: fb.array([
-                            fb.group({name: ['n1'], attr1: ['N One']}),
-                            fb.group({name: ['n2'], attr1: ['N Two']}),
+                            fb.group({name: ['n1'], attr2: ['N One']}),
+                            fb.group({name: ['n2'], attr2: ['N Two']}),
                         ]),
                     }),
                     sqn: [''],
@@ -50,39 +51,73 @@ describe('BasketService', () => {
         });
 
         const keyObject = testFormGroup.get(['key']);
-        keyObject[ORIGINAL] = ['key'];
+        keyObject[ORIGINAL] = ['key-orig'];
         keyObject.markAsDirty();
         keyObject.markAsTouched();
         const spArray = testFormGroup.get(['security-profile']);
         spArray[IDATTRIBS] = ['id'];
-        const opcObject1 = spArray.get([0, 'opc', 'array1']);
-        opcObject1.get([0]).get(['attr1']).markAsTouched();
-        opcObject1.get([0]).get(['attr1']).markAsDirty();
-        opcObject1[ORIGINAL] = spArray.get('attr1');
-        opcObject1.get([0]).get(['id'])[TYPE] = 'number';
-        opcObject1[IDATTRIBS] = ['id'];
+        const opcArray1 = spArray.get([0, 'opc', 'array1']);
+        opcArray1.get([0, 'attr1']).markAsTouched();
+        opcArray1.get([0, 'attr1']).markAsDirty();
+        opcArray1.get([0, 'attr1'])[ORIGINAL] = 'attr1-old';
+        opcArray1.get([0, 'mand1']).markAsTouched();
+        opcArray1.get([0, 'mand1']).markAsDirty();
+        opcArray1.get([0, 'mand1'])[ORIGINAL] = 0;
+        opcArray1.get([0, 'mand2']).markAsTouched();
+        opcArray1.get([0, 'mand2']).markAsDirty();
+        opcArray1.get([0, 'mand2'])[ORIGINAL] = 1;
+        opcArray1.get([0, 'id'])[TYPE] = 'number';
+        opcArray1.get([0])[REQDATTRIBS] = ['mand1', 'mand2'];
+        opcArray1.get([1, 'attr1']).markAsTouched();
+        opcArray1.get([1, 'attr1']).markAsDirty();
+        opcArray1.get([1, 'attr1'])[ORIGINAL] = 'attr1-old';
+        opcArray1.get([1, 'mand1']).markAsTouched();
+        opcArray1.get([1, 'mand1']).markAsDirty();
+        opcArray1.get([1, 'mand1'])[ORIGINAL] = 10;
+        opcArray1.get([1, 'id'])[TYPE] = 'number';
+        opcArray1.get([1])[REQDATTRIBS] = ['mand1', 'mand2'];
+        opcArray1.get([2, 'mand2']).markAsTouched();
+        opcArray1.get([2, 'mand2']).markAsDirty();
+        opcArray1.get([2, 'mand2'])[ORIGINAL] = 10;
+        opcArray1.get([2, 'id'])[TYPE] = 'number';
+        opcArray1.get([2])[REQDATTRIBS] = ['mand1', 'mand2'];
+        opcArray1[IDATTRIBS] = ['id'];
 
-
-        const opcObject2 = spArray.get([0, 'opc', 'array2']);
-        opcObject2.get([1]).get(['attr1']).markAsTouched();
-        opcObject2.get([1]).get(['attr1']).markAsDirty();
-        opcObject2[ORIGINAL] = ['attr1'];
-        opcObject2[IDATTRIBS] = ['name'];
+        const opcArray2 = spArray.get([0, 'opc', 'array2']);
+        opcArray2.get([1, 'attr2']).markAsTouched();
+        opcArray2.get([1, 'attr2']).markAsDirty();
+        opcArray2.get([1, 'attr2'])[ORIGINAL] = 'attr2-orig';
+        opcArray2[IDATTRIBS] = ['name'];
 
         service.logKeyValuePairs(testFormGroup, 'security-profile-3.0.0');
         expect(service).toBeTruthy();
 
         expect(localStorage.getItem('/basket-delete/security-profile-3.0.0//key')).toBeNull();
         expect(localStorage.getItem('/basket-update/security-profile-3.0.0/security-profile' +
-            '[id=ap1]/opc/array1[id=1]/attr1')).toBe('{"newValue":"One"}');
+            '[id=ap1]/opc/array1[id=1]/attr1')).toBe('{"newValue":"One","oldValue":"attr1-old"}');
         expect(localStorage.getItem('/basket-update/security-profile-3.0.0/security-profile' +
-            '[id=ap1]/opc/array2[name=n2]/attr1')).toBe('{"newValue":"N Two"}');
+            '[id=ap1]/opc/array1[id=1]/mand1')).toBe('{"newValue":10,"oldValue":0}');
+        expect(localStorage.getItem('/basket-update/security-profile-3.0.0/security-profile' +
+            '[id=ap1]/opc/array1[id=1]/mand2')).toBe('{"newValue":11,"oldValue":1}');
+        expect(localStorage.getItem('/unchanged-update/security-profile-3.0.0/security-profile' +
+            '[id=ap1]/opc/array1[id=2]')).toBe('mand2');
+        expect(localStorage.getItem('/unchanged-update/security-profile-3.0.0/security-profile' +
+            '[id=ap1]/opc/array1[id=3]')).toBe('mand1');
+        expect(localStorage.getItem('/basket-update/security-profile-3.0.0/security-profile' +
+            '[id=ap1]/opc/array2[name=n2]/attr2')).toBe('{"newValue":"N Two","oldValue":"attr2-orig"}');
         localStorage.clear();
     });
 
     it('should produce a patchbody', () => {
         localStorage.clear();
-        localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id1]/opc', '{"newValue":"opcNew1","oldValue":"opcOld1"}');
+        localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id1]/opc/array1[id=1]/attr1',
+            '{"newValue":"attr1-updated","oldValue":"attr1-old"}');
+        localStorage.setItem('/unchanged-update/security-profile-3.0.0/security-profile[id=id1]/opc/array1[id=1]',
+            'mand1,mand2');
+        localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id1]/opc/array1[id=2]/mand1',
+            '{"newValue":"mand1-updated","oldValue":"mand1-old"}');
+        localStorage.setItem('/unchanged-update/security-profile-3.0.0/security-profile[id=id1]/opc/array1[id=2]',
+            'mand2');
         localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id2]/opc', '{"newValue":"opcNew2","oldValue":"opcOld2"}');
         localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id2]/id', '{"newValue":"idNew2","oldValue":"idOld2"}');
         localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id3]/key', '{"newValue":"keyNew1","oldValue":"keyOld1"}');
@@ -97,7 +132,7 @@ describe('BasketService', () => {
 
         const testPatchBody = service.buildPatchBody();
         console.log('Test patch body: \n' + JSON.stringify(testPatchBody));
-        expect(JSON.stringify(testPatchBody)).toEqual(expectedPatchBody);
+        expect(JSON.stringify(testPatchBody, null, 2)).toEqual(expectedPatchBody);
     });
 
     it('should add a delete entry', () => {
@@ -114,4 +149,73 @@ describe('BasketService', () => {
     });
 });
 
-const expectedPatchBody = `{"default-target":"connectivity-service-v3","Updates":{"security-profile-3.0.0":{"security-profile":[{"id":"id3","number":1234,"boolean":true,"key":"keyNew1"},{"id":"idNew2"},{"id":"id2","opc":"opcNew2"},{"id":"id1","opc":"opcNew1"}]}},"Deletes":{"enterprise-3.0.0":{"enterprise-profile":[{"id":"id3","connectivity-service":[{"connectivity-service":"sint"}]}]},"security-profile-3.0.0":{"security-profile":[{"id":"id2","desc":"null","something":"null"}]}},"Extensions":{"model-version-101":"3.0.0","model-type-102":"Aether"}}`;
+const expectedPatchBody = `{
+  "default-target": "connectivity-service-v3",
+  "Updates": {
+    "security-profile-3.0.0": {
+      "security-profile": [
+        {
+          "id": "id3",
+          "number": 1234,
+          "boolean": true,
+          "key": "keyNew1"
+        },
+        {
+          "id": "idNew2"
+        },
+        {
+          "id": "id2",
+          "opc": "opcNew2"
+        },
+        {
+          "id": "id1",
+          "opc": {
+            "array1": [
+              {
+                "id": "1",
+                "additionalProperties": {
+                  "unchanged": "mand1,mand2"
+                },
+                "attr1": "attr1-updated"
+              },
+              {
+                "id": "2",
+                "additionalProperties": {
+                  "unchanged": "mand2"
+                },
+                "mand1": "mand1-updated"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Deletes": {
+    "security-profile-3.0.0": {
+      "security-profile": [
+        {
+          "id": "id2",
+          "something": "null",
+          "desc": "null"
+        }
+      ]
+    },
+    "enterprise-3.0.0": {
+      "enterprise-profile": [
+        {
+          "id": "id3",
+          "connectivity-service": [
+            {
+              "connectivity-service": "sint"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "Extensions": {
+    "model-version-101": "3.0.0",
+    "model-type-102": "Aether"
+  }
+}`;

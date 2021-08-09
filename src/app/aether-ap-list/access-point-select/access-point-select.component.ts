@@ -30,11 +30,11 @@ export class AccessPointSelectComponent implements OnInit {
     @Output() closeEvent = new EventEmitter<AccessPointParam>();
 
     accessPointForm = this.fb.group({
-        address: ['', Validators.compose([
+        address: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        tac: ['', Validators.compose([
+        tac: [undefined, Validators.compose([
             Validators.min(0),
             Validators.max(99999999)
         ])],

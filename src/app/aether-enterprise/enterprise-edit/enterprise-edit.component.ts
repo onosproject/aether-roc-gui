@@ -44,16 +44,16 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
     ];
 
     entForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(100)
         ])],
@@ -188,11 +188,12 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
         );
     }
 
-    deleteFromSelect(cs: FormControl): void {
+    deleteFromSelect(cs: string): void {
         this.bs.deleteIndexedEntry('/enterprise-3.0.0/enterprise[id=' + this.id +
-            ']/connectivity-service[connectivity-service=' + cs + ']', 'connectivity-service', '' + cs);
+            ']/connectivity-service[connectivity-service=' + cs + ']', 'connectivity-service', cs);
         const index = (this.entForm.get('connectivity-service') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === cs);
         (this.entForm.get('connectivity-service') as FormArray).removeAt(index);
+        this.snackBar.open('Deletion of ' + cs + ' added to basket', undefined, {duration: 2000});
     }
 }

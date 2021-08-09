@@ -19,7 +19,7 @@ import {
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {DeviceGroupDeviceGroupService} from '../../../openapi3/aether/3.0.0/services/device-group-device-group.service';
 import {DeviceGroupDeviceGroupImsis} from '../../../openapi3/aether/3.0.0/models/device-group-device-group-imsis';
@@ -62,17 +62,17 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
     SiteImisLength: number;
 
     deviceGroupForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        'ip-domain': [''],
-        site: [''],
+        'ip-domain': [undefined],
+        site: [undefined],
         imsis: this.fb.array([])
     }, {validators: ValidateImsiRange});
 
@@ -89,6 +89,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         super(snackBar, bs, route, router, 'device-group-3.0.0', 'device-group');
         super.form = this.deviceGroupForm;
         super.loadFunc = this.loadDeviceGroupDeviceGroup;
+        this.deviceGroupForm[REQDATTRIBS] = ['site'];
         this.deviceGroupForm.get(['imsis'])[IDATTRIBS] = ['name'];
     }
 
@@ -122,12 +123,13 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
 
     }
 
-    deleteFromSelect(im: FormControl): void {
+    deleteFromSelect(im: string): void {
         this.bs.deleteIndexedEntry('/device-group-3.0.0/device-group[id=' + this.id +
-            ']/imsis[name=' + im + ']', 'imsis');
+            ']/imsis[name=' + im + ']', 'imsis', im);
         const index = (this.deviceGroupForm.get(['imsis']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === im);
         (this.deviceGroupForm.get(['imsis']) as FormArray).removeAt(index);
+        this.snackBar.open('Deletion of ' + im + ' added to basket', undefined, {duration: 2000});
     }
 
 

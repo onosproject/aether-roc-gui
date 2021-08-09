@@ -66,7 +66,7 @@ export class BasketComponent implements AfterViewInit, OnInit {
             .filter((key) => key.startsWith('/basket'))
             .forEach((key => {
                 const valueFromLocalStorage = localStorage.getItem(key).toString();
-                console.log('processing key', key, valueFromLocalStorage);
+                // console.log('processing key', key, valueFromLocalStorage);
                 const changeObject: BasketValue = JSON.parse(valueFromLocalStorage);
                 if (key.startsWith('/basket-update')) {
                     this.updateCounter = this.updateCounter + 1;
@@ -81,7 +81,7 @@ export class BasketComponent implements AfterViewInit, OnInit {
                     displayPath: key.slice(14)
                 } as unknown as BasketRow;
                 this.data.push(basketRow);
-                console.log('processing key', basketRow);
+                // console.log('processing key', basketRow);
             }));
     }
 
@@ -125,7 +125,7 @@ export class BasketComponent implements AfterViewInit, OnInit {
 
     clearBasket(): void {
         Object.keys(localStorage)
-            .filter(key => key.startsWith('/basket'))
+            .filter(key => key.startsWith('/basket') || key.startsWith('/unchanged-'))
             .forEach((key) => {
                 localStorage.removeItem(key);
             });

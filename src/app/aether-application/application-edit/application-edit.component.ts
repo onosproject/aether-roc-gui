@@ -3,22 +3,18 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {ApplicationApplicationService, Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
 import {
     ApplicationApplication,
     EnterpriseEnterprise
 } from '../../../openapi3/aether/3.0.0/models';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
-import {MatHeaderRow, MatTable} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {Observable} from 'rxjs';
-
 
 @Component({
     selector: 'aether-application-edit',
@@ -41,21 +37,21 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     pathListAttr = 'application';
     data: ApplicationApplication;
     appForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(100),
         ])],
         endpoint: this.fb.array([]),
-        enterprise: ['']
+        enterprise: [undefined, Validators.required]
     });
 
     constructor(
@@ -71,6 +67,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         super(snackBar, bs, route, router, 'application-3.0.0', 'application');
         super.form = this.appForm;
         super.loadFunc = this.loadApplicationApplication;
+        this.appForm[REQDATTRIBS] = ['enterprise'];
         this.appForm.get(['endpoint'])[IDATTRIBS] = ['name'];
     }
 
@@ -87,13 +84,14 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         }
     }
 
-    deleteFromSelect(ep: FormControl): void {
+    deleteFromSelect(ep: string): void {
         this.bs.deleteIndexedEntry('/application-3.0.0/application[id=' + this.id +
-            ']/endpoint[endpoint=' + ep + ']', 'endpoint', '' + ep);
+            ']/endpoint[endpoint=' + ep + ']', 'endpoint', ep);
         const index = (this.appForm.get('endpoint') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ep);
         (this.appForm.get('endpoint') as FormArray).removeAt(index);
         this.showEndpointAddButton = true;
+        this.snackBar.open('Deletion of ' + ep + ' added to basket', undefined, {duration: 2000});
     }
 
     loadApplicationApplication(target: string, id: string): void {
@@ -131,24 +129,34 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             const epAddressControl = this.fb.control(selected.address);
             epAddressControl.markAsTouched();
             epAddressControl.markAsDirty();
-            const epPortStartControl = this.fb.control(selected['port-start']);
+            const epPortStartControl = this.fb.control(selected['port-start'], Validators.compose([
+                Validators.min(0),
+                Validators.max(65535)
+            ]));
             epPortStartControl.markAsTouched();
             epPortStartControl.markAsDirty();
             epPortStartControl[TYPE] = 'number';
-            const epPortEndControl = this.fb.control(selected['port-end']);
+            const epPortEndControl = this.fb.control(selected['port-end'], Validators.compose([
+                Validators.min(0),
+                Validators.max(65535)
+            ]));
             epPortEndControl.markAsTouched();
             epPortEndControl.markAsDirty();
             epPortEndControl[TYPE] = 'number';
-            const epPrtotocolontrol = this.fb.control(selected.protocol);
-            epPrtotocolontrol.markAsTouched();
-            epPrtotocolontrol.markAsDirty();
-            (this.appForm.get('endpoint') as FormArray).push(this.fb.group({
+            const epProtocolcontrol = this.fb.control(selected.protocol);
+            epProtocolcontrol.markAsTouched();
+            epProtocolcontrol.markAsDirty();
+
+            const epGroupControl = this.fb.group({
                 name: epNameControl,
                 address: epAddressControl,
                 ['port-start']: epPortStartControl,
                 ['port-end']: epPortEndControl,
-                protocol: epPrtotocolontrol,
-            }));
+                protocol: epProtocolcontrol,
+            });
+            epGroupControl[REQDATTRIBS] = ['port-start', 'address'];
+
+            (this.appForm.get('endpoint') as FormArray).push(epGroupControl);
             console.log('Adding new Value', selected);
             this.appForm.markAllAsTouched();
         }
@@ -180,15 +188,18 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                     epPortStartControl[ORIGINAL] = ep['port-start'];
                     const epPortEndControl = this.fb.control(ep['port-end']);
                     epPortEndControl[ORIGINAL] = ep['port-end'];
-                    const epProtocolontrol = this.fb.control(ep.protocol);
-                    epProtocolontrol[ORIGINAL] = ep.protocol;
-                    (this.appForm.get(['endpoint']) as FormArray).push(this.fb.group({
+                    const epProtocolcontrol = this.fb.control(ep.protocol);
+                    epProtocolcontrol[ORIGINAL] = ep.protocol;
+                    const epGroupControl = this.fb.group({
                         name: epNameControl,
                         address: epAddressControl,
-                        'port-start': epPortStartControl,
-                        'port-end': epPortEndControl,
-                        protocol: epProtocolontrol
-                    }));
+                        ['port-start']: epPortStartControl,
+                        ['port-end']: epPortEndControl,
+                        protocol: epProtocolcontrol,
+                    });
+                    epGroupControl[REQDATTRIBS] = ['port-start', 'address'];
+
+                    (this.appForm.get(['endpoint']) as FormArray).push(epGroupControl);
                 }
             } else {
                 value.endpoint.forEach((eachValueEndpoint, eachFormEndpointPosition) => {

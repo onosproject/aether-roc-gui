@@ -35,12 +35,12 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
     ImsiRangeLimit: number = 0;
 
     imsiForm = this.fb.group({
-        name: ['', Validators.compose([
+        name: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        'imsi-range-from': [0],
-        'imsi-range-to': [0],
+        'imsi-range-from': [undefined],
+        'imsi-range-to': [undefined],
     }, {validator: ValidateImsiRange});
 
     constructor(

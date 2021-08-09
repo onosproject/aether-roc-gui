@@ -52,15 +52,23 @@
                 <!--Sd field-->
                 <div class="row">
                     <mat-form-field class="field-margin half-width">
-                        <input matInput type=number formControlName="sd" id="inputSd">
-                        <mat-hint>SD</mat-hint>
+                        <input matInput
+                               type=number
+                               placeholder="Please specify an SD"
+                               formControlName="sd"
+                               id="inputSd">
+                        <mat-hint>SD (Slice differentiator)</mat-hint>
                     </mat-form-field>
                 </div>
                 <!--SST field-->
                 <div class="row">
                     <mat-form-field class="field-margin half-width">
-                        <input matInput type=number formControlName="sst" id="inputSst">
-                        <mat-hint>SST</mat-hint>
+                        <input matInput
+                               type=number
+                               placeholder="Please specify an SST"
+                               formControlName="sst"
+                               id="inputSst">
+                        <mat-hint>SST (Slice/Service type)</mat-hint>
                     </mat-form-field>
                 </div>
                 <!--Uplink field-->
@@ -101,6 +109,7 @@
                 <div class="row">
                     <mat-form-field class="field-margin half-width">
                         <mat-select formControlName="traffic-class"
+                                    placeholder="Please specify a Traffic Class"
                                     id="selectTrafficClass">
                             <mat-option
                                         *ngFor="let tc of trafficClasses"
@@ -188,13 +197,13 @@
                     <mat-hint>UPF</mat-hint>
                 </mat-form-field>
             </div>
+            <mat-card-actions>
+                <button mat-raised-button color="accent" type="submit"
+                        id="submitButton"
+                        [disabled]="!(vcsForm.valid && vcsForm.value.id && vcsForm.touched && opaService.canWrite('/vcs/vcs[id=' + id + ']'))">
+                    Update</button>
+            </mat-card-actions>
         </mat-card-content>
-        <mat-card-actions>
-            <button mat-raised-button color="accent" type="submit"
-                    id="submitButton"
-                    [disabled]="!(vcsForm.valid && vcsForm.value.id && vcsForm.touched && opaService.canWrite('/vcs/vcs[id=' + id + ']'))">
-            </button>
-        </mat-card-actions>
     </mat-card>
 </form>
 <aether-application-select

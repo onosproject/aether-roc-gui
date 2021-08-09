@@ -7,7 +7,7 @@ import {Component, InjectionToken, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Service as AetherService, SiteSiteService} from '../../../openapi3/aether/3.0.0/services';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
@@ -25,25 +25,25 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
     pathRoot = 'site-3.0.0';
     pathListAttr = 'site';
     siteForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        enterprise: [''],
+        enterprise: [undefined],
         'imsi-definition': this.fb.group({
-            mcc: [0, Validators.required],
-            mnc: [0, Validators.required],
-            enterprise: [0],
-            format: ['', Validators.compose([
+            mcc: [undefined, Validators.required],
+            mnc: [undefined, Validators.required],
+            enterprise: [undefined, Validators.required],
+            format: [undefined, Validators.compose([
                 Validators.pattern('[0CENS]{15}'),
                 Validators.minLength(15),
                 Validators.maxLength(15)
@@ -67,6 +67,8 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         this.siteForm.get(['imsi-definition', 'mcc'])[TYPE] = 'number';
         this.siteForm.get(['imsi-definition', 'mnc'])[TYPE] = 'number';
         this.siteForm.get(['imsi-definition', 'enterprise'])[TYPE] = 'number';
+        this.siteForm[REQDATTRIBS] = ['enterprise'];
+        this.siteForm.get(['imsi-definition'])[REQDATTRIBS] = ['mcc', 'mnc', 'enterprise', 'format'];
     }
 
     ngOnInit(): void {
@@ -115,9 +117,11 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
     private populateFormData(value: SiteSite): void {
         if (value['display-name']) {
             this.siteForm.get('display-name').setValue(value['display-name']);
+            this.siteForm.get('display-name')[ORIGINAL] = value['display-name'];
         }
         if (value.description) {
             this.siteForm.get(['description']).setValue(value.description);
+            this.siteForm.get('description')[ORIGINAL] = value.description;
         }
         if (value.enterprise) {
             this.siteForm.get(['enterprise']).setValue(value.enterprise);
@@ -125,11 +129,14 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         }
         if (value['imsi-definition']) {
             this.siteForm.get(['imsi-definition', 'mcc']).setValue(value['imsi-definition'].mcc);
+            this.siteForm.get(['imsi-definition', 'mcc'])[ORIGINAL] = value['imsi-definition'].mcc;
             this.siteForm.get(['imsi-definition', 'mnc']).setValue(value['imsi-definition'].mnc);
+            this.siteForm.get(['imsi-definition', 'mnc'])[ORIGINAL] = value['imsi-definition'].mnc;
             this.siteForm.get(['imsi-definition', 'enterprise']).setValue(value['imsi-definition'].enterprise);
+            this.siteForm.get(['imsi-definition', 'enterprise'])[ORIGINAL] = value['imsi-definition'].enterprise;
             this.siteForm.get(['imsi-definition', 'format']).setValue(value['imsi-definition'].format);
+            this.siteForm.get(['imsi-definition', 'format'])[ORIGINAL] = value['imsi-definition'].format;
         }
-
     }
 
     loadEnterprises(target: string): void {

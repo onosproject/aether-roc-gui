@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {UpfUpfService} from '../../../openapi3/aether/3.0.0/services';
 import {EnterpriseEnterprise, UpfUpf} from '../../../openapi3/aether/3.0.0/models';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -29,25 +29,25 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
     pathRoot = 'upf-3.0.0';
     pathListAttr = 'upf';
     upfForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(100),
         ])],
-        enterprise: [''],
-        address: ['', Validators.compose([
+        enterprise: [undefined],
+        address: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        port: [0, Validators.compose([
+        port: [undefined, Validators.compose([
             Validators.min(0),
             Validators.max(65535)
         ])],
@@ -66,6 +66,7 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         super(snackBar, bs, route, router, 'upf-3.0.0', 'upf');
         super.form = this.upfForm;
         super.loadFunc = this.loadUpfUpf;
+        this.upfForm[REQDATTRIBS] = ['enterprise', 'port', 'address'];
     }
 
     ngOnInit(): void {
