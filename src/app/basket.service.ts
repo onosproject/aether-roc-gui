@@ -26,12 +26,6 @@ export interface BasketValue {
     type: string;
 }
 
-export interface Unchanged {
-    additionalProperties: {
-        unchanged: string;
-    };
-}
-
 @Injectable({
     providedIn: 'root'
 })
@@ -210,9 +204,8 @@ export class BasketService {
     }
 
     recursePath(path: string[], object: object, value: BasketValue, unchangedPath?: string[]): void {
-        console.log('Handling', path, unchangedPath);
         const unchList = localStorage.getItem(unchangedPath.join('/'));
-        console.log('Search storage for ', unchangedPath.join('/'), unchList);
+        console.log(path, 'Search storage for ', unchangedPath.join('/'), unchList);
         if (unchList !== null) {
             object[ADDITIONALPROPS] = {
                 unchanged: unchList

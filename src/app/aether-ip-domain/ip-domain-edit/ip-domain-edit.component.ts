@@ -70,7 +70,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         )
         ],
         'admin-status': [''],
-        mtu: [68, Validators.compose([
+        mtu: [undefined, Validators.compose([
             Validators.min(68),
             Validators.max(65535),
         ])],

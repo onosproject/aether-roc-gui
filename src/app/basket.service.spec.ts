@@ -97,7 +97,7 @@ describe('BasketService', () => {
 
         const testPatchBody = service.buildPatchBody();
         console.log('Test patch body: \n' + JSON.stringify(testPatchBody));
-        expect(JSON.stringify(testPatchBody)).toEqual(expectedPatchBody);
+        expect(JSON.stringify(testPatchBody, null, 2)).toEqual(expectedPatchBody);
     });
 
     it('should add a delete entry', () => {
@@ -114,4 +114,56 @@ describe('BasketService', () => {
     });
 });
 
-const expectedPatchBody = `{"default-target":"connectivity-service-v3","Updates":{"security-profile-3.0.0":{"security-profile":[{"id":"id3","number":1234,"boolean":true,"key":"keyNew1"},{"id":"idNew2"},{"id":"id2","opc":"opcNew2"},{"id":"id1","opc":"opcNew1"}]}},"Deletes":{"enterprise-3.0.0":{"enterprise-profile":[{"id":"id3","connectivity-service":[{"connectivity-service":"sint"}]}]},"security-profile-3.0.0":{"security-profile":[{"id":"id2","desc":"null","something":"null"}]}},"Extensions":{"model-version-101":"3.0.0","model-type-102":"Aether"}}`;
+const expectedPatchBody = `{
+  "default-target": "connectivity-service-v3",
+  "Updates": {
+    "security-profile-3.0.0": {
+      "security-profile": [
+        {
+          "id": "id3",
+          "number": 1234,
+          "boolean": true,
+          "key": "keyNew1"
+        },
+        {
+          "id": "idNew2"
+        },
+        {
+          "id": "id2",
+          "opc": "opcNew2"
+        },
+        {
+          "id": "id1",
+          "opc": "opcNew1"
+        }
+      ]
+    }
+  },
+  "Deletes": {
+    "enterprise-3.0.0": {
+      "enterprise-profile": [
+        {
+          "id": "id3",
+          "connectivity-service": [
+            {
+              "connectivity-service": "sint"
+            }
+          ]
+        }
+      ]
+    },
+    "security-profile-3.0.0": {
+      "security-profile": [
+        {
+          "id": "id2",
+          "desc": "null",
+          "something": "null"
+        }
+      ]
+    }
+  },
+  "Extensions": {
+    "model-version-101": "3.0.0",
+    "model-type-102": "Aether"
+  }
+}`;
