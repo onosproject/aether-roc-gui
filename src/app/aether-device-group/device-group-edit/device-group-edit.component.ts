@@ -62,17 +62,17 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
     SiteImisLength: number;
 
     deviceGroupForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        'ip-domain': [''],
-        site: [''],
+        'ip-domain': [undefined],
+        site: [undefined],
         imsis: this.fb.array([])
     }, {validators: ValidateImsiRange});
 

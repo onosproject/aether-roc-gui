@@ -25,25 +25,25 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
     pathRoot = 'site-3.0.0';
     pathListAttr = 'site';
     siteForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        enterprise: [''],
+        enterprise: [undefined],
         'imsi-definition': this.fb.group({
-            mcc: [0, Validators.required],
-            mnc: [0, Validators.required],
-            enterprise: [0],
-            format: ['', Validators.compose([
+            mcc: [undefined, Validators.required],
+            mnc: [undefined, Validators.required],
+            enterprise: [undefined, Validators.required],
+            format: [undefined, Validators.compose([
                 Validators.pattern('[0CENS]{15}'),
                 Validators.minLength(15),
                 Validators.maxLength(15)

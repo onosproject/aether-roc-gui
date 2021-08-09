@@ -29,25 +29,25 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
     pathRoot = 'upf-3.0.0';
     pathListAttr = 'upf';
     upfForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(100),
         ])],
-        enterprise: [''],
-        address: ['', Validators.compose([
+        enterprise: [undefined],
+        address: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        port: [0, Validators.compose([
+        port: [undefined, Validators.compose([
             Validators.min(0),
             Validators.max(65535)
         ])],

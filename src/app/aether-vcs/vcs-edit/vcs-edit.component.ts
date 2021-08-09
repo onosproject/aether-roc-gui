@@ -57,35 +57,35 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     pathListAttr = 'vcs';
 
     vcsForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(100),
         ])],
         application: this.fb.array([]),
-        downlink: [0, Validators.compose([
+        downlink: [undefined, Validators.compose([
             Validators.minLength(0),
             Validators.maxLength(4294967295)
         ])],
-        uplink: [0, Validators.compose([
+        uplink: [undefined, Validators.compose([
             Validators.minLength(0),
             Validators.maxLength(4294967295)
         ])],
-        ap: [''],
+        ap: [undefined],
         'device-group': this.fb.array([]),
-        sd: [0],
-        sst: [0],
-        template: [''],
-        'traffic-class': [''],
-        upf: ['']
+        sd: [undefined],
+        sst: [undefined],
+        template: [undefined],
+        'traffic-class': [undefined],
+        upf: [undefined]
     });
 
     constructor(

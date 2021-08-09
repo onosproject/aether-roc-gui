@@ -44,16 +44,16 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
     ];
 
     entForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(100)
         ])],

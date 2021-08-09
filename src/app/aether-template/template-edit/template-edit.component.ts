@@ -49,36 +49,36 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
     bandwidthOptions: Observable<Bandwidths[]>;
     data: TemplateTemplate;
     tempForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(100),
         ])],
-        sd: [0, Validators.compose([
+        sd: [undefined, Validators.compose([
             Validators.min(0),
             Validators.max(16777215)
         ])],
-        sst: [1, Validators.compose([
+        sst: [undefined, Validators.compose([
             Validators.min(1),
             Validators.max(255)
         ])],
-        uplink: [0, Validators.compose([
+        uplink: [undefined, Validators.compose([
             Validators.min(0),
             Validators.max(4294967295)
         ])],
-        downlink: [0, Validators.compose([
+        downlink: [undefined, Validators.compose([
             Validators.min(0),
             Validators.max(4294967295)
         ])],
-        'traffic-class': [''],
+        'traffic-class': [undefined],
     });
 
     constructor(

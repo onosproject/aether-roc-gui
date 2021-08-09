@@ -140,6 +140,9 @@ export class BasketService {
                 } else {
                     const fullPath = '/basket-update' + path;
 
+                    if (abstractControl.value === null) {
+                        return ChangeResult.NONE;
+                    }
                     const localStorageValue = {
                         newValue: abstractControl.value,
                         oldValue: abstractControl[ORIGINAL],

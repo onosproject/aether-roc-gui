@@ -31,17 +31,17 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
     showAccessDisplay: boolean = false;
 
     apForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        enterprise: [''],
-        description: ['', Validators.compose([
+        enterprise: [undefined],
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(100),
         ])],

@@ -39,23 +39,23 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
     displayOption: string;
 
     ipForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        enterprise: [''],
-        'dns-primary': [''],
-        'dns-secondary': [''],
-        subnet: ['', Validators.pattern(
+        enterprise: [undefined, Validators.required],
+        'dns-primary': [undefined],
+        'dns-secondary': [undefined],
+        subnet: [undefined, Validators.pattern(
             '^' +
             '(?=\\d+\\.\\d+\\.\\d+\\.\\d+\\/\\d+$)' +
             '(?:' +
@@ -67,14 +67,13 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
             '(?:' +
             '3[0-2]|2[0-9]|[1-9]|[0-9])?' +
             '$'
-        )
-        ],
-        'admin-status': [''],
+        )],
+        'admin-status': [undefined],
         mtu: [undefined, Validators.compose([
             Validators.min(68),
             Validators.max(65535),
         ])],
-        dnn: ['', Validators.compose([
+        dnn: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(32),
         ])],

@@ -24,32 +24,32 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
     data: ConnectivityServiceConnectivityService;
 
     csForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        'spgwc-endpoint': ['', Validators.compose([
+        'spgwc-endpoint': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        'hss-endpoint': ['', Validators.compose([
+        'hss-endpoint': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        'pcrf-endpoint': ['', Validators.compose([
+        'pcrf-endpoint': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        'core-5g-endpoint': ['', Validators.compose([
+        'core-5g-endpoint': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],

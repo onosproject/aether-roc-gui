@@ -3,22 +3,18 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {ApplicationApplicationService, Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
 import {
     ApplicationApplication,
     EnterpriseEnterprise
 } from '../../../openapi3/aether/3.0.0/models';
 import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
-import {MatHeaderRow, MatTable} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {Observable} from 'rxjs';
-
 
 @Component({
     selector: 'aether-application-edit',
@@ -41,21 +37,21 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     pathListAttr = 'application';
     data: ApplicationApplication;
     appForm = this.fb.group({
-        id: ['', Validators.compose([
+        id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
-        'display-name': ['', Validators.compose([
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        description: ['', Validators.compose([
+        description: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(100),
         ])],
         endpoint: this.fb.array([]),
-        enterprise: ['']
+        enterprise: [undefined, Validators.required]
     });
 
     constructor(
@@ -132,11 +128,17 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             const epAddressControl = this.fb.control(selected.address);
             epAddressControl.markAsTouched();
             epAddressControl.markAsDirty();
-            const epPortStartControl = this.fb.control(selected['port-start']);
+            const epPortStartControl = this.fb.control(selected['port-start'], Validators.compose([
+                Validators.min(0),
+                Validators.max(65535)
+            ]));
             epPortStartControl.markAsTouched();
             epPortStartControl.markAsDirty();
             epPortStartControl[TYPE] = 'number';
-            const epPortEndControl = this.fb.control(selected['port-end']);
+            const epPortEndControl = this.fb.control(selected['port-end'], Validators.compose([
+                Validators.min(0),
+                Validators.max(65535)
+            ]));
             epPortEndControl.markAsTouched();
             epPortEndControl.markAsDirty();
             epPortEndControl[TYPE] = 'number';

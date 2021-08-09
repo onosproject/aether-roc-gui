@@ -27,23 +27,23 @@ export class EndpointSelectComponent implements OnInit {
     @Output() closeEvent = new EventEmitter<object>();
 
     endpointForm = this.fb.group({
-        name: ['', Validators.compose([
+        name: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        address: [''],
-        'port-start': [1,
+        address: [undefined],
+        'port-start': [undefined,
             Validators.compose([
                 Validators.min(1),
                 Validators.max(65535)
             ])
         ],
-        'port-end': [1,
+        'port-end': [undefined,
             Validators.compose([
                 Validators.min(1),
                 Validators.max(65535)
             ])],
-        protocol: ['']
+        protocol: [undefined]
     });
 
     constructor(
