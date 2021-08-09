@@ -90,12 +90,13 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
         return existingList;
     }
 
-    deleteFromSelect(ap: FormControl): void {
+    deleteFromSelect(ap: string): void {
         this.bs.deleteIndexedEntry('/ap-list-3.0.0/ap-list[id=' + this.id +
-            ']/access-points[address=' + ap + ']', 'access-points');
+            ']/access-points[address=' + ap + ']', 'access-points', ap);
         const index = (this.apForm.get(['access-points']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ap);
         (this.apForm.get(['access-points']) as FormArray).removeAt(index);
+        this.snackBar.open('Deletion of ' + ap + ' added to basket', undefined, {duration: 2000});
     }
 
     private populateFormData(value: ApListApList): void {

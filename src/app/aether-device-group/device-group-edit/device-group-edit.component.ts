@@ -123,12 +123,13 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
 
     }
 
-    deleteFromSelect(im: FormControl): void {
+    deleteFromSelect(im: string): void {
         this.bs.deleteIndexedEntry('/device-group-3.0.0/device-group[id=' + this.id +
-            ']/imsis[name=' + im + ']', 'imsis');
+            ']/imsis[name=' + im + ']', 'imsis', im);
         const index = (this.deviceGroupForm.get(['imsis']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === im);
         (this.deviceGroupForm.get(['imsis']) as FormArray).removeAt(index);
+        this.snackBar.open('Deletion of ' + im + ' added to basket', undefined, {duration: 2000});
     }
 
 

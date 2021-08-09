@@ -84,13 +84,14 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         }
     }
 
-    deleteFromSelect(ep: FormControl): void {
+    deleteFromSelect(ep: string): void {
         this.bs.deleteIndexedEntry('/application-3.0.0/application[id=' + this.id +
-            ']/endpoint[endpoint=' + ep + ']', 'endpoint', '' + ep);
+            ']/endpoint[endpoint=' + ep + ']', 'endpoint', ep);
         const index = (this.appForm.get('endpoint') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ep);
         (this.appForm.get('endpoint') as FormArray).removeAt(index);
         this.showEndpointAddButton = true;
+        this.snackBar.open('Deletion of ' + ep + ' added to basket', undefined, {duration: 2000});
     }
 
     loadApplicationApplication(target: string, id: string): void {

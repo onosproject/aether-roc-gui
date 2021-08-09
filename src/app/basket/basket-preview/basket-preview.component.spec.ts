@@ -29,12 +29,14 @@ describe('BasketPreviewComponent', () => {
     });
 
     beforeEach(() => {
+        localStorage.clear();
         fixture = TestBed.createComponent(BasketPreviewComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
     it('should create', () => {
+        localStorage.clear();
         localStorage.clear();
         localStorage.clear();
         expect(component).toBeTruthy();

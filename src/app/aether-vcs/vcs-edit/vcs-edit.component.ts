@@ -81,10 +81,10 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         ])],
         ap: [undefined],
         'device-group': this.fb.array([]),
-        sd: [undefined],
-        sst: [undefined],
+        sd: [undefined, Validators.required],
+        sst: [undefined, Validators.required],
         template: [undefined],
-        'traffic-class': [undefined],
+        'traffic-class': [undefined, Validators.required],
         upf: [undefined]
     });
 
@@ -229,20 +229,22 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         );
     }
 
-    deleteApplicationFromSelect(app: FormControl): void {
+    deleteApplicationFromSelect(app: string): void {
         this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
-            ']/application[application=' + app + ']', 'application');
+            ']/application[application=' + app + ']', 'application', app);
         const index = (this.vcsForm.get('application') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
         (this.vcsForm.get('application') as FormArray).removeAt(index);
+        this.snackBar.open('Deletion of ' + app + ' added to basket', undefined, {duration: 2000});
     }
 
-    deleteDeviceGroupFromSelect(dg: FormControl): void {
+    deleteDeviceGroupFromSelect(dg: string): void {
         this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
-            ']/device-group[device-group=' + dg + ']', 'device-group');
+            ']/device-group[device-group=' + dg + ']', 'device-group', dg);
         const index = (this.vcsForm.get('device-group') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === dg);
         (this.vcsForm.get('device-group') as FormArray).removeAt(index);
+        this.snackBar.open('Deletion ' + dg + ' added to basket', undefined, {duration: 2000});
     }
 
     private populateFormData(value: VcsVcs): void {
@@ -322,11 +324,10 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                     const enabledControl = this.fb.control(dg.enable);
                     enabledControl[ORIGINAL] = dg.enable;
                     enabledControl[TYPE] = 'boolean';
-                    const dgControlGroup = this.fb.group({
+                    (this.vcsForm.get('device-group') as FormArray).push(this.fb.group({
                         'device-group': dgFormControl,
                         enable: enabledControl,
-                    });
-                    (this.vcsForm.get('device-group') as FormArray).push(dgControlGroup);
+                    }));
                 }
                 isDeleted = false;
             }
@@ -336,10 +337,13 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                     if (eachValuedg['device-group'] === eachFormdg['device-group']) {
                         this.vcsForm.get(['device-group', eachValuedgPosition, 'enable']).setValue(eachFormdg.enable);
                     } else {
-                        (this.vcsForm.get(['device-group']) as FormArray).push(this.fb.group({
+                        const newDgGroup = this.fb.group({
                             'device-group': eachFormdg['device-group'],
                             enable: eachFormdg.enable
-                        }));
+                        });
+                        newDgGroup.get('device-group')[ORIGINAL] = eachFormdg['device-group'];
+                        newDgGroup.get('enable')[ORIGINAL] = eachFormdg.enable;
+                        (this.vcsForm.get(['device-group']) as FormArray).push(newDgGroup);
                     }
                 }
             });

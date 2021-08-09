@@ -208,7 +208,7 @@ export class BasketService {
 
     recursePath(path: string[], object: object, value: BasketValue, unchangedPath?: string[]): void {
         const unchList = localStorage.getItem(unchangedPath.join('/'));
-        console.log(path, 'Search storage for ', unchangedPath.join('/'), unchList);
+        console.log(path, 'Search storage for', unchangedPath.join('/'), unchList);
         if (unchList !== null) {
             object[ADDITIONALPROPS] = {
                 unchanged: unchList
