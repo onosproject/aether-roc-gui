@@ -29,6 +29,11 @@ export interface VcsVcs {
   downlink?: number;
 
   /**
+   * Link to enterprise that owns this VCS
+   */
+  enterprise: string;
+
+  /**
    * ID for this vcs.
    */
   id?: string;

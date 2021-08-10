@@ -6,6 +6,11 @@ import { DeviceGroupDeviceGroupImsis } from './device-group-device-group-imsis';
 export interface DeviceGroupDeviceGroup {
 
   /**
+   * description of this device group
+   */
+  description?: string;
+
+  /**
    * display name to use in GUI or CLI
    */
   'display-name'?: string;
