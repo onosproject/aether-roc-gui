@@ -35,7 +35,7 @@ export interface IpDomainIpDomain {
   'dns-secondary'?: string;
 
   /**
-   * Link to enterprise that owns this Access Point List
+   * Link to enterprise that owns this IP-Domain
    */
   enterprise: string;
 
