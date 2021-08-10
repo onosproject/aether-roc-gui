@@ -46,6 +46,16 @@
             </td>
         </ng-container>
 
+        <!-- Enterprise Column-->
+        <ng-container matColumnDef="enterprise" id="EnterpriseColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Enterprise</th>
+            <td mat-cell *matCellDef="let row">
+                {{row.enterprise}}
+                <mat-icon class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="Enterprise"
+                          id="pointerConnectivityService"
+                          routerLink="/enterprise/enterprise-edit/{{row.enterprise}}">launch</mat-icon>
+            </td>
+        </ng-container>
 
         <!-- ap Column -->
         <ng-container matColumnDef="ap" id="apColumn">
