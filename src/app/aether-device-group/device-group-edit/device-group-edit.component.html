@@ -30,7 +30,12 @@
                     <mat-hint>Display Name</mat-hint>
                 </mat-form-field>
             </div>
-
+            <div class="row" id="descriptionRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="description" id="inputDescription">
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width subscriber-section">
                     <mat-select ngDefaultControl
@@ -106,7 +111,7 @@
 <aether-imsis-select
     *ngIf="showImsiDisplay && opaService.canWrite('/devicegroup/devicegroup[id=' + id + ']/imsis')"
     id="imsiSelectComponent"
-    [OtherImsi] = "imsis"
+    [OtherImsi]="imsis"
     [ImisLengthLimits]="SiteImisLength"
     (closeEvent)="openDeviceGroupCard($event)">
 </aether-imsis-select>

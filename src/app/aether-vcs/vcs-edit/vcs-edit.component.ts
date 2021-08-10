@@ -13,7 +13,7 @@ import {
     TemplateTemplate,
     TrafficClassTrafficClass,
     UpfUpf,
-    AdditionalPropertyTarget
+    AdditionalPropertyTarget, EnterpriseEnterprise
 } from '../../../openapi3/aether/3.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -38,6 +38,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     showDeviceGroupDisplay: boolean = false;
     aps: Array<ApListApList> | AdditionalPropertyTarget;
     deviceGroups: Array<DeviceGroupDeviceGroup>;
+    enterprises: Array<EnterpriseEnterprise>;
     templates: Array<TemplateTemplate>;
     trafficClasses: Array<TrafficClassTrafficClass>;
     upfs: Array<UpfUpf>;
@@ -79,6 +80,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             Validators.minLength(0),
             Validators.maxLength(4294967295)
         ])],
+        enterprise: [undefined],
         ap: [undefined],
         'device-group': this.fb.array([]),
         sd: [undefined, Validators.required],
@@ -101,7 +103,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         super(snackBar, bs, route, router, 'vcs-3.0.0', 'vcs');
         super.form = this.vcsForm;
         super.loadFunc = this.loadVcsVcs;
-        this.vcsForm[REQDATTRIBS] = ['sd', 'traffic-class', 'sst'];
+        this.vcsForm[REQDATTRIBS] = ['sd', 'traffic-class', 'sst', 'enterprise'];
         this.vcsForm.get(['uplink'])[TYPE] = 'number';
         this.vcsForm.get(['downlink'])[TYPE] = 'number';
         this.vcsForm.get('application')[IDATTRIBS] = ['application'];
@@ -123,6 +125,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         this.loadTemplate(this.target);
         this.loadTrafficClass(this.target);
         this.loadUpf(this.target);
+        this.loadEnterprises(this.target);
         this.bandwidthOptions = this.vcsForm.valueChanges
             .pipe(
                 startWith(''),
@@ -131,6 +134,13 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             );
     }
 
+    setOnlyEnterprise(lenEnterprises: number): void {
+        if (lenEnterprises === 1) {
+            this.vcsForm.get('enterprise').markAsTouched();
+            this.vcsForm.get('enterprise').markAsDirty();
+            this.vcsForm.get('enterprise').setValue(this.enterprises[0].id);
+        }
+    }
 
     get applications(): FormArray {
         return this.vcsForm.get('application') as FormArray;
@@ -303,6 +313,10 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             this.vcsForm.get(['uplink']).setValue(value.uplink);
             this.vcsForm.get(['uplink'])[ORIGINAL] = value.uplink;
         }
+        if (value.enterprise) {
+            this.vcsForm.get('enterprise').setValue(value.enterprise);
+            this.vcsForm.get('enterprise')[ORIGINAL] = value.enterprise;
+        }
         if (value.ap) {
             this.vcsForm.get(['ap']).setValue(value.ap);
             this.vcsForm.get(['ap'])[ORIGINAL] = value.ap;
@@ -380,6 +394,21 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             }),
             error => {
                 console.warn('Error getting Ap List for ', target, error);
+            }
+        );
+    }
+
+    loadEnterprises(target: string): void {
+        this.aetherService.getEnterprise({
+            target,
+        }).subscribe(
+            (value => {
+                this.enterprises = value.enterprise;
+                this.setOnlyEnterprise(value.enterprise.length);
+                console.log('Got', value.enterprise.length, 'Enterprise');
+            }),
+            error => {
+                console.warn('Error getting Enterprise for ', target, error);
             }
         );
     }

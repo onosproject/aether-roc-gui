@@ -67,6 +67,10 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
             Validators.minLength(1),
             Validators.maxLength(31),
         ])],
+        description: [undefined, Validators.compose([
+            Validators.minLength(1),
+            Validators.maxLength(80),
+        ])],
         'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
@@ -141,6 +145,10 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         if (value['ip-domain']) {
             this.deviceGroupForm.get('ip-domain').setValue(value['ip-domain']);
             this.deviceGroupForm.get('ip-domain')[ORIGINAL] = value['ip-domain'];
+        }
+        if (value.description) {
+            this.deviceGroupForm.get('description').setValue(value.description);
+            this.deviceGroupForm.get('description')[ORIGINAL] = value.description;
         }
         if (value.site) {
             this.deviceGroupForm.get('site').setValue(value.site);

@@ -30,6 +30,7 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
         'description',
         'application',
         'downlink/uplink',
+        'enterprise',
         'ap',
         'device-group',
         'sd',
@@ -83,6 +84,9 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
                         }
                         if (basketItems.uplink) {
                             ScopeOfDataSource.data[listItemCount].uplink = basketItems.uplink;
+                        }
+                        if (basketItems.enterprise) {
+                            ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
                         }
                         if (basketItems.ap) {
                             ScopeOfDataSource.data[listItemCount].ap = basketItems.ap;
