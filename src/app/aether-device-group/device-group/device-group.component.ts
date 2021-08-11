@@ -41,7 +41,9 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(new DeviceGroupDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+        super(basketService, new DeviceGroupDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            'device-group-3.0.0', 'device-group');
+        super.reqdAttr = ['site'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {

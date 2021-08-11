@@ -13,7 +13,7 @@ import {
     TemplateTemplate,
     TrafficClassTrafficClass,
     UpfUpf,
-    AdditionalPropertyTarget, EnterpriseEnterprise
+    AdditionalPropertyTarget, EnterpriseEnterprise, VcsVcsApplication, VcsVcsDeviceGroup
 } from '../../../openapi3/aether/3.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -69,7 +69,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         ])],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(100),
+            Validators.maxLength(1024),
         ])],
         application: this.fb.array([]),
         downlink: [undefined, Validators.compose([
@@ -180,7 +180,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                 application: appFormControl,
                 allow: allowControl,
             });
-            appGroupControl[REQDATTRIBS] = ['application'];
             (this.vcsForm.get('application') as FormArray).push(appGroupControl);
             this.vcsForm.get('application').markAsTouched();
             console.log('Adding new Value', selected);
@@ -241,7 +240,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
 
     deleteApplicationFromSelect(app: string): void {
         this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
-            ']/application[application=' + app + ']', 'application', app);
+            ']/application[application=' + app + ']', 'application', app, this.ucmap);
         const index = (this.vcsForm.get('application') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
         (this.vcsForm.get('application') as FormArray).removeAt(index);
@@ -250,11 +249,22 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
 
     deleteDeviceGroupFromSelect(dg: string): void {
         this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
-            ']/device-group[device-group=' + dg + ']', 'device-group', dg);
+            ']/device-group[device-group=' + dg + ']', 'device-group', dg, this.ucmap);
         const index = (this.vcsForm.get('device-group') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === dg);
         (this.vcsForm.get('device-group') as FormArray).removeAt(index);
         this.snackBar.open('Deletion ' + dg + ' added to basket', undefined, {duration: 2000});
+    }
+
+    private get ucmap(): Map<string, string> {
+        const vcsId = '/vcs-3.0.0/vcs[id=' + this.id + ']';
+        let parentUc = localStorage.getItem(vcsId);
+        if (parentUc === null) {
+            parentUc = this.vcsForm[REQDATTRIBS];
+        }
+        const ucMap = new Map<string, string>();
+        ucMap.set(vcsId, parentUc);
+        return ucMap;
     }
 
     private populateFormData(value: VcsVcs): void {

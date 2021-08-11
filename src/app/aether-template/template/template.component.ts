@@ -42,7 +42,8 @@ constructor(
   private aetherService: AetherService,
   private basketService: BasketService,
 ) {
-  super(new TemplateDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+  super(basketService, new TemplateDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+      'template-3.0.0', 'template');
 }
 
 onDataLoaded(ScopeOfDataSource): void {

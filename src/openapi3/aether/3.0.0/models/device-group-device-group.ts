@@ -18,7 +18,7 @@ export interface DeviceGroupDeviceGroup {
   /**
    * ID for this device group.
    */
-  id?: string;
+  id: string;
   imsis?: Array<DeviceGroupDeviceGroupImsis>;
 
   /**

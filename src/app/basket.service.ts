@@ -43,7 +43,7 @@ export class BasketService {
 
     }
 
-    deleteIndexedEntry(path: string, indexName: string, originalValue?: string): void {
+    deleteIndexedEntry(path: string, indexName: string, originalValue: string, unchanged?: Map<string, string>): void {
         // If this item was already added in this basket, then remove it
         Object.keys(localStorage)
             .filter(p => p.startsWith('/basket-update' + path))
@@ -53,6 +53,9 @@ export class BasketService {
             });
         const value = {oldValue: originalValue, newValue: ''} as BasketValue;
         localStorage.setItem('/basket-delete' + path + '/' + indexName, JSON.stringify(value));
+        unchanged.forEach((unchangedValue, unchangedPath) => {
+            localStorage.setItem('/unchanged-delete' + unchangedPath, unchangedValue);
+        });
     }
 
     totalNumChanges(): number {

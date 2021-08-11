@@ -39,7 +39,9 @@ export class ApListComponent extends RocListBase<ApListDatasource> implements Af
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(new ApListDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+        super(basketService, new ApListDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            'ap-list-3.0.0', 'ap-list');
+        super.reqdAttr = ['enterprise'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {

@@ -48,7 +48,9 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
         private aetherService: AetherService,
         private basketService: BasketService,
     ) {
-        super(new VcsDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+        super(basketService, new VcsDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            'vcs-3.0.0', 'vcs');
+        super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {

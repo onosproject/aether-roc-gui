@@ -39,7 +39,9 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(new ApplicationDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+        super(basketService, new ApplicationDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            'application-3.0.0', 'application');
+        super.reqdAttr = ['enterprise'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {

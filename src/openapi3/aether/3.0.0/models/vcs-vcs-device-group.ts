@@ -7,7 +7,7 @@ export interface VcsVcsDeviceGroup {
   /**
    * Link to device group
    */
-  'device-group'?: string;
+  'device-group': string;
 
   /**
    * Enable this device group

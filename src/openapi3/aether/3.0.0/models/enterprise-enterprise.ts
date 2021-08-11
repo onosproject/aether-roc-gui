@@ -19,7 +19,7 @@ export interface EnterpriseEnterprise {
   /**
    * ID for this enterprise.
    */
-  id?: string;
+  id: string;
 
   [key: string]: AdditionalPropertyTarget | Array<EnterpriseEnterpriseConnectivityService> | string | undefined;
 }

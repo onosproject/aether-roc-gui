@@ -24,7 +24,7 @@ export interface ApListApList {
   /**
    * ID for this ap-list.
    */
-  id?: string;
+  id: string;
 
   [key: string]: AdditionalPropertyTarget | Array<ApListApListAccessPoints> | string | undefined;
 }

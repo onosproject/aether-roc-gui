@@ -60,7 +60,7 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
         ])],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(100),
+            Validators.maxLength(1024),
         ])],
         sd: [undefined, Validators.compose([
             Validators.min(0),
