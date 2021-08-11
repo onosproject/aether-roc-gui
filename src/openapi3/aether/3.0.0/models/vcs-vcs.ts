@@ -36,7 +36,7 @@ export interface VcsVcs {
   /**
    * ID for this vcs.
    */
-  id?: string;
+  id: string;
 
   /**
    * Slice differentiator. Immutable.

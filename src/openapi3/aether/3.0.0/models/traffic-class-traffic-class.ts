@@ -17,7 +17,7 @@ export interface TrafficClassTrafficClass {
   /**
    * ID for this traffic class.
    */
-  id?: string;
+  id: string;
 
   /**
    * PDB

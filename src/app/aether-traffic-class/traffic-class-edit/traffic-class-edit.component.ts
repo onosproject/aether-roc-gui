@@ -42,7 +42,7 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
         ])],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(100),
+            Validators.maxLength(1024),
         ])],
         pelr: [undefined, Validators.compose([
             Validators.min(0),

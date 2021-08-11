@@ -27,7 +27,7 @@ export interface UpfUpf {
   /**
    * ID for this upf.
    */
-  id?: string;
+  id: string;
 
   /**
    * Port for UPF

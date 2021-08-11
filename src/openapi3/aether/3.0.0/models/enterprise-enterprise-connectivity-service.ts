@@ -7,7 +7,7 @@ export interface EnterpriseEnterpriseConnectivityService {
   /**
    * Link to connectivity services where configuration should be pushed for this enterprise's devices
    */
-  'connectivity-service'?: string;
+  'connectivity-service': string;
 
   /**
    * Allow or disallow pushes to this connectivity service

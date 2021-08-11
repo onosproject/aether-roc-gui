@@ -39,7 +39,8 @@ export class EnterpriseComponent extends RocListBase<EnterpriseDatasource> imple
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(new EnterpriseDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+        super(basketService, new EnterpriseDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            'enterprise-3.0.0', 'enterprise');
     }
 
     onDataLoaded(ScopeOfDataSource): void {

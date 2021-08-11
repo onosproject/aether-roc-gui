@@ -27,7 +27,7 @@ export interface ConnectivityServiceConnectivityService {
   /**
    * ID for this connectivity service.
    */
-  id?: string;
+  id: string;
 
   /**
    * url of the pcrf service

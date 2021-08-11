@@ -64,7 +64,9 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
         private oauthService: OAuthService,
         @Inject('grafana_api_proxy') private grafanaUrl: string,
     ) {
-        super(new PanelVcsDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+        super(basketService, new PanelVcsDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            'vcs-3.0.0', 'vcs');
+        super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise'];
         this.promData = new VcsPromDataSource(httpClient);
     }
 

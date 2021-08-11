@@ -7,7 +7,7 @@ export interface ApListApListAccessPoints {
   /**
    * Address of access point
    */
-  address?: string;
+  address: string;
 
   /**
    * Enable this access point

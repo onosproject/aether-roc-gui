@@ -24,7 +24,7 @@ export interface ApplicationApplication {
   /**
    * ID for this application.
    */
-  id?: string;
+  id: string;
 
   [key: string]: AdditionalPropertyTarget | Array<ApplicationApplicationEndpoint> | string | undefined;
 }

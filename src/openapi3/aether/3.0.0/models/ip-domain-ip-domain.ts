@@ -42,7 +42,7 @@ export interface IpDomainIpDomain {
   /**
    * ID for this ip domain.
    */
-  id?: string;
+  id: string;
 
   /**
    * maximum transmission unit

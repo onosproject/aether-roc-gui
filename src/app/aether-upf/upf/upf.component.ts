@@ -41,13 +41,15 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
         private aetherService: AetherService,
         private basketService: BasketService,
     ) {
-        super(new UpfDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+        super(basketService, new UpfDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            'upf-3.0.0', 'upf');
+        super.reqdAttr = ['enterprise', 'port', 'address'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('enterprise-3.0.0' in basketPreview && 'enterprise' in basketPreview['enterprise-3.0.0']) {
-            basketPreview['enterprise-3.0.0'].enterprise.forEach((basketItems) => {
+        if ('upf-3.0.0' in basketPreview && 'upf' in basketPreview['upf-3.0.0']) {
+            basketPreview['upf-3.0.0'].upf.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -59,8 +61,11 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
                         if (basketItems.enterprise) {
                             ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
                         }
-                        if (basketItems.network) {
-                            ScopeOfDataSource.data[listItemCount].network = basketItems.network;
+                        if (basketItems.address) {
+                            ScopeOfDataSource.data[listItemCount].address = basketItems.address;
+                        }
+                        if (basketItems.port) {
+                            ScopeOfDataSource.data[listItemCount].port = basketItems.port;
                         }
                     }
                 });
