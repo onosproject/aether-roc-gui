@@ -9,14 +9,6 @@
             <mat-card-title class="subheading-1 title">Add Endpoint</mat-card-title>
         </mat-card-header>
         <mat-card-content class="content">
-            <!-- <mat-select formControlName="select-item">
-                <mat-option *ngFor="let item of this.displayList" (click)="closeCard(item.id)"
-                    id="selectConnectivityService">
-                    {{item.id}}
-                    <span *ngIf="item['display-name']"> ({{item['display-name']}})</span>
-                </mat-option>
-            </mat-select> -->
-            <!-- <div [formGroup]="endpointForm"> -->
             <mat-form-field class="field-margin">
                 <input matInput formControlName="name"
                        title="This field is mandatory."
@@ -24,7 +16,6 @@
                        id="inputName" required>
                 <mat-hint>Name</mat-hint>
             </mat-form-field>
-            <!-- <mat-label formControlName="name"></mat-label> -->
             <mat-form-field class="field-margin ">
                 <input matInput formControlName="address"
                        title="This field is mandatory."
@@ -56,7 +47,7 @@
         <mat-card-actions class=" button-width float-left field-margin">
             <button mat-raised-button color="accent" type="submit"
                     *ngIf="endpointForm.valid"
-                    [disabled]="!(endpointForm.valid && endpointForm.touched)"
+                    [disabled]="!(endpointForm.valid && (endpointForm.errors?.isEndpointNotValid == null) && endpointForm.touched )"
                     id="submitButton">Add
             </button>
         </mat-card-actions>
