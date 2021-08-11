@@ -5,9 +5,15 @@
  */
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Service} from '../../../openapi3/aether/3.0.0/services';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {RocSelectBase} from '../../roc-select-base';
+
+const ValidatePortRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const portStart = control.get(['port-start']).value;
+    const portEnd = control.get(['port-end']).value;
+    return portStart > portEnd ? null : {isEndpointNotValid: true};
+};
 
 @Component({
     selector: 'aether-endpoint-select',
@@ -44,7 +50,7 @@ export class EndpointSelectComponent implements OnInit {
                 Validators.max(65535)
             ])],
         protocol: [undefined]
-    });
+    }, {validators: ValidatePortRange});
 
     constructor(
         protected service: Service,

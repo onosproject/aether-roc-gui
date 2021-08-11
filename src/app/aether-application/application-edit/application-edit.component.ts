@@ -5,7 +5,15 @@
  */
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {
+    AbstractControl,
+    FormArray,
+    FormBuilder,
+    FormControl,
+    ValidationErrors,
+    ValidatorFn,
+    Validators
+} from '@angular/forms';
 import {ApplicationApplicationService, Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
 import {
     ApplicationApplication,
@@ -15,6 +23,17 @@ import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../baske
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+
+const ValidatePortRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    if (control.get(['endpoint']).value.length !== 0) {
+        const endpointFormvalue = control.get(['endpoint']).value;
+        let isValid: ValidationErrors;
+        endpointFormvalue.every(eachEndpoint => {
+            isValid = eachEndpoint['port-start'] > eachEndpoint['port-end'] ? null : {isEndpointNotValid: true};
+        });
+        return isValid;
+    }
+};
 
 @Component({
     selector: 'aether-application-edit',
@@ -52,7 +71,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         ])],
         endpoint: this.fb.array([]),
         enterprise: [undefined, Validators.required]
-    });
+    }, {validators: ValidatePortRange});
 
     constructor(
         private applicationApplicationService: ApplicationApplicationService,
