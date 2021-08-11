@@ -30,13 +30,14 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import {ApplicationEditComponent} from './application-edit/application-edit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { EndpointSelectComponent } from './endpoint-select/endpoint-select.component';
+import {UtilsModule} from '../utils/utils.module';
 
 
 @NgModule({
     declarations: [
         ApplicationComponent,
         ApplicationEditComponent,
-        EndpointSelectComponent,
+        EndpointSelectComponent
     ],
     imports: [
         CommonModule,
@@ -64,7 +65,8 @@ import { EndpointSelectComponent } from './endpoint-select/endpoint-select.compo
         MatSlideToggleModule,
         CdkTableModule,
         MatCheckboxModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        UtilsModule
     ],
     providers: [
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},

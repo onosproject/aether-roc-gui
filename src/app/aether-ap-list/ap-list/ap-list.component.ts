@@ -53,6 +53,7 @@ export class ApListComponent extends RocListBase<ApListDatasource> implements Af
                         }
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;
+
                         }
                         if (basketItems.enterprise) {
                             ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;

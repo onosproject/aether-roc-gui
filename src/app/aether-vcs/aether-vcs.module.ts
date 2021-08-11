@@ -41,7 +41,7 @@ import {UtilsModule} from '../utils/utils.module';
         VcsEditComponent,
         ApplicationSelectComponent,
         DeviceGroupSelectComponent,
-        VcsMonitorComponent
+        VcsMonitorComponent,
     ],
     imports: [
         CommonModule,
