@@ -23,7 +23,6 @@ import { ApiKeyComponent } from './api-key/api-key.component';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {MatPaginatorModule} from '@angular/material/paginator';
 
-
 export const API_INTERCEPTOR_PROVIDER: Provider = {
     provide: HTTP_INTERCEPTORS,
     useExisting: forwardRef(() => AuthInterceptor),

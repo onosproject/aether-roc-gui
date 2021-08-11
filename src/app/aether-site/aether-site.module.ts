@@ -28,12 +28,13 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { SiteEditComponent } from './site-edit/site-edit.component';
+import {UtilsModule} from '../utils/utils.module';
 
 
 @NgModule({
     declarations: [
         SiteComponent,
-        SiteEditComponent
+        SiteEditComponent,
     ],
     imports: [
         CommonModule,
@@ -61,7 +62,8 @@ import { SiteEditComponent } from './site-edit/site-edit.component';
         MatButtonModule,
         MatSlideToggleModule,
         CdkTableModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        UtilsModule
     ],
     providers: [
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},

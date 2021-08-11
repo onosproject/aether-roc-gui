@@ -24,9 +24,13 @@ import {MatCardModule} from '@angular/material/card';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {UtilsModule} from '../utils/utils.module';
 
 @NgModule({
-    declarations: [ConnectivityServiceComponent, ConnectivityServiceEditComponent],
+    declarations: [
+        ConnectivityServiceComponent,
+        ConnectivityServiceEditComponent
+    ],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({rootUrl: AETHER_ROC_API_URL}),
@@ -48,6 +52,7 @@ import {MatButtonModule} from '@angular/material/button';
         MatCardModule,
         MatButtonModule,
         MatSnackBarModule,
+        UtilsModule
     ],
     providers: [
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},

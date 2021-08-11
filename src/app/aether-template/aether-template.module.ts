@@ -29,12 +29,14 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { TemplateEditComponent } from './template-edit/template-edit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {UtilsModule} from '../utils/utils.module';
 
 
 @NgModule({
     declarations: [
         TemplateComponent,
-        TemplateEditComponent
+        TemplateEditComponent,
+
     ],
     imports: [
         CommonModule,
@@ -63,7 +65,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         MatSlideToggleModule,
         CdkTableModule,
         MatCheckboxModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        UtilsModule
     ],
     providers: [
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},
