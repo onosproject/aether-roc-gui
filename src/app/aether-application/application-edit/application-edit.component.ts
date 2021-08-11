@@ -29,7 +29,7 @@ const ValidatePortRange: ValidatorFn = (control: AbstractControl): ValidationErr
         const endpointFormvalue = control.get(['endpoint']).value;
         let isValid: ValidationErrors;
         endpointFormvalue.every(eachEndpoint => {
-            isValid = eachEndpoint['port-start'] > eachEndpoint['port-end'] ? null : {isEndpointNotValid: true};
+            isValid = eachEndpoint['port-start'] <= eachEndpoint['port-end'] ? null : {isEndpointNotValid: true};
         });
         return isValid;
     }

@@ -12,7 +12,7 @@ import {RocSelectBase} from '../../roc-select-base';
 const ValidatePortRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const portStart = control.get(['port-start']).value;
     const portEnd = control.get(['port-end']).value;
-    return portStart > portEnd ? null : {isEndpointNotValid: true};
+    return portStart <= portEnd ? null : {isEndpointNotValid: true};
 };
 
 @Component({
