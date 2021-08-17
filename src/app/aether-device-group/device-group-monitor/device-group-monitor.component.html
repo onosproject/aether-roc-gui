@@ -64,7 +64,7 @@
         </tr>
     </table>
     <aether-ue-monitor
-        *ngIf="selectedUeId"
+        *ngIf="selectedUeId !== undefined"
         [ueId]="selectedUeId"
         [fullImsi]="fullImsi(site, selectedUeId)"
         [grafanaOrgId]="grafanaOrgId"

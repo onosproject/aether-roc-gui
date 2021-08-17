@@ -37,7 +37,6 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
         'device-group',
         'sd',
         'sst',
-        'template',
         'traffic-class',
         'upf',
         'edit',

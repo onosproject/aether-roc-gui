@@ -16,6 +16,9 @@ export class HexPipe implements PipeTransform {
     }
 
     transform(value: number): string {
+        if (value === null) {
+            return undefined;
+        }
         return value.toString(16).toUpperCase();
     }
 }
