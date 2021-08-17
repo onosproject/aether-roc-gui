@@ -49,8 +49,10 @@
                         </mat-icon>
                     </h3>
                     <p>
-                        <small>Uplink</small>&nbsp;{{thisVcs?.uplink}}&nbsp;<small>Downlink</small>&nbsp;{{thisVcs?.downlink}}&nbsp;
-                        <small>SD</small>&nbsp;{{thisVcs?.sd}}&nbsp;<small>SST</small>&nbsp;{{thisVcs?.sst}}
+                        <small>Uplink</small>&nbsp;{{thisVcs?.uplink}}&nbsp;<small>Mbps</small>&nbsp;
+                        <small>Downlink</small>&nbsp;{{thisVcs?.downlink}}&nbsp;<small>Mbps</small>&nbsp;
+                        <small>SD</small>&nbsp;<span [title]="thisVcs?.sd">{{thisVcs?.sd | hex}}</span>&nbsp;
+                        <small>SST</small>&nbsp;{{thisVcs?.sst}}
                     </p>
                 </mat-expansion-panel>
                 <mat-expansion-panel *ngFor="let dg of deviceGroups | keyvalue">
@@ -62,7 +64,7 @@
                         <mat-panel-description>
                             <small>({{dg.key['id']}})</small>&nbsp;
                             <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="DeviceGroup"
-                                      color="primary"
+                                      color="accent"
                                       routerLink="/devicegroups/devicegroups-monitor/{{dg.key['id']}}">insights
                             </mat-icon>
                         </mat-panel-description>
@@ -82,7 +84,7 @@
                     </h3>
                     <div *ngFor="let imsiRange of dg.key['imsis']">
                         <p>{{imsiRange.name}}
-<!--                            : {{imsiList(imsiRange["imsi-range-from"], imsiRange["imsi-range-to"])}}</p>-->
+                            : {{imsiList(imsiRange["imsi-range-from"], imsiRange["imsi-range-to"])}}</p>
                     </div>
                 </mat-expansion-panel>
                 <mat-expansion-panel *ngFor="let app of applications | keyvalue">

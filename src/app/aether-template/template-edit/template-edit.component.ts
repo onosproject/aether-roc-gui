@@ -5,17 +5,18 @@
  */
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {Service as AetherService, TemplateTemplateService} from '../../../openapi3/aether/3.0.0/services';
 import {TemplateTemplate, TrafficClassTrafficClass} from '../../../openapi3/aether/3.0.0/models';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
-import {MatHeaderRow, MatTable} from '@angular/material/table';
+import {BasketService, HEX2NUM, ORIGINAL, TYPE} from '../../basket.service';
+import {MatHeaderRow} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import {HexPipe} from '../../utils/hex.pipe';
 
 export interface Bandwidths {
     megabyte: { numerical: number, inMb: string };
@@ -33,18 +34,20 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
 
+    sdAsInt = HexPipe.hexAsInt;
+
     pathRoot = 'template-3.0.0';
     pathListAttr = 'template';
     trafficClass: Array<TrafficClassTrafficClass>;
     options: Bandwidths[] = [
-        {megabyte: {numerical: 1048576, inMb: '1Mb'}},
-        {megabyte: {numerical: 2097152, inMb: '2Mb'}},
-        {megabyte: {numerical: 5242880, inMb: '5Mb'}},
-        {megabyte: {numerical: 1048576, inMb: '10Mb'}},
-        {megabyte: {numerical: 26214400, inMb: '25Mb'}},
-        {megabyte: {numerical: 52428800, inMb: '50Mb'}},
-        {megabyte: {numerical: 104857600, inMb: '100Mb'}},
-        {megabyte: {numerical: 524288000, inMb: '500Mb'}}
+        {megabyte: {numerical: 1, inMb: '1Mbps'}},
+        {megabyte: {numerical: 2, inMb: '2Mbps'}},
+        {megabyte: {numerical: 5, inMb: '5Mbps'}},
+        {megabyte: {numerical: 10, inMb: '10Mbps'}},
+        {megabyte: {numerical: 25, inMb: '25Mbps'}},
+        {megabyte: {numerical: 50, inMb: '50Mbps'}},
+        {megabyte: {numerical: 100, inMb: '100Mbps'}},
+        {megabyte: {numerical: 500, inMb: '500Mbps'}}
     ];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: TemplateTemplate;
@@ -63,8 +66,9 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             Validators.maxLength(1024),
         ])],
         sd: [undefined, Validators.compose([
-            Validators.min(0),
-            Validators.max(16777215)
+            Validators.minLength(6),
+            Validators.maxLength(6),
+            Validators.pattern('^[A-F0-9]{6}')
         ])],
         sst: [undefined, Validators.compose([
             Validators.min(1),
@@ -105,6 +109,10 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
                 map(value => typeof value === 'number' ? value : value.megabyte),
                 map(megabyte => megabyte ? this._filter(megabyte) : this.options.slice())
             );
+        this.tempForm.get('sd')[TYPE] = HEX2NUM;
+        this.tempForm.get('sst')[TYPE] = 'number';
+        this.tempForm.get('uplink')[TYPE] = 'number';
+        this.tempForm.get('downlink')[TYPE] = 'number';
     }
 
     private _filter(bandwidthIndex: number): Bandwidths[] {
@@ -148,8 +156,8 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             this.tempForm.get(['description'])[ORIGINAL] = value.description;
         }
         if (value.sd) {
-            this.tempForm.get(['sd']).setValue(value.sd);
-            this.tempForm.get(['sd'])[ORIGINAL] = value.sd;
+            this.tempForm.get(['sd']).setValue(value.sd.toString(16).toUpperCase());
+            this.tempForm.get(['sd'])[ORIGINAL] = value.sd.toString(16).toUpperCase();
         }
         if (value.sst) {
             this.tempForm.get(['sst']).setValue(value.sst);
@@ -159,7 +167,7 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             this.tempForm.get(['uplink']).setValue(value.uplink);
             this.tempForm.get(['uplink'])[ORIGINAL] = value.uplink;
         }
-        if (value.downlinkl) {
+        if (value.downlink) {
             this.tempForm.get(['downlink']).setValue(value.downlink);
             this.tempForm.get(['downlink'])[ORIGINAL] = value.downlink;
         }

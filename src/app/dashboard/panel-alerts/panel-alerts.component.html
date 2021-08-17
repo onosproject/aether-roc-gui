@@ -4,27 +4,27 @@
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 <div class="card" [style]="'width:'+width+'px;height:'+height+'px;top:'+top+'px;left:'+left+'px'">
-    <mat-toolbar class="profile-toolbar" color="primary">
+    <mat-toolbar class="profile-toolbar" color="primary" id="alertsToolbar">
         <p>Alerts</p>
         <span class="toolbar-spacer"></span>
     </mat-toolbar>
-    <mat-table [dataSource]="dataObs">
-        <ng-container matColumnDef="startsat">
+    <mat-table [dataSource]="dataObs" id="alertsTable" [style]="'height:'+(height-80)+'px'">
+        <ng-container matColumnDef="startsat" id="alertStartTime">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let row" >
                 <mat-icon [color]="row.labels.severity==='warn'?'warn':'primary'">{{row.labels.severity==='warn'?'warning':'error_outline'}}</mat-icon>
                 &nbsp;{{row.startsAt | date: 'short'}}
             </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="alertname">
+        <ng-container matColumnDef="alertname" id="alertName">
             <mat-header-cell *matHeaderCellDef>Alert</mat-header-cell>
             <mat-cell *matCellDef="let row">{{row.labels.alertname}}</mat-cell>
         </ng-container>
-        <ng-container matColumnDef="summary">
+        <ng-container matColumnDef="summary" id="alertSummary">
             <mat-header-cell *matHeaderCellDef>Summary</mat-header-cell>
             <mat-cell *matCellDef="let row" [title]="row.annotations.description"> {{row.annotations.summary}} </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="id">
+        <ng-container matColumnDef="id" id="alertID">
             <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
             <mat-cell *matCellDef="let row">
                 <mat-icon title="{{row.fingerprint}}" class="icon-pointer small_icon" (click)="showPrometheus(row.generatorURL)">

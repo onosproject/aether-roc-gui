@@ -20,7 +20,7 @@
         <!-- Description Column -->
         <ng-container matColumnDef="description" id="descColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing"></th>
-            <td mat-cell  *matCellDef="let row" [title]="row.description">{{row.description | truncateText:20}}</td>
+            <td mat-cell class="spacing" *matCellDef="let row" [title]="row.description">{{row.description | truncateText:20}}</td>
         </ng-container>
         <ng-container matColumnDef="latency" id="latencyColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Latency</th>

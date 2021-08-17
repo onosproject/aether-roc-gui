@@ -7,7 +7,7 @@ import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from 
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {MatHeaderRow} from '@angular/material/table';
-import {BasketService, BasketValue} from '../../basket.service';
+import {BasketService, BasketValue, HEX2NUM} from '../../basket.service';
 import {ApiService} from '../../../openapi3/top/level/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -75,11 +75,15 @@ export class BasketComponent implements AfterViewInit, OnInit {
                 }
                 const basketRow = {
                     path: key,
-                    oldChangeValue: changeObject.oldValue,
-                    newChangeValue: changeObject.newValue,
+                    oldValue: changeObject.oldValue,
+                    newValue: changeObject.newValue,
                     deleted: key.startsWith('/basket-delete'),
                     displayPath: key.slice(14)
                 } as unknown as BasketRow;
+                if (changeObject.type === HEX2NUM) {
+                    basketRow.oldValue = changeObject.oldValue + ' (' + parseInt(changeObject.oldValue, 16) + ')';
+                    basketRow.newValue = changeObject.newValue + ' (' + parseInt(changeObject.newValue, 16) + ')';
+                }
                 this.data.push(basketRow);
                 // console.log('processing key', basketRow);
             }));

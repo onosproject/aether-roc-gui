@@ -11,7 +11,6 @@ import {
     AbstractControl,
     FormArray,
     FormBuilder,
-    FormControl,
     ValidationErrors,
     ValidatorFn,
     Validators
@@ -118,7 +117,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
     }
 
     displayImsiAdd(): void {
-        this.showAddImsi = this.deviceGroupForm.get('site').value ? true : false;
+        this.showAddImsi = !!this.deviceGroupForm.get('site').value;
         this.site.forEach(eachSite => {
             if (eachSite.id === this.deviceGroupForm.get('site').value) {
                 this.SiteImisLength = (eachSite['imsi-definition'].format.length - eachSite['imsi-definition'].format.indexOf('S'));
@@ -170,8 +169,12 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
                     const nameFormControl = this.fb.control(im.name);
                     nameFormControl[ORIGINAL] = im.name;
 
-                    const imsiRangeFromFormControl = this.fb.control(im['imsi-range-from']);
-                    imsiRangeFromFormControl[ORIGINAL] = im['imsi-range-from'];
+                    let fromValue = im['imsi-range-from'];
+                    if (fromValue === undefined) {
+                        fromValue = 0;
+                    }
+                    const imsiRangeFromFormControl = this.fb.control(fromValue);
+                    imsiRangeFromFormControl[ORIGINAL] = fromValue;
                     imsiRangeFromFormControl[TYPE] = 'number';
 
                     const imsiRangeToFormControl = this.fb.control(im['imsi-range-to']);
