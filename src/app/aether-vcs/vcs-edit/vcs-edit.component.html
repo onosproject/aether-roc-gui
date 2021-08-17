@@ -53,11 +53,11 @@
                 <div class="row">
                     <mat-form-field class="field-margin half-width">
                         <input matInput
-                               type=number
                                placeholder="Please specify an SD"
                                formControlName="sd"
+                               [title]="sdAsInt(vcsForm.get('sd').value)"
                                id="inputSd">
-                        <mat-hint>SD (Slice differentiator)</mat-hint>
+                        <mat-hint>SD (Slice differentiator - 6 hex characters)</mat-hint>
                     </mat-form-field>
                 </div>
                 <!--SST field-->
@@ -68,7 +68,7 @@
                                placeholder="Please specify an SST"
                                formControlName="sst"
                                id="inputSst">
-                        <mat-hint>SST (Slice/Service type)</mat-hint>
+                        <mat-hint>SST (Slice/Service type 0-255)</mat-hint>
                     </mat-form-field>
                 </div>
                 <!--Uplink field-->
@@ -85,7 +85,7 @@
                                 {{option.megabyte.inMb}}
                             </mat-option>
                         </mat-autocomplete>
-                        <mat-hint>Uplink (0..4294967295)</mat-hint>
+                        <mat-hint>Uplink (Mbps)</mat-hint>
                     </mat-form-field>
                 </div>
                 <!--downlink field-->
@@ -102,7 +102,7 @@
                                 {{option.megabyte.inMb}}
                             </mat-option>
                         </mat-autocomplete>
-                        <mat-hint>Downlink (0..4294967295)</mat-hint>
+                        <mat-hint>Downlink (Mbps)</mat-hint>
                     </mat-form-field>
                 </div>
                 <!--traffic-class dropdown-->

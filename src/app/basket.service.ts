@@ -9,6 +9,7 @@ import {AETHER_TARGETS} from '../environments/environment';
 import {PatchBody} from '../openapi3/top/level/models';
 
 export const TYPE = 'type';
+export const HEX2NUM = 'hex2num';
 export const IDATTRIBS = 'idAttribs';
 export const REQDATTRIBS = 'reqdAttribs';
 export const ADDITIONALPROPS = 'additionalProperties';
@@ -221,8 +222,14 @@ export class BasketService {
         if (path.length === 1) {
             if (value.newValue === '') {
                 object[path[0]] = value.oldValue;
+                if (value.type === HEX2NUM) {
+                    object[path[0]] = parseInt(value.oldValue, 16);
+                }
             } else {
                 object[path[0]] = value.newValue;
+                if (value.type === HEX2NUM) {
+                    object[path[0]] = parseInt(value.newValue, 16);
+                }
             }
 
         } else if (path[0].includes('[')) {

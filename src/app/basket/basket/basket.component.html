@@ -39,13 +39,13 @@
         <ng-container matColumnDef="oldChangeValue" id="oldValueColumn">
             <th mat-header-cell *matHeaderCellDef> Old Value</th>
             <td [style]="row.deleted? 'text-decoration: line-through': ''" mat-cell
-                *matCellDef="let row">{{row.oldChangeValue}}</td>
+                *matCellDef="let row">{{row.oldValue}}</td>
         </ng-container>
 
         <ng-container matColumnDef="newChangeValue" id="newValueColumn">
             <th mat-header-cell *matHeaderCellDef> New Value</th>
             <td [style]="row.deleted? 'text-decoration: line-through': ''" mat-cell
-                *matCellDef="let row">{{row.newChangeValue}}</td>
+                *matCellDef="let row">{{row.newValue}}</td>
         </ng-container>
 
         <!-- Delete Column -->

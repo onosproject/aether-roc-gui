@@ -84,7 +84,7 @@
         <!-- SD Column -->
         <ng-container matColumnDef="sd" id="sdColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SD</th>
-            <td mat-cell class="small-spacing" *matCellDef="let row">{{row.sd}}</td>
+            <td mat-cell class="small-spacing" *matCellDef="let row" [title]="sdAsInt(row.sd)">{{row.sd | hex}}</td>
         </ng-container>
 
         <!-- SST Column -->
