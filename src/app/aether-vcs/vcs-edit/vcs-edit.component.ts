@@ -43,14 +43,14 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     trafficClasses: Array<TrafficClassTrafficClass>;
     upfs: Array<UpfUpf>;
     options: Bandwidths[] = [
-        {megabyte: {numerical: 1048576, inMb: '1Mb'}},
-        {megabyte: {numerical: 2097152, inMb: '2Mb'}},
-        {megabyte: {numerical: 5242880, inMb: '5Mb'}},
-        {megabyte: {numerical: 1048576, inMb: '10Mb'}},
-        {megabyte: {numerical: 26214400, inMb: '25Mb'}},
-        {megabyte: {numerical: 52428800, inMb: '50Mb'}},
-        {megabyte: {numerical: 104857600, inMb: '100Mb'}},
-        {megabyte: {numerical: 524288000, inMb: '500Mb'}}
+        {megabyte: {numerical: 1, inMb: '1Mbps'}},
+        {megabyte: {numerical: 2, inMb: '2Mbps'}},
+        {megabyte: {numerical: 5, inMb: '5Mbps'}},
+        {megabyte: {numerical: 10, inMb: '10Mbps'}},
+        {megabyte: {numerical: 25, inMb: '25Mbps'}},
+        {megabyte: {numerical: 50, inMb: '50Mbps'}},
+        {megabyte: {numerical: 100, inMb: '100Mbps'}},
+        {megabyte: {numerical: 500, inMb: '500Mbps'}}
     ];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: VcsVcs;
