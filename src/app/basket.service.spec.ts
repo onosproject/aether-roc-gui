@@ -141,7 +141,8 @@ describe('BasketService', () => {
         localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id1]/opc', 'opcValue1');
         localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id2]/opc', 'opcValue2');
 
-        service.deleteIndexedEntry('/security-profile-3.0.0/security-profile[id=id1]', 'id');
+        const ucMap = new Map<string, string>();
+        service.deleteIndexedEntry('/security-profile-3.0.0/security-profile[id=id1]', 'id', '', ucMap);
         expect(Object.keys(localStorage).length).toEqual(2);
         expect(Object.keys(localStorage)).toContain('/basket-update/security-profile-3.0.0/security-profile[id=id2]/opc');
         expect(Object.keys(localStorage)).toContain('/basket-delete/security-profile-3.0.0/security-profile[id=id1]/id');

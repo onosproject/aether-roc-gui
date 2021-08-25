@@ -14,3 +14,8 @@
 .mat-column-id {
     flex: 0 0 10%;
 }
+
+.mat-table {
+    scroll-behavior: auto;
+    overflow: auto;
+}

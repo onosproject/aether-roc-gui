@@ -26,9 +26,14 @@ import {MatInputModule} from '@angular/material/input';
 import { TrafficClassEditComponent } from './traffic-class-edit/traffic-class-edit.component';
 import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
+import {TruncateTextPipe} from '../utils/truncate-text.pipe';
+import {UtilsModule} from '../utils/utils.module';
 
 @NgModule({
-    declarations: [TrafficClassComponent, TrafficClassEditComponent],
+    declarations: [
+        TrafficClassComponent,
+        TrafficClassEditComponent,
+    ],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({rootUrl: AETHER_ROC_API_URL}),
@@ -51,6 +56,7 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
         MatSelectModule,
         MatInputModule,
         MatButtonModule,
+        UtilsModule
     ],
     providers: [
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},

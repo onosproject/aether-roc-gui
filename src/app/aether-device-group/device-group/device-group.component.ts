@@ -41,15 +41,18 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(new DeviceGroupDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+        super(basketService, new DeviceGroupDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            'device-group-3.0.0', 'device-group');
+        super.reqdAttr = ['site'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('device-group-3.0.0' in basketPreview && 'device-group' in basketPreview['device-group-3.0.0']) {
             basketPreview['device-group-3.0.0']['device-group'].forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
-                    if (basketItems.id === listItem.id) {
+                ScopeOfDataSource.data
+                    .filter(listItem => basketItems.id === listItem.id)
+                    .forEach((listItem, listItemCount) => {
                         if (basketItems['display-name']) {
                             ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
                         }
@@ -69,15 +72,13 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
                                 }
                             }
                         }
-                        if (basketItems['ip-domain']){
+                        if (basketItems['ip-domain']) {
                             ScopeOfDataSource.data[listItemCount]['ip-domain'] = basketItems['ip-domain'];
                         }
-                    }
-                });
+                    });
             });
         }
     }
-
 
 
     ngAfterViewInit(): void {

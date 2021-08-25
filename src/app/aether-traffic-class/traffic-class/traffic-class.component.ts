@@ -40,7 +40,8 @@ export class TrafficClassComponent extends RocListBase<TrafficClassDatasource> i
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(new TrafficClassDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+        super(basketService, new TrafficClassDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            'traffic-class-3.0.0', 'traffic-class');
     }
 
     onDataLoaded(ScopeOfDataSource): void {

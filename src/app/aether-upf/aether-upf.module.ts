@@ -28,12 +28,13 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { UpfEditComponent } from './upf-edit/upf-edit.component';
+import {UtilsModule} from '../utils/utils.module';
 
 
 @NgModule({
     declarations: [
         UpfComponent,
-        UpfEditComponent
+        UpfEditComponent,
     ],
     imports: [
         CommonModule,
@@ -61,7 +62,8 @@ import { UpfEditComponent } from './upf-edit/upf-edit.component';
         MatButtonModule,
         MatSlideToggleModule,
         CdkTableModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        UtilsModule
     ],
     providers: [
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},

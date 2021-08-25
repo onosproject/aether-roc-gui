@@ -28,14 +28,16 @@
         <ng-container matColumnDef="Access-Points" id="accessPointsColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Access-Points</th>
             <td mat-cell *matCellDef="let row">
-                <p *ngFor="let ap of row['access-points']">Address: {{ap.address}}</p>
+                <p *ngFor="let ap of row['access-points']"
+                   [classList]="ap.enable ? '':'semitransparent'"
+                >Address: {{ap.address}}</p>
             </td>
         </ng-container>
 
         <!-- Description Column -->
         <ng-container matColumnDef="description" id="descriptionColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-            <td mat-cell *matCellDef="let row">{{row.description}}</td>
+            <td mat-cell  *matCellDef="let row" [title]="row.description">{{row.description | truncateText:20}}</td>
         </ng-container>
 
         <ng-container matColumnDef="enterprise" id="enterpriseColumn">

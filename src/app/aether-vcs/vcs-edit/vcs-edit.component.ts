@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, InjectionToken, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, Validators} from '@angular/forms';
 import {
     VcsVcs,
     ApListApList,
@@ -19,10 +19,10 @@ import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {isEmpty, map, startWith} from 'rxjs/operators';
+import {map, startWith} from 'rxjs/operators';
 import {VcsVcsService, Service as AetherService} from 'src/openapi3/aether/3.0.0/services';
-import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from 'src/app/basket.service';
-import {connectableObservableDescriptor} from 'rxjs/internal/observable/ConnectableObservable';
+import {BasketService, HEX2NUM, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from 'src/app/basket.service';
+import {HexPipe} from '../../utils/hex.pipe';
 
 export interface Bandwidths {
     megabyte: { numerical: number, inMb: string };
@@ -43,19 +43,20 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     trafficClasses: Array<TrafficClassTrafficClass>;
     upfs: Array<UpfUpf>;
     options: Bandwidths[] = [
-        {megabyte: {numerical: 1048576, inMb: '1Mb'}},
-        {megabyte: {numerical: 2097152, inMb: '2Mb'}},
-        {megabyte: {numerical: 5242880, inMb: '5Mb'}},
-        {megabyte: {numerical: 1048576, inMb: '10Mb'}},
-        {megabyte: {numerical: 26214400, inMb: '25Mb'}},
-        {megabyte: {numerical: 52428800, inMb: '50Mb'}},
-        {megabyte: {numerical: 104857600, inMb: '100Mb'}},
-        {megabyte: {numerical: 524288000, inMb: '500Mb'}}
+        {megabyte: {numerical: 1, inMb: '1Mbps'}},
+        {megabyte: {numerical: 2, inMb: '2Mbps'}},
+        {megabyte: {numerical: 5, inMb: '5Mbps'}},
+        {megabyte: {numerical: 10, inMb: '10Mbps'}},
+        {megabyte: {numerical: 25, inMb: '25Mbps'}},
+        {megabyte: {numerical: 50, inMb: '50Mbps'}},
+        {megabyte: {numerical: 100, inMb: '100Mbps'}},
+        {megabyte: {numerical: 500, inMb: '500Mbps'}}
     ];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: VcsVcs;
     pathRoot = 'vcs-3.0.0';
     pathListAttr = 'vcs';
+    sdAsInt = HexPipe.hexAsInt;
 
     vcsForm = this.fb.group({
         id: [undefined, Validators.compose([
@@ -69,7 +70,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         ])],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(100),
+            Validators.maxLength(1024),
         ])],
         application: this.fb.array([]),
         downlink: [undefined, Validators.compose([
@@ -83,7 +84,12 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         enterprise: [undefined],
         ap: [undefined],
         'device-group': this.fb.array([]),
-        sd: [undefined, Validators.required],
+        sd: [undefined, Validators.compose([
+                Validators.minLength(6),
+                Validators.maxLength(6),
+                Validators.pattern('^[A-F0-9]{6}')
+            ]
+        )],
         sst: [undefined, Validators.required],
         template: [undefined],
         'traffic-class': [undefined, Validators.required],
@@ -106,6 +112,8 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         this.vcsForm[REQDATTRIBS] = ['sd', 'traffic-class', 'sst', 'enterprise'];
         this.vcsForm.get(['uplink'])[TYPE] = 'number';
         this.vcsForm.get(['downlink'])[TYPE] = 'number';
+        this.vcsForm.get(['sst'])[TYPE] = 'number';
+        this.vcsForm.get(['sd'])[TYPE] = HEX2NUM;
         this.vcsForm.get('application')[IDATTRIBS] = ['application'];
         this.vcsForm.get('device-group')[IDATTRIBS] = ['device-group'];
     }
@@ -180,7 +188,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                 application: appFormControl,
                 allow: allowControl,
             });
-            appGroupControl[REQDATTRIBS] = ['application'];
             (this.vcsForm.get('application') as FormArray).push(appGroupControl);
             this.vcsForm.get('application').markAsTouched();
             console.log('Adding new Value', selected);
@@ -241,7 +248,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
 
     deleteApplicationFromSelect(app: string): void {
         this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
-            ']/application[application=' + app + ']', 'application', app);
+            ']/application[application=' + app + ']', 'application', app, this.ucmap);
         const index = (this.vcsForm.get('application') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
         (this.vcsForm.get('application') as FormArray).removeAt(index);
@@ -250,11 +257,22 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
 
     deleteDeviceGroupFromSelect(dg: string): void {
         this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
-            ']/device-group[device-group=' + dg + ']', 'device-group', dg);
+            ']/device-group[device-group=' + dg + ']', 'device-group', dg, this.ucmap);
         const index = (this.vcsForm.get('device-group') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === dg);
         (this.vcsForm.get('device-group') as FormArray).removeAt(index);
         this.snackBar.open('Deletion ' + dg + ' added to basket', undefined, {duration: 2000});
+    }
+
+    private get ucmap(): Map<string, string> {
+        const vcsId = '/vcs-3.0.0/vcs[id=' + this.id + ']';
+        let parentUc = localStorage.getItem(vcsId);
+        if (parentUc === null) {
+            parentUc = this.vcsForm[REQDATTRIBS];
+        }
+        const ucMap = new Map<string, string>();
+        ucMap.set(vcsId, parentUc);
+        return ucMap;
     }
 
     private populateFormData(value: VcsVcs): void {
@@ -363,8 +381,8 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             });
         }
         if (value.sd) {
-            this.vcsForm.get(['sd']).setValue(value.sd);
-            this.vcsForm.get('sd')[ORIGINAL] = value.sd;
+            this.vcsForm.get(['sd']).setValue(value.sd.toString(16).toUpperCase());
+            this.vcsForm.get('sd')[ORIGINAL] = value.sd.toString(16).toUpperCase();
         }
         if (value.sst) {
             this.vcsForm.get(['sst']).setValue(value.sst);
@@ -445,7 +463,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         if (this.isNewInstance) {
             this.templates.forEach(eachTemplate => {
                 if (eachTemplate.id === templateSelected.value) {
-                    this.vcsForm.get(['sd']).setValue(eachTemplate.sd);
+                    this.vcsForm.get(['sd']).setValue(eachTemplate.sd.toString(16).toUpperCase());
                     const SdFormControl = this.vcsForm.get('sd');
                     SdFormControl.markAsTouched();
                     SdFormControl.markAsDirty();

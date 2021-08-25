@@ -23,7 +23,7 @@ export interface SiteSite {
   /**
    * ID for this site.
    */
-  id?: string;
+  id: string;
   'imsi-definition'?: SiteSiteImsiDefinition;
 
   [key: string]: AdditionalPropertyTarget | SiteSiteImsiDefinition | string | undefined;

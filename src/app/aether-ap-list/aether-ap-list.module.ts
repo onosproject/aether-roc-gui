@@ -29,6 +29,7 @@ import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import { AccessPointSelectComponent } from './access-point-select/access-point-select.component';
 import {ApListEditComponent} from './ap-list-edit/ap-list-edit.component';
+import {UtilsModule} from '../utils/utils.module';
 
 @NgModule({
     declarations: [
@@ -61,7 +62,10 @@ import {ApListEditComponent} from './ap-list-edit/ap-list-edit.component';
         MatSlideToggleModule,
         MatButtonToggleModule,
         MatSelectModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        UtilsModule
+    ],
+    exports: [
     ],
     providers: [
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},

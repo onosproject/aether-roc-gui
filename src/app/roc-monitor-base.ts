@@ -41,7 +41,7 @@ export abstract class RocMonitorBase {
 
     public imsiList(start: number, end: number): number[] {
         if (start === undefined) {
-            return undefined;
+            start = 0;
         }
         return this.range(start, end);
     }

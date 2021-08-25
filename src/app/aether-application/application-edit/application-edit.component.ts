@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import {ApplicationApplicationService, Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
 import {
-    ApplicationApplication,
+    ApplicationApplication, ApplicationApplicationEndpoint,
     EnterpriseEnterprise
 } from '../../../openapi3/aether/3.0.0/models';
 import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
@@ -67,7 +67,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         ])],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(100),
+            Validators.maxLength(1024),
         ])],
         endpoint: this.fb.array([]),
         enterprise: [undefined, Validators.required]
@@ -105,12 +105,33 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
 
     deleteFromSelect(ep: string): void {
         this.bs.deleteIndexedEntry('/application-3.0.0/application[id=' + this.id +
-            ']/endpoint[endpoint=' + ep + ']', 'endpoint', ep);
+            ']/endpoint[name=' + ep + ']', 'name', ep, this.ucmap(ep));
         const index = (this.appForm.get('endpoint') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ep);
         (this.appForm.get('endpoint') as FormArray).removeAt(index);
         this.showEndpointAddButton = true;
         this.snackBar.open('Deletion of ' + ep + ' added to basket', undefined, {duration: 2000});
+    }
+
+    private ucmap(ep: string): Map<string, string> {
+        const ucMap = new Map<string, string>();
+        const vcsId = '/application-3.0.0/application[id=' + this.id + ']';
+        let parentUc = localStorage.getItem(vcsId);
+        if (parentUc === null) {
+            parentUc = this.appForm[REQDATTRIBS];
+        }
+        ucMap.set(vcsId, parentUc);
+
+        const epId = vcsId + '/endpoint[name=' + ep + ']';
+        let epUc = localStorage.getItem(epId);
+        if (epUc === null) {
+            const epFormArray = this.appForm.get(['endpoint']) as FormArray;
+            const epCtl = epFormArray.controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ep);
+            console.log('Getting', epCtl, 'for', epId);
+            epUc = epFormArray.controls[epCtl][REQDATTRIBS];
+        }
+        ucMap.set(epId, epUc);
+        return ucMap;
     }
 
     loadApplicationApplication(target: string, id: string): void {

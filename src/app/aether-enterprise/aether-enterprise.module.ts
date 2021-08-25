@@ -29,13 +29,14 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {ConnectivityServiceSelectComponent} from './connectivity-service-select/connectivity-service-select.component';
+import {UtilsModule} from '../utils/utils.module';
 
 
 @NgModule({
     declarations: [
         EnterpriseComponent,
         EnterpriseEditComponent,
-        ConnectivityServiceSelectComponent,
+        ConnectivityServiceSelectComponent
     ],
     imports: [
         CommonModule,
@@ -63,7 +64,8 @@ import {ConnectivityServiceSelectComponent} from './connectivity-service-select/
         MatButtonModule,
         MatSlideToggleModule,
         CdkTableModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        UtilsModule
     ],
     providers: [
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},

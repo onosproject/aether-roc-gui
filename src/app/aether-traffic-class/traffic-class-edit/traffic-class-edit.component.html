@@ -25,26 +25,26 @@
             </div>
             <div class="row" id="descriptionRow">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="description" id="inputDescription">
+                    <textarea matInput formControlName="description" id="inputDescription"></textarea>
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row" id="pelrRow">
                 <mat-form-field class="field-margin half-width">
                     <input matInput type=number formControlName="pelr" id="inputPelr">
-                    <mat-hint>PELR</mat-hint>
+                    <mat-hint>Packet Error Loss Rate (PELR)</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row" id="pdbRow">
                 <mat-form-field class="field-margin half-width">
                     <input matInput type=number formControlName="pdb" id="inputPdb">
-                    <mat-hint>PDB</mat-hint>
+                    <mat-hint>Packet Delay Budget (PDB)</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row" id="qciRow">
                 <mat-form-field class="field-margin half-width">
                     <input matInput type=number formControlName="qci" id="inputQci">
-                    <mat-hint>QCI</mat-hint>
+                    <mat-hint>QoS Class Identifier (QCI)</mat-hint>
                 </mat-form-field>
             </div>
         </mat-card-content>

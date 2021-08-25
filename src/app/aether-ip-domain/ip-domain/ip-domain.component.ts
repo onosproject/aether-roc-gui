@@ -44,7 +44,9 @@ export class IpDomainComponent extends RocListBase<IpDomainDatasource> implement
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(new IpDomainDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+        super(basketService, new IpDomainDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            'ip-domain-3.0.0', 'ip-domain');
+        super.reqdAttr = ['enterprise', 'subnet'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {

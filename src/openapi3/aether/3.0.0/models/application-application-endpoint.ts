@@ -12,7 +12,7 @@ export interface ApplicationApplicationEndpoint {
   /**
    * Name of this endpoint
    */
-  name?: string;
+  name: string;
 
   /**
    * Last port in range

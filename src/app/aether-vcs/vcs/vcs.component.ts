@@ -14,6 +14,7 @@ import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {RocListBase} from '../../roc-list-base';
 import {VcsDatasource} from './vcs-datasource';
 import {VcsVcs} from '../../../openapi3/aether/3.0.0/models';
+import {HexPipe} from '../../utils/hex.pipe';
 
 @Component({
     selector: 'aether-vcs',
@@ -24,6 +25,7 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<VcsVcs>;
+    sdAsInt = HexPipe.hexAsInt;
 
     displayedColumns = [
         'id',
@@ -35,7 +37,6 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
         'device-group',
         'sd',
         'sst',
-        'template',
         'traffic-class',
         'upf',
         'edit',
@@ -48,7 +49,9 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
         private aetherService: AetherService,
         private basketService: BasketService,
     ) {
-        super(new VcsDatasource(aetherService, basketService, AETHER_TARGETS[0]));
+        super(basketService, new VcsDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            'vcs-3.0.0', 'vcs');
+        super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
@@ -136,5 +139,4 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
             target: AETHER_TARGETS[0]
         }), this.onDataLoaded);
     }
-
 }

@@ -43,7 +43,7 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
         enterprise: [undefined],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(100),
+            Validators.maxLength(1024),
         ])],
         'access-points': this.fb.array([])
     });
@@ -92,11 +92,31 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
 
     deleteFromSelect(ap: string): void {
         this.bs.deleteIndexedEntry('/ap-list-3.0.0/ap-list[id=' + this.id +
-            ']/access-points[address=' + ap + ']', 'access-points', ap);
+            ']/access-points[address=' + ap + ']', 'address', ap, this.ucmap(ap));
         const index = (this.apForm.get(['access-points']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ap);
         (this.apForm.get(['access-points']) as FormArray).removeAt(index);
         this.snackBar.open('Deletion of ' + ap + ' added to basket', undefined, {duration: 2000});
+    }
+
+    private ucmap(address: string): Map<string, string> {
+        const ucMap = new Map<string, string>();
+        const apListId = '/ap-list-3.0.0/ap-list[id=' + this.id + ']';
+        let parentUc = localStorage.getItem(apListId);
+        if (parentUc === null) {
+            parentUc = this.apForm[REQDATTRIBS];
+        }
+        ucMap.set(apListId, parentUc);
+        const apId = apListId + '/access-points[address=' + address + ']';
+        let apUc = localStorage.getItem(apId);
+        if (apUc === null) {
+            const apFormArray = this.apForm.get(['access-points']) as FormArray;
+            const apCtl = apFormArray.controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === address);
+            console.log('Getting', apCtl, 'for', apId);
+            apUc = apFormArray.controls[apCtl][REQDATTRIBS];
+        }
+        ucMap.set(apId, apUc);
+        return ucMap;
     }
 
     private populateFormData(value: ApListApList): void {

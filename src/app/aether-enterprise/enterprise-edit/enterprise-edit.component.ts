@@ -10,7 +10,7 @@ import {EnterpriseEnterpriseService} from '../../../openapi3/aether/3.0.0/servic
 import {
     EnterpriseEnterprise, EnterpriseEnterpriseConnectivityService
 } from '../../../openapi3/aether/3.0.0/models';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {RocEditBase} from '../../roc-edit-base';
@@ -55,7 +55,7 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
         ])],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(100)
+            Validators.maxLength(1024)
         ])],
         'connectivity-service': this.fb.array([])
     });
@@ -190,10 +190,21 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
 
     deleteFromSelect(cs: string): void {
         this.bs.deleteIndexedEntry('/enterprise-3.0.0/enterprise[id=' + this.id +
-            ']/connectivity-service[connectivity-service=' + cs + ']', 'connectivity-service', cs);
+            ']/connectivity-service[connectivity-service=' + cs + ']', 'connectivity-service', cs, this.ucmap);
         const index = (this.entForm.get('connectivity-service') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === cs);
         (this.entForm.get('connectivity-service') as FormArray).removeAt(index);
         this.snackBar.open('Deletion of ' + cs + ' added to basket', undefined, {duration: 2000});
+    }
+
+    private get ucmap(): Map<string, string> {
+        const vcsId = '/enterprise-3.0.0/enterprise[id=' + this.id + ']';
+        let parentUc = localStorage.getItem(vcsId);
+        if (parentUc === null) {
+            parentUc = this.entForm[REQDATTRIBS];
+        }
+        const ucMap = new Map<string, string>();
+        ucMap.set(vcsId, parentUc);
+        return ucMap;
     }
 }

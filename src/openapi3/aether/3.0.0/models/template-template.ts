@@ -22,7 +22,7 @@ export interface TemplateTemplate {
   /**
    * ID for this vcs template.
    */
-  id?: string;
+  id: string;
 
   /**
    * Slice differentiator

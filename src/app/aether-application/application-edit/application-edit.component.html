@@ -28,7 +28,7 @@
             </div>
             <div class="row" id="descriptionRow">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="description" id="inputDescription">
+                    <textarea matInput formControlName="description" id="inputDescription"></textarea>
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
@@ -74,7 +74,7 @@
                         </mat-form-field>
                         <button mat-icon-button
                                 color="accent"
-                                (click)="deleteFromSelect(appForm.value['endpoint'])"
+                                (click)="deleteFromSelect(endpointForm.value['name'])"
                                 id="deleteEndpoint">
                             <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
                         </button>

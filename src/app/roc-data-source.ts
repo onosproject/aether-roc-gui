@@ -8,7 +8,7 @@ import {DataSource} from '@angular/cdk/collections';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {Service as AetherService} from '../openapi3/aether/3.0.0/services';
-import {BasketService} from './basket.service';
+import {BasketService, REQDATTRIBS} from './basket.service';
 import {from, merge, Observable, of as observableOf} from 'rxjs';
 import {map, mergeMap, pluck} from 'rxjs/operators';
 import {compare} from './aether-profiles/util';
@@ -114,7 +114,6 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
     }
 
     delete(id: string): void {
-        this.bs.deleteIndexedEntry(this.pathRoot + '/' + this.pathListAttr + '[' + this.indexAttr + '=' + id + ']', this.indexAttr, id);
         const deletedIndex = this.data.findIndex(p => p[this.indexAttr] === id);
         this.data.splice(deletedIndex, 1);
         this.paginator._changePageSize(this.paginator.pageSize);
