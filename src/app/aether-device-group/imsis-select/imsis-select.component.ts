@@ -18,7 +18,7 @@ export interface ImsiParam {
 const ValidateImsiRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const ImsiFromRange = control.get('imsi-range-from').value;
     const ImsiToRange = control.get('imsi-range-to').value;
-    return ((ImsiFromRange < ImsiToRange) &&
+    return ((ImsiFromRange <= ImsiToRange) &&
         (ImsiToRange <= (100 + ImsiFromRange))) ? null : {isRangeNotValid: true};
 };
 
