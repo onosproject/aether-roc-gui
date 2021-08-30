@@ -15,7 +15,7 @@
     <table mat-table class="full-width-table" matSort aria-label="Elements" id="templateTable">
              <!-- Id/Name Column -->
              <ng-container matColumnDef="id" id="nameColumn">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
                 <td mat-cell *matCellDef="let row">
                     <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}<br><small>({{row.id}})</small></span>
                     <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
@@ -31,7 +31,7 @@
         <!-- SD Column -->
         <ng-container matColumnDef="sd" id="sdColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SD</th>
-            <td mat-cell *matCellDef="let row" [title]="sdAsInt(row.sd)">{{row.sd | hex}}</td>
+            <td mat-cell *matCellDef="let row" [title]="row.sd">{{row.sd | hex}}</td>
         </ng-container>
 
         <!-- SST Column -->
