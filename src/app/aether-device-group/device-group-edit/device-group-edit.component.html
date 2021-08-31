@@ -74,6 +74,11 @@
                           color="accent"
                           class="subscriber-pointer">add
                 </mat-icon>
+                <mat-icon id="IMSIinfo"
+                          color="accent"
+                          matTooltip="Maximum value: 999999. Maximum range: 100"
+                          class="subscriber-pointer">info
+                </mat-icon>
                 <div *ngFor="let imsiForm of imsiControls.controls">
                     <div [formGroup]="imsiForm">
                         <mat-form-field class="field-margin">
