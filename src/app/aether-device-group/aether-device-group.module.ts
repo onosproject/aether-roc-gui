@@ -33,7 +33,7 @@ import { DeviceGroupMonitorComponent } from './device-group-monitor/device-group
 import {MatExpansionModule} from '@angular/material/expansion';
 import {UtilsModule} from '../utils/utils.module';
 import { UeMonitorComponent } from './ue-monitor/ue-monitor.component';
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
