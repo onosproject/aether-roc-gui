@@ -76,7 +76,7 @@
                 </mat-icon>
                 <mat-icon id="IMSIinfo"
                           color="accent"
-                          matTooltip="Maximum value: 999999. Maximum range: 100"
+                          [matTooltip]="fetchTooltipContent()"
                           class="subscriber-pointer">info
                 </mat-icon>
                 <div *ngFor="let imsiForm of imsiControls.controls">
