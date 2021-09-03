@@ -33,6 +33,7 @@ import { DeviceGroupMonitorComponent } from './device-group-monitor/device-group
 import {MatExpansionModule} from '@angular/material/expansion';
 import {UtilsModule} from '../utils/utils.module';
 import { UeMonitorComponent } from './ue-monitor/ue-monitor.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { UeMonitorComponent } from './ue-monitor/ue-monitor.component';
         CdkTableModule,
         MatCheckboxModule,
         MatExpansionModule,
-        UtilsModule
+        UtilsModule,
+        MatTooltipModule
     ],
     providers: [
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},

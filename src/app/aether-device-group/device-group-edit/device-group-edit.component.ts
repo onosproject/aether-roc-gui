@@ -35,8 +35,8 @@ const ValidateImsiRange: ValidatorFn = (control: AbstractControl): ValidationErr
                 if (eachImsiFormValues.name !== eachImsi.name) {
                     isValid = ((eachImsi['imsi-range-to'] < eachImsiFormValues['imsi-range-from'] ||
                         eachImsi['imsi-range-from'] > eachImsiFormValues['imsi-range-to'])
-                        && (eachImsiFormValues['imsi-range-from'] < eachImsiFormValues['imsi-range-to']
-                            && eachImsi['imsi-range-from'] < eachImsi['imsi-range-to'] &&
+                        && (eachImsiFormValues['imsi-range-from'] <= eachImsiFormValues['imsi-range-to']
+                            && eachImsi['imsi-range-from'] <= eachImsi['imsi-range-to'] &&
                             eachImsi['imsi-range-to'] <= (100 + (eachImsi['imsi-range-from'])) &&
                             eachImsiFormValues['imsi-range-to'] <=
                             (100 + (eachImsiFormValues['imsi-range-from'])))) ? null : {isRangeNotValid: true};
@@ -62,6 +62,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
     showImsiDisplay: boolean = false;
     showAddImsi: boolean = false;
     SiteImisLength: number;
+    ImsiRangeLimit: number;
 
     deviceGroupForm = this.fb.group({
         id: [undefined, Validators.compose([
@@ -105,6 +106,11 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         if (this.isNewInstance) {
             this.loadSites(this.target);
         }
+    }
+
+    fetchTooltipContent(): string {
+        this.ImsiRangeLimit = Math.pow(10, this.SiteImisLength) - 1;
+        return 'Maximum value: ' + this.ImsiRangeLimit + ' Maximum range: 100';
     }
 
     get imsiControls(): FormArray {

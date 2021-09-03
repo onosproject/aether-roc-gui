@@ -76,7 +76,7 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
                 const ImsiToRange = changedValue['imsi-range-to'];
                 this.OtherImsi.every(eachImsi => {
                     isValid = ((ImsiToRange < eachImsi['imsi-range-from'] || ImsiFromRange > eachImsi['imsi-range-to'])
-                        && (ImsiFromRange < ImsiToRange &&
+                        && (ImsiFromRange <= ImsiToRange &&
                             ImsiToRange <= (100 + (ImsiFromRange)))) ? true : false;
                 });
                 if (!isValid) {
