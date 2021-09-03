@@ -62,7 +62,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
     showImsiDisplay: boolean = false;
     showAddImsi: boolean = false;
     SiteImisLength: number;
-    ImsiRangeLimit :number;
+    ImsiRangeLimit: number;
 
     deviceGroupForm = this.fb.group({
         id: [undefined, Validators.compose([
@@ -110,7 +110,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
 
     fetchTooltipContent(): string {
         this.ImsiRangeLimit = Math.pow(10, this.SiteImisLength) - 1;
-        return 'Maximum value: '+ this.ImsiRangeLimit +' Maximum range: 100'
+        return 'Maximum value: ' + this.ImsiRangeLimit + ' Maximum range: 100';
     }
 
     get imsiControls(): FormArray {
