@@ -34,6 +34,7 @@ export const OIDC_AUTH_CLIENT_ID = 'aether-roc-gui';
 export const OIDC_ISSUER = undefined;
 
 export const BASKET_SERVICE_ENABLED = true;
+export const CONNECTIVITY_METRICS_ENABLED = false;
 
 export const authConfig: AuthConfig = {
     issuer: OIDC_ISSUER,
