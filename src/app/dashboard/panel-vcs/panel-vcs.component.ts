@@ -9,7 +9,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {VcsVcs} from '../../../openapi3/aether/3.0.0/models';
 import {RocListBase} from '../../roc-list-base';
-import {AETHER_TARGETS, CONNECTIVITY_METRICS_ENABLED} from '../../../environments/environment';
+import {AETHER_TARGETS, PERFORMANCE_METRICS_ENABLED} from '../../../environments/environment';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services/service';
 import {BasketService} from '../../basket.service';
@@ -47,7 +47,7 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
     grafanaOrgName: string;
     promData: VcsPromDataSource;
 
-    connectivityMetricsEnabled: boolean = CONNECTIVITY_METRICS_ENABLED;
+    performanceMetricsEnabled: boolean = PERFORMANCE_METRICS_ENABLED;
 
     displayedColumns = [
         'id',
