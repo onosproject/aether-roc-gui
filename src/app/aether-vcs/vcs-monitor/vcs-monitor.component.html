@@ -11,12 +11,14 @@
             <span *ngIf="!thisVcs || thisVcs['display-name'] === undefined">{{id}}</span>
         </p>
     </mat-toolbar>
+    <div *ngIf="connectivityMetricsEnabled">
     <iframe *ngIf="connectivityPanelUrl" [src]="connectivityPanelUrl | safe " width="600" height="300"
             frameborder="0"></iframe>
     <p *ngIf="!connectivityPanelUrl">
         <mat-icon color="primary">auto_graph</mat-icon>
         Connectivity chart unavailable
     </p>
+    </div>
     <iframe *ngIf="performancePanelUrl" [src]="performancePanelUrl | safe " width="600" height="300"
             frameborder="0"></iframe>
     <p *ngIf="!performancePanelUrl">
@@ -26,7 +28,7 @@
     <table>
         <tr>
             <td class="third-width">
-                <mat-expansion-panel>
+                <mat-expansion-panel *ngIf="connectivityMetricsEnabled">
                     <mat-expansion-panel-header>
                         <mat-panel-title><small>VCS:</small></mat-panel-title>
                         <mat-panel-description>

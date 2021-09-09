@@ -52,6 +52,8 @@
     </mat-paginator>
 
     <!--    <iframe src="/grafana/d-solo/vcs_starbucks_newyork_cameras/vcs-new-york-cameras?orgId=3&theme=light&panelId=2" width="{{width}}" height="200" frameborder="0"></iframe>-->
-    <iframe *ngIf="panelUrl" [src]="panelUrl | safe " width="{{width}}" height="200" frameborder="0"></iframe>
-    <p *ngIf="!panelUrl"><mat-icon color="primary">auto_graph</mat-icon> No chart available</p>
+    <div *ngIf="connectivityMetricsEnabled">
+        <iframe *ngIf="panelUrl" [src]="panelUrl | safe " width="{{width}}" height="200" frameborder="0"></iframe>
+        <p *ngIf="!panelUrl"><mat-icon color="primary">auto_graph</mat-icon> No chart available</p>
+    </div>
 </div>

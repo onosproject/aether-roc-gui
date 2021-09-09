@@ -11,7 +11,7 @@ import {
     Service as AetherService, TrafficClassTrafficClassService,
     UpfUpfService, VcsVcsService
 } from '../../../openapi3/aether/3.0.0/services';
-import {AETHER_TARGETS} from '../../../environments/environment';
+import {AETHER_TARGETS, CONNECTIVITY_METRICS_ENABLED} from '../../../environments/environment';
 import {filter, mergeMap, pluck} from 'rxjs/operators';
 import {
     ApListApList,
@@ -56,6 +56,8 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
     latency: number;
     jitter: number;
     promData: VcsPromDataSource;
+
+    connectivityMetricsEnabled: boolean = CONNECTIVITY_METRICS_ENABLED;
 
     constructor(
         protected aetherService: AetherService,
