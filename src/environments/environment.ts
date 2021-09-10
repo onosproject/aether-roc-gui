@@ -20,7 +20,7 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
 export const AETHER_ROC_API_URL = 'http://localhost:8181';
 export const KUBERNETES_API_PROXY = 'http://localhost:8001';
 export const GRAFANA_PROXY = 'http://localhost:3000/grafana/';
