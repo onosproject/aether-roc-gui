@@ -5,6 +5,7 @@
  */
 
 import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
+import {PERFORMANCE_METRICS_ENABLED} from '../../../environments/environment';
 
 @Component({
     selector: 'aether-ue-monitor',
@@ -18,6 +19,8 @@ export class UeMonitorComponent {
     @Input() grafanaOrgName: string;
 
     @Output() closeEvent = new EventEmitter<boolean>();
+
+    performanceMetricsEnabled: boolean = PERFORMANCE_METRICS_ENABLED;
 
     constructor(
         @Inject('grafana_api_proxy') private grafanaUrl: string,
