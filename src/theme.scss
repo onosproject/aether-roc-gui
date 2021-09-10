@@ -1,5 +1,5 @@
-@import '~@angular/material/theming';
-@include mat-core();
+@use '~@angular/material' as mat;
+@include mat.core();
 
 // See https://drive.google.com/file/d/1WndImRYAWIy9EEuq_OWDllpqseq3NZnA/view?usp=sharing
 $onf-blue: (
@@ -53,18 +53,18 @@ $onf-red: (
     )
 );
 
-$custom-typography: mat-typography-config(
+$custom-typography: mat.define-typography-config(
     //$font-family: 'Roboto',
-    $input: mat-typography-level(inherit, 1.4, inherit),
+    $input: mat.define-typography-level(inherit, 1.4, inherit),
 );
 
-$custom-primary: mat-palette($onf-blue, 500);
+$custom-primary: mat.define-palette($onf-blue, 500);
 
-$custom-accent:  mat-palette($onf-red, 500);
+$custom-accent:  mat.define-palette($onf-red, 500);
 
-$custom-warn: mat-palette($onf-red, 100);
+$custom-warn: mat.define-palette($onf-red, 100);
 
-$custom-theme: mat-light-theme($custom-primary, $custom-accent, $custom-warn);
+$custom-theme: mat.define-light-theme($custom-primary, $custom-accent, $custom-warn);
 
-@include angular-material-theme($custom-theme);
-@include mat-core($custom-typography);
+@include mat.all-component-themes($custom-theme);
+@include mat.core($custom-typography);
