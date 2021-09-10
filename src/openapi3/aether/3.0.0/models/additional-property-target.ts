@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 /**
- * Used for updates
+ * Optionally specify a target other than the default (only on PATCH method)
  */
 export interface AdditionalPropertyTarget {
 
@@ -11,9 +11,4 @@ export interface AdditionalPropertyTarget {
    * an override of the target (device)
    */
   target?: string;
-
-  /**
-   * A comma seperated list of unchanged mandatory attribute names
-   */
-  unchanged?: string;
 }

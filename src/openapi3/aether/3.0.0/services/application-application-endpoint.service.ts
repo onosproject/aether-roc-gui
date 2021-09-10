@@ -29,7 +29,7 @@ export class ApplicationApplicationEndpointService extends BaseService {
   static readonly GetApplicationApplicationEndpointPath = '/aether/v3.0.0/{target}/application/application/{id}/endpoint/{name}';
 
   /**
-   * GET /application/application/{id}/endpoint Generated from YANG model.
+   * GET /application/application/{id}/endpoint.
    *
    *
    *
@@ -75,7 +75,7 @@ export class ApplicationApplicationEndpointService extends BaseService {
   }
 
   /**
-   * GET /application/application/{id}/endpoint Generated from YANG model.
+   * GET /application/application/{id}/endpoint.
    *
    *
    *

@@ -39,7 +39,7 @@ export class Service extends BaseService {
   static readonly GetApListPath = '/aether/v3.0.0/{target}/ap-list';
 
   /**
-   * GET /ap-list Generated from YANG model.
+   * GET /ap-list.
    *
    *
    *
@@ -73,7 +73,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /ap-list Generated from YANG model.
+   * GET /ap-list.
    *
    *
    *
@@ -101,7 +101,7 @@ export class Service extends BaseService {
   static readonly GetApplicationPath = '/aether/v3.0.0/{target}/application';
 
   /**
-   * GET /application Generated from YANG model.
+   * GET /application.
    *
    *
    *
@@ -135,7 +135,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /application Generated from YANG model.
+   * GET /application.
    *
    *
    *
@@ -163,7 +163,7 @@ export class Service extends BaseService {
   static readonly GetConnectivityServicePath = '/aether/v3.0.0/{target}/connectivity-service';
 
   /**
-   * GET /connectivity-service Generated from YANG model.
+   * GET /connectivity-service.
    *
    *
    *
@@ -197,7 +197,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /connectivity-service Generated from YANG model.
+   * GET /connectivity-service.
    *
    *
    *
@@ -225,7 +225,7 @@ export class Service extends BaseService {
   static readonly GetDeviceGroupPath = '/aether/v3.0.0/{target}/device-group';
 
   /**
-   * GET /device-group Generated from YANG model.
+   * GET /device-group.
    *
    *
    *
@@ -259,7 +259,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /device-group Generated from YANG model.
+   * GET /device-group.
    *
    *
    *
@@ -287,7 +287,7 @@ export class Service extends BaseService {
   static readonly GetEnterprisePath = '/aether/v3.0.0/{target}/enterprise';
 
   /**
-   * GET /enterprise Generated from YANG model.
+   * GET /enterprise.
    *
    *
    *
@@ -321,7 +321,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /enterprise Generated from YANG model.
+   * GET /enterprise.
    *
    *
    *
@@ -349,7 +349,7 @@ export class Service extends BaseService {
   static readonly GetIpDomainPath = '/aether/v3.0.0/{target}/ip-domain';
 
   /**
-   * GET /ip-domain Generated from YANG model.
+   * GET /ip-domain.
    *
    *
    *
@@ -383,7 +383,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /ip-domain Generated from YANG model.
+   * GET /ip-domain.
    *
    *
    *
@@ -411,7 +411,7 @@ export class Service extends BaseService {
   static readonly GetSitePath = '/aether/v3.0.0/{target}/site';
 
   /**
-   * GET /site Generated from YANG model.
+   * GET /site.
    *
    *
    *
@@ -445,7 +445,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /site Generated from YANG model.
+   * GET /site.
    *
    *
    *
@@ -473,7 +473,7 @@ export class Service extends BaseService {
   static readonly GetTemplatePath = '/aether/v3.0.0/{target}/template';
 
   /**
-   * GET /template Generated from YANG model.
+   * GET /template.
    *
    *
    *
@@ -507,7 +507,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /template Generated from YANG model.
+   * GET /template.
    *
    *
    *
@@ -535,7 +535,7 @@ export class Service extends BaseService {
   static readonly GetTrafficClassPath = '/aether/v3.0.0/{target}/traffic-class';
 
   /**
-   * GET /traffic-class Generated from YANG model.
+   * GET /traffic-class.
    *
    *
    *
@@ -569,7 +569,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /traffic-class Generated from YANG model.
+   * GET /traffic-class.
    *
    *
    *
@@ -597,7 +597,7 @@ export class Service extends BaseService {
   static readonly GetUpfPath = '/aether/v3.0.0/{target}/upf';
 
   /**
-   * GET /upf Generated from YANG model.
+   * GET /upf.
    *
    *
    *
@@ -631,7 +631,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /upf Generated from YANG model.
+   * GET /upf.
    *
    *
    *
@@ -659,7 +659,7 @@ export class Service extends BaseService {
   static readonly GetVcsPath = '/aether/v3.0.0/{target}/vcs';
 
   /**
-   * GET /vcs Generated from YANG model.
+   * GET /vcs.
    *
    *
    *
@@ -693,7 +693,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /vcs Generated from YANG model.
+   * GET /vcs.
    *
    *
    *

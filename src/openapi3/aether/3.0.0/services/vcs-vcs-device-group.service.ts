@@ -29,7 +29,7 @@ export class VcsVcsDeviceGroupService extends BaseService {
   static readonly GetVcsVcsDeviceGroupPath = '/aether/v3.0.0/{target}/vcs/vcs/{id}/device-group/{device-group}';
 
   /**
-   * GET /vcs/vcs/{id}/device-group Generated from YANG model.
+   * GET /vcs/vcs/{id}/device-group.
    *
    *
    *
@@ -75,7 +75,7 @@ export class VcsVcsDeviceGroupService extends BaseService {
   }
 
   /**
-   * GET /vcs/vcs/{id}/device-group Generated from YANG model.
+   * GET /vcs/vcs/{id}/device-group.
    *
    *
    *

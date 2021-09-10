@@ -1,7 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
+import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 export interface SiteSiteImsiDefinition {
 
   /**
@@ -17,12 +17,12 @@ export interface SiteSiteImsiDefinition {
   /**
    * mobile country code
    */
-  mcc: number;
+  mcc: string;
 
   /**
    * mobile network code
    */
-  mnc: number;
+  mnc: string;
 
-  [key: string]: AdditionalPropertyTarget | number | string;
+  [key: string]: AdditionalPropertyUnchanged | number | string;
 }

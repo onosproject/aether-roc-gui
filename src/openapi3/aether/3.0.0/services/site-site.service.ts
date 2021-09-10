@@ -30,7 +30,7 @@ export class SiteSiteService extends BaseService {
   static readonly GetSiteSitePath = '/aether/v3.0.0/{target}/site/site/{id}';
 
   /**
-   * GET /site/site Generated from YANG model.
+   * GET /site/site.
    *
    *
    *
@@ -70,7 +70,7 @@ export class SiteSiteService extends BaseService {
   }
 
   /**
-   * GET /site/site Generated from YANG model.
+   * GET /site/site.
    *
    *
    *
@@ -103,7 +103,7 @@ export class SiteSiteService extends BaseService {
   static readonly GetSiteSiteImsiDefinitionPath = '/aether/v3.0.0/{target}/site/site/{id}/imsi-definition';
 
   /**
-   * GET /site/site/{id}/imsi-definition Generated from YANG model.
+   * GET /site/site/{id}/imsi-definition.
    *
    *
    *
@@ -143,7 +143,7 @@ export class SiteSiteService extends BaseService {
   }
 
   /**
-   * GET /site/site/{id}/imsi-definition Generated from YANG model.
+   * GET /site/site/{id}/imsi-definition.
    *
    *
    *

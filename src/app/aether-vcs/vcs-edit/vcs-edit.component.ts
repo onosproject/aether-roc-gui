@@ -90,7 +90,10 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                 Validators.pattern('^[A-F0-9]{6}')
             ]
         )],
-        sst: [undefined, Validators.required],
+        sst: [undefined, Validators.compose([
+            Validators.min(1),
+            Validators.max(255)
+        ])],
         template: [undefined],
         'traffic-class': [undefined, Validators.required],
         upf: [undefined]

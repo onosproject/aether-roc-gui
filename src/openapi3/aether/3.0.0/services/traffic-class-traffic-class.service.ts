@@ -29,7 +29,7 @@ export class TrafficClassTrafficClassService extends BaseService {
   static readonly GetTrafficClassTrafficClassPath = '/aether/v3.0.0/{target}/traffic-class/traffic-class/{id}';
 
   /**
-   * GET /traffic-class/traffic-class Generated from YANG model.
+   * GET /traffic-class/traffic-class.
    *
    *
    *
@@ -69,7 +69,7 @@ export class TrafficClassTrafficClassService extends BaseService {
   }
 
   /**
-   * GET /traffic-class/traffic-class Generated from YANG model.
+   * GET /traffic-class/traffic-class.
    *
    *
    *

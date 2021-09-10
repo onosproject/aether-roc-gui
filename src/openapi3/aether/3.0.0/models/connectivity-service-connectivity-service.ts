@@ -1,7 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
 export interface ConnectivityServiceConnectivityService {
 
   /**
@@ -38,6 +37,4 @@ export interface ConnectivityServiceConnectivityService {
    * url of the spgwc service
    */
   'spgwc-endpoint'?: string;
-
-  [key: string]: AdditionalPropertyTarget | string | undefined;
 }

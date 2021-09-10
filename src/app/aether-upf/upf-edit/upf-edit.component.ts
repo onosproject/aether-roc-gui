@@ -44,10 +44,12 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         ])],
         enterprise: [undefined],
         address: [undefined, Validators.compose([
+            Validators.required,
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
         port: [undefined, Validators.compose([
+            Validators.required,
             Validators.min(0),
             Validators.max(65535)
         ])],

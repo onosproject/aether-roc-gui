@@ -1,7 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
+import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { ApplicationApplicationEndpoint } from './application-application-endpoint';
 export interface ApplicationApplication {
 
@@ -26,5 +26,5 @@ export interface ApplicationApplication {
    */
   id: string;
 
-  [key: string]: AdditionalPropertyTarget | Array<ApplicationApplicationEndpoint> | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | Array<ApplicationApplicationEndpoint> | string | undefined;
 }

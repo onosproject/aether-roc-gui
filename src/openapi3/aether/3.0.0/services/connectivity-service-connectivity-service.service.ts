@@ -29,7 +29,7 @@ export class ConnectivityServiceConnectivityServiceService extends BaseService {
   static readonly GetConnectivityServiceConnectivityServicePath = '/aether/v3.0.0/{target}/connectivity-service/connectivity-service/{id}';
 
   /**
-   * GET /connectivity-service/connectivity-service Generated from YANG model.
+   * GET /connectivity-service/connectivity-service.
    *
    *
    *
@@ -69,7 +69,7 @@ export class ConnectivityServiceConnectivityServiceService extends BaseService {
   }
 
   /**
-   * GET /connectivity-service/connectivity-service Generated from YANG model.
+   * GET /connectivity-service/connectivity-service.
    *
    *
    *

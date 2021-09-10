@@ -1,7 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
 export interface TrafficClassTrafficClass {
 
   /**
@@ -33,6 +32,4 @@ export interface TrafficClassTrafficClass {
    * QCI
    */
   qci?: number;
-
-  [key: string]: AdditionalPropertyTarget | number | string | undefined;
 }

@@ -1,7 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
+import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 export interface IpDomainIpDomain {
 
   /**
@@ -54,5 +54,5 @@ export interface IpDomainIpDomain {
    */
   subnet: string;
 
-  [key: string]: AdditionalPropertyTarget | number | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | number | string | undefined;
 }

@@ -1,9 +1,13 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
+import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { ApListApListAccessPoints } from './ap-list-ap-list-access-points';
 export interface ApListApList {
+
+  /**
+   * List of access point addresses
+   */
   'access-points'?: Array<ApListApListAccessPoints>;
 
   /**
@@ -26,5 +30,5 @@ export interface ApListApList {
    */
   id: string;
 
-  [key: string]: AdditionalPropertyTarget | Array<ApListApListAccessPoints> | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | Array<ApListApListAccessPoints> | string | undefined;
 }

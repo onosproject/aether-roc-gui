@@ -29,7 +29,7 @@ export class UpfUpfService extends BaseService {
   static readonly GetUpfUpfPath = '/aether/v3.0.0/{target}/upf/upf/{id}';
 
   /**
-   * GET /upf/upf Generated from YANG model.
+   * GET /upf/upf.
    *
    *
    *
@@ -69,7 +69,7 @@ export class UpfUpfService extends BaseService {
   }
 
   /**
-   * GET /upf/upf Generated from YANG model.
+   * GET /upf/upf.
    *
    *
    *

@@ -29,7 +29,7 @@ export class EnterpriseEnterpriseConnectivityServiceService extends BaseService 
   static readonly GetEnterpriseEnterpriseConnectivityServicePath = '/aether/v3.0.0/{target}/enterprise/enterprise/{id}/connectivity-service/{connectivity-service}';
 
   /**
-   * GET /enterprise/enterprise/{id}/connectivity-service Generated from YANG model.
+   * GET /enterprise/enterprise/{id}/connectivity-service.
    *
    *
    *
@@ -75,7 +75,7 @@ export class EnterpriseEnterpriseConnectivityServiceService extends BaseService 
   }
 
   /**
-   * GET /enterprise/enterprise/{id}/connectivity-service Generated from YANG model.
+   * GET /enterprise/enterprise/{id}/connectivity-service.
    *
    *
    *

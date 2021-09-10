@@ -1,7 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
+import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { VcsVcsApplication } from './vcs-vcs-application';
 import { VcsVcsDeviceGroup } from './vcs-vcs-device-group';
 export interface VcsVcs {
@@ -10,12 +10,23 @@ export interface VcsVcs {
    * Link to access-point list
    */
   ap?: string;
+
+  /**
+   * An ordered list of applications to allow and deny. The deny rules
+   * will be executed first, followed by the allow rules. The first rule
+   * to match is returned. An implicit DENY ALL lies at the end.
+   */
   application?: Array<VcsVcsApplication>;
 
   /**
    * description of this vcs
    */
   description?: string;
+
+  /**
+   * A list of device groups. Groups will only participate in
+   * the VCS if the enable field is set to True
+   */
   'device-group'?: Array<VcsVcsDeviceGroup>;
 
   /**
@@ -69,5 +80,5 @@ export interface VcsVcs {
    */
   uplink?: number;
 
-  [key: string]: AdditionalPropertyTarget | Array<VcsVcsApplication> | Array<VcsVcsDeviceGroup> | number | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | Array<VcsVcsApplication> | Array<VcsVcsDeviceGroup> | number | string | undefined;
 }

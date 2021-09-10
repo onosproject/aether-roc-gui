@@ -1,7 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
+import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { DeviceGroupDeviceGroupImsis } from './device-group-device-group-imsis';
 export interface DeviceGroupDeviceGroup {
 
@@ -19,6 +19,11 @@ export interface DeviceGroupDeviceGroup {
    * ID for this device group.
    */
   id: string;
+
+  /**
+   * List of imsi ranges that comprise this group. It's acceptable for
+   * a range to degenerate to being a singleton
+   */
   imsis?: Array<DeviceGroupDeviceGroupImsis>;
 
   /**
@@ -32,5 +37,5 @@ export interface DeviceGroupDeviceGroup {
    */
   site: string;
 
-  [key: string]: AdditionalPropertyTarget | Array<DeviceGroupDeviceGroupImsis> | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | Array<DeviceGroupDeviceGroupImsis> | string | undefined;
 }
