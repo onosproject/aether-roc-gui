@@ -29,7 +29,7 @@ export class DeviceGroupDeviceGroupService extends BaseService {
   static readonly GetDeviceGroupDeviceGroupPath = '/aether/v3.0.0/{target}/device-group/device-group/{id}';
 
   /**
-   * GET /device-group/device-group Generated from YANG model.
+   * GET /device-group/device-group.
    *
    *
    *
@@ -69,7 +69,7 @@ export class DeviceGroupDeviceGroupService extends BaseService {
   }
 
   /**
-   * GET /device-group/device-group Generated from YANG model.
+   * GET /device-group/device-group.
    *
    *
    *

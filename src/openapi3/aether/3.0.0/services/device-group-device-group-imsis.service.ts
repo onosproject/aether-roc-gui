@@ -29,7 +29,7 @@ export class DeviceGroupDeviceGroupImsisService extends BaseService {
   static readonly GetDeviceGroupDeviceGroupImsisPath = '/aether/v3.0.0/{target}/device-group/device-group/{id}/imsis/{name}';
 
   /**
-   * GET /device-group/device-group/{id}/imsis Generated from YANG model.
+   * GET /device-group/device-group/{id}/imsis.
    *
    *
    *
@@ -75,7 +75,7 @@ export class DeviceGroupDeviceGroupImsisService extends BaseService {
   }
 
   /**
-   * GET /device-group/device-group/{id}/imsis Generated from YANG model.
+   * GET /device-group/device-group/{id}/imsis.
    *
    *
    *

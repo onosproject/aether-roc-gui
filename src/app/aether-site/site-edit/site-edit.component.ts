@@ -40,8 +40,18 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         ])],
         enterprise: [undefined],
         'imsi-definition': this.fb.group({
-            mcc: [undefined, Validators.required],
-            mnc: [undefined, Validators.required],
+            mcc: [undefined, Validators.compose([
+                Validators.pattern('[0-9]{3}'),
+                Validators.required,
+                Validators.minLength(3),
+                Validators.maxLength(3),
+            ])],
+            mnc: [undefined, Validators.compose([
+                Validators.pattern('[0-9]{2,3}'),
+                Validators.required,
+                Validators.minLength(2),
+                Validators.maxLength(3),
+            ])],
             enterprise: [undefined, Validators.required],
             format: [undefined, Validators.compose([
                 Validators.pattern('[0CENS]{15}'),
@@ -64,8 +74,6 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         super(snackBar, bs, route, router, 'site-3.0.0', 'site');
         super.form = this.siteForm;
         super.loadFunc = this.loadSiteSite;
-        this.siteForm.get(['imsi-definition', 'mcc'])[TYPE] = 'number';
-        this.siteForm.get(['imsi-definition', 'mnc'])[TYPE] = 'number';
         this.siteForm.get(['imsi-definition', 'enterprise'])[TYPE] = 'number';
         this.siteForm[REQDATTRIBS] = ['enterprise'];
         this.siteForm.get(['imsi-definition'])[REQDATTRIBS] = ['mcc', 'mnc', 'enterprise', 'format'];

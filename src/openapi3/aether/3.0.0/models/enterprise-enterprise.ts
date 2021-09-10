@@ -1,7 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
 import { EnterpriseEnterpriseConnectivityService } from './enterprise-enterprise-connectivity-service';
 export interface EnterpriseEnterprise {
   'connectivity-service'?: Array<EnterpriseEnterpriseConnectivityService>;
@@ -20,6 +19,4 @@ export interface EnterpriseEnterprise {
    * ID for this enterprise.
    */
   id: string;
-
-  [key: string]: AdditionalPropertyTarget | Array<EnterpriseEnterpriseConnectivityService> | string | undefined;
 }

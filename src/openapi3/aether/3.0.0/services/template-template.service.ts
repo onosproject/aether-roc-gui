@@ -29,7 +29,7 @@ export class TemplateTemplateService extends BaseService {
   static readonly GetTemplateTemplatePath = '/aether/v3.0.0/{target}/template/template/{id}';
 
   /**
-   * GET /template/template Generated from YANG model.
+   * GET /template/template.
    *
    *
    *
@@ -69,7 +69,7 @@ export class TemplateTemplateService extends BaseService {
   }
 
   /**
-   * GET /template/template Generated from YANG model.
+   * GET /template/template.
    *
    *
    *

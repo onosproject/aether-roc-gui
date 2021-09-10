@@ -1,7 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
+import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { SiteSiteImsiDefinition } from './site-site-imsi-definition';
 export interface SiteSite {
 
@@ -26,5 +26,5 @@ export interface SiteSite {
   id: string;
   'imsi-definition'?: SiteSiteImsiDefinition;
 
-  [key: string]: AdditionalPropertyTarget | SiteSiteImsiDefinition | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | SiteSiteImsiDefinition | string | undefined;
 }

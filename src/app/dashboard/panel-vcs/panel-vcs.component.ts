@@ -20,9 +20,9 @@ import {OAuthService} from 'angular-oauth2-oidc';
 import {IdTokClaims} from '../../idtoken';
 
 const vcsPromTags = [
-    'vcs_latency',
-    'vcs_jitter',
-    'vcs_throughput',
+    'vcs_active',
+    'vcs_inactive',
+    'vcs_idle',
 ];
 
 @Component({
@@ -52,9 +52,9 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
     displayedColumns = [
         'id',
         'description',
-        'latency',
-        'jitter',
-        'throughput',
+        'active',
+        'inactive',
+        'idle',
         'monitor'
     ];
 

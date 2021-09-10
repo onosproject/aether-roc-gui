@@ -1,7 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
 export interface VcsVcsApplication {
 
   /**
@@ -13,6 +12,4 @@ export interface VcsVcsApplication {
    * Link to application
    */
   application: string;
-
-  [key: string]: AdditionalPropertyTarget | boolean | string | undefined;
 }

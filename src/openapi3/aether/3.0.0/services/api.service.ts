@@ -57,7 +57,7 @@ export class ApiService extends BaseService {
   static readonly PostApListPath = '/aether/v3.0.0/{target}/ap-list';
 
   /**
-   * POST Generated from YANG model.
+   * POST /ap-list.
    *
    *
    *
@@ -93,7 +93,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /ap-list.
    *
    *
    *
@@ -122,7 +122,7 @@ export class ApiService extends BaseService {
   static readonly DeleteApListPath = '/aether/v3.0.0/{target}/ap-list';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /ap-list.
    *
    *
    *
@@ -156,7 +156,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /ap-list.
    *
    *
    *
@@ -184,7 +184,7 @@ export class ApiService extends BaseService {
   static readonly PostApListApListPath = '/aether/v3.0.0/{target}/ap-list/ap-list/{id}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /ap-list/ap-list.
    *
    *
    *
@@ -226,7 +226,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /ap-list/ap-list.
    *
    *
    *
@@ -260,7 +260,7 @@ export class ApiService extends BaseService {
   static readonly DeleteApListApListPath = '/aether/v3.0.0/{target}/ap-list/ap-list/{id}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /ap-list/ap-list.
    *
    *
    *
@@ -300,7 +300,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /ap-list/ap-list.
    *
    *
    *
@@ -333,7 +333,7 @@ export class ApiService extends BaseService {
   static readonly PostApListApListAccessPointsPath = '/aether/v3.0.0/{target}/ap-list/ap-list/{id}/access-points/{address}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /ap-list/ap-list/{id}/access-points.
    *
    *
    *
@@ -381,7 +381,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /ap-list/ap-list/{id}/access-points.
    *
    *
    *
@@ -420,7 +420,7 @@ export class ApiService extends BaseService {
   static readonly DeleteApListApListAccessPointsPath = '/aether/v3.0.0/{target}/ap-list/ap-list/{id}/access-points/{address}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /ap-list/ap-list/{id}/access-points.
    *
    *
    *
@@ -466,7 +466,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /ap-list/ap-list/{id}/access-points.
    *
    *
    *
@@ -504,7 +504,7 @@ export class ApiService extends BaseService {
   static readonly PostApplicationPath = '/aether/v3.0.0/{target}/application';
 
   /**
-   * POST Generated from YANG model.
+   * POST /application.
    *
    *
    *
@@ -540,7 +540,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /application.
    *
    *
    *
@@ -569,7 +569,7 @@ export class ApiService extends BaseService {
   static readonly DeleteApplicationPath = '/aether/v3.0.0/{target}/application';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /application.
    *
    *
    *
@@ -603,7 +603,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /application.
    *
    *
    *
@@ -631,7 +631,7 @@ export class ApiService extends BaseService {
   static readonly PostApplicationApplicationPath = '/aether/v3.0.0/{target}/application/application/{id}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /application/application.
    *
    *
    *
@@ -673,7 +673,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /application/application.
    *
    *
    *
@@ -707,7 +707,7 @@ export class ApiService extends BaseService {
   static readonly DeleteApplicationApplicationPath = '/aether/v3.0.0/{target}/application/application/{id}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /application/application.
    *
    *
    *
@@ -747,7 +747,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /application/application.
    *
    *
    *
@@ -780,7 +780,7 @@ export class ApiService extends BaseService {
   static readonly PostApplicationApplicationEndpointPath = '/aether/v3.0.0/{target}/application/application/{id}/endpoint/{name}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /application/application/{id}/endpoint.
    *
    *
    *
@@ -828,7 +828,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /application/application/{id}/endpoint.
    *
    *
    *
@@ -867,7 +867,7 @@ export class ApiService extends BaseService {
   static readonly DeleteApplicationApplicationEndpointPath = '/aether/v3.0.0/{target}/application/application/{id}/endpoint/{name}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /application/application/{id}/endpoint.
    *
    *
    *
@@ -913,7 +913,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /application/application/{id}/endpoint.
    *
    *
    *
@@ -951,7 +951,7 @@ export class ApiService extends BaseService {
   static readonly PostConnectivityServicePath = '/aether/v3.0.0/{target}/connectivity-service';
 
   /**
-   * POST Generated from YANG model.
+   * POST /connectivity-service.
    *
    *
    *
@@ -987,7 +987,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /connectivity-service.
    *
    *
    *
@@ -1016,7 +1016,7 @@ export class ApiService extends BaseService {
   static readonly DeleteConnectivityServicePath = '/aether/v3.0.0/{target}/connectivity-service';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /connectivity-service.
    *
    *
    *
@@ -1050,7 +1050,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /connectivity-service.
    *
    *
    *
@@ -1078,7 +1078,7 @@ export class ApiService extends BaseService {
   static readonly PostConnectivityServiceConnectivityServicePath = '/aether/v3.0.0/{target}/connectivity-service/connectivity-service/{id}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /connectivity-service/connectivity-service.
    *
    *
    *
@@ -1120,7 +1120,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /connectivity-service/connectivity-service.
    *
    *
    *
@@ -1154,7 +1154,7 @@ export class ApiService extends BaseService {
   static readonly DeleteConnectivityServiceConnectivityServicePath = '/aether/v3.0.0/{target}/connectivity-service/connectivity-service/{id}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /connectivity-service/connectivity-service.
    *
    *
    *
@@ -1194,7 +1194,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /connectivity-service/connectivity-service.
    *
    *
    *
@@ -1227,7 +1227,7 @@ export class ApiService extends BaseService {
   static readonly PostDeviceGroupPath = '/aether/v3.0.0/{target}/device-group';
 
   /**
-   * POST Generated from YANG model.
+   * POST /device-group.
    *
    *
    *
@@ -1263,7 +1263,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /device-group.
    *
    *
    *
@@ -1292,7 +1292,7 @@ export class ApiService extends BaseService {
   static readonly DeleteDeviceGroupPath = '/aether/v3.0.0/{target}/device-group';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /device-group.
    *
    *
    *
@@ -1326,7 +1326,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /device-group.
    *
    *
    *
@@ -1354,7 +1354,7 @@ export class ApiService extends BaseService {
   static readonly PostDeviceGroupDeviceGroupPath = '/aether/v3.0.0/{target}/device-group/device-group/{id}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /device-group/device-group.
    *
    *
    *
@@ -1396,7 +1396,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /device-group/device-group.
    *
    *
    *
@@ -1430,7 +1430,7 @@ export class ApiService extends BaseService {
   static readonly DeleteDeviceGroupDeviceGroupPath = '/aether/v3.0.0/{target}/device-group/device-group/{id}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /device-group/device-group.
    *
    *
    *
@@ -1470,7 +1470,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /device-group/device-group.
    *
    *
    *
@@ -1503,7 +1503,7 @@ export class ApiService extends BaseService {
   static readonly PostDeviceGroupDeviceGroupImsisPath = '/aether/v3.0.0/{target}/device-group/device-group/{id}/imsis/{name}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /device-group/device-group/{id}/imsis.
    *
    *
    *
@@ -1551,7 +1551,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /device-group/device-group/{id}/imsis.
    *
    *
    *
@@ -1590,7 +1590,7 @@ export class ApiService extends BaseService {
   static readonly DeleteDeviceGroupDeviceGroupImsisPath = '/aether/v3.0.0/{target}/device-group/device-group/{id}/imsis/{name}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /device-group/device-group/{id}/imsis.
    *
    *
    *
@@ -1636,7 +1636,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /device-group/device-group/{id}/imsis.
    *
    *
    *
@@ -1674,7 +1674,7 @@ export class ApiService extends BaseService {
   static readonly PostEnterprisePath = '/aether/v3.0.0/{target}/enterprise';
 
   /**
-   * POST Generated from YANG model.
+   * POST /enterprise.
    *
    *
    *
@@ -1710,7 +1710,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /enterprise.
    *
    *
    *
@@ -1739,7 +1739,7 @@ export class ApiService extends BaseService {
   static readonly DeleteEnterprisePath = '/aether/v3.0.0/{target}/enterprise';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /enterprise.
    *
    *
    *
@@ -1773,7 +1773,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /enterprise.
    *
    *
    *
@@ -1801,7 +1801,7 @@ export class ApiService extends BaseService {
   static readonly PostEnterpriseEnterprisePath = '/aether/v3.0.0/{target}/enterprise/enterprise/{id}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /enterprise/enterprise.
    *
    *
    *
@@ -1843,7 +1843,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /enterprise/enterprise.
    *
    *
    *
@@ -1877,7 +1877,7 @@ export class ApiService extends BaseService {
   static readonly DeleteEnterpriseEnterprisePath = '/aether/v3.0.0/{target}/enterprise/enterprise/{id}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /enterprise/enterprise.
    *
    *
    *
@@ -1917,7 +1917,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /enterprise/enterprise.
    *
    *
    *
@@ -1950,7 +1950,7 @@ export class ApiService extends BaseService {
   static readonly PostEnterpriseEnterpriseConnectivityServicePath = '/aether/v3.0.0/{target}/enterprise/enterprise/{id}/connectivity-service/{connectivity-service}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /enterprise/enterprise/{id}/connectivity-service.
    *
    *
    *
@@ -1998,7 +1998,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /enterprise/enterprise/{id}/connectivity-service.
    *
    *
    *
@@ -2037,7 +2037,7 @@ export class ApiService extends BaseService {
   static readonly DeleteEnterpriseEnterpriseConnectivityServicePath = '/aether/v3.0.0/{target}/enterprise/enterprise/{id}/connectivity-service/{connectivity-service}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /enterprise/enterprise/{id}/connectivity-service.
    *
    *
    *
@@ -2083,7 +2083,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /enterprise/enterprise/{id}/connectivity-service.
    *
    *
    *
@@ -2121,7 +2121,7 @@ export class ApiService extends BaseService {
   static readonly PostIpDomainPath = '/aether/v3.0.0/{target}/ip-domain';
 
   /**
-   * POST Generated from YANG model.
+   * POST /ip-domain.
    *
    *
    *
@@ -2157,7 +2157,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /ip-domain.
    *
    *
    *
@@ -2186,7 +2186,7 @@ export class ApiService extends BaseService {
   static readonly DeleteIpDomainPath = '/aether/v3.0.0/{target}/ip-domain';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /ip-domain.
    *
    *
    *
@@ -2220,7 +2220,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /ip-domain.
    *
    *
    *
@@ -2248,7 +2248,7 @@ export class ApiService extends BaseService {
   static readonly PostIpDomainIpDomainPath = '/aether/v3.0.0/{target}/ip-domain/ip-domain/{id}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /ip-domain/ip-domain.
    *
    *
    *
@@ -2290,7 +2290,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /ip-domain/ip-domain.
    *
    *
    *
@@ -2324,7 +2324,7 @@ export class ApiService extends BaseService {
   static readonly DeleteIpDomainIpDomainPath = '/aether/v3.0.0/{target}/ip-domain/ip-domain/{id}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /ip-domain/ip-domain.
    *
    *
    *
@@ -2364,7 +2364,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /ip-domain/ip-domain.
    *
    *
    *
@@ -2397,7 +2397,7 @@ export class ApiService extends BaseService {
   static readonly PostSitePath = '/aether/v3.0.0/{target}/site';
 
   /**
-   * POST Generated from YANG model.
+   * POST /site.
    *
    *
    *
@@ -2433,7 +2433,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /site.
    *
    *
    *
@@ -2462,7 +2462,7 @@ export class ApiService extends BaseService {
   static readonly DeleteSitePath = '/aether/v3.0.0/{target}/site';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /site.
    *
    *
    *
@@ -2496,7 +2496,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /site.
    *
    *
    *
@@ -2524,7 +2524,7 @@ export class ApiService extends BaseService {
   static readonly PostSiteSitePath = '/aether/v3.0.0/{target}/site/site/{id}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /site/site.
    *
    *
    *
@@ -2566,7 +2566,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /site/site.
    *
    *
    *
@@ -2600,7 +2600,7 @@ export class ApiService extends BaseService {
   static readonly DeleteSiteSitePath = '/aether/v3.0.0/{target}/site/site/{id}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /site/site.
    *
    *
    *
@@ -2640,7 +2640,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /site/site.
    *
    *
    *
@@ -2673,7 +2673,7 @@ export class ApiService extends BaseService {
   static readonly PostSiteSiteImsiDefinitionPath = '/aether/v3.0.0/{target}/site/site/{id}/imsi-definition';
 
   /**
-   * POST Generated from YANG model.
+   * POST /site/site/{id}/imsi-definition.
    *
    *
    *
@@ -2715,7 +2715,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /site/site/{id}/imsi-definition.
    *
    *
    *
@@ -2749,7 +2749,7 @@ export class ApiService extends BaseService {
   static readonly DeleteSiteSiteImsiDefinitionPath = '/aether/v3.0.0/{target}/site/site/{id}/imsi-definition';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /site/site/{id}/imsi-definition.
    *
    *
    *
@@ -2789,7 +2789,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /site/site/{id}/imsi-definition.
    *
    *
    *
@@ -2822,7 +2822,7 @@ export class ApiService extends BaseService {
   static readonly PostTemplatePath = '/aether/v3.0.0/{target}/template';
 
   /**
-   * POST Generated from YANG model.
+   * POST /template.
    *
    *
    *
@@ -2858,7 +2858,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /template.
    *
    *
    *
@@ -2887,7 +2887,7 @@ export class ApiService extends BaseService {
   static readonly DeleteTemplatePath = '/aether/v3.0.0/{target}/template';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /template.
    *
    *
    *
@@ -2921,7 +2921,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /template.
    *
    *
    *
@@ -2949,7 +2949,7 @@ export class ApiService extends BaseService {
   static readonly PostTemplateTemplatePath = '/aether/v3.0.0/{target}/template/template/{id}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /template/template.
    *
    *
    *
@@ -2991,7 +2991,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /template/template.
    *
    *
    *
@@ -3025,7 +3025,7 @@ export class ApiService extends BaseService {
   static readonly DeleteTemplateTemplatePath = '/aether/v3.0.0/{target}/template/template/{id}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /template/template.
    *
    *
    *
@@ -3065,7 +3065,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /template/template.
    *
    *
    *
@@ -3098,7 +3098,7 @@ export class ApiService extends BaseService {
   static readonly PostTrafficClassPath = '/aether/v3.0.0/{target}/traffic-class';
 
   /**
-   * POST Generated from YANG model.
+   * POST /traffic-class.
    *
    *
    *
@@ -3134,7 +3134,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /traffic-class.
    *
    *
    *
@@ -3163,7 +3163,7 @@ export class ApiService extends BaseService {
   static readonly DeleteTrafficClassPath = '/aether/v3.0.0/{target}/traffic-class';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /traffic-class.
    *
    *
    *
@@ -3197,7 +3197,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /traffic-class.
    *
    *
    *
@@ -3225,7 +3225,7 @@ export class ApiService extends BaseService {
   static readonly PostTrafficClassTrafficClassPath = '/aether/v3.0.0/{target}/traffic-class/traffic-class/{id}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /traffic-class/traffic-class.
    *
    *
    *
@@ -3267,7 +3267,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /traffic-class/traffic-class.
    *
    *
    *
@@ -3301,7 +3301,7 @@ export class ApiService extends BaseService {
   static readonly DeleteTrafficClassTrafficClassPath = '/aether/v3.0.0/{target}/traffic-class/traffic-class/{id}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /traffic-class/traffic-class.
    *
    *
    *
@@ -3341,7 +3341,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /traffic-class/traffic-class.
    *
    *
    *
@@ -3374,7 +3374,7 @@ export class ApiService extends BaseService {
   static readonly PostUpfPath = '/aether/v3.0.0/{target}/upf';
 
   /**
-   * POST Generated from YANG model.
+   * POST /upf.
    *
    *
    *
@@ -3410,7 +3410,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /upf.
    *
    *
    *
@@ -3439,7 +3439,7 @@ export class ApiService extends BaseService {
   static readonly DeleteUpfPath = '/aether/v3.0.0/{target}/upf';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /upf.
    *
    *
    *
@@ -3473,7 +3473,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /upf.
    *
    *
    *
@@ -3501,7 +3501,7 @@ export class ApiService extends BaseService {
   static readonly PostUpfUpfPath = '/aether/v3.0.0/{target}/upf/upf/{id}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /upf/upf.
    *
    *
    *
@@ -3543,7 +3543,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /upf/upf.
    *
    *
    *
@@ -3577,7 +3577,7 @@ export class ApiService extends BaseService {
   static readonly DeleteUpfUpfPath = '/aether/v3.0.0/{target}/upf/upf/{id}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /upf/upf.
    *
    *
    *
@@ -3617,7 +3617,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /upf/upf.
    *
    *
    *
@@ -3650,7 +3650,7 @@ export class ApiService extends BaseService {
   static readonly PostVcsPath = '/aether/v3.0.0/{target}/vcs';
 
   /**
-   * POST Generated from YANG model.
+   * POST /vcs.
    *
    *
    *
@@ -3686,7 +3686,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /vcs.
    *
    *
    *
@@ -3715,7 +3715,7 @@ export class ApiService extends BaseService {
   static readonly DeleteVcsPath = '/aether/v3.0.0/{target}/vcs';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /vcs.
    *
    *
    *
@@ -3749,7 +3749,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /vcs.
    *
    *
    *
@@ -3777,7 +3777,7 @@ export class ApiService extends BaseService {
   static readonly PostVcsVcsPath = '/aether/v3.0.0/{target}/vcs/vcs/{id}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /vcs/vcs.
    *
    *
    *
@@ -3819,7 +3819,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /vcs/vcs.
    *
    *
    *
@@ -3853,7 +3853,7 @@ export class ApiService extends BaseService {
   static readonly DeleteVcsVcsPath = '/aether/v3.0.0/{target}/vcs/vcs/{id}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /vcs/vcs.
    *
    *
    *
@@ -3893,7 +3893,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /vcs/vcs.
    *
    *
    *
@@ -3926,7 +3926,7 @@ export class ApiService extends BaseService {
   static readonly PostVcsVcsApplicationPath = '/aether/v3.0.0/{target}/vcs/vcs/{id}/application/{application}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /vcs/vcs/{id}/application.
    *
    *
    *
@@ -3974,7 +3974,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /vcs/vcs/{id}/application.
    *
    *
    *
@@ -4013,7 +4013,7 @@ export class ApiService extends BaseService {
   static readonly DeleteVcsVcsApplicationPath = '/aether/v3.0.0/{target}/vcs/vcs/{id}/application/{application}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /vcs/vcs/{id}/application.
    *
    *
    *
@@ -4059,7 +4059,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /vcs/vcs/{id}/application.
    *
    *
    *
@@ -4097,7 +4097,7 @@ export class ApiService extends BaseService {
   static readonly PostVcsVcsDeviceGroupPath = '/aether/v3.0.0/{target}/vcs/vcs/{id}/device-group/{device-group}';
 
   /**
-   * POST Generated from YANG model.
+   * POST /vcs/vcs/{id}/device-group.
    *
    *
    *
@@ -4145,7 +4145,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST Generated from YANG model.
+   * POST /vcs/vcs/{id}/device-group.
    *
    *
    *
@@ -4184,7 +4184,7 @@ export class ApiService extends BaseService {
   static readonly DeleteVcsVcsDeviceGroupPath = '/aether/v3.0.0/{target}/vcs/vcs/{id}/device-group/{device-group}';
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /vcs/vcs/{id}/device-group.
    *
    *
    *
@@ -4230,7 +4230,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE Generated from YANG model.
+   * DELETE /vcs/vcs/{id}/device-group.
    *
    *
    *

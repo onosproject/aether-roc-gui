@@ -1,7 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
 export interface TemplateTemplate {
 
   /**
@@ -43,6 +42,4 @@ export interface TemplateTemplate {
    * Uplink data rate in mbps
    */
   uplink?: number;
-
-  [key: string]: AdditionalPropertyTarget | number | string | undefined;
 }

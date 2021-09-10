@@ -29,7 +29,7 @@ export class ApListApListAccessPointsService extends BaseService {
   static readonly GetApListApListAccessPointsPath = '/aether/v3.0.0/{target}/ap-list/ap-list/{id}/access-points/{address}';
 
   /**
-   * GET /ap-list/ap-list/{id}/access-points Generated from YANG model.
+   * GET /ap-list/ap-list/{id}/access-points.
    *
    *
    *
@@ -75,7 +75,7 @@ export class ApListApListAccessPointsService extends BaseService {
   }
 
   /**
-   * GET /ap-list/ap-list/{id}/access-points Generated from YANG model.
+   * GET /ap-list/ap-list/{id}/access-points.
    *
    *
    *

@@ -149,10 +149,10 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
             this.entForm.value['connectivity-service'].forEach((eachValueCs, eachFormCsPosition) => {
                 for (const eachFormCs of value['connectivity-service']) {
                     if (eachValueCs['connectivity-service'] === eachFormCs['connectivity-service']) {
-                        this.entForm.get(['connectivity-service', eachFormCsPosition, 'enabled']).setValue(eachFormCs.allow);
+                        this.entForm.get(['connectivity-service', eachFormCsPosition, 'enabled']).setValue(eachFormCs.enabled);
                     } else {
                         (this.entForm.get(['connectivity-service']) as FormArray).push(this.fb.group({
-                            'connectivity-service': eachFormCs.application,
+                            'connectivity-service': eachFormCs['connectivity-service'],
                             enabled: eachFormCs.enabled
                         }));
                     }

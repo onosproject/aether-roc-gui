@@ -1,7 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { AdditionalPropertyTarget } from './additional-property-target';
 export interface VcsVcsDeviceGroup {
 
   /**
@@ -13,6 +12,4 @@ export interface VcsVcsDeviceGroup {
    * Enable this device group
    */
   enable?: boolean;
-
-  [key: string]: AdditionalPropertyTarget | boolean | string | undefined;
 }

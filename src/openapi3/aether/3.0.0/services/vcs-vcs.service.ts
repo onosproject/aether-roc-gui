@@ -29,7 +29,7 @@ export class VcsVcsService extends BaseService {
   static readonly GetVcsVcsPath = '/aether/v3.0.0/{target}/vcs/vcs/{id}';
 
   /**
-   * GET /vcs/vcs Generated from YANG model.
+   * GET /vcs/vcs.
    *
    *
    *
@@ -69,7 +69,7 @@ export class VcsVcsService extends BaseService {
   }
 
   /**
-   * GET /vcs/vcs Generated from YANG model.
+   * GET /vcs/vcs.
    *
    *
    *

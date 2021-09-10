@@ -35,8 +35,9 @@ export class AccessPointSelectComponent implements OnInit {
             Validators.maxLength(80),
         ])],
         tac: [undefined, Validators.compose([
-            Validators.min(0),
-            Validators.max(99999999)
+            Validators.pattern('[0-9A-F\\.]*'),
+            Validators.minLength(4),
+            Validators.maxLength(8),
         ])],
         enable: true,
     });

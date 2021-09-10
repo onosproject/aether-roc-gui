@@ -29,7 +29,7 @@ export class IpDomainIpDomainService extends BaseService {
   static readonly GetIpDomainIpDomainPath = '/aether/v3.0.0/{target}/ip-domain/ip-domain/{id}';
 
   /**
-   * GET /ip-domain/ip-domain Generated from YANG model.
+   * GET /ip-domain/ip-domain.
    *
    *
    *
@@ -69,7 +69,7 @@ export class IpDomainIpDomainService extends BaseService {
   }
 
   /**
-   * GET /ip-domain/ip-domain Generated from YANG model.
+   * GET /ip-domain/ip-domain.
    *
    *
    *

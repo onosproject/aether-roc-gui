@@ -147,9 +147,12 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
                     const addressFormControl = this.fb.control(ap.address);
                     addressFormControl[ORIGINAL] = ap.address;
 
-                    const tacFormControl = this.fb.control(ap.tac);
+                    const tacFormControl = this.fb.control(ap.tac, Validators.compose([
+                        Validators.pattern('[0-9A-F\\.]*'),
+                        Validators.minLength(4),
+                        Validators.maxLength(8),
+                    ]));
                     tacFormControl[ORIGINAL] = ap.tac;
-                    tacFormControl[TYPE] = 'number';
 
                     const enabledFormControl = this.fb.control(ap.enable);
                     enabledFormControl[ORIGINAL] = ap.enable;
