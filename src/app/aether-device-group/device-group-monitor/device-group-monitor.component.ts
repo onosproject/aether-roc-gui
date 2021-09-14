@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {RocMonitorBase} from '../../roc-monitor-base';
 import {
     DeviceGroupDeviceGroupService,
@@ -23,7 +23,7 @@ import {DeviceGroupDeviceGroup, SiteSite, IpDomainIpDomain} from '../../../opena
     templateUrl: './device-group-monitor.component.html',
     styleUrls: ['../../common-profiles.component.scss']
 })
-export class DeviceGroupMonitorComponent extends RocMonitorBase implements OnInit, OnDestroy {
+export class DeviceGroupMonitorComponent extends RocMonitorBase implements OnInit {
     grafanaOrgId: number = 1;
     grafanaOrgName: string;
     thisDg: DeviceGroupDeviceGroup;
@@ -51,10 +51,6 @@ export class DeviceGroupMonitorComponent extends RocMonitorBase implements OnIni
             // TODO: enhance this - it takes the last group, having all lower case as the Grafana Org.
             this.grafanaOrgName = claims.groups.find((g) => g === g.toLowerCase());
         }
-    }
-
-    ngOnDestroy(): void {
-
     }
 
     private getChildrenOfDg(dgID: string): void {

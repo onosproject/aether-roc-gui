@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* tslint:disable */
+/* eslint-disable */
 /* eslint-disable */
 import {AccessProfile as AccessProfile210} from "../../../aether/2.1.0/models";
 import {ApnProfile as ApnProfile210} from "../../../aether/2.1.0/models";

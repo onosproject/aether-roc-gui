@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* tslint:disable */
+/* eslint-disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
 import { ServiceRuleServiceRuleQosAggregateMaximumBitrate } from './service-rule-service-rule-qos-aggregate-maximum-bitrate';

@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {MatHeaderRow} from '@angular/material/table';
@@ -26,7 +26,7 @@ interface BasketRow {
     templateUrl: './basket.component.html',
     styleUrls: ['../../common-profiles.component.scss']
 })
-export class BasketComponent implements AfterViewInit, OnInit {
+export class BasketComponent implements OnInit {
     data: Array<BasketRow> = [];
     @ViewChild(MatTable) table: MatTable<Array<BasketRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
@@ -87,9 +87,6 @@ export class BasketComponent implements AfterViewInit, OnInit {
                 this.data.push(basketRow);
                 // console.log('processing key', basketRow);
             }));
-    }
-
-    ngAfterViewInit(): void {
     }
 
     commitChanges(): void {
