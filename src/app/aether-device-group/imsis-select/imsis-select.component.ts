@@ -12,7 +12,6 @@ export interface ImsiParam {
     name: string;
     'imsi-range-from': number;
     'imsi-range-to': number;
-    cancelled: boolean;
 }
 
 const ValidateImsiRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -50,10 +49,7 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
 
     closeCard(cancelled: boolean): void {
         if (cancelled === true) {
-            this.closeEvent.emit({
-                cancelled: true
-            } as ImsiParam);
-            return;
+            this.closeEvent.emit();
         } else {
             this.closeEvent.emit({
                 name: this.imsiForm.get('name').value,

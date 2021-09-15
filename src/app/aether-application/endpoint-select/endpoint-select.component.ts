@@ -9,6 +9,14 @@ import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, 
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {RocSelectBase} from '../../roc-select-base';
 
+export interface EndPointParam {
+    name: string;
+    address: string;
+    protocol: string;
+    portStart: number;
+    portEnd: number;
+}
+
 const ValidatePortRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const portStart = control.get(['port-start']).value;
     const portEnd = control.get(['port-end']).value;
@@ -30,7 +38,7 @@ export class EndpointSelectComponent {
     ];
 
     @Input() alreadySelected: string[] = [];
-    @Output() closeEvent = new EventEmitter<object>();
+    @Output() closeEvent = new EventEmitter<EndPointParam>();
 
     endpointForm = this.fb.group({
         name: [undefined, Validators.compose([
@@ -58,9 +66,17 @@ export class EndpointSelectComponent {
     ) {
     }
 
-    closeCard(selected): void {
-        if (selected !== undefined) {
-            this.closeEvent.emit(selected.value);
+    closeCard(cancelled: boolean): void {
+        if (cancelled) {
+            this.closeEvent.emit();
+        } else {
+            this.closeEvent.emit({
+                name: this.endpointForm.get('name').value,
+                address: this.endpointForm.get('address').value,
+                portStart: this.endpointForm.get('port-start').value,
+                portEnd: this.endpointForm.get('port-end').value,
+                protocol: this.endpointForm.get('protocol').value
+            } as EndPointParam);
         }
     }
 

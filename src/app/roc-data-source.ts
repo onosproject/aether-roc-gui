@@ -11,7 +11,11 @@ import {Service as AetherService} from '../openapi3/aether/3.0.0/services';
 import {BasketService, REQDATTRIBS} from './basket.service';
 import {from, merge, Observable, of as observableOf} from 'rxjs';
 import {map, mergeMap, pluck} from 'rxjs/operators';
-import {compare} from './aether-profiles/util';
+
+/** Simple sort comparator for example ID/Name columns (for client-side sorting). */
+export function compare(a: string | number, b: string | number, isAsc: boolean): number {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
 
 // RocDataSource is an abstract class that extends data source
 // T is the type of list item e.g. ConnectivityServiceConnectivityService

@@ -181,34 +181,33 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
     }
 
     openAccessDisplayCard(event: AccessPointParam): void {
-        this.showAccessDisplay = !this.showAccessDisplay;
-        if (event.cancelled === false) {
-
-            const addressFormControl = this.fb.control(event.address);
-            addressFormControl.markAsTouched();
-            addressFormControl.markAsDirty();
-
-            const tacFormControl = this.fb.control(event.tac);
-            tacFormControl.markAsTouched();
-            tacFormControl.markAsDirty();
-            tacFormControl[TYPE] = 'number';
-
-            const enableFormControl = this.fb.control(event.enable);
-            enableFormControl.markAsTouched();
-            enableFormControl.markAsDirty();
-            enableFormControl[TYPE] = 'boolean';
-
-            const apFormGroup = this.fb.group({
-                address: addressFormControl,
-                tac: tacFormControl,
-                enable: enableFormControl
-            });
-            apFormGroup[REQDATTRIBS] = ['tac'];
-            (this.apForm.get('access-points') as FormArray).push(apFormGroup);
-            this.apForm.get('access-points').markAsTouched();
-        } else {
+        this.showAccessDisplay = false;
+        if (event === undefined) {
             return;
         }
+
+        const addressFormControl = this.fb.control(event.address);
+        addressFormControl.markAsTouched();
+        addressFormControl.markAsDirty();
+
+        const tacFormControl = this.fb.control(event.tac);
+        tacFormControl.markAsTouched();
+        tacFormControl.markAsDirty();
+        tacFormControl[TYPE] = 'number';
+
+        const enableFormControl = this.fb.control(event.enable);
+        enableFormControl.markAsTouched();
+        enableFormControl.markAsDirty();
+        enableFormControl[TYPE] = 'boolean';
+
+        const apFormGroup = this.fb.group({
+            address: addressFormControl,
+            tac: tacFormControl,
+            enable: enableFormControl
+        });
+        apFormGroup[REQDATTRIBS] = ['tac'];
+        (this.apForm.get('access-points') as FormArray).push(apFormGroup);
+        this.apForm.get('access-points').markAsTouched();
     }
 
     loadEnterprises(target: string): void {

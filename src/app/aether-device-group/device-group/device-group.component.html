@@ -33,19 +33,21 @@
 
         <!-- Imsis Column -->
         <ng-container matColumnDef="Imsis" id="imsisColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Imsis</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>UE IDs</th>
             <td mat-cell *matCellDef="let row">
                 <p *ngFor="let ip of row.imsis">{{ip.name}} {{ip['imsi-range-from']}}-{{ip['imsi-range-to']}}</p>
             </td>
         </ng-container>
 
         <!-- IP-Domain Name Column -->
-        <ng-container matColumnDef="ip-domain" id="descriptionColumn">
+        <ng-container matColumnDef="ip-domain" id="idDomainColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>IP-Domain</th>
             <td mat-cell *matCellDef="let row">{{row['ip-domain']}}
-                <mat-icon class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="Network"
-                          id="pointerIPDomain"
-                          routerLink="/ipdomain/ipdomain-edit/{{row['ip-domain']}}">launch
+                <mat-icon
+                    *ngIf="row['ip-domain']"
+                    class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="Network"
+                    id="pointerIPDomain"
+                    routerLink="/ipdomain/ipdomain-edit/{{row['ip-domain']}}">launch
                 </mat-icon>
             </td>
         </ng-container>

@@ -15,7 +15,6 @@ export interface AccessPointParam {
     address: string;
     tac: number;
     enable: boolean;
-    cancelled: boolean;
 }
 
 @Component({
@@ -48,12 +47,8 @@ export class AccessPointSelectComponent implements OnInit {
     }
 
     closeCard(cancelled: boolean): void {
-
         if (cancelled === true) {
-            this.closeEvent.emit({
-                cancelled: true
-            } as AccessPointParam);
-            return;
+            this.closeEvent.emit();
         } else {
             this.closeEvent.emit({
                 address: this.accessPointForm.get('address').value,
