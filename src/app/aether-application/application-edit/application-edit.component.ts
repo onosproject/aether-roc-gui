@@ -23,6 +23,7 @@ import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../baske
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+import {EndPointParam} from "../endpoint-select/endpoint-select.component";
 
 const ValidatePortRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     if (control.get(['endpoint']).value.length !== 0) {
@@ -160,47 +161,52 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         );
     }
 
-    endpointSelected(selected): void {
-        // Push into form
-        if (selected || selected !== undefined) {
-            const epNameControl = this.fb.control(selected.name);
-            epNameControl.markAsTouched();
-            epNameControl.markAsDirty();
-            const epAddressControl = this.fb.control(selected.address);
-            epAddressControl.markAsTouched();
-            epAddressControl.markAsDirty();
-            const epPortStartControl = this.fb.control(selected['port-start'], Validators.compose([
-                Validators.min(0),
-                Validators.max(65535)
-            ]));
-            epPortStartControl.markAsTouched();
-            epPortStartControl.markAsDirty();
-            epPortStartControl[TYPE] = 'number';
-            const epPortEndControl = this.fb.control(selected['port-end'], Validators.compose([
-                Validators.min(0),
-                Validators.max(65535)
-            ]));
-            epPortEndControl.markAsTouched();
-            epPortEndControl.markAsDirty();
-            epPortEndControl[TYPE] = 'number';
-            const epProtocolcontrol = this.fb.control(selected.protocol);
-            epProtocolcontrol.markAsTouched();
-            epProtocolcontrol.markAsDirty();
-
-            const epGroupControl = this.fb.group({
-                name: epNameControl,
-                address: epAddressControl,
-                ['port-start']: epPortStartControl,
-                ['port-end']: epPortEndControl,
-                protocol: epProtocolcontrol,
-            });
-            epGroupControl[REQDATTRIBS] = ['port-start', 'address'];
-
-            (this.appForm.get('endpoint') as FormArray).push(epGroupControl);
-            console.log('Adding new Value', selected);
-            this.appForm.markAllAsTouched();
-        }
+    endpointSelected(selected: EndPointParam): void {
         this.showConnectDisplay = false;
+
+        if (selected === undefined) {
+            return;
+        }
+        const epNameControl = this.fb.control(selected.name);
+        epNameControl.markAsTouched();
+        epNameControl.markAsDirty();
+
+        const epAddressControl = this.fb.control(selected.address);
+        epAddressControl.markAsTouched();
+        epAddressControl.markAsDirty();
+
+        const epPortStartControl = this.fb.control(selected.portStart, Validators.compose([
+            Validators.min(0),
+            Validators.max(65535)
+        ]));
+        epPortStartControl.markAsTouched();
+        epPortStartControl.markAsDirty();
+
+        epPortStartControl[TYPE] = 'number';
+        const epPortEndControl = this.fb.control(selected.portEnd, Validators.compose([
+            Validators.min(0),
+            Validators.max(65535)
+        ]));
+        epPortEndControl.markAsTouched();
+        epPortEndControl.markAsDirty();
+
+        epPortEndControl[TYPE] = 'number';
+        const epProtocolcontrol = this.fb.control(selected.protocol);
+        epProtocolcontrol.markAsTouched();
+        epProtocolcontrol.markAsDirty();
+
+        const epGroupControl = this.fb.group({
+            name: epNameControl,
+            address: epAddressControl,
+            ['port-start']: epPortStartControl,
+            ['port-end']: epPortEndControl,
+            protocol: epProtocolcontrol,
+        });
+        epGroupControl[REQDATTRIBS] = ['port-start', 'address'];
+
+        (this.appForm.get('endpoint') as FormArray).push(epGroupControl);
+        console.log('Adding new Value', selected);
+        this.appForm.markAllAsTouched();
     }
 
     private populateFormData(value: ApplicationApplication): void {

@@ -59,11 +59,12 @@
         <!-- ap Column -->
         <ng-container matColumnDef="ap" id="apColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>AP</th>
-            <td mat-cell *matCellDef="let row">
-                {{row.ap}}
-                <mat-icon class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="AP"
-                              id="pointerAP"
-                              routerLink="/aplist/aplist-edit/{{row.ap}}">launch</mat-icon>
+            <td mat-cell *matCellDef="let row">{{row.ap}}
+                <mat-icon
+                    *ngIf="row.ap"
+                    class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="AP"
+                    id="pointerAP"
+                    routerLink="/aplist/aplist-edit/{{row.ap}}">launch</mat-icon>
             </td>
         </ng-container>
 
@@ -94,22 +95,24 @@
         <!-- template Column -->
         <ng-container matColumnDef="traffic-class" id="trafficClassColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Traffic-class</th>
-            <td mat-cell *matCellDef="let row">
-                {{row['traffic-class']}}
-                <mat-icon class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="TrafficClass"
-                id="pointerTrafficClass"
-                routerLink="/traffic-class/traffic-class-edit/{{row['traffic-class']}}">launch</mat-icon>
+            <td mat-cell *matCellDef="let row">{{row['traffic-class']}}
+                <mat-icon
+                    *ngIf="row['traffic-class']"
+                    class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="TrafficClass"
+                    id="pointerTrafficClass"
+                    routerLink="/traffic-class/traffic-class-edit/{{row['traffic-class']}}">launch</mat-icon>
             </td>
         </ng-container>
 
         <!-- upf Column -->
         <ng-container matColumnDef="upf" id="upfColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>UPF</th>
-            <td mat-cell *matCellDef="let row">
-                {{row.upf}}
-                <mat-icon class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="Upf"
-                id="pointerUpf"
-                routerLink="/upf/upf-edit/{{row.upf}}">launch</mat-icon>
+            <td mat-cell *matCellDef="let row">{{row.upf}}
+                <mat-icon
+                    *ngIf="row.upf"
+                    class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="Upf"
+                    id="pointerUpf"
+                    routerLink="/upf/upf-edit/{{row.upf}}">launch</mat-icon>
             </td>
         </ng-container>
 

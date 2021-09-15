@@ -34,7 +34,7 @@ const ValidateImsiRange: ValidatorFn = (control: AbstractControl): ValidationErr
             for (const eachImsiFormValues of imsiFormvalue) {
                 if (eachImsiFormValues.name !== eachImsi.name) {
                     isValid = ((eachImsi['imsi-range-to'] < eachImsiFormValues['imsi-range-from'] ||
-                        eachImsi['imsi-range-from'] > eachImsiFormValues['imsi-range-to'])
+                            eachImsi['imsi-range-from'] > eachImsiFormValues['imsi-range-to'])
                         && (eachImsiFormValues['imsi-range-from'] <= eachImsiFormValues['imsi-range-to']
                             && eachImsi['imsi-range-from'] <= eachImsi['imsi-range-to'] &&
                             eachImsi['imsi-range-to'] <= (100 + (eachImsi['imsi-range-from'])) &&
@@ -110,7 +110,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
 
     fetchTooltipContent(): string {
         this.ImsiRangeLimit = Math.pow(10, this.SiteImisLength) - 1;
-        return 'Maximum value: ' + this.ImsiRangeLimit + ' Maximum range: 100';
+        return 'UE ID is suffix of IMSI. Ranges must not overlap. Maximum value: ' + this.ImsiRangeLimit + ' Maximum each range: 100';
     }
 
     get imsiControls(): FormArray {
@@ -143,7 +143,6 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         (this.deviceGroupForm.get(['imsis']) as FormArray).removeAt(index);
         this.snackBar.open('Deletion of ' + im + ' added to basket', undefined, {duration: 2000});
     }
-
 
     private populateFormData(value: DeviceGroupDeviceGroup): void {
         if (value['display-name']) {
@@ -212,33 +211,32 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
 
     openDeviceGroupCard(event: ImsiParam): void {
         this.showImsiDisplay = !this.showImsiDisplay;
-        if (event.cancelled === false) {
-
-            this.deviceGroupForm.markAsDirty();
-            this.deviceGroupForm.markAsTouched();
-
-            const nameFormControl = this.fb.control(event.name);
-            nameFormControl.markAsTouched();
-            nameFormControl.markAsDirty();
-
-            const imsiRangeFromFormControl = this.fb.control(event['imsi-range-from']);
-            imsiRangeFromFormControl.markAsTouched();
-            imsiRangeFromFormControl.markAsDirty();
-            imsiRangeFromFormControl[TYPE] = 'number';
-
-            const imsiRangeToFormControl = this.fb.control(event['imsi-range-to']);
-            imsiRangeToFormControl.markAsTouched();
-            imsiRangeToFormControl.markAsDirty();
-            imsiRangeToFormControl[TYPE] = 'boolean';
-
-            (this.deviceGroupForm.get('imsis') as FormArray).push(this.fb.group({
-                name: nameFormControl,
-                'imsi-range-from': imsiRangeFromFormControl,
-                'imsi-range-to': imsiRangeToFormControl
-            }));
-        } else {
+        if (event === undefined) {
             return;
         }
+
+        this.deviceGroupForm.markAsDirty();
+        this.deviceGroupForm.markAsTouched();
+
+        const nameFormControl = this.fb.control(event.name);
+        nameFormControl.markAsTouched();
+        nameFormControl.markAsDirty();
+
+        const imsiRangeFromFormControl = this.fb.control(event['imsi-range-from']);
+        imsiRangeFromFormControl.markAsTouched();
+        imsiRangeFromFormControl.markAsDirty();
+        imsiRangeFromFormControl[TYPE] = 'number';
+
+        const imsiRangeToFormControl = this.fb.control(event['imsi-range-to']);
+        imsiRangeToFormControl.markAsTouched();
+        imsiRangeToFormControl.markAsDirty();
+        imsiRangeToFormControl[TYPE] = 'boolean';
+
+        (this.deviceGroupForm.get('imsis') as FormArray).push(this.fb.group({
+            name: nameFormControl,
+            'imsi-range-from': imsiRangeFromFormControl,
+            'imsi-range-to': imsiRangeToFormControl
+        }));
     }
 
     loadDeviceGroupDeviceGroup(target: string, id: string): void {

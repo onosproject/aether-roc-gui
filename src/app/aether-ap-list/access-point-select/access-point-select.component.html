@@ -3,7 +3,7 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<form [formGroup]="accessPointForm">
+<form [formGroup]="accessPointForm" (ngSubmit)="closeCard(false)">
     <mat-card class="card mat-elevation-z8">
         <mat-card-header class="header">
             <mat-card-title class="subheading-1 title">Create Access Point</mat-card-title>
@@ -38,11 +38,10 @@
                     id="cancelButton">Cancel
             </button>
             <button
-                *ngIf="accessPointForm.valid"
+                [disabled]="!(accessPointForm.valid && (accessPointForm.errors?.isEndpointNotValid === null) && accessPointForm.touched)"
                 mat-raised-button color="accent"
-                type="button"
-                id="confirmButton"
-                (click)="closeCard(false)">Confirm
+                type="submit"
+                id="confirmButton">Confirm
             </button>
         </mat-card-actions>
     </mat-card>
