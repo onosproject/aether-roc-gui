@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* tslint:disable */
+/* eslint-disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
 import { QosProfileQosProfile } from './qos-profile-qos-profile';

@@ -47,7 +47,7 @@
         <mat-card-actions class=" button-width float-left field-margin">
             <button mat-raised-button color="accent" type="submit"
                     *ngIf="endpointForm.valid"
-                    [disabled]="!(endpointForm.valid && (endpointForm.errors?.isEndpointNotValid == null) && endpointForm.touched )"
+                    [disabled]="!(endpointForm.valid && (endpointForm.errors?.isEndpointNotValid === null) && endpointForm.touched )"
                     id="submitButton">Add
             </button>
         </mat-card-actions>

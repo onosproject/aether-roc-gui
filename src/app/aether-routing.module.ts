@@ -74,7 +74,7 @@ const aetherRoutes: Routes = [
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(aetherRoutes, {useHash: true, onSameUrlNavigation: 'reload'})
+        RouterModule.forRoot(aetherRoutes, { useHash: true, onSameUrlNavigation: 'reload', relativeLinkResolution: 'legacy' })
     ],
     exports: [RouterModule],
     providers: [ ]

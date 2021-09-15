@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* tslint:disable */
+/* eslint-disable */
 /* eslint-disable */
 import { EnterpriseEnterpriseConnectivityService } from './enterprise-enterprise-connectivity-service';
 export interface EnterpriseEnterprise {

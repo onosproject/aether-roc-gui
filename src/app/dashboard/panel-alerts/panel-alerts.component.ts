@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {SocketService} from '../../socket.service';
 import {Observable} from 'rxjs';
 import {switchAll, tap, pluck, map} from 'rxjs/operators';
@@ -58,7 +58,7 @@ export interface PromAlerts {
     templateUrl: './panel-alerts.component.html',
     styleUrls: ['../../common-panel.component.scss', 'panel-alerts.component.scss']
 })
-export class PanelAlertsComponent implements OnInit, OnDestroy {
+export class PanelAlertsComponent implements OnInit {
     @Input() top: number;
     @Input() left: number;
     @Input() width: number;
@@ -95,9 +95,9 @@ export class PanelAlertsComponent implements OnInit, OnDestroy {
         );
     }
 
-    ngOnDestroy(): void {
-        // <mat-table> automatically calls unsubscribe() on exit
-    }
+    // ngOnDestroy(): void {
+    //     // <mat-table> automatically calls unsubscribe() on exit
+    // }
 
     showPrometheus(url: string): void {
         if (url === undefined) {

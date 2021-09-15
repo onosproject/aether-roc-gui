@@ -106,7 +106,7 @@
 
             <mat-card-actions>
                 <button mat-raised-button color="accent" type="submit"
-                        [disabled]="!(deviceGroupForm.valid && (deviceGroupForm.errors?.isRangeNotValid == null) && deviceGroupForm.touched && opaService.canWrite('/devicegroups/devicegroups'))"
+                        [disabled]="!(deviceGroupForm.valid && (deviceGroupForm.errors?.isRangeNotValid === null) && deviceGroupForm.touched && opaService.canWrite('/devicegroups/devicegroups'))"
                         id="submitButton">Update
                 </button>
             </mat-card-actions>

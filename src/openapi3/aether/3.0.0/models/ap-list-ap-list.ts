@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* tslint:disable */
+/* eslint-disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { ApListApListAccessPoints } from './ap-list-ap-list-access-points';
