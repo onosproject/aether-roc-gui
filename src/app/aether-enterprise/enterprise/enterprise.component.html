@@ -32,11 +32,10 @@
         <ng-container matColumnDef="connectivity" id="connectivityColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Connectivity</th>
             <td mat-cell *matCellDef="let row">
-                <p *ngFor="let cs of row['connectivity-service']">{{cs['connectivity-service']}}
+                <p *ngFor="let cs of row['connectivity-service']" [classList]="cs.enabled ? '':'semitransparent'">{{cs['connectivity-service']}}
                     <mat-icon color="primary" class="table_icon small_icon" aria-hidden="false" aria-label="Connectivity"
                               id="pointerConnectivityService"
                               routerLink="/connectivity/connectivity-edit/{{cs['connectivity-service']}}">launch</mat-icon>
-                    <mat-icon class="table_icon" color="accent" *ngIf="cs.enabled">done</mat-icon>
                 </p>
             </td>
         </ng-container>
