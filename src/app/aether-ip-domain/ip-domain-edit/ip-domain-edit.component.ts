@@ -50,7 +50,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         ])],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(80),
+            Validators.maxLength(1024),
         ])],
         enterprise: [undefined, Validators.required],
         'dns-primary': [undefined],
