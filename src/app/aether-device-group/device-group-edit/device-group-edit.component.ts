@@ -149,11 +149,23 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
 
     deleteFromSelect(im: string): void {
         this.bs.deleteIndexedEntry('/device-group-3.0.0/device-group[id=' + this.id +
-            ']/imsis[name=' + im + ']', 'name', im);
+            ']/imsis[name=' + im + ']', 'name', im, this.ucmap(im));
         const index = (this.deviceGroupForm.get(['imsis']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === im);
         (this.deviceGroupForm.get(['imsis']) as FormArray).removeAt(index);
         this.snackBar.open('Deletion of ' + im + ' added to basket', undefined, {duration: 2000});
+    }
+
+    private ucmap(im: string): Map<string, string> {
+        const ucMap = new Map<string, string>();
+        const dgId = '/device-group-3.0.0/device-group[id=' + this.id + ']';
+        let parentUc = localStorage.getItem(dgId);
+        if (parentUc === null) {
+            parentUc = this.deviceGroupForm[REQDATTRIBS];
+        }
+        ucMap.set(dgId, parentUc);
+
+        return ucMap;
     }
 
     private populateFormData(value: DeviceGroupDeviceGroup): void {
