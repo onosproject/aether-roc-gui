@@ -16,6 +16,6 @@ export class PanelSiteDatasource extends RocDataSource<SiteSite, Site> {
         protected target: string,
     ) {
         super( aetherService, bs, target,
-            '/v3.0.0', 'site' );
+            '/site-v3.0.0', 'site' );
     }
 }
