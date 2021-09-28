@@ -57,10 +57,10 @@
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input [readonly]="ipForm" matInput formControlName="dns-primary">
+                    <input [readonly]="ipForm" matInput formControlName="dns-primary" id="valuePrimaryDNS">
                     <mat-hint>DNS Primary</mat-hint>
                 </mat-form-field>
-                <button class="mat-button" (click)="openPrimaryCard()" type="button">
+                <button class="mat-button" (click)="openPrimaryCard()" type="button" id="editPrimaryDNS">
                     <mat-icon color="accent">edit</mat-icon>
                 </button>
             </div>
@@ -74,10 +74,10 @@
             </aether-ip-selector>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input [readonly]="ipForm" matInput formControlName="dns-secondary">
+                    <input [readonly]="ipForm" matInput formControlName="dns-secondary" id="valueSecondaryDNS">
                     <mat-hint>DNS Secondary</mat-hint>
                 </mat-form-field>
-                <button class="mat-button" (click)="openSecondaryCard()" type="button">
+                <button class="mat-button" (click)="openSecondaryCard()" type="button" id="editSecondaryDNS">
                     <mat-icon color="accent">edit</mat-icon>
                 </button>
             </div>

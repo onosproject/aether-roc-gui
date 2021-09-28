@@ -36,6 +36,8 @@ export const OIDC_ISSUER = undefined;
 export const BASKET_SERVICE_ENABLED = true;
 export const PERFORMANCE_METRICS_ENABLED = false;
 
+export const maxDeviceGroupRange = 5000;
+
 export const authConfig: AuthConfig = {
     issuer: OIDC_ISSUER,
     redirectUri: window.location.origin,

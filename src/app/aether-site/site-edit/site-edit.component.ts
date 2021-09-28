@@ -36,7 +36,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         ])],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(80),
+            Validators.maxLength(1024),
         ])],
         enterprise: [undefined],
         'imsi-definition': this.fb.group({

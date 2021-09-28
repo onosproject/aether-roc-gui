@@ -118,14 +118,14 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
 
     private ucmap(ep: string): Map<string, string> {
         const ucMap = new Map<string, string>();
-        const vcsId = '/application-3.0.0/application[id=' + this.id + ']';
-        let parentUc = localStorage.getItem(vcsId);
+        const appId = '/application-3.0.0/application[id=' + this.id + ']';
+        let parentUc = localStorage.getItem(appId);
         if (parentUc === null) {
             parentUc = this.appForm[REQDATTRIBS];
         }
-        ucMap.set(vcsId, parentUc);
+        ucMap.set(appId, parentUc);
 
-        const epId = vcsId + '/endpoint[name=' + ep + ']';
+        const epId = appId + '/endpoint[name=' + ep + ']';
         let epUc = localStorage.getItem(epId);
         if (epUc === null) {
             const epFormArray = this.appForm.get(['endpoint']) as FormArray;

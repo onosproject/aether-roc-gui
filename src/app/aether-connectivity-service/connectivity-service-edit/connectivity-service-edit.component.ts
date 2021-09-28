@@ -35,7 +35,7 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
         ])],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(80),
+            Validators.maxLength(1024),
         ])],
         'spgwc-endpoint': [undefined, Validators.compose([
             Validators.minLength(1),

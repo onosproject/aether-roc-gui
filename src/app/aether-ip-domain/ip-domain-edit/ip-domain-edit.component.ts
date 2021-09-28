@@ -51,7 +51,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         ])],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(80),
+            Validators.maxLength(1024),
         ])],
         enterprise: [undefined, Validators.required],
         'dns-primary': [undefined],
@@ -66,7 +66,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
             '(?:' +
             '\\/?)' +
             '(?:' +
-            '3[0-2]|2[0-9]|[1-9]|[0-9])?' +
+            '3[0-2]|2[0-9]|1[0-9]|[0-9])?' +
             '$'
         )],
         'admin-status': [undefined],

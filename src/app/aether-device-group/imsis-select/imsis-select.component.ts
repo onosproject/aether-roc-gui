@@ -7,6 +7,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {DeviceGroupDeviceGroupImsis} from '../../../openapi3/aether/3.0.0/models/device-group-device-group-imsis';
+import {maxDeviceGroupRange} from "../../../environments/environment";
 
 export interface ImsiParam {
     name: string;
@@ -18,7 +19,7 @@ const ValidateImsiRange: ValidatorFn = (control: AbstractControl): ValidationErr
     const ImsiFromRange = control.get('imsi-range-from').value;
     const ImsiToRange = control.get('imsi-range-to').value;
     return ((ImsiFromRange <= ImsiToRange) &&
-        (ImsiToRange <= (100 + ImsiFromRange))) ? null : {isRangeNotValid: true};
+        (ImsiToRange <= (maxDeviceGroupRange + ImsiFromRange))) ? null : {isRangeNotValid: true};
 };
 
 @Component({
@@ -41,6 +42,7 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
         'imsi-range-from': [undefined],
         'imsi-range-to': [undefined],
     }, {validator: ValidateImsiRange});
+    maxDeviceGroupRange = maxDeviceGroupRange;
 
     constructor(
         protected fb: FormBuilder,
@@ -73,7 +75,7 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
                 this.OtherImsi.every(eachImsi => {
                     isValid = ((ImsiToRange < eachImsi['imsi-range-from'] || ImsiFromRange > eachImsi['imsi-range-to'])
                         && (ImsiFromRange <= ImsiToRange &&
-                            ImsiToRange <= (100 + (ImsiFromRange)))) ? true : false;
+                            ImsiToRange <= (maxDeviceGroupRange + (ImsiFromRange)))) ? true : false;
                 });
                 if (!isValid) {
                     this.imsiForm.setErrors({isRangeNotValid: true});

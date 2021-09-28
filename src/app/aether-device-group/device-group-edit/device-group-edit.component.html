@@ -63,7 +63,7 @@
                                 title="This field is mandatory."
                                 placeholder="Please specify a Site"
                                 (selectionChange)="displayImsiAdd()"
-                                id="selectEnterprise"
+                                id="selectSite"
                                 required>
                         <mat-option *ngFor="let site of site"
                                     [value]="site.id">{{site.id}}
@@ -125,7 +125,7 @@
     id="imsiSelectComponent"
     [OtherImsi]="imsis"
     [ImisLengthLimits]="SiteImisLength"
-    (closeEvent)="openDeviceGroupCard($event)">
+    (closeEvent)="imsiSelectCardClosed($event)">
 </aether-imsis-select>
 <aether-show-parent-modules
     *ngIf="showParentDisplay"
