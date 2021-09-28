@@ -74,9 +74,6 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         // Wait for token to be loaded
-        this.dataSource.loadData(this.aetherService.getSite({
-            target: AETHER_TARGETS[0]
-        }), this.onDataLoaded); // tobe removed
         this.loginTokenTimer = setInterval(() => {
             if (this.oauthService.hasValidIdToken()) {
                 console.log('Load items after token is loaded');
