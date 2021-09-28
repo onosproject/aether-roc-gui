@@ -34,12 +34,14 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatMenuModule} from '@angular/material/menu';
 import {TruncateTextPipe} from '../utils/truncate-text.pipe';
 import {UtilsModule} from '../utils/utils.module';
+import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
 
 @NgModule({
     declarations: [
         IpDomainComponent,
         IpDomainEditComponent,
         IpSelectorComponent,
+        ShowParentModulesComponent,
         // Edit page
     ],
     imports: [

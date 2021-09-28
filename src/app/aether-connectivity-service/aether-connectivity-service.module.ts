@@ -25,11 +25,13 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/mater
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {UtilsModule} from '../utils/utils.module';
+import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
 
 @NgModule({
     declarations: [
         ConnectivityServiceComponent,
-        ConnectivityServiceEditComponent
+        ConnectivityServiceEditComponent,
+        ShowParentModulesComponent
     ],
     imports: [
         CommonModule,

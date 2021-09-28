@@ -28,7 +28,9 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
     data: ApListApList;
     enterprises: Array<EnterpriseEnterprise>;
     accessPoints: Array<ApListApListAccessPoints>;
+    showParentDisplay: boolean = false;
     showAccessDisplay: boolean = false;
+    apListId: string;
 
     apForm = this.fb.group({
         id: [undefined, Validators.compose([
@@ -88,6 +90,10 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
             existingList.push(ap.get('access-points').value);
         });
         return existingList;
+    }
+
+    closeShowParentCard(close: boolean): void {
+        this.showParentDisplay = false;
     }
 
     deleteFromSelect(ap: string): void {
@@ -235,6 +241,7 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
         }).subscribe(
             (value => {
                 this.data = value;
+                this.apListId = value.id;
                 this.populateFormData(value);
             }),
             error => {

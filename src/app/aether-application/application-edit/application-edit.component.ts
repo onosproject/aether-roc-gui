@@ -52,9 +52,11 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     ];
     showConnectDisplay: boolean = false;
     showEndpointAddButton: boolean = true;
+    showParentDisplay: boolean = false;
     enterprises: Array<EnterpriseEnterprise>;
     pathRoot = 'application-3.0.0';
     pathListAttr = 'application';
+    applicationId : string;
     data: ApplicationApplication;
     appForm = this.fb.group({
         id: [undefined, Validators.compose([
@@ -142,6 +144,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         }).subscribe(
             (value => {
                 this.data = value;
+                this.applicationId = value.id;
                 this.populateFormData(value);
             }),
             error => {
@@ -159,6 +162,10 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                 console.log('Finished loading ApplicationApplication(s)', target, id);
             }
         );
+    }
+
+    closeShowParentCard(close: boolean): void {
+        this.showParentDisplay = false;
     }
 
     endpointSelected(selected: EndPointParam): void {

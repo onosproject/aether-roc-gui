@@ -63,6 +63,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
     showAddImsi: boolean = false;
     SiteImisLength: number;
     ImsiRangeLimit: number;
+    showParentDisplay: boolean = false;
 
     deviceGroupForm = this.fb.group({
         id: [undefined, Validators.compose([
@@ -82,6 +83,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         site: [undefined],
         imsis: this.fb.array([])
     }, {validators: ValidateImsiRange});
+    private deviceGroupId: string;
 
     constructor(
         private deviceGroupDeviceGroupService: DeviceGroupDeviceGroupService,
@@ -123,6 +125,10 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
             existingList.push(ap.get('imsis').value);
         });
         return existingList;
+    }
+
+    closeShowParentCard(close: boolean): void {
+        this.showParentDisplay = false;
     }
 
     displayImsiAdd(): void {
@@ -246,6 +252,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         }).subscribe(
             (value => {
                 this.data = value;
+                this.deviceGroupId = value.id;
                 this.populateFormData(value);
             }),
             error => {

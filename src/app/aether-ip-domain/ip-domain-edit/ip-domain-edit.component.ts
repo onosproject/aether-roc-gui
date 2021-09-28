@@ -33,6 +33,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
     primCardDisplay: boolean = false;
     secCardDisplay: boolean = false;
     subCardDisplay: boolean = false;
+    showParentDisplay: boolean = false;
     data: IpDomainIpDomain;
     enterprises: Array<EnterpriseEnterprise>;
 
@@ -78,6 +79,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
             Validators.maxLength(32),
         ])],
     });
+    ipDomainId: string;
 
     constructor(
         private ipDomainIpDomainService: IpDomainIpDomainService,
@@ -159,6 +161,10 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         this.ipForm.get('admin-status').setValue(this.option);
     }
 
+    closeShowParentCard(close: boolean): void {
+        this.showParentDisplay = false;
+    }
+
     loadEnterprises(target: string): void {
         this.aetherService.getEnterprise({
             target,
@@ -184,6 +190,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         }).subscribe(
             (value => {
                 this.data = value;
+                this.ipDomainId = value.id;
                 this.populateFormData(value);
             }),
             error => {
