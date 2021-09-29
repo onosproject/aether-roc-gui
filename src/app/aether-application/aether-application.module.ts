@@ -31,13 +31,15 @@ import {ApplicationEditComponent} from './application-edit/application-edit.comp
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { EndpointSelectComponent } from './endpoint-select/endpoint-select.component';
 import {UtilsModule} from '../utils/utils.module';
+import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
 
 
 @NgModule({
     declarations: [
         ApplicationComponent,
         ApplicationEditComponent,
-        EndpointSelectComponent
+        EndpointSelectComponent,
+        ShowParentModulesComponent
     ],
     imports: [
         CommonModule,
@@ -66,7 +68,7 @@ import {UtilsModule} from '../utils/utils.module';
         CdkTableModule,
         MatCheckboxModule,
         MatAutocompleteModule,
-        UtilsModule
+        UtilsModule,
     ],
     providers: [
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},

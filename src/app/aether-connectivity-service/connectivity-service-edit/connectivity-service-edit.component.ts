@@ -54,6 +54,8 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
             Validators.maxLength(80),
         ])],
     });
+    showParentDisplay: boolean = false;
+    connectivityServiceId : string;
 
     constructor(
         private connectivityServiceConnectivityServiceService: ConnectivityServiceConnectivityServiceService,
@@ -71,6 +73,10 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
 
     ngOnInit(): void {
         super.init();
+    }
+
+    closeShowParentCard(close: boolean): void {
+        this.showParentDisplay = false;
     }
 
     private populateFormData(value: ConnectivityServiceConnectivityService): void {
@@ -107,6 +113,7 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
         }).subscribe(
             (value => {
                 this.data = value;
+                this.connectivityServiceId = value.id;
                 this.populateFormData(value);
             }),
             error => {

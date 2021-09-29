@@ -19,6 +19,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSelectModule} from '@angular/material/select';
 import {TrafficClassEditComponent} from './traffic-class-edit.component';
+import {MatTableModule} from "@angular/material/table";
 
 describe('TrafficClassEditComponent', () => {
     let component: TrafficClassEditComponent;
@@ -45,7 +46,8 @@ describe('TrafficClassEditComponent', () => {
                 MatDividerModule,
                 MatSnackBarModule,
                 MatAutocompleteModule,
-                MatSelectModule
+                MatSelectModule,
+                MatTableModule
             ]
         })
             .compileComponents();

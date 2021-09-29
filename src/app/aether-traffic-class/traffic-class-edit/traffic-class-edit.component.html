@@ -22,6 +22,13 @@
                     <input matInput formControlName="display-name" id="inputDisplayName">
                     <mat-hint>Display Name</mat-hint>
                 </mat-form-field>
+                <button mat-icon-button
+                        color="accent">
+                    <mat-icon (click)="showParentDisplay = true" class="subscriber-pointer" id="showParentInformation"
+                              color="accent">
+                        assignment
+                    </mat-icon>
+                </button>
             </div>
             <div class="row" id="descriptionRow">
                 <mat-form-field class="field-margin half-width">
@@ -55,3 +62,9 @@
         </mat-card-actions>
     </mat-card>
 </form>
+<aether-show-parent-modules
+    *ngIf="showParentDisplay"
+    id="showParentModulesComponent"
+    [trafficClassID]="trafficClassId"
+    (closeShowParentCardEvent)="closeShowParentCard($event)">
+</aether-show-parent-modules>

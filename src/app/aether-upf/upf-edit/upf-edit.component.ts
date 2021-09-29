@@ -28,6 +28,8 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
     enterprises: Array<EnterpriseEnterprise>;
     pathRoot = 'upf-3.0.0';
     pathListAttr = 'upf';
+    upfId: string;
+    showParentDisplay: boolean = false;
     upfForm = this.fb.group({
         id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -76,6 +78,10 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         super.init();
     }
 
+    closeShowParentCard(close: boolean): void {
+        this.showParentDisplay = false;
+    }
+
     setOnlyEnterprise(lenEnterprises: number): void {
         if (lenEnterprises === 1) {
             this.upfForm.get('enterprise').markAsTouched();
@@ -91,6 +97,7 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         }).subscribe(
             (value => {
                 this.data = value;
+                this.upfId = value.id
                 this.populateFormData(value);
             }),
             error => {
