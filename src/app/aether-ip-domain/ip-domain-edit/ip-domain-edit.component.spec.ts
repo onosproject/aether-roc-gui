@@ -59,4 +59,17 @@ describe('IpDomainEditComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it ('should validate subnet with port in 10-20 range', () => {
+        const subnetControl = component.ipForm.get('subnet');
+        subnetControl.setValue('10.11.12.13/16');
+        expect(subnetControl.valid).toBeTruthy();
+    });
+
+    it ('should not validate subnet with port over 32', () => {
+        const subnetControl = component.ipForm.get('subnet');
+        subnetControl.setValue('10.11.12.13/33');
+        expect(subnetControl.valid).toBeFalse();
+    });
+
 });

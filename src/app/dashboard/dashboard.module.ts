@@ -25,9 +25,10 @@ import {UtilsModule} from '../utils/utils.module';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { AlertDetailComponent } from './alert-detail/alert-detail.component';
 import {MatCardModule} from '@angular/material/card';
+import { PanelSiteComponent } from './panel-site/panel-site.component';
 
 @NgModule({
-    declarations: [DashboardComponent, PanelVcsComponent, PanelAlertsComponent, AlertDetailComponent],
+    declarations: [DashboardComponent, PanelVcsComponent, PanelSiteComponent, PanelAlertsComponent, AlertDetailComponent],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({rootUrl: AETHER_ROC_API_URL}),

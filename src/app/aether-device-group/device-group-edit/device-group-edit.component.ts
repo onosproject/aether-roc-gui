@@ -25,21 +25,33 @@ import {DeviceGroupDeviceGroupImsis} from '../../../openapi3/aether/3.0.0/models
 import {IpDomainIpDomain} from '../../../openapi3/aether/3.0.0/models/ip-domain-ip-domain';
 import {SiteSite} from '../../../openapi3/aether/3.0.0/models/site-site';
 import {ImsiParam} from '../imsis-select/imsis-select.component';
+import {maxDeviceGroupRange} from "../../../environments/environment";
 
 const ValidateImsiRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     if (control.get(['imsis']).value.length !== 0) {
         const imsiFormvalue = control.get(['imsis']).value;
-        let isValid: ValidationErrors;
-        imsiFormvalue.every(eachImsi => {
+        let isValid: ValidationErrors = null;
+        imsiFormvalue.forEach(eachImsi => {
+            if (eachImsi['imsi-range-from'] > eachImsi['imsi-range-to']) {
+                isValid = {individualRangeReversed: true}
+                return;
+            } else if (eachImsi['imsi-range-to'] - eachImsi['imsi-range-from'] > maxDeviceGroupRange) {
+                isValid = {individualRangeExceeded: true}
+                return;
+            }
             for (const eachImsiFormValues of imsiFormvalue) {
                 if (eachImsiFormValues.name !== eachImsi.name) {
-                    isValid = ((eachImsi['imsi-range-to'] < eachImsiFormValues['imsi-range-from'] ||
+                    if ((eachImsi['imsi-range-to'] < eachImsiFormValues['imsi-range-from'] ||
                             eachImsi['imsi-range-from'] > eachImsiFormValues['imsi-range-to'])
                         && (eachImsiFormValues['imsi-range-from'] <= eachImsiFormValues['imsi-range-to']
                             && eachImsi['imsi-range-from'] <= eachImsi['imsi-range-to'] &&
-                            eachImsi['imsi-range-to'] <= (100 + (eachImsi['imsi-range-from'])) &&
+                            eachImsi['imsi-range-to'] <= (maxDeviceGroupRange + (eachImsi['imsi-range-from'])) &&
                             eachImsiFormValues['imsi-range-to'] <=
-                            (100 + (eachImsiFormValues['imsi-range-from'])))) ? null : {isRangeNotValid: true};
+                            (maxDeviceGroupRange + (eachImsiFormValues['imsi-range-from'])))) {
+                    } else {
+                        isValid = {isRangeNotValid: true};
+                        return;
+                    }
                 }
             }
         });
@@ -63,6 +75,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
     showAddImsi: boolean = false;
     SiteImisLength: number;
     ImsiRangeLimit: number;
+    showParentDisplay: boolean = false;
 
     deviceGroupForm = this.fb.group({
         id: [undefined, Validators.compose([
@@ -72,7 +85,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         ])],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(80),
+            Validators.maxLength(1024),
         ])],
         'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
@@ -82,6 +95,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         site: [undefined],
         imsis: this.fb.array([])
     }, {validators: ValidateImsiRange});
+    private deviceGroupId: string;
 
     constructor(
         private deviceGroupDeviceGroupService: DeviceGroupDeviceGroupService,
@@ -110,7 +124,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
 
     fetchTooltipContent(): string {
         this.ImsiRangeLimit = Math.pow(10, this.SiteImisLength) - 1;
-        return 'UE ID is suffix of IMSI. Ranges must not overlap. Maximum value: ' + this.ImsiRangeLimit + ' Maximum each range: 100';
+        return 'UE ID is suffix of IMSI. Ranges must not overlap. Maximum value: ' + this.ImsiRangeLimit + ' Maximum each range: ' + maxDeviceGroupRange;
     }
 
     get imsiControls(): FormArray {
@@ -125,6 +139,10 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         return existingList;
     }
 
+    closeShowParentCard(close: boolean): void {
+        this.showParentDisplay = false;
+    }
+
     displayImsiAdd(): void {
         this.showAddImsi = !!this.deviceGroupForm.get('site').value;
         this.site.forEach(eachSite => {
@@ -137,11 +155,23 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
 
     deleteFromSelect(im: string): void {
         this.bs.deleteIndexedEntry('/device-group-3.0.0/device-group[id=' + this.id +
-            ']/imsis[name=' + im + ']', 'name', im);
+            ']/imsis[name=' + im + ']', 'name', im, this.ucmap(im));
         const index = (this.deviceGroupForm.get(['imsis']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === im);
         (this.deviceGroupForm.get(['imsis']) as FormArray).removeAt(index);
         this.snackBar.open('Deletion of ' + im + ' added to basket', undefined, {duration: 2000});
+    }
+
+    private ucmap(im: string): Map<string, string> {
+        const ucMap = new Map<string, string>();
+        const dgId = '/device-group-3.0.0/device-group[id=' + this.id + ']';
+        let parentUc = localStorage.getItem(dgId);
+        if (parentUc === null) {
+            parentUc = this.deviceGroupForm[REQDATTRIBS];
+        }
+        ucMap.set(dgId, parentUc);
+
+        return ucMap;
     }
 
     private populateFormData(value: DeviceGroupDeviceGroup): void {
@@ -209,14 +239,11 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         this.imsis = this.deviceGroupForm.get('imsis').value;
     }
 
-    openDeviceGroupCard(event: ImsiParam): void {
+    imsiSelectCardClosed(event: ImsiParam): void {
         this.showImsiDisplay = !this.showImsiDisplay;
         if (event === undefined) {
             return;
         }
-
-        this.deviceGroupForm.markAsDirty();
-        this.deviceGroupForm.markAsTouched();
 
         const nameFormControl = this.fb.control(event.name);
         nameFormControl.markAsTouched();
@@ -237,6 +264,8 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
             'imsi-range-from': imsiRangeFromFormControl,
             'imsi-range-to': imsiRangeToFormControl
         }));
+        this.deviceGroupForm.markAsDirty();
+        this.deviceGroupForm.markAsTouched();
     }
 
     loadDeviceGroupDeviceGroup(target: string, id: string): void {
@@ -246,6 +275,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         }).subscribe(
             (value => {
                 this.data = value;
+                this.deviceGroupId = value.id;
                 this.populateFormData(value);
             }),
             error => {

@@ -30,6 +30,8 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
     pathRoot = 'traffic-class-3.0.0';
     pathListAttr = 'traffic-class';
     data: TrafficClassTrafficClass;
+    showParentDisplay: boolean = false;
+    trafficClassId : string;
     tcForm = this.fb.group({
         id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -76,6 +78,10 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
         super.init();
     }
 
+    closeShowParentCard(close: boolean): void {
+        this.showParentDisplay = false;
+    }
+
     loadTrafficClassTrafficClass(target: string, id: string): void {
         this.trafficClassTrafficClassService.getTrafficClassTrafficClass({
             target,
@@ -83,6 +89,7 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
         }).subscribe(
             (value => {
                 this.data = value;
+                this.trafficClassId = value.id;
                 this.populateFormData(value);
             }),
             error => {

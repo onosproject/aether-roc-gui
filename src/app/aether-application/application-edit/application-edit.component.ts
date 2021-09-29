@@ -52,9 +52,11 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     ];
     showConnectDisplay: boolean = false;
     showEndpointAddButton: boolean = true;
+    showParentDisplay: boolean = false;
     enterprises: Array<EnterpriseEnterprise>;
     pathRoot = 'application-3.0.0';
     pathListAttr = 'application';
+    applicationId : string;
     data: ApplicationApplication;
     appForm = this.fb.group({
         id: [undefined, Validators.compose([
@@ -116,14 +118,14 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
 
     private ucmap(ep: string): Map<string, string> {
         const ucMap = new Map<string, string>();
-        const vcsId = '/application-3.0.0/application[id=' + this.id + ']';
-        let parentUc = localStorage.getItem(vcsId);
+        const appId = '/application-3.0.0/application[id=' + this.id + ']';
+        let parentUc = localStorage.getItem(appId);
         if (parentUc === null) {
             parentUc = this.appForm[REQDATTRIBS];
         }
-        ucMap.set(vcsId, parentUc);
+        ucMap.set(appId, parentUc);
 
-        const epId = vcsId + '/endpoint[name=' + ep + ']';
+        const epId = appId + '/endpoint[name=' + ep + ']';
         let epUc = localStorage.getItem(epId);
         if (epUc === null) {
             const epFormArray = this.appForm.get(['endpoint']) as FormArray;
@@ -142,6 +144,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         }).subscribe(
             (value => {
                 this.data = value;
+                this.applicationId = value.id;
                 this.populateFormData(value);
             }),
             error => {
@@ -159,6 +162,10 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                 console.log('Finished loading ApplicationApplication(s)', target, id);
             }
         );
+    }
+
+    closeShowParentCard(close: boolean): void {
+        this.showParentDisplay = false;
     }
 
     endpointSelected(selected: EndPointParam): void {

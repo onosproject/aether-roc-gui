@@ -30,12 +30,14 @@ import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import { AccessPointSelectComponent } from './access-point-select/access-point-select.component';
 import {ApListEditComponent} from './ap-list-edit/ap-list-edit.component';
 import {UtilsModule} from '../utils/utils.module';
+import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
 
 @NgModule({
     declarations: [
         ApListComponent,
         ApListEditComponent,
-        AccessPointSelectComponent
+        AccessPointSelectComponent,
+        ShowParentModulesComponent
     ],
     imports: [
         CommonModule,

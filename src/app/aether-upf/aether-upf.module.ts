@@ -29,12 +29,14 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { UpfEditComponent } from './upf-edit/upf-edit.component';
 import {UtilsModule} from '../utils/utils.module';
+import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
 
 
 @NgModule({
     declarations: [
         UpfComponent,
         UpfEditComponent,
+        ShowParentModulesComponent,
     ],
     imports: [
         CommonModule,

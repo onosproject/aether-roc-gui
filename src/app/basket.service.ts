@@ -54,9 +54,11 @@ export class BasketService {
             });
         const value = {oldValue: originalValue, newValue: ''} as BasketValue;
         localStorage.setItem('/basket-delete' + path + '/' + indexName, JSON.stringify(value));
-        unchanged.forEach((unchangedValue, unchangedPath) => {
-            localStorage.setItem('/unchanged-delete' + unchangedPath, unchangedValue);
-        });
+        if (unchanged !== undefined) {
+            unchanged.forEach((unchangedValue, unchangedPath) => {
+                localStorage.setItem('/unchanged-delete' + unchangedPath, unchangedValue);
+            });
+        }
     }
 
     totalNumChanges(): number {

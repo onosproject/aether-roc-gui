@@ -36,7 +36,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         ])],
         description: [undefined, Validators.compose([
             Validators.minLength(1),
-            Validators.maxLength(80),
+            Validators.maxLength(1024),
         ])],
         enterprise: [undefined],
         'imsi-definition': this.fb.group({
@@ -60,6 +60,8 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             ])]
         })
     });
+    showParentDisplay: boolean = false;
+    siteId: string;
 
     constructor(
         private siteSiteService: SiteSiteService,
@@ -92,6 +94,10 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         }
     }
 
+    closeShowParentCard(close: boolean): void {
+        this.showParentDisplay = false;
+    }
+
     loadSiteSite(target: string, id: string): void {
         this.siteSiteService.getSiteSite({
             target,
@@ -99,6 +105,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         }).subscribe(
             (value => {
                 this.data = value;
+                this.siteId = value.id;
                 this.populateFormData(value);
             }),
             error => {
