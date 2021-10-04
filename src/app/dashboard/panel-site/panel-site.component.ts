@@ -20,7 +20,8 @@ import {OAuthService} from 'angular-oauth2-oidc';
 import {IdTokClaims} from '../../idtoken';
 
 const sitePromTags = [
-    'aetheredge_e2e_tests_ok'
+    'aetheredge_e2e_tests_ok',
+    'aetheredge_in_maintenance_window'
 ];
 
 @Component({
@@ -96,9 +97,15 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
                     return;
                 }
                 this.dataSource.data.forEach((site) => {
-                    if (resultItem.metric.name === site.id) {
-                        site["health"] = resultItem.value[1] > 0 ? "Online" : "Offline";
-                        // console.log('Wrote ', resultItem.metric.__name__, vcs.id, resultItem.value[1]);
+                    // Metric label name is ACE name, currently the match is with Site name contained
+                    // in ACE name but that needs clarification as Site object would eventually have ACEs name
+                    if(resultItem.metric.name.includes(site.id)) {
+                        if (resultItem.metric.__name__ === 'aetheredge_e2e_tests_ok') {
+                            site['health'] = resultItem.value[1] > 0 ? "Online" : "Offline";
+                        }
+                        if (resultItem.metric.__name__ === 'aetheredge_in_maintenance_window') {
+                            site['health'] = resultItem.value[1] > 0 ? "In Maintenance" : site['health'];
+                        }
                     }
                 });
             },

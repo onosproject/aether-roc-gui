@@ -1,0 +1,45 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<div>
+    <mat-toolbar class="profile-toolbar" color="primary">
+        <p>Site
+            <span *ngIf="thisSite && thisSite['display-name'] !== undefined" [title]="id">{{thisSite['display-name']}}&nbsp;<small>({{id}}
+                )</small></span>
+            <span *ngIf="!thisSite || thisSite['display-name'] === undefined">{{id}}</span>
+        </p>
+    </mat-toolbar>
+
+    <table id="siteTable">
+        <!-- Health -->
+        <tr>
+            <td class="third-width">
+                Health <span class="highlight">{{health}}</span>
+            </td>
+        </tr>
+        <!-- Cluster Availability -->
+        <tr>
+            <td>
+                <iframe *ngIf="clusterAvailabilityPanelUrl" [src]="clusterAvailabilityPanelUrl | safe " width="600" height="300"
+                        frameborder="0"></iframe>
+                <p *ngIf="!clusterAvailabilityPanelUrl">
+                    <mat-icon color="primary">auto_graph</mat-icon>
+                    Cluster Availability chart not found
+                </p>
+            </td>
+        </tr>
+        <!-- Monitoring Pi Availability -->
+        <tr>
+            <td>
+            <iframe *ngIf="agentAvailabilityPanelUrl" [src]="agentAvailabilityPanelUrl | safe " width="600" height="300"
+                    frameborder="0"></iframe>
+            <p *ngIf="!agentAvailabilityPanelUrl">
+                <mat-icon color="primary">auto_graph</mat-icon>
+                Monitoring Pi Availability chart not found
+            </p>
+            </td>
+        </tr>
+    </table>
+</div>
