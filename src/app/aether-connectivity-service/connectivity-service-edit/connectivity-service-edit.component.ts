@@ -6,13 +6,13 @@
 import {Component, OnInit} from '@angular/core';
 import {
     ConnectivityServiceConnectivityService
-} from '../../../openapi3/aether/3.0.0/models';
+} from '../../../openapi3/aether/4.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {ConnectivityServiceConnectivityServiceService} from '../../../openapi3/aether/3.0.0/services';
+import {ConnectivityServiceConnectivityServiceService} from '../../../openapi3/aether/4.0.0/services';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 
 @Component({
@@ -66,7 +66,7 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'connectivity-service-3.0.0', 'connectivity-service');
+        super(snackBar, bs, route, router, 'connectivity-service-4.0.0', 'connectivity-service');
         super.form = this.csForm;
         super.loadFunc = this.loadConnectivityServiceConnectivityService;
     }
@@ -121,8 +121,8 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['connectivity-service-3.0.0']) {
-                    basketPreview['connectivity-service-3.0.0']['connectivity-service'].forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['connectivity-service-4.0.0']) {
+                    basketPreview['connectivity-service-4.0.0']['connectivity-service'].forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }

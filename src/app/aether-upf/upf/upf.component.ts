@@ -8,12 +8,12 @@ import {OpenPolicyAgentService} from 'src/app/open-policy-agent.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {RocListBase} from '../../roc-list-base';
 import {UpfDatasource} from './upf-datasource';
-import {UpfUpf} from '../../../openapi3/aether/3.0.0/models';
+import {UpfUpf} from '../../../openapi3/aether/4.0.0/models';
 
 
 @Component({
@@ -31,6 +31,7 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
         'description',
         'address',
         'enterprise',
+        'config-endpoint',
         'port',
         'edit',
         'delete'
@@ -42,14 +43,14 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
         private basketService: BasketService,
     ) {
         super(basketService, new UpfDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'upf-3.0.0', 'upf');
+            'upf-4.0.0', 'upf');
         super.reqdAttr = ['enterprise', 'port', 'address'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('upf-3.0.0' in basketPreview && 'upf' in basketPreview['upf-3.0.0']) {
-            basketPreview['upf-3.0.0'].upf.forEach((basketItems) => {
+        if ('upf-4.0.0' in basketPreview && 'upf' in basketPreview['upf-4.0.0']) {
+            basketPreview['upf-4.0.0'].upf.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -63,6 +64,9 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
                         }
                         if (basketItems.address) {
                             ScopeOfDataSource.data[listItemCount].address = basketItems.address;
+                        }
+                        if (basketItems['config-endpoint']) {
+                            ScopeOfDataSource.data[listItemCount]['config-endpoint'] = basketItems['config-endpoint'];
                         }
                         if (basketItems.port) {
                             ScopeOfDataSource.data[listItemCount].port = basketItems.port;

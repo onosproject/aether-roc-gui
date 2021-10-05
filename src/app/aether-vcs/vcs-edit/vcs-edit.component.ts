@@ -14,13 +14,13 @@ import {
     TrafficClassTrafficClass,
     UpfUpf,
     AdditionalPropertyTarget, EnterpriseEnterprise
-} from '../../../openapi3/aether/3.0.0/models';
+} from '../../../openapi3/aether/4.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {map, startWith} from 'rxjs/operators';
-import {VcsVcsService, Service as AetherService} from 'src/openapi3/aether/3.0.0/services';
+import {VcsVcsService, Service as AetherService} from 'src/openapi3/aether/4.0.0/services';
 import {BasketService, HEX2NUM, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from 'src/app/basket.service';
 import {HexPipe} from '../../utils/hex.pipe';
 
@@ -54,7 +54,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     ];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: VcsVcs;
-    pathRoot = 'vcs-3.0.0';
+    pathRoot = 'vcs-4.0.0';
     pathListAttr = 'vcs';
     sdAsInt = HexPipe.hexAsInt;
 
@@ -109,7 +109,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'vcs-3.0.0', 'vcs');
+        super(snackBar, bs, route, router, 'vcs-4.0.0', 'vcs');
         super.form = this.vcsForm;
         super.loadFunc = this.loadVcsVcs;
         this.vcsForm[REQDATTRIBS] = ['sd', 'traffic-class', 'sst', 'enterprise'];
@@ -237,8 +237,8 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['vcs-3.0.0']) {
-                    basketPreview['vcs-3.0.0'].vcs.forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['vcs-4.0.0']) {
+                    basketPreview['vcs-4.0.0'].vcs.forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }
@@ -250,7 +250,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     }
 
     deleteApplicationFromSelect(app: string): void {
-        this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
+        this.bs.deleteIndexedEntry('/vcs-4.0.0/vcs[id=' + this.id +
             ']/application[application=' + app + ']', 'application', app, this.ucmap);
         const index = (this.vcsForm.get('application') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
@@ -259,7 +259,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     }
 
     deleteDeviceGroupFromSelect(dg: string): void {
-        this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
+        this.bs.deleteIndexedEntry('/vcs-4.0.0/vcs[id=' + this.id +
             ']/device-group[device-group=' + dg + ']', 'device-group', dg, this.ucmap);
         const index = (this.vcsForm.get('device-group') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === dg);
@@ -268,7 +268,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     }
 
     private get ucmap(): Map<string, string> {
-        const vcsId = '/vcs-3.0.0/vcs[id=' + this.id + ']';
+        const vcsId = '/vcs-4.0.0/vcs[id=' + this.id + ']';
         let parentUc = localStorage.getItem(vcsId);
         if (parentUc === null) {
             parentUc = this.vcsForm[REQDATTRIBS];
@@ -291,7 +291,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             for (const app of value.application) {
                 let isDeleted = false;
                 Object.keys(localStorage)
-                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/vcs-3.0.0/vcs[id=' + this.id +
+                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/vcs-4.0.0/vcs[id=' + this.id +
                         ']/application[application='))
                     .forEach((checkerKey) => {
                         if (checkerKey.includes(app.application)) {
@@ -346,7 +346,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             for (const dg of value['device-group']) {
                 let isDeleted = false;
                 Object.keys(localStorage)
-                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/vcs-3.0.0/vcs[id=' + this.id +
+                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/vcs-4.0.0/vcs[id=' + this.id +
                         ']/device-group[device-group='))
                     .forEach((checkerKey) => {
                         if (checkerKey.includes(dg['device-group'])) {

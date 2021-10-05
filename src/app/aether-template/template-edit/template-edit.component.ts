@@ -6,8 +6,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, Validators} from '@angular/forms';
-import {Service as AetherService, TemplateTemplateService} from '../../../openapi3/aether/3.0.0/services';
-import {TemplateTemplate, TrafficClassTrafficClass} from '../../../openapi3/aether/3.0.0/models';
+import {Service as AetherService, TemplateTemplateService} from '../../../openapi3/aether/4.0.0/services';
+import {TemplateTemplate, TrafficClassTrafficClass} from '../../../openapi3/aether/4.0.0/models';
 import {BasketService, HEX2NUM, ORIGINAL, TYPE} from '../../basket.service';
 import {MatHeaderRow} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -36,7 +36,7 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
 
     sdAsInt = HexPipe.hexAsInt;
 
-    pathRoot = 'template-3.0.0';
+    pathRoot = 'template-4.0.0';
     pathListAttr = 'template';
     trafficClass: Array<TrafficClassTrafficClass>;
     options: Bandwidths[] = [
@@ -95,7 +95,7 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'template-3.0.0', 'template');
+        super(snackBar, bs, route, router, 'template-4.0.0', 'template');
         super.form = this.tempForm;
         super.loadFunc = this.loadTemplateTemplate;
     }
@@ -134,8 +134,8 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['template-3.0.0']) {
-                    basketPreview['template-3.0.0'].template.forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['template-4.0.0']) {
+                    basketPreview['template-4.0.0'].template.forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }

@@ -9,13 +9,13 @@ import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {ApListApList} from '../../../openapi3/aether/3.0.0/models/ap-list-ap-list';
-import {ApListApListService} from '../../../openapi3/aether/3.0.0/services';
-import {ApListApListAccessPoints} from '../../../openapi3/aether/3.0.0/models/ap-list-ap-list-access-points';
+import {ApListApList} from '../../../openapi3/aether/4.0.0/models/ap-list-ap-list';
+import {ApListApListService} from '../../../openapi3/aether/4.0.0/services';
+import {ApListApListAccessPoints} from '../../../openapi3/aether/4.0.0/models/ap-list-ap-list-access-points';
 import {AccessPointParam} from '../access-point-select/access-point-select.component';
-import {EnterpriseEnterprise} from '../../../openapi3/aether/3.0.0/models/enterprise-enterprise';
+import {EnterpriseEnterprise} from '../../../openapi3/aether/4.0.0/models/enterprise-enterprise';
 
 
 @Component({
@@ -60,7 +60,7 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'ap-list-3.0.0', 'ap-list');
+        super(snackBar, bs, route, router, 'ap-list-4.0.0', 'ap-list');
         super.form = this.apForm;
         super.loadFunc = this.loadApListApList;
         this.apForm.get(['access-points'])[IDATTRIBS] = ['address'];
@@ -97,7 +97,7 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
     }
 
     deleteFromSelect(ap: string): void {
-        this.bs.deleteIndexedEntry('/ap-list-3.0.0/ap-list[id=' + this.id +
+        this.bs.deleteIndexedEntry('/ap-list-4.0.0/ap-list[id=' + this.id +
             ']/access-points[address=' + ap + ']', 'address', ap, this.ucmap(ap));
         const index = (this.apForm.get(['access-points']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ap);
@@ -107,7 +107,7 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
 
     private ucmap(address: string): Map<string, string> {
         const ucMap = new Map<string, string>();
-        const apListId = '/ap-list-3.0.0/ap-list[id=' + this.id + ']';
+        const apListId = '/ap-list-4.0.0/ap-list[id=' + this.id + ']';
         let parentUc = localStorage.getItem(apListId);
         if (parentUc === null) {
             parentUc = this.apForm[REQDATTRIBS];
@@ -142,7 +142,7 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
             for (const ap of value['access-points']) {
                 let isDeleted = false;
                 Object.keys(localStorage)
-                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/ap-list-3.0.0/ap-list[id=' + value.id +
+                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/ap-list-4.0.0/ap-list[id=' + value.id +
                         ']/access-points[address='))
                     .forEach((checkerKey) => {
                         if (checkerKey.includes(ap.address)) {
@@ -249,8 +249,8 @@ export class ApListEditComponent extends RocEditBase<ApListApList> implements On
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['ap-list-3.0.0']) {
-                    basketPreview['ap-list-3.0.0']['ap-list'].forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['ap-list-4.0.0']) {
+                    basketPreview['ap-list-4.0.0']['ap-list'].forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }

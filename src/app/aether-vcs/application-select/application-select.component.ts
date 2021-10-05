@@ -5,9 +5,9 @@
  */
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-import { ApplicationApplicationService, Service } from 'src/openapi3/aether/3.0.0/services';
+import { ApplicationApplicationService, Service } from 'src/openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {Application} from '../../../openapi3/aether/3.0.0/models';
+import {Application} from '../../../openapi3/aether/4.0.0/models';
 import {RocSelectBase} from '../../roc-select-base';
 
 @Component({

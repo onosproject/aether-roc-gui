@@ -30,6 +30,7 @@
             <td mat-cell  *matCellDef="let row" [title]="row.description">{{row.description | truncateText:35}}</td>
         </ng-container>
 
+        <!-- Enterprise Column -->
         <ng-container matColumnDef="enterprise" id="enterpriseColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Enterprise</th>
             <td mat-cell *matCellDef="let row">{{row.enterprise}}
@@ -38,11 +39,19 @@
             </td>
         </ng-container>
 
-        <!-- Enterprise Column -->
+        <!-- Address Column -->
         <ng-container matColumnDef="address" id="addressColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
             <td mat-cell *matCellDef="let row">
                 {{row.address}}
+            </td>
+        </ng-container>
+
+        <!-- Config-endpoint Column -->
+        <ng-container matColumnDef="config-endpoint" id="configEndpointColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Config-Endpoint</th>
+            <td mat-cell *matCellDef="let row">
+                {{row['config-endpoint']}}
             </td>
         </ng-container>
 

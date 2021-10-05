@@ -10,13 +10,13 @@ import {
     DeviceGroupDeviceGroupService,
     SiteSiteService,
     IpDomainIpDomainService
-} from '../../../openapi3/aether/3.0.0/services';
+} from '../../../openapi3/aether/4.0.0/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {OAuthService} from 'angular-oauth2-oidc';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {IdTokClaims} from '../../idtoken';
-import {DeviceGroupDeviceGroup, SiteSite, IpDomainIpDomain} from '../../../openapi3/aether/3.0.0/models';
+import {DeviceGroupDeviceGroup, SiteSite, IpDomainIpDomain} from '../../../openapi3/aether/4.0.0/models';
 
 @Component({
     selector: 'aether-device-group-monitor',

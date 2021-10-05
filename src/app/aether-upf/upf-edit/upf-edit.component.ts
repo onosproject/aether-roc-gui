@@ -6,10 +6,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
-import {UpfUpfService} from '../../../openapi3/aether/3.0.0/services';
-import {EnterpriseEnterprise, UpfUpf} from '../../../openapi3/aether/3.0.0/models';
+import {UpfUpfService} from '../../../openapi3/aether/4.0.0/services';
+import {EnterpriseEnterprise, UpfUpf} from '../../../openapi3/aether/4.0.0/models';
 import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {RocEditBase} from '../../roc-edit-base';
@@ -26,7 +26,7 @@ import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
     data: UpfUpf;
     enterprises: Array<EnterpriseEnterprise>;
-    pathRoot = 'upf-3.0.0';
+    pathRoot = 'upf-4.0.0';
     pathListAttr = 'upf';
     upfId: string;
     showParentDisplay: boolean = false;
@@ -44,6 +44,7 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
             Validators.minLength(1),
             Validators.maxLength(1024),
         ])],
+        'config-endpoint': [undefined],
         enterprise: [undefined],
         address: [undefined, Validators.compose([
             Validators.required,
@@ -67,10 +68,10 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'upf-3.0.0', 'upf');
+        super(snackBar, bs, route, router, 'upf-4.0.0', 'upf');
         super.form = this.upfForm;
         super.loadFunc = this.loadUpfUpf;
-        this.upfForm[REQDATTRIBS] = ['enterprise', 'port', 'address'];
+        this.upfForm[REQDATTRIBS] = ['enterprise', 'port','config-endpoint', 'address'];
     }
 
     ngOnInit(): void {
@@ -105,8 +106,8 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['upf-3.0.0']) {
-                    basketPreview['upf-3.0.0'].upf.forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['upf-4.0.0']) {
+                    basketPreview['upf-4.0.0'].upf.forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }
@@ -148,6 +149,10 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         if (value.enterprise != null) {
             this.upfForm.get('enterprise').setValue(value.enterprise);
             this.upfForm.get('enterprise')[ORIGINAL] = value.enterprise;
+        }
+        if (value['config-endpoint'] != null) {
+            this.upfForm.get('config-endpoint').setValue(value['config-endpoint']);
+            this.upfForm.get('config-endpoint')[ORIGINAL] = value['config-endpoint'];
         }
         if (value.address) {
             this.upfForm.get('address').setValue(value.address);

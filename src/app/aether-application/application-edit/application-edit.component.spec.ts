@@ -18,6 +18,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSelectModule} from '@angular/material/select';
 import {ApplicationEditComponent} from './application-edit.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 describe('ApplicationEditComponent', () => {
     let component: ApplicationEditComponent;
@@ -43,7 +44,8 @@ describe('ApplicationEditComponent', () => {
                 MatButtonModule,
                 MatDividerModule,
                 MatSnackBarModule,
-                MatSelectModule
+                MatSelectModule,
+                MatAutocompleteModule
             ]
         })
             .compileComponents();

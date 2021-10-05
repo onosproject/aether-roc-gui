@@ -6,13 +6,14 @@
 import {Component, InjectionToken, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Service as AetherService, SiteSiteService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService, SiteSiteService} from '../../../openapi3/aether/4.0.0/services';
 import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {isEmpty, map, startWith} from 'rxjs/operators';
-import {SiteSite, EnterpriseEnterprise} from 'src/openapi3/aether/3.0.0/models';
+import {SiteSite, EnterpriseEnterprise} from 'src/openapi3/aether/4.0.0/models';
+import {SmallCellParam} from "../small-cell-select/small-cell-select.component";
 
 @Component({
     selector: 'aether-site-edit',
@@ -22,8 +23,10 @@ import {SiteSite, EnterpriseEnterprise} from 'src/openapi3/aether/3.0.0/models';
 export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
     enterprises: Array<EnterpriseEnterprise>;
     data: SiteSite;
-    pathRoot = 'site-3.0.0';
+    pathRoot = 'site-4.0.0';
     pathListAttr = 'site';
+    showConnectDisplay: boolean = false;
+    showSmallCellAddButton: boolean = true;
     siteForm = this.fb.group({
         id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -38,6 +41,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             Validators.minLength(1),
             Validators.maxLength(1024),
         ])],
+        'small-cell': this.fb.array([]),
         enterprise: [undefined],
         'imsi-definition': this.fb.group({
             mcc: [undefined, Validators.compose([
@@ -73,12 +77,13 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'site-3.0.0', 'site');
+        super(snackBar, bs, route, router, 'site-4.0.0', 'site');
         super.form = this.siteForm;
         super.loadFunc = this.loadSiteSite;
         this.siteForm.get(['imsi-definition', 'enterprise'])[TYPE] = 'number';
         this.siteForm[REQDATTRIBS] = ['enterprise'];
         this.siteForm.get(['imsi-definition'])[REQDATTRIBS] = ['mcc', 'mnc', 'enterprise', 'format'];
+        this.siteForm.get(['small-cell'])[REQDATTRIBS] = ['name'];
     }
 
     ngOnInit(): void {
@@ -113,8 +118,8 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['site-3.0.0']) {
-                    basketPreview['site-3.0.0'].site.forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['site-4.0.0']) {
+                    basketPreview['site-4.0.0'].site.forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }
@@ -138,6 +143,51 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             this.siteForm.get(['description']).setValue(value.description);
             this.siteForm.get('description')[ORIGINAL] = value.description;
         }
+        if (value['small-cell']) {
+            this.showSmallCellAddButton = false;
+            if (this.siteForm.value['small-cell'].length === 0) {
+                for (const ep of value['small-cell']) {
+                    const epNameControl = this.fb.control(ep.name);
+                    epNameControl[ORIGINAL] = ep.name;
+                    const epAddressControl = this.fb.control(ep.address);
+                    epAddressControl[ORIGINAL] = ep.address;
+                    const epTacControl = this.fb.control(ep.tac);
+                    epTacControl[ORIGINAL] = ep.tac;
+                    const epEnabledcontrol = this.fb.control(ep.enabled);
+                    epEnabledcontrol[ORIGINAL] = ep.enabled;
+                    const epGroupControl = this.fb.group({
+                        name: epNameControl,
+                        address: epAddressControl,
+                        tac: epTacControl,
+                        enabled: epEnabledcontrol,
+                    });
+                    epGroupControl[REQDATTRIBS] = ['tac'];
+
+                    (this.siteForm.get(['small-cell']) as FormArray).push(epGroupControl);
+                }
+            } else {
+                value['small-cell'].forEach((eachValueSmallCell, eachFormSmallCellPosition) => {
+
+                    for (const eachFormSmallCell of this.siteForm.value['small-cell']) {
+                        if (eachValueSmallCell.name === eachFormSmallCell.name) {
+                            this.siteForm.get(['small-cell', eachFormSmallCellPosition, 'address'])
+                                .setValue(eachValueSmallCell['port-start']);
+                            this.siteForm.get(['small-cell', eachFormSmallCellPosition, 'tac'])
+                                .setValue(eachValueSmallCell['port-end']);
+                            this.siteForm.get(['small-cell', eachFormSmallCellPosition, 'enabled'])
+                                .setValue(eachValueSmallCell.protocol);
+                        } else {
+                            (this.siteForm.get(['small-cell']) as FormArray).push(this.fb.group({
+                                name: eachValueSmallCell.name,
+                                address: eachValueSmallCell.address,
+                                tac: eachValueSmallCell.tac,
+                                enabled: eachValueSmallCell.enabled
+                            }));
+                        }
+                    }
+                });
+            }
+        }
         if (value.enterprise) {
             this.siteForm.get(['enterprise']).setValue(value.enterprise);
             this.siteForm.get('enterprise')[ORIGINAL] = value.enterprise;
@@ -152,6 +202,77 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             this.siteForm.get(['imsi-definition', 'format']).setValue(value['imsi-definition'].format);
             this.siteForm.get(['imsi-definition', 'format'])[ORIGINAL] = value['imsi-definition'].format;
         }
+    }
+
+    smallCellSelected(selected: SmallCellParam): void {
+        this.showConnectDisplay = false;
+
+        if (selected === undefined) {
+            return;
+        }
+        const epNameControl = this.fb.control(selected.name);
+        epNameControl.markAsTouched();
+        epNameControl.markAsDirty();
+
+        const epAddressControl = this.fb.control(selected.address);
+        epAddressControl.markAsTouched();
+        epAddressControl.markAsDirty();
+
+        const epTacControl = this.fb.control(selected.tac);
+        epTacControl.markAsTouched();
+        epTacControl.markAsDirty();
+
+        const epEnabledcontrol = this.fb.control(selected.enabled);
+        epEnabledcontrol.markAsTouched();
+        epEnabledcontrol.markAsDirty();
+
+        const epGroupControl = this.fb.group({
+            name: epNameControl,
+            address: epAddressControl,
+            tac: epTacControl,
+            enabled: epEnabledcontrol,
+        });
+        epGroupControl[REQDATTRIBS] = ['tac'];
+
+        (this.siteForm.get('small-cell') as FormArray).push(epGroupControl);
+        console.log('Adding new Value', selected);
+        this.siteForm.markAllAsTouched();
+    }
+
+
+    deleteFromSelect(sc: string): void {
+        this.bs.deleteIndexedEntry('/site-4.0.0/site[id=' + this.id +
+            ']/small-cell[name=' + sc + ']', 'name', sc, this.ucmap(sc));
+        const index = (this.siteForm.get('small-cell') as FormArray)
+            .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === sc);
+        (this.siteForm.get('small-cell') as FormArray).removeAt(index);
+        this.showSmallCellAddButton = true;
+        this.snackBar.open('Deletion of ' + sc + ' added to basket', undefined, {duration: 2000});
+    }
+
+    private ucmap(sc: string): Map<string, string> {
+        const ucMap = new Map<string, string>();
+        const siteId = '/site-4.0.0/site[id=' + this.id + ']';
+        let parentUc = localStorage.getItem(siteId);
+        if (parentUc === null) {
+            parentUc = this.siteForm[REQDATTRIBS];
+        }
+        ucMap.set(siteId, parentUc);
+
+        const epId = siteId + '/small-cell[name=' + sc + ']';
+        let epUc = localStorage.getItem(epId);
+        if (epUc === null) {
+            const epFormArray = this.siteForm.get(['small-cell']) as FormArray;
+            const epCtl = epFormArray.controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === sc);
+            console.log('Getting', epCtl, 'for', epId);
+            epUc = epFormArray.controls[epCtl][REQDATTRIBS];
+        }
+        ucMap.set(epId, epUc);
+        return ucMap;
+    }
+
+    get smallCellControls(): FormArray {
+        return this.siteForm.get(['small-cell']) as FormArray;
     }
 
     loadEnterprises(target: string): void {

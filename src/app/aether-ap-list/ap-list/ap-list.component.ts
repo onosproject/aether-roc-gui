@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {ApListApList} from '../../../openapi3/aether/3.0.0/models/ap-list-ap-list';
+import {ApListApList} from '../../../openapi3/aether/4.0.0/models/ap-list-ap-list';
 import {MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {MatPaginator} from '@angular/material/paginator';
 import {ApListDatasource} from './ap-list-datasource';
 import {BasketService} from '../../basket.service';
@@ -40,14 +40,14 @@ export class ApListComponent extends RocListBase<ApListDatasource> implements Af
         public opaService: OpenPolicyAgentService,
     ) {
         super(basketService, new ApListDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'ap-list-3.0.0', 'ap-list');
+            'ap-list-4.0.0', 'ap-list');
         super.reqdAttr = ['enterprise'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('ap-list-3.0.0' in basketPreview && 'ap-list' in basketPreview['ap-list-3.0.0']) {
-            basketPreview['ap-list-3.0.0']['ap-list'].forEach((basketItems) => {
+        if ('ap-list-4.0.0' in basketPreview && 'ap-list' in basketPreview['ap-list-4.0.0']) {
+            basketPreview['ap-list-4.0.0']['ap-list'].forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {

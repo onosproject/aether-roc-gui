@@ -38,14 +38,45 @@
                 </mat-form-field>
             </div>
 
+            <div formArrayName="small-cell" class="subscriber-section">
+                <mat-hint>Small Cell</mat-hint>
+                <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addSmallCell"
+                          color="accent">add
+                </mat-icon>
+                <div *ngFor="let smallCellForm of smallCellControls.controls">
+                    <div [formGroup]="smallCellForm">
+                        <mat-form-field class="field-margin">
+                            <input matInput readonly formControlName="name" id="inputName">
+                            <mat-hint>Name</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field class="field-margin ">
+                            <input matInput formControlName="address"
+                                   id="inputAddress">
+                            <mat-hint>Address</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field class="field-margin ">
+                            <input matInput formControlName="tac" id="inputTac">
+                            <mat-hint>Type Allocation Code</mat-hint>
+                        </mat-form-field>
+                            <mat-slide-toggle formControlName="enabled">Enable</mat-slide-toggle>
+                        <button mat-icon-button
+                                color="accent"
+                                (click)="deleteFromSelect(smallCellForm.value['name'])"
+                                id="deleteSmallCell">
+                            <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div class="row" id="enterpriseRow">
                 <mat-form-field class="field-margin half-width">
                     <mat-select formControlName="enterprise"
                                 placeholder="Please specify an Enterprise"
                                 id="selectEnterprise">
                         <mat-option
-                                    *ngFor="let eachEnterprise of enterprises"
-                                    [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
+                            *ngFor="let eachEnterprise of enterprises"
+                            [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
                     </mat-select>
                     <mat-hint>Enterprise</mat-hint>
                 </mat-form-field>
@@ -61,7 +92,7 @@
                     <mat-hint>MNC</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="field-margin ">
-                    <input matInput  type="number" formControlName="enterprise" id="inputEnterprise" required>
+                    <input matInput type="number" formControlName="enterprise" id="inputEnterprise" required>
                     <mat-hint>Enterprise</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="field-margin ">
@@ -73,7 +104,8 @@
                         C=MCC,
                         N=MNC,
                         E=Enterprise,
-                        S=Subscriber ID)</mat-hint>
+                        S=Subscriber ID)
+                    </mat-hint>
                 </mat-form-field>
             </div>
             <mat-card-actions>
@@ -85,6 +117,11 @@
         </mat-card-content>
     </mat-card>
 </form>
+<aether-small-cell-select
+    *ngIf="showConnectDisplay"
+    id="endpointSelectComponent"
+    (closeEvent)="smallCellSelected($event)">
+</aether-small-cell-select>
 <aether-show-parent-modules
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"

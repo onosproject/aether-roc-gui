@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services/service';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services/service';
 import {BasketService} from '../../basket.service';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {Subscription} from 'rxjs';

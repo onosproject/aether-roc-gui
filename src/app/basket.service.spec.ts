@@ -89,45 +89,45 @@ describe('BasketService', () => {
         opcArray2.get([1, 'attr2'])[ORIGINAL] = 'attr2-orig';
         opcArray2[IDATTRIBS] = ['name'];
 
-        service.logKeyValuePairs(testFormGroup, 'security-profile-3.0.0');
+        service.logKeyValuePairs(testFormGroup, 'security-profile-4.0.0');
         expect(service).toBeTruthy();
 
-        expect(localStorage.getItem('/basket-delete/security-profile-3.0.0//key')).toBeNull();
-        expect(localStorage.getItem('/basket-update/security-profile-3.0.0/security-profile' +
+        expect(localStorage.getItem('/basket-delete/security-profile-4.0.0//key')).toBeNull();
+        expect(localStorage.getItem('/basket-update/security-profile-4.0.0/security-profile' +
             '[id=ap1]/opc/array1[id=1]/attr1')).toBe('{"newValue":"One","oldValue":"attr1-old"}');
-        expect(localStorage.getItem('/basket-update/security-profile-3.0.0/security-profile' +
+        expect(localStorage.getItem('/basket-update/security-profile-4.0.0/security-profile' +
             '[id=ap1]/opc/array1[id=1]/mand1')).toBe('{"newValue":10,"oldValue":0}');
-        expect(localStorage.getItem('/basket-update/security-profile-3.0.0/security-profile' +
+        expect(localStorage.getItem('/basket-update/security-profile-4.0.0/security-profile' +
             '[id=ap1]/opc/array1[id=1]/mand2')).toBe('{"newValue":11,"oldValue":1}');
-        expect(localStorage.getItem('/unchanged-update/security-profile-3.0.0/security-profile' +
+        expect(localStorage.getItem('/unchanged-update/security-profile-4.0.0/security-profile' +
             '[id=ap1]/opc/array1[id=2]')).toBe('mand2');
-        expect(localStorage.getItem('/unchanged-update/security-profile-3.0.0/security-profile' +
+        expect(localStorage.getItem('/unchanged-update/security-profile-4.0.0/security-profile' +
             '[id=ap1]/opc/array1[id=3]')).toBe('mand1');
-        expect(localStorage.getItem('/basket-update/security-profile-3.0.0/security-profile' +
+        expect(localStorage.getItem('/basket-update/security-profile-4.0.0/security-profile' +
             '[id=ap1]/opc/array2[name=n2]/attr2')).toBe('{"newValue":"N Two","oldValue":"attr2-orig"}');
         localStorage.clear();
     });
 
     it('should produce a patchbody', () => {
         localStorage.clear();
-        localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id1]/opc/array1[id=1]/attr1',
+        localStorage.setItem('/basket-update/security-profile-4.0.0/security-profile[id=id1]/opc/array1[id=1]/attr1',
             '{"newValue":"attr1-updated","oldValue":"attr1-old"}');
-        localStorage.setItem('/unchanged-update/security-profile-3.0.0/security-profile[id=id1]/opc/array1[id=1]',
+        localStorage.setItem('/unchanged-update/security-profile-4.0.0/security-profile[id=id1]/opc/array1[id=1]',
             'mand1,mand2');
-        localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id1]/opc/array1[id=2]/mand1',
+        localStorage.setItem('/basket-update/security-profile-4.0.0/security-profile[id=id1]/opc/array1[id=2]/mand1',
             '{"newValue":"mand1-updated","oldValue":"mand1-old"}');
-        localStorage.setItem('/unchanged-update/security-profile-3.0.0/security-profile[id=id1]/opc/array1[id=2]',
+        localStorage.setItem('/unchanged-update/security-profile-4.0.0/security-profile[id=id1]/opc/array1[id=2]',
             'mand2');
-        localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id2]/opc', '{"newValue":"opcNew2","oldValue":"opcOld2"}');
-        localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id2]/id', '{"newValue":"idNew2","oldValue":"idOld2"}');
-        localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id3]/key', '{"newValue":"keyNew1","oldValue":"keyOld1"}');
-        localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id3]/number',
+        localStorage.setItem('/basket-update/security-profile-4.0.0/security-profile[id=id2]/opc', '{"newValue":"opcNew2","oldValue":"opcOld2"}');
+        localStorage.setItem('/basket-update/security-profile-4.0.0/security-profile[id=id2]/id', '{"newValue":"idNew2","oldValue":"idOld2"}');
+        localStorage.setItem('/basket-update/security-profile-4.0.0/security-profile[id=id3]/key', '{"newValue":"keyNew1","oldValue":"keyOld1"}');
+        localStorage.setItem('/basket-update/security-profile-4.0.0/security-profile[id=id3]/number',
             '{"newValue": 1234,"oldValue": 5678}');
-        localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id3]/boolean', '{"newValue": true,"oldValue": false}');
-        localStorage.setItem('/basket-delete/security-profile-3.0.0/security-profile[id=id2]/desc', '{"newValue":"null","oldValue":"descOld1"}');
-        localStorage.setItem('/basket-delete/security-profile-3.0.0/security-profile[id=id2]/something', '{"newValue":"null","oldValue":"somethingOld1"}');
+        localStorage.setItem('/basket-update/security-profile-4.0.0/security-profile[id=id3]/boolean', '{"newValue": true,"oldValue": false}');
+        localStorage.setItem('/basket-delete/security-profile-4.0.0/security-profile[id=id2]/desc', '{"newValue":"null","oldValue":"descOld1"}');
+        localStorage.setItem('/basket-delete/security-profile-4.0.0/security-profile[id=id2]/something', '{"newValue":"null","oldValue":"somethingOld1"}');
         localStorage.setItem
-        ('/basket-delete/enterprise-3.0.0/enterprise-profile[id=id3]/' +
+        ('/basket-delete/enterprise-4.0.0/enterprise-profile[id=id3]/' +
             'connectivity-service[connectivity-service=sint]/connectivity-service', '{"newValue":"","oldValue":"sint"}');
 
         const testPatchBody = service.buildPatchBody();
@@ -138,22 +138,22 @@ describe('BasketService', () => {
     it('should add a delete entry', () => {
         localStorage.clear();
         localStorage.clear();
-        localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id1]/opc', 'opcValue1');
-        localStorage.setItem('/basket-update/security-profile-3.0.0/security-profile[id=id2]/opc', 'opcValue2');
+        localStorage.setItem('/basket-update/security-profile-4.0.0/security-profile[id=id1]/opc', 'opcValue1');
+        localStorage.setItem('/basket-update/security-profile-4.0.0/security-profile[id=id2]/opc', 'opcValue2');
 
         const ucMap = new Map<string, string>();
-        service.deleteIndexedEntry('/security-profile-3.0.0/security-profile[id=id1]', 'id', '', ucMap);
+        service.deleteIndexedEntry('/security-profile-4.0.0/security-profile[id=id1]', 'id', '', ucMap);
         expect(Object.keys(localStorage).length).toEqual(2);
-        expect(Object.keys(localStorage)).toContain('/basket-update/security-profile-3.0.0/security-profile[id=id2]/opc');
-        expect(Object.keys(localStorage)).toContain('/basket-delete/security-profile-3.0.0/security-profile[id=id1]/id');
+        expect(Object.keys(localStorage)).toContain('/basket-update/security-profile-4.0.0/security-profile[id=id2]/opc');
+        expect(Object.keys(localStorage)).toContain('/basket-delete/security-profile-4.0.0/security-profile[id=id1]/id');
 
     });
 });
 
 const expectedPatchBody = `{
-  "default-target": "connectivity-service-v3",
+  "default-target": "connectivity-service-v4",
   "Updates": {
-    "security-profile-3.0.0": {
+    "security-profile-4.0.0": {
       "security-profile": [
         {
           "id": "id3",
@@ -193,7 +193,7 @@ const expectedPatchBody = `{
     }
   },
   "Deletes": {
-    "security-profile-3.0.0": {
+    "security-profile-4.0.0": {
       "security-profile": [
         {
           "id": "id2",
@@ -202,7 +202,7 @@ const expectedPatchBody = `{
         }
       ]
     },
-    "enterprise-3.0.0": {
+    "enterprise-4.0.0": {
       "enterprise-profile": [
         {
           "id": "id3",
@@ -216,7 +216,7 @@ const expectedPatchBody = `{
     }
   },
   "Extensions": {
-    "model-version-101": "3.0.0",
+    "model-version-101": "4.0.0",
     "model-type-102": "Aether"
   }
 }`;

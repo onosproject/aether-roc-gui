@@ -8,12 +8,12 @@ import {OpenPolicyAgentService} from 'src/app/open-policy-agent.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {RocListBase} from '../../roc-list-base';
 import {TemplateDatasource} from './template-datasource';
-import {TemplateTemplate} from '../../../openapi3/aether/3.0.0/models';
+import {TemplateTemplate} from '../../../openapi3/aether/4.0.0/models';
 import {HexPipe} from '../../utils/hex.pipe';
 
 @Component({
@@ -45,13 +45,13 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
         private basketService: BasketService,
     ) {
         super(basketService, new TemplateDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'template-3.0.0', 'template');
+            'template-4.0.0', 'template');
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('template-3.0.0' in basketPreview && 'template' in basketPreview['template-3.0.0']) {
-            basketPreview['template-3.0.0'].template.forEach((basketItems) => {
+        if ('template-4.0.0' in basketPreview && 'template' in basketPreview['template-4.0.0']) {
+            basketPreview['template-4.0.0'].template.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {

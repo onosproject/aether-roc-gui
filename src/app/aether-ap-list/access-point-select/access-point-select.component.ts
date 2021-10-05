@@ -5,10 +5,10 @@
  */
 import {Component, Input, EventEmitter, OnInit, Output} from '@angular/core';
 import {RocSelectBase} from '../../roc-select-base';
-import {ApList} from '../../../openapi3/aether/3.0.0/models';
-import {Service} from '../../../openapi3/aether/3.0.0/services/service';
+import {ApList} from '../../../openapi3/aether/4.0.0/models';
+import {Service} from '../../../openapi3/aether/4.0.0/services/service';
 import {FormBuilder, Validators} from '@angular/forms';
-import {ApListApListService} from '../../../openapi3/aether/3.0.0/services/ap-list-ap-list.service';
+import {ApListApListService} from '../../../openapi3/aether/4.0.0/services/ap-list-ap-list.service';
 import {AETHER_TARGETS} from '../../../environments/environment';
 
 export interface AccessPointParam {

@@ -6,16 +6,16 @@
 import {Component, OnInit} from '@angular/core';
 import {RocEditBase} from '../../roc-edit-base';
 import {FormBuilder, Validators} from '@angular/forms';
-import {IpDomainIpDomain} from '../../../openapi3/aether/3.0.0/models/ip-domain-ip-domain';
+import {IpDomainIpDomain} from '../../../openapi3/aether/4.0.0/models/ip-domain-ip-domain';
 import {
     Service as AetherService,
     IpDomainIpDomainService
-} from '../../../openapi3/aether/3.0.0/services';
+} from '../../../openapi3/aether/4.0.0/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {BasketService, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {EnterpriseEnterprise} from '../../../openapi3/aether/3.0.0/models/enterprise-enterprise';
+import {EnterpriseEnterprise} from '../../../openapi3/aether/4.0.0/models/enterprise-enterprise';
 
 export const UPDATED = 'updated';
 
@@ -91,7 +91,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'ip-domain-3.0.0', 'ip-domain');
+        super(snackBar, bs, route, router, 'ip-domain-4.0.0', 'ip-domain');
         super.form = this.ipForm;
         super.loadFunc = this.loadIpDomainIpDomain;
         this.ipForm[REQDATTRIBS] = ['enterprise', 'subnet'];
@@ -198,8 +198,8 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['ip-domain-3.0.0']) {
-                    basketPreview['ip-domain-3.0.0']['ip-domain'].forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['ip-domain-4.0.0']) {
+                    basketPreview['ip-domain-4.0.0']['ip-domain'].forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }

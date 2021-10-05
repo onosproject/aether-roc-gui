@@ -5,9 +5,9 @@
  */
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-import {DeviceGroupDeviceGroupService, Service} from 'src/openapi3/aether/3.0.0/services';
+import {DeviceGroupDeviceGroupService, Service} from 'src/openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {DeviceGroup} from '../../../openapi3/aether/3.0.0/models';
+import {DeviceGroup} from '../../../openapi3/aether/4.0.0/models';
 import {RocSelectBase} from '../../roc-select-base';
 
 @Component({

@@ -8,12 +8,12 @@ import {OpenPolicyAgentService} from 'src/app/open-policy-agent.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {RocListBase} from '../../roc-list-base';
 import {VcsDatasource} from './vcs-datasource';
-import {VcsVcs} from '../../../openapi3/aether/3.0.0/models';
+import {VcsVcs} from '../../../openapi3/aether/4.0.0/models';
 import {HexPipe} from '../../utils/hex.pipe';
 
 @Component({
@@ -50,14 +50,14 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
         private basketService: BasketService,
     ) {
         super(basketService, new VcsDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'vcs-3.0.0', 'vcs');
+            'vcs-4.0.0', 'vcs');
         super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('vcs-3.0.0' in basketPreview && 'vcs' in basketPreview['vcs-3.0.0']) {
-            basketPreview['vcs-3.0.0'].vcs.forEach((basketItems) => {
+        if ('vcs-4.0.0' in basketPreview && 'vcs' in basketPreview['vcs-4.0.0']) {
+            basketPreview['vcs-4.0.0'].vcs.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {

@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {
     Application,
     ApplicationApplication,
-} from '../../../openapi3/aether/3.0.0/models';
+} from '../../../openapi3/aether/4.0.0/models';
 import {BasketService} from '../../basket.service';
 import {RocDataSource} from '../../roc-data-source';
 
@@ -20,7 +20,7 @@ export class ApplicationDatasource extends RocDataSource<ApplicationApplication,
         protected target: string,
     ) {
         super(aetherService, bs, target,
-            '/application-3.0.0', 'application',
+            '/application-4.0.0', 'application',
         );
     }
 }
