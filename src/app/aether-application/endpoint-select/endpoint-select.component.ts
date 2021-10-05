@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Service} from '../../../openapi3/aether/3.0.0/services';
+import {Service} from '../../../openapi3/aether/4.0.0/services';
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {RocSelectBase} from '../../roc-select-base';

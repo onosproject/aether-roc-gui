@@ -1,6 +1,9 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* eslint-disable */
 /* eslint-disable */
+import {TemplateTemplateDeviceMbr} from "./template-template-device-mbr";
+import {TemplateTemplateSliceMbr} from "./template-template-slice-mbr";
+
 export interface TemplateTemplate {
 
   /**
@@ -14,9 +17,14 @@ export interface TemplateTemplate {
   'display-name'?: string;
 
   /**
-   * Downlink data rate in mbps
+   * Per-device QOS Settings
    */
-  downlink?: number;
+  device?: TemplateTemplateDeviceMbr;
+
+    /**
+     * Per-Slice QOS Settings
+     */
+  slice?:TemplateTemplateSliceMbr;
 
   /**
    * ID for this vcs template.
@@ -38,8 +46,4 @@ export interface TemplateTemplate {
    */
   'traffic-class'?: string;
 
-  /**
-   * Uplink data rate in mbps
-   */
-  uplink?: number;
 }

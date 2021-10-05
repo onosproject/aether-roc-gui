@@ -43,13 +43,13 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
         public opaService: OpenPolicyAgentService,
     ) {
         super(basketService, new ConnectivityServiceDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'connectivity-service-3.0.0', 'connectivity-service');
+            'connectivity-service-4.0.0', 'connectivity-service');
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('connectivity-service-3.0.0' in basketPreview && 'connectivity-service' in basketPreview['connectivity-service-3.0.0']) {
-            basketPreview['connectivity-service-3.0.0']['connectivity-service'].forEach((basketItems) => {
+        if ('connectivity-service-4.0.0' in basketPreview && 'connectivity-service' in basketPreview['connectivity-service-4.0.0']) {
+            basketPreview['connectivity-service-4.0.0']['connectivity-service'].forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {

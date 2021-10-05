@@ -3,7 +3,7 @@
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { ApplicationApplicationEndpoint } from './application-application-endpoint';
-import {ApplicationApplicationMaxiumBitrate} from "./application-application-maximum-bitrate";
+import {MaxiumBitrate} from "./maximum-bitrate";
 export interface ApplicationApplication {
 
   /**
@@ -24,7 +24,7 @@ export interface ApplicationApplication {
   /**
    * Address of this application. Either a hostname, an IP, or a subnet.
    */
-  'mbr'?:ApplicationApplicationMaxiumBitrate;
+  'mbr'?:MaxiumBitrate;
 
   endpoint?: Array<ApplicationApplicationEndpoint>;
 
@@ -38,5 +38,5 @@ export interface ApplicationApplication {
    */
   id: string;
 
-  [key: string]: AdditionalPropertyUnchanged | Array<ApplicationApplicationEndpoint> | ApplicationApplicationMaxiumBitrate | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | Array<ApplicationApplicationEndpoint> | MaxiumBitrate | string | undefined;
 }

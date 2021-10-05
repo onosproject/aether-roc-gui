@@ -50,6 +50,7 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('application-4.0.0' in basketPreview && 'application' in basketPreview['application-4.0.0']) {
             basketPreview['application-4.0.0'].application.forEach((basketItems) => {
+                console.log(basketItems,"basketItemsx")
                 console.log(ScopeOfDataSource,"basketItems")
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {

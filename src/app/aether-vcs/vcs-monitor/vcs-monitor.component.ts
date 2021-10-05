@@ -126,12 +126,11 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
                     enabledDg.set(dg['device-group'], dg.enable);
                 });
                 const allowedApp = new Map<string, boolean>();
-                vcs.application.forEach((app) => {
+                vcs.filter.forEach((app) => {
                     allowedApp.set(app.application, app.allow);
                 });
                 this.getDeviceGroupDetails(enabledDg);
                 this.getApplicationDetails(allowedApp);
-                this.getAccessPoints(vcs.ap);
                 this.getUpf(vcs.upf);
                 this.getTrafficClass(vcs['traffic-class']);
             },

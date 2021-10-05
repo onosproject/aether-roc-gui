@@ -13,7 +13,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
-import {ApiModule} from '../../../openapi3/aether/3.0.0/api.module';
+import {ApiModule} from '../../../openapi3/aether/4.0.0/api.module';
 import {ActivatedRoute} from '@angular/router';
 import {of} from 'rxjs';
 import { VcsComponent } from './vcs.component';

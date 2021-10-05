@@ -30,10 +30,10 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
     displayedColumns = [
         'id',
         'description',
-        'application',
-        'downlink/uplink',
+        'filter',
+        'device',
+        'slice',
         'enterprise',
-        'ap',
         'device-group',
         'sd',
         'sst',
@@ -66,33 +66,35 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;
                         }
-                        if (basketItems.application) {
-                            if (ScopeOfDataSource.data[listItemCount].application.length === 0) {
-                                ScopeOfDataSource.data[listItemCount].application = basketItems.application;
+                        if (basketItems.filter) {
+                            if (ScopeOfDataSource.data[listItemCount].filter.length === 0) {
+                                ScopeOfDataSource.data[listItemCount].filter.application = basketItems.filter.application;
+                                ScopeOfDataSource.data[listItemCount].filter.priority = basketItems.filter.priority;
                             } else {
-                                for (const eachBasketApp of basketItems.application) {
-                                    let eachCSPosition = 0;
-                                    for (const eachScopeaApp of ScopeOfDataSource.data[listItemCount].application) {
-                                        if (eachBasketApp.application === eachScopeaApp.application) {
-                                            ScopeOfDataSource.data[listItemCount].application[eachCSPosition].enabled
-                                                = eachBasketApp.enabled;
+                                for (const eachBasketApp of basketItems.filter) {
+                                    let eachAppPosition = 0;
+                                    for (const eachScopeaApp of ScopeOfDataSource.data[listItemCount].filter) {
+                                        if (eachBasketApp.filter.application === eachScopeaApp.filter.application) {
+                                            ScopeOfDataSource.data[listItemCount].filter.application[eachAppPosition].enabled
+                                                = eachBasketApp.filter.enabled;
+                                            ScopeOfDataSource.data[listItemCount].filter.application[eachAppPosition].priority
+                                                = eachBasketApp.filter.priority;
                                         }
-                                        eachCSPosition++;
+                                        eachAppPosition++;
                                     }
                                 }
                             }
                         }
-                        if (basketItems.downlink) {
-                            ScopeOfDataSource.data[listItemCount].downlink = basketItems.downlink;
+                        if (basketItems.device && basketItems.device.mbr) {
+                            ScopeOfDataSource.data[listItemCount].device.mbr.uplink = basketItems.device.mbr.uplink;
+                            ScopeOfDataSource.data[listItemCount].device.mbr.downlink = basketItems.device.mbr.downlink;
                         }
-                        if (basketItems.uplink) {
-                            ScopeOfDataSource.data[listItemCount].uplink = basketItems.uplink;
+                        if (basketItems.slice && basketItems.slice.mbr) {
+                            ScopeOfDataSource.data[listItemCount].slice.mbr.uplink = basketItems.slice.mbr.uplink;
+                            ScopeOfDataSource.data[listItemCount].slice.mbr.downlink = basketItems.slice.mbr.downlink;
                         }
                         if (basketItems.enterprise) {
                             ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
-                        }
-                        if (basketItems.ap) {
-                            ScopeOfDataSource.data[listItemCount].ap = basketItems.ap;
                         }
                         if (basketItems.sst) {
                             ScopeOfDataSource.data[listItemCount].sst = basketItems.sst;

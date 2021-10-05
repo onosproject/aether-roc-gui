@@ -1,84 +1,84 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* eslint-disable */
 /* eslint-disable */
-import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
-import { VcsVcsApplication } from './vcs-vcs-application';
-import { VcsVcsDeviceGroup } from './vcs-vcs-device-group';
+import {AdditionalPropertyUnchanged} from './additional-property-unchanged';
+import {VcsVcsApplication} from './vcs-vcs-application';
+import {VcsVcsDeviceGroup} from './vcs-vcs-device-group';
+import {TemplateTemplateDeviceMbr} from "./template-template-device-mbr";
+import {TemplateTemplateSliceMbr} from "./template-template-slice-mbr";
+import {VcsVcsDeviceMbr} from "./vcs-vcs-device-mbr";
+import {VcsVcsSliceMbr} from "./vcs-vcs-slice-mbr";
+
 export interface VcsVcs {
 
-  /**
-   * Link to access-point list
-   */
-  ap?: string;
+    /**
+     * A list of applications to allow and/or deny. Rules are executed in
+     * priority order. The first rule to match will determine the fate
+     * of the packet
+     */
+    filter?: Array<VcsVcsApplication>;
 
-  /**
-   * An ordered list of applications to allow and deny. The deny rules
-   * will be executed first, followed by the allow rules. The first rule
-   * to match is returned. An implicit DENY ALL lies at the end.
-   */
-  application?: Array<VcsVcsApplication>;
+    /**
+     * description of this vcs
+     */
+    description?: string;
 
-  /**
-   * description of this vcs
-   */
-  description?: string;
+    /**
+     * A list of device groups. Groups will only participate in
+     * the VCS if the enable field is set to True
+     */
+    'device-group'?: Array<VcsVcsDeviceGroup>;
 
-  /**
-   * A list of device groups. Groups will only participate in
-   * the VCS if the enable field is set to True
-   */
-  'device-group'?: Array<VcsVcsDeviceGroup>;
+    /**
+     * display name to use in GUI or CLI
+     */
+    'display-name'?: string;
 
-  /**
-   * display name to use in GUI or CLI
-   */
-  'display-name'?: string;
+    /**
+     * Link to enterprise that owns this VCS
+     */
+    enterprise: string;
 
-  /**
-   * Downlink data rate in mbps
-   */
-  downlink?: number;
+    /**
+     * ID for this vcs.
+     */
+    id: string;
 
-  /**
-   * Link to enterprise that owns this VCS
-   */
-  enterprise: string;
+    /**
+     * Slice differentiator. Immutable.
+     */
+    sd: number;
 
-  /**
-   * ID for this vcs.
-   */
-  id: string;
+    /**
+     * Slice/Service type. Immutable.
+     */
+    sst: number;
 
-  /**
-   * Slice differentiator. Immutable.
-   */
-  sd: number;
+    /**
+     * Link to user vcs template that was used to initialize
+     * this VCS
+     */
+    template?: string;
 
-  /**
-   * Slice/Service type. Immutable.
-   */
-  sst: number;
+    /**
+     * Link to traffic class
+     */
+    'traffic-class': string;
 
-  /**
-   * Link to user vcs template that was used to initialize
-   * this VCS
-   */
-  template?: string;
+    /**
+     * Link to user plane that implements this vcf
+     */
+    upf?: string;
 
-  /**
-   * Link to traffic class
-   */
-  'traffic-class': string;
+    /**
+     * Per-device QOS Settings
+     */
+    device?: VcsVcsDeviceMbr;
 
-  /**
-   * Link to user plane that implements this vcf
-   */
-  upf?: string;
+    /**
+     * Per-Slice QOS Settings
+     */
+    slice?: VcsVcsSliceMbr;
 
-  /**
-   * Uplink data rate in mbps
-   */
-  uplink?: number;
-
-  [key: string]: AdditionalPropertyUnchanged | Array<VcsVcsApplication> | Array<VcsVcsDeviceGroup> | number | string | undefined;
+    [key: string]: AdditionalPropertyUnchanged | Array<VcsVcsApplication> | Array<VcsVcsDeviceGroup> | VcsVcsDeviceMbr | VcsVcsSliceMbr | number | string | undefined;
 }

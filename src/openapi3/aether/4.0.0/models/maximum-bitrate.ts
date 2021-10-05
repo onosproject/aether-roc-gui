@@ -2,15 +2,15 @@
 /* eslint-disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
-export interface ApplicationApplicationMaxiumBitrate {
+export interface MaxiumBitrate {
 
     /**
-     * Per-Device per-Application mbr uplink data rate in mbps
+     * mbr uplink data rate in mbps
      */
     uplink?: number;
 
     /**
-     * Per-Device per application mbr downlink data rate in mbps
+     * mbr downlink data rate in mbps
      */
     downlink?: number;
 
