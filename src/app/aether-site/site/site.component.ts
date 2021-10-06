@@ -99,8 +99,6 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
     }
 
     ngAfterViewInit(): void {
-        console.log(this.dataSource,"this.dataSource")
-
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;

@@ -39,13 +39,7 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row" id="address">
-                <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="address" id="inputAddress" required>
-                    <mat-hint>Address</mat-hint>
-                </mat-form-field>
-            </div>
-            <div>
+            <div class=" subscriber-section field-margin">
                 <mat-hint>Maximum bitrate</mat-hint>
                 <div [formGroup]="mbrControls">
                     <div class="row float-left" id="uplinkRow">
@@ -80,7 +74,13 @@
                     </div>
                 </div>
             </div>
-            <div formArrayName="endpoint" class="subscriber-section">
+            <div class="row" id="address">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="address" id="inputAddress" required>
+                    <mat-hint>Address</mat-hint>
+                </mat-form-field>
+            </div>
+            <div formArrayName="endpoint" class=" field-margin subscriber-section">
                 <mat-hint>Endpoint</mat-hint>
                 <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addEndpoint"
                           color="accent">add

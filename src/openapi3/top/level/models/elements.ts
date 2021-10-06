@@ -23,6 +23,17 @@ import {Template as Template300} from "../../../aether/3.0.0/models";
 import {TrafficClass as TrafficClass300} from "../../../aether/3.0.0/models";
 import {Upf as Upf300} from "../../../aether/3.0.0/models";
 import {Vcs as Vcs300} from "../../../aether/3.0.0/models";
+import {ApList as ApList400} from "../../../aether/4.0.0/models";
+import {Application as Application400} from "../../../aether/4.0.0/models";
+import {ConnectivityService as ConnectivityService400} from "../../../aether/4.0.0/models";
+import {DeviceGroup as DeviceGroup400} from "../../../aether/4.0.0/models";
+import {Enterprise as Enterprise400} from "../../../aether/4.0.0/models";
+import {IpDomain as IpDomain400} from "../../../aether/4.0.0/models";
+import {Site as Site400} from "../../../aether/4.0.0/models";
+import {Template as Template400} from "../../../aether/4.0.0/models";
+import {TrafficClass as TrafficClass400} from "../../../aether/4.0.0/models";
+import {Upf as Upf400} from "../../../aether/4.0.0/models";
+import {Vcs as Vcs400} from "../../../aether/4.0.0/models";
 
 export interface Elements {
     'Access-profile-2.1.0'?: AccessProfile210;
@@ -47,4 +58,16 @@ export interface Elements {
     'Traffic-class-3.0.0': TrafficClass300;
     'Upf-3.0.0'?: Upf300;
     'Vcs-3.0.0'?: Vcs300;
+    'Ap-list-4.0.0'?: ApList400;
+    'Application-4.0.0'?: Application400;
+    'Connectivity-service-4.0.0'?: ConnectivityService400;
+    'Device-group-4.0.0'?: DeviceGroup400;
+    'Enterprise-4.0.0'?: Enterprise400;
+    'Ip-domain-4.0.0'?: IpDomain400;
+    'Site-4.0.0'?: Site400;
+    'Template-4.0.0'?: Template400;
+    'Traffic-class-4.0.0': TrafficClass400;
+    'Upf-4.0.0'?: Upf400;
+    'Vcs-4.0.0'?: Vcs400;
+
 }
