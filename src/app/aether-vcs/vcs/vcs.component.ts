@@ -8,12 +8,12 @@ import {OpenPolicyAgentService} from 'src/app/open-policy-agent.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {RocListBase} from '../../roc-list-base';
 import {VcsDatasource} from './vcs-datasource';
-import {VcsVcs} from '../../../openapi3/aether/3.0.0/models';
+import {VcsVcs} from '../../../openapi3/aether/4.0.0/models';
 import {HexPipe} from '../../utils/hex.pipe';
 
 @Component({
@@ -30,10 +30,10 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
     displayedColumns = [
         'id',
         'description',
-        'application',
-        'downlink/uplink',
+        'filter',
+        'device',
+        'slice',
         'enterprise',
-        'ap',
         'device-group',
         'sd',
         'sst',
@@ -50,14 +50,14 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
         private basketService: BasketService,
     ) {
         super(basketService, new VcsDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'vcs-3.0.0', 'vcs');
+            'vcs-4.0.0', 'vcs');
         super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('vcs-3.0.0' in basketPreview && 'vcs' in basketPreview['vcs-3.0.0']) {
-            basketPreview['vcs-3.0.0'].vcs.forEach((basketItems) => {
+        if ('vcs-4.0.0' in basketPreview && 'vcs' in basketPreview['vcs-4.0.0']) {
+            basketPreview['vcs-4.0.0'].vcs.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -66,33 +66,35 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;
                         }
-                        if (basketItems.application) {
-                            if (ScopeOfDataSource.data[listItemCount].application.length === 0) {
-                                ScopeOfDataSource.data[listItemCount].application = basketItems.application;
+                        if (basketItems.filter) {
+                            if (ScopeOfDataSource.data[listItemCount].filter.length === 0) {
+                                ScopeOfDataSource.data[listItemCount].filter.application = basketItems.filter.application;
+                                ScopeOfDataSource.data[listItemCount].filter.priority = basketItems.filter.priority;
                             } else {
-                                for (const eachBasketApp of basketItems.application) {
-                                    let eachCSPosition = 0;
-                                    for (const eachScopeaApp of ScopeOfDataSource.data[listItemCount].application) {
-                                        if (eachBasketApp.application === eachScopeaApp.application) {
-                                            ScopeOfDataSource.data[listItemCount].application[eachCSPosition].enabled
-                                                = eachBasketApp.enabled;
+                                for (const eachBasketApp of basketItems.filter) {
+                                    let eachAppPosition = 0;
+                                    for (const eachScopeaApp of ScopeOfDataSource.data[listItemCount].filter) {
+                                        if (eachBasketApp.filter.application === eachScopeaApp.filter.application) {
+                                            ScopeOfDataSource.data[listItemCount].filter.application[eachAppPosition].enabled
+                                                = eachBasketApp.filter.enabled;
+                                            ScopeOfDataSource.data[listItemCount].filter.application[eachAppPosition].priority
+                                                = eachBasketApp.filter.priority;
                                         }
-                                        eachCSPosition++;
+                                        eachAppPosition++;
                                     }
                                 }
                             }
                         }
-                        if (basketItems.downlink) {
-                            ScopeOfDataSource.data[listItemCount].downlink = basketItems.downlink;
+                        if (basketItems.device && basketItems.device.mbr) {
+                            ScopeOfDataSource.data[listItemCount].device.mbr.uplink = basketItems.device.mbr.uplink;
+                            ScopeOfDataSource.data[listItemCount].device.mbr.downlink = basketItems.device.mbr.downlink;
                         }
-                        if (basketItems.uplink) {
-                            ScopeOfDataSource.data[listItemCount].uplink = basketItems.uplink;
+                        if (basketItems.slice && basketItems.slice.mbr) {
+                            ScopeOfDataSource.data[listItemCount].slice.mbr.uplink = basketItems.slice.mbr.uplink;
+                            ScopeOfDataSource.data[listItemCount].slice.mbr.downlink = basketItems.slice.mbr.downlink;
                         }
                         if (basketItems.enterprise) {
                             ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
-                        }
-                        if (basketItems.ap) {
-                            ScopeOfDataSource.data[listItemCount].ap = basketItems.ap;
                         }
                         if (basketItems.sst) {
                             ScopeOfDataSource.data[listItemCount].sst = basketItems.sst;

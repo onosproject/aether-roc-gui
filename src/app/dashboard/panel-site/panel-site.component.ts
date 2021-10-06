@@ -7,11 +7,11 @@ import {AfterViewInit, Component, Inject, Input, OnDestroy, ViewChild} from '@an
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {SiteSite} from '../../../openapi3/aether/3.0.0/models';
+import {SiteSite} from '../../../openapi3/aether/4.0.0/models';
 import {RocListBase} from '../../roc-list-base';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services/service';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services/service';
 import {BasketService} from '../../basket.service';
 import {PanelSiteDatasource} from './panel-site-datasource';
 import {SitePromDataSource} from '../../utils/site-prom-data-source';
@@ -57,7 +57,7 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
         @Inject('grafana_api_proxy') private grafanaUrl: string,
     ) {
         super(basketService, new PanelSiteDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'site-v3.0.0', 'site');
+            'site-v4.0.0', 'site');
         this.promData = new SitePromDataSource(httpClient);
     }
 

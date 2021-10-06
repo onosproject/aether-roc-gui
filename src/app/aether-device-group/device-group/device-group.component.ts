@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {DeviceGroupDeviceGroup} from '../../../openapi3/aether/3.0.0/models/device-group-device-group';
+import {DeviceGroupDeviceGroup} from '../../../openapi3/aether/4.0.0/models/device-group-device-group';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {BasketService} from '../../basket.service';
 import {AETHER_TARGETS} from '../../../environments/environment';
@@ -42,14 +42,14 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
         public opaService: OpenPolicyAgentService,
     ) {
         super(basketService, new DeviceGroupDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'device-group-3.0.0', 'device-group');
+            'device-group-4.0.0', 'device-group');
         super.reqdAttr = ['site'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('device-group-3.0.0' in basketPreview && 'device-group' in basketPreview['device-group-3.0.0']) {
-            basketPreview['device-group-3.0.0']['device-group'].forEach((basketItems) => {
+        if ('device-group-4.0.0' in basketPreview && 'device-group' in basketPreview['device-group-4.0.0']) {
+            basketPreview['device-group-4.0.0']['device-group'].forEach((basketItems) => {
                 ScopeOfDataSource.data
                     .filter(listItem => basketItems.id === listItem.id)
                     .forEach((listItem, listItemCount) => {

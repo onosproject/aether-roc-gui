@@ -7,8 +7,8 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {ApplicationApplication} from '../../../openapi3/aether/3.0.0/models/application-application';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services/service';
+import {ApplicationApplication} from '../../../openapi3/aether/4.0.0/models/application-application';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services/service';
 import {BasketService} from '../../basket.service';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {AETHER_TARGETS} from '../../../environments/environment';
@@ -30,6 +30,8 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
         'description',
         'Endpoint',
         'enterprise',
+        'uplink',
+        'downlink',
         'edit',
         'delete'
     ];
@@ -40,14 +42,16 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
         public opaService: OpenPolicyAgentService,
     ) {
         super(basketService, new ApplicationDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'application-3.0.0', 'application');
+            'application-4.0.0', 'application');
         super.reqdAttr = ['enterprise'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('application-3.0.0' in basketPreview && 'application' in basketPreview['application-3.0.0']) {
-            basketPreview['application-3.0.0'].application.forEach((basketItems) => {
+        if ('application-4.0.0' in basketPreview && 'application' in basketPreview['application-4.0.0']) {
+            basketPreview['application-4.0.0'].application.forEach((basketItems) => {
+                console.log(basketItems,"basketItemsx")
+                console.log(ScopeOfDataSource,"basketItems")
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -55,6 +59,15 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
                         }
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;
+                        }
+                        if (basketItems.address) {
+                            ScopeOfDataSource.data[listItemCount].address = basketItems.address;
+                        }
+                        if (basketItems.mbr && basketItems.mbr.uplink) {
+                            ScopeOfDataSource.data[listItemCount].mbr.uplink = basketItems.mbr.uplink;
+                        }
+                        if (basketItems.mbr && basketItems.mbr.downlink) {
+                            ScopeOfDataSource.data[listItemCount].mbr.downlink = basketItems.mbr.downlink;
                         }
                         if (basketItems.endpoint){
                             if (ScopeOfDataSource.data[listItemCount].endpoint.length === 0) {
@@ -79,6 +92,7 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
     }
 
     ngAfterViewInit(): void {
+        console.log(this.dataSource,"this.dataSource")
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;

@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {BasketService} from '../../basket.service';
 import {RocDataSource} from '../../roc-data-source';
-import {DeviceGroupDeviceGroup} from '../../../openapi3/aether/3.0.0/models';
-import {DeviceGroup} from '../../../openapi3/aether/3.0.0/models';
+import {DeviceGroupDeviceGroup} from '../../../openapi3/aether/4.0.0/models';
+import {DeviceGroup} from '../../../openapi3/aether/4.0.0/models';
 
 export class DeviceGroupDatasource extends RocDataSource<DeviceGroupDeviceGroup, DeviceGroup> {
 
@@ -17,6 +17,6 @@ export class DeviceGroupDatasource extends RocDataSource<DeviceGroupDeviceGroup,
         protected bs: BasketService,
         protected target: string,
     ) {
-        super(aetherService, bs, target, '/device-group-3.0.0', 'device-group');
+        super(aetherService, bs, target, '/device-group-4.0.0', 'device-group');
     }
 }

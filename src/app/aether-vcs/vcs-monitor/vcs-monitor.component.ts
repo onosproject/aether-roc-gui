@@ -10,7 +10,7 @@ import {
     ApListApListService,
     Service as AetherService, TrafficClassTrafficClassService,
     UpfUpfService, VcsVcsService
-} from '../../../openapi3/aether/3.0.0/services';
+} from '../../../openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS, PERFORMANCE_METRICS_ENABLED} from '../../../environments/environment';
 import {filter, mergeMap, pluck} from 'rxjs/operators';
 import {
@@ -18,7 +18,7 @@ import {
     ApplicationApplication,
     DeviceGroupDeviceGroup, TrafficClassTrafficClass, UpfUpf,
     VcsVcs
-} from '../../../openapi3/aether/3.0.0/models';
+} from '../../../openapi3/aether/4.0.0/models';
 import {from} from 'rxjs';
 import {IdTokClaims} from '../../idtoken';
 import {OAuthService} from 'angular-oauth2-oidc';
@@ -126,12 +126,11 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
                     enabledDg.set(dg['device-group'], dg.enable);
                 });
                 const allowedApp = new Map<string, boolean>();
-                vcs.application.forEach((app) => {
+                vcs.filter.forEach((app) => {
                     allowedApp.set(app.application, app.allow);
                 });
                 this.getDeviceGroupDetails(enabledDg);
                 this.getApplicationDetails(allowedApp);
-                this.getAccessPoints(vcs.ap);
                 this.getUpf(vcs.upf);
                 this.getTrafficClass(vcs['traffic-class']);
             },

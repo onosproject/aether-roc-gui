@@ -8,12 +8,12 @@ import {OpenPolicyAgentService} from 'src/app/open-policy-agent.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {RocListBase} from '../../roc-list-base';
 import {TemplateDatasource} from './template-datasource';
-import {TemplateTemplate} from '../../../openapi3/aether/3.0.0/models';
+import {TemplateTemplate} from '../../../openapi3/aether/4.0.0/models';
 import {HexPipe} from '../../utils/hex.pipe';
 
 @Component({
@@ -32,8 +32,8 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
         'description',
         'sd',
         'sst',
-        'uplink',
-        'downlink',
+        'device',
+        'slice',
         'traffic-class',
         'edit',
         'delete'
@@ -45,13 +45,14 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
         private basketService: BasketService,
     ) {
         super(basketService, new TemplateDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'template-3.0.0', 'template');
+            'template-4.0.0', 'template');
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('template-3.0.0' in basketPreview && 'template' in basketPreview['template-3.0.0']) {
-            basketPreview['template-3.0.0'].template.forEach((basketItems) => {
+        console.log(basketPreview,"basketPreview")
+        if ('template-4.0.0' in basketPreview && 'template' in basketPreview['template-4.0.0']) {
+            basketPreview['template-4.0.0'].template.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -63,14 +64,16 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
                         if (basketItems.sd) {
                             ScopeOfDataSource.data[listItemCount].sd = basketItems.sd;
                         }
-                        if (basketItems.uplink) {
+                        if (basketItems.sst) {
                             ScopeOfDataSource.data[listItemCount].sst = basketItems.sst;
                         }
-                        if (basketItems.uplink) {
-                            ScopeOfDataSource.data[listItemCount].uplink = basketItems.uplink;
+                        if (basketItems.device && basketItems.device.mbr) {
+                            ScopeOfDataSource.data[listItemCount].device.mbr.uplink = basketItems.device.mbr.uplink;
+                            ScopeOfDataSource.data[listItemCount].device.mbr.downlink = basketItems.device.mbr.downlink;
                         }
-                        if (basketItems.downlink) {
-                            ScopeOfDataSource.data[listItemCount].downlink = basketItems.downlink;
+                        if (basketItems.slice && basketItems.slice.mbr) {
+                            ScopeOfDataSource.data[listItemCount].slice.mbr.uplink = basketItems.slice.mbr.uplink;
+                            ScopeOfDataSource.data[listItemCount].slice.mbr.downlink = basketItems.slice.mbr.downlink;
                         }
                         if (basketItems['traffic-class']) {
                             ScopeOfDataSource.data[listItemCount]['traffic-class'] = basketItems['traffic-class'];

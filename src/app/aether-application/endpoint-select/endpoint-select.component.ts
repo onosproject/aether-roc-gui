@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Service} from '../../../openapi3/aether/3.0.0/services';
+import {Service} from '../../../openapi3/aether/4.0.0/services';
 import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {RocSelectBase} from '../../roc-select-base';
 
 export interface EndPointParam {
     name: string;
-    address: string;
     protocol: string;
     portStart: number;
     portEnd: number;
@@ -45,7 +44,6 @@ export class EndpointSelectComponent {
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        address: [undefined],
         'port-start': [undefined,
             Validators.compose([
                 Validators.min(1),
@@ -72,7 +70,6 @@ export class EndpointSelectComponent {
         } else {
             this.closeEvent.emit({
                 name: this.endpointForm.get('name').value,
-                address: this.endpointForm.get('address').value,
                 portStart: this.endpointForm.get('port-start').value,
                 portEnd: this.endpointForm.get('port-end').value,
                 protocol: this.endpointForm.get('protocol').value

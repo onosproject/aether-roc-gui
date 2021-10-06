@@ -31,6 +31,28 @@
             <td mat-cell  *matCellDef="let row" [title]="row.description">{{row.description | truncateText:40}}</td>
         </ng-container>
 
+        <!-- Address Column -->
+        <ng-container matColumnDef="address" id="addressColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+            <td mat-cell  *matCellDef="let row" [title]="row.address">{{row.address}}</td>
+        </ng-container>
+
+        <!--Uplink Column-->
+        <ng-container matColumnDef="uplink" id="UplinkColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>MBR-Uplink</th>
+            <td mat-cell *matCellDef="let row">
+                {{row.mbr?.uplink}}
+            </td>
+        </ng-container>
+
+        <!--Downlink Column-->
+        <ng-container matColumnDef="downlink" id="DownlinkColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>MBR-Downlink</th>
+            <td mat-cell *matCellDef="let row">
+                {{row.mbr?.downlink}}
+            </td>
+        </ng-container>
+
         <!-- End-Points Column -->
         <ng-container matColumnDef="Endpoint" id="endPointsColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>EndPoints</th>

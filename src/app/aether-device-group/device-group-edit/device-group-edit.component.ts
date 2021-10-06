@@ -6,7 +6,7 @@
 
 import {Component, OnInit} from '@angular/core';
 import {RocEditBase} from '../../roc-edit-base';
-import {DeviceGroupDeviceGroup} from '../../../openapi3/aether/3.0.0/models/device-group-device-group';
+import {DeviceGroupDeviceGroup} from '../../../openapi3/aether/4.0.0/models/device-group-device-group';
 import {
     AbstractControl,
     FormArray,
@@ -17,13 +17,13 @@ import {
 } from '@angular/forms';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {DeviceGroupDeviceGroupService} from '../../../openapi3/aether/3.0.0/services/device-group-device-group.service';
-import {DeviceGroupDeviceGroupImsis} from '../../../openapi3/aether/3.0.0/models/device-group-device-group-imsis';
-import {IpDomainIpDomain} from '../../../openapi3/aether/3.0.0/models/ip-domain-ip-domain';
-import {SiteSite} from '../../../openapi3/aether/3.0.0/models/site-site';
+import {DeviceGroupDeviceGroupService} from '../../../openapi3/aether/4.0.0/services/device-group-device-group.service';
+import {DeviceGroupDeviceGroupImsis} from '../../../openapi3/aether/4.0.0/models/device-group-device-group-imsis';
+import {IpDomainIpDomain} from '../../../openapi3/aether/4.0.0/models/ip-domain-ip-domain';
+import {SiteSite} from '../../../openapi3/aether/4.0.0/models/site-site';
 import {ImsiParam} from '../imsis-select/imsis-select.component';
 import {maxDeviceGroupRange} from "../../../environments/environment";
 
@@ -107,7 +107,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'device-group-3.0.0', 'device-group');
+        super(snackBar, bs, route, router, 'device-group-4.0.0', 'device-group');
         super.form = this.deviceGroupForm;
         super.loadFunc = this.loadDeviceGroupDeviceGroup;
         this.deviceGroupForm[REQDATTRIBS] = ['site'];
@@ -154,7 +154,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
     }
 
     deleteFromSelect(im: string): void {
-        this.bs.deleteIndexedEntry('/device-group-3.0.0/device-group[id=' + this.id +
+        this.bs.deleteIndexedEntry('/device-group-4.0.0/device-group[id=' + this.id +
             ']/imsis[name=' + im + ']', 'name', im, this.ucmap(im));
         const index = (this.deviceGroupForm.get(['imsis']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === im);
@@ -164,7 +164,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
 
     private ucmap(im: string): Map<string, string> {
         const ucMap = new Map<string, string>();
-        const dgId = '/device-group-3.0.0/device-group[id=' + this.id + ']';
+        const dgId = '/device-group-4.0.0/device-group[id=' + this.id + ']';
         let parentUc = localStorage.getItem(dgId);
         if (parentUc === null) {
             parentUc = this.deviceGroupForm[REQDATTRIBS];
@@ -196,7 +196,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
             for (const im of value.imsis) {
                 let isDeleted = false;
                 Object.keys(localStorage)
-                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/device-group-3.0.0/device-group[id=' + value.id +
+                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/device-group-4.0.0/device-group[id=' + value.id +
                         ']/imsis[name='))
                     .forEach((checkerKey) => {
                         if (checkerKey.includes(im.name)) {
@@ -283,8 +283,8 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['device-group-3.0.0']) {
-                    basketPreview['device-group-3.0.0']['device-group'].forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['device-group-4.0.0']) {
+                    basketPreview['device-group-4.0.0']['device-group'].forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }

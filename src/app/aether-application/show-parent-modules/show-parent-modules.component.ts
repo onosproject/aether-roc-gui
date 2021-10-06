@@ -10,7 +10,7 @@ import {RocListBase} from "../../roc-list-base";
 import {VcsDatasource} from "../../aether-vcs/vcs/vcs-datasource";
 import {AETHER_TARGETS} from "../../../environments/environment";
 import {BasketService} from "../../basket.service";
-import {Service as AetherService} from "../../../openapi3/aether/3.0.0/services/service";
+import {Service as AetherService} from "../../../openapi3/aether/4.0.0/services/service";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from "@angular/material/sort";
 import {MatTable} from "@angular/material/table";

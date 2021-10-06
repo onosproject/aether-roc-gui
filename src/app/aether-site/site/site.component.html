@@ -28,6 +28,17 @@
             <td mat-cell  *matCellDef="let row" [title]="row.description">{{row.description | truncateText:40}}</td>
         </ng-container>
 
+        <!-- End-Points Column -->
+        <ng-container matColumnDef="small-cell" id="smallCellColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Small Cell</th>
+            <td mat-cell *matCellDef="let row">
+                <p *ngFor="let ep of row['small-cell']">
+                    {{ep.name}}
+                    {{ep.address}}
+                    {{ep.tac}}</p>
+            </td>
+        </ng-container>
+
         <!-- Enterprise Column -->
         <ng-container matColumnDef="enterprise" id="EnterpriseColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Enterprise</th>

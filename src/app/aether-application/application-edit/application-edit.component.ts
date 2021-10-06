@@ -9,21 +9,23 @@ import {
     AbstractControl,
     FormArray,
     FormBuilder,
-    FormControl,
+    FormControl, FormGroup,
     ValidationErrors,
     ValidatorFn,
     Validators
 } from '@angular/forms';
-import {ApplicationApplicationService, Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {ApplicationApplicationService, Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {
-    ApplicationApplication, ApplicationApplicationEndpoint,
-    EnterpriseEnterprise
-} from '../../../openapi3/aether/3.0.0/models';
+    ApplicationApplication, EnterpriseEnterprise
+} from '../../../openapi3/aether/4.0.0/models';
 import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {EndPointParam} from "../endpoint-select/endpoint-select.component";
+import {Observable} from "rxjs";
+import {Bandwidths} from "../../aether-template/template-edit/template-edit.component";
+import {map, startWith} from "rxjs/operators";
 
 const ValidatePortRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     if (control.get(['endpoint']).value.length !== 0) {
@@ -54,10 +56,21 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     showEndpointAddButton: boolean = true;
     showParentDisplay: boolean = false;
     enterprises: Array<EnterpriseEnterprise>;
-    pathRoot = 'application-3.0.0';
+    pathRoot = 'application-4.0.0';
     pathListAttr = 'application';
-    applicationId : string;
+    applicationId: string;
     data: ApplicationApplication;
+    options: Bandwidths[] = [
+        {megabyte: {numerical: 1, inMb: '1Mbps'}},
+        {megabyte: {numerical: 2, inMb: '2Mbps'}},
+        {megabyte: {numerical: 5, inMb: '5Mbps'}},
+        {megabyte: {numerical: 10, inMb: '10Mbps'}},
+        {megabyte: {numerical: 25, inMb: '25Mbps'}},
+        {megabyte: {numerical: 50, inMb: '50Mbps'}},
+        {megabyte: {numerical: 100, inMb: '100Mbps'}},
+        {megabyte: {numerical: 500, inMb: '500Mbps'}}
+    ];
+    bandwidthOptions: Observable<Bandwidths[]>;
     appForm = this.fb.group({
         id: [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -72,6 +85,20 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             Validators.minLength(1),
             Validators.maxLength(1024),
         ])],
+        address: [undefined, Validators.compose([
+            Validators.minLength(1),
+            Validators.maxLength(80),
+        ])],
+        mbr: this.fb.group({
+            uplink: [undefined, Validators.compose([
+                Validators.min(0),
+                Validators.max(4294967295)
+            ])],
+            downlink: [undefined, Validators.compose([
+                Validators.min(0),
+                Validators.max(4294967295)
+            ])]
+        }),
         endpoint: this.fb.array([]),
         enterprise: [undefined, Validators.required]
     }, {validators: ValidatePortRange});
@@ -86,7 +113,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'application-3.0.0', 'application');
+        super(snackBar, bs, route, router, 'application-4.0.0', 'application');
         super.form = this.appForm;
         super.loadFunc = this.loadApplicationApplication;
         this.appForm[REQDATTRIBS] = ['enterprise'];
@@ -96,6 +123,12 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     ngOnInit(): void {
         super.init();
         this.loadEnterprises(this.target);
+        this.bandwidthOptions = this.appForm.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => typeof value === 'number' ? value : value.megabyte),
+                map(megabyte => megabyte ? this._filter(megabyte) : this.options.slice())
+            );
     }
 
     setOnlyEnterprise(lenEnterprises: number): void {
@@ -107,7 +140,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     }
 
     deleteFromSelect(ep: string): void {
-        this.bs.deleteIndexedEntry('/application-3.0.0/application[id=' + this.id +
+        this.bs.deleteIndexedEntry('/application-4.0.0/application[id=' + this.id +
             ']/endpoint[name=' + ep + ']', 'name', ep, this.ucmap(ep));
         const index = (this.appForm.get('endpoint') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ep);
@@ -118,7 +151,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
 
     private ucmap(ep: string): Map<string, string> {
         const ucMap = new Map<string, string>();
-        const appId = '/application-3.0.0/application[id=' + this.id + ']';
+        const appId = '/application-4.0.0/application[id=' + this.id + ']';
         let parentUc = localStorage.getItem(appId);
         if (parentUc === null) {
             parentUc = this.appForm[REQDATTRIBS];
@@ -137,6 +170,10 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         return ucMap;
     }
 
+    get mbrControls(): FormGroup {
+        return this.appForm.get(['mbr']) as FormGroup;
+    }
+
     loadApplicationApplication(target: string, id: string): void {
         this.applicationApplicationService.getApplicationApplication({
             target,
@@ -145,6 +182,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             (value => {
                 this.data = value;
                 this.applicationId = value.id;
+                console.log("value1", value)
                 this.populateFormData(value);
             }),
             error => {
@@ -152,8 +190,8 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['application-3.0.0']) {
-                    basketPreview['application-3.0.0'].application.forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['application-4.0.0']) {
+                    basketPreview['application-4.0.0'].application.forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }
@@ -168,6 +206,11 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         this.showParentDisplay = false;
     }
 
+    private _filter(bandwidthIndex: number): Bandwidths[] {
+        const filterValue = bandwidthIndex;
+        return this.options.filter(option => option.megabyte.numerical);
+    }
+
     endpointSelected(selected: EndPointParam): void {
         this.showConnectDisplay = false;
 
@@ -177,10 +220,6 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         const epNameControl = this.fb.control(selected.name);
         epNameControl.markAsTouched();
         epNameControl.markAsDirty();
-
-        const epAddressControl = this.fb.control(selected.address);
-        epAddressControl.markAsTouched();
-        epAddressControl.markAsDirty();
 
         const epPortStartControl = this.fb.control(selected.portStart, Validators.compose([
             Validators.min(0),
@@ -204,12 +243,11 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
 
         const epGroupControl = this.fb.group({
             name: epNameControl,
-            address: epAddressControl,
             ['port-start']: epPortStartControl,
             ['port-end']: epPortEndControl,
             protocol: epProtocolcontrol,
         });
-        epGroupControl[REQDATTRIBS] = ['port-start', 'address'];
+        epGroupControl[REQDATTRIBS] = ['port-start'];
 
         (this.appForm.get('endpoint') as FormArray).push(epGroupControl);
         console.log('Adding new Value', selected);
@@ -225,6 +263,10 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             this.appForm.get('description').setValue(value.description);
             this.appForm.get('description')[ORIGINAL] = value.description;
         }
+        if (value.address) {
+            this.appForm.get('address').setValue(value.address);
+            this.appForm.get('address')[ORIGINAL] = value.address;
+        }
         if (value.enterprise) {
             this.appForm.get('enterprise').setValue(value.enterprise);
             this.appForm.get('enterprise')[ORIGINAL] = value.enterprise;
@@ -235,8 +277,6 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                 for (const ep of value.endpoint) {
                     const epNameControl = this.fb.control(ep.name);
                     epNameControl[ORIGINAL] = ep.name;
-                    const epAddressControl = this.fb.control(ep.address);
-                    epAddressControl[ORIGINAL] = ep.address;
                     const epPortStartControl = this.fb.control(ep['port-start']);
                     epPortStartControl[ORIGINAL] = ep['port-start'];
                     const epPortEndControl = this.fb.control(ep['port-end']);
@@ -245,12 +285,11 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                     epProtocolcontrol[ORIGINAL] = ep.protocol;
                     const epGroupControl = this.fb.group({
                         name: epNameControl,
-                        address: epAddressControl,
                         ['port-start']: epPortStartControl,
                         ['port-end']: epPortEndControl,
                         protocol: epProtocolcontrol,
                     });
-                    epGroupControl[REQDATTRIBS] = ['port-start', 'address'];
+                    epGroupControl[REQDATTRIBS] = ['port-start'];
 
                     (this.appForm.get(['endpoint']) as FormArray).push(epGroupControl);
                 }
@@ -259,8 +298,6 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
 
                     for (const eachFormEndpoint of this.appForm.value.endpoint) {
                         if (eachValueEndpoint.name === eachFormEndpoint.name) {
-                            this.appForm.get(['endpoint', eachFormEndpointPosition, 'address'])
-                                .setValue(eachValueEndpoint.address);
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'port-start'])
                                 .setValue(eachValueEndpoint['port-start']);
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'port-end'])
@@ -270,7 +307,6 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                         } else {
                             (this.appForm.get(['endpoint']) as FormArray).push(this.fb.group({
                                 name: eachValueEndpoint.name,
-                                address: eachValueEndpoint.address,
                                 'port-start': eachValueEndpoint['port-start'],
                                 'port-end': eachValueEndpoint['port-end'],
                                 protocol: eachValueEndpoint.protocol

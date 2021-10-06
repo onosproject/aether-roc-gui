@@ -8,12 +8,12 @@ import {OpenPolicyAgentService} from 'src/app/open-policy-agent.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
 import {RocListBase} from '../../roc-list-base';
 import {SiteDatasource} from './site-datasource';
-import {SiteSite} from '../../../openapi3/aether/3.0.0/models';
+import {SiteSite} from '../../../openapi3/aether/4.0.0/models';
 
 @Component({
     selector: 'aether-site',
@@ -28,6 +28,7 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
     displayedColumns = [
         'id',
         'description',
+        'small-cell',
         'enterprise',
         'mcc',
         'mnc',
@@ -43,14 +44,14 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
         private basketService: BasketService,
     ) {
         super(basketService, new SiteDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'site-3.0.0', 'site');
+            'site-4.0.0', 'site');
         super.reqdAttr = ['enterprise'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('site-3.0.0' in basketPreview && 'site' in basketPreview['site-3.0.0']) {
-            basketPreview['site-3.0.0'].site.forEach((basketItems) => {
+        if ('site-4.0.0' in basketPreview && 'site' in basketPreview['site-4.0.0']) {
+            basketPreview['site-4.0.0'].site.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -61,6 +62,22 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
                         }
                         if (basketItems.enterprise) {
                             ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
+                        }
+                        if (basketItems['small-cell']){
+                            if (ScopeOfDataSource.data[listItemCount]['small-cell'].length === 0) {
+                                ScopeOfDataSource.data[listItemCount]['small-cell'] = basketItems['small-cell'];
+                            } else {
+                                for (const eachBasketSC of basketItems['small-cell']) {
+                                    let eachSCPosition = 0;
+                                    for (const eachScopeSC of ScopeOfDataSource.data[listItemCount]['small-cell']){
+                                        if (eachBasketSC['small-cell'] === eachScopeSC['small-cell']){
+                                            ScopeOfDataSource.data[listItemCount]['small-cell'][eachSCPosition].name
+                                                = eachBasketSC.name;
+                                        }
+                                        eachSCPosition++;
+                                    }
+                                }
+                            }
                         }
                         if (basketItems['imsi-definition'] && basketItems['imsi-definition'].mcc) {
                             ScopeOfDataSource.data[listItemCount]['imsi-definition'].mcc = basketItems['imsi-definition'].mcc;

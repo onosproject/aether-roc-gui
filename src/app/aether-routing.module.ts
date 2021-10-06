@@ -29,11 +29,6 @@ const aetherRoutes: Routes = [
             .then(m => m.AetherConnectivityServiceModule)
     },
     {
-        path: 'aplist',
-        loadChildren: () => import('./aether-ap-list/aether-ap-list.module')
-            .then(m => m.AetherApListModule)
-    },
-    {
         path: 'basket',
         loadChildren: () => import('./basket/basket.module').then(m => m.BasketModule)
     },

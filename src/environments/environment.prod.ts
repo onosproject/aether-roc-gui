@@ -15,7 +15,7 @@ export const GRAFANA_PROXY = window.location.origin + '/grafana';
 export const PROMETHEUS_PROXY = window.location.origin + '/prometheus';
 export const WEBSOCKET_PROXY = window.location.origin.toString().replace('http', 'ws') + '/ws';
 
-export const AETHER_TARGETS = ['connectivity-service-v3'];
+export const AETHER_TARGETS = ['connectivity-service-v4'];
 
 export const OIDC_AUTH_CLIENT_ID = 'aether-roc-gui';
 export const OIDC_ISSUER = undefined;

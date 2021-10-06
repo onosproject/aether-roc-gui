@@ -6,7 +6,7 @@
 
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {DeviceGroupDeviceGroupImsis} from '../../../openapi3/aether/3.0.0/models/device-group-device-group-imsis';
+import {DeviceGroupDeviceGroupImsis} from '../../../openapi3/aether/4.0.0/models/device-group-device-group-imsis';
 import {maxDeviceGroupRange} from "../../../environments/environment";
 
 export interface ImsiParam {

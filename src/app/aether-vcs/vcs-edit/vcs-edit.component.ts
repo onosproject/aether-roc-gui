@@ -5,7 +5,7 @@
  */
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {
     VcsVcs,
     ApListApList,
@@ -14,15 +14,16 @@ import {
     TrafficClassTrafficClass,
     UpfUpf,
     AdditionalPropertyTarget, EnterpriseEnterprise
-} from '../../../openapi3/aether/3.0.0/models';
+} from '../../../openapi3/aether/4.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {map, startWith} from 'rxjs/operators';
-import {VcsVcsService, Service as AetherService} from 'src/openapi3/aether/3.0.0/services';
+import {VcsVcsService, Service as AetherService} from 'src/openapi3/aether/4.0.0/services';
 import {BasketService, HEX2NUM, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from 'src/app/basket.service';
 import {HexPipe} from '../../utils/hex.pipe';
+import {SelectAppParam} from "../application-select/application-select.component";
 
 export interface Bandwidths {
     megabyte: { numerical: number, inMb: string };
@@ -54,7 +55,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     ];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: VcsVcs;
-    pathRoot = 'vcs-3.0.0';
+    pathRoot = 'vcs-4.0.0';
     pathListAttr = 'vcs';
     sdAsInt = HexPipe.hexAsInt;
 
@@ -72,17 +73,32 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             Validators.minLength(1),
             Validators.maxLength(1024),
         ])],
-        application: this.fb.array([]),
-        downlink: [undefined, Validators.compose([
-            Validators.minLength(0),
-            Validators.maxLength(4294967295)
-        ])],
-        uplink: [undefined, Validators.compose([
-            Validators.minLength(0),
-            Validators.maxLength(4294967295)
-        ])],
+        filter: this.fb.array([]),
+        device: this.fb.group({
+            mbr: this.fb.group({
+                uplink: [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])],
+                downlink: [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])]
+            }),
+        }),
+        slice: this.fb.group({
+            mbr: this.fb.group({
+                uplink: [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])],
+                downlink: [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])]
+            }),
+        }),
         enterprise: [undefined],
-        ap: [undefined],
         'device-group': this.fb.array([]),
         sd: [undefined, Validators.compose([
                 Validators.minLength(6),
@@ -109,16 +125,18 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'vcs-3.0.0', 'vcs');
+        super(snackBar, bs, route, router, 'vcs-4.0.0', 'vcs');
         super.form = this.vcsForm;
         super.loadFunc = this.loadVcsVcs;
         this.vcsForm[REQDATTRIBS] = ['sd', 'traffic-class', 'sst', 'enterprise'];
-        this.vcsForm.get(['uplink'])[TYPE] = 'number';
-        this.vcsForm.get(['downlink'])[TYPE] = 'number';
+        this.vcsForm.get(['device', 'mbr', 'uplink'])[TYPE] = 'number';
+        this.vcsForm.get(['device', 'mbr', 'downlink'])[TYPE] = 'number';
+        this.vcsForm.get(['slice', 'mbr', 'uplink'])[TYPE] = 'number';
+        this.vcsForm.get(['slice', 'mbr', 'downlink'])[TYPE] = 'number';
         this.vcsForm.get(['sst'])[TYPE] = 'number';
         this.vcsForm.get(['sd'])[TYPE] = HEX2NUM;
-        this.vcsForm.get('application')[IDATTRIBS] = ['application'];
-        this.vcsForm.get('device-group')[IDATTRIBS] = ['device-group'];
+        // this.vcsForm.get('filter')[IDATTRIBS] = ['filter'];
+        // this.vcsForm.get('device-group')[IDATTRIBS] = ['device-group'];
     }
 
     ngOnInit(): void {
@@ -127,11 +145,10 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             this.vcsForm.get('template').disable();
             this.vcsForm.get('sd').disable();
             this.vcsForm.get('sst').disable();
-            this.vcsForm.get('downlink').disable();
-            this.vcsForm.get('uplink').disable();
+            this.vcsForm.get(['device', 'mbr', 'uplink']).disable();
+            this.vcsForm.get(['device', 'mbr', 'downlink']).disable();
             this.vcsForm.get('traffic-class').disable();
         }
-        this.loadAp(this.target);
         this.loadDeviceGoup(this.target);
         this.loadTemplate(this.target);
         this.loadTrafficClass(this.target);
@@ -153,13 +170,13 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         }
     }
 
-    get applications(): FormArray {
-        return this.vcsForm.get('application') as FormArray;
+    get filter(): FormArray {
+        return this.vcsForm.get('filter') as FormArray;
     }
 
     get applicationExists(): string[] {
         const existingList: string[] = [];
-        (this.vcsForm.get(['application']) as FormArray).controls.forEach((app) => {
+        (this.vcsForm.get(['filter']) as FormArray).controls.forEach((app) => {
             existingList.push(app.get('application').value);
         });
         return existingList;
@@ -177,25 +194,31 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         return existingList;
     }
 
-    appSelected(selected: string): void {
+    appSelected(selected: SelectAppParam): void {
         // Push into form
-        if (selected !== undefined && selected !== '') {
-            const appFormControl = this.fb.control(selected);
-            appFormControl.markAsTouched();
-            appFormControl.markAsDirty();
-            const allowControl = this.fb.control(true); // Default as true
-            allowControl.markAsTouched();
-            allowControl.markAsDirty();
-            allowControl[TYPE] = 'boolean';
-            const appGroupControl = this.fb.group({
-                application: appFormControl,
-                allow: allowControl,
-            });
-            (this.vcsForm.get('application') as FormArray).push(appGroupControl);
-            this.vcsForm.get('application').markAsTouched();
-            console.log('Adding new Value', selected);
-        }
         this.showApplicationDisplay = false;
+
+        if (selected === undefined) {
+            return;
+        }
+        const appFormControl = this.fb.control(selected.application);
+        appFormControl.markAsTouched();
+        appFormControl.markAsDirty();
+        const priorityControl = this.fb.control(selected.priority); // Default as true
+        priorityControl.markAsTouched();
+        priorityControl.markAsDirty();
+        const allowControl = this.fb.control(true); // Default as true
+        allowControl.markAsTouched();
+        allowControl.markAsDirty();
+        allowControl[TYPE] = 'boolean';
+        const appGroupControl = this.fb.group({
+            application: appFormControl,
+            allow: allowControl,
+            priority: priorityControl
+        });
+        (this.vcsForm.get('filter') as FormArray).push(appGroupControl);
+        this.vcsForm.get('filter').markAsTouched();
+        console.log('Adding new Value', selected);
     }
 
     dgSelected(selected: string): void {
@@ -237,8 +260,8 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['vcs-3.0.0']) {
-                    basketPreview['vcs-3.0.0'].vcs.forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['vcs-4.0.0']) {
+                    basketPreview['vcs-4.0.0'].vcs.forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }
@@ -250,16 +273,16 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     }
 
     deleteApplicationFromSelect(app: string): void {
-        this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
+        this.bs.deleteIndexedEntry('/vcs-4.0.0/vcs[id=' + this.id +
             ']/application[application=' + app + ']', 'application', app, this.ucmap);
-        const index = (this.vcsForm.get('application') as FormArray)
+        const index = (this.vcsForm.get('filter') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
-        (this.vcsForm.get('application') as FormArray).removeAt(index);
+        (this.vcsForm.get('filter') as FormArray).removeAt(index);
         this.snackBar.open('Deletion of ' + app + ' added to basket', undefined, {duration: 2000});
     }
 
     deleteDeviceGroupFromSelect(dg: string): void {
-        this.bs.deleteIndexedEntry('/vcs-3.0.0/vcs[id=' + this.id +
+        this.bs.deleteIndexedEntry('/vcs-4.0.0/vcs[id=' + this.id +
             ']/device-group[device-group=' + dg + ']', 'device-group', dg, this.ucmap);
         const index = (this.vcsForm.get('device-group') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === dg);
@@ -268,7 +291,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     }
 
     private get ucmap(): Map<string, string> {
-        const vcsId = '/vcs-3.0.0/vcs[id=' + this.id + ']';
+        const vcsId = '/vcs-4.0.0/vcs[id=' + this.id + ']';
         let parentUc = localStorage.getItem(vcsId);
         if (parentUc === null) {
             parentUc = this.vcsForm[REQDATTRIBS];
@@ -287,11 +310,11 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             this.vcsForm.get('description').setValue(value.description);
             this.vcsForm.get('description')[ORIGINAL] = value.description;
         }
-        if (value.application && this.vcsForm.value.application.length === 0) {
-            for (const app of value.application) {
+        if (value.filter && this.vcsForm.value.filter.length === 0) {
+            for (const app of value.filter) {
                 let isDeleted = false;
                 Object.keys(localStorage)
-                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/vcs-3.0.0/vcs[id=' + this.id +
+                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/vcs-4.0.0/vcs[id=' + this.id +
                         ']/application[application='))
                     .forEach((checkerKey) => {
                         if (checkerKey.includes(app.application)) {
@@ -301,52 +324,59 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                 if (!isDeleted) {
                     const appFormControl = this.fb.control(app.application);
                     appFormControl[ORIGINAL] = app.application;
+                    const priorityControl = this.fb.control(app.priority);
+                    priorityControl[ORIGINAL] = app.priority;
                     const enabledControl = this.fb.control(app.allow);
                     enabledControl[ORIGINAL] = app.allow;
                     enabledControl[TYPE] = 'boolean';
                     const appControlGroup = this.fb.group({
                         application: appFormControl,
                         allow: enabledControl,
+                        priority:priorityControl
                     });
-                    (this.vcsForm.get('application') as FormArray).push(appControlGroup);
+                    (this.vcsForm.get('filter') as FormArray).push(appControlGroup);
                 }
                 isDeleted = false;
             }
-        } else if (value.application && this.vcsForm.value.application.length !== 0) {
-            this.vcsForm.value.application.forEach((eachValueApp, eachValueAppPosition) => {
-                for (const eachFormApp of value.application) {
+        } else if (value.filter && this.vcsForm.value.filter.length !== 0) {
+            this.vcsForm.value.filter.forEach((eachValueApp, eachValueAppPosition) => {
+                for (const eachFormApp of value.filter) {
                     if (eachValueApp.application === eachFormApp.application) {
-                        this.vcsForm.get(['application', eachValueAppPosition, 'allow']).setValue(eachFormApp.allow);
+                        this.vcsForm.get(['filter', eachValueAppPosition, 'allow']).setValue(eachFormApp.allow);
+                        this.vcsForm.get(['filter', eachValueAppPosition, 'priority']).setValue(eachFormApp.priority);
                     } else {
                         (this.vcsForm.get(['application']) as FormArray).push(this.fb.group({
                             application: eachFormApp.application,
-                            allow: eachFormApp.allow
+                            allow: eachFormApp.allow,
+                            priority:eachFormApp.priority
                         }));
                     }
                 }
             });
         }
-        if (value.downlink) {
-            this.vcsForm.get(['downlink']).setValue(value.downlink);
-            this.vcsForm.get(['downlink'])[ORIGINAL] = value.downlink;
+        if (value.device && value.device.mbr) {
+            this.vcsForm.get(['device','mbr','uplink']).setValue(value.device.mbr.uplink);
+            this.vcsForm.get(['device','mbr','downlink']).setValue(value.device.mbr.downlink);
+            this.vcsForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.uplink;
+            this.vcsForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.downlink;
+            console.log(this.vcsForm.get(['device','mbr','uplink']),"this.tempForm.get(['device']['mbr']['uplink'])")
+
         }
-        if (value.uplink) {
-            this.vcsForm.get(['uplink']).setValue(value.uplink);
-            this.vcsForm.get(['uplink'])[ORIGINAL] = value.uplink;
+        if (value.slice && value.slice.mbr) {
+            this.vcsForm.get(['slice','mbr','uplink']).setValue(value.slice.mbr.uplink);
+            this.vcsForm.get(['slice','mbr','downlink']).setValue(value.slice.mbr.downlink);
+            this.vcsForm.get(['slice','mbr','uplink'])[ORIGINAL] = value.slice.mbr.uplink;
+            this.vcsForm.get(['slice','mbr','downlink'])[ORIGINAL] = value.slice.mbr.downlink;
         }
         if (value.enterprise) {
             this.vcsForm.get('enterprise').setValue(value.enterprise);
             this.vcsForm.get('enterprise')[ORIGINAL] = value.enterprise;
         }
-        if (value.ap) {
-            this.vcsForm.get(['ap']).setValue(value.ap);
-            this.vcsForm.get(['ap'])[ORIGINAL] = value.ap;
-        }
         if (value['device-group'] && this.vcsForm.value['device-group'].length === 0) {
             for (const dg of value['device-group']) {
                 let isDeleted = false;
                 Object.keys(localStorage)
-                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/vcs-3.0.0/vcs[id=' + this.id +
+                    .filter(checkerKey => checkerKey.startsWith('/basket-delete/vcs-4.0.0/vcs[id=' + this.id +
                         ']/device-group[device-group='))
                     .forEach((checkerKey) => {
                         if (checkerKey.includes(dg['device-group'])) {
@@ -405,19 +435,19 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         }
     }
 
-    loadAp(target: string): void {
-        this.aetherService.getApList({
-            target,
-        }).subscribe(
-            (value => {
-                this.aps = value['ap-list'];
-                console.log('Got', value['ap-list'].length, 'AP List');
-            }),
-            error => {
-                console.warn('Error getting Ap List for ', target, error);
-            }
-        );
-    }
+    // loadAp(target: string): void {
+    //     this.aetherService.getApList({
+    //         target,
+    //     }).subscribe(
+    //         (value => {
+    //             this.aps = value['ap-list'];
+    //             console.log('Got', value['ap-list'].length, 'AP List');
+    //         }),
+    //         error => {
+    //             console.warn('Error getting Ap List for ', target, error);
+    //         }
+    //     );
+    // }
 
     loadEnterprises(target: string): void {
         this.aetherService.getEnterprise({
@@ -478,11 +508,11 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                     const TcFormControl = this.vcsForm.get('traffic-class');
                     TcFormControl.markAsTouched();
                     TcFormControl.markAsDirty();
-                    this.vcsForm.get(['uplink']).setValue(eachTemplate.uplink);
+                    // this.vcsForm.get(['uplink']).setValue(eachTemplate.uplink);
                     const UplinkFormControl = this.vcsForm.get('uplink');
                     UplinkFormControl.markAsTouched();
                     UplinkFormControl.markAsDirty();
-                    this.vcsForm.get(['downlink']).setValue(eachTemplate.downlink);
+                    // this.vcsForm.get(['downlink']).setValue(eachTemplate.downlink);
                     const DownlinkFormControl = this.vcsForm.get('downlink');
                     DownlinkFormControl.markAsTouched();
                     DownlinkFormControl.markAsDirty();
@@ -503,6 +533,14 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                 console.warn('Error getting Traffic Class for ', target, error);
             }
         );
+    }
+
+    get deviceMbrControls(): FormGroup {
+        return this.vcsForm.get(['device', 'mbr']) as FormGroup;
+    }
+
+    get sliceMbrControls(): FormGroup {
+        return this.vcsForm.get(['slice', 'mbr']) as FormGroup;
     }
 
     loadUpf(target: string): void {

@@ -5,9 +5,9 @@
  */
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, Validators} from '@angular/forms';
-import {Service as AetherService, TemplateTemplateService} from '../../../openapi3/aether/3.0.0/services';
-import {TemplateTemplate, TrafficClassTrafficClass} from '../../../openapi3/aether/3.0.0/models';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Service as AetherService, TemplateTemplateService} from '../../../openapi3/aether/4.0.0/services';
+import {TemplateTemplate, TrafficClassTrafficClass} from '../../../openapi3/aether/4.0.0/models';
 import {BasketService, HEX2NUM, ORIGINAL, TYPE} from '../../basket.service';
 import {MatHeaderRow} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -36,7 +36,7 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
 
     sdAsInt = HexPipe.hexAsInt;
 
-    pathRoot = 'template-3.0.0';
+    pathRoot = 'template-4.0.0';
     pathListAttr = 'template';
     trafficClass: Array<TrafficClassTrafficClass>;
     options: Bandwidths[] = [
@@ -74,14 +74,30 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             Validators.min(1),
             Validators.max(255)
         ])],
-        uplink: [undefined, Validators.compose([
-            Validators.min(0),
-            Validators.max(4294967295)
-        ])],
-        downlink: [undefined, Validators.compose([
-            Validators.min(0),
-            Validators.max(4294967295)
-        ])],
+        device: this.fb.group({
+            mbr: this.fb.group({
+                uplink: [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])],
+                downlink: [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])]
+            }),
+        }),
+        slice: this.fb.group({
+            mbr: this.fb.group({
+                uplink: [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])],
+                downlink: [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])]
+            }),
+        }),
         'traffic-class': [undefined],
     });
 
@@ -95,7 +111,7 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'template-3.0.0', 'template');
+        super(snackBar, bs, route, router, 'template-4.0.0', 'template');
         super.form = this.tempForm;
         super.loadFunc = this.loadTemplateTemplate;
     }
@@ -111,8 +127,10 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             );
         this.tempForm.get('sd')[TYPE] = HEX2NUM;
         this.tempForm.get('sst')[TYPE] = 'number';
-        this.tempForm.get('uplink')[TYPE] = 'number';
-        this.tempForm.get('downlink')[TYPE] = 'number';
+        this.tempForm.get(['device','mbr','uplink'])[TYPE] = 'number';
+        this.tempForm.get(['device','mbr','downlink'])[TYPE] = 'number';
+        this.tempForm.get(['slice','mbr','uplink'])[TYPE] = 'number';
+        this.tempForm.get(['slice','mbr','downlink'])[TYPE] = 'number';
     }
 
     private _filter(bandwidthIndex: number): Bandwidths[] {
@@ -126,6 +144,7 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             id
         }).subscribe(
             (value => {
+                console.log("value",value)
                 this.data = value;
                 this.populateFormData(value);
             }),
@@ -134,8 +153,8 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['template-3.0.0']) {
-                    basketPreview['template-3.0.0'].template.forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['template-4.0.0']) {
+                    basketPreview['template-4.0.0'].template.forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }
@@ -163,18 +182,32 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             this.tempForm.get(['sst']).setValue(value.sst);
             this.tempForm.get(['sst'])[ORIGINAL] = value.sst;
         }
-        if (value.uplink) {
-            this.tempForm.get(['uplink']).setValue(value.uplink);
-            this.tempForm.get(['uplink'])[ORIGINAL] = value.uplink;
+        if (value.device && value.device.mbr) {
+            console.log(value.device.mbr,"value.device.mbr")
+            this.tempForm.get(['device','mbr','uplink']).setValue(value.device.mbr.uplink);
+            this.tempForm.get(['device','mbr','downlink']).setValue(value.device.mbr.downlink);
+            this.tempForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.uplink;
+            this.tempForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.downlink;
+            console.log(this.tempForm.get(['device','mbr','uplink']),"this.tempForm.get(['device']['mbr']['uplink'])")
         }
-        if (value.downlink) {
-            this.tempForm.get(['downlink']).setValue(value.downlink);
-            this.tempForm.get(['downlink'])[ORIGINAL] = value.downlink;
+        if (value.slice && value.slice.mbr) {
+            this.tempForm.get(['slice','mbr','uplink']).setValue(value.slice.mbr.uplink);
+            this.tempForm.get(['slice','mbr','downlink']).setValue(value.slice.mbr.downlink);
+            this.tempForm.get(['slice','mbr','uplink'])[ORIGINAL] = value.slice.mbr.uplink;
+            this.tempForm.get(['slice','mbr','downlink'])[ORIGINAL] = value.slice.mbr.downlink;
         }
         if (value['traffic-class']) {
             this.tempForm.get(['traffic-class']).setValue(value['traffic-class']);
             this.tempForm.get(['traffic-class'])[ORIGINAL] = value['traffic-class'];
         }
+    }
+
+    get deviceMbrControls(): FormGroup {
+        return this.tempForm.get(['device','mbr']) as FormGroup;
+    }
+
+    get sliceMbrControls(): FormGroup {
+        return this.tempForm.get(['slice','mbr']) as FormGroup;
     }
 
     loadTrafficClass(target: string): void {

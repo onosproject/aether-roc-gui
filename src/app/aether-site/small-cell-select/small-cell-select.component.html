@@ -1,0 +1,42 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="smallCellForm" (ngSubmit)="closeCard(false)">
+    <mat-card class="card mat-elevation-z8">
+        <mat-card-header class="header">
+            <mat-card-title class="subheading-1 title">Add Small Cell</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="content">
+            <mat-form-field class="field-margin">
+                <input matInput formControlName="name"
+                       title="This field is mandatory."
+                       placeholder="Please specify a Name"
+                       id="inputName" required>
+                <mat-hint>Name</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="field-margin ">
+                <input matInput formControlName="address"
+                       id="inputAddress">
+                <mat-hint>Address</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="field-margin ">
+                <input matInput formControlName="tac" id="inputTac">
+                <mat-hint>Type Allocation Code</mat-hint>
+            </mat-form-field>
+            <mat-slide-toggle name="enabled" ngDefaultControl formControlName="enabled">Allow</mat-slide-toggle>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="accent" type="button" (click)="closeCard(true)"
+                    id="cancelButton">Cancel
+            </button>
+            <button
+                [disabled]="!(smallCellForm.valid && smallCellForm.touched )"
+                mat-raised-button color="accent"
+                type="submit"
+                id="addButton">Add
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

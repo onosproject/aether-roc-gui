@@ -7,10 +7,10 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {IpDomainIpDomain} from '../../../openapi3/aether/3.0.0/models/ip-domain-ip-domain';
+import {IpDomainIpDomain} from '../../../openapi3/aether/4.0.0/models/ip-domain-ip-domain';
 import {RocListBase} from '../../roc-list-base';
 import {IpDomainDatasource} from './ip-domain-datasource';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services/service';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services/service';
 import {BasketService} from '../../basket.service';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {AETHER_TARGETS} from '../../../environments/environment';
@@ -45,14 +45,14 @@ export class IpDomainComponent extends RocListBase<IpDomainDatasource> implement
         public opaService: OpenPolicyAgentService,
     ) {
         super(basketService, new IpDomainDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'ip-domain-3.0.0', 'ip-domain');
+            'ip-domain-4.0.0', 'ip-domain');
         super.reqdAttr = ['enterprise', 'subnet'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('ip-domain-3.0.0' in basketPreview && 'ip-domain' in basketPreview['ip-domain-3.0.0']) {
-            basketPreview['ip-domain-3.0.0']['ip-domain'].forEach((basketItems) => {
+        if ('ip-domain-4.0.0' in basketPreview && 'ip-domain' in basketPreview['ip-domain-4.0.0']) {
+            basketPreview['ip-domain-4.0.0']['ip-domain'].forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {

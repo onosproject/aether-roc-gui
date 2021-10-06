@@ -17,7 +17,7 @@ import {ActivatedRoute} from '@angular/router';
 import {MatIconModule} from '@angular/material/icon';
 import {of} from 'rxjs';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {ApiModule} from '../../../openapi3/aether/3.0.0/api.module';
+import {ApiModule} from '../../../openapi3/aether/4.0.0/api.module';
 
 describe('DeviceGroupComponent', () => {
     let component: DeviceGroupComponent;

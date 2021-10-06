@@ -9,8 +9,8 @@ import {TrafficClassDatasource} from './traffic-class-datasource';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {TrafficClassTrafficClass} from '../../../openapi3/aether/3.0.0/models';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {TrafficClassTrafficClass} from '../../../openapi3/aether/4.0.0/models';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {BasketService} from '../../basket.service';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {AETHER_TARGETS} from '../../../environments/environment';
@@ -28,8 +28,7 @@ export class TrafficClassComponent extends RocListBase<TrafficClassDatasource> i
     displayedColumns = [
         'id',
         'description',
-        'pelr',
-        'pdb',
+        'arp',
         'qci',
         'edit',
         'delete'
@@ -41,13 +40,13 @@ export class TrafficClassComponent extends RocListBase<TrafficClassDatasource> i
         public opaService: OpenPolicyAgentService,
     ) {
         super(basketService, new TrafficClassDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'traffic-class-3.0.0', 'traffic-class');
+            'traffic-class-4.0.0', 'traffic-class');
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('traffic-class-3.0.0' in basketPreview && 'traffic-class' in basketPreview['traffic-class-3.0.0']) {
-            basketPreview['traffic-class-3.0.0']['traffic-class'].forEach((basketItems) => {
+        if ('traffic-class-4.0.0' in basketPreview && 'traffic-class' in basketPreview['traffic-class-4.0.0']) {
+            basketPreview['traffic-class-4.0.0']['traffic-class'].forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -56,11 +55,8 @@ export class TrafficClassComponent extends RocListBase<TrafficClassDatasource> i
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;
                         }
-                        if (basketItems.pelr) {
-                            ScopeOfDataSource.data[listItemCount].pelr = basketItems.pelr;
-                        }
-                        if (basketItems.pdb) {
-                            ScopeOfDataSource.data[listItemCount].pdb = basketItems.pdb;
+                        if (basketItems.arp) {
+                            ScopeOfDataSource.data[listItemCount].arp = basketItems.arp;
                         }
                         if (basketItems.qci) {
                             ScopeOfDataSource.data[listItemCount].qci = basketItems.qci;

@@ -28,20 +28,29 @@
             <td mat-cell  *matCellDef="let row" [title]="row.description">{{row.description | truncateText:20}}</td>
         </ng-container>
 
-         <!-- application Column -->
-         <ng-container matColumnDef="application" id="applicationColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Application</th>
+         <!-- filter Column -->
+         <ng-container matColumnDef="filter" id="filterColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Filter</th>
             <td mat-cell *matCellDef="let row">
-                <p *ngFor="let sr of row.application" class="small-spacing" [class]="sr.allow ? '':'semitransparent'">{{sr.application}}
+                <p *ngFor="let sr of row.filter" class="small-spacing" [class]="sr.allow ? '':'semitransparent'">{{sr.application}} Priority : {{sr.priority}}
             </td>
         </ng-container>
 
-         <!-- Uplink/Downlink Column -->
-         <ng-container matColumnDef="downlink/uplink" id="portColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Uplink/downlink (Mbps)</th>
+        <!--Device Column -->
+        <ng-container matColumnDef="device" id="deviceColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Device</th>
             <td mat-cell *matCellDef="let row">
-                <p>Uplink: {{row.uplink}}</p>
-                <p>Downlink: {{row.downlink}}</p>
+                <p>Uplink: {{row.device.mbr.uplink}}</p>
+                <p>Downlink: {{row.device.mbr.downlink}}</p>
+            </td>
+        </ng-container>
+
+        <!-- slice Column -->
+        <ng-container matColumnDef="slice" id="sliceColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Slice</th>
+            <td mat-cell *matCellDef="let row">
+                <p>Uplink: {{row.slice.mbr.uplink}}</p>
+                <p>Downlink: {{row.slice.mbr.downlink}}</p>
             </td>
         </ng-container>
 
@@ -53,18 +62,6 @@
                 <mat-icon class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="Enterprise"
                           id="pointerConnectivityService"
                           routerLink="/enterprise/enterprise-edit/{{row.enterprise}}">launch</mat-icon>
-            </td>
-        </ng-container>
-
-        <!-- ap Column -->
-        <ng-container matColumnDef="ap" id="apColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>AP</th>
-            <td mat-cell *matCellDef="let row">{{row.ap}}
-                <mat-icon
-                    *ngIf="row.ap"
-                    class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="AP"
-                    id="pointerAP"
-                    routerLink="/aplist/aplist-edit/{{row.ap}}">launch</mat-icon>
             </td>
         </ng-container>
 

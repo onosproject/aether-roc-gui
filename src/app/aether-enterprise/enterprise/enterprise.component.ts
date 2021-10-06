@@ -7,8 +7,8 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
-import {EnterpriseEnterprise} from '../../../openapi3/aether/3.0.0/models';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {EnterpriseEnterprise} from '../../../openapi3/aether/4.0.0/models';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {EnterpriseDatasource} from './enterprise-datasource';
 import {AETHER_TARGETS} from '../../../environments/environment';
 import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
@@ -40,13 +40,13 @@ export class EnterpriseComponent extends RocListBase<EnterpriseDatasource> imple
         public opaService: OpenPolicyAgentService,
     ) {
         super(basketService, new EnterpriseDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'enterprise-3.0.0', 'enterprise');
+            'enterprise-4.0.0', 'enterprise');
     }
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('enterprise-3.0.0' in basketPreview && 'enterprise' in basketPreview['enterprise-3.0.0']) {
-            basketPreview['enterprise-3.0.0'].enterprise.forEach((basketItems) => {
+        if ('enterprise-4.0.0' in basketPreview && 'enterprise' in basketPreview['enterprise-4.0.0']) {
+            basketPreview['enterprise-4.0.0'].enterprise.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {

@@ -18,7 +18,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {of} from 'rxjs';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {ApiModule} from '../../../openapi3/aether/3.0.0/api.module';
+import {ApiModule} from '../../../openapi3/aether/4.0.0/api.module';
 
 describe('ApplicationComponent', () => {
     let component: ApplicationComponent;

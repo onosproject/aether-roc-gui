@@ -6,8 +6,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
-import {Service as AetherService, TrafficClassTrafficClassService} from '../../../openapi3/aether/3.0.0/services';
-import {TrafficClassTrafficClass} from '../../../openapi3/aether/3.0.0/models';
+import {Service as AetherService, TrafficClassTrafficClassService} from '../../../openapi3/aether/4.0.0/services';
+import {TrafficClassTrafficClass} from '../../../openapi3/aether/4.0.0/models';
 import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -27,7 +27,7 @@ import {map, startWith} from 'rxjs/operators';
 export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficClass> implements OnInit {
 
 
-    pathRoot = 'traffic-class-3.0.0';
+    pathRoot = 'traffic-class-4.0.0';
     pathListAttr = 'traffic-class';
     data: TrafficClassTrafficClass;
     showParentDisplay: boolean = false;
@@ -46,13 +46,9 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
             Validators.minLength(1),
             Validators.maxLength(1024),
         ])],
-        pelr: [undefined, Validators.compose([
-            Validators.min(0),
-            Validators.max(10)
-        ])],
-        pdb: [undefined, Validators.compose([
-            Validators.min(0),
-            Validators.max(1000)
+        arp: [undefined, Validators.compose([
+            Validators.min(1),
+            Validators.max(15)
         ])],
         qci: [undefined, Validators.compose([
             Validators.min(1),
@@ -69,7 +65,7 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'traffic-class-3.0.0', 'traffic-class');
+        super(snackBar, bs, route, router, 'traffic-class-4.0.0', 'traffic-class');
         super.form = this.tcForm;
         super.loadFunc = this.loadTrafficClassTrafficClass;
     }
@@ -97,8 +93,8 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['traffic-class-3.0.0']) {
-                    basketPreview['traffic-class-3.0.0']['traffic-class'].forEach((basketItems) => {
+                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['traffic-class-4.0.0']) {
+                    basketPreview['traffic-class-4.0.0']['traffic-class'].forEach((basketItems) => {
                         if (basketItems.id === id) {
                             this.populateFormData(basketItems);
                         }
@@ -118,13 +114,9 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
             this.tcForm.get('description').setValue(value.description);
             this.tcForm.get('description')[ORIGINAL] = value.description;
         }
-        if (value.pelr) {
-            this.tcForm.get('pelr').setValue(value.pelr);
-            this.tcForm.get('pelr')[ORIGINAL] = value.pelr;
-        }
-        if (value.pdb) {
-            this.tcForm.get('pdb').setValue(value.pdb);
-            this.tcForm.get('pdb')[ORIGINAL] = value.pdb;
+        if (value.arp) {
+            this.tcForm.get('arp').setValue(value.arp);
+            this.tcForm.get('arp')[ORIGINAL] = value.arp;
         }
         if (value.qci) {
             this.tcForm.get('qci').setValue(value.qci);

@@ -42,8 +42,8 @@
                                 (selectionChange)="templateSelecte($event)"
                                 id="selectTemplate">
                         <mat-option
-                                    *ngFor="let eachTemp of templates"
-                                    [value]="eachTemp.id">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
+                            *ngFor="let eachTemp of templates"
+                            [value]="eachTemp.id">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
                     </mat-select>
                     <mat-hint>Template</mat-hint>
                 </mat-form-field>
@@ -71,40 +71,6 @@
                         <mat-hint>SST (Slice/Service type 1-255)</mat-hint>
                     </mat-form-field>
                 </div>
-                <!--Uplink field-->
-                <div class="row">
-                    <mat-form-field class="field-margin">
-                        <input matInput type="number" [matAutocomplete]="auto"
-                               id="inputUplink"
-                               formControlName="uplink">
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of bandwidthOptions | async"
-                                        [value]="option.megabyte.numerical"
-                                        id="selectUplinkAutoOption">
-                                {{option.megabyte.numerical}}
-                                {{option.megabyte.inMb}}
-                            </mat-option>
-                        </mat-autocomplete>
-                        <mat-hint>Uplink (Mbps)</mat-hint>
-                    </mat-form-field>
-                </div>
-                <!--downlink field-->
-                <div class="row">
-                    <mat-form-field class="field-margin">
-                        <input matInput type="number" [matAutocomplete]="auto"
-                               id="inputDownlink"
-                               formControlName="downlink">
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of bandwidthOptions | async"
-                                        [value]="option.megabyte.numerical"
-                                        id="selectDownlinkAutoOption">
-                                {{option.megabyte.numerical}}
-                                {{option.megabyte.inMb}}
-                            </mat-option>
-                        </mat-autocomplete>
-                        <mat-hint>Downlink (Mbps)</mat-hint>
-                    </mat-form-field>
-                </div>
                 <!--traffic-class dropdown-->
                 <div class="row">
                     <mat-form-field class="field-margin half-width">
@@ -112,29 +78,37 @@
                                     placeholder="Please specify a Traffic Class"
                                     id="selectTrafficClass">
                             <mat-option
-                                        *ngFor="let tc of trafficClasses"
-                                        [value]="tc.id">{{tc.id}} {{tc['traffic-class']}}</mat-option>
+                                *ngFor="let tc of trafficClasses"
+                                [value]="tc.id">{{tc.id}} {{tc['traffic-class']}}</mat-option>
                         </mat-select>
                         <mat-hint>Traffic Class</mat-hint>
                     </mat-form-field>
                 </div>
             </div>
-            <div formArrayName="application" class="subscriber-section">
-                <mat-hint>Application</mat-hint>
+            <div formArrayName="filter" class="subscriber-section">
+                <mat-hint>Filter</mat-hint>
                 <mat-icon (click)="showApplicationDisplay = true" color='accent' class="subscriber-pointer"
-                          id="addApplication">
+                          id="addFilter">
                     add
                 </mat-icon>
-                <div *ngFor="let appForm of applications.controls">
+                <div *ngFor="let appForm of filter.controls">
                     <mat-form-field class="field-margin half-width">
                         <div [formGroup]="appForm">
-                            <input matInput formControlName="application" readonly>
-                            <mat-slide-toggle formControlName="allow">Allow</mat-slide-toggle>
-                            <mat-icon color='primary' class="subscriber-pointer"
-                                      aria-hidden="false" aria-label="Application"
-                                      routerLink="/application/application-edit/{{appForm.value.application}}"
-                                      id="pointerApplication">launch
-                            </mat-icon>
+
+                            <div class="float-left">
+                                <mat-hint>Application</mat-hint>
+                                <input matInput formControlName="application" readonly></div>
+                            <div class="float-left">
+                                <mat-hint>Priority</mat-hint>
+                                <input matInput type="number" formControlName="priority"></div>
+                            <div>
+                                <mat-slide-toggle formControlName="allow">Allow</mat-slide-toggle>
+                                <mat-icon color='primary' class="ield-margin"
+                                          aria-hidden="false" aria-label="Application"
+                                          routerLink="/application/application-edit/{{appForm.value.application}}"
+                                          id="pointerApplication">launch
+                                </mat-icon>
+                            </div>
                         </div>
                     </mat-form-field>
                     <button mat-icon-button color="accent"
@@ -173,30 +147,90 @@
                     </button>
                 </div>
             </div>
+            <!--device Uplink/downlink field-->
+            <div id="deviceMbrRow">
+                <mat-hint>Device Maximum bitrate</mat-hint>
+                <div [formGroup]="deviceMbrControls">
+                    <div class="row float-left" id="uplinkRow">
+                        <mat-form-field class="field-margin">
+                            <input matInput type="number" [matAutocomplete]="auto"
+                                   id="inputDeviceUplink"
+                                   formControlName="uplink">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of bandwidthOptions | async"
+                                            [value]="option.megabyte.numerical">
+                                    {{option.megabyte.numerical}}
+                                    {{option.megabyte.inMb}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Uplink (Mbps)</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="row " id="downlinkRow">
+                        <mat-form-field class="field-margin">
+                            <input matInput type="number" [matAutocomplete]="auto"
+                                   id="inputDeviceDownlink"
+                                   formControlName="downlink">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of bandwidthOptions | async"
+                                            [value]="option.megabyte.numerical">
+                                    {{option.megabyte.numerical}}
+                                    {{option.megabyte.inMb}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Downlink (Mbps)</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <!--                slice uplink/downlink-->
+            <div id="sliceMbrRow" class="subscriber-section">
+                <mat-hint>Slice Maximum bitrate</mat-hint>
+                <div [formGroup]="sliceMbrControls">
+                    <div class="row float-left" id="sliceUplinkRow">
+                        <mat-form-field class="field-margin">
+                            <input matInput type="number" [matAutocomplete]="auto"
+                                   id="inputsliceUplink"
+                                   formControlName="uplink">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of bandwidthOptions | async"
+                                            [value]="option.megabyte.numerical">
+                                    {{option.megabyte.numerical}}
+                                    {{option.megabyte.inMb}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Uplink (Mbps)</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="row " id="sliceDownlinkRow">
+                        <mat-form-field class="field-margin">
+                            <input matInput type="number" [matAutocomplete]="auto"
+                                   id="inputsliceDownlink"
+                                   formControlName="downlink">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of bandwidthOptions | async"
+                                            [value]="option.megabyte.numerical">
+                                    {{option.megabyte.numerical}}
+                                    {{option.megabyte.inMb}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Downlink (Mbps)</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
             <!-- Enterprise Dropdown -->
             <div class="row" id="enterpriseRow">
-            <mat-form-field class="field-margin half-width">
-                <mat-select formControlName="enterprise"
-                            placeholder="Please specify an Enterprise"
-                            required
-                            id="selectEnterprise">
-                    <mat-option
-                        *ngFor="let eachEnterprise of enterprises"
-                        [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
-                </mat-select>
-                <mat-hint>Enterprise</mat-hint>
-            </mat-form-field>
-            </div>
-            <!--AP dropdown-->
-            <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="ap"
-                                id="selectAp">
+                    <mat-select formControlName="enterprise"
+                                placeholder="Please specify an Enterprise"
+                                required
+                                id="selectEnterprise">
                         <mat-option
-                                    *ngFor="let eachAp of aps"
-                                    [value]="eachAp.id">{{eachAp.id}} {{eachAp.ap}}</mat-option>
+                            *ngFor="let eachEnterprise of enterprises"
+                            [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
                     </mat-select>
-                    <mat-hint>AP</mat-hint>
+                    <mat-hint>Enterprise</mat-hint>
                 </mat-form-field>
             </div>
             <!--UPF dropdown-->
@@ -205,8 +239,8 @@
                     <mat-select formControlName="upf"
                                 id="selectUpf">
                         <mat-option
-                                    *ngFor="let eachUpf of upfs"
-                                    [value]="eachUpf.id">{{eachUpf.id}} {{eachUpf['upf']}}</mat-option>
+                            *ngFor="let eachUpf of upfs"
+                            [value]="eachUpf.id">{{eachUpf.id}} {{eachUpf['upf']}}</mat-option>
                     </mat-select>
                     <mat-hint>UPF</mat-hint>
                 </mat-form-field>
@@ -215,7 +249,8 @@
                 <button mat-raised-button color="accent" type="submit"
                         id="submitButton"
                         [disabled]="!(vcsForm.valid && vcsForm.value.id && vcsForm.touched && opaService.canWrite('/vcs/vcs[id=' + id + ']'))">
-                    Update</button>
+                    Update
+                </button>
             </mat-card-actions>
         </mat-card-content>
     </mat-card>
@@ -224,7 +259,7 @@
     *ngIf="showApplicationDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
     id="applicationSelectComponent"
     [alreadySelected]="applicationExists"
-    (closeEvent)="appSelected($event)">
+    (appcloseEvent)="appSelected($event)">
 </aether-application-select>
 <aether-device-group-select
     *ngIf="showDeviceGroupDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"

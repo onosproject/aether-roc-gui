@@ -5,7 +5,7 @@
  */
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ApiModule as ApiModuleAether} from '../../openapi3/aether/3.0.0/api.module';
+import {ApiModule as ApiModuleAether} from '../../openapi3/aether/4.0.0/api.module';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {AETHER_ROC_API_URL} from '../../environments/environment';
@@ -30,6 +30,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { SiteEditComponent } from './site-edit/site-edit.component';
 import {UtilsModule} from '../utils/utils.module';
 import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
+import { SmallCellSelectComponent } from './small-cell-select/small-cell-select.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { ShowParentModulesComponent } from './show-parent-modules/show-parent-mo
         SiteComponent,
         SiteEditComponent,
         ShowParentModulesComponent,
+        SmallCellSelectComponent,
     ],
     imports: [
         CommonModule,

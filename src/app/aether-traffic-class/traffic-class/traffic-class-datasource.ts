@@ -5,9 +5,9 @@
  */
 
 import {RocDataSource} from '../../roc-data-source';
-import {TrafficClassTrafficClass} from '../../../openapi3/aether/3.0.0/models';
-import {TrafficClass} from '../../../openapi3/aether/3.0.0/models';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {TrafficClassTrafficClass} from '../../../openapi3/aether/4.0.0/models';
+import {TrafficClass} from '../../../openapi3/aether/4.0.0/models';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {BasketService} from '../../basket.service';
 
 export class TrafficClassDatasource extends RocDataSource<TrafficClassTrafficClass, TrafficClass> {
@@ -17,7 +17,7 @@ export class TrafficClassDatasource extends RocDataSource<TrafficClassTrafficCla
         protected target: string,
     ) {
         super(aetherService, bs, target,
-            '/traffic-class-3.0.0', 'traffic-class',
+            '/traffic-class-4.0.0', 'traffic-class',
         );
     }
 }

@@ -7,7 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {SocketService} from '../../socket.service';
 import {Observable} from 'rxjs';
 import {switchAll, tap, pluck, map} from 'rxjs/operators';
-import {Service as AetherService} from '../../../openapi3/aether/3.0.0/services';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {PROMETHEUS_PROXY} from '../../../environments/environment';
 import {OAuthService} from 'angular-oauth2-oidc';
 
