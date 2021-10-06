@@ -28,6 +28,7 @@ export const PROMETHEUS_PROXY = 'http://localhost:9090';
 export const WEBSOCKET_PROXY = 'ws://localhost:8120/ws';
 
 export const AETHER_TARGETS = ['connectivity-service-v4'];
+export const SDCORE_ADAPTER = 'sdcore-adapter-v4';
 export const RBAC_TARGET = 'rbac';
 
 export const OIDC_AUTH_CLIENT_ID = 'aether-roc-gui';

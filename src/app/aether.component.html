@@ -73,6 +73,11 @@
             <mat-icon>vpn_key</mat-icon>
             <span>API Key</span>
         </button>
+        <button *ngIf="opaService.userGroups.includes(AETHER_ROC_ADMIN_USER)" mat-menu-item routerLink="/diagnostics"
+                id="diagnosticsButton">
+            <mat-icon>bug_report</mat-icon>
+            <span>Diagnostics</span>
+        </button>
         <button mat-menu-item (click)="showhelp()"
                 id="showHelpButton">
             <mat-icon>help</mat-icon>
