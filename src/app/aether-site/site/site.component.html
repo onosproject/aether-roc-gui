@@ -103,6 +103,14 @@
             </td>
         </ng-container>
 
+        <!-- Monitor Column -->
+        <ng-container matColumnDef="monitor" id="monitorColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Monitor</th>
+            <td mat-cell *matCellDef="let row" routerLink="/site/site-monitor/{{row.id}}" id="monitorSiteButton">
+                <mat-icon class="table_icon" color="accent">insights</mat-icon>
+            </td>
+        </ng-container>
+
         <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>

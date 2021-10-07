@@ -31,6 +31,7 @@ import { SiteEditComponent } from './site-edit/site-edit.component';
 import {UtilsModule} from '../utils/utils.module';
 import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
 import { SmallCellSelectComponent } from './small-cell-select/small-cell-select.component';
+import { SiteMonitorComponent } from './site-monitor/site-monitor.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { SmallCellSelectComponent } from './small-cell-select/small-cell-select.
         SiteEditComponent,
         ShowParentModulesComponent,
         SmallCellSelectComponent,
+        SiteMonitorComponent,
     ],
     imports: [
         CommonModule,
@@ -47,7 +49,8 @@ import { SmallCellSelectComponent } from './small-cell-select/small-cell-select.
         RouterModule.forChild([
             {path: 'site', component: SiteComponent},
             {path: 'site-edit/:id', component: SiteEditComponent},
-            {path: '', component: SiteComponent, pathMatch: 'full'}
+            {path: 'site-monitor/:id', component: SiteMonitorComponent},
+            {path: '', component: SiteComponent, pathMatch: 'full'},
         ]),
         MatToolbarModule,
         FormsModule,
