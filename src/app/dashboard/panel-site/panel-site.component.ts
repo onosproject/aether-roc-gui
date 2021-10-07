@@ -97,8 +97,7 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
                     return;
                 }
                 this.dataSource.data.forEach((site) => {
-                    // Metric label name is ACE name, currently the match is with Site name contained
-                    // in ACE name but that needs clarification as Site object would eventually have ACEs name
+                    // Site object will have list of Monitoring agent (name, display-name, description)
                     if(resultItem.metric.name.includes(site.id)) {
                         if (resultItem.metric.__name__ === 'aetheredge_e2e_tests_ok') {
                             site['health'] = resultItem.value[1] > 0 ? "Online" : "Offline";

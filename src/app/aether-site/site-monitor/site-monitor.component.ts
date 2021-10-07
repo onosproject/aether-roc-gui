@@ -7,8 +7,7 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {RocMonitorBase} from '../../roc-monitor-base';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-    ApListApListService,
-    Service as AetherService, TrafficClassTrafficClassService,
+    Service as AetherService,
     SiteSiteService
 } from '../../../openapi3/aether/3.0.0/services';
 import {AETHER_TARGETS, PERFORMANCE_METRICS_ENABLED} from '../../../environments/environment';
@@ -72,9 +71,9 @@ export class SiteMonitorComponent extends RocMonitorBase implements OnInit, OnDe
         }
 
         this.prometheusTimer = setInterval(() => {
-            console.log('Get performance of ', this.id);
+            console.log('Get connectivity of', this.id);
             this.promData.loadData(sitePromTags).pipe(
-                filter((resultItem) => resultItem.metric.name === this.id),
+                filter((resultItem) => resultItem.metric.name.includes(this.thisSite.id)),
             ).subscribe(
                 (resultItem) => {
                     if (resultItem.metric.__name__ === 'aetheredge_e2e_tests_ok') {
@@ -103,11 +102,13 @@ export class SiteMonitorComponent extends RocMonitorBase implements OnInit, OnDe
     }
 
     generateClusterAvailabilityPanelUrl(orgId: number, orgName: string, siteName: string): string {
+        // This will show the E2E metrics for connectivity, ping and maintenance window
         return this.grafanaUrl + '/d-solo/site-' + siteName + '/site-' + siteName + '-availability?orgId=' + orgId +
             '&theme=light&panelId=1';
     }
 
     generateAgentAvailabilityPanelUrl(orgId: number, orgName: string, siteName: string): string {
+        // This will show if all agents on Site were able to send E2E metrics
         return this.grafanaUrl + '/d-solo/site-' + siteName + '/site-' + siteName + '-availability?orgId=' + orgId +
             '&theme=light&panelId=2';
     }
