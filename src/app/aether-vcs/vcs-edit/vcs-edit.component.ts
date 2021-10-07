@@ -127,9 +127,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             this.vcsForm.get('template').disable();
             this.vcsForm.get('sd').disable();
             this.vcsForm.get('sst').disable();
-            this.vcsForm.get('downlink').disable();
-            this.vcsForm.get('uplink').disable();
-            this.vcsForm.get('traffic-class').disable();
         }
         this.loadAp(this.target);
         this.loadDeviceGoup(this.target);

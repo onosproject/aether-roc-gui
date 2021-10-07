@@ -66,6 +66,10 @@ const aetherRoutes: Routes = [
         loadChildren: () => import('./aether-traffic-class/traffic-class.module').then(m => m.TrafficClassModule)
     },
     {
+        path: 'diagnostics',
+        loadChildren: () => import('./diagnostics/diagnostics.module').then(m => m.DiagnosticsModule)
+    },
+    {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'
