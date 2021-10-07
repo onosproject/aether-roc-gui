@@ -92,7 +92,7 @@
             <div class="row">
                 <mat-form-field class="field-margin half-width">
                     <mat-label>{{this.displayOption}}</mat-label>
-                    <mat-select formControlName="admin-status" [(value)]="this.option">
+                    <mat-select formControlName="admin-status" [(value)]="this.option" id="selectAdminStatus">
                         <mat-option id="statusOptionEnabled" value="ENABLE" (click)="changeAdminStatus()">ENABLE
                         </mat-option>
                         <mat-option id="statusOptionDisabled" value="DISABLE" (click)="changeAdminStatus()">DISABLE

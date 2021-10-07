@@ -8,7 +8,7 @@ import {OAuthService} from 'angular-oauth2-oidc';
 import {authConfig, BASKET_SERVICE_ENABLED} from '../environments/environment';
 import {Meta} from '@angular/platform-browser';
 import {BasketService} from './basket.service';
-import {OpenPolicyAgentService} from './open-policy-agent.service';
+import {AETHER_ROC_ADMIN_USER, OpenPolicyAgentService} from './open-policy-agent.service';
 import {Router} from '@angular/router';
 import {IdTokClaims} from './idtoken';
 import {SocketService} from './socket.service';
@@ -30,7 +30,7 @@ export class AetherComponent implements OnInit, OnDestroy {
     userProfileDisplay: boolean = false;
     apiKeyDisplay: boolean = false;
     basketServiceEnabled: boolean = BASKET_SERVICE_ENABLED;
-
+    AETHER_ROC_ADMIN_USER = AETHER_ROC_ADMIN_USER
     constructor(
         private oauthService: OAuthService,
         private meta: Meta,
