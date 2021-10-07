@@ -130,6 +130,68 @@ export class ApiService extends BaseService {
   }
 
   /**
+   * Path part for operation sdcorePushConfigTopLevel
+   */
+  static readonly SdcorePushConfigTopLevelPath = '/sdcore/synchronize/{service}';
+
+  /**
+   * POST /sdcore/synchronize/{service}.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `sdcorePushConfigTopLevel()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  sdcorePushConfigTopLevel$Response(params: {
+
+    /**
+     * sdcore service name e.g. sdcore-adapter-v4
+     */
+    service: any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.SdcorePushConfigTopLevelPath, 'post');
+    if (params) {
+      rb.path('service', params.service, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /sdcore/synchronize/{service}.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `sdcorePushConfigTopLevel$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  sdcorePushConfigTopLevel(params: {
+
+    /**
+     * sdcore service name e.g. sdcore-adapter-v4
+     */
+    service: any;
+  }): Observable<void> {
+
+    return this.sdcorePushConfigTopLevel$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
    * Path part for operation specTopLevel
    */
   static readonly SpecTopLevelPath = '/spec';
