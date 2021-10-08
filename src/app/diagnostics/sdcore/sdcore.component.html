@@ -1,0 +1,20 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<div>
+    <mat-toolbar class="profile-toolbar" color="primary">
+        <p>SD-CORE</p>
+        <span class="toolbar-spacer"></span>
+    </mat-toolbar>
+    <div class="space-allround">
+        <mat-label class="space-allround">{{sdcoreAdapter}}</mat-label>
+        <button mat-raised-button color="accent"
+                class="spacing"
+                type="submit"
+                [disabled]="!opaService.userGroups.includes(AETHER_ROC_ADMIN_USER)"
+                (click)="synchronize()"
+                id="synchronizeButton">Synchronize</button>
+    </div>
+</div>

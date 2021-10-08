@@ -11,9 +11,10 @@ import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../baske
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+import {EdgeDeviceParam} from "../edge-device/edge-device.component";
+import {isEmpty, map, startWith} from 'rxjs/operators';
 import {SiteSite, EnterpriseEnterprise} from 'src/openapi3/aether/4.0.0/models';
 import {SmallCellParam} from "../small-cell-select/small-cell-select.component";
-import {EdgeDeviceParam} from "../edge-device/edge-device.component";
 
 @Component({
     selector: 'aether-site-edit',
@@ -118,7 +119,6 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             (value => {
                 this.data = value;
                 this.siteId = value.id;
-                console.log(value,"value---")
                 this.populateFormData(value);
             }),
             error => {

@@ -35,7 +35,8 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
         'enterpriseID',
         'format',
         'edit',
-        'delete'
+        'delete',
+        'monitor'
     ];
 
     constructor(
@@ -64,7 +65,7 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
                         if (basketItems.enterprise) {
                             ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
                         }
-                        if (basketItems['small-cell']) {
+                        if (basketItems['small-cell']){
                             if (ScopeOfDataSource.data[listItemCount]['small-cell'].length === 0) {
                                 ScopeOfDataSource.data[listItemCount]['small-cell'] = basketItems['small-cell'];
                             } else {

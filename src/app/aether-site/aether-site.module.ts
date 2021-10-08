@@ -32,6 +32,8 @@ import {UtilsModule} from '../utils/utils.module';
 import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
 import { SmallCellSelectComponent } from './small-cell-select/small-cell-select.component';
 import { EdgeDeviceComponent } from './edge-device/edge-device.component';
+import {SiteMonitorComponent} from "./site-monitor/site-monitor.component";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 
 @NgModule({
@@ -41,6 +43,7 @@ import { EdgeDeviceComponent } from './edge-device/edge-device.component';
         ShowParentModulesComponent,
         SmallCellSelectComponent,
         EdgeDeviceComponent,
+        SiteMonitorComponent
     ],
     imports: [
         CommonModule,
@@ -49,6 +52,7 @@ import { EdgeDeviceComponent } from './edge-device/edge-device.component';
         RouterModule.forChild([
             {path: 'site', component: SiteComponent},
             {path: 'site-edit/:id', component: SiteEditComponent},
+            {path: 'site-monitor/:id', component: SiteMonitorComponent},
             {path: '', component: SiteComponent, pathMatch: 'full'}
         ]),
         MatToolbarModule,
