@@ -25,7 +25,11 @@
         <!-- Health column -->
         <ng-container matColumnDef="health" id="healthColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Health</th>
-            <td mat-cell *matCellDef="let row" class="spacing">{{row.health}}</td>
+            <td mat-cell *matCellDef="let row" class="spacing">
+                <p *ngFor="let edge of row['monitoring']['edge-device']">
+                    {{edge["display-name"]}} : {{edge["health"]}}
+                </p>
+            </td>
         </ng-container>
         <!-- Metrics icon -->
         <ng-container matColumnDef="monitor" id="monitorColumn">

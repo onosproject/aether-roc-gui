@@ -20,7 +20,9 @@ import {OAuthService} from 'angular-oauth2-oidc';
 import {IdTokClaims} from '../../idtoken';
 
 const sitePromTags = [
-    'aetheredge_e2e_tests_ok'
+    'aetheredge_e2e_tests_ok',
+    'aetheredge_in_maintenance_window',
+    'aetheredge_e2e_tests_down'
 ];
 
 @Component({
@@ -96,10 +98,26 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
                     return;
                 }
                 this.dataSource.data.forEach((site) => {
-                    if (resultItem.metric.name === site.id) {
-                        site["health"] = resultItem.value[1] > 0 ? "Online" : "Offline";
-                        // console.log('Wrote ', resultItem.metric.__name__, vcs.id, resultItem.value[1]);
+                    if(site["monitoring"] === undefined) {
+                        site["monitoring"] = {}
+                        site.monitoring["edge-device"] = []
                     }
+
+                    site.monitoring["edge-device"]
+                        .filter((device) => device["name"] === resultItem.metric.name)
+                        .forEach((device) => {
+                            if(resultItem.metric.__name__ === 'aetheredge_e2e_tests_ok') {
+                                device["health"] = resultItem.value[1] > 0 ? "Online" : "Offline";
+                            }
+
+                            if(resultItem.metric.__name__ === 'aetheredge_e2e_tests_down') {
+                                device["health"] = resultItem.value[1] > 0 ? "Tests Down" : device["health"];
+                            }
+
+                            if(resultItem.metric.__name__ === 'aetheredge_in_maintenance_window') {
+                                device["health"] = resultItem.value[1] > 0 ? "Maintenance" : device["health"];
+                            }
+                        })
                 });
             },
             (err) => console.log('error polling ', err),

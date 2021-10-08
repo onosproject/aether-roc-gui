@@ -35,7 +35,8 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
         'enterpriseID',
         'format',
         'edit',
-        'delete'
+        'delete',
+        'monitor'
     ];
 
     constructor(
