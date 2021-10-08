@@ -11,9 +11,9 @@ import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../baske
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {isEmpty, map, startWith} from 'rxjs/operators';
 import {SiteSite, EnterpriseEnterprise} from 'src/openapi3/aether/4.0.0/models';
 import {SmallCellParam} from "../small-cell-select/small-cell-select.component";
+import {EdgeDeviceParam} from "../edge-device/edge-device.component";
 
 @Component({
     selector: 'aether-site-edit',
@@ -26,6 +26,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
     pathRoot = 'site-4.0.0';
     pathListAttr = 'site';
     showConnectDisplay: boolean = false;
+    showEdgeDeviceDisplay: boolean = false;
     showSmallCellAddButton: boolean = true;
     siteForm = this.fb.group({
         id: [undefined, Validators.compose([
@@ -42,6 +43,11 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             Validators.maxLength(1024),
         ])],
         'small-cell': this.fb.array([]),
+        'monitoring': this.fb.group({
+            'edge-cluster-prometheus-url': [undefined],
+            'edge-monitoring-prometheus-url': [undefined],
+            'edge-device': this.fb.array([])
+        }),
         enterprise: [undefined],
         'imsi-definition': this.fb.group({
             mcc: [undefined, Validators.compose([
@@ -84,6 +90,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         this.siteForm[REQDATTRIBS] = ['enterprise'];
         this.siteForm.get(['imsi-definition'])[REQDATTRIBS] = ['mcc', 'mnc', 'enterprise', 'format'];
         this.siteForm.get(['small-cell'])[IDATTRIBS] = ['name'];
+        this.siteForm.get(['monitoring','edge-device'])[IDATTRIBS] = ['name'];
     }
 
     ngOnInit(): void {
@@ -111,6 +118,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             (value => {
                 this.data = value;
                 this.siteId = value.id;
+                console.log(value,"value---")
                 this.populateFormData(value);
             }),
             error => {
@@ -121,7 +129,6 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
                 if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['site-4.0.0']) {
                     basketPreview['site-4.0.0'].site.forEach((basketItems) => {
                         if (basketItems.id === id) {
-                            console.log(basketItems, "basketItems----------------------")
                             this.populateFormData(basketItems);
                         }
                     });
@@ -133,6 +140,10 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
 
     get ImsiControls(): FormGroup {
         return this.siteForm.get(['imsi-definition']) as FormGroup;
+    }
+
+    get MonitoringControls(): FormGroup {
+        return this.siteForm.get(['monitoring']) as FormGroup;
     }
 
     private populateFormData(value: SiteSite): void {
@@ -159,19 +170,18 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
                 if (!isDeleted) {
                     const smNameControl = this.fb.control(sm.name);
                     smNameControl[ORIGINAL] = sm.name;
-
                     const smAddressControl = this.fb.control(sm.address);
                     smAddressControl[ORIGINAL] = sm.address;
                     const smTacControl = this.fb.control(sm.tac);
                     smTacControl[ORIGINAL] = sm.tac;
-                    const smEnabledcontrol = this.fb.control(sm.enabled);
-                    smEnabledcontrol[ORIGINAL] = sm.enabled;
+                    const smEnablecontrol = this.fb.control(sm.enable);
+                    smEnablecontrol[ORIGINAL] = sm.enable;
 
                     (this.siteForm.get('small-cell') as FormArray).push(this.fb.group({
                         name: smNameControl,
                         address: smAddressControl,
                         tac: smTacControl,
-                        enabled: smEnabledcontrol,
+                        enable: smEnablecontrol,
                     }));
                 }
                 isDeleted = false;
@@ -182,7 +192,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
                     name: eachValueSM.name,
                     address: eachValueSM.address,
                     tac: eachValueSM.tac,
-                    enabled: eachValueSM.enabled
+                    enable: eachValueSM.enable
                 }));
             }
         }
@@ -190,6 +200,53 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         if (value.enterprise) {
             this.siteForm.get(['enterprise']).setValue(value.enterprise);
             this.siteForm.get('enterprise')[ORIGINAL] = value.enterprise;
+        }
+
+        if (value.monitoring){
+            if(value.monitoring['edge-cluster-prometheus-url']){
+                this.siteForm.get(['monitoring', 'edge-cluster-prometheus-url']).setValue(value.monitoring['edge-cluster-prometheus-url']);
+            }
+            if(value.monitoring['edge-monitoring-prometheus-url']){
+                this.siteForm.get(['monitoring', 'edge-monitoring-prometheus-url']).setValue(value.monitoring['edge-monitoring-prometheus-url']);
+            }
+            if(value.monitoring['edge-device'] && this.siteForm.value.monitoring['edge-device'].length === 0 ){
+                for (const ed of value.monitoring['edge-device']) {
+                    let isDeleted = false;
+                    Object.keys(localStorage)
+                        .filter(checkerKey => checkerKey.startsWith('/basket-delete/site-4.0.0/site[id=' + value.id +
+                            ']/monitoring/edge-device/[name='))
+                        .forEach((checkerKey) => {
+                            if (checkerKey.includes(ed.name)) {
+                                isDeleted = true;
+                            }
+                        });
+                    if (!isDeleted) {
+                        const edNameControl = this.fb.control(ed.name);
+                        edNameControl[ORIGINAL] = ed.name;
+                        const edDisplayNameControl = this.fb.control(ed['display-name']);
+                        edDisplayNameControl[ORIGINAL] = ed['display-name'];
+                        const edDescriptionControl = this.fb.control(ed.description);
+                        edDescriptionControl[ORIGINAL] = ed.description;
+
+                        (this.siteForm.get(['monitoring','edge-device']) as FormArray).push(this.fb.group({
+                            name: edNameControl,
+                            ['display-name']: edDisplayNameControl,
+                            description: edDescriptionControl,
+                        }));
+                    }
+                    isDeleted = false;
+                }
+            } else if (value.monitoring['edge-device'] && this.siteForm.value.monitoring['edge-device'].length !== 0) {
+                for (const eachValueED of value.monitoring['edge-device']) {
+                    (this.siteForm.get(['monitoring','edge-device']) as FormArray).push(this.fb.group({
+                        name: eachValueED.name,
+                        'display-name': eachValueED['display-name'],
+                        description: eachValueED.description,
+                    }));
+                }
+
+
+            }
         }
         if (value['imsi-definition']) {
             this.siteForm.get(['imsi-definition', 'mcc']).setValue(value['imsi-definition'].mcc);
@@ -221,19 +278,46 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         epTacControl.markAsTouched();
         epTacControl.markAsDirty();
 
-        const epEnabledcontrol = this.fb.control(selected.enabled);
-        epEnabledcontrol.markAsTouched();
-        epEnabledcontrol.markAsDirty();
+        const epEnablecontrol = this.fb.control(selected.enable);
+        epEnablecontrol.markAsTouched();
+        epEnablecontrol.markAsDirty();
 
         const epGroupControl = this.fb.group({
             name: epNameControl,
             address: epAddressControl,
             tac: epTacControl,
-            enabled: epEnabledcontrol,
+            enable: epEnablecontrol,
         });
         epGroupControl[REQDATTRIBS] = ['tac'];
 
         (this.siteForm.get('small-cell') as FormArray).push(epGroupControl);
+        console.log('Adding new Value', selected);
+        this.siteForm.markAllAsTouched();
+    }
+    closeEdgeDeviceCard(selected: EdgeDeviceParam):void{
+        this.showEdgeDeviceDisplay = false;
+
+        if (selected === undefined) {
+            return;
+        }
+        const edNameControl = this.fb.control(selected.name);
+        edNameControl.markAsTouched();
+        edNameControl.markAsDirty();
+
+        const edDisplayNameControl = this.fb.control(selected['display-name']);
+        edDisplayNameControl.markAsTouched();
+        edDisplayNameControl.markAsDirty();
+
+        const edDescriptionControl = this.fb.control(selected.description);
+        edDescriptionControl.markAsTouched();
+        edDescriptionControl.markAsDirty();
+
+        const epGroupControl = this.fb.group({
+            name: edNameControl,
+            'display-name': edDisplayNameControl,
+            description: edDescriptionControl,
+        });
+        (this.siteForm.get(['monitoring', 'edge-device']) as FormArray).push(epGroupControl);
         console.log('Adding new Value', selected);
         this.siteForm.markAllAsTouched();
     }
@@ -272,6 +356,10 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
 
     get smallCellControls(): FormArray {
         return this.siteForm.get(['small-cell']) as FormArray;
+    }
+
+    get edgeDeviceControls(): FormArray{
+        return this.siteForm.get(['monitoring', 'edge-device']) as FormArray;
     }
 
     loadEnterprises(target: string): void {

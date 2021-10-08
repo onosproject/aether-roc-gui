@@ -8,7 +8,7 @@ import {RocMonitorBase} from '../../roc-monitor-base';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
     ApListApListService,
-    Service as AetherService, TrafficClassTrafficClassService,
+    Service as AetherService, SiteSiteService, TrafficClassTrafficClassService,
     UpfUpfService, VcsVcsService
 } from '../../../openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS, PERFORMANCE_METRICS_ENABLED} from '../../../environments/environment';
@@ -16,7 +16,7 @@ import {filter, mergeMap, pluck} from 'rxjs/operators';
 import {
     ApListApList,
     ApplicationApplication,
-    DeviceGroupDeviceGroup, TrafficClassTrafficClass, UpfUpf,
+    DeviceGroupDeviceGroup, SiteSite, TrafficClassTrafficClass, UpfUpf,
     VcsVcs
 } from '../../../openapi3/aether/4.0.0/models';
 import {from} from 'rxjs';
@@ -45,6 +45,7 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
     applications: Map<ApplicationApplication, boolean>;
     apList: ApListApList;
     upf: UpfUpf;
+    site: SiteSite;
     trafficClass: TrafficClassTrafficClass;
     connectivityPanelUrl: string;
     performancePanelUrl: string;
@@ -65,6 +66,7 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
         protected upfService: UpfUpfService,
         protected tcService: TrafficClassTrafficClassService,
         protected apListService: ApListApListService,
+        protected siteService: SiteSiteService,
         protected route: ActivatedRoute,
         protected router: Router,
         private httpClient: HttpClient,
@@ -144,8 +146,17 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
             mergeMap((items: DeviceGroupDeviceGroup[]) => from(items)),
             filter((dg: DeviceGroupDeviceGroup) => deviceGroups.has(dg.id))
         ).subscribe(
-            (dg) => this.deviceGroups.set(dg, deviceGroups.get(dg.id)),
+            (dg) => {
+                this.deviceGroups.set(dg, deviceGroups.get(dg.id))
+                this.getSite(dg.site);},
             (err => console.warn('Error getting device-group'))
+        );
+    }
+
+    private getSite(siteID: string): void {
+        this.siteService.getSiteSite({target: AETHER_TARGETS[0], id: siteID}).subscribe(
+            (value: SiteSite) => this.site = value,
+            err => console.warn('Error loading site', siteID, err)
         );
     }
 
@@ -157,13 +168,6 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
         ).subscribe(
             (app) => this.applications.set(app, application.get(app.id)),
             (err) => console.warn('Error getting application')
-        );
-    }
-
-    private getAccessPoints(aplist: string): void {
-        this.apListService.getApListApList({target: AETHER_TARGETS[0], id: aplist}).subscribe(
-            (apList: ApListApList) => this.apList = apList,
-            (err) => console.warn('Error in getting APList')
         );
     }
 

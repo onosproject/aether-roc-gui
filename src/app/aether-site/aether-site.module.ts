@@ -31,6 +31,7 @@ import { SiteEditComponent } from './site-edit/site-edit.component';
 import {UtilsModule} from '../utils/utils.module';
 import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
 import { SmallCellSelectComponent } from './small-cell-select/small-cell-select.component';
+import { EdgeDeviceComponent } from './edge-device/edge-device.component';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { SmallCellSelectComponent } from './small-cell-select/small-cell-select.
         SiteEditComponent,
         ShowParentModulesComponent,
         SmallCellSelectComponent,
+        EdgeDeviceComponent,
     ],
     imports: [
         CommonModule,

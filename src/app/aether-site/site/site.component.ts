@@ -49,6 +49,7 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
     }
 
     onDataLoaded(ScopeOfDataSource): void {
+        console.log(ScopeOfDataSource, "ScopeOfDataSource")
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('site-4.0.0' in basketPreview && 'site' in basketPreview['site-4.0.0']) {
             basketPreview['site-4.0.0'].site.forEach((basketItems) => {
@@ -63,14 +64,14 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
                         if (basketItems.enterprise) {
                             ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
                         }
-                        if (basketItems['small-cell']){
+                        if (basketItems['small-cell']) {
                             if (ScopeOfDataSource.data[listItemCount]['small-cell'].length === 0) {
                                 ScopeOfDataSource.data[listItemCount]['small-cell'] = basketItems['small-cell'];
                             } else {
                                 for (const eachBasketSC of basketItems['small-cell']) {
                                     let eachSCPosition = 0;
-                                    for (const eachScopeSC of ScopeOfDataSource.data[listItemCount]['small-cell']){
-                                        if (eachBasketSC['small-cell'] === eachScopeSC['small-cell']){
+                                    for (const eachScopeSC of ScopeOfDataSource.data[listItemCount]['small-cell']) {
+                                        if (eachBasketSC['small-cell'] === eachScopeSC['small-cell']) {
                                             ScopeOfDataSource.data[listItemCount]['small-cell'][eachSCPosition].name
                                                 = eachBasketSC.name;
                                         }
@@ -79,6 +80,28 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
                                 }
                             }
                         }
+                        // if (basketItems.monitoring && basketItems.monitoring["edge-cluster-prometheus-url"]) {
+                        //     ScopeOfDataSource.data[listItemCount].monitoring["edge-cluster-prometheus-url"] = basketItems.monitoring["edge-cluster-prometheus-url"];
+                        // }
+                        // if (basketItems.monitoring && basketItems.monitoring["edge-monitoring-prometheus-url"]) {
+                        //     ScopeOfDataSource.data[listItemCount].monitoring["edge-monitoring-prometheus-url"] = basketItems.monitoring["edge-monitoring-prometheus-url"];
+                        // }
+                        // if (basketItems['edge-device']) {
+                        //     if (ScopeOfDataSource.data[listItemCount]['edge-device'].length === 0) {
+                        //         ScopeOfDataSource.data[listItemCount]['edge-device'] = basketItems['edge-device'];
+                        //     } else {
+                        //         for (const eachBasketSC of basketItems['edge-device']) {
+                        //             let eachSCPosition = 0;
+                        //             for (const eachScopeSC of ScopeOfDataSource.data[listItemCount]['edge-device']) {
+                        //                 if (eachBasketSC['edge-device'] === eachScopeSC['edge-device']) {
+                        //                     ScopeOfDataSource.data[listItemCount]['edge-device'][eachSCPosition].name
+                        //                         = eachBasketSC.name;
+                        //                 }
+                        //                 eachSCPosition++;
+                        //             }
+                        //         }
+                        //     }
+                        // }
                         if (basketItems['imsi-definition'] && basketItems['imsi-definition'].mcc) {
                             ScopeOfDataSource.data[listItemCount]['imsi-definition'].mcc = basketItems['imsi-definition'].mcc;
                         }
@@ -99,6 +122,7 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
     }
 
     ngAfterViewInit(): void {
+        console.log(this.dataSource,"this.datasource")
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
