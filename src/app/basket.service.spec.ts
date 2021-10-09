@@ -108,7 +108,7 @@ describe('BasketService', () => {
         localStorage.clear();
     });
 
-    xit('should produce a patchbody', () => {
+    it('should produce a patchbody', () => {
         localStorage.clear();
         localStorage.setItem('/basket-update/security-profile-4.0.0/security-profile[id=id1]/opc/array1[id=1]/attr1',
             '{"newValue":"attr1-updated","oldValue":"attr1-old"}');
@@ -156,38 +156,38 @@ const expectedPatchBody = `{
     "security-profile-4.0.0": {
       "security-profile": [
         {
-          "id": "id3",
-          "number": 1234,
-          "boolean": true,
-          "key": "keyNew1"
-        },
-        {
           "id": "idNew2"
-        },
-        {
-          "id": "id2",
-          "opc": "opcNew2"
         },
         {
           "id": "id1",
           "opc": {
             "array1": [
               {
-                "id": "1",
-                "additionalProperties": {
-                  "unchanged": "mand1,mand2"
-                },
-                "attr1": "attr1-updated"
-              },
-              {
                 "id": "2",
                 "additionalProperties": {
                   "unchanged": "mand2"
                 },
                 "mand1": "mand1-updated"
+              },
+              {
+                "id": "1",
+                "additionalProperties": {
+                  "unchanged": "mand1,mand2"
+                },
+                "attr1": "attr1-updated"
               }
             ]
           }
+        },
+        {
+          "id": "id3",
+          "boolean": true,
+          "key": "keyNew1",
+          "number": 1234
+        },
+        {
+          "id": "id2",
+          "opc": "opcNew2"
         }
       ]
     }
@@ -197,8 +197,8 @@ const expectedPatchBody = `{
       "security-profile": [
         {
           "id": "id2",
-          "something": "null",
-          "desc": "null"
+          "desc": "null",
+          "something": "null"
         }
       ]
     },
