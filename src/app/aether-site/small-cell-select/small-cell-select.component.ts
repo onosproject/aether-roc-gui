@@ -32,7 +32,10 @@ export class SmallCellSelectComponent {
             Validators.maxLength(80),
         ])],
         address: [undefined],
-        tac: [undefined],
+        tac: [undefined, Validators.compose([
+            Validators.minLength(4),
+            Validators.maxLength(8),
+        ])],
         enable: [undefined]
     })
 

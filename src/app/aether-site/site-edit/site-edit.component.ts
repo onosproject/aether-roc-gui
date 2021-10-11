@@ -12,7 +12,6 @@ import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {EdgeDeviceParam} from "../edge-device/edge-device.component";
-import {isEmpty, map, startWith} from 'rxjs/operators';
 import {SiteSite, EnterpriseEnterprise} from 'src/openapi3/aether/4.0.0/models';
 import {SmallCellParam} from "../small-cell-select/small-cell-select.component";
 
@@ -126,9 +125,11 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
+                console.log(basketPreview,"basketPreview")
                 if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['site-4.0.0']) {
                     basketPreview['site-4.0.0'].site.forEach((basketItems) => {
                         if (basketItems.id === id) {
+                            console.log(basketItems,"-----basketItemsbasketItemsbasketItemsbasketItemsbasketItemsbasketItemsbasketItems-------------------")
                             this.populateFormData(basketItems);
                         }
                     });
@@ -172,7 +173,10 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
                     smNameControl[ORIGINAL] = sm.name;
                     const smAddressControl = this.fb.control(sm.address);
                     smAddressControl[ORIGINAL] = sm.address;
-                    const smTacControl = this.fb.control(sm.tac);
+                    const smTacControl = this.fb.control(sm.tac,Validators.compose([
+                        Validators.min(4),
+                        Validators.max(8)
+                    ]));
                     smTacControl[ORIGINAL] = sm.tac;
                     const smEnablecontrol = this.fb.control(sm.enable);
                     smEnablecontrol[ORIGINAL] = sm.enable;
@@ -214,7 +218,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
                     let isDeleted = false;
                     Object.keys(localStorage)
                         .filter(checkerKey => checkerKey.startsWith('/basket-delete/site-4.0.0/site[id=' + value.id +
-                            ']/monitoring/edge-device/[name='))
+                            ']/monitoring/edge-device[name='))
                         .forEach((checkerKey) => {
                             if (checkerKey.includes(ed.name)) {
                                 isDeleted = true;
@@ -274,7 +278,10 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         epAddressControl.markAsTouched();
         epAddressControl.markAsDirty();
 
-        const epTacControl = this.fb.control(selected.tac);
+        const epTacControl = this.fb.control(selected.tac, Validators.compose([
+            Validators.min(4),
+            Validators.max(8)
+        ]));
         epTacControl.markAsTouched();
         epTacControl.markAsDirty();
 
@@ -331,6 +338,37 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         (this.siteForm.get('small-cell') as FormArray).removeAt(index);
         this.showSmallCellAddButton = true;
         this.snackBar.open('Deletion of ' + sc + ' added to basket', undefined, {duration: 2000});
+    }
+
+    deleteEDFromSelect(ed: string):void{
+        this.bs.deleteIndexedEntry('/site-4.0.0/site[id=' + this.id +
+            ']/monitoring/edge-device[name=' + ed + ']', 'name', ed, this.edmap(ed));
+        const index = (this.siteForm.get(['monitoring', 'edge-device']) as FormArray)
+            .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ed);
+        (this.siteForm.get(['monitoring', 'edge-device']) as FormArray).removeAt(index);
+        this.showSmallCellAddButton = true;
+        this.snackBar.open('Deletion of ' + ed + ' added to basket', undefined, {duration: 2000});
+    }
+
+    private edmap(ed: string): Map<string, string> {
+        const edMap = new Map<string, string>();
+        const siteId = '/site-4.0.0/site[id=' + this.id + ']';
+        let parentUc = localStorage.getItem(siteId);
+        if (parentUc === null) {
+            parentUc = this.siteForm[REQDATTRIBS];
+        }
+        edMap.set(siteId, parentUc);
+
+        const epId = siteId + '/monitoring/edge-device[name=' + ed + ']';
+        let epUc = localStorage.getItem(epId);
+        if (epUc === null) {
+            const epFormArray = this.siteForm.get(['monitoring','edge-device']) as FormArray;
+            const epCtl = epFormArray.controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ed);
+            console.log('Getting', epCtl, 'for', epId);
+            epUc = epFormArray.controls[epCtl][REQDATTRIBS];
+        }
+        edMap.set(epId, epUc);
+        return edMap;
     }
 
     private ucmap(sc: string): Map<string, string> {

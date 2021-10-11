@@ -28,7 +28,10 @@ export class EdgeDeviceComponent {
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        'display-name': [undefined],
+        'display-name': [undefined, Validators.compose([
+            Validators.minLength(1),
+            Validators.maxLength(80),
+        ])],
         description: [undefined]
     })
 

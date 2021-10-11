@@ -38,6 +38,19 @@
                 </mat-form-field>
             </div>
 
+            <div class="row" id="enterpriseRow">
+                <mat-form-field class="field-margin half-width">
+                    <mat-select formControlName="enterprise"
+                                placeholder="Please specify an Enterprise"
+                                id="selectEnterprise">
+                        <mat-option
+                            *ngFor="let eachEnterprise of enterprises"
+                            [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
+                    </mat-select>
+                    <mat-hint>Enterprise</mat-hint>
+                </mat-form-field>
+            </div>
+
             <div formArrayName="small-cell" class="subscriber-section">
                 <mat-hint>Small Cell</mat-hint>
                 <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addSmallCell"
@@ -99,30 +112,17 @@
                                 <input matInput formControlName="description" id="inputEDDescription">
                                 <mat-hint>Description</mat-hint>
                             </mat-form-field>
-                            <!--                        <button mat-icon-button-->
-                            <!--                                color="accent"-->
-                            <!--                                (click)="deleteFromSelect(smallCellForm.value['name'])"-->
-                            <!--                                id="deleteSmallCell">-->
-                            <!--                            <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>-->
-                            <!--                        </button>-->
+                            <button mat-icon-button
+                                    color="accent"
+                                    (click)="deleteEDFromSelect(edgeDeviceForm.value['name'])"
+                                    id="deleteSmallCell">
+                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-
-            <div class="row" id="enterpriseRow">
-                <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="enterprise"
-                                placeholder="Please specify an Enterprise"
-                                id="selectEnterprise">
-                        <mat-option
-                            *ngFor="let eachEnterprise of enterprises"
-                            [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
-                    </mat-select>
-                    <mat-hint>Enterprise</mat-hint>
-                </mat-form-field>
-            </div>
             <mat-hint>IMSI</mat-hint>
             <div [formGroup]="ImsiControls">
                 <mat-form-field class="field-margin">

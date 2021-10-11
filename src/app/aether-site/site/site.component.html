@@ -41,39 +41,6 @@
             </td>
         </ng-container>
 
-<!--        &lt;!&ndash;monitoring Column&ndash;&gt;-->
-<!--        <ng-container matColumnDef="monitoring" id="MonitoringColumn">-->
-<!--            <th mat-header-cell *matHeaderCellDef mat-sort-header>Monitoring</th>-->
-<!--            <td mat-cell *matCellDef="let row">-->
-<!--                <p *ngIf="row.monitoring?.['edge-cluster-prometheus-url']">Edge-cluster-prometheus-url: {{row.monitoring?.['edge-cluster-prometheus-url'] | truncateText:25}}-->
-<!--                    <mat-icon class="table_icon small_icon"-->
-<!--                              color="primary" aria-hidden="false" aria-label="Enterprise"-->
-<!--                              id="pointerEdgeCluster"-->
-<!--                              routerLink="{{row.monitoring?.['edge-cluster-prometheus-url']}}">launch-->
-<!--                    </mat-icon>-->
-<!--                </p>-->
-<!--                <p *ngIf="row.monitoring?.['edge-monitoring-prometheus-url']">-->
-<!--                    Edge-monitoring-prometheus-url: {{row.monitoring?.['edge-monitoring-prometheus-url'] | truncateText:25}}-->
-<!--                    <mat-icon class="table_icon small_icon"-->
-<!--                              color="primary" aria-hidden="false" aria-label="Enterprise"-->
-<!--                              id="pointerEdgeMonitoring"-->
-<!--                              routerLink="{{row.monitoring?.['edge-monitoring-prometheus-url']}}">launch-->
-<!--                    </mat-icon>-->
-<!--                </p>-->
-<!--            </td>-->
-<!--        </ng-container>-->
-
-<!--        &lt;!&ndash; edge-device Column &ndash;&gt;-->
-<!--        <ng-container matColumnDef="edge-device" id="edgeDeviceColumn">-->
-<!--            <th mat-header-cell *matHeaderCellDef mat-sort-header>Edge Device</th>-->
-<!--            <td mat-cell *matCellDef="let row">-->
-<!--                <p *ngFor="let ep of row['edge-device']">-->
-<!--                    {{ep.name}}-->
-<!--                    {{ep['display-name']}}-->
-<!--                    {{ep.description}}</p>-->
-<!--            </td>-->
-<!--        </ng-container>-->
-
         <!-- Enterprise Column -->
         <ng-container matColumnDef="enterprise" id="EnterpriseColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Enterprise</th>
