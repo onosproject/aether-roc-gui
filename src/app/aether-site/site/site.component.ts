@@ -50,6 +50,7 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
     }
 
     onDataLoaded(ScopeOfDataSource): void {
+        console.log(ScopeOfDataSource, "ScopeOfDataSource")
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('site-4.0.0' in basketPreview && 'site' in basketPreview['site-4.0.0']) {
             basketPreview['site-4.0.0'].site.forEach((basketItems) => {
@@ -70,8 +71,8 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
                             } else {
                                 for (const eachBasketSC of basketItems['small-cell']) {
                                     let eachSCPosition = 0;
-                                    for (const eachScopeSC of ScopeOfDataSource.data[listItemCount]['small-cell']){
-                                        if (eachBasketSC['small-cell'] === eachScopeSC['small-cell']){
+                                    for (const eachScopeSC of ScopeOfDataSource.data[listItemCount]['small-cell']) {
+                                        if (eachBasketSC['small-cell'] === eachScopeSC['small-cell']) {
                                             ScopeOfDataSource.data[listItemCount]['small-cell'][eachSCPosition].name
                                                 = eachBasketSC.name;
                                         }
@@ -91,7 +92,6 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
                         }
                         if (basketItems['imsi-definition'] && basketItems['imsi-definition'].format) {
                             ScopeOfDataSource.data[listItemCount]['imsi-definition'].format = basketItems['imsi-definition'].format;
-
                         }
                     }
                 });
@@ -100,6 +100,7 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
     }
 
     ngAfterViewInit(): void {
+        console.log(this.dataSource,"this.datasource")
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;

@@ -5,27 +5,29 @@
 -->
 <div>
     <mat-toolbar class="profile-toolbar" color="primary">
-    <p>Site</p>
-    <span class="toolbar-spacer"></span>
-    <button mat-raised-button color="accent" type="submit" aria-label="Add site"
-            id="addNewSiteButton"
-            [disabled]="!opaService.canWrite('/site/site[id=newinstance]')"
-            routerLink="/site/site-edit/newinstance">Add</button>
+        <p>Site</p>
+        <span class="toolbar-spacer"></span>
+        <button mat-raised-button color="accent" type="submit" aria-label="Add site"
+                id="addNewSiteButton"
+                [disabled]="!opaService.canWrite('/site/site[id=newinstance]')"
+                routerLink="/site/site-edit/newinstance">Add
+        </button>
     </mat-toolbar>
     <table mat-table class="full-width-table" matSort aria-label="Elements" id="siteTable">
-            <!-- Id/Name Column -->
-            <ng-container matColumnDef="id" id="nameColumn">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
-                <td mat-cell *matCellDef="let row">
-                    <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}<br><small>({{row.id}})</small></span>
-                    <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
-                </td>
-            </ng-container>
+        <!-- Id/Name Column -->
+        <ng-container matColumnDef="id" id="nameColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
+            <td mat-cell *matCellDef="let row">
+                <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}
+                    <br><small>({{row.id}})</small></span>
+                <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
+            </td>
+        </ng-container>
 
         <!-- Description Column -->
         <ng-container matColumnDef="description" id="descColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-            <td mat-cell  *matCellDef="let row" [title]="row.description">{{row.description | truncateText:40}}</td>
+            <td mat-cell *matCellDef="let row" [title]="row.description">{{row.description | truncateText:40}}</td>
         </ng-container>
 
         <!-- End-Points Column -->
@@ -45,8 +47,9 @@
             <td mat-cell *matCellDef="let row">
                 {{row.enterprise}}
                 <mat-icon class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="Enterprise"
-                              id="pointerConnectivityService"
-                              routerLink="/enterprise/enterprise-edit/{{row.enterprise}}">launch</mat-icon>
+                          id="pointerConnectivityService"
+                          routerLink="/enterprise/enterprise-edit/{{row.enterprise}}">launch
+                </mat-icon>
             </td>
         </ng-container>
 
@@ -75,7 +78,7 @@
         </ng-container>
 
         <!--Format Column-->
-        <ng-container matColumnDef="format" id= "FormatColumn">
+        <ng-container matColumnDef="format" id="FormatColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Format</th>
             <td mat-cell *matCellDef="let row">
                 {{row['imsi-definition'].format}}

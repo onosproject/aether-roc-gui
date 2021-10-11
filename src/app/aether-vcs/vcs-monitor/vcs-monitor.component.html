@@ -19,12 +19,12 @@
         Connectivity chart unavailable
     </p>
     <div *ngIf="performanceMetricsEnabled">
-    <iframe *ngIf="performancePanelUrl" [src]="performancePanelUrl | safe " width="600" height="300"
-            frameborder="0"></iframe>
-    <p *ngIf="!performancePanelUrl">
-        <mat-icon color="primary">auto_graph</mat-icon>
-        Performance chart unavailable
-    </p>
+        <iframe *ngIf="performancePanelUrl" [src]="performancePanelUrl | safe " width="600" height="300"
+                frameborder="0"></iframe>
+        <p *ngIf="!performancePanelUrl">
+            <mat-icon color="primary">auto_graph</mat-icon>
+            Performance chart unavailable
+        </p>
     </div>
     <table>
         <tr>
@@ -86,8 +86,7 @@
                         </mat-icon>
                     </h3>
                     <div *ngFor="let imsiRange of dg.key['imsis']">
-                        <p>{{imsiRange.name}}
-                            : {{imsiList(imsiRange["imsi-range-from"], imsiRange["imsi-range-to"])}}</p>
+                        {{imsiRange['imsi-range-from'] || "0"}} - {{imsiRange['imsi-range-to']}}
                     </div>
                 </mat-expansion-panel>
                 <mat-expansion-panel *ngFor="let app of applications | keyvalue">

@@ -5,6 +5,7 @@ import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { SiteSiteImsiDefinition } from './site-site-imsi-definition';
 import { SiteSiteSmallCell } from './site-site-small-cell';
 import {ApplicationApplicationEndpoint} from "./application-application-endpoint";
+import {SiteSiteMonitoring} from "./site-site-monitoring";
 export interface SiteSite {
 
   /**
@@ -29,7 +30,9 @@ export interface SiteSite {
 
   'small-cell'?: Array<SiteSiteSmallCell>;
 
+  'monitoring'?: SiteSiteMonitoring;
+
   'imsi-definition'?: SiteSiteImsiDefinition;
 
-  [key: string]: AdditionalPropertyUnchanged | SiteSiteImsiDefinition | Array<SiteSiteSmallCell> | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | SiteSiteImsiDefinition | Array<SiteSiteSmallCell> | SiteSiteMonitoring | string | undefined;
 }

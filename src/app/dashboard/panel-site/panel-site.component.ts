@@ -99,7 +99,11 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
                 }
                 this.dataSource.data.forEach((site) => {
                     if(site["monitoring"] === undefined) {
-                        site["monitoring"] = {}
+                        site.monitoring = {
+                            'edge-monitoring-prometheus-url': "",
+                            'edge-cluster-prometheus-url': "",
+                            'edge-device':[]
+                        }
                         site.monitoring["edge-device"] = []
                     }
 

@@ -188,7 +188,6 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             this.tempForm.get(['device','mbr','downlink']).setValue(value.device.mbr.downlink);
             this.tempForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.uplink;
             this.tempForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.downlink;
-            console.log(this.tempForm.get(['device','mbr','uplink']),"this.tempForm.get(['device']['mbr']['uplink'])")
         }
         if (value.slice && value.slice.mbr) {
             this.tempForm.get(['slice','mbr','uplink']).setValue(value.slice.mbr.uplink);

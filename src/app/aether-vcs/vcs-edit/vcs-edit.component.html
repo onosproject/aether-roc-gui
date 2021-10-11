@@ -92,31 +92,32 @@
                     add
                 </mat-icon>
                 <div *ngFor="let appForm of filter.controls">
-                    <mat-form-field class="field-margin half-width">
-                        <div [formGroup]="appForm">
-
+                    <div [formGroup]="appForm">
+                        <mat-form-field class="field-margin">
                             <div class="float-left">
                                 <mat-hint>Application</mat-hint>
-                                <input matInput formControlName="application" readonly></div>
+                                <input matInput formControlName="application" readonly>
+                            </div>
+                        </mat-form-field>
+                        <mat-form-field class="field-margin">
                             <div class="float-left">
                                 <mat-hint>Priority</mat-hint>
-                                <input matInput type="number" formControlName="priority"></div>
-                            <div>
-                                <mat-slide-toggle formControlName="allow">Allow</mat-slide-toggle>
-                                <mat-icon color='primary' class="ield-margin"
-                                          aria-hidden="false" aria-label="Application"
-                                          routerLink="/application/application-edit/{{appForm.value.application}}"
-                                          id="pointerApplication">launch
-                                </mat-icon>
+                                <input matInput type="number" formControlName="priority">
                             </div>
-                        </div>
-                    </mat-form-field>
-                    <button mat-icon-button color="accent"
-                            [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
-                            (click)="deleteApplicationFromSelect(appForm.value['application'])"
-                            id="deleteApplication">
-                        <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
-                    </button>
+                        </mat-form-field>
+                        <mat-slide-toggle formControlName="allow">Allow</mat-slide-toggle>
+                        <mat-icon color='primary' class="ield-margin"
+                                  aria-hidden="false" aria-label="Application"
+                                  routerLink="/application/application-edit/{{appForm.value.application}}"
+                                  id="pointerApplication">launch
+                        </mat-icon>
+                        <button mat-icon-button color="accent"
+                                [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
+                                (click)="deleteApplicationFromSelect(appForm.value['application'])"
+                                id="deleteApplication">
+                            <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div formArrayName="device-group" class="subscriber-section">
