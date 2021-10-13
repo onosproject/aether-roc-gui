@@ -10,7 +10,7 @@ import {MatSort} from '@angular/material/sort';
 import {Service as AetherService} from '../openapi3/aether/4.0.0/services';
 import {BasketService, REQDATTRIBS} from './basket.service';
 import {from, merge, Observable, of as observableOf} from 'rxjs';
-import {map, mergeMap, pluck} from 'rxjs/operators';
+import {map, mergeMap, skipWhile} from 'rxjs/operators';
 
 /** Simple sort comparator for example ID/Name columns (for client-side sorting). */
 export function compare(a: string | number, b: string | number, isAsc: boolean): number {
@@ -92,7 +92,8 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
 
     loadData(dataSourceObservable: Observable<U>, onDataLoaded: (dataSourceThisScope: RocDataSource<T, U>) => void): void {
         dataSourceObservable.pipe(
-            pluck(this.pathListAttr),
+            map(x => x?.[this.pathListAttr]),
+            skipWhile(x => x === undefined),
             mergeMap((items: T[]) => from(items)),
         ).subscribe(
             (value => {
