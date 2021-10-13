@@ -61,14 +61,14 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     applicationId: string;
     data: ApplicationApplication;
     options: Bandwidths[] = [
-        {megabyte: {numerical: 1, inMb: '1Mbps'}},
-        {megabyte: {numerical: 2, inMb: '2Mbps'}},
-        {megabyte: {numerical: 5, inMb: '5Mbps'}},
-        {megabyte: {numerical: 10, inMb: '10Mbps'}},
-        {megabyte: {numerical: 25, inMb: '25Mbps'}},
-        {megabyte: {numerical: 50, inMb: '50Mbps'}},
-        {megabyte: {numerical: 100, inMb: '100Mbps'}},
-        {megabyte: {numerical: 500, inMb: '500Mbps'}}
+        {megabyte: {numerical: 1000000, inMb: '1Mbps'}},
+        {megabyte: {numerical: 2000000, inMb: '2Mbps'}},
+        {megabyte: {numerical: 5000000, inMb: '5Mbps'}},
+        {megabyte: {numerical: 10000000, inMb: '10Mbps'}},
+        {megabyte: {numerical: 25000000, inMb: '25Mbps'}},
+        {megabyte: {numerical: 50000000, inMb: '50Mbps'}},
+        {megabyte: {numerical: 100000000, inMb: '100Mbps'}},
+        {megabyte: {numerical: 500000000, inMb: '500Mbps'}}
     ];
     bandwidthOptions: Observable<Bandwidths[]>;
     appForm = this.fb.group({
