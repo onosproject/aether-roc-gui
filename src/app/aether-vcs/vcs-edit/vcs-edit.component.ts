@@ -13,13 +13,13 @@ import {
     TemplateTemplate,
     TrafficClassTrafficClass,
     UpfUpf,
-    AdditionalPropertyTarget, EnterpriseEnterprise
+    AdditionalPropertyTarget, EnterpriseEnterprise, Vcs
 } from '../../../openapi3/aether/4.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {Observable} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {map, startWith} from 'rxjs/operators';
+import {map, mergeMap, skipWhile, startWith, tap, filter} from 'rxjs/operators';
 import {VcsVcsService, Service as AetherService} from 'src/openapi3/aether/4.0.0/services';
 import {BasketService, HEX2NUM, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from 'src/app/basket.service';
 import {HexPipe} from '../../utils/hex.pipe';
@@ -44,14 +44,14 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     trafficClasses: Array<TrafficClassTrafficClass>;
     upfs: Array<UpfUpf>;
     options: Bandwidths[] = [
-        {megabyte: {numerical: 1, inMb: '1Mbps'}},
-        {megabyte: {numerical: 2, inMb: '2Mbps'}},
-        {megabyte: {numerical: 5, inMb: '5Mbps'}},
-        {megabyte: {numerical: 10, inMb: '10Mbps'}},
-        {megabyte: {numerical: 25, inMb: '25Mbps'}},
-        {megabyte: {numerical: 50, inMb: '50Mbps'}},
-        {megabyte: {numerical: 100, inMb: '100Mbps'}},
-        {megabyte: {numerical: 500, inMb: '500Mbps'}}
+        {megabyte: {numerical: 1000000, inMb: '1Mbps'}},
+        {megabyte: {numerical: 2000000, inMb: '2Mbps'}},
+        {megabyte: {numerical: 5000000, inMb: '5Mbps'}},
+        {megabyte: {numerical: 10000000, inMb: '10Mbps'}},
+        {megabyte: {numerical: 25000000, inMb: '25Mbps'}},
+        {megabyte: {numerical: 50000000, inMb: '50Mbps'}},
+        {megabyte: {numerical: 100000000, inMb: '100Mbps'}},
+        {megabyte: {numerical: 500000000, inMb: '500Mbps'}}
     ];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: VcsVcs;
@@ -432,20 +432,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         }
     }
 
-    // loadAp(target: string): void {
-    //     this.aetherService.getApList({
-    //         target,
-    //     }).subscribe(
-    //         (value => {
-    //             this.aps = value['ap-list'];
-    //             console.log('Got', value['ap-list'].length, 'AP List');
-    //         }),
-    //         error => {
-    //             console.warn('Error getting Ap List for ', target, error);
-    //         }
-    //     );
-    // }
-
     loadEnterprises(target: string): void {
         this.aetherService.getEnterprise({
             target,
@@ -464,7 +450,9 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     loadDeviceGoup(target: string): void {
         this.aetherService.getDeviceGroup({
             target,
-        }).subscribe(
+        }).pipe(
+            skipWhile(dgContainer => dgContainer === null)
+        ).subscribe(
             (value => {
                 this.deviceGroups = value['device-group'];
                 console.log('Got', value['device-group'].length, 'Device Group');
@@ -478,7 +466,9 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     loadTemplate(target: string): void {
         this.aetherService.getTemplate({
             target,
-        }).subscribe(
+        }).pipe(
+            skipWhile(templateContainer => templateContainer === null)
+        ).subscribe(
             (value => {
                 this.templates = value.template;
                 console.log('Got', value.template.length, 'Template');
@@ -505,14 +495,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                     const TcFormControl = this.vcsForm.get('traffic-class');
                     TcFormControl.markAsTouched();
                     TcFormControl.markAsDirty();
-                    // this.vcsForm.get(['uplink']).setValue(eachTemplate.uplink);
-                    const UplinkFormControl = this.vcsForm.get('uplink');
-                    UplinkFormControl.markAsTouched();
-                    UplinkFormControl.markAsDirty();
-                    // this.vcsForm.get(['downlink']).setValue(eachTemplate.downlink);
-                    const DownlinkFormControl = this.vcsForm.get('downlink');
-                    DownlinkFormControl.markAsTouched();
-                    DownlinkFormControl.markAsDirty();
                 }
             });
         }
@@ -521,7 +503,9 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     loadTrafficClass(target: string): void {
         this.aetherService.getTrafficClass({
             target,
-        }).subscribe(
+        }).pipe(
+            skipWhile(tcContainer => tcContainer === null)
+        ).subscribe(
             (value => {
                 this.trafficClasses = value['traffic-class'];
                 console.log('Got', value['traffic-class'].length, 'Traffic Class');
@@ -541,15 +525,34 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     }
 
     loadUpf(target: string): void {
+        let origLen = 0;
         this.aetherService.getUpf({
             target,
         }).subscribe(
             (value => {
                 this.upfs = value.upf;
-                console.log('Got', value.upf.length, 'UPF');
+                origLen = this.upfs.length;
             }),
             error => {
                 console.warn('Error getting UPF for ', target, error);
+            },
+            () => {
+                // eliminate already used UPFs
+                this.aetherService.getVcs({target}).pipe(
+                    map(vcsContainer => vcsContainer?.vcs),
+                    skipWhile(vcsList => vcsList === undefined),
+                    mergeMap((vcsItem: VcsVcs[]) => from(vcsItem)),
+                    map((vcs: VcsVcs) => vcs.upf),
+                ).subscribe(
+                    (vcsUpf) => {
+                        const idx = this.upfs.findIndex((upf: UpfUpf) => upf.id === vcsUpf && this.vcsForm.get('upf').value !== vcsUpf)
+                        if (idx > -1) {
+                            this.upfs.splice(idx, 1)
+                        }
+                    },
+                    err => console.warn('Error getting VCS', err),
+                    () => console.log('Showing', this.upfs.length, 'unused UPFs. Total', origLen)
+                );
             }
         );
     }
