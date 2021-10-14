@@ -22,13 +22,18 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing"></th>
             <td mat-cell class="spacing" *matCellDef="let row" [title]="row.description">{{row.description | truncateText:20}}</td>
         </ng-container>
-        <!-- Health column -->
-        <ng-container matColumnDef="health" id="healthColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Health</th>
+        <!-- Monitoring Health column -->
+        <ng-container matColumnDef="agents" id="agentsHealthColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Monitoring Agents<br> (up/total)</th>
             <td mat-cell *matCellDef="let row" class="spacing">
-                <p *ngFor="let edge of row['monitoring']['edge-device']">
-                    {{edge["display-name"]}} : {{edge["health"]}}
-                </p>
+                <span *ngIf="row['agentsCount']">{{row["agentsSum"] + "/" + row["agentsCount"]}}</span>
+            </td>
+        </ng-container>
+        <!-- Cluster Health column -->
+        <ng-container matColumnDef="cluster" id="clusterHealthColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Cluster Nodes<br> (up/total)</th>
+            <td mat-cell *matCellDef="let row" class="spacing">
+                <span *ngIf="row['clusterCount']">{{row["clusterSum"] + "/" + row["clusterCount"]}}</span>
             </td>
         </ng-container>
         <!-- Metrics icon -->

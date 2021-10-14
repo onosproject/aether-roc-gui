@@ -10,7 +10,7 @@ import {
     Service as AetherService,
     SiteSiteService
 } from '../../../openapi3/aether/4.0.0/services';
-import {AETHER_TARGETS, PERFORMANCE_METRICS_ENABLED} from '../../../environments/environment';
+import {AETHER_TARGETS, PERFORMANCE_METRICS_ENABLED, PROMETHEUS_PROXY} from '../../../environments/environment';
 import {filter} from 'rxjs/operators';
 import {SiteSite} from '../../../openapi3/aether/4.0.0/models';
 import {IdTokClaims} from '../../idtoken';
@@ -70,28 +70,6 @@ export class SiteMonitorComponent extends RocMonitorBase implements OnInit, OnDe
             this.agentAvailabilityPanelUrl = this.generateAgentAvailabilityPanelUrl(this.grafanaOrgId, this.grafanaOrgName, this.id);
         }
 
-        this.prometheusTimer = setInterval(() => {
-            console.log('Get connectivity of', this.id);
-            this.promData.loadData(sitePromTags).subscribe(
-                (resultItem) => {
-                    this.thisSite["monitoring"]["edge-device"]
-                        .filter((device) => device["name"] === resultItem.metric.name)
-                        .forEach((device) => {
-                            if(resultItem.metric.__name__ === 'aetheredge_e2e_tests_ok') {
-                                device["health"] = resultItem.value[1] > 0 ? "Online" : "Offline";
-                            }
-
-                            if(resultItem.metric.__name__ === 'aetheredge_e2e_tests_down') {
-                                device["health"] = resultItem.value[1] > 0 ? "Tests Down" : device["health"];
-                            }
-
-                            if(resultItem.metric.__name__ === 'aetheredge_in_maintenance_window') {
-                                device["health"] = resultItem.value[1] > 0 ? "Maintenance" : device["health"];
-                            }
-                        })
-                }
-            );
-        }, 2000);
     }
 
     ngOnDestroy(): void {
