@@ -22,8 +22,8 @@ import {IdTokClaims} from '../../idtoken';
 const sitePromTags = [
     "agentsSum",
     "agentsCount",
-    "clusterSum",
-    "clusterCount"
+    "clusterNodesSum",
+    "clusterNodesCount"
 ]
 
 @Component({

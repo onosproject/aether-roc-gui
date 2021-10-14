@@ -59,11 +59,11 @@ export class SitePromDataSource {
                 host = site.monitoring["edge-monitoring-prometheus-url"]
                 query = `count(aetheredge_e2e_tests_ok{name=~"${site.monitoring["edge-device"].map((device) => device.name).join("|")}"})`
                 break
-            case "clusterSum":
+            case "clusterNodesSum":
                 host = site.monitoring["edge-cluster-prometheus-url"]
                 query = `sum(kube_node_status_condition{condition="Ready",status="true"})`
                 break
-            case "clusterCount":
+            case "clusterNodesCount":
                 host = site.monitoring["edge-cluster-prometheus-url"]
                 query = `count(kube_node_status_condition{condition="Ready",status="true"})`
                 break

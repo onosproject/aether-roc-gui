@@ -33,7 +33,7 @@
         <ng-container matColumnDef="cluster" id="clusterHealthColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing">Cluster Nodes<br> (up/total)</th>
             <td mat-cell *matCellDef="let row" class="spacing">
-                <span *ngIf="row['clusterCount']">{{row["clusterSum"] + "/" + row["clusterCount"]}}</span>
+                <span *ngIf="row['clusterNodesCount']">{{row["clusterNodesSum"] + "/" + row["clusterNodesCount"]}}</span>
             </td>
         </ng-container>
         <!-- Metrics icon -->
