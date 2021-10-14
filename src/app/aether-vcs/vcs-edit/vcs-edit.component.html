@@ -91,8 +91,8 @@
                           id="addFilter">
                     add
                 </mat-icon>
-                <div *ngFor="let appForm of filter.controls">
-                    <div [formGroup]="appForm">
+                <div *ngFor="let appForm of filter.controls; index as i">
+                    <div [formGroup]="appForm" [id]="'applicationDiv' + i">
                         <mat-form-field class="field-margin">
                             <div class="float-left">
                                 <mat-hint>Application</mat-hint>
@@ -129,7 +129,7 @@
                 <!--device-group-->
                 <div *ngFor="let dgForm of deviceGroup.controls; index as i">
                     <mat-form-field class="field-margin half-width">
-                        <div [formGroup]="dgForm">
+                        <div [formGroup]="dgForm" [id]="'deviceGroupDiv' + i">
                             <input matInput formControlName="device-group" readonly>
                             <mat-slide-toggle formControlName="enable">Enable</mat-slide-toggle>
                             <mat-icon color='primary' class="subscriber-pointer"
