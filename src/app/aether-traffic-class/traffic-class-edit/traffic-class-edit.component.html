@@ -24,7 +24,8 @@
                 </mat-form-field>
                 <button mat-icon-button
                         color="accent">
-                    <mat-icon (click)="showParentDisplay = true" class="subscriber-pointer" id="showParentInformation"
+                    <mat-icon *ngIf="!isNew" (click)="showParentDisplay = true;$event.preventDefault()" class="subscriber-pointer"
+                              id="showParentInformation"
                               color="accent">
                         assignment
                     </mat-icon>
@@ -52,13 +53,15 @@
         <mat-card-actions>
             <button mat-raised-button color="accent" type="submit"
                     id="submitButton"
-                    [disabled]="!(tcForm.valid && tcForm.value.id && tcForm.touched && opaService.canWrite('/traffic-class/traffic-class[id=' + id + ']'))">Update</button>
+                    [disabled]="!(tcForm.valid && tcForm.value.id && tcForm.touched && opaService.canWrite('/traffic-class/traffic-class[id=' + id + ']'))">
+                Update
+            </button>
         </mat-card-actions>
     </mat-card>
 </form>
-<aether-show-parent-modules
+<aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
     [trafficClassID]="trafficClassId"
     (closeShowParentCardEvent)="closeShowParentCard($event)">
-</aether-show-parent-modules>
+</aether-show-vcs-usage>

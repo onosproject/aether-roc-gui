@@ -75,10 +75,6 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
         super.init();
     }
 
-    closeShowParentCard(close: boolean): void {
-        this.showParentDisplay = false;
-    }
-
     private populateFormData(value: ConnectivityServiceConnectivityService): void {
         if (value['display-name']) {
             this.csForm.get('display-name').setValue(value['display-name']);

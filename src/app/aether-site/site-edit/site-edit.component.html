@@ -24,7 +24,8 @@
                 </mat-form-field>
                 <button mat-icon-button
                         color="accent">
-                    <mat-icon (click)="showParentDisplay = true" class="subscriber-pointer" id="showParentInformation"
+                    <mat-icon *ngIf="!isNew" (click)="showParentDisplay = true;$event.preventDefault()" class="subscriber-pointer"
+                              id="showParentInformation"
                               color="accent">
                         assignment
                     </mat-icon>
@@ -169,9 +170,9 @@
     id="showEdgeDeviceComponent"
     (closeEdgeDeviceEvent)="closeEdgeDeviceCard($event)">
 </aether-edge-device>
-<aether-show-parent-modules
+<aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
     [siteID]="siteId"
     (closeShowParentCardEvent)="closeShowParentCard($event)">
-</aether-show-parent-modules>
+</aether-show-vcs-usage>

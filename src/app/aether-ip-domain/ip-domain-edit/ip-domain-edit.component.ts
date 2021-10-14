@@ -161,10 +161,6 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         this.ipForm.get('admin-status').setValue(this.option);
     }
 
-    closeShowParentCard(close: boolean): void {
-        this.showParentDisplay = false;
-    }
-
     loadEnterprises(target: string): void {
         this.aetherService.getEnterprise({
             target,

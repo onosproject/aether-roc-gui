@@ -31,6 +31,7 @@ export class TrafficClassComponent extends RocListBase<TrafficClassDatasource> i
         'arp',
         'qci',
         'edit',
+        'usage',
         'delete'
     ];
 

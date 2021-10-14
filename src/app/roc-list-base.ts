@@ -9,6 +9,8 @@ import {BasketService} from './basket.service';
 export abstract class RocListBase<T> {
     public dataSource: T;
     protected reqdAttr: string[] = [];
+    public id: string;
+    public showUsageCard: boolean = false;
 
     protected constructor(
         protected bs: BasketService,
@@ -29,5 +31,14 @@ export abstract class RocListBase<T> {
             this.indexAttr, id, ucMap);
         // @ts-ignore
         this.dataSource.delete(id);
+    }
+
+    showUsage(id:string):void{
+        this.id = id;
+        this.showUsageCard = true;
+    }
+
+    closeShowParentCard(close: boolean): void {
+        this.showUsageCard = false;
     }
 }

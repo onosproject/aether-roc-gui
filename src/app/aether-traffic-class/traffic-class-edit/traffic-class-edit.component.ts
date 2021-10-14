@@ -74,10 +74,6 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
         super.init();
     }
 
-    closeShowParentCard(close: boolean): void {
-        this.showParentDisplay = false;
-    }
-
     loadTrafficClassTrafficClass(target: string, id: string): void {
         this.trafficClassTrafficClassService.getTrafficClassTrafficClass({
             target,

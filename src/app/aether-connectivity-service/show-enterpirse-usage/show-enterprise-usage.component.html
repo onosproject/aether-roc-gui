@@ -3,9 +3,9 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<mat-card class="card mat-elevation-z8">
+<mat-card class="card mat-elevation-z8" (click)="keepCardOpen(false)">
     <mat-card-header class="header">
-        <mat-card-title class="subheading-1 title">Enterprise Parent Modules</mat-card-title>
+        <mat-card-title class="subheading-1 title">Usage in Enterprise(s)</mat-card-title>
     </mat-card-header>
     <mat-card-content class="content">
         <table mat-table class="full-width-table" matSort aria-label="Elements"
@@ -32,9 +32,4 @@
             <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
         </table>
     </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="accent" type="button" (click)="keepCardOpen(false)"
-                id="cancelButton">Cancel
-        </button>
-    </mat-card-actions>
 </mat-card>

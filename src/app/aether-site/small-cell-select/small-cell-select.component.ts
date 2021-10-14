@@ -6,7 +6,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {Service} from "../../../openapi3/aether/4.0.0/services/service";
-import {EndPointParam} from "../../aether-application/endpoint-select/endpoint-select.component";
 
 export interface SmallCellParam {
     name: string;

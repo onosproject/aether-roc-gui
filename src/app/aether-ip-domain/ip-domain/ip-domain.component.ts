@@ -36,7 +36,8 @@ export class IpDomainComponent extends RocListBase<IpDomainDatasource> implement
         'mtu',
         'dnn',
         'edit',
-        'delete'
+        'delete',
+        'usage'
     ];
 
     constructor(

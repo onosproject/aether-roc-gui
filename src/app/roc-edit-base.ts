@@ -15,6 +15,7 @@ export abstract class RocEditBase<T> {
     public isNewInstance: boolean;
     protected loadFunc: (target: string, id: string) => void;
     protected initFunc: () => string;
+    public showParentDisplay: boolean = false;
 
     protected constructor(
         protected snackBar: MatSnackBar,
@@ -70,5 +71,9 @@ export abstract class RocEditBase<T> {
 
     public get isNew(): boolean {
         return this.isNewInstance;
+    }
+
+    closeShowParentCard(close: boolean): void {
+        this.showParentDisplay = false;
     }
 }

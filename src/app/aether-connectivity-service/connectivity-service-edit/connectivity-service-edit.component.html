@@ -26,7 +26,8 @@
                 </mat-form-field>
                 <button mat-icon-button
                         color="accent">
-                    <mat-icon (click)="showParentDisplay = true" class="subscriber-pointer" id="showParentInformation"
+                    <mat-icon *ngIf="!isNew" (click)="showParentDisplay = true;$event.preventDefault()" class="subscriber-pointer"
+                              id="showParentInformation"
                               color="accent">
                         assignment
                     </mat-icon>
@@ -72,9 +73,9 @@
         </mat-card-actions>
     </mat-card>
 </form>
-<aether-show-parent-modules
+<aether-show-enterprise-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
     [connectivityServiceID]="connectivityServiceId"
     (closeShowParentCardEvent)="closeShowParentCard($event)">
-</aether-show-parent-modules>
+</aether-show-enterprise-usage>
