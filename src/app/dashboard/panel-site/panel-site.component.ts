@@ -9,7 +9,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {SiteSite} from '../../../openapi3/aether/4.0.0/models';
 import {RocListBase} from '../../roc-list-base';
-import {AETHER_TARGETS} from '../../../environments/environment';
+import {AETHER_TARGETS, PROMETHEUS_PROXY} from '../../../environments/environment';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
 import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services/service';
 import {BasketService} from '../../basket.service';
@@ -20,10 +20,11 @@ import {OAuthService} from 'angular-oauth2-oidc';
 import {IdTokClaims} from '../../idtoken';
 
 const sitePromTags = [
-    'aetheredge_e2e_tests_ok',
-    'aetheredge_in_maintenance_window',
-    'aetheredge_e2e_tests_down'
-];
+    "agentsSum",
+    "agentsCount",
+    "clusterNodesSum",
+    "clusterNodesCount"
+]
 
 @Component({
     selector: 'aether-panel-site',
@@ -46,7 +47,8 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
     displayedColumns = [
         'id',
         'description',
-        'health',
+        'agents',
+        'cluster',
         'monitor'
     ];
 
@@ -64,10 +66,6 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
     }
 
     onDataLoaded(ScopeOfDataSource): void {
-        ScopeOfDataSource.data.forEach((site: SiteSite) => {
-            // Add the tag on to Site. the data is filled in below
-            sitePromTags.forEach((tag: string) => site[tag] = {});
-        });
         console.log('Site Data Loaded');
     }
 
@@ -88,44 +86,28 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
             }
         }, 10);
 
-        this.prometheusTimer = setInterval(() => this.promData.loadData(sitePromTags).subscribe(
-            (resultItem) => {
-                // Tag these new attributes on to the data in the main data source
-                // associate it with the right Site
-                if (this.dataSource.data.length === 0) {
-                    clearInterval(this.prometheusTimer);
-                    console.log('No Site to monitor');
-                    return;
+        this.prometheusTimer = setInterval(() => {
+            if (this.dataSource.data.length === 0) {
+                clearInterval(this.prometheusTimer);
+                console.log('No Site to monitor');
+                return;
+            }
+
+            this.dataSource.data.forEach((site) => {
+                if(site.monitoring["edge-device"].length === 0) {
+                    return
                 }
-                this.dataSource.data.forEach((site) => {
-                    if(site["monitoring"] === undefined) {
-                        site.monitoring = {
-                            'edge-monitoring-prometheus-url': "",
-                            'edge-cluster-prometheus-url': "",
-                            'edge-device':[]
-                        }
-                        site.monitoring["edge-device"] = []
-                    }
 
-                    site.monitoring["edge-device"]
-                        .filter((device) => device["name"] === resultItem.metric.name)
-                        .forEach((device) => {
-                            if(resultItem.metric.__name__ === 'aetheredge_e2e_tests_ok') {
-                                device["health"] = resultItem.value[1] > 0 ? "Online" : "Offline";
-                            }
+                sitePromTags.forEach((tag) => {
+                    let url = this.promData.queryBuilder(tag, site)
 
-                            if(resultItem.metric.__name__ === 'aetheredge_e2e_tests_down') {
-                                device["health"] = resultItem.value[1] > 0 ? "Tests Down" : device["health"];
-                            }
+                    this.promData.loadData(url).subscribe((resultItem) => {
+                        site[tag] = resultItem.value[1]
+                    }, (err) => console.log(site.id, 'has error polling metrics', err))
+                })
+            });
 
-                            if(resultItem.metric.__name__ === 'aetheredge_in_maintenance_window') {
-                                device["health"] = resultItem.value[1] > 0 ? "Maintenance" : device["health"];
-                            }
-                        })
-                });
-            },
-            (err) => console.log('error polling ', err),
-        ), 2000);
+        },3000);
     }
 
     ngOnDestroy(): void {
