@@ -56,8 +56,8 @@
                 <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addSmallCell"
                           color="accent">add
                 </mat-icon>
-                <div *ngFor="let smallCellForm of smallCellControls.controls">
-                    <div [formGroup]="smallCellForm">
+                <div *ngFor="let smallCellForm of smallCellControls.controls; index as i">
+                    <div [formGroup]="smallCellForm" [id]="'scDiv' + i">
                         <mat-form-field class="field-margin">
                             <input matInput readonly formControlName="name" id="inputName">
                             <mat-hint>Name</mat-hint>
