@@ -7,6 +7,11 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title>User Plane Function ID: {{id}}</mat-card-title>
+            <mat-icon *ngIf="!isNew" (click)="showParentDisplay = true;$event.preventDefault()" class="subscriber-pointer"
+                      id="showParentInformation"
+                      color="accent">
+                assignment
+            </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
@@ -22,14 +27,6 @@
                     <input matInput formControlName="display-name" id="inputDisplayName">
                     <mat-hint>Display Name</mat-hint>
                 </mat-form-field>
-                <button mat-icon-button
-                        color="accent">
-                    <mat-icon *ngIf="!isNew" (click)="showParentDisplay = true;$event.preventDefault()" class="subscriber-pointer"
-                              id="showParentInformation"
-                              color="accent">
-                        assignment
-                    </mat-icon>
-                </button>
             </div>
             <div class="row" id="descriptionRow">
                 <mat-form-field class="field-margin half-width">

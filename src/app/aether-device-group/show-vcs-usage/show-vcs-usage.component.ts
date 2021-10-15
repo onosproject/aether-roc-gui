@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
 import {FormBuilder} from "@angular/forms";
 import {AETHER_TARGETS} from "../../../environments/environment";
 import {Service as AetherService} from "../../../openapi3/aether/4.0.0/services/service";
@@ -22,7 +22,7 @@ export interface displayedColumns {
       '../../common-panel.component.scss',
   ]
 })
-export class ShowVcsUsageComponent implements AfterViewInit {
+export class ShowVcsUsageComponent implements OnChanges {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -39,7 +39,8 @@ export class ShowVcsUsageComponent implements AfterViewInit {
     ) {
     }
 
-    ngAfterViewInit(): void {
+    ngOnChanges(): void {
+        this.parentModulesArray = [];
         this.aetherService.getVcs({
             target: AETHER_TARGETS[0]
         }).subscribe(displayData => {
