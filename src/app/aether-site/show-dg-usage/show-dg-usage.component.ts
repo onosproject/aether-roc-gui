@@ -20,20 +20,20 @@ export interface displayedColumns {
 }
 
 @Component({
-  selector: 'aether-show-vcs-usage',
-  templateUrl: './show-vcs-usage.component.html',
+    selector: 'aether-show-dg-usage',
+    templateUrl: './show-dg-usage.component.html',
     styleUrls: [
         '../../common-panel.component.scss',
     ]
 })
 
-export class ShowVcsUsageComponent implements OnChanges {
+export class ShowDgUsageComponent implements OnChanges {
 
-@ViewChild(MatPaginator) paginator: MatPaginator;
-@ViewChild(MatSort, {static: false}) sort: MatSort;
-@ViewChild(MatTable) table: MatTable<displayedColumns>;
-@Input() siteID: string;
-@Output() closeShowParentCardEvent = new EventEmitter<boolean>();
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort, {static: false}) sort: MatSort;
+    @ViewChild(MatTable) table: MatTable<displayedColumns>;
+    @Input() siteID: string;
+    @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
     parentModulesArray: Array<displayedColumns> = [];
     displayColumns = ['id', 'display-name'];
@@ -42,7 +42,7 @@ export class ShowVcsUsageComponent implements OnChanges {
         protected fb: FormBuilder,
         private basketService: BasketService,
         private aetherService: AetherService,
-) {
+    ) {
     }
 
     ngOnChanges(): void {
@@ -59,7 +59,7 @@ export class ShowVcsUsageComponent implements OnChanges {
                     this.parentModulesArray.push(displayParentModules);
                 }
             })
-            this.table.dataSource= this.parentModulesArray;
+            this.table.dataSource = this.parentModulesArray;
         })
 
     }
