@@ -31,7 +31,7 @@ import {ApplicationEditComponent} from './application-edit/application-edit.comp
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { EndpointSelectComponent } from './endpoint-select/endpoint-select.component';
 import {UtilsModule} from '../utils/utils.module';
-import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
+import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
 
 
 @NgModule({
@@ -39,7 +39,7 @@ import { ShowParentModulesComponent } from './show-parent-modules/show-parent-mo
         ApplicationComponent,
         ApplicationEditComponent,
         EndpointSelectComponent,
-        ShowParentModulesComponent
+        ShowVcsUsageComponent
     ],
     imports: [
         CommonModule,

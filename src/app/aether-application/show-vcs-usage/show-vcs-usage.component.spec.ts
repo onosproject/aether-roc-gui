@@ -5,7 +5,7 @@
  */
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {ShowParentModulesComponent} from './show-parent-modules.component';
+import {ShowVcsUsageComponent} from './show-vcs-usage.component';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from "@angular/material/form-field";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
@@ -20,13 +20,13 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatSelectModule} from "@angular/material/select";
 
-describe('ShowParentModulesComponent', () => {
-    let component: ShowParentModulesComponent;
-    let fixture: ComponentFixture<ShowParentModulesComponent>;
+describe('ShowVcsUsageComponent', () => {
+    let component: ShowVcsUsageComponent;
+    let fixture: ComponentFixture<ShowVcsUsageComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ShowParentModulesComponent],
+            declarations: [ShowVcsUsageComponent],
             providers: [
                 {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}}
             ],
@@ -51,7 +51,7 @@ describe('ShowParentModulesComponent', () => {
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ShowParentModulesComponent);
+        fixture = TestBed.createComponent(ShowVcsUsageComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

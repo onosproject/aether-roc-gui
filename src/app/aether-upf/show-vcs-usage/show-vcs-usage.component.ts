@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {RocListBase} from "../../roc-list-base";
 import {VcsDatasource} from "../../aether-vcs/vcs/vcs-datasource";
@@ -15,29 +15,27 @@ import {MatSort} from "@angular/material/sort";
 import {MatTable} from "@angular/material/table";
 
 export interface displayedColumns {
-    'parent-module'
     'id';
     'display-name';
 }
 
 @Component({
-    selector: 'aether-show-parent-modules',
-    templateUrl: './show-parent-modules.component.html',
+    selector: 'aether-show-vcs-usage',
+    templateUrl: './show-vcs-usage.component.html',
     styleUrls: [
         '../../common-panel.component.scss',
     ]
 })
-
-export class ShowParentModulesComponent implements AfterViewInit {
+export class ShowVcsUsageComponent implements OnChanges {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatSort, {static: false}) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<displayedColumns>;
-    @Input() trafficClassID: string;
+    @Input() upfID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
     parentModulesArray: Array<displayedColumns> = [];
-    displayColumns = ['parent-module', 'id', 'display-name'];
+    displayColumns = ['id', 'display-name'];
 
     constructor(
         protected fb: FormBuilder,
@@ -46,35 +44,21 @@ export class ShowParentModulesComponent implements AfterViewInit {
     ) {
     }
 
-    ngAfterViewInit(): void {
+    ngOnChanges(): void {
+        this.parentModulesArray = [];
         this.aetherService.getVcs({
             target: AETHER_TARGETS[0]
         }).subscribe(displayData => {
             displayData.vcs.forEach(vcsElement => {
-                if (vcsElement["traffic-class"] === this.trafficClassID) {
+                if (vcsElement.upf === this.upfID) {
                     let displayParentModules = {
                         'id': vcsElement.id,
                         'display-name': vcsElement["display-name"],
-                        'parent-module': "VCS"
                     }
                     this.parentModulesArray.push(displayParentModules);
                 }
             })
-            this.aetherService.getTemplate({
-                target: AETHER_TARGETS[0]
-            }).subscribe(displayData => {
-                displayData.template.forEach(templateElement => {
-                    if (templateElement["traffic-class"] === this.trafficClassID) {
-                        let displayParentModules = {
-                            'id': templateElement.id,
-                            'display-name': templateElement["display-name"],
-                            'parent-module': "Template"
-                        }
-                        this.parentModulesArray.push(displayParentModules);
-                    }
-                    this.table.dataSource = this.parentModulesArray;
-                })
-            })
+            this.table.dataSource = this.parentModulesArray;
         })
     }
 

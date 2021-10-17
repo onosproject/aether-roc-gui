@@ -34,6 +34,7 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
         'config-endpoint',
         'port',
         'edit',
+        'usage',
         'delete'
     ];
 

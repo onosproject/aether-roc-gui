@@ -33,7 +33,8 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
         'uplink',
         'downlink',
         'edit',
-        'delete'
+        'delete',
+        'usage'
     ];
 
     constructor(
