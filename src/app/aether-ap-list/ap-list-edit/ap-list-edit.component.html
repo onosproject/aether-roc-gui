@@ -65,8 +65,8 @@
                           id="addNewExistingAccessProfile"
                           class="subscriber-pointer">add
                 </mat-icon>
-                <div *ngFor="let accessForm of accessPointControls.controls">
-                    <div [formGroup]="accessForm">
+                <div *ngFor="let accessForm of accessPointControls.controls; index as i">
+                    <div [formGroup]="accessForm" [id]="'apDiv' + i">
                         <mat-form-field class="field-margin">
                             <input matInput formControlName="address" readonly>
                             <small>Address</small>

@@ -40,7 +40,7 @@
                 </mat-icon>
                 <div *ngFor="let csForm of connectivityServices.controls; index as i">
                     <mat-form-field class="field-margin half-width">
-                        <div [formGroup]="csForm">
+                        <div [formGroup]="csForm" [id]="'csDiv' + i">
                             <input matInput formControlName="connectivity-service" readonly>
                             <mat-slide-toggle
                                 formControlName="enabled">Enabled

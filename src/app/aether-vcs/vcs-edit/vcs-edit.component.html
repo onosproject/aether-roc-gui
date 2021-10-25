@@ -125,9 +125,9 @@
                           id="addApplication">
                     add
                 </mat-icon>
-                <div *ngFor="let appForm of applications.controls">
+                <div *ngFor="let appForm of applications.controls; index as j">
                     <mat-form-field class="field-margin half-width">
-                        <div [formGroup]="appForm">
+                        <div [formGroup]="appForm" [id]="'applicationDiv' + j">
                             <input matInput formControlName="application" readonly>
                             <mat-slide-toggle formControlName="allow">Allow</mat-slide-toggle>
                             <mat-icon color='primary' class="subscriber-pointer"
@@ -154,7 +154,7 @@
                 <!--device-group-->
                 <div *ngFor="let dgForm of deviceGroup.controls; index as i">
                     <mat-form-field class="field-margin half-width">
-                        <div [formGroup]="dgForm">
+                        <div [formGroup]="dgForm" [id]="'deviceGroupDiv' + i">
                             <input matInput formControlName="device-group" readonly>
                             <mat-slide-toggle formControlName="enable">Enable</mat-slide-toggle>
                             <mat-icon color='primary' class="subscriber-pointer"
