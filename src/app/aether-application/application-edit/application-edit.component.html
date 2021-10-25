@@ -43,8 +43,8 @@
                 <mat-hint>Endpoint</mat-hint>
                 <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addEndpoint"
                           color="accent">add</mat-icon>
-                <div *ngFor="let endpointForm of endpointControls.controls">
-                    <div [formGroup]="endpointForm">
+                <div *ngFor="let endpointForm of endpointControls.controls; index as i">
+                    <div [formGroup]="endpointForm" [id]="'appDiv' + i">
                         <mat-form-field class="field-margin">
                             <input matInput readonly formControlName="name" id="inputName">
                             <mat-hint>Name</mat-hint>

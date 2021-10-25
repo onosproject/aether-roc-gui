@@ -86,8 +86,8 @@
                           [matTooltip]="fetchTooltipContent()"
                           class="subscriber-pointer">info
                 </mat-icon>
-                <div *ngFor="let imsiForm of imsiControls.controls">
-                    <div [formGroup]="imsiForm">
+                <div *ngFor="let imsiForm of imsiControls.controls; index as i">
+                    <div [formGroup]="imsiForm" [id]="'dgDiv' + i">
                         <mat-form-field class="field-margin">
                             <input matInput formControlName="name" id="inputName" readonly>
                             <mat-hint>Name</mat-hint>
