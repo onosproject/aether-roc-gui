@@ -129,7 +129,7 @@
                     <mat-form-field class="field-margin half-width">
                         <div [formGroup]="appForm" [id]="'applicationDiv' + j">
                             <input matInput formControlName="application" readonly>
-                            <mat-slide-toggle formControlName="allow">Allow</mat-slide-toggle>
+                            <mat-slide-toggle formControlName="allow" [id]="appForm.value.application">Allow</mat-slide-toggle>
                             <mat-icon color='primary' class="subscriber-pointer"
                                       aria-hidden="false" aria-label="Application"
                                       routerLink="/application/application-edit/{{appForm.value.application}}"
@@ -156,7 +156,7 @@
                     <mat-form-field class="field-margin half-width">
                         <div [formGroup]="dgForm" [id]="'deviceGroupDiv' + i">
                             <input matInput formControlName="device-group" readonly>
-                            <mat-slide-toggle formControlName="enable">Enable</mat-slide-toggle>
+                            <mat-slide-toggle formControlName="enable" [id]="dgForm.value['device-group']">Enable</mat-slide-toggle>
                             <mat-icon color='primary' class="subscriber-pointer"
                                       aria-hidden="false" aria-label="device-group"
                                       routerLink="/devicegroups/devicegroups-edit/{{dgForm.value['device-group']}}"

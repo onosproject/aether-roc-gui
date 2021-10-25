@@ -43,7 +43,7 @@
                         <div [formGroup]="csForm" [id]="'csDiv' + i">
                             <input matInput formControlName="connectivity-service" readonly>
                             <mat-slide-toggle
-                                formControlName="enabled">Enabled
+                                formControlName="enabled" [id]="csForm.value['connectivity-service']">Enabled
                             </mat-slide-toggle>
                             <button mat-icon-button
                                     [disabled]="!opaService.canWrite('/enterprise/enterprise[id=' + id + ']/connectivity-service')"
