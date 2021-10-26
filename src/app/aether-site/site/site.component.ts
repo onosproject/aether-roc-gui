@@ -36,6 +36,7 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
         'format',
         'edit',
         'delete',
+        'usage',
         'monitor'
     ];
 

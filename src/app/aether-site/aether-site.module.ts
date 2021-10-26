@@ -29,18 +29,17 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { SiteEditComponent } from './site-edit/site-edit.component';
 import {UtilsModule} from '../utils/utils.module';
-import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
+import { ShowDgUsageComponent } from './show-dg-usage/show-dg-usage.component';
 import { SmallCellSelectComponent } from './small-cell-select/small-cell-select.component';
 import { EdgeDeviceComponent } from './edge-device/edge-device.component';
 import {SiteMonitorComponent} from "./site-monitor/site-monitor.component";
-import {MatExpansionModule} from "@angular/material/expansion";
 
 
 @NgModule({
     declarations: [
         SiteComponent,
         SiteEditComponent,
-        ShowParentModulesComponent,
+        ShowDgUsageComponent,
         SmallCellSelectComponent,
         EdgeDeviceComponent,
         SiteMonitorComponent

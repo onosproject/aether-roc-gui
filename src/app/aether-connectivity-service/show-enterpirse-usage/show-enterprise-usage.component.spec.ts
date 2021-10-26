@@ -5,7 +5,7 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShowParentModulesComponent } from './show-parent-modules.component';
+import { ShowEnterpriseUsageComponent } from './show-enterprise-usage.component';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from "@angular/material/form-field";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {RouterTestingModule} from "@angular/router/testing";
@@ -21,12 +21,12 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatSelectModule} from "@angular/material/select";
 
 describe('ShowParentModulesComponent', () => {
-  let component: ShowParentModulesComponent;
-  let fixture: ComponentFixture<ShowParentModulesComponent>;
+  let component: ShowEnterpriseUsageComponent;
+  let fixture: ComponentFixture<ShowEnterpriseUsageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ShowParentModulesComponent ],
+      declarations: [ ShowEnterpriseUsageComponent ],
         providers: [
             {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}}
         ],
@@ -51,7 +51,7 @@ describe('ShowParentModulesComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShowParentModulesComponent);
+    fixture = TestBed.createComponent(ShowEnterpriseUsageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

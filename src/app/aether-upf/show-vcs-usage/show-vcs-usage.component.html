@@ -3,9 +3,9 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<mat-card class="card mat-elevation-z8">
+<mat-card class="card mat-elevation-z8" (click)="keepCardOpen(false)">
     <mat-card-header class="header">
-        <mat-card-title class="subheading-1 title">VCS Parent Modules</mat-card-title>
+        <mat-card-title class="subheading-1 title">Usage in VCS(s)</mat-card-title>
     </mat-card-header>
     <mat-card-content class="content">
         <table mat-table class="full-width-table" matSort aria-label="Elements"
@@ -20,9 +20,9 @@
             <ng-container matColumnDef="display-name" id="nameColumn">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
                 <td mat-cell *matCellDef="let row">{{row['display-name']}}
-                    <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="VCS"
+                    <mat-icon class="table_icon small_icon icon-pointer" aria-hidden="false" aria-label="VCS"
                               color="primary"
-                              id="pointerConnectivityService"
+                              id="pointerVcs"
                               routerLink="/vcs/vcs-edit/{{row.id}}">launch
                     </mat-icon>
                 </td>
@@ -32,10 +32,5 @@
             <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
         </table>
     </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="accent" type="button" (click)="keepCardOpen(false)"
-                id="cancelButton">Cancel
-        </button>
-    </mat-card-actions>
 </mat-card>
 

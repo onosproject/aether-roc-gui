@@ -34,8 +34,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {UtilsModule} from '../utils/utils.module';
 import { UeMonitorComponent } from './ue-monitor/ue-monitor.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
 
 
 @NgModule({
@@ -45,7 +45,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
         ImsisSelectComponent,
         DeviceGroupMonitorComponent,
         UeMonitorComponent,
-        ShowParentModulesComponent
+        ShowVcsUsageComponent
     ],
     imports: [
         CommonModule,

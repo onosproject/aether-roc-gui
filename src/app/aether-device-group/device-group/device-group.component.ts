@@ -34,6 +34,7 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
         'device',
         'edit',
         'delete',
+        'usage',
         'monitor'
     ];
 

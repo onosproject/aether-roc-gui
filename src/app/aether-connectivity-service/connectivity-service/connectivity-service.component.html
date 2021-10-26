@@ -75,6 +75,19 @@
             </td>
         </ng-container>
 
+        <!-- Usage Column -->
+        <ng-container matColumnDef="usage" id="usageColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Usage</th>
+            <td mat-cell *matCellDef="let row">
+                <button mat-icon-button
+                        id="usageButton"
+                        (click)="showUsage(row.id)"
+                        color="accent">
+                    <mat-icon class="table_icon">assignment</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
         <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
@@ -86,3 +99,9 @@
                    [pageSizeOptions]="[10, 20, 40]">
     </mat-paginator>
 </div>
+<aether-show-enterprise-usage
+    *ngIf="showUsageCard"
+    id="showParentModulesComponent"
+    [connectivityServiceID]="id"
+    (closeShowParentCardEvent)="closeShowParentCard($event)">
+</aether-show-enterprise-usage>

@@ -192,10 +192,6 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         return existingList;
     }
 
-    closeShowParentCard(close: boolean): void {
-        this.showParentDisplay = false;
-    }
-
     displayImsiAdd(): void {
         this.showAddImsi = !!this.deviceGroupForm.get('site').value;
         this.site.forEach(eachSite => {

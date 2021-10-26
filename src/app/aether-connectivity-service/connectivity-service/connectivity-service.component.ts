@@ -34,7 +34,8 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
         'pcrf-endpoint',
         'core-5g-endpoint',
         'edit',
-        'delete'
+        'delete',
+        'usage'
     ];
 
     constructor(

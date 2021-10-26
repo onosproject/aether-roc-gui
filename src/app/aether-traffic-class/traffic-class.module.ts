@@ -28,13 +28,13 @@ import {AuthInterceptor} from '../auth-interceptor';
 import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
 import {TruncateTextPipe} from '../utils/truncate-text.pipe';
 import {UtilsModule} from '../utils/utils.module';
-import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
+import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
 
 @NgModule({
     declarations: [
         TrafficClassComponent,
         TrafficClassEditComponent,
-        ShowParentModulesComponent,
+        ShowVcsUsageComponent,
     ],
     imports: [
         CommonModule,

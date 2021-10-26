@@ -190,10 +190,6 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         );
     }
 
-    closeShowParentCard(close: boolean): void {
-        this.showParentDisplay = false;
-    }
-
     private _filter(bandwidthIndex: number): Bandwidths[] {
         const filterValue = bandwidthIndex;
         return this.options.filter(option => option.megabyte.numerical);

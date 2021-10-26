@@ -3,16 +3,13 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
-import {RocListBase} from "../../roc-list-base";
+import {OnChanges, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {FormBuilder} from "@angular/forms";
 import {AETHER_TARGETS} from "../../../environments/environment";
-import {BasketService} from "../../basket.service";
 import {Service as AetherService} from "../../../openapi3/aether/4.0.0/services/service";
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from "@angular/material/sort";
 import {MatTable} from "@angular/material/table";
-import {EnterpriseDatasource} from "../../aether-enterprise/enterprise/enterprise-datasource";
 
 export interface displayedColumns {
     'id';
@@ -20,18 +17,18 @@ export interface displayedColumns {
 }
 
 @Component({
-  selector: 'aether-show-parent-modules',
-  templateUrl: './show-parent-modules.component.html',
+    selector: 'aether-show-vcs-usage',
+    templateUrl: './show-vcs-usage.component.html',
     styleUrls: [
         '../../common-panel.component.scss',
     ]
 })
-export class ShowParentModulesComponent implements AfterViewInit {
+export class ShowVcsUsageComponent implements OnChanges {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<displayedColumns>;
-    @Input() connectivityServiceID: string;
+    @Input() applicationID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
     parentModulesArray: Array<displayedColumns> = [];
@@ -39,25 +36,26 @@ export class ShowParentModulesComponent implements AfterViewInit {
 
     constructor(
         protected fb: FormBuilder,
-        private basketService: BasketService,
         private aetherService: AetherService,
     ) {
     }
 
-    ngAfterViewInit(): void {
-        this.aetherService.getEnterprise({
+    ngOnChanges(): void {
+        this.parentModulesArray = [];
+        this.aetherService.getVcs({
             target: AETHER_TARGETS[0]
         }).subscribe(displayData => {
-            displayData.enterprise.forEach(enterpirseElement => {
-                if (enterpirseElement["connectivity-service"][0]["connectivity-service"] === this.connectivityServiceID) {
+            displayData.vcs.forEach(vcsElement => {
+                if (vcsElement.filter?.[0]?.application === this.applicationID) {
                     let displayParentModules = {
-                        'id': enterpirseElement.id,
-                        'display-name': enterpirseElement["display-name"],
+                        'id': vcsElement.id,
+                        'display-name': vcsElement["display-name"],
                     }
                     this.parentModulesArray.push(displayParentModules);
                 }
+                this.table.dataSource = this.parentModulesArray;
             })
-            this.table.dataSource= this.parentModulesArray;
+            console.log(this.table.dataSource,"table datascourse", this.parentModulesArray)
         })
 
     }

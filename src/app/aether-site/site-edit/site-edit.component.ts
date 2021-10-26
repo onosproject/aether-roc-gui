@@ -106,10 +106,6 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         }
     }
 
-    closeShowParentCard(close: boolean): void {
-        this.showParentDisplay = false;
-    }
-
     loadSiteSite(target: string, id: string): void {
         this.siteSiteService.getSiteSite({
             target,

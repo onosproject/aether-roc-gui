@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {OnChanges, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import {RocListBase} from "../../roc-list-base";
 import {VcsDatasource} from "../../aether-vcs/vcs/vcs-datasource";
@@ -21,14 +21,14 @@ export interface displayedColumns {
 }
 
 @Component({
-    selector: 'aether-show-parent-modules',
-    templateUrl: './show-parent-modules.component.html',
+    selector: 'aether-show-vcs-usage',
+    templateUrl: './show-vcs-usage.component.html',
     styleUrls: [
         '../../common-panel.component.scss',
     ]
 })
 
-export class ShowParentModulesComponent implements AfterViewInit {
+export class ShowVcsUsageComponent implements OnChanges {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -46,7 +46,8 @@ export class ShowParentModulesComponent implements AfterViewInit {
     ) {
     }
 
-    ngAfterViewInit(): void {
+    ngOnChanges(): void {
+        this.parentModulesArray = [];
         this.aetherService.getVcs({
             target: AETHER_TARGETS[0]
         }).subscribe(displayData => {

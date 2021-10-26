@@ -15,7 +15,6 @@ import {RocListBase} from '../../roc-list-base';
 import {UpfDatasource} from './upf-datasource';
 import {UpfUpf} from '../../../openapi3/aether/4.0.0/models';
 
-
 @Component({
     selector: 'aether-upf',
     templateUrl: './upf.component.html',
@@ -35,7 +34,8 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
         'port',
         'site',
         'edit',
-        'delete'
+        'delete',
+        'usage',
     ];
 
     constructor(
@@ -89,5 +89,4 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
             target: AETHER_TARGETS[0]
         }), this.onDataLoaded);
     }
-
 }

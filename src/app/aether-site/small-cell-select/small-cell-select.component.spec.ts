@@ -19,7 +19,6 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatSelectModule} from "@angular/material/select";
-import {ShowParentModulesComponent} from "../show-parent-modules/show-parent-modules.component";
 
 describe('SmallCellSelectComponent', () => {
   let component: SmallCellSelectComponent;
