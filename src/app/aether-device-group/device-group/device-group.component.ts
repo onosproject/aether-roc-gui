@@ -31,6 +31,7 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
         'Imsis',
         'ip-domain',
         'site',
+        'device',
         'edit',
         'delete',
         'monitor'
@@ -56,6 +57,9 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
                         if (basketItems['display-name']) {
                             ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
                         }
+                        if (basketItems['site']) {
+                            ScopeOfDataSource.data[listItemCount]['site'] = basketItems['site'];
+                        }
                         if (basketItems.imsis) {
                             if (ScopeOfDataSource.data[listItemCount].imsis.length === 0) {
                                 ScopeOfDataSource.data[listItemCount].imsis = basketItems.imsis;
@@ -71,6 +75,11 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
                                     }
                                 }
                             }
+                        }
+                        if (basketItems.device && basketItems.device.mbr) {
+                            ScopeOfDataSource.data[listItemCount].device.mbr.uplink = basketItems.device.mbr.uplink;
+                            ScopeOfDataSource.data[listItemCount].device.mbr.downlink = basketItems.device.mbr.downlink;
+                            ScopeOfDataSource.data[listItemCount].device['traffic-class'] = basketItems.device['traffic-class'];
                         }
                         if (basketItems['ip-domain']) {
                             ScopeOfDataSource.data[listItemCount]['ip-domain'] = basketItems['ip-domain'];

@@ -40,13 +40,10 @@
             <td mat-cell *matCellDef="let row">{{row.sst}}</td>
         </ng-container>
 
-       <!--Device Column -->
-        <ng-container matColumnDef="device" id="deviceColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Device</th>
-            <td mat-cell *matCellDef="let row">
-                <p>Uplink: {{row.device.mbr.uplink}}</p>
-                <p>Downlink: {{row.device.mbr.downlink}}</p>
-            </td>
+        <!-- Default Behavior Column -->
+        <ng-container matColumnDef="default-behavior" id="dfColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Default Behavior</th>
+            <td mat-cell *matCellDef="let row" [title]="row['default-behavior']">{{row['default-behavior']}}</td>
         </ng-container>
 
     <!-- slice Column -->

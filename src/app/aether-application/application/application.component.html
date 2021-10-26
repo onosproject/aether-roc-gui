@@ -37,31 +37,22 @@
             <td mat-cell  *matCellDef="let row" [title]="row.address">{{row.address}}</td>
         </ng-container>
 
-        <!--Uplink Column-->
-        <ng-container matColumnDef="uplink" id="UplinkColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>MBR-Uplink</th>
-            <td mat-cell *matCellDef="let row">
-                {{row.mbr?.uplink}}
-            </td>
-        </ng-container>
-
-        <!--Downlink Column-->
-        <ng-container matColumnDef="downlink" id="DownlinkColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>MBR-Downlink</th>
-            <td mat-cell *matCellDef="let row">
-                {{row.mbr?.downlink}}
-            </td>
-        </ng-container>
-
         <!-- End-Points Column -->
         <ng-container matColumnDef="Endpoint" id="endPointsColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>EndPoints</th>
             <td mat-cell *matCellDef="let row">
-                <p *ngFor="let ep of row.endpoint">
+                <div *ngFor="let ep of row.endpoint">
                     {{ep.name}}
                     {{ep.address}}
                     {{ep['port-start']}}-{{ep['port-end']}}
-                    {{ep.protocol}}</p>
+                    {{ep.protocol}}
+                    <p>Traffic-class: {{ep['traffic-class']}}
+                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="traffic-class"
+                                  color="primary"
+                                  id="pointerConnectivityService"
+                                  routerLink="/traffic-class/traffic-class-edit/{{ep['traffic-class']}}">launch
+                        </mat-icon></p>
+                </div>
             </td>
         </ng-container>
 

@@ -33,6 +33,7 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
         'enterprise',
         'config-endpoint',
         'port',
+        'site',
         'edit',
         'delete'
     ];
@@ -44,7 +45,7 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
     ) {
         super(basketService, new UpfDatasource(aetherService, basketService, AETHER_TARGETS[0]),
             'upf-4.0.0', 'upf');
-        super.reqdAttr = ['enterprise', 'port', 'address'];
+        super.reqdAttr = ['enterprise', 'port', 'address','site'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
@@ -64,6 +65,9 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
                         }
                         if (basketItems.address) {
                             ScopeOfDataSource.data[listItemCount].address = basketItems.address;
+                        }
+                        if (basketItems['site']) {
+                            ScopeOfDataSource.data[listItemCount]['site'] = basketItems['site'];
                         }
                         if (basketItems['config-endpoint']) {
                             ScopeOfDataSource.data[listItemCount]['config-endpoint'] = basketItems['config-endpoint'];

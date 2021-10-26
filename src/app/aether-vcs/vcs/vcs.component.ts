@@ -31,13 +31,12 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
         'id',
         'description',
         'filter',
-        'device',
+        'default-behavior',
         'slice',
         'enterprise',
         'device-group',
         'sd',
         'sst',
-        'traffic-class',
         'upf',
         'edit',
         'delete',
@@ -85,13 +84,12 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
                                 }
                             }
                         }
-                        if (basketItems.device && basketItems.device.mbr) {
-                            ScopeOfDataSource.data[listItemCount].device.mbr.uplink = basketItems.device.mbr.uplink;
-                            ScopeOfDataSource.data[listItemCount].device.mbr.downlink = basketItems.device.mbr.downlink;
-                        }
                         if (basketItems.slice && basketItems.slice.mbr) {
                             ScopeOfDataSource.data[listItemCount].slice.mbr.uplink = basketItems.slice.mbr.uplink;
                             ScopeOfDataSource.data[listItemCount].slice.mbr.downlink = basketItems.slice.mbr.downlink;
+                        }
+                        if (basketItems['default-behavior']) {
+                            ScopeOfDataSource.data[listItemCount]['default-behavior'] = basketItems['default-behavior'];
                         }
                         if (basketItems.enterprise) {
                             ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
@@ -117,12 +115,6 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
                                     }
                                 }
                             }
-                        }
-                        if (basketItems.template) {
-                            ScopeOfDataSource.data[listItemCount].template = basketItems.template;
-                        }
-                        if (basketItems['traffic-class']) {
-                            ScopeOfDataSource.data[listItemCount]['traffic-class'] = basketItems['traffic-class'];
                         }
                         if (basketItems.upf) {
                             ScopeOfDataSource.data[listItemCount].upf = basketItems.upf;

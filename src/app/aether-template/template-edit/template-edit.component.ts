@@ -70,6 +70,9 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             Validators.maxLength(6),
             Validators.pattern('^[A-F0-9]{6}')
         ])],
+        'default-behavior': [undefined, Validators.compose([
+            Validators.required
+        ])],
         sst: [undefined, Validators.compose([
             Validators.min(1),
             Validators.max(255)
@@ -182,13 +185,11 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             this.tempForm.get(['sst']).setValue(value.sst);
             this.tempForm.get(['sst'])[ORIGINAL] = value.sst;
         }
-        if (value.device && value.device.mbr) {
-            console.log(value.device.mbr,"value.device.mbr")
-            this.tempForm.get(['device','mbr','uplink']).setValue(value.device.mbr.uplink);
-            this.tempForm.get(['device','mbr','downlink']).setValue(value.device.mbr.downlink);
-            this.tempForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.uplink;
-            this.tempForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.downlink;
+        if (value['default-behavior']) {
+            this.tempForm.get(['default-behavior']).setValue(value['default-behavior']);
+            this.tempForm.get(['default-behavior'])[ORIGINAL] = value['default-behavior'];
         }
+
         if (value.slice && value.slice.mbr) {
             this.tempForm.get(['slice','mbr','uplink']).setValue(value.slice.mbr.uplink);
             this.tempForm.get(['slice','mbr','downlink']).setValue(value.slice.mbr.downlink);

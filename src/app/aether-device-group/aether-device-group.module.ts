@@ -35,6 +35,7 @@ import {UtilsModule} from '../utils/utils.module';
 import { UeMonitorComponent } from './ue-monitor/ue-monitor.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ShowParentModulesComponent } from './show-parent-modules/show-parent-modules.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 
 @NgModule({
@@ -76,6 +77,7 @@ import { ShowParentModulesComponent } from './show-parent-modules/show-parent-mo
         MatCheckboxModule,
         MatExpansionModule,
         UtilsModule,
+        MatAutocompleteModule,
         MatTooltipModule
     ],
     providers: [

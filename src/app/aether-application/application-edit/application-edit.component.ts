@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import {ApplicationApplicationService, Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {
-    ApplicationApplication, EnterpriseEnterprise
+    ApplicationApplication, EnterpriseEnterprise, TrafficClassTrafficClass
 } from '../../../openapi3/aether/4.0.0/models';
 import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {RocEditBase} from '../../roc-edit-base';
@@ -56,6 +56,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     showEndpointAddButton: boolean = true;
     showParentDisplay: boolean = false;
     enterprises: Array<EnterpriseEnterprise>;
+    trafficClassOptions: Array<TrafficClassTrafficClass>;
     pathRoot = 'application-4.0.0';
     pathListAttr = 'application';
     applicationId: string;
@@ -89,16 +90,6 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
-        mbr: this.fb.group({
-            uplink: [undefined, Validators.compose([
-                Validators.min(0),
-                Validators.max(4294967295)
-            ])],
-            downlink: [undefined, Validators.compose([
-                Validators.min(0),
-                Validators.max(4294967295)
-            ])]
-        }),
         endpoint: this.fb.array([]),
         enterprise: [undefined, Validators.required]
     }, {validators: ValidatePortRange});
@@ -122,6 +113,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
 
     ngOnInit(): void {
         super.init();
+        this.loadTrafficClass(this.target);
         this.loadEnterprises(this.target);
         this.bandwidthOptions = this.appForm.valueChanges
             .pipe(
@@ -168,10 +160,6 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         }
         ucMap.set(epId, epUc);
         return ucMap;
-    }
-
-    get mbrControls(): FormGroup {
-        return this.appForm.get(['mbr']) as FormGroup;
     }
 
     loadApplicationApplication(target: string, id: string): void {
@@ -241,16 +229,34 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         epProtocolcontrol.markAsTouched();
         epProtocolcontrol.markAsDirty();
 
+        const epTrafficClasscontrol = this.fb.control(selected.trafficClass);
+        epTrafficClasscontrol.markAsTouched();
+        epTrafficClasscontrol.markAsDirty();
+
+        const epMbrUplinkcontrol = this.fb.control(selected.mbrUplink);
+        epMbrUplinkcontrol.markAsTouched();
+        epMbrUplinkcontrol.markAsDirty();
+        epMbrUplinkcontrol[TYPE] = 'number';
+
+        const epMbrDownlinkcontrol = this.fb.control(selected.mbrDownlink);
+        epMbrDownlinkcontrol.markAsTouched();
+        epMbrDownlinkcontrol.markAsDirty();
+        epMbrDownlinkcontrol[TYPE] = 'number';
+
         const epGroupControl = this.fb.group({
             name: epNameControl,
             ['port-start']: epPortStartControl,
             ['port-end']: epPortEndControl,
             protocol: epProtocolcontrol,
+            ['traffic-class']: epTrafficClasscontrol,
+            mbr: {
+                uplink: epMbrUplinkcontrol,
+                downlink: epMbrDownlinkcontrol
+            }
         });
         epGroupControl[REQDATTRIBS] = ['port-start'];
 
         (this.appForm.get('endpoint') as FormArray).push(epGroupControl);
-        console.log('Adding new Value', selected);
         this.appForm.markAllAsTouched();
     }
 
@@ -283,11 +289,22 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                     epPortEndControl[ORIGINAL] = ep['port-end'];
                     const epProtocolcontrol = this.fb.control(ep.protocol);
                     epProtocolcontrol[ORIGINAL] = ep.protocol;
+                    const epMbrDownlinkcontrol = this.fb.control(ep.mbr.downlink);
+                    epMbrDownlinkcontrol[ORIGINAL] = ep.mbr.downlink;
+                    const epMbrUplinkcontrol = this.fb.control(ep.mbr.uplink);
+                    epMbrUplinkcontrol[ORIGINAL] = ep.mbr.uplink;
+                    const epTrafficClasscontrol = this.fb.control(ep['traffic-class']);
+                    epTrafficClasscontrol[ORIGINAL] = ep['traffic-class'];
                     const epGroupControl = this.fb.group({
                         name: epNameControl,
                         ['port-start']: epPortStartControl,
                         ['port-end']: epPortEndControl,
                         protocol: epProtocolcontrol,
+                        'traffic-class': epTrafficClasscontrol,
+                        'mbr': [{
+                            uplink: epMbrUplinkcontrol,
+                            downlink: epMbrDownlinkcontrol
+                        }]
                     });
                     epGroupControl[REQDATTRIBS] = ['port-start'];
 
@@ -304,12 +321,23 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                                 .setValue(eachValueEndpoint['port-end']);
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'protocol'])
                                 .setValue(eachValueEndpoint.protocol);
+                            this.appForm.get(['endpoint', eachFormEndpointPosition, 'traffic-class'])
+                                .setValue(eachValueEndpoint['traffic-class']);
+                            this.appForm.get(['endpoint', eachFormEndpointPosition, 'mbr', 'uplink'])
+                                .setValue(eachValueEndpoint.mbr.uplink);
+                            this.appForm.get(['endpoint', eachFormEndpointPosition, 'mbr', 'downlink'])
+                                .setValue(eachValueEndpoint.mbr.downlink);
                         } else {
                             (this.appForm.get(['endpoint']) as FormArray).push(this.fb.group({
                                 name: eachValueEndpoint.name,
                                 'port-start': eachValueEndpoint['port-start'],
                                 'port-end': eachValueEndpoint['port-end'],
-                                protocol: eachValueEndpoint.protocol
+                                protocol: eachValueEndpoint.protocol,
+                                'traffic-class': eachValueEndpoint["traffic-class"],
+                                'mbr': [{
+                                    uplink: eachValueEndpoint.mbr.uplink,
+                                    downlink: eachValueEndpoint.mbr.downlink
+                                }]
                             }));
                         }
                     }
@@ -322,6 +350,11 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         return this.appForm.get(['endpoint']) as FormArray;
     }
 
+    mbrControls(index: number): FormGroup {
+        return this.appForm.get(['endpoint',index ,'mbr']) as FormGroup;
+    }
+
+
     loadEnterprises(target: string): void {
         this.aetherService.getEnterprise({
             target,
@@ -333,6 +366,20 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             }),
             error => {
                 console.warn('Error getting Enterprise for ', target, error);
+            }
+        );
+    }
+
+    loadTrafficClass(target: string): void {
+        this.aetherService.getTrafficClass({
+            target,
+        }).subscribe(
+            (value => {
+                this.trafficClassOptions = value['traffic-class'];
+                console.log('Got', value['traffic-class'].length, 'Traffic Class');
+            }),
+            error => {
+                console.warn('Error getting Traffic Class for ', target, error);
             }
         );
     }

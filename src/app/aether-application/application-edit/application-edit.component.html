@@ -39,41 +39,41 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
-            <div class=" subscriber-section field-margin">
-                <mat-hint>Maximum bitrate</mat-hint>
-                <div [formGroup]="mbrControls">
-                    <div class="row float-left" id="uplinkRow">
-                        <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="auto"
-                                   id="inputUplink"
-                                   formControlName="uplink">
-                            <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of bandwidthOptions | async"
-                                            [value]="option.megabyte.numerical">
-                                    {{option.megabyte.numerical}}
-                                    {{option.megabyte.inMb}}
-                                </mat-option>
-                            </mat-autocomplete>
-                            <mat-hint>Uplink (Mbps)</mat-hint>
-                        </mat-form-field>
-                    </div>
-                    <div class="row" id="downlinkRow">
-                        <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="auto"
-                                   id="inputDownlink"
-                                   formControlName="downlink">
-                            <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of bandwidthOptions | async"
-                                            [value]="option.megabyte.numerical">
-                                    {{option.megabyte.numerical}}
-                                    {{option.megabyte.inMb}}
-                                </mat-option>
-                            </mat-autocomplete>
-                            <mat-hint>Downlink (Mbps)</mat-hint>
-                        </mat-form-field>
-                    </div>
-                </div>
-            </div>
+<!--            <div class=" subscriber-section field-margin">-->
+<!--                <mat-hint>Maximum bitrate</mat-hint>-->
+<!--                <div [formGroup]="mbrControls">-->
+<!--                    <div class="row float-left" id="uplinkRow">-->
+<!--                        <mat-form-field class="field-margin">-->
+<!--                            <input matInput type="number" [matAutocomplete]="auto"-->
+<!--                                   id="inputUplink"-->
+<!--                                   formControlName="uplink">-->
+<!--                            <mat-autocomplete #auto="matAutocomplete">-->
+<!--                                <mat-option *ngFor="let option of bandwidthOptions | async"-->
+<!--                                            [value]="option.megabyte.numerical">-->
+<!--                                    {{option.megabyte.numerical}}-->
+<!--                                    {{option.megabyte.inMb}}-->
+<!--                                </mat-option>-->
+<!--                            </mat-autocomplete>-->
+<!--                            <mat-hint>Uplink (Mbps)</mat-hint>-->
+<!--                        </mat-form-field>-->
+<!--                    </div>-->
+<!--                    <div class="row" id="downlinkRow">-->
+<!--                        <mat-form-field class="field-margin">-->
+<!--                            <input matInput type="number" [matAutocomplete]="auto"-->
+<!--                                   id="inputDownlink"-->
+<!--                                   formControlName="downlink">-->
+<!--                            <mat-autocomplete #auto="matAutocomplete">-->
+<!--                                <mat-option *ngFor="let option of bandwidthOptions | async"-->
+<!--                                            [value]="option.megabyte.numerical">-->
+<!--                                    {{option.megabyte.numerical}}-->
+<!--                                    {{option.megabyte.inMb}}-->
+<!--                                </mat-option>-->
+<!--                            </mat-autocomplete>-->
+<!--                            <mat-hint>Downlink (Mbps)</mat-hint>-->
+<!--                        </mat-form-field>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="row" id="address">
                 <mat-form-field class="field-margin half-width">
                     <input matInput formControlName="address" id="inputAddress" required>
@@ -85,7 +85,7 @@
                 <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addEndpoint"
                           color="accent">add
                 </mat-icon>
-                <div *ngFor="let endpointForm of endpointControls.controls">
+                <div *ngFor="let endpointForm of endpointControls.controls;let i = index">
                     <div [formGroup]="endpointForm">
                         <mat-form-field class="field-margin">
                             <input matInput readonly formControlName="name" id="inputName">
@@ -112,12 +112,57 @@
                             </mat-select>
                             <mat-hint>Protocol</mat-hint>
                         </mat-form-field>
-                        <button mat-icon-button
-                                color="accent"
-                                (click)="deleteFromSelect(endpointForm.value['name'])"
-                                id="deleteEndpoint">
-                            <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
-                        </button>
+                        <mat-form-field class="field-margin half-width">
+                            <mat-select
+                                id="selectTrafficClass"
+                                formControlName="traffic-class">
+                                <mat-option
+                                    *ngFor="let eachTrafficClass of trafficClassOptions"
+                                    [value]="eachTrafficClass.id">{{eachTrafficClass['display-name']}}</mat-option>
+                            </mat-select>
+                            <mat-hint>Traffic Class</mat-hint>
+                        </mat-form-field>
+                        <div id="deviceMbrRow">
+                            <mat-hint>Device Maximum bitrate</mat-hint>
+                            <div [formGroup]="mbrControls(i)">
+                                <div class="row float-left" id="uplinkRow">
+                                    <mat-form-field class="field-margin">
+                                        <input matInput type="number" [matAutocomplete]="auto"
+                                               id="inputDeviceUplink"
+                                               formControlName="uplink">
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option *ngFor="let option of bandwidthOptions | async"
+                                                        [value]="option.megabyte.numerical">
+                                                {{option.megabyte.numerical}}
+                                                {{option.megabyte.inMb}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <mat-hint>Uplink (Mbps)</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="row " id="downlinkRow">
+                                    <mat-form-field class="field-margin">
+                                        <input matInput type="number" [matAutocomplete]="auto"
+                                               id="inputDeviceDownlink"
+                                               formControlName="downlink">
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option *ngFor="let option of bandwidthOptions | async"
+                                                        [value]="option.megabyte.numerical">
+                                                {{option.megabyte.numerical}}
+                                                {{option.megabyte.inMb}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <mat-hint>Downlink (Mbps)</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <button mat-icon-button
+                                    color="accent"
+                                    (click)="deleteFromSelect(endpointForm.value['name'])"
+                                    id="deleteEndpoint">
+                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -147,6 +192,7 @@
     *ngIf="showConnectDisplay"
     id="endpointSelectComponent"
     [alreadySelected]="endpointExists"
+    [trafficClassOptions]="trafficClassOptions"
     (closeEvent)="endpointSelected($event)">
 </aether-endpoint-select>
 <aether-show-parent-modules

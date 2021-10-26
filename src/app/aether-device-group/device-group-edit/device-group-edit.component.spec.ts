@@ -21,6 +21,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 describe('DeviceGroupEditComponent', () => {
     let component: DeviceGroupEditComponent;
@@ -49,7 +50,8 @@ describe('DeviceGroupEditComponent', () => {
                 MatDividerModule,
                 MatSnackBarModule,
                 MatSelectModule,
-                MatTooltipModule
+                MatTooltipModule,
+                MatAutocompleteModule
             ]
         })
             .compileComponents();

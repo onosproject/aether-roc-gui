@@ -32,7 +32,7 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
         'description',
         'sd',
         'sst',
-        'device',
+        'default-behavior',
         'slice',
         'traffic-class',
         'edit',
@@ -66,6 +66,9 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
                         }
                         if (basketItems.sst) {
                             ScopeOfDataSource.data[listItemCount].sst = basketItems.sst;
+                        }
+                        if (basketItems['default-behavior']) {
+                            ScopeOfDataSource.data[listItemCount]['default-behavior'] = basketItems['default-behavior'];
                         }
                         if (basketItems.device && basketItems.device.mbr) {
                             ScopeOfDataSource.data[listItemCount].device.mbr.uplink = basketItems.device.mbr.uplink;

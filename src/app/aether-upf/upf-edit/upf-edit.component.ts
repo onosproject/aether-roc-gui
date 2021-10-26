@@ -7,7 +7,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
 import {UpfUpfService} from '../../../openapi3/aether/4.0.0/services';
-import {EnterpriseEnterprise, UpfUpf} from '../../../openapi3/aether/4.0.0/models';
+import {EnterpriseEnterprise, SiteSite, UpfUpf} from '../../../openapi3/aether/4.0.0/models';
 import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {MatHeaderRow, MatTable} from '@angular/material/table';
@@ -15,6 +15,7 @@ import {MatSort} from '@angular/material/sort';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+import {maxDeviceGroupRange} from "../../../environments/environment";
 
 @Component({
     selector: 'aether-upf-edit',
@@ -28,6 +29,10 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
     enterprises: Array<EnterpriseEnterprise>;
     pathRoot = 'upf-4.0.0';
     pathListAttr = 'upf';
+    SiteImisLength: number;
+    site: Array<SiteSite>;
+    ImsiRangeLimit: number;
+    showAddImsi: boolean = false;
     upfId: string;
     showParentDisplay: boolean = false;
     upfForm = this.fb.group({
@@ -46,6 +51,7 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         ])],
         'config-endpoint': [undefined],
         enterprise: [undefined],
+        site: [undefined],
         address: [undefined, Validators.compose([
             Validators.required,
             Validators.minLength(1),
@@ -89,6 +95,21 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
             this.upfForm.get('enterprise').markAsDirty();
             this.upfForm.get('enterprise').setValue(this.enterprises[0].id);
         }
+    }
+
+    displayImsiAdd(): void {
+        this.showAddImsi = !!this.upfForm.get('site').value;
+        this.site.forEach(eachSite => {
+            if (eachSite.id === this.upfForm.get('site').value) {
+                this.SiteImisLength = (eachSite['imsi-definition'].format.length - eachSite['imsi-definition'].format.indexOf('S'));
+            }
+        });
+
+    }
+
+    fetchTooltipContent(): string {
+        this.ImsiRangeLimit = Math.pow(10, this.SiteImisLength) - 1;
+        return 'UE ID is suffix of IMSI. Ranges must not overlap. Maximum value: ' + this.ImsiRangeLimit + ' Maximum each range: ' + maxDeviceGroupRange;
     }
 
     loadUpfUpf(target: string, id: string): void {
@@ -136,6 +157,23 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         );
     }
 
+    loadSites(target: string): void {
+        this.aetherService.getSite({
+            target,
+        }).subscribe(
+            (value => {
+                this.site = value.site;
+                this.displayImsiAdd();
+                console.log('Got Site', value.site.length);
+            }),
+            error => {
+                console.warn('Error getting Site for ', target, error);
+            },
+            () => {
+                console.log('Finished loading Site', target);
+            }
+        );
+    }
 
     private populateFormData(value: UpfUpf): void {
         if (value['display-name']) {
@@ -153,6 +191,11 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         if (value['config-endpoint'] != null) {
             this.upfForm.get('config-endpoint').setValue(value['config-endpoint']);
             this.upfForm.get('config-endpoint')[ORIGINAL] = value['config-endpoint'];
+        }
+        if (value.site) {
+            this.upfForm.get('site').setValue(value.site);
+            this.upfForm.get('site')[ORIGINAL] = value.site;
+            this.loadSites(this.target);
         }
         if (value.address) {
             this.upfForm.get('address').setValue(value.address);

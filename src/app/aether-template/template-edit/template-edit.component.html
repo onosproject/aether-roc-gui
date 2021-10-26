@@ -29,6 +29,12 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
+            <div class="row" id="defaultBehaviorRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="default-behavior" id="inputDefaultBehavior">
+                    <mat-hint>Default Behavior</mat-hint>
+                </mat-form-field>
+            </div>
             <div class="row" id="sdRow">
                 <mat-form-field class="field-margin half-width">
                     <input matInput formControlName="sd" id="inputSd" [title]="sdAsInt(tempForm.get('sd').value)">

@@ -19,6 +19,16 @@ export interface TrafficClassTrafficClass {
   id: string;
 
   /**
+   * PDB
+   */
+  pdb?: number;
+
+  /**
+   * PELR exponent
+   */
+  pelr?: number;
+
+  /**
    * Allocation and Retention Priority. 1 is the highest. 15 is the lowest.
    */
   arp?:number;

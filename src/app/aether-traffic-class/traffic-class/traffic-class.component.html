@@ -29,7 +29,19 @@
             <td mat-cell  *matCellDef="let row" [title]="row.description">{{row.description | truncateText:50}}</td>
         </ng-container>
 
+        <!-- PELR Column -->
+        <ng-container matColumnDef="pelr" id="pelrColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>PELR</th>
+            <td mat-cell class="small-spacing" *matCellDef="let row">{{row.pelr}}</td>
+        </ng-container>
+
         <!-- PDB Column -->
+        <ng-container matColumnDef="pdb" id="pdbColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>PDB</th>
+            <td mat-cell class="small-spacing" *matCellDef="let row">{{row.pdb}}</td>
+        </ng-container>
+
+        <!-- ARP Column -->
         <ng-container matColumnDef="arp" id="arpColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>ARP</th>
             <td mat-cell class="small-spacing" *matCellDef="let row">{{row.arp}}</td>
