@@ -49,31 +49,41 @@
                     <mat-hint>Default Behavior</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="field-margin">
-                <!--Sd field-->
-                <div class="row">
-                    <mat-form-field class="field-margin half-width">
-                        <input matInput
-                               placeholder="Please specify an SD"
-                               formControlName="sd"
-                               [title]="sdAsInt(vcsForm.get('sd').value)"
-                               id="inputSd">
-                        <mat-hint>SD (Slice differentiator - 6 hex characters)</mat-hint>
-                    </mat-form-field>
-                </div>
-                <!--SST field-->
-                <div class="row">
-                    <mat-form-field class="field-margin half-width">
-                        <input matInput
-                               type=number
-                               placeholder="Please specify an SST"
-                               formControlName="sst"
-                               id="inputSst">
-                        <mat-hint>SST (Slice/Service type 1-255)</mat-hint>
-                    </mat-form-field>
-                </div>
+            <!--Sd field-->
+            <mat-form-field class="field-margin half-width">
+                <input matInput
+                       placeholder="Please specify an SD"
+                       formControlName="sd"
+                       [title]="sdAsInt(vcsForm.get('sd').value)"
+                       id="inputSd">
+                <mat-hint>SD (Slice differentiator - 6 hex characters)</mat-hint>
+            </mat-form-field>
+            <!--SST field-->
+            <mat-form-field class="field-margin half-width">
+                <input matInput
+                       type=number
+                       placeholder="Please specify an SST"
+                       formControlName="sst"
+                       id="inputSst">
+                <mat-hint>SST (Slice/Service type 1-255)</mat-hint>
+            </mat-form-field>
+            <div class="row">
+                <mat-form-field class="field-margin half-width subscriber-section">
+                    <mat-select ngDefaultControl formControlName="site"
+                                title="This field is mandatory."
+                                placeholder="Please specify a Site"
+                                (selectionChange)="OnSiteSelect()"
+                                id="selectSite"
+                                required>
+                        <mat-option *ngFor="let site of site"
+                                    [value]="site.id">{{site.id}}
+                            <span *ngIf="site['display-name']"> ({{site['display-name']}})</span>
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Site</mat-hint>
+                </mat-form-field>
             </div>
-            <div formArrayName="filter" class="subscriber-section">
+            <div formArrayName="filter" class="subscriber-section field-margin">
                 <mat-hint>Filter</mat-hint>
                 <mat-icon (click)="showApplicationDisplay = true" color='accent' class="subscriber-pointer"
                           id="addFilter">
@@ -108,7 +118,7 @@
                     </div>
                 </div>
             </div>
-            <div formArrayName="device-group" class="subscriber-section">
+            <div formArrayName="device-group" class="subscriber-section field-margin">
                 <mat-hint>Device Group</mat-hint>
                 <mat-icon (click)="showDeviceGroupDisplay = true" color='accent' class="subscriber-pointer"
                           id="addADeviceGroup">
@@ -137,7 +147,7 @@
                 </div>
             </div>
             <!--                slice uplink/downlink-->
-            <div id="sliceMbrRow" class="subscriber-section">
+            <div id="sliceMbrRow" class="subscriber-section field-margin">
                 <mat-hint>Slice Maximum bitrate</mat-hint>
                 <div [formGroup]="sliceMbrControls">
                     <div class="row float-left" id="sliceUplinkRow">
@@ -217,6 +227,7 @@
 <aether-device-group-select
     *ngIf="showDeviceGroupDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
     id="deviceGroupSelectComponent"
+    [selectedSite]="selectedSite"
     [alreadySelected]="deviceGroupExists"
     (closeEvent)="dgSelected($event)">
 </aether-device-group-select>

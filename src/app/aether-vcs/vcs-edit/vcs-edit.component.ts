@@ -11,7 +11,7 @@ import {
     ApListApList,
     DeviceGroupDeviceGroup,
     UpfUpf,
-    AdditionalPropertyTarget, EnterpriseEnterprise, Vcs
+    AdditionalPropertyTarget, EnterpriseEnterprise, Vcs, SiteSite
 } from '../../../openapi3/aether/4.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -37,8 +37,10 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     showDeviceGroupDisplay: boolean = false;
     aps: Array<ApListApList> | AdditionalPropertyTarget;
     deviceGroups: Array<DeviceGroupDeviceGroup>;
+    site: Array<SiteSite>;
+    selectedSite: string;
     enterprises: Array<EnterpriseEnterprise>;
-    upfs: Array<UpfUpf>;
+    upfs: Array<UpfUpf> = [];
     options: Bandwidths[] = [
         {megabyte: {numerical: 1000000, inMb: '1Mbps'}},
         {megabyte: {numerical: 2000000, inMb: '2Mbps'}},
@@ -75,6 +77,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             Validators.minLength(1),
             Validators.maxLength(1024),
         ])],
+        site: [undefined],
         filter: this.fb.array([]),
         slice: this.fb.group({
             mbr: this.fb.group({
@@ -119,7 +122,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         super(snackBar, bs, route, router, 'vcs-4.0.0', 'vcs');
         super.form = this.vcsForm;
         super.loadFunc = this.loadVcsVcs;
-        this.vcsForm[REQDATTRIBS] = ['sd', 'sst', 'enterprise','default-behavior'];
+        this.vcsForm[REQDATTRIBS] = ['sd', 'sst', 'enterprise', 'default-behavior'];
         this.vcsForm.get(['slice', 'mbr', 'uplink'])[TYPE] = 'number';
         this.vcsForm.get(['slice', 'mbr', 'downlink'])[TYPE] = 'number';
         this.vcsForm.get(['sst'])[TYPE] = 'number';
@@ -129,9 +132,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     ngOnInit(): void {
         super.init();
         if (!this.isNewInstance) {
-            // this.vcsForm.get('template').disable();
-            // this.vcsForm.get('sd').disable();
-            // this.vcsForm.get('sst').disable();
         }
         this.loadDeviceGoup(this.target);
         this.loadUpf(this.target);
@@ -174,6 +174,11 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             existingList.push(app.get('device-group').value);
         });
         return existingList;
+    }
+
+    OnSiteSelect(): void {
+        this.selectedSite = this.vcsForm.get('site').value;
+
     }
 
     appSelected(selected: SelectAppParam): void {
@@ -391,6 +396,12 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             this.vcsForm.get(['sd']).setValue(value.sd.toString(16).toUpperCase());
             this.vcsForm.get('sd')[ORIGINAL] = value.sd.toString(16).toUpperCase();
         }
+        if (value.site) {
+            this.vcsForm.get('site').setValue(value.site);
+            this.vcsForm.get('site')[ORIGINAL] = value.site;
+            this.loadSites(this.target);
+            this.OnSiteSelect();
+        }
         if (value['default-behavior']) {
             this.vcsForm.get(['default-behavior']).setValue(value['default-behavior']);
             this.vcsForm.get(['default-behavior'])[ORIGINAL] = value['default-behavior'];
@@ -446,7 +457,11 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             target,
         }).subscribe(
             (value => {
-                this.upfs = value.upf;
+                value.upf.forEach(eachUPF => {
+                    if (eachUPF.site === this.selectedSite) {
+                        this.upfs.push(eachUPF)
+                    }
+                })
                 origLen = this.upfs.length;
             }),
             error => {
@@ -469,6 +484,23 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                     err => console.warn('Error getting VCS', err),
                     () => console.log('Showing', this.upfs.length, 'unused UPFs. Total', origLen)
                 );
+            }
+        );
+    }
+
+    loadSites(target: string): void {
+        this.aetherService.getSite({
+            target,
+        }).subscribe(
+            (value => {
+                this.site = value.site;
+                console.log('Got Site', value.site.length);
+            }),
+            error => {
+                console.warn('Error getting Site for ', target, error);
+            },
+            () => {
+                console.log('Finished loading Site', target);
             }
         );
     }

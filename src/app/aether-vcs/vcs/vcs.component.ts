@@ -37,6 +37,7 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
         'device-group',
         'sd',
         'sst',
+        'site',
         'upf',
         'edit',
         'delete',
@@ -50,7 +51,7 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
     ) {
         super(basketService, new VcsDatasource(aetherService, basketService, AETHER_TARGETS[0]),
             'vcs-4.0.0', 'vcs');
-        super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise'];
+        super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise', 'site'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
@@ -93,6 +94,9 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
                         }
                         if (basketItems.enterprise) {
                             ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
+                        }
+                        if (basketItems['site']) {
+                            ScopeOfDataSource.data[listItemCount]['site'] = basketItems['site'];
                         }
                         if (basketItems.sst) {
                             ScopeOfDataSource.data[listItemCount].sst = basketItems.sst;
