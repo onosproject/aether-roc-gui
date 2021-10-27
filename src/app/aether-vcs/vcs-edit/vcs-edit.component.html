@@ -37,7 +37,15 @@
             </div>
             <div class="row" id="defaultBehaviorRow">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="default-behavior" id="inputDefaultBehavior">
+                    <input matInput [matAutocomplete]="auto"
+                           id="inputDefaultBehavior"
+                           formControlName="default-behavior">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of defaultBehaviorOpitons"
+                                    [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-autocomplete>
                     <mat-hint>Default Behavior</mat-hint>
                 </mat-form-field>
             </div>

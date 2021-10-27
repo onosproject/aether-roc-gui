@@ -8,11 +8,12 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title>Application ID: {{id}}</mat-card-title>
-                <mat-icon *ngIf="!isNew" (click)="showParentDisplay = true; $event.preventDefault()" class="subscriber-pointer"
-                          id="showParentInformation"
-                          color="accent">
-                    assignment
-                </mat-icon>
+            <mat-icon *ngIf="!isNew" (click)="showParentDisplay = true; $event.preventDefault()"
+                      class="subscriber-pointer"
+                      id="showParentInformation"
+                      color="accent">
+                assignment
+            </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
@@ -50,75 +51,70 @@
                 </mat-icon>
                 <div *ngFor="let endpointForm of endpointControls.controls;let i = index">
                     <div [formGroup]="endpointForm">
-                        <mat-form-field class="field-margin">
-                            <input matInput readonly formControlName="name" id="inputName">
-                            <mat-hint>Name</mat-hint>
-                        </mat-form-field>
-                        <mat-form-field class="field-margin ">
-                            <input matInput type=number formControlName="port-start"
-                                   title="This field is mandatory."
-                                   placeholder="Please specify a starting Port"
-                                   id="inputPortStart" required>
-                            <mat-hint>Port Start</mat-hint>
-                        </mat-form-field>
-                        <mat-form-field class="field-margin ">
-                            <input matInput type=number formControlName="port-end" id="inputPortEnd">
-                            <mat-hint>Port End</mat-hint>
-                        </mat-form-field>
-                        <mat-form-field class="field-margin ">
-                            <mat-select
-                                id="selectProtocol"
-                                formControlName="protocol">
-                                <mat-option
-                                    *ngFor="let eachProtocol of protocolOptions"
-                                    [value]="eachProtocol.name">{{eachProtocol.name}}</mat-option>
-                            </mat-select>
-                            <mat-hint>Protocol</mat-hint>
-                        </mat-form-field>
-                        <mat-form-field class="field-margin half-width">
-                            <mat-select
-                                id="selectTrafficClass"
-                                formControlName="traffic-class">
-                                <mat-option
-                                    *ngFor="let eachTrafficClass of trafficClassOptions"
-                                    [value]="eachTrafficClass.id">{{eachTrafficClass['display-name']}}</mat-option>
-                            </mat-select>
-                            <mat-hint>Traffic Class</mat-hint>
-                        </mat-form-field>
-                        <div id="deviceMbrRow">
-                            <mat-hint>Device Maximum bitrate</mat-hint>
-                            <div [formGroup]="mbrControls(i)">
-                                <div class="row float-left" id="uplinkRow">
-                                    <mat-form-field class="field-margin">
-                                        <input matInput type="number" [matAutocomplete]="auto"
-                                               id="inputDeviceUplink"
-                                               formControlName="uplink">
-                                        <mat-autocomplete #auto="matAutocomplete">
-                                            <mat-option *ngFor="let option of bandwidthOptions | async"
-                                                        [value]="option.megabyte.numerical">
-                                                {{option.megabyte.numerical}}
-                                                {{option.megabyte.inMb}}
-                                            </mat-option>
-                                        </mat-autocomplete>
-                                        <mat-hint>Uplink (Mbps)</mat-hint>
-                                    </mat-form-field>
-                                </div>
-                                <div class="row " id="downlinkRow">
-                                    <mat-form-field class="field-margin">
-                                        <input matInput type="number" [matAutocomplete]="auto"
-                                               id="inputDeviceDownlink"
-                                               formControlName="downlink">
-                                        <mat-autocomplete #auto="matAutocomplete">
-                                            <mat-option *ngFor="let option of bandwidthOptions | async"
-                                                        [value]="option.megabyte.numerical">
-                                                {{option.megabyte.numerical}}
-                                                {{option.megabyte.inMb}}
-                                            </mat-option>
-                                        </mat-autocomplete>
-                                        <mat-hint>Downlink (Mbps)</mat-hint>
-                                    </mat-form-field>
-                                </div>
-                            </div>
+                        <div class="float-left">
+                            <mat-form-field class="field-margin">
+                                <input matInput readonly formControlName="name" id="inputName">
+                                <mat-hint>Name</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field class="field-margin ">
+                                <input matInput type=number formControlName="port-start"
+                                       title="This field is mandatory."
+                                       placeholder="Please specify a starting Port"
+                                       id="inputPortStart" required>
+                                <mat-hint>Port Start</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field class="field-margin ">
+                                <input matInput type=number formControlName="port-end" id="inputPortEnd">
+                                <mat-hint>Port End</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field class="field-margin ">
+                                <mat-select
+                                    id="selectProtocol"
+                                    formControlName="protocol">
+                                    <mat-option
+                                        *ngFor="let eachProtocol of protocolOptions"
+                                        [value]="eachProtocol.name">{{eachProtocol.name}}</mat-option>
+                                </mat-select>
+                                <mat-hint>Protocol</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field class="field-margin">
+                                <mat-select
+                                    id="selectTrafficClass"
+                                    formControlName="traffic-class">
+                                    <mat-option
+                                        *ngFor="let eachTrafficClass of trafficClassOptions"
+                                        [value]="eachTrafficClass.id">{{eachTrafficClass['display-name']}}</mat-option>
+                                </mat-select>
+                                <mat-hint>Traffic Class</mat-hint>
+                            </mat-form-field>
+                        </div>
+                        <div [formGroup]="mbrControls(i)">
+                            <mat-form-field class="field-margin">
+                                <input matInput type="number" [matAutocomplete]="auto"
+                                       id="inputDeviceUplink"
+                                       formControlName="uplink">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngFor="let option of bandwidthOptions | async"
+                                                [value]="option.megabyte.numerical">
+                                        {{option.megabyte.numerical}}
+                                        {{option.megabyte.inMb}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-hint>Uplink (Mbps)</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field class="field-margin">
+                                <input matInput type="number" [matAutocomplete]="auto"
+                                       id="inputDeviceDownlink"
+                                       formControlName="downlink">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngFor="let option of bandwidthOptions | async"
+                                                [value]="option.megabyte.numerical">
+                                        {{option.megabyte.numerical}}
+                                        {{option.megabyte.inMb}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-hint>Downlink (Mbps)</mat-hint>
+                            </mat-form-field>
                             <button mat-icon-button
                                     color="accent"
                                     (click)="deleteFromSelect(endpointForm.value['name'])"
@@ -129,7 +125,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" id="enterpriseRow">
+            <div id="enterpriseRow">
                 <mat-form-field class="field-margin half-width">
                     <mat-select formControlName="enterprise"
                                 placeholder="Please specify an Enterprise"

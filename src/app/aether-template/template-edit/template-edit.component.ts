@@ -39,6 +39,11 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
     pathRoot = 'template-4.0.0';
     pathListAttr = 'template';
     trafficClass: Array<TrafficClassTrafficClass>;
+    defaultBehaviorOpitons = [
+        "DENY-ALL",
+        "ALLOW-ALL",
+        "ALLOW-PUBLIC"
+    ];
     options: Bandwidths[] = [
         {megabyte: {numerical: 1000000, inMb: '1Mbps'}},
         {megabyte: {numerical: 2000000, inMb: '2Mbps'}},
@@ -101,7 +106,6 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
                 ])]
             }),
         }),
-        'traffic-class': [undefined],
     });
 
     constructor(
@@ -121,7 +125,6 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
 
     ngOnInit(): void {
         super.init();
-        this.loadTrafficClass(this.target);
         this.bandwidthOptions = this.tempForm.valueChanges
             .pipe(
                 startWith(''),
@@ -196,10 +199,6 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             this.tempForm.get(['slice','mbr','uplink'])[ORIGINAL] = value.slice.mbr.uplink;
             this.tempForm.get(['slice','mbr','downlink'])[ORIGINAL] = value.slice.mbr.downlink;
         }
-        if (value['traffic-class']) {
-            this.tempForm.get(['traffic-class']).setValue(value['traffic-class']);
-            this.tempForm.get(['traffic-class'])[ORIGINAL] = value['traffic-class'];
-        }
     }
 
     get deviceMbrControls(): FormGroup {
@@ -208,20 +207,6 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
 
     get sliceMbrControls(): FormGroup {
         return this.tempForm.get(['slice','mbr']) as FormGroup;
-    }
-
-    loadTrafficClass(target: string): void {
-        this.aetherService.getTrafficClass({
-            target,
-        }).subscribe(
-            (value => {
-                this.trafficClass = value['traffic-class'];
-                console.log('Got', value['traffic-class'].length, 'Traffic Class');
-            }),
-            error => {
-                console.warn('Error getting Traffic Class for ', target, error);
-            }
-        );
     }
 }
 

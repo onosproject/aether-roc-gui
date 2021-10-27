@@ -297,10 +297,10 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                         ['port-end']: epPortEndControl,
                         protocol: epProtocolcontrol,
                         'traffic-class': epTrafficClasscontrol,
-                        'mbr': [{
+                        'mbr':this.fb.group({
                             uplink: epMbrUplinkcontrol,
                             downlink: epMbrDownlinkcontrol
-                        }]
+                        })
                     });
                     epGroupControl[REQDATTRIBS] = ['port-start'];
 
@@ -330,10 +330,10 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                                 'port-end': eachValueEndpoint['port-end'],
                                 protocol: eachValueEndpoint.protocol,
                                 'traffic-class': eachValueEndpoint["traffic-class"],
-                                'mbr': [{
+                                'mbr': this.fb.group({
                                     uplink: eachValueEndpoint.mbr.uplink,
                                     downlink: eachValueEndpoint.mbr.downlink
-                                }]
+                                })
                             }));
                         }
                     }

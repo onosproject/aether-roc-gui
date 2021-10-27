@@ -37,7 +37,6 @@
                 <mat-hint>Protocol</mat-hint>
             </mat-form-field>
             <div id="deviceMbrRow">
-                <mat-hint>Device Maximum bitrate</mat-hint>
                 <div [formGroup]="mbrControls">
                     <div class="row float-left" id="uplinkRow">
                         <mat-form-field class="field-margin">
@@ -51,7 +50,7 @@
                                     {{option.megabyte.inMb}}
                                 </mat-option>
                             </mat-autocomplete>
-                            <mat-hint>Uplink (Mbps)</mat-hint>
+                            <mat-hint>Uplink (bps)</mat-hint>
                         </mat-form-field>
                     </div>
                     <div class="row " id="downlinkRow">
@@ -66,7 +65,7 @@
                                     {{option.megabyte.inMb}}
                                 </mat-option>
                             </mat-autocomplete>
-                            <mat-hint>Downlink (Mbps)</mat-hint>
+                            <mat-hint>Downlink (bps)</mat-hint>
                         </mat-form-field>
                     </div>
                 </div>

@@ -43,7 +43,6 @@
             <td mat-cell *matCellDef="let row">
                 <div *ngFor="let ep of row.endpoint">
                     {{ep.name}}
-                    {{ep.address}}
                     {{ep['port-start']}}-{{ep['port-end']}}
                     {{ep.protocol}}
                     <p>Traffic-class: {{ep['traffic-class']}}

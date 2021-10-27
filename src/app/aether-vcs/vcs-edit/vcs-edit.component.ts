@@ -49,6 +49,12 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         {megabyte: {numerical: 100000000, inMb: '100Mbps'}},
         {megabyte: {numerical: 500000000, inMb: '500Mbps'}}
     ];
+
+    defaultBehaviorOpitons = [
+        "DENY-ALL",
+        "ALLOW-ALL",
+        "ALLOW-PUBLIC"
+    ];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: VcsVcs;
     pathRoot = 'vcs-4.0.0';
@@ -113,7 +119,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         super(snackBar, bs, route, router, 'vcs-4.0.0', 'vcs');
         super.form = this.vcsForm;
         super.loadFunc = this.loadVcsVcs;
-        this.vcsForm[REQDATTRIBS] = ['sd', 'sst', 'enterprise'];
+        this.vcsForm[REQDATTRIBS] = ['sd', 'sst', 'enterprise','default-behavior'];
         this.vcsForm.get(['slice', 'mbr', 'uplink'])[TYPE] = 'number';
         this.vcsForm.get(['slice', 'mbr', 'downlink'])[TYPE] = 'number';
         this.vcsForm.get(['sst'])[TYPE] = 'number';
@@ -308,7 +314,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                     const appControlGroup = this.fb.group({
                         application: appFormControl,
                         allow: enabledControl,
-                        priority:priorityControl
+                        priority: priorityControl
                     });
                     (this.vcsForm.get('filter') as FormArray).push(appControlGroup);
                 }
@@ -324,17 +330,17 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                         (this.vcsForm.get(['application']) as FormArray).push(this.fb.group({
                             application: eachFormApp.application,
                             allow: eachFormApp.allow,
-                            priority:eachFormApp.priority
+                            priority: eachFormApp.priority
                         }));
                     }
                 }
             });
         }
         if (value.slice && value.slice.mbr) {
-            this.vcsForm.get(['slice','mbr','uplink']).setValue(value.slice.mbr.uplink);
-            this.vcsForm.get(['slice','mbr','downlink']).setValue(value.slice.mbr.downlink);
-            this.vcsForm.get(['slice','mbr','uplink'])[ORIGINAL] = value.slice.mbr.uplink;
-            this.vcsForm.get(['slice','mbr','downlink'])[ORIGINAL] = value.slice.mbr.downlink;
+            this.vcsForm.get(['slice', 'mbr', 'uplink']).setValue(value.slice.mbr.uplink);
+            this.vcsForm.get(['slice', 'mbr', 'downlink']).setValue(value.slice.mbr.downlink);
+            this.vcsForm.get(['slice', 'mbr', 'uplink'])[ORIGINAL] = value.slice.mbr.uplink;
+            this.vcsForm.get(['slice', 'mbr', 'downlink'])[ORIGINAL] = value.slice.mbr.downlink;
         }
         if (value.enterprise) {
             this.vcsForm.get('enterprise').setValue(value.enterprise);

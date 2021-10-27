@@ -65,12 +65,6 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
                         if (basketItems.enterprise) {
                             ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
                         }
-                        // if (basketItems.mbr && basketItems.mbr.uplink) {
-                        //     ScopeOfDataSource.data[listItemCount].mbr.uplink = basketItems.mbr.uplink;
-                        // }
-                        // if (basketItems.mbr && basketItems.mbr.downlink) {
-                        //     ScopeOfDataSource.data[listItemCount].mbr.downlink = basketItems.mbr.downlink;
-                        // }
                         if (basketItems.endpoint){
                             if (ScopeOfDataSource.data[listItemCount].endpoint.length === 0) {
                                 ScopeOfDataSource.data[listItemCount].endpoint = basketItems.endpoint;

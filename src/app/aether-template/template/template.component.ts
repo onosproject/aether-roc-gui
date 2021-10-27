@@ -34,7 +34,6 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
         'sst',
         'default-behavior',
         'slice',
-        'traffic-class',
         'edit',
         'delete'
     ];
@@ -77,9 +76,6 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
                         if (basketItems.slice && basketItems.slice.mbr) {
                             ScopeOfDataSource.data[listItemCount].slice.mbr.uplink = basketItems.slice.mbr.uplink;
                             ScopeOfDataSource.data[listItemCount].slice.mbr.downlink = basketItems.slice.mbr.downlink;
-                        }
-                        if (basketItems['traffic-class']) {
-                            ScopeOfDataSource.data[listItemCount]['traffic-class'] = basketItems['traffic-class'];
                         }
                     }
                 });

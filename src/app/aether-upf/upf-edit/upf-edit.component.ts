@@ -97,15 +97,7 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         }
     }
 
-    displayImsiAdd(): void {
-        this.showAddImsi = !!this.upfForm.get('site').value;
-        this.site.forEach(eachSite => {
-            if (eachSite.id === this.upfForm.get('site').value) {
-                this.SiteImisLength = (eachSite['imsi-definition'].format.length - eachSite['imsi-definition'].format.indexOf('S'));
-            }
-        });
 
-    }
 
     fetchTooltipContent(): string {
         this.ImsiRangeLimit = Math.pow(10, this.SiteImisLength) - 1;
@@ -163,7 +155,6 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         }).subscribe(
             (value => {
                 this.site = value.site;
-                this.displayImsiAdd();
                 console.log('Got Site', value.site.length);
             }),
             error => {

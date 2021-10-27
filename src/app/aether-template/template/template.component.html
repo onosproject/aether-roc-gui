@@ -50,22 +50,9 @@
         <ng-container matColumnDef="slice" id="sliceColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Slice</th>
             <td mat-cell *matCellDef="let row">
-                <p>Uplink: {{row.slice.mbr.uplink}}</p>
-                <p>Downlink: {{row.slice.mbr.downlink}}</p>
+                <p><mat-icon class="small_icon">arrow_upward</mat-icon>{{row.slice.mbr.uplink}}</p>
+                <p><mat-icon class="small_icon">arrow_downward</mat-icon>{{row.slice.mbr.downlink}}</p>
             </td>
-        </ng-container>
-
-        <!--Traffic-class Column -->
-        <ng-container matColumnDef="traffic-class" id="TrafficclassColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Traffic-Class</th>
-            <td mat-cell *matCellDef="let row">{{row['traffic-class']}}
-            <mat-icon
-                *ngIf="row['traffic-class']"
-                class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="Traffic Class"
-                routerLink="/traffic-class/trafficclass-edit/{{row['traffic-class']}}"
-                id="pointerTrafficClass">launch
-            </mat-icon>
-        </td>
         </ng-container>
 
         <!-- Edit Column -->
