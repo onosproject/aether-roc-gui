@@ -1,7 +1,6 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* eslint-disable */
 /* eslint-disable */
-import {TemplateTemplateDeviceMbr} from "./template-template-device-mbr";
 import {TemplateTemplateSliceMbr} from "./template-template-slice-mbr";
 
 export interface TemplateTemplate {
@@ -15,11 +14,6 @@ export interface TemplateTemplate {
    * display name to use in GUI or CLI
    */
   'display-name'?: string;
-
-  /**
-   * Per-device QOS Settings
-   */
-  device?: TemplateTemplateDeviceMbr;
 
     /**
      * Per-Slice QOS Settings
@@ -45,5 +39,10 @@ export interface TemplateTemplate {
    * Link to traffic class
    */
   'traffic-class'?: string;
+
+  /**
+   * Default behavior if no filter rules match
+   */
+  'default-behavior'?: string;
 
 }

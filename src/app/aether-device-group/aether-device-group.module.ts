@@ -34,6 +34,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {UtilsModule} from '../utils/utils.module';
 import { UeMonitorComponent } from './ue-monitor/ue-monitor.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
 
 
@@ -76,6 +77,7 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         MatCheckboxModule,
         MatExpansionModule,
         UtilsModule,
+        MatAutocompleteModule,
         MatTooltipModule
     ],
     providers: [

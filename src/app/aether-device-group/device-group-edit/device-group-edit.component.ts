@@ -10,7 +10,7 @@ import {DeviceGroupDeviceGroup} from '../../../openapi3/aether/4.0.0/models/devi
 import {
     AbstractControl,
     FormArray,
-    FormBuilder,
+    FormBuilder, FormControlName, FormGroup,
     ValidationErrors,
     ValidatorFn,
     Validators
@@ -26,6 +26,10 @@ import {IpDomainIpDomain} from '../../../openapi3/aether/4.0.0/models/ip-domain-
 import {SiteSite} from '../../../openapi3/aether/4.0.0/models/site-site';
 import {ImsiParam} from '../imsis-select/imsis-select.component';
 import {maxDeviceGroupRange} from "../../../environments/environment";
+import {map, startWith} from "rxjs/operators";
+import {Bandwidths} from "../../aether-template/template-edit/template-edit.component";
+import {Observable} from "rxjs";
+import {TrafficClassTrafficClass} from "../../../openapi3/aether/4.0.0/models/traffic-class-traffic-class";
 
 const ValidateImsiRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     if (control.get(['imsis']).value.length !== 0) {
@@ -76,6 +80,18 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
     SiteImisLength: number;
     ImsiRangeLimit: number;
     showParentDisplay: boolean = false;
+    trafficClass: Array<TrafficClassTrafficClass>;
+    options: Bandwidths[] = [
+        {megabyte: {numerical: 1000000, inMb: '1Mbps'}},
+        {megabyte: {numerical: 2000000, inMb: '2Mbps'}},
+        {megabyte: {numerical: 5000000, inMb: '5Mbps'}},
+        {megabyte: {numerical: 10000000, inMb: '10Mbps'}},
+        {megabyte: {numerical: 25000000, inMb: '25Mbps'}},
+        {megabyte: {numerical: 50000000, inMb: '50Mbps'}},
+        {megabyte: {numerical: 100000000, inMb: '100Mbps'}},
+        {megabyte: {numerical: 500000000, inMb: '500Mbps'}}
+    ];
+    bandwidthOptions: Observable<Bandwidths[]>;
 
     deviceGroupForm = this.fb.group({
         id: [undefined, Validators.compose([
@@ -93,6 +109,19 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         ])],
         'ip-domain': [undefined],
         site: [undefined],
+        device: this.fb.group({
+            mbr: this.fb.group({
+                uplink: [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])],
+                downlink: [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])],
+            }),
+            'traffic-class':[undefined]
+        }),
         imsis: this.fb.array([])
     }, {validators: ValidateImsiRange});
     private deviceGroupId: string;
@@ -116,10 +145,20 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
 
     ngOnInit(): void {
         this.loadIpDomains(this.target);
+        this.loadTrafficClass(this.target);
         super.init();
         if (this.isNewInstance) {
             this.loadSites(this.target);
         }
+        this.deviceGroupForm.get(['device','mbr','uplink'])[TYPE] = 'number';
+        this.deviceGroupForm.get(['device','mbr','downlink'])[TYPE] = 'number';
+        this.deviceGroupForm.get(['device','traffic-class'])[TYPE] = 'string';
+        this.bandwidthOptions = this.deviceGroupForm.valueChanges
+            .pipe(
+                startWith(''),
+                map(value => typeof value === 'number' ? value : value.megabyte),
+                map(megabyte => megabyte ? this._filter(megabyte) : this.options.slice())
+            );
     }
 
     fetchTooltipContent(): string {
@@ -127,8 +166,22 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         return 'UE ID is suffix of IMSI. Ranges must not overlap. Maximum value: ' + this.ImsiRangeLimit + ' Maximum each range: ' + maxDeviceGroupRange;
     }
 
+    private _filter(bandwidthIndex: number): Bandwidths[] {
+        const filterValue = bandwidthIndex;
+        return this.options.filter(option => option.megabyte.numerical);
+    }
+
+
     get imsiControls(): FormArray {
         return this.deviceGroupForm.get(['imsis']) as FormArray;
+    }
+
+    get deviceMbrControls(): FormGroup {
+        return this.deviceGroupForm.get(['device','mbr']) as FormGroup;
+    }
+
+    get deviceTrafficClassControls(): FormGroup {
+        return this.deviceGroupForm.get('device') as FormGroup;
     }
 
     get imsisExisting(): string[] {
@@ -187,6 +240,17 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
             this.deviceGroupForm.get('site').setValue(value.site);
             this.deviceGroupForm.get('site')[ORIGINAL] = value.site;
             this.loadSites(this.target);
+        }
+        if (value.device && value.device['traffic-class']) {
+            this.deviceGroupForm.get(['device','traffic-class']).setValue(value.device['traffic-class']);
+            this.deviceGroupForm.get(['device','traffic-class'])[ORIGINAL] = value.device['traffic-class'];
+
+        }
+        if (value.device && value.device.mbr) {
+            this.deviceGroupForm.get(['device','mbr','uplink']).setValue(value.device.mbr.uplink);
+            this.deviceGroupForm.get(['device','mbr','downlink']).setValue(value.device.mbr.downlink);
+            this.deviceGroupForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.uplink;
+            this.deviceGroupForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.downlink;
         }
         if (value.imsis && this.deviceGroupForm.value.imsis.length === 0) {
             for (const im of value.imsis) {
@@ -304,6 +368,20 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
             },
             () => {
                 console.log('Finished loading Ip Domains', target);
+            }
+        );
+    }
+
+    loadTrafficClass(target: string): void {
+        this.aetherService.getTrafficClass({
+            target,
+        }).subscribe(
+            (value => {
+                this.trafficClass = value['traffic-class'];
+                console.log('Got', value['traffic-class'].length, 'Traffic Class');
+            }),
+            error => {
+                console.warn('Error getting Traffic Class for ', target, error);
             }
         );
     }

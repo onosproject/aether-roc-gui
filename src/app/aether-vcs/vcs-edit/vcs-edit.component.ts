@@ -10,8 +10,6 @@ import {
     VcsVcs,
     ApListApList,
     DeviceGroupDeviceGroup,
-    TemplateTemplate,
-    TrafficClassTrafficClass,
     UpfUpf,
     AdditionalPropertyTarget, EnterpriseEnterprise, Vcs
 } from '../../../openapi3/aether/4.0.0/models';
@@ -40,8 +38,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     aps: Array<ApListApList> | AdditionalPropertyTarget;
     deviceGroups: Array<DeviceGroupDeviceGroup>;
     enterprises: Array<EnterpriseEnterprise>;
-    templates: Array<TemplateTemplate>;
-    trafficClasses: Array<TrafficClassTrafficClass>;
     upfs: Array<UpfUpf>;
     options: Bandwidths[] = [
         {megabyte: {numerical: 1000000, inMb: '1Mbps'}},
@@ -52,6 +48,12 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         {megabyte: {numerical: 50000000, inMb: '50Mbps'}},
         {megabyte: {numerical: 100000000, inMb: '100Mbps'}},
         {megabyte: {numerical: 500000000, inMb: '500Mbps'}}
+    ];
+
+    defaultBehaviorOpitons = [
+        "DENY-ALL",
+        "ALLOW-ALL",
+        "ALLOW-PUBLIC"
     ];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: VcsVcs;
@@ -74,18 +76,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             Validators.maxLength(1024),
         ])],
         filter: this.fb.array([]),
-        device: this.fb.group({
-            mbr: this.fb.group({
-                uplink: [undefined, Validators.compose([
-                    Validators.min(0),
-                    Validators.max(4294967295)
-                ])],
-                downlink: [undefined, Validators.compose([
-                    Validators.min(0),
-                    Validators.max(4294967295)
-                ])]
-            }),
-        }),
         slice: this.fb.group({
             mbr: this.fb.group({
                 uplink: [undefined, Validators.compose([
@@ -98,6 +88,9 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                 ])]
             }),
         }),
+        'default-behavior': [undefined, Validators.compose([
+            Validators.required
+        ])],
         enterprise: [undefined],
         'device-group': this.fb.array([]),
         sd: [undefined, Validators.compose([
@@ -110,8 +103,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             Validators.min(1),
             Validators.max(255)
         ])],
-        template: [undefined],
-        'traffic-class': [undefined, Validators.required],
         upf: [undefined]
     });
 
@@ -128,27 +119,21 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         super(snackBar, bs, route, router, 'vcs-4.0.0', 'vcs');
         super.form = this.vcsForm;
         super.loadFunc = this.loadVcsVcs;
-        this.vcsForm[REQDATTRIBS] = ['sd', 'traffic-class', 'sst', 'enterprise'];
-        this.vcsForm.get(['device', 'mbr', 'uplink'])[TYPE] = 'number';
-        this.vcsForm.get(['device', 'mbr', 'downlink'])[TYPE] = 'number';
+        this.vcsForm[REQDATTRIBS] = ['sd', 'sst', 'enterprise','default-behavior'];
         this.vcsForm.get(['slice', 'mbr', 'uplink'])[TYPE] = 'number';
         this.vcsForm.get(['slice', 'mbr', 'downlink'])[TYPE] = 'number';
         this.vcsForm.get(['sst'])[TYPE] = 'number';
         this.vcsForm.get(['sd'])[TYPE] = HEX2NUM;
-        // this.vcsForm.get('filter')[IDATTRIBS] = ['filter'];
-        // this.vcsForm.get('device-group')[IDATTRIBS] = ['device-group'];
     }
 
     ngOnInit(): void {
         super.init();
         if (!this.isNewInstance) {
-            this.vcsForm.get('template').disable();
-            this.vcsForm.get('sd').disable();
-            this.vcsForm.get('sst').disable();
+            // this.vcsForm.get('template').disable();
+            // this.vcsForm.get('sd').disable();
+            // this.vcsForm.get('sst').disable();
         }
         this.loadDeviceGoup(this.target);
-        this.loadTemplate(this.target);
-        this.loadTrafficClass(this.target);
         this.loadUpf(this.target);
         this.loadEnterprises(this.target);
         this.bandwidthOptions = this.vcsForm.valueChanges
@@ -329,7 +314,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                     const appControlGroup = this.fb.group({
                         application: appFormControl,
                         allow: enabledControl,
-                        priority:priorityControl
+                        priority: priorityControl
                     });
                     (this.vcsForm.get('filter') as FormArray).push(appControlGroup);
                 }
@@ -345,25 +330,17 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                         (this.vcsForm.get(['application']) as FormArray).push(this.fb.group({
                             application: eachFormApp.application,
                             allow: eachFormApp.allow,
-                            priority:eachFormApp.priority
+                            priority: eachFormApp.priority
                         }));
                     }
                 }
             });
         }
-        if (value.device && value.device.mbr) {
-            this.vcsForm.get(['device','mbr','uplink']).setValue(value.device.mbr.uplink);
-            this.vcsForm.get(['device','mbr','downlink']).setValue(value.device.mbr.downlink);
-            this.vcsForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.uplink;
-            this.vcsForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.downlink;
-            console.log(this.vcsForm.get(['device','mbr','uplink']),"this.tempForm.get(['device']['mbr']['uplink'])")
-
-        }
         if (value.slice && value.slice.mbr) {
-            this.vcsForm.get(['slice','mbr','uplink']).setValue(value.slice.mbr.uplink);
-            this.vcsForm.get(['slice','mbr','downlink']).setValue(value.slice.mbr.downlink);
-            this.vcsForm.get(['slice','mbr','uplink'])[ORIGINAL] = value.slice.mbr.uplink;
-            this.vcsForm.get(['slice','mbr','downlink'])[ORIGINAL] = value.slice.mbr.downlink;
+            this.vcsForm.get(['slice', 'mbr', 'uplink']).setValue(value.slice.mbr.uplink);
+            this.vcsForm.get(['slice', 'mbr', 'downlink']).setValue(value.slice.mbr.downlink);
+            this.vcsForm.get(['slice', 'mbr', 'uplink'])[ORIGINAL] = value.slice.mbr.uplink;
+            this.vcsForm.get(['slice', 'mbr', 'downlink'])[ORIGINAL] = value.slice.mbr.downlink;
         }
         if (value.enterprise) {
             this.vcsForm.get('enterprise').setValue(value.enterprise);
@@ -414,17 +391,13 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             this.vcsForm.get(['sd']).setValue(value.sd.toString(16).toUpperCase());
             this.vcsForm.get('sd')[ORIGINAL] = value.sd.toString(16).toUpperCase();
         }
+        if (value['default-behavior']) {
+            this.vcsForm.get(['default-behavior']).setValue(value['default-behavior']);
+            this.vcsForm.get(['default-behavior'])[ORIGINAL] = value['default-behavior'];
+        }
         if (value.sst) {
             this.vcsForm.get(['sst']).setValue(value.sst);
             this.vcsForm.get('sst')[ORIGINAL] = value.sst;
-        }
-        if (value.template) {
-            this.vcsForm.get(['template']).setValue(value.template);
-            this.vcsForm.get('template')[ORIGINAL] = value.template;
-        }
-        if (value['traffic-class']) {
-            this.vcsForm.get(['traffic-class']).setValue(value['traffic-class']);
-            this.vcsForm.get('traffic-class')[ORIGINAL] = value['traffic-class'];
         }
         if (value.upf) {
             this.vcsForm.get(['upf']).setValue(value.upf);
@@ -461,63 +434,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                 console.warn('Error getting Device Groups for ', target, error);
             }
         );
-    }
-
-    loadTemplate(target: string): void {
-        this.aetherService.getTemplate({
-            target,
-        }).pipe(
-            skipWhile(templateContainer => templateContainer === null)
-        ).subscribe(
-            (value => {
-                this.templates = value.template;
-                console.log('Got', value.template.length, 'Template');
-            }),
-            error => {
-                console.warn('Error getting Template for ', target, error);
-            }
-        );
-    }
-
-    templateSelecte(templateSelected): void {
-        if (this.isNewInstance) {
-            this.templates.forEach(eachTemplate => {
-                if (eachTemplate.id === templateSelected.value) {
-                    this.vcsForm.get(['sd']).setValue(eachTemplate.sd.toString(16).toUpperCase());
-                    const SdFormControl = this.vcsForm.get('sd');
-                    SdFormControl.markAsTouched();
-                    SdFormControl.markAsDirty();
-                    this.vcsForm.get(['sst']).setValue(eachTemplate.sst);
-                    const SstFormControl = this.vcsForm.get('sst');
-                    SstFormControl.markAsTouched();
-                    SstFormControl.markAsDirty();
-                    this.vcsForm.get(['traffic-class']).setValue(eachTemplate['traffic-class']);
-                    const TcFormControl = this.vcsForm.get('traffic-class');
-                    TcFormControl.markAsTouched();
-                    TcFormControl.markAsDirty();
-                }
-            });
-        }
-    }
-
-    loadTrafficClass(target: string): void {
-        this.aetherService.getTrafficClass({
-            target,
-        }).pipe(
-            skipWhile(tcContainer => tcContainer === null)
-        ).subscribe(
-            (value => {
-                this.trafficClasses = value['traffic-class'];
-                console.log('Got', value['traffic-class'].length, 'Traffic Class');
-            }),
-            error => {
-                console.warn('Error getting Traffic Class for ', target, error);
-            }
-        );
-    }
-
-    get deviceMbrControls(): FormGroup {
-        return this.vcsForm.get(['device', 'mbr']) as FormGroup;
     }
 
     get sliceMbrControls(): FormGroup {

@@ -35,17 +35,18 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
-            <!--templte dropdown-->
-            <div class="row">
+            <div class="row" id="defaultBehaviorRow">
                 <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="template"
-                                (selectionChange)="templateSelecte($event)"
-                                id="selectTemplate">
-                        <mat-option
-                            *ngFor="let eachTemp of templates"
-                            [value]="eachTemp.id">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
-                    </mat-select>
-                    <mat-hint>Template</mat-hint>
+                    <input matInput [matAutocomplete]="auto"
+                           id="inputDefaultBehavior"
+                           formControlName="default-behavior">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of defaultBehaviorOpitons"
+                                    [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Default Behavior</mat-hint>
                 </mat-form-field>
             </div>
             <div class="field-margin">
@@ -69,19 +70,6 @@
                                formControlName="sst"
                                id="inputSst">
                         <mat-hint>SST (Slice/Service type 1-255)</mat-hint>
-                    </mat-form-field>
-                </div>
-                <!--traffic-class dropdown-->
-                <div class="row">
-                    <mat-form-field class="field-margin half-width">
-                        <mat-select formControlName="traffic-class"
-                                    placeholder="Please specify a Traffic Class"
-                                    id="selectTrafficClass">
-                            <mat-option
-                                *ngFor="let tc of trafficClasses"
-                                [value]="tc.id">{{tc.id}} {{tc['traffic-class']}}</mat-option>
-                        </mat-select>
-                        <mat-hint>Traffic Class</mat-hint>
                     </mat-form-field>
                 </div>
             </div>
@@ -146,42 +134,6 @@
                             (click)="deleteDeviceGroupFromSelect(dgForm.value['device-group'])">
                         <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
                     </button>
-                </div>
-            </div>
-            <!--device Uplink/downlink field-->
-            <div id="deviceMbrRow">
-                <mat-hint>Device Maximum bitrate</mat-hint>
-                <div [formGroup]="deviceMbrControls">
-                    <div class="row float-left" id="uplinkRow">
-                        <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="auto"
-                                   id="inputDeviceUplink"
-                                   formControlName="uplink">
-                            <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of bandwidthOptions | async"
-                                            [value]="option.megabyte.numerical">
-                                    {{option.megabyte.numerical}}
-                                    {{option.megabyte.inMb}}
-                                </mat-option>
-                            </mat-autocomplete>
-                            <mat-hint>Uplink (Mbps)</mat-hint>
-                        </mat-form-field>
-                    </div>
-                    <div class="row " id="downlinkRow">
-                        <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="auto"
-                                   id="inputDeviceDownlink"
-                                   formControlName="downlink">
-                            <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of bandwidthOptions | async"
-                                            [value]="option.megabyte.numerical">
-                                    {{option.megabyte.numerical}}
-                                    {{option.megabyte.inMb}}
-                                </mat-option>
-                            </mat-autocomplete>
-                            <mat-hint>Downlink (Mbps)</mat-hint>
-                        </mat-form-field>
-                    </div>
                 </div>
             </div>
             <!--                slice uplink/downlink-->

@@ -3,6 +3,8 @@
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { DeviceGroupDeviceGroupImsis } from './device-group-device-group-imsis';
+import {DeviceGroupDeviceGroupDeviceMbr} from "./device-group-device-group-device";
+
 export interface DeviceGroupDeviceGroup {
 
   /**
@@ -32,10 +34,12 @@ export interface DeviceGroupDeviceGroup {
    */
   'ip-domain'?: string;
 
+  device?: DeviceGroupDeviceGroupDeviceMbr;
+
   /**
    * Link to site
    */
   site: string;
 
-  [key: string]: AdditionalPropertyUnchanged | Array<DeviceGroupDeviceGroupImsis> | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | Array<DeviceGroupDeviceGroupImsis> | DeviceGroupDeviceGroupDeviceMbr | string | undefined;
 }

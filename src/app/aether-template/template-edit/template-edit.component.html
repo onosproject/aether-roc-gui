@@ -29,6 +29,20 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
+            <div class="row" id="defaultBehaviorRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput [matAutocomplete]="auto"
+                           id="inputDefaultBehavior"
+                           formControlName="default-behavior">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of defaultBehaviorOpitons"
+                                    [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Default Behavior</mat-hint>
+                </mat-form-field>
+            </div>
             <div class="row" id="sdRow">
                 <mat-form-field class="field-margin half-width">
                     <input matInput formControlName="sd" id="inputSd" [title]="sdAsInt(tempForm.get('sd').value)">
@@ -40,41 +54,6 @@
                     <input matInput type=number formControlName="sst" id="inputSst">
                     <mat-hint>SST (Slice/Service type 1-255)</mat-hint>
                 </mat-form-field>
-            </div>
-            <div id="deviceMbrRow">
-                <mat-hint>Device Maximum bitrate</mat-hint>
-                <div [formGroup]="deviceMbrControls">
-                    <div class="row float-left" id="uplinkRow">
-                        <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="auto"
-                                   id="inputDeviceUplink"
-                                   formControlName="uplink">
-                            <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of bandwidthOptions | async"
-                                            [value]="option.megabyte.numerical">
-                                    {{option.megabyte.numerical}}
-                                    {{option.megabyte.inMb}}
-                                </mat-option>
-                            </mat-autocomplete>
-                            <mat-hint>Uplink (Mbps)</mat-hint>
-                        </mat-form-field>
-                    </div>
-                    <div class="row " id="downlinkRow">
-                        <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="auto"
-                                   id="inputDeviceDownlink"
-                                   formControlName="downlink">
-                            <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of bandwidthOptions | async"
-                                            [value]="option.megabyte.numerical">
-                                    {{option.megabyte.numerical}}
-                                    {{option.megabyte.inMb}}
-                                </mat-option>
-                            </mat-autocomplete>
-                            <mat-hint>Downlink (Mbps)</mat-hint>
-                        </mat-form-field>
-                    </div>
-                </div>
             </div>
             <div id="sliceMbrRow" class="subscriber-section">
                 <mat-hint>Slice Maximum bitrate</mat-hint>
@@ -110,17 +89,6 @@
                         </mat-form-field>
                     </div>
                 </div>
-            </div>
-            <div class="row" id="trafficClassnRow">
-                <mat-form-field class="half-width subscriber-section">
-                    <mat-select formControlName="traffic-class"
-                                id="selectTrafficClass">
-                        <mat-option
-                                    *ngFor="let tc of trafficClass"
-                                    [value]="tc.id">{{tc.id}} {{tc['traffic-class']}}</mat-option>
-                    </mat-select>
-                    <mat-hint>Traffic Class</mat-hint>
-                </mat-form-field>
             </div>
         </mat-card-content>
         <mat-card-actions>

@@ -2,10 +2,15 @@
 /* eslint-disable */
 /* eslint-disable */
 import {MaxiumBitrate} from "./maximum-bitrate";
-export interface TemplateTemplateDeviceMbr {
+export interface DeviceGroupDeviceGroupDeviceMbr {
     /**
      * Maximum bitrate
      */
     mbr?: MaxiumBitrate;
+
+    /**
+     * Link to traffic class
+     */
+    'traffic-class'?: string;
 
 }

@@ -39,6 +39,11 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
     pathRoot = 'template-4.0.0';
     pathListAttr = 'template';
     trafficClass: Array<TrafficClassTrafficClass>;
+    defaultBehaviorOpitons = [
+        "DENY-ALL",
+        "ALLOW-ALL",
+        "ALLOW-PUBLIC"
+    ];
     options: Bandwidths[] = [
         {megabyte: {numerical: 1000000, inMb: '1Mbps'}},
         {megabyte: {numerical: 2000000, inMb: '2Mbps'}},
@@ -70,6 +75,9 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             Validators.maxLength(6),
             Validators.pattern('^[A-F0-9]{6}')
         ])],
+        'default-behavior': [undefined, Validators.compose([
+            Validators.required
+        ])],
         sst: [undefined, Validators.compose([
             Validators.min(1),
             Validators.max(255)
@@ -98,7 +106,6 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
                 ])]
             }),
         }),
-        'traffic-class': [undefined],
     });
 
     constructor(
@@ -118,7 +125,6 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
 
     ngOnInit(): void {
         super.init();
-        this.loadTrafficClass(this.target);
         this.bandwidthOptions = this.tempForm.valueChanges
             .pipe(
                 startWith(''),
@@ -182,22 +188,16 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             this.tempForm.get(['sst']).setValue(value.sst);
             this.tempForm.get(['sst'])[ORIGINAL] = value.sst;
         }
-        if (value.device && value.device.mbr) {
-            console.log(value.device.mbr,"value.device.mbr")
-            this.tempForm.get(['device','mbr','uplink']).setValue(value.device.mbr.uplink);
-            this.tempForm.get(['device','mbr','downlink']).setValue(value.device.mbr.downlink);
-            this.tempForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.uplink;
-            this.tempForm.get(['device','mbr','downlink'])[ORIGINAL] = value.device.mbr.downlink;
+        if (value['default-behavior']) {
+            this.tempForm.get(['default-behavior']).setValue(value['default-behavior']);
+            this.tempForm.get(['default-behavior'])[ORIGINAL] = value['default-behavior'];
         }
+
         if (value.slice && value.slice.mbr) {
             this.tempForm.get(['slice','mbr','uplink']).setValue(value.slice.mbr.uplink);
             this.tempForm.get(['slice','mbr','downlink']).setValue(value.slice.mbr.downlink);
             this.tempForm.get(['slice','mbr','uplink'])[ORIGINAL] = value.slice.mbr.uplink;
             this.tempForm.get(['slice','mbr','downlink'])[ORIGINAL] = value.slice.mbr.downlink;
-        }
-        if (value['traffic-class']) {
-            this.tempForm.get(['traffic-class']).setValue(value['traffic-class']);
-            this.tempForm.get(['traffic-class'])[ORIGINAL] = value['traffic-class'];
         }
     }
 
@@ -207,20 +207,6 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
 
     get sliceMbrControls(): FormGroup {
         return this.tempForm.get(['slice','mbr']) as FormGroup;
-    }
-
-    loadTrafficClass(target: string): void {
-        this.aetherService.getTrafficClass({
-            target,
-        }).subscribe(
-            (value => {
-                this.trafficClass = value['traffic-class'];
-                console.log('Got', value['traffic-class'].length, 'Traffic Class');
-            }),
-            error => {
-                console.warn('Error getting Traffic Class for ', target, error);
-            }
-        );
     }
 }
 

@@ -25,6 +25,11 @@ export interface UpfUpf {
   enterprise: string;
 
   /**
+   * Link to site
+   */
+  site: string;
+
+  /**
    * url for configuring the UPF
    */
   'config-endpoint': string;

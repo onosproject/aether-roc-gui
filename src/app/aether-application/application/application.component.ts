@@ -30,8 +30,6 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
         'description',
         'Endpoint',
         'enterprise',
-        'uplink',
-        'downlink',
         'edit',
         'delete',
         'usage'
@@ -64,11 +62,8 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
                         if (basketItems.address) {
                             ScopeOfDataSource.data[listItemCount].address = basketItems.address;
                         }
-                        if (basketItems.mbr && basketItems.mbr.uplink) {
-                            ScopeOfDataSource.data[listItemCount].mbr.uplink = basketItems.mbr.uplink;
-                        }
-                        if (basketItems.mbr && basketItems.mbr.downlink) {
-                            ScopeOfDataSource.data[listItemCount].mbr.downlink = basketItems.mbr.downlink;
+                        if (basketItems.enterprise) {
+                            ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
                         }
                         if (basketItems.endpoint){
                             if (ScopeOfDataSource.data[listItemCount].endpoint.length === 0) {

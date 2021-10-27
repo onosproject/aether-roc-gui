@@ -73,6 +73,53 @@
                 </mat-form-field>
             </div>
 
+            <div id="deviceMbrRow">
+                <mat-hint>Device Maximum bitrate</mat-hint>
+                <div [formGroup]="deviceMbrControls">
+                    <div class="row float-left" id="uplinkRow">
+                        <mat-form-field class="field-margin">
+                            <input matInput type="number" [matAutocomplete]="auto"
+                                   id="inputDeviceUplink"
+                                   formControlName="uplink">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of bandwidthOptions | async"
+                                            [value]="option.megabyte.numerical">
+                                    {{option.megabyte.numerical}}
+                                    {{option.megabyte.inMb}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Uplink (bps)</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="row " id="downlinkRow">
+                        <mat-form-field class="field-margin">
+                            <input matInput type="number" [matAutocomplete]="auto"
+                                   id="inputDeviceDownlink"
+                                   formControlName="downlink">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of bandwidthOptions | async"
+                                            [value]="option.megabyte.numerical">
+                                    {{option.megabyte.numerical}}
+                                    {{option.megabyte.inMb}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Downlink (bps)</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div [formGroup]="deviceTrafficClassControls" class="row" id="trafficClassnRow">
+                    <mat-form-field class="half-width subscriber-section">
+                        <mat-select formControlName="traffic-class"
+                                    id="selectTrafficClass">
+                            <mat-option
+                                *ngFor="let tc of trafficClass"
+                                [value]="tc.id">{{tc.id}} {{tc['traffic-class']}}</mat-option>
+                        </mat-select>
+                        <mat-hint>Traffic Class</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+
             <div formArrayName="imsis" class="subscriber-section">
                 <mat-hint>UE IDs</mat-hint>
                 <mat-icon *ngIf="showAddImsi" (click)="this.showImsiDisplay = true"

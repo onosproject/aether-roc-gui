@@ -72,6 +72,21 @@
                     <mat-hint>Port</mat-hint>
                 </mat-form-field>
             </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width subscriber-section">
+                    <mat-select ngDefaultControl formControlName="site"
+                                title="This field is mandatory."
+                                placeholder="Please specify a Site"
+                                id="selectSite"
+                                required>
+                        <mat-option *ngFor="let site of site"
+                                    [value]="site.id">{{site.id}}
+                            <span *ngIf="site['display-name']"> ({{site['display-name']}})</span>
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Site</mat-hint>
+                </mat-form-field>
+            </div>
             <mat-card-actions>
                 <button mat-raised-button color="accent" type="submit"
                         [disabled]="!(upfForm.valid && upfForm.value.id && upfForm.touched && opaService.canWrite('/upf/upf'))"

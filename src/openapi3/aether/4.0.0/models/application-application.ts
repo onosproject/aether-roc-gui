@@ -21,11 +21,6 @@ export interface ApplicationApplication {
    */
   'address'?: string;
 
-  /**
-   * Address of this application. Either a hostname, an IP, or a subnet.
-   */
-  'mbr'?:MaxiumBitrate;
-
   endpoint?: Array<ApplicationApplicationEndpoint>;
 
   /**

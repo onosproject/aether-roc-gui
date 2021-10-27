@@ -18,6 +18,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {EndpointSelectComponent} from './endpoint-select.component';
 import {MatSelectModule} from '@angular/material/select';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 describe('EndpointSelectComponent', () => {
     let component: EndpointSelectComponent;
@@ -43,7 +44,8 @@ describe('EndpointSelectComponent', () => {
                 MatButtonModule,
                 MatDividerModule,
                 MatSnackBarModule,
-                MatSelectModule
+                MatSelectModule,
+                MatAutocompleteModule
             ]
         })
             .compileComponents();

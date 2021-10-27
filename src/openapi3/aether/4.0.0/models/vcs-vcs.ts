@@ -4,8 +4,6 @@
 import {AdditionalPropertyUnchanged} from './additional-property-unchanged';
 import {VcsVcsApplication} from './vcs-vcs-application';
 import {VcsVcsDeviceGroup} from './vcs-vcs-device-group';
-import {TemplateTemplateDeviceMbr} from "./template-template-device-mbr";
-import {TemplateTemplateSliceMbr} from "./template-template-slice-mbr";
 import {VcsVcsDeviceMbr} from "./vcs-vcs-device-mbr";
 import {VcsVcsSliceMbr} from "./vcs-vcs-slice-mbr";
 
@@ -55,15 +53,9 @@ export interface VcsVcs {
     sst: number;
 
     /**
-     * Link to user vcs template that was used to initialize
-     * this VCS
-     */
-    template?: string;
-
-    /**
      * Link to traffic class
      */
-    'traffic-class': string;
+    'traffic-class'?: string;
 
     /**
      * Link to user plane that implements this vcf
@@ -71,14 +63,14 @@ export interface VcsVcs {
     upf?: string;
 
     /**
-     * Per-device QOS Settings
-     */
-    device?: VcsVcsDeviceMbr;
-
-    /**
      * Per-Slice QOS Settings
      */
     slice?: VcsVcsSliceMbr;
+
+    /**
+     * Default behavior if no filter rules match
+     */
+    'default-behavior'?: string;
 
     [key: string]: AdditionalPropertyUnchanged | Array<VcsVcsApplication> | Array<VcsVcsDeviceGroup> | VcsVcsDeviceMbr | VcsVcsSliceMbr | number | string | undefined;
 }
