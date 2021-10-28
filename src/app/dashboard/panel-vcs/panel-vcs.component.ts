@@ -28,7 +28,7 @@ const vcsPromTags = [
 @Component({
     selector: 'aether-panel-vcs',
     templateUrl: './panel-vcs.component.html',
-    styleUrls: ['../../common-panel.component.scss']
+    styleUrls: ['../../common-panel.component.scss', '../panel-dashboard.component.scss']
 })
 export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implements AfterViewInit, OnDestroy {
     @Input() top: number;

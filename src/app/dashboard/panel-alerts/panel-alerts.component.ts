@@ -56,7 +56,7 @@ export interface PromAlerts {
 @Component({
     selector: 'aether-panel-alerts',
     templateUrl: './panel-alerts.component.html',
-    styleUrls: ['../../common-panel.component.scss', 'panel-alerts.component.scss']
+    styleUrls: ['../../common-panel.component.scss', '../panel-dashboard.component.scss']
 })
 export class PanelAlertsComponent implements OnInit {
     @Input() top: number;

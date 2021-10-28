@@ -29,7 +29,7 @@ const sitePromTags = [
 @Component({
     selector: 'aether-panel-site',
     templateUrl: './panel-site.component.html',
-    styleUrls: ['../../common-panel.component.scss']
+    styleUrls: ['../../common-panel.component.scss', '../panel-dashboard.component.scss']
 })
 export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> implements AfterViewInit, OnDestroy {
     @Input() top: number;
