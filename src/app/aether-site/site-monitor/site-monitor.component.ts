@@ -121,8 +121,8 @@ export class SiteMonitorComponent extends RocMonitorBase implements OnInit, OnDe
         // This will show the E2E metrics for tests, maintenance window, agent down
         let baseUrl = `${this.grafanaUrl}/d-solo/site-small-cell/enb-status?orgId=${orgId}&theme=light&panelId=1`;
 
-        // Filter from ACE datasource
-        baseUrl += `&var-ds=datasource-${this.thisSite.id}`;
+        // Filter from ACC datasource
+        baseUrl += `&var-ds=datasource-acc`;
 
         // Filter for ENBs
         this.thisSite["small-cell"].forEach((enb) => {
