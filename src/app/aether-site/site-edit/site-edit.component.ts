@@ -121,11 +121,9 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             },
             () => {
                 const basketPreview = this.bs.buildPatchBody().Updates;
-                console.log(basketPreview,"basketPreview")
                 if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['site-4.0.0']) {
                     basketPreview['site-4.0.0'].site.forEach((basketItems) => {
                         if (basketItems.id === id) {
-                            console.log(basketItems,"-----basketItemsbasketItemsbasketItemsbasketItemsbasketItemsbasketItemsbasketItems-------------------")
                             this.populateFormData(basketItems);
                         }
                     });

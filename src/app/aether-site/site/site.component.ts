@@ -51,7 +51,6 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
     }
 
     onDataLoaded(ScopeOfDataSource): void {
-        console.log(ScopeOfDataSource, "ScopeOfDataSource")
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('site-4.0.0' in basketPreview && 'site' in basketPreview['site-4.0.0']) {
             basketPreview['site-4.0.0'].site.forEach((basketItems) => {
@@ -101,7 +100,6 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
     }
 
     ngAfterViewInit(): void {
-        console.log(this.dataSource,"this.datasource")
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;

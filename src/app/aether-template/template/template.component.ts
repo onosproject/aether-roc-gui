@@ -49,7 +49,6 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
 
     onDataLoaded(ScopeOfDataSource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        console.log(basketPreview,"basketPreview")
         if ('template-4.0.0' in basketPreview && 'template' in basketPreview['template-4.0.0']) {
             basketPreview['template-4.0.0'].template.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
