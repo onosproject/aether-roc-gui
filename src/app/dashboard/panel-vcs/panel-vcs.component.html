@@ -8,7 +8,7 @@
         <p>VCS ({{dataSource.data.length}})</p>
         <span class="toolbar-spacer"></span>
     </mat-toolbar>
-    <table mat-table class="full-width-table" matSort aria-label="Elements" id="vcsTable">
+    <table mat-table class="full-width-table" matSort aria-label="Elements" id="vcsTable" [style]="'height:'+(height-120)+'px'">
         <!-- Id/Name Column -->
         <ng-container matColumnDef="id" id="nameColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="spacing"></th>

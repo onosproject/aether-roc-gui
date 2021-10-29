@@ -165,24 +165,27 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
                         }
                     });
                 if (!isDeleted) {
-                    const smNameControl = this.fb.control(sm.name);
-                    smNameControl[ORIGINAL] = sm.name;
-                    const smAddressControl = this.fb.control(sm.address);
-                    smAddressControl[ORIGINAL] = sm.address;
-                    const smTacControl = this.fb.control(sm.tac,Validators.compose([
-                        Validators.min(4),
-                        Validators.max(8)
+                    const scNameControl = this.fb.control(sm.name);
+                    scNameControl[ORIGINAL] = sm.name;
+                    const scAddressControl = this.fb.control(sm.address);
+                    scAddressControl[ORIGINAL] = sm.address;
+                    const scTacControl = this.fb.control(sm.tac,Validators.compose([
+                        Validators.minLength(4),
+                        Validators.maxLength(8)
                     ]));
-                    smTacControl[ORIGINAL] = sm.tac;
-                    const smEnablecontrol = this.fb.control(sm.enable);
-                    smEnablecontrol[ORIGINAL] = sm.enable;
+                    scTacControl[ORIGINAL] = sm.tac;
+                    const scEnablecontrol = this.fb.control(sm.enable);
+                    scEnablecontrol[ORIGINAL] = sm.enable;
 
-                    (this.siteForm.get('small-cell') as FormArray).push(this.fb.group({
-                        name: smNameControl,
-                        address: smAddressControl,
-                        tac: smTacControl,
-                        enable: smEnablecontrol,
-                    }));
+                    const scGroupControl = this.fb.group({
+                        name: scNameControl,
+                        address: scAddressControl,
+                        tac: scTacControl,
+                        enable: scEnablecontrol,
+                    });
+                    scGroupControl[REQDATTRIBS] = ['tac'];
+
+                    (this.siteForm.get('small-cell') as FormArray).push(scGroupControl);
                 }
                 isDeleted = false;
             }
@@ -266,34 +269,34 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         if (selected === undefined) {
             return;
         }
-        const epNameControl = this.fb.control(selected.name);
-        epNameControl.markAsTouched();
-        epNameControl.markAsDirty();
+        const scNameControl = this.fb.control(selected.name);
+        scNameControl.markAsTouched();
+        scNameControl.markAsDirty();
 
-        const epAddressControl = this.fb.control(selected.address);
-        epAddressControl.markAsTouched();
-        epAddressControl.markAsDirty();
+        const scAddressControl = this.fb.control(selected.address);
+        scAddressControl.markAsTouched();
+        scAddressControl.markAsDirty();
 
-        const epTacControl = this.fb.control(selected.tac, Validators.compose([
-            Validators.min(4),
-            Validators.max(8)
+        const scTacControl = this.fb.control(selected.tac, Validators.compose([
+            Validators.minLength(4),
+            Validators.maxLength(8)
         ]));
-        epTacControl.markAsTouched();
-        epTacControl.markAsDirty();
+        scTacControl.markAsTouched();
+        scTacControl.markAsDirty();
 
-        const epEnablecontrol = this.fb.control(selected.enable);
-        epEnablecontrol.markAsTouched();
-        epEnablecontrol.markAsDirty();
+        const scEnablecontrol = this.fb.control(selected.enable);
+        scEnablecontrol.markAsTouched();
+        scEnablecontrol.markAsDirty();
 
-        const epGroupControl = this.fb.group({
-            name: epNameControl,
-            address: epAddressControl,
-            tac: epTacControl,
-            enable: epEnablecontrol,
+        const scGroupControl = this.fb.group({
+            name: scNameControl,
+            address: scAddressControl,
+            tac: scTacControl,
+            enable: scEnablecontrol,
         });
-        epGroupControl[REQDATTRIBS] = ['tac'];
+        scGroupControl[REQDATTRIBS] = ['tac'];
 
-        (this.siteForm.get('small-cell') as FormArray).push(epGroupControl);
+        (this.siteForm.get('small-cell') as FormArray).push(scGroupControl);
         console.log('Adding new Value', selected);
         this.siteForm.markAllAsTouched();
     }
