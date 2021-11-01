@@ -12,12 +12,14 @@
         </p>
     </mat-toolbar>
 
-    <iframe *ngIf="connectivityPanelUrl" [src]="connectivityPanelUrl | safe " width="600" height="300"
-            frameborder="0"></iframe>
-    <p *ngIf="!connectivityPanelUrl">
-        <mat-icon color="primary">auto_graph</mat-icon>
-        Connectivity chart unavailable
-    </p>
+    <div *ngIf="performanceMetricsEnabled">
+        <iframe *ngIf="connectivityPanelUrl" [src]="connectivityPanelUrl | safe " width="600" height="300"
+                frameborder="0"></iframe>
+        <p *ngIf="!connectivityPanelUrl">
+            <mat-icon color="primary">auto_graph</mat-icon>
+            Connectivity chart unavailable
+        </p>
+    </div>
     <div *ngIf="performanceMetricsEnabled">
         <iframe *ngIf="performancePanelUrl" [src]="performancePanelUrl | safe " width="600" height="300"
                 frameborder="0"></iframe>
