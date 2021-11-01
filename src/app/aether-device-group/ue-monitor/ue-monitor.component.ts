@@ -34,6 +34,9 @@ export class UeMonitorComponent {
     generateConnectivityPanelUrl(orgId: number, orgName: string, ueId: number, panel: number): string {
         let baseUrl = `${this.grafanaUrl}/d-solo/ue-conn/ue-connectivity?orgId=${orgId}&theme=light&panelId=${panel}`;
 
+        // Filter from ACC datasource
+        baseUrl += `&var-ds=datasource-acc`;
+
         // Filter for IMSI
         baseUrl += `&var-imsi=${ueId}`;
 
