@@ -13,7 +13,7 @@
                 <mat-label>Device Group</mat-label>
                 <mat-select formControlName="select-item"
                             id="selectDeviceGroup">
-                    <mat-option *ngFor="let item of this.displayList" (click)="closeCard(item.id)"
+                    <mat-option *ngFor="let item of DisplayedDeviceGroup" (click)="closeCard(item.id)"
                         >
                         {{item.id}}
                         <span *ngIf="item['display-name']"> ({{item['display-name']}})</span>

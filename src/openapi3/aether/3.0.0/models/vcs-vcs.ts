@@ -35,7 +35,7 @@ export interface VcsVcs {
   'display-name'?: string;
 
   /**
-   * Downlink data rate in mbps
+   * Downlink data rate in bps
    */
   downlink?: number;
 
@@ -76,7 +76,7 @@ export interface VcsVcs {
   upf?: string;
 
   /**
-   * Uplink data rate in mbps
+   * Uplink data rate in bps
    */
   uplink?: number;
 
