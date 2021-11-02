@@ -63,6 +63,11 @@ export interface VcsVcs {
     upf?: string;
 
     /**
+     * Link to site
+     */
+    site: string;
+
+    /**
      * Per-Slice QOS Settings
      */
     slice?: VcsVcsSliceMbr;

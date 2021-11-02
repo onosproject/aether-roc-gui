@@ -5,12 +5,12 @@ import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 export interface MaxiumBitrate {
 
     /**
-     * mbr uplink data rate in mbps
+     * mbr uplink data rate in bps
      */
     uplink?: number;
 
     /**
-     * mbr downlink data rate in mbps
+     * mbr downlink data rate in bps
      */
     downlink?: number;
 

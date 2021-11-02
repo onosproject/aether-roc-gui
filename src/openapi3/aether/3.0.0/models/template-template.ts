@@ -14,7 +14,7 @@ export interface TemplateTemplate {
   'display-name'?: string;
 
   /**
-   * Downlink data rate in mbps
+   * Downlink data rate in bps
    */
   downlink?: number;
 
@@ -39,7 +39,7 @@ export interface TemplateTemplate {
   'traffic-class'?: string;
 
   /**
-   * Uplink data rate in mbps
+   * Uplink data rate in bps
    */
   uplink?: number;
 }
