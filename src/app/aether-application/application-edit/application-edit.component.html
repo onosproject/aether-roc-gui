@@ -46,7 +46,7 @@
             </div>
             <div formArrayName="endpoint" class=" field-margin subscriber-section">
                 <mat-hint>Endpoint</mat-hint>
-                <mat-icon (click)="showConnectDisplay = true" class="subscriber-pointer" id="addEndpoint"
+                <mat-icon (click)="CheckAndShowEndpoint()" class="subscriber-pointer" id="addEndpoint"
                           color="accent">add
                 </mat-icon>
                 <div *ngFor="let endpointForm of endpointControls.controls;let i = index">
@@ -148,7 +148,7 @@
     </mat-card>
 </form>
 <aether-endpoint-select
-    *ngIf="showConnectDisplay"
+    *ngIf="shownEndpointDisplay"
     id="endpointSelectComponent"
     [trafficClassOptions]="trafficClassOptions"
     (closeEvent)="endpointSelected($event)">

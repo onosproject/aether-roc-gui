@@ -52,9 +52,10 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         {name: 'UDP'},
         {name: 'TCP'},
     ];
-    showConnectDisplay: boolean = false;
+    shownEndpointDisplay: boolean = false;
     showEndpointAddButton: boolean = true;
     showParentDisplay: boolean = false;
+    readonly endpointLimit: number = 5;
     enterprises: Array<EnterpriseEnterprise>;
     trafficClassOptions: Array<TrafficClassTrafficClass>;
     pathRoot = 'application-4.0.0';
@@ -170,7 +171,6 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             (value => {
                 this.data = value;
                 this.applicationId = value.id;
-                console.log("value1", value)
                 this.populateFormData(value);
             }),
             error => {
@@ -196,7 +196,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
     }
 
     endpointSelected(selected: EndPointParam): void {
-        this.showConnectDisplay = false;
+        this.shownEndpointDisplay = false;
 
         if (selected === undefined) {
             return;
@@ -245,10 +245,10 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             ['port-end']: epPortEndControl,
             protocol: epProtocolcontrol,
             ['traffic-class']: epTrafficClasscontrol,
-            mbr: {
+            mbr: this.fb.group({
                 uplink: epMbrUplinkcontrol,
                 downlink: epMbrDownlinkcontrol
-            }
+            })
         });
         epGroupControl[REQDATTRIBS] = ['port-start'];
 
@@ -297,7 +297,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                         ['port-end']: epPortEndControl,
                         protocol: epProtocolcontrol,
                         'traffic-class': epTrafficClasscontrol,
-                        'mbr':this.fb.group({
+                        'mbr': this.fb.group({
                             uplink: epMbrUplinkcontrol,
                             downlink: epMbrDownlinkcontrol
                         })
@@ -307,9 +307,9 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                     (this.appForm.get(['endpoint']) as FormArray).push(epGroupControl);
                 }
             } else {
+                let existingEndpoint = this.appForm.value.endpoint;
                 value.endpoint.forEach((eachValueEndpoint, eachFormEndpointPosition) => {
-
-                    for (const eachFormEndpoint of this.appForm.value.endpoint) {
+                    for (const eachFormEndpoint of existingEndpoint) {
                         if (eachValueEndpoint.name === eachFormEndpoint.name) {
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'port-start'])
                                 .setValue(eachValueEndpoint['port-start']);
@@ -346,8 +346,18 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         return this.appForm.get(['endpoint']) as FormArray;
     }
 
+    CheckAndShowEndpoint(): void {
+        if (this.endpointControls.value.length < this.endpointLimit) {
+            this.shownEndpointDisplay = true;
+        } else {
+            this.snackBar.open('Maximum Endpoints Added', undefined, {
+                duration: 2000, politeness: 'polite'
+            });
+        }
+    }
+
     mbrControls(index: number): FormGroup {
-        return this.appForm.get(['endpoint',index ,'mbr']) as FormGroup;
+        return this.appForm.get(['endpoint', index, 'mbr']) as FormGroup;
     }
 
 

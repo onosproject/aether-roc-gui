@@ -150,7 +150,6 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             id
         }).subscribe(
             (value => {
-                console.log("value",value)
                 this.data = value;
                 this.populateFormData(value);
             }),

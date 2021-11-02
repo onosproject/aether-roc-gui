@@ -55,7 +55,6 @@ export class ShowVcsUsageComponent implements OnChanges {
                 }
                 this.table.dataSource = this.parentModulesArray;
             })
-            console.log(this.table.dataSource,"table datascourse", this.parentModulesArray)
         })
 
     }

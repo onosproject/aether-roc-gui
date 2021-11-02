@@ -47,7 +47,6 @@ export class TrafficClassComponent extends RocListBase<TrafficClassDatasource> i
     }
 
     onDataLoaded(ScopeOfDataSource): void {
-        console.log(ScopeOfDataSource.data,"ScopeOfDataSourceScopeOfDataSource")
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if ('traffic-class-4.0.0' in basketPreview && 'traffic-class' in basketPreview['traffic-class-4.0.0']) {
             basketPreview['traffic-class-4.0.0']['traffic-class'].forEach((basketItems) => {

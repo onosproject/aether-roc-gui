@@ -130,7 +130,6 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
     }
 
     ngAfterViewInit(): void {
-        console.log(this.dataSource,"datasource");
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
