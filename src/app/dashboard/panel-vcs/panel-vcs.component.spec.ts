@@ -14,7 +14,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {ResizeService} from '../resize.service';
 import {GRAFANA_PROXY} from '../../../environments/environment';
-import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
+import {OAuthLogger, OAuthModule, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
 import {UtilsModule} from '../../utils/utils.module';
 
 describe('PanelVcsComponent', () => {
@@ -31,7 +31,8 @@ describe('PanelVcsComponent', () => {
                 MatPaginatorModule,
                 MatSortModule,
                 MatTableModule,
-                UtilsModule
+                UtilsModule,
+                OAuthModule.forRoot(),
             ],
             providers: [
                 ResizeService,

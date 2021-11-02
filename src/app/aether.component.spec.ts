@@ -16,7 +16,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
-import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
+import {OAuthLogger, OAuthModule, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
 import {IdTokClaims} from './idtoken';
 
 class MockMeta {
@@ -43,6 +43,7 @@ describe('AetherComponent', () => {
                 MatDividerModule,
                 MatCardModule,
                 MatListModule,
+                OAuthModule.forRoot(),
             ],
             declarations: [
                 AetherComponent

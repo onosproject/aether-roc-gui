@@ -23,7 +23,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSelectModule} from '@angular/material/select';
 import {GRAFANA_PROXY} from '../../../environments/environment';
 import {UtilsModule} from '../../utils/utils.module';
-import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
+import {OAuthLogger, OAuthModule, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
 
 describe('VcsMonitorComponent', () => {
     let component: VcsMonitorComponent;
@@ -49,7 +49,8 @@ describe('VcsMonitorComponent', () => {
                 MatSlideToggleModule,
                 MatAutocompleteModule,
                 MatSelectModule,
-                UtilsModule
+                UtilsModule,
+                OAuthModule.forRoot(),
             ],
             providers: [
                 {provide: OAuthService},
