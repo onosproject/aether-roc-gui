@@ -108,7 +108,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         super(snackBar, bs, route, router, 'application-4.0.0', 'application');
         super.form = this.appForm;
         super.loadFunc = this.loadApplicationApplication;
-        this.appForm[REQDATTRIBS] = ['enterprise'];
+        this.appForm[REQDATTRIBS] = ['enterprise','address'];
         this.appForm.get(['endpoint'])[IDATTRIBS] = ['name'];
     }
 

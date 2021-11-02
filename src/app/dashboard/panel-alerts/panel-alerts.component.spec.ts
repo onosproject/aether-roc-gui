@@ -14,7 +14,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {UtilsModule} from '../../utils/utils.module';
 import {ResizeService} from '../resize.service';
-import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
+import {OAuthLogger, OAuthModule, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
 import {GRAFANA_PROXY} from '../../../environments/environment';
 import {MatToolbar, MatToolbarModule} from '@angular/material/toolbar';
 
@@ -33,7 +33,8 @@ describe('PanelAlertsComponent', () => {
                 MatSortModule,
                 MatTableModule,
                 MatToolbarModule,
-                UtilsModule
+                UtilsModule,
+                OAuthModule.forRoot(),
             ],
             providers: [
                 ResizeService,
