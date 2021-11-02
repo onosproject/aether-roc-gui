@@ -10,17 +10,17 @@
     </mat-card-header>
     <mat-card-content>
         <div *ngIf="performanceMetricsEnabled">
-            <iframe *ngIf="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, ueId, 1)"
-                [src]="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, ueId, 1) | safe "
+            <iframe *ngIf="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, ueId, 2)"
+                [src]="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, ueId, 2) | safe "
                 width="600" height="300" frameborder="0"></iframe>
-            <p *ngIf="!generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, ueId, 1)">
+            <p *ngIf="!generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, ueId, 2)">
                 <mat-icon color="primary">auto_graph</mat-icon>
                 Performance chart unavailable
             </p>
         </div>
         <div>
-            <iframe *ngIf="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, ueId, 2)"
-                    [src]="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, ueId, 2) | safe "
+            <iframe *ngIf="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, ueId, 1)"
+                    [src]="generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, ueId, 1) | safe "
                     width="600" height="300" frameborder="0"></iframe>
             <p *ngIf="!generateConnectivityPanelUrl(grafanaOrgId, grafanaOrgName, ueId, 1)">
                 <mat-icon color="primary">auto_graph</mat-icon>

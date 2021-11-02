@@ -35,5 +35,16 @@
             </p>
             </td>
         </tr>
+        <!-- Small Cells Connectivity -->
+        <tr>
+            <td>
+                <iframe *ngIf="smallCellConnectivityPanelUrl" [src]="smallCellConnectivityPanelUrl | safe " width="600" height="300"
+                        frameborder="0"></iframe>
+                <p *ngIf="!smallCellConnectivityPanelUrl">
+                    <mat-icon color="primary">auto_graph</mat-icon>
+                    Small Cells Connectivity chart not found
+                </p>
+            </td>
+        </tr>
     </table>
 </div>

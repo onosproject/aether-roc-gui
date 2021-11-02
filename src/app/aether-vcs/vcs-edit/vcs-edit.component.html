@@ -35,6 +35,19 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
+            <div class="row" *ngIf="isNewInstance">
+                <mat-form-field class="field-margin half-width">
+                    <mat-select
+                                (selectionChange)="templateSelecte($event)"
+                                id="selectTemplate">
+                        <mat-option
+                            *ngFor="let eachTemp of templates"
+                            [value]="eachTemp.id">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
+                    </mat-select>
+                    <mat-hint>Template</mat-hint>
+                </mat-form-field>
+            </div>
+
             <div class="row" id="defaultBehaviorRow">
                 <mat-form-field class="field-margin half-width">
                     <input matInput [matAutocomplete]="auto"
@@ -152,32 +165,32 @@
                 <div [formGroup]="sliceMbrControls">
                     <div class="row float-left" id="sliceUplinkRow">
                         <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="auto"
+                            <input matInput type="number" [matAutocomplete]="uplinkAuto"
                                    id="inputsliceUplink"
                                    formControlName="uplink">
-                            <mat-autocomplete #auto="matAutocomplete">
+                            <mat-autocomplete #uplinkAuto="matAutocomplete">
                                 <mat-option *ngFor="let option of bandwidthOptions | async"
                                             [value]="option.megabyte.numerical">
                                     {{option.megabyte.numerical}}
                                     {{option.megabyte.inMb}}
                                 </mat-option>
                             </mat-autocomplete>
-                            <mat-hint>Uplink (Mbps)</mat-hint>
+                            <mat-hint>Uplink (bps)</mat-hint>
                         </mat-form-field>
                     </div>
                     <div class="row " id="sliceDownlinkRow">
                         <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="auto"
+                            <input matInput type="number" [matAutocomplete]="downlinkAuto"
                                    id="inputsliceDownlink"
                                    formControlName="downlink">
-                            <mat-autocomplete #auto="matAutocomplete">
+                            <mat-autocomplete #downlinkAuto="matAutocomplete">
                                 <mat-option *ngFor="let option of bandwidthOptions | async"
                                             [value]="option.megabyte.numerical">
                                     {{option.megabyte.numerical}}
                                     {{option.megabyte.inMb}}
                                 </mat-option>
                             </mat-autocomplete>
-                            <mat-hint>Downlink (Mbps)</mat-hint>
+                            <mat-hint>Downlink (bps)</mat-hint>
                         </mat-form-field>
                     </div>
                 </div>

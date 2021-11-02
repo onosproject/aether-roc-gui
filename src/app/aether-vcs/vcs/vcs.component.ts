@@ -95,7 +95,7 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
                         if (basketItems.enterprise) {
                             ScopeOfDataSource.data[listItemCount].enterprise = basketItems.enterprise;
                         }
-                        if (basketItems['site']) {
+                        if (basketItems.site) {
                             ScopeOfDataSource.data[listItemCount]['site'] = basketItems['site'];
                         }
                         if (basketItems.sst) {

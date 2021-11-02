@@ -11,7 +11,7 @@ import {
     ApListApList,
     DeviceGroupDeviceGroup,
     UpfUpf,
-    AdditionalPropertyTarget, EnterpriseEnterprise, Vcs, SiteSite
+    AdditionalPropertyTarget, EnterpriseEnterprise, SiteSite, TemplateTemplate
 } from '../../../openapi3/aether/4.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -38,6 +38,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     aps: Array<ApListApList> | AdditionalPropertyTarget;
     deviceGroups: Array<DeviceGroupDeviceGroup>;
     site: Array<SiteSite>;
+    templates: Array<TemplateTemplate>;
     selectedSite: string;
     enterprises: Array<EnterpriseEnterprise>;
     upfs: Array<UpfUpf> = [];
@@ -122,7 +123,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         super(snackBar, bs, route, router, 'vcs-4.0.0', 'vcs');
         super.form = this.vcsForm;
         super.loadFunc = this.loadVcsVcs;
-        this.vcsForm[REQDATTRIBS] = ['sd', 'sst', 'enterprise', 'default-behavior'];
+        this.vcsForm[REQDATTRIBS] = ['sd', 'sst', 'enterprise', 'site', 'default-behavior'];
         this.vcsForm.get(['slice', 'mbr', 'uplink'])[TYPE] = 'number';
         this.vcsForm.get(['slice', 'mbr', 'downlink'])[TYPE] = 'number';
         this.vcsForm.get(['sst'])[TYPE] = 'number';
@@ -131,10 +132,15 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
 
     ngOnInit(): void {
         super.init();
-        if (!this.isNewInstance) {
+        if (this.isNewInstance) {
+            this.vcsForm.get('default-behavior').setValue(this.defaultBehaviorOpitons[0])
+            this.loadTemplate(this.target);
         }
+        this.vcsForm.get('sst').disable();
+        this.vcsForm.get('sd').disable();
+        this.loadSites(this.target);
+        this.OnSiteSelect();
         this.loadDeviceGoup(this.target);
-        this.loadUpf(this.target);
         this.loadEnterprises(this.target);
         this.bandwidthOptions = this.vcsForm.valueChanges
             .pipe(
@@ -178,7 +184,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
 
     OnSiteSelect(): void {
         this.selectedSite = this.vcsForm.get('site').value;
-
+        this.loadUpf(this.target);
     }
 
     appSelected(selected: SelectAppParam): void {
@@ -231,6 +237,49 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     private _filter(bandwidthIndex: number): Bandwidths[] {
         const filterValue = bandwidthIndex;
         return this.options.filter(option => option.megabyte.numerical);
+    }
+
+    loadTemplate(target: string): void {
+        this.aetherService.getTemplate({
+            target,
+        }).subscribe(
+            (value => {
+                this.templates = value.template;
+                console.log('Got', value.template.length, 'Template');
+            }),
+            error => {
+                console.warn('Error getting Template for ', target, error);
+            }
+        );
+    }
+
+    templateSelecte(templateSelected): void {
+        if (this.isNewInstance) {
+            this.templates.forEach(eachTemplate => {
+                if (eachTemplate.id === templateSelected.value) {
+                    this.vcsForm.get(['sd']).setValue(eachTemplate.sd.toString(16).toUpperCase());
+                    const SdFormControl = this.vcsForm.get('sd');
+                    SdFormControl.markAsTouched();
+                    SdFormControl.markAsDirty();
+                    this.vcsForm.get(['sst']).setValue(eachTemplate.sst);
+                    const SstFormControl = this.vcsForm.get('sst');
+                    SstFormControl.markAsTouched();
+                    SstFormControl.markAsDirty();
+                    this.vcsForm.get(['default-behavior']).setValue(eachTemplate['default-behavior']);
+                    const dbFormControl = this.vcsForm.get('default-behavior');
+                    dbFormControl.markAsTouched();
+                    dbFormControl.markAsDirty();
+                    this.vcsForm.get(['slice', 'mbr', 'uplink']).setValue(eachTemplate.slice.mbr.uplink);
+                    const UplinkFormControl = this.vcsForm.get(['slice', 'mbr', 'uplink']);
+                    UplinkFormControl.markAsTouched();
+                    UplinkFormControl.markAsDirty();
+                    this.vcsForm.get(['slice', 'mbr', 'downlink']).setValue(eachTemplate.slice.mbr.downlink);
+                    const DownlinkFormControl = this.vcsForm.get(['slice', 'mbr', 'downlink']);
+                    DownlinkFormControl.markAsTouched();
+                    DownlinkFormControl.markAsDirty();
+                }
+            });
+        }
     }
 
     loadVcsVcs(target: string, id: string): void {
