@@ -28,8 +28,8 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
     displayedColumns = [
         'id',
         'description',
-        'small-cell',
         'enterprise',
+        'small-cell',
         'mcc',
         'mnc',
         'enterpriseID',

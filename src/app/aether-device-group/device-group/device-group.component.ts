@@ -28,9 +28,9 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
     displayedColumns = [
         'id',
         'description',
+        'site',
         'Imsis',
         'ip-domain',
-        'site',
         'device',
         'edit',
         'delete',

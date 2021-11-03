@@ -37,19 +37,7 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
             Validators.minLength(1),
             Validators.maxLength(1024),
         ])],
-        'spgwc-endpoint': [undefined, Validators.compose([
-            Validators.minLength(1),
-            Validators.maxLength(80),
-        ])],
-        'hss-endpoint': [undefined, Validators.compose([
-            Validators.minLength(1),
-            Validators.maxLength(80),
-        ])],
-        'pcrf-endpoint': [undefined, Validators.compose([
-            Validators.minLength(1),
-            Validators.maxLength(80),
-        ])],
-        'core-5g-endpoint': [undefined, Validators.compose([
+        'core-endpoint': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
@@ -84,21 +72,9 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
             this.csForm.get('description').setValue(value.description);
             this.csForm.get('description')[ORIGINAL] = value.description;
         }
-        if (value['spgwc-endpoint']) {
-            this.csForm.get('spgwc-endpoint').setValue(value['spgwc-endpoint']);
-            this.csForm.get('spgwc-endpoint')[ORIGINAL] = value['spgwc-endpoint'];
-        }
-        if (value['hss-endpoint']) {
-            this.csForm.get('hss-endpoint').setValue(value['hss-endpoint']);
-            this.csForm.get('hss-endpoint')[ORIGINAL] = value['hss-endpoint'];
-        }
-        if (value['pcrf-endpoint']) {
-            this.csForm.get('pcrf-endpoint').setValue(value['pcrf-endpoint']);
-            this.csForm.get('pcrf-endpoint')[ORIGINAL] = value['pcrf-endpoint'];
-        }
-        if (value['core-5g-endpoint']) {
-            this.csForm.get('core-5g-endpoint').setValue(value['core-5g-endpoint']);
-            this.csForm.get('core-5g-endpoint')[ORIGINAL] = value['core-5g-endpoint'];
+        if (value['core-endpoint']) {
+            this.csForm.get('core-endpoint').setValue(value['core-endpoint']);
+            this.csForm.get('core-endpoint')[ORIGINAL] = value['core-endpoint'];
         }
     }
 

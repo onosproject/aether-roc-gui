@@ -29,10 +29,7 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
     displayedColumns = [
         'id',
         'description',
-        'spgwc-endpoint',
-        'hss-endpoint',
-        'pcrf-endpoint',
-        'core-5g-endpoint',
+        'core-endpoint',
         'edit',
         'delete',
         'usage'
@@ -56,17 +53,8 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
                         if (basketItems['display-name']) {
                             ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
                         }
-                        if (basketItems['spgwc-endpoint']){
-                            ScopeOfDataSource.data[listItemCount]['spgwc-endpoint'] = basketItems['spgwc-endpoint'];
-                        }
-                        if (basketItems['hss-endpoint']) {
-                            ScopeOfDataSource.data[listItemCount]['hss-endpoint'] = basketItems['hss-endpoint'];
-                        }
-                        if (basketItems['pcrf-endpoint']) {
-                            ScopeOfDataSource.data[listItemCount]['pcrf-endpoint'] = basketItems['pcrf-endpoint'];
-                        }
-                        if (basketItems['core-5g-endpoint']) {
-                            ScopeOfDataSource.data[listItemCount]['core-5g-endpoint'] = basketItems['core-5g-endpoint'];
+                        if (basketItems['core-endpoint']) {
+                            ScopeOfDataSource.data[listItemCount]['core-5g-endpoint'] = basketItems['core-endpoint'];
                         }
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;

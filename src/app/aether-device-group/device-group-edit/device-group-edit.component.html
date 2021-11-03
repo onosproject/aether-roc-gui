@@ -44,20 +44,6 @@
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width subscriber-section">
-                    <mat-select ngDefaultControl
-                                formControlName="ip-domain"
-                                id="selectIpDomain">
-                        <mat-option *ngFor="let ip of ipdomain"
-                                    [value]="ip.id">{{ip.id}}
-                            <span *ngIf="ip['display-name']"> ({{ip['display-name']}})</span>
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint>Ip Domain</mat-hint>
-                </mat-form-field>
-            </div>
-
-            <div class="row">
-                <mat-form-field class="field-margin half-width subscriber-section">
                     <mat-select ngDefaultControl formControlName="site"
                                 title="This field is mandatory."
                                 placeholder="Please specify a Site"
@@ -70,6 +56,19 @@
                         </mat-option>
                     </mat-select>
                     <mat-hint>Site</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="field-margin half-width subscriber-section">
+                    <mat-select ngDefaultControl
+                                formControlName="ip-domain"
+                                id="selectIpDomain">
+                        <mat-option *ngFor="let ip of ipdomain"
+                                    [value]="ip.id">{{ip.id}}
+                            <span *ngIf="ip['display-name']"> ({{ip['display-name']}})</span>
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Ip Domain</mat-hint>
                 </mat-form-field>
             </div>
 
