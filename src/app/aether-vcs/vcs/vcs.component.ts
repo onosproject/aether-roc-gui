@@ -33,6 +33,7 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
         'filter',
         'default-behavior',
         'slice',
+        'sliceBurst',
         'enterprise',
         'device-group',
         'sd',
