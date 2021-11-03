@@ -23,8 +23,13 @@ import {BasketService, HEX2NUM, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from 'sr
 import {HexPipe} from '../../utils/hex.pipe';
 import {SelectAppParam} from "../application-select/application-select.component";
 
-export interface Bandwidths {
+interface Bandwidths {
     megabyte: { numerical: number, inMb: string };
+}
+
+interface BurstRate {
+    value: number
+    label: string
 }
 
 @Component({
@@ -52,6 +57,18 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         {megabyte: {numerical: 100000000, inMb: '100Mbps'}},
         {megabyte: {numerical: 500000000, inMb: '500Mbps'}}
     ];
+
+    burstRateOptions: BurstRate[] = [
+        {label: '125 Kbps', value: 125000},
+        {label: '250 Kbps', value: 250000},
+        {label: '375 Kbps', value: 375000},
+        {label: '500 Kbps', value: 500000},
+        {label: '625 Kbps', value: 625000},
+        {label: '750 Kbps', value: 750000},
+        {label: '875 Kbps', value: 875000},
+        {label: '1 Mbps', value: 1000000},
+    ]
+
     defaultBehaviorOptions = [
         "DENY-ALL",
         "ALLOW-ALL",

@@ -43,15 +43,6 @@
             </td>
         </ng-container>
 
-        <!--Device MBR Column -->
-        <ng-container matColumnDef="device" id="deviceMbrColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Device MBR</th>
-            <td mat-cell *matCellDef="let row">
-                <p *ngIf="row.device && row.device.mbr"><mat-icon class="small_icon">arrow_upward</mat-icon>{{row.device.mbr.uplink}}</p>
-                <p *ngIf="row.device && row.device.mbr"><mat-icon class="small_icon">arrow_downward</mat-icon>{{row.device.mbr.downlink}}</p>
-            </td>
-        </ng-container>
-
         <!-- slice MBR Column -->
         <ng-container matColumnDef="slice" id="slicevMbrColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Slice MBR</th>

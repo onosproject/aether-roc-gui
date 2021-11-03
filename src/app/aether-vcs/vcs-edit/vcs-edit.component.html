@@ -31,17 +31,6 @@
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="default-behavior"
-                                id="selectBehavior">
-                        <mat-option
-                            *ngFor="let b of defaultBehaviorOptions"
-                            [value]="b">{{b}}</mat-option>
-                    </mat-select>
-                    <mat-hint>Default Behavior</mat-hint>
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <mat-form-field class="field-margin half-width">
                     <textarea matInput formControlName="description" id="inputDesc"></textarea>
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
@@ -56,6 +45,18 @@
                             [value]="eachTemp">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
                     </mat-select>
                     <mat-hint>Template</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="row">
+                <mat-form-field class="field-margin half-width">
+                    <mat-select formControlName="default-behavior"
+                                id="selectBehavior">
+                        <mat-option
+                            *ngFor="let b of defaultBehaviorOptions"
+                            [value]="b">{{b}}</mat-option>
+                    </mat-select>
+                    <mat-hint>Default Behavior</mat-hint>
                 </mat-form-field>
             </div>
 
@@ -168,7 +169,6 @@
                             <mat-autocomplete #uplinkAuto="matAutocomplete">
                                 <mat-option *ngFor="let option of bandwidthOptions | async"
                                             [value]="option.megabyte.numerical">
-                                    {{option.megabyte.numerical}}
                                     {{option.megabyte.inMb}}
                                 </mat-option>
                             </mat-autocomplete>
@@ -183,7 +183,6 @@
                             <mat-autocomplete #downlinkAuto="matAutocomplete">
                                 <mat-option *ngFor="let option of bandwidthOptions | async"
                                             [value]="option.megabyte.numerical">
-                                    {{option.megabyte.numerical}}
                                     {{option.megabyte.inMb}}
                                 </mat-option>
                             </mat-autocomplete>
@@ -196,10 +195,9 @@
                                    id="inputsliceUplinkBurstSize"
                                    formControlName="uplink-burst-size">
                             <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of bandwidthOptions | async"
-                                            [value]="option.megabyte.numerical">
-                                    {{option.megabyte.numerical}}
-                                    {{option.megabyte.inMb}}
+                                <mat-option *ngFor="let option of burstRateOptions"
+                                            [value]="option.value">
+                                    {{option.label}}
                                 </mat-option>
                             </mat-autocomplete>
                             <mat-hint>Uplink Burst Size (Mbps)</mat-hint>
@@ -211,10 +209,9 @@
                                    id="inputsliceDownlinkBurstSize"
                                    formControlName="downlink-burst-size">
                             <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of bandwidthOptions | async"
-                                            [value]="option.megabyte.numerical">
-                                    {{option.megabyte.numerical}}
-                                    {{option.megabyte.inMb}}
+                                <mat-option *ngFor="let option of burstRateOptions"
+                                            [value]="option.value">
+                                    {{option.label}}
                                 </mat-option>
                             </mat-autocomplete>
                             <mat-hint>Downlink Burst Size (Mbps)</mat-hint>

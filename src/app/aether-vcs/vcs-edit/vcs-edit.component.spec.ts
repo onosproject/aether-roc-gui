@@ -21,6 +21,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSelectModule} from '@angular/material/select';
 import {TemplateTemplate} from "../../../openapi3/aether/4.0.0/models/template-template";
+import {By} from "@angular/platform-browser";
 
 describe('VcsEditComponent', () => {
     let component: VcsEditComponent;
