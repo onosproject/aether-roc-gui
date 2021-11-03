@@ -12,10 +12,17 @@
             <mat-hint>UE ID is suffix of IMSI. Maximum each range: {{maxDeviceGroupRange}}</mat-hint>
             <div>
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="name" id="inputAddress"
+                    <input matInput formControlName="imsi-id" id="InputimsiId"
                            title="This field is mandatory."
-                           placeholder="Please specify a name"
+                           placeholder="Please specify an ID"
                            required>
+                    <mat-hint>IMSI-ID</mat-hint>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="display-name" id="inputImsiDisplayName"
+                           placeholder="Please specify a name">
                     <mat-hint>Name</mat-hint>
                 </mat-form-field>
             </div>

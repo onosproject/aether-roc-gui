@@ -53,8 +53,12 @@
                     <div [formGroup]="endpointForm">
                         <div class="float-left">
                             <mat-form-field class="field-margin">
-                                <input matInput readonly formControlName="name" id="inputName">
-                                <mat-hint>Name</mat-hint>
+                                <input matInput readonly formControlName="endpoint-id" id="inputEndpointId">
+                                <mat-hint>Endpoint ID</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field class="field-margin">
+                                <input matInput formControlName="display-name" id="inputEndpointDisplayName">
+                                <mat-hint>Endpoint Name</mat-hint>
                             </mat-form-field>
                             <mat-form-field class="field-margin ">
                                 <input matInput type=number formControlName="port-start"
@@ -117,7 +121,7 @@
                             </mat-form-field>
                             <button mat-icon-button
                                     color="accent"
-                                    (click)="deleteFromSelect(endpointForm.value['name'])"
+                                    (click)="deleteFromSelect(endpointForm.value['endpoint-id'])"
                                     id="deleteEndpoint">
                                 <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
                             </button>

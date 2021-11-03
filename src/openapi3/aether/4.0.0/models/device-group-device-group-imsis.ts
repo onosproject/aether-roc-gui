@@ -4,5 +4,14 @@
 export interface DeviceGroupDeviceGroupImsis {
   'imsi-range-from'?: number;
   'imsi-range-to'?: number;
-  name: string;
+
+  /**
+   * Id of this imsi-range
+   */
+  'imsi-id': string;
+
+  /**
+   * display name to use in GUI or CLI
+   */
+  'display-name'?: string;
 }
