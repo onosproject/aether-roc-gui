@@ -6,7 +6,7 @@ export interface ConnectivityServiceConnectivityService {
     /**
      * url of the core endpoint
      */
-    'core-endpoint'?: string;
+    'core-5g-endpoint'?: string;
 
     /**
      * description of this connectivity service
