@@ -93,12 +93,13 @@ export class BasketComponent implements OnInit {
         const decision = confirm('Are you sure you want to commit these changes?');
         if (decision === true) {
             const patchBody = this.bs.buildPatchBody();
-            console.log('SENDING', patchBody);
+            console.info('SENDING', patchBody);
 
             this.topLevelApiService.patchTopLevel({body: patchBody}).subscribe(
                 (resp) => {
                     console.log('Complete', resp);
                     this.snackBar.open('Complete' + resp, undefined, {duration: 2000});
+                    this.clearBasket();
                 },
                 (err) => {
                     console.warn('error posting patch body', err);
@@ -106,7 +107,7 @@ export class BasketComponent implements OnInit {
                 }
             );
 
-            this.clearBasket();
+
         }
     }
 
