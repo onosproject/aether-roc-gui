@@ -57,8 +57,12 @@
                 <div *ngFor="let smallCellForm of smallCellControls.controls; index as i">
                     <div [formGroup]="smallCellForm" [id]="'scDiv' + i">
                         <mat-form-field class="field-margin">
-                            <input matInput readonly formControlName="name" id="inputName">
-                            <mat-hint>Name</mat-hint>
+                            <input matInput readonly formControlName="small-cell-id" id="inputSCID">
+                            <mat-hint>Small Cell ID</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field class="field-margin">
+                            <input matInput formControlName="display-name" id="inputName">
+                            <mat-hint>Small Cell Name</mat-hint>
                         </mat-form-field>
                         <mat-form-field class="field-margin ">
                             <input matInput formControlName="address"
@@ -72,7 +76,7 @@
                         <mat-slide-toggle formControlName="enable">Enable</mat-slide-toggle>
                         <button mat-icon-button
                                 color="accent"
-                                (click)="deleteFromSelect(smallCellForm.value['name'])"
+                                (click)="deleteFromSelect(smallCellForm.value['small-cell-id'])"
                                 id="deleteSmallCell">
                             <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
                         </button>
@@ -98,8 +102,8 @@
                     <div *ngFor="let edgeDeviceForm of edgeDeviceControls.controls">
                         <div [formGroup]="edgeDeviceForm">
                             <mat-form-field class="field-margin">
-                                <input matInput readonly formControlName="name" id="inputEDName">
-                                <mat-hint>Name</mat-hint>
+                                <input matInput readonly formControlName="edge-device-id" id="inputEDID">
+                                <mat-hint>Edge Device ID</mat-hint>
                             </mat-form-field>
                             <mat-form-field class="field-margin ">
                                 <input matInput formControlName="display-name"
@@ -112,8 +116,8 @@
                             </mat-form-field>
                             <button mat-icon-button
                                     color="accent"
-                                    (click)="deleteEDFromSelect(edgeDeviceForm.value['name'])"
-                                    id="deleteSmallCell">
+                                    (click)="deleteEDFromSelect(edgeDeviceForm.value['edge-device-id'])"
+                                    id="deleteEdgeDevice">
                                 <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
                             </button>
                         </div>

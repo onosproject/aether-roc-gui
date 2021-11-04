@@ -8,7 +8,12 @@ export interface ApplicationApplicationEndpoint {
   /**
    * Name of this endpoint
    */
-  name: string;
+  'endpoint-id': string;
+
+ /**
+  * Name of this endpoint
+  */
+ 'display-name'?: string;
 
   /**
    * Last port in range

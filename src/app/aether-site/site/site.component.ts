@@ -73,8 +73,8 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
                                     let eachSCPosition = 0;
                                     for (const eachScopeSC of ScopeOfDataSource.data[listItemCount]['small-cell']) {
                                         if (eachBasketSC['small-cell'] === eachScopeSC['small-cell']) {
-                                            ScopeOfDataSource.data[listItemCount]['small-cell'][eachSCPosition].name
-                                                = eachBasketSC.name;
+                                            ScopeOfDataSource.data[listItemCount]['small-cell'][eachSCPosition]['small-cell-id']
+                                                = eachBasketSC['small-cell-id'];
                                         }
                                         eachSCPosition++;
                                     }

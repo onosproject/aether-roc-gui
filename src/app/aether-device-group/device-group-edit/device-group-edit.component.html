@@ -135,8 +135,12 @@
                 <div *ngFor="let imsiForm of imsiControls.controls">
                     <div [formGroup]="imsiForm">
                         <mat-form-field class="field-margin">
-                            <input matInput formControlName="name" id="inputName" readonly>
-                            <mat-hint>Name</mat-hint>
+                            <input matInput formControlName="imsi-id" id="inputName" readonly>
+                            <mat-hint>IMSI ID</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field class="field-margin">
+                            <input matInput formControlName="display-name" id="inputIMSIDisplayName">
+                            <mat-hint>IMSI Name</mat-hint>
                         </mat-form-field>
                         <mat-form-field>
                             <input matInput formControlName="imsi-range-from" type="number" id="inputImsiRangeFrom">
@@ -150,7 +154,7 @@
                                 color="accent"
                                 id="deleteExistingAccessProfileButton"
                                 [disabled]="!opaService.canWrite('/devicegroups/devicegroups-edit[id=' + id + ']/imsis')"
-                                (click)="deleteFromSelect(imsiForm.value['name'])">
+                                (click)="deleteFromSelect(imsiForm.value['imsi-id'])">
                             <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
                         </button>
                     </div>

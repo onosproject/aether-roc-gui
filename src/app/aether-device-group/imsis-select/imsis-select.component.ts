@@ -10,7 +10,8 @@ import {DeviceGroupDeviceGroupImsis} from '../../../openapi3/aether/4.0.0/models
 import {maxDeviceGroupRange} from "../../../environments/environment";
 
 export interface ImsiParam {
-    name: string;
+    'display-name': string;
+    'imsi-id': string;
     'imsi-range-from': number;
     'imsi-range-to': number;
 }
@@ -35,7 +36,10 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
     ImsiRangeLimit: number = 0;
 
     imsiForm = this.fb.group({
-        name: [undefined, Validators.compose([
+        ['imsi-id']: [undefined, Validators.compose([
+            Validators.required
+        ])],
+        ['display-name']: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
@@ -54,7 +58,8 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
             this.closeEvent.emit();
         } else {
             this.closeEvent.emit({
-                name: this.imsiForm.get('name').value,
+                'imsi-id': this.imsiForm.get('imsi-id').value,
+                'display-name': this.imsiForm.get('display-name').value,
                 'imsi-range-from': this.imsiForm.get('imsi-range-from').value,
                 'imsi-range-to': this.imsiForm.get('imsi-range-to').value,
                 cancelled: false
