@@ -35,6 +35,39 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
+
+            <!-- Enterprise Dropdown -->
+            <div class="row" id="enterpriseRow">
+                <mat-form-field class="field-margin half-width">
+                    <mat-select formControlName="enterprise"
+                                placeholder="Please specify an Enterprise"
+                                required
+                                id="selectEnterprise">
+                        <mat-option
+                            *ngFor="let eachEnterprise of enterprises"
+                            [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
+                    </mat-select>
+                    <mat-hint>Enterprise</mat-hint>
+                </mat-form-field>
+            </div>
+<!--            Site dropdown-->
+            <div class="row">
+                <mat-form-field class="field-margin half-width subscriber-section">
+                    <mat-select ngDefaultControl formControlName="site"
+                                title="This field is mandatory."
+                                placeholder="Please specify a Site"
+                                (selectionChange)="OnSiteSelect()"
+                                id="selectSite"
+                                required>
+                        <mat-option *ngFor="let site of site"
+                                    [value]="site.id">{{site.id}}
+                            <span *ngIf="site['display-name']"> ({{site['display-name']}})</span>
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Site</mat-hint>
+                </mat-form-field>
+            </div>
+            
             <div class="row" *ngIf="isNewInstance">
                 <mat-form-field class="field-margin half-width">
                     <mat-select
@@ -78,22 +111,7 @@
                        id="inputSst">
                 <mat-hint>SST (Slice/Service type 1-255)</mat-hint>
             </mat-form-field>
-            <div class="row">
-                <mat-form-field class="field-margin half-width subscriber-section">
-                    <mat-select ngDefaultControl formControlName="site"
-                                title="This field is mandatory."
-                                placeholder="Please specify a Site"
-                                (selectionChange)="OnSiteSelect()"
-                                id="selectSite"
-                                required>
-                        <mat-option *ngFor="let site of site"
-                                    [value]="site.id">{{site.id}}
-                            <span *ngIf="site['display-name']"> ({{site['display-name']}})</span>
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint>Site</mat-hint>
-                </mat-form-field>
-            </div>
+
             <div formArrayName="filter" class="subscriber-section field-margin">
                 <mat-hint>Filter</mat-hint>
                 <mat-icon (click)="showApplicationDisplay = true" color='accent' class="subscriber-pointer"
@@ -219,20 +237,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Enterprise Dropdown -->
-            <div class="row" id="enterpriseRow">
-                <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="enterprise"
-                                placeholder="Please specify an Enterprise"
-                                required
-                                id="selectEnterprise">
-                        <mat-option
-                            *ngFor="let eachEnterprise of enterprises"
-                            [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
-                    </mat-select>
-                    <mat-hint>Enterprise</mat-hint>
-                </mat-form-field>
-            </div>
+
             <!--UPF dropdown-->
             <div class="row">
                 <mat-form-field class="field-margin half-width">

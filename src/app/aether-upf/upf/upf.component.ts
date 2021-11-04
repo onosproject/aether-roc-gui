@@ -28,11 +28,11 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
     displayedColumns = [
         'id',
         'description',
-        'address',
         'enterprise',
+        'site',
+        'address',
         'config-endpoint',
         'port',
-        'site',
         'edit',
         'delete',
         'usage',
