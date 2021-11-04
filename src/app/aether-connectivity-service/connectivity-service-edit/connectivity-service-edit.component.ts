@@ -37,7 +37,7 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
             Validators.minLength(1),
             Validators.maxLength(1024),
         ])],
-        'core-endpoint': [undefined, Validators.compose([
+        'core-5g-endpoint': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
@@ -72,9 +72,9 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
             this.csForm.get('description').setValue(value.description);
             this.csForm.get('description')[ORIGINAL] = value.description;
         }
-        if (value['core-endpoint']) {
-            this.csForm.get('core-endpoint').setValue(value['core-endpoint']);
-            this.csForm.get('core-endpoint')[ORIGINAL] = value['core-endpoint'];
+        if (value['core-5g-endpoint']) {
+            this.csForm.get('core-5g-endpoint').setValue(value['core-5g-endpoint']);
+            this.csForm.get('core-5g-endpoint')[ORIGINAL] = value['core-5g-endpoint'];
         }
     }
 

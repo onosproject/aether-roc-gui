@@ -29,7 +29,7 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
     displayedColumns = [
         'id',
         'description',
-        'core-endpoint',
+        'core-5g-endpoint',
         'edit',
         'delete',
         'usage'
@@ -53,8 +53,8 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
                         if (basketItems['display-name']) {
                             ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
                         }
-                        if (basketItems['core-endpoint']) {
-                            ScopeOfDataSource.data[listItemCount]['core-5g-endpoint'] = basketItems['core-endpoint'];
+                        if (basketItems['core-5g-endpoint']) {
+                            ScopeOfDataSource.data[listItemCount]['core-5g-endpoint'] = basketItems['core-5g-endpoint'];
                         }
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description = basketItems.description;
