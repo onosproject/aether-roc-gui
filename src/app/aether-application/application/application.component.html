@@ -55,7 +55,8 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>EndPoints</th>
             <td mat-cell *matCellDef="let row">
                 <div *ngFor="let ep of row.endpoint">
-                    {{ep.name}}
+                    {{ep['endpoint-id']}}
+                    {{ep['display-name']}}
                     {{ep['port-start']}}-{{ep['port-end']}}
                     {{ep.protocol}}
                     <p>Traffic-class: {{ep['traffic-class']}}

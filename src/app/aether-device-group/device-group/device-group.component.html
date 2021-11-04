@@ -46,7 +46,7 @@
         <ng-container matColumnDef="Imsis" id="imsisColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>UE IDs</th>
             <td mat-cell *matCellDef="let row">
-                <p *ngFor="let ip of row.imsis">{{ip.name}} {{ip['imsi-range-from']}}-{{ip['imsi-range-to']}}</p>
+                <p *ngFor="let ip of row.imsis">{{ip['imsi-id']}} {{ip['display-name']}} {{ip['imsi-range-from']}}-{{ip['imsi-range-to']}}</p>
             </td>
         </ng-container>
 

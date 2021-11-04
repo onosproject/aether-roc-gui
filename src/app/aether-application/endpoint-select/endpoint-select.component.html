@@ -10,10 +10,16 @@
         </mat-card-header>
         <mat-card-content class="content">
             <mat-form-field class="field-margin">
-                <input matInput formControlName="name"
+                <input matInput formControlName="endpoint-id"
                        title="This field is mandatory."
+                       placeholder="Please specify a ID"
+                       id="inputEndpointId" required>
+                <mat-hint>Endpoint ID</mat-hint>
+            </mat-form-field>
+            <mat-form-field class="field-margin ">
+                <input matInput formControlName="display-name"
                        placeholder="Please specify a Name"
-                       id="inputName" required>
+                       id="inputDisplayName">
                 <mat-hint>Name</mat-hint>
             </mat-form-field>
             <mat-form-field class="field-margin ">

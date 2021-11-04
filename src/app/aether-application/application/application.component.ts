@@ -71,8 +71,8 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
                                     let eachAPPPosition = 0;
                                     for (const eachScopeAPP of ScopeOfDataSource.data[listItemCount].endpoint){
                                         if (eachBasketAPP.endpoint === eachScopeAPP.endpoint){
-                                            ScopeOfDataSource.data[listItemCount].endpoint[eachAPPPosition].name
-                                                = eachBasketAPP.name;
+                                            ScopeOfDataSource.data[listItemCount].endpoint[eachAPPPosition]['endpoint-id']
+                                                = eachBasketAPP['endpoint-id'];
                                         }
                                         eachAPPPosition++;
                                     }

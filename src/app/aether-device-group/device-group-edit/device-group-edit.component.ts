@@ -44,7 +44,7 @@ const ValidateImsiRange: ValidatorFn = (control: AbstractControl): ValidationErr
                 return;
             }
             for (const eachImsiFormValues of imsiFormvalue) {
-                if (eachImsiFormValues.name !== eachImsi.name) {
+                if (eachImsiFormValues['imsi-id'] !== eachImsi['imsi-id']) {
                     if ((eachImsi['imsi-range-to'] < eachImsiFormValues['imsi-range-from'] ||
                             eachImsi['imsi-range-from'] > eachImsiFormValues['imsi-range-to'])
                         && (eachImsiFormValues['imsi-range-from'] <= eachImsiFormValues['imsi-range-to']
@@ -140,7 +140,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         super.form = this.deviceGroupForm;
         super.loadFunc = this.loadDeviceGroupDeviceGroup;
         this.deviceGroupForm[REQDATTRIBS] = ['site'];
-        this.deviceGroupForm.get(['imsis'])[IDATTRIBS] = ['name'];
+        this.deviceGroupForm.get(['imsis'])[IDATTRIBS] = ['imsi-id'];
     }
 
     ngOnInit(): void {
@@ -204,7 +204,7 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
 
     deleteFromSelect(im: string): void {
         this.bs.deleteIndexedEntry('/device-group-4.0.0/device-group[id=' + this.id +
-            ']/imsis[name=' + im + ']', 'name', im, this.ucmap(im));
+            ']/imsis[imsi-id=' + im + ']', 'imsi-id', im, this.ucmap(im));
         const index = (this.deviceGroupForm.get(['imsis']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === im);
         (this.deviceGroupForm.get(['imsis']) as FormArray).removeAt(index);
@@ -257,15 +257,18 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
                 let isDeleted = false;
                 Object.keys(localStorage)
                     .filter(checkerKey => checkerKey.startsWith('/basket-delete/device-group-4.0.0/device-group[id=' + value.id +
-                        ']/imsis[name='))
+                        ']/imsis[imsi-id='))
                     .forEach((checkerKey) => {
-                        if (checkerKey.includes(im.name)) {
+                        if (checkerKey.includes(im['imsi-id'])) {
                             isDeleted = true;
                         }
                     });
                 if (!isDeleted) {
-                    const nameFormControl = this.fb.control(im.name);
-                    nameFormControl[ORIGINAL] = im.name;
+                    const imsiIdFormControl = this.fb.control(im['imsi-id']);
+                    imsiIdFormControl[ORIGINAL] = im['imsi-id'];
+
+                    const imsiNameFormControl = this.fb.control(im['display-name']);
+                    imsiNameFormControl[ORIGINAL] = im['display-name'];
 
                     let fromValue = im['imsi-range-from'];
                     if (fromValue === undefined) {
@@ -280,7 +283,8 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
                     imsiRangeToFormControl[TYPE] = 'number';
 
                     (this.deviceGroupForm.get('imsis') as FormArray).push(this.fb.group({
-                        name: nameFormControl,
+                        'imsi-id': imsiIdFormControl,
+                        'display-name': imsiNameFormControl,
                         'imsi-range-from': imsiRangeFromFormControl,
                         'imsi-range-to': imsiRangeToFormControl
                     }));
@@ -290,7 +294,8 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         } else if (value.imsis && this.deviceGroupForm.value.imsis.length !== 0) {
             for (const eachValueImsis of value.imsis) {
                 (this.deviceGroupForm.get('imsis') as FormArray).push(this.fb.group({
-                    name: eachValueImsis.name,
+                    'imsi-id': eachValueImsis['imsi-id'],
+                    'display-name': eachValueImsis['display-name'],
                     'imsi-range-from': eachValueImsis['imsi-range-from'],
                     'imsi-range-to': eachValueImsis['imsi-range-to']
                 }));
@@ -305,9 +310,13 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
             return;
         }
 
-        const nameFormControl = this.fb.control(event.name);
-        nameFormControl.markAsTouched();
-        nameFormControl.markAsDirty();
+        const imsiIdFormControl = this.fb.control(event['imsi-id']);
+        imsiIdFormControl.markAsTouched();
+        imsiIdFormControl.markAsDirty();
+
+        const imsiNameFormControl = this.fb.control(event['display-name']);
+        imsiNameFormControl.markAsTouched();
+        imsiNameFormControl.markAsDirty();
 
         const imsiRangeFromFormControl = this.fb.control(event['imsi-range-from']);
         imsiRangeFromFormControl.markAsTouched();
@@ -320,7 +329,8 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         imsiRangeToFormControl[TYPE] = 'boolean';
 
         (this.deviceGroupForm.get('imsis') as FormArray).push(this.fb.group({
-            name: nameFormControl,
+            'imsi-id': imsiIdFormControl,
+            'display-name': imsiNameFormControl,
             'imsi-range-from': imsiRangeFromFormControl,
             'imsi-range-to': imsiRangeToFormControl
         }));
