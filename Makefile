@@ -4,11 +4,13 @@ AETHER_ROC_GUI_VERSION := latest
 
 build: # @HELP build the Web GUI and run all validations (default)
 build:
-	ng build --prod
+	ng build --configuration production
 
 test: # @HELP run the unit tests and source code validation
 test: deps build lint license_check
-	ng test --browsers=ChromeHeadlessNoSandbox --watch=false
+	npm test
+
+jenkins-test: lint test
 
 coverage: # @HELP generate unit test coverage data
 coverage: deps build license_check test
@@ -16,8 +18,8 @@ coverage: deps build license_check test
 deps: # @HELP ensure that the required dependencies are in place
 	NG_CLI_ANALYTICS=false npm install
 
-lint: # @HELP run the linters for Typescript source code
-	ng lint
+lint: deps # @HELP run the linters for Typescript source code
+	npm run lint
 
 license_check: # @HELP examine and ensure license headers exist
 	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
