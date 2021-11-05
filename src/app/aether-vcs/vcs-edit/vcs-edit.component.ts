@@ -341,7 +341,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
 
     deleteApplicationFromSelect(app: string): void {
         this.bs.deleteIndexedEntry('/vcs-4.0.0/vcs[id=' + this.id +
-            ']/application[application=' + app + ']', 'application', app, this.ucmap);
+            ']/filter[application=' + app + ']', 'application', app, this.ucmap);
         const index = (this.vcsForm.get('filter') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
         (this.vcsForm.get('filter') as FormArray).removeAt(index);

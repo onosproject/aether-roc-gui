@@ -45,7 +45,7 @@ export class UpfComponent extends RocListBase<UpfDatasource> implements AfterVie
     ) {
         super(basketService, new UpfDatasource(aetherService, basketService, AETHER_TARGETS[0]),
             'upf-4.0.0', 'upf');
-        super.reqdAttr = ['enterprise', 'port', 'address','site'];
+        super.reqdAttr = ['enterprise', 'port', 'address', 'site'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {

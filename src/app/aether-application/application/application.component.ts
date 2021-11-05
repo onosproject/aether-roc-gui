@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
@@ -42,7 +42,7 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
     ) {
         super(basketService, new ApplicationDatasource(aetherService, basketService, AETHER_TARGETS[0]),
             'application-4.0.0', 'application');
-        super.reqdAttr = ['enterprise'];
+        super.reqdAttr = ['enterprise', 'address'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {

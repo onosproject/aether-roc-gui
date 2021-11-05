@@ -5,13 +5,11 @@
  */
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {UpfUpfService} from '../../../openapi3/aether/4.0.0/services';
 import {EnterpriseEnterprise, SiteSite, UpfUpf} from '../../../openapi3/aether/4.0.0/models';
-import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
+import {BasketService, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
-import {MatHeaderRow, MatTable} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';

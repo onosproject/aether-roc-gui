@@ -3,19 +3,15 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
-import {Service as AetherService, TrafficClassTrafficClassService} from '../../../openapi3/aether/4.0.0/services';
+import {FormBuilder, Validators} from '@angular/forms';
+import {TrafficClassTrafficClassService} from '../../../openapi3/aether/4.0.0/services';
 import {TrafficClassTrafficClass} from '../../../openapi3/aether/4.0.0/models';
-import {BasketService, IDATTRIBS, ORIGINAL, TYPE} from '../../basket.service';
-import {MatHeaderRow, MatTable} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
+import {BasketService, ORIGINAL} from '../../basket.service';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
 
 @Component({
     selector: 'aether-traffic-class-edit',
