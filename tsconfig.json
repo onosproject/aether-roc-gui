@@ -13,6 +13,7 @@
         "target": "es2015",
         "module": "es2020",
         "skipLibCheck": true,
+        // "noImplicitAny": true, # NOTE will be good to have this but there are ton of errors that needs to be addressed
         "lib": [
             "es2018",
             "dom"

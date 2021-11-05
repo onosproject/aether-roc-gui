@@ -3,15 +3,13 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Service} from '../../../openapi3/aether/4.0.0/services';
-import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {AETHER_TARGETS} from '../../../environments/environment';
-import {RocSelectBase} from '../../roc-select-base';
-import {TrafficClassTrafficClass} from "../../../openapi3/aether/4.0.0/models/traffic-class-traffic-class";
-import {Observable} from "rxjs";
-import {Bandwidths} from "../../aether-template/template-edit/template-edit.component";
-import {map, startWith} from "rxjs/operators";
+import {Component, EventEmitter, Input, Output} from '@angular/core'
+import {Service} from '../../../openapi3/aether/4.0.0/services'
+import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms'
+import {TrafficClassTrafficClass} from '../../../openapi3/aether/4.0.0/models/traffic-class-traffic-class'
+import {Observable} from 'rxjs'
+import {Bandwidths} from '../../aether-template/template-edit/template-edit.component'
+import {map, startWith} from 'rxjs/operators'
 
 export interface EndPointParam {
     'endpoint-id': string;
@@ -25,10 +23,10 @@ export interface EndPointParam {
 }
 
 const ValidatePortRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const portStart = control.get(['port-start']).value;
-    const portEnd = control.get(['port-end']).value;
-    return portStart <= portEnd ? null : {isEndpointNotValid: true};
-};
+    const portStart = control.get(['port-start']).value
+    const portEnd = control.get(['port-end']).value
+    return portStart <= portEnd ? null : {isEndpointNotValid: true}
+}
 
 @Component({
     selector: 'aether-endpoint-select',
@@ -101,22 +99,21 @@ export class EndpointSelectComponent {
             .pipe(
                 startWith(''),
                 map(value => typeof value === 'number' ? value : value.megabyte),
-                map(megabyte => megabyte ? this._filter(megabyte) : this.options.slice())
-            );
+                map(megabyte => megabyte ? this._filter() : this.options.slice())
+            )
     }
 
     get mbrControls(): FormGroup {
-        return this.endpointForm.get(['mbr']) as FormGroup;
+        return this.endpointForm.get(['mbr']) as FormGroup
     }
 
-    private _filter(bandwidthIndex: number): Bandwidths[] {
-        const filterValue = bandwidthIndex;
-        return this.options.filter(option => option.megabyte.numerical);
+    private _filter(): Bandwidths[] {
+        return this.options.filter(option => option.megabyte.numerical)
     }
 
     closeCard(cancelled: boolean): void {
         if (cancelled) {
-            this.closeEvent.emit();
+            this.closeEvent.emit()
         } else {
             this.closeEvent.emit({
                 'endpoint-id': this.endpointForm.get('endpoint-id').value,
@@ -127,7 +124,7 @@ export class EndpointSelectComponent {
                 trafficClass: this.endpointForm.get('traffic-class').value,
                 mbrUplink: this.endpointForm.get(['mbr','uplink']).value,
                 mbrDownlink: this.endpointForm.get(['mbr','downlink']).value
-            } as EndPointParam);
+            } as EndPointParam)
         }
     }
 

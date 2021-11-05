@@ -3,33 +3,33 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {EnterpriseComponent} from './enterprise/enterprise.component';
-import {ApiModule as ApiModuleAether} from '../../openapi3/aether/4.0.0/api.module';
-import {AETHER_ROC_API_URL} from '../../environments/environment';
-import {HttpClientModule} from '@angular/common/http';
-import {RouterModule} from '@angular/router';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatTableModule} from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSortModule} from '@angular/material/sort';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
-import {AuthInterceptor} from '../auth-interceptor';
-import {API_INTERCEPTOR_PROVIDER} from '../aether.module';
-import {EnterpriseEditComponent} from './enterprise-edit/enterprise-edit.component';
-import {MatCardModule} from '@angular/material/card';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {CdkTableModule} from '@angular/cdk/table';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {ConnectivityServiceSelectComponent} from './connectivity-service-select/connectivity-service-select.component';
-import {UtilsModule} from '../utils/utils.module';
+import {NgModule} from '@angular/core'
+import {CommonModule} from '@angular/common'
+import {EnterpriseComponent} from './enterprise/enterprise.component'
+import {ApiModule as ApiModuleAether} from '../../openapi3/aether/4.0.0/api.module'
+import {AETHER_ROC_API_URL} from '../../environments/environment'
+import {HttpClientModule} from '@angular/common/http'
+import {RouterModule} from '@angular/router'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'
+import {MatTableModule} from '@angular/material/table'
+import {MatPaginatorModule} from '@angular/material/paginator'
+import {MatSortModule} from '@angular/material/sort'
+import {MatSnackBarModule} from '@angular/material/snack-bar'
+import {MatToolbarModule} from '@angular/material/toolbar'
+import {MatIconModule} from '@angular/material/icon'
+import {AuthInterceptor} from '../auth-interceptor'
+import {API_INTERCEPTOR_PROVIDER} from '../aether.module'
+import {EnterpriseEditComponent} from './enterprise-edit/enterprise-edit.component'
+import {MatCardModule} from '@angular/material/card'
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field'
+import {MatSelectModule} from '@angular/material/select'
+import {MatInputModule} from '@angular/material/input'
+import {MatButtonModule} from '@angular/material/button'
+import {MatSlideToggleModule} from '@angular/material/slide-toggle'
+import {CdkTableModule} from '@angular/cdk/table'
+import {MatCheckboxModule} from '@angular/material/checkbox'
+import {ConnectivityServiceSelectComponent} from './connectivity-service-select/connectivity-service-select.component'
+import {UtilsModule} from '../utils/utils.module'
 
 
 @NgModule({

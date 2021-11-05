@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
-import {PERFORMANCE_METRICS_ENABLED} from '../../../environments/environment';
+import {Component, EventEmitter, Inject, Input, Output} from '@angular/core'
+import {PERFORMANCE_METRICS_ENABLED} from '../../../environments/environment'
 
 @Component({
     selector: 'aether-ue-monitor',
@@ -28,17 +28,17 @@ export class UeMonitorComponent {
     }
 
     closeCard(): void {
-        this.closeEvent.emit(true);
+        this.closeEvent.emit(true)
     }
 
     generateConnectivityPanelUrl(orgId: number, orgName: string, ueId: number, panel: number): string {
-        let baseUrl = `${this.grafanaUrl}/d-solo/ue-conn/ue-connectivity?orgId=${orgId}&theme=light&panelId=${panel}`;
+        let baseUrl = `${this.grafanaUrl}/d-solo/ue-conn/ue-connectivity?orgId=${orgId}&theme=light&panelId=${panel}`
 
         // Filter from ACC datasource
-        baseUrl += `&var-ds=datasource-acc`;
+        baseUrl += '&var-ds=datasource-acc'
 
         // Filter for IMSI
-        baseUrl += `&var-imsi=${ueId}`;
+        baseUrl += `&var-imsi=${ueId}`
 
         return baseUrl
     }

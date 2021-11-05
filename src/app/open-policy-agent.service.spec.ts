@@ -3,19 +3,19 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {TestBed} from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing'
 
-import {OpenPolicyAgentService} from './open-policy-agent.service';
+import {OpenPolicyAgentService} from './open-policy-agent.service'
 
 describe('OpenPolicyAgentService', () => {
-    let service: OpenPolicyAgentService;
+    let service: OpenPolicyAgentService
 
     beforeEach(() => {
-        TestBed.configureTestingModule({});
-        service = TestBed.inject(OpenPolicyAgentService);
-    });
+        TestBed.configureTestingModule({})
+        service = TestBed.inject(OpenPolicyAgentService)
+    })
 
     it('should be created', () => {
-        expect(service).toBeTruthy();
-    });
-});
+        expect(service).toBeTruthy()
+    })
+})

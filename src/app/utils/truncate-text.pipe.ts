@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
     name: 'truncateText'
@@ -12,26 +12,26 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TruncateTextPipe implements PipeTransform {
 
     transform(value: string, length: number): string {
-        const biggestWord = 50;
-        const elipses = '...';
+        const biggestWord = 50
+        const elipses = '...'
         if (typeof value === 'undefined') {
-            return value;
+            return value
         }
         if (value.length <= length) {
-            return value;
+            return value
         }
 
         // .. truncate to about correct length
-        let truncatedText = value.slice(0, length + biggestWord);
+        let truncatedText = value.slice(0, length + biggestWord)
 
         // .. now nibble ends till correct length
         while (truncatedText.length > length - elipses.length) {
-            const lastSpace = truncatedText.lastIndexOf(' ');
+            const lastSpace = truncatedText.lastIndexOf(' ')
             if (lastSpace === -1) {
-                break;
+                break
             }
-            truncatedText = truncatedText.slice(0, lastSpace).replace(/[!,.?;:]$/, '');
+            truncatedText = truncatedText.slice(0, lastSpace).replace(/[!,.?;:]$/, '')
         }
-        return truncatedText + elipses;
+        return truncatedText + elipses
     }
 }

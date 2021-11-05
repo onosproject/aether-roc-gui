@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {BasketService} from './basket.service';
+import {BasketService} from './basket.service'
+import {GenericRocDataSource, RocGenericContainerType, RocGenericModelType} from './roc-data-source'
 
-export abstract class RocListBase<T> {
+export abstract class RocListBase<T extends GenericRocDataSource<RocGenericModelType, RocGenericContainerType>> {
     public dataSource: T;
     protected reqdAttr: string[] = [];
     public id: string;
@@ -19,26 +20,25 @@ export abstract class RocListBase<T> {
         protected pathListAttr: string,
         protected indexAttr: string = 'id',
     ) {
-        this.dataSource = datasource;
+        this.dataSource = datasource
     }
 
     delete(id: string): void {
-        const ucMap = new Map<string, string>();
+        const ucMap = new Map<string, string>()
         if (this.reqdAttr.length > 0) {
-            ucMap.set('/' + this.pathRoot + '/' +  this.pathListAttr + '[' + this.indexAttr + '=' + id + ']', this.reqdAttr.join(','));
+            ucMap.set('/' + this.pathRoot + '/' +  this.pathListAttr + '[' + this.indexAttr + '=' + id + ']', this.reqdAttr.join(','))
         }
         this.bs.deleteIndexedEntry('/' + this.pathRoot + '/' + this.pathListAttr + '[' + this.indexAttr + '=' + id + ']',
-            this.indexAttr, id, ucMap);
-        // @ts-ignore
-        this.dataSource.delete(id);
+            this.indexAttr, id, ucMap)
+        this.dataSource.delete(id)
     }
 
     showUsage(id:string):void{
-        this.id = id;
-        this.showUsageCard = true;
+        this.id = id
+        this.showUsageCard = true
     }
 
-    closeShowParentCard(close: boolean): void {
-        this.showUsageCard = false;
+    closeShowParentCard(): void {
+        this.showUsageCard = false
     }
 }

@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing'
 
-import {ApiKeyComponent} from './api-key.component';
-import {MatCardModule} from '@angular/material/card';
-import {MatListModule} from '@angular/material/list';
-import {ClipboardModule} from '@angular/cdk/clipboard';
+import {ApiKeyComponent} from './api-key.component'
+import {MatCardModule} from '@angular/material/card'
+import {MatListModule} from '@angular/material/list'
+import {ClipboardModule} from '@angular/cdk/clipboard'
 
 describe('ApiKeyComponent', () => {
-    let component: ApiKeyComponent;
-    let fixture: ComponentFixture<ApiKeyComponent>;
+    let component: ApiKeyComponent
+    let fixture: ComponentFixture<ApiKeyComponent>
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -24,16 +24,16 @@ describe('ApiKeyComponent', () => {
                 ClipboardModule
             ]
         })
-            .compileComponents();
-    });
+            .compileComponents()
+    })
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ApiKeyComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+        fixture = TestBed.createComponent(ApiKeyComponent)
+        component = fixture.componentInstance
+        fixture.detectChanges()
+    })
 
     it('should create', () => {
-        expect(component).toBeTruthy();
-    });
-});
+        expect(component).toBeTruthy()
+    })
+})

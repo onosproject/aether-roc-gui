@@ -3,26 +3,26 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing'
 
-import {ImsisSelectComponent} from './imsis-select.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {RouterTestingModule} from '@angular/router/testing';
-import {MatCardModule} from '@angular/material/card';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatButtonModule} from '@angular/material/button';
+import {ImsisSelectComponent} from './imsis-select.component'
+import {MatToolbarModule} from '@angular/material/toolbar'
+import {HttpClientTestingModule} from '@angular/common/http/testing'
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field'
+import {MatSelectModule} from '@angular/material/select'
+import {MatIconModule} from '@angular/material/icon'
+import {MatInputModule} from '@angular/material/input'
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import {MatSnackBarModule} from '@angular/material/snack-bar'
+import {RouterTestingModule} from '@angular/router/testing'
+import {MatCardModule} from '@angular/material/card'
+import {MatDividerModule} from '@angular/material/divider'
+import {MatButtonModule} from '@angular/material/button'
 
 describe('ImsisSelectComponent', () => {
-    let component: ImsisSelectComponent;
-    let fixture: ComponentFixture<ImsisSelectComponent>;
+    let component: ImsisSelectComponent
+    let fixture: ComponentFixture<ImsisSelectComponent>
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -47,16 +47,16 @@ describe('ImsisSelectComponent', () => {
                 MatSelectModule
             ]
         })
-            .compileComponents();
-    });
+            .compileComponents()
+    })
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ImsisSelectComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+        fixture = TestBed.createComponent(ImsisSelectComponent)
+        component = fixture.componentInstance
+        fixture.detectChanges()
+    })
 
     it('should create', () => {
-        expect(component).toBeTruthy();
-    });
-});
+        expect(component).toBeTruthy()
+    })
+})

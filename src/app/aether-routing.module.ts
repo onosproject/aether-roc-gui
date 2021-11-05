@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {NgModule} from '@angular/core'
+import {Routes, RouterModule} from '@angular/router'
 
 /**
  * The set of Routes in the application - can be chosen from nav menu or
@@ -69,7 +69,7 @@ const aetherRoutes: Routes = [
         redirectTo: 'dashboard',
         pathMatch: 'full'
     }
-];
+]
 
 @NgModule({
     imports: [

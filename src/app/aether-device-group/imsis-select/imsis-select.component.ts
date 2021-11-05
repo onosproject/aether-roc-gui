@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
-import {DeviceGroupDeviceGroupImsis} from '../../../openapi3/aether/4.0.0/models/device-group-device-group-imsis';
-import {maxDeviceGroupRange} from "../../../environments/environment";
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core'
+import {AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators} from '@angular/forms'
+import {DeviceGroupDeviceGroupImsis} from '../../../openapi3/aether/4.0.0/models/device-group-device-group-imsis'
+import {maxDeviceGroupRange} from '../../../environments/environment'
 
 export interface ImsiParam {
     'display-name': string;
@@ -17,11 +17,11 @@ export interface ImsiParam {
 }
 
 const ValidateImsiRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const ImsiFromRange = control.get('imsi-range-from').value;
-    const ImsiToRange = control.get('imsi-range-to').value;
+    const ImsiFromRange = control.get('imsi-range-from').value
+    const ImsiToRange = control.get('imsi-range-to').value
     return ((ImsiFromRange <= ImsiToRange) &&
-        (ImsiToRange <= (maxDeviceGroupRange + ImsiFromRange))) ? null : {isRangeNotValid: true};
-};
+        (ImsiToRange <= (maxDeviceGroupRange + ImsiFromRange))) ? null : {isRangeNotValid: true}
+}
 
 @Component({
     selector: 'aether-imsis-select',
@@ -55,7 +55,7 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
 
     closeCard(cancelled: boolean): void {
         if (cancelled === true) {
-            this.closeEvent.emit();
+            this.closeEvent.emit()
         } else {
             this.closeEvent.emit({
                 'imsi-id': this.imsiForm.get('imsi-id').value,
@@ -63,46 +63,46 @@ export class ImsisSelectComponent implements OnInit, OnChanges {
                 'imsi-range-from': this.imsiForm.get('imsi-range-from').value,
                 'imsi-range-to': this.imsiForm.get('imsi-range-to').value,
                 cancelled: false
-            } as ImsiParam);
+            } as ImsiParam)
         }
     }
 
     ngOnInit(): void {
-        this.formControlValueChanged();
+        this.formControlValueChanged()
     }
 
     formControlValueChanged(): void {
-        let isValid: boolean;
+        let isValid: boolean
         if (this.OtherImsi.length !== 0) {
             this.imsiForm.valueChanges.subscribe((changedValue) => {
-                const ImsiFromRange = changedValue['imsi-range-from'];
-                const ImsiToRange = changedValue['imsi-range-to'];
+                const ImsiFromRange = changedValue['imsi-range-from']
+                const ImsiToRange = changedValue['imsi-range-to']
                 this.OtherImsi.every(eachImsi => {
                     isValid = ((ImsiToRange < eachImsi['imsi-range-from'] || ImsiFromRange > eachImsi['imsi-range-to'])
                         && (ImsiFromRange <= ImsiToRange &&
-                            ImsiToRange <= (maxDeviceGroupRange + (ImsiFromRange)))) ? true : false;
-                });
+                            ImsiToRange <= (maxDeviceGroupRange + (ImsiFromRange)))) ? true : false
+                })
                 if (!isValid) {
-                    this.imsiForm.setErrors({isRangeNotValid: true});
+                    this.imsiForm.setErrors({isRangeNotValid: true})
                 }
-            });
+            })
         }
     }
 
     ngOnChanges(): void {
-        this.ImsiRangeLimit = Math.pow(10, this.ImisLengthLimits) - 1;
-        this.imsiForm.get('imsi-range-from').clearValidators();
+        this.ImsiRangeLimit = Math.pow(10, this.ImisLengthLimits) - 1
+        this.imsiForm.get('imsi-range-from').clearValidators()
         this.imsiForm.get('imsi-range-from').setValidators([
             Validators.required,
             Validators.min(0),
             Validators.max(this.ImsiRangeLimit),
-        ]);
-        this.imsiForm.get('imsi-range-to').clearValidators();
+        ])
+        this.imsiForm.get('imsi-range-to').clearValidators()
         this.imsiForm.get('imsi-range-to').setValidators([
             Validators.required,
             Validators.min(0),
             Validators.max(this.ImsiRangeLimit),
-        ]);
+        ])
     }
 
 }

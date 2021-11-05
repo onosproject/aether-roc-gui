@@ -3,16 +3,16 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, Input, OnInit} from '@angular/core';
-import {SocketService} from '../../socket.service';
-import {Observable} from 'rxjs';
-import {switchAll, tap, pluck, map} from 'rxjs/operators';
-import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
-import {PROMETHEUS_PROXY} from '../../../environments/environment';
-import {OAuthService} from 'angular-oauth2-oidc';
+import {Component, Input, OnInit} from '@angular/core'
+import {SocketService} from '../../socket.service'
+import {Observable} from 'rxjs'
+import {switchAll, tap, pluck, map} from 'rxjs/operators'
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services'
+import {PROMETHEUS_PROXY} from '../../../environments/environment'
+import {OAuthService} from 'angular-oauth2-oidc'
 
-const RECEIVER = 'receiver';
-const COMMON_LABELS = 'commonLabels';
+const RECEIVER = 'receiver'
+const COMMON_LABELS = 'commonLabels'
 
 export interface PromAlert {
     status: string;
@@ -68,8 +68,8 @@ export class PanelAlertsComponent implements OnInit {
     public selectedAlert: PromAlert;
 
     public static relativePromLink(url: string): string {
-        const prefix = /http(.*):9090/;
-        return url.replace(prefix, PROMETHEUS_PROXY);
+        const prefix = /http(.*):9090/
+        return url.replace(prefix, PROMETHEUS_PROXY)
     }
 
     constructor(
@@ -80,7 +80,7 @@ export class PanelAlertsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.dataObs = this.openWebSocket();
+        this.dataObs = this.openWebSocket()
     }
 
     // Produces an Observable to use with <mat-table>
@@ -92,7 +92,7 @@ export class PanelAlertsComponent implements OnInit {
             tap(m => console.log('Prometheus alerts from "', m[RECEIVER], '"', m[COMMON_LABELS])),
             pluck('alerts'),
             map((alerts: PromAlert[]) => alerts.filter((alert) => alert.status === 'firing'))
-        );
+        )
     }
 
     // ngOnDestroy(): void {
@@ -101,8 +101,8 @@ export class PanelAlertsComponent implements OnInit {
 
     showPrometheus(url: string): void {
         if (url === undefined) {
-            return undefined;
+            return undefined
         }
-        window.open(PanelAlertsComponent.relativePromLink(url), '_blank');
+        window.open(PanelAlertsComponent.relativePromLink(url), '_blank')
     }
 }

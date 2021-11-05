@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Pipe, PipeTransform} from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core'
 
 @Pipe({
     name: 'hex'
@@ -12,13 +12,13 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class HexPipe implements PipeTransform {
 
     static hexAsInt(hexString: string): number {
-        return parseInt(hexString, 16);
+        return parseInt(hexString, 16)
     }
 
     transform(value: number): string {
         if (value === null) {
-            return undefined;
+            return undefined
         }
-        return value.toString(16).toUpperCase();
+        return value.toString(16).toUpperCase()
     }
 }

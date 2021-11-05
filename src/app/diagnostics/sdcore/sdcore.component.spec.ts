@@ -4,22 +4,22 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing'
 
-import {SdcoreComponent} from './sdcore.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
-import {ApiModule} from '../../../openapi3/top/level/api.module';
-import {MatCardModule} from '@angular/material/card';
-import {SDCORE_ADAPTER} from '../../../environments/environment';
+import {SdcoreComponent} from './sdcore.component'
+import {HttpClientTestingModule} from '@angular/common/http/testing'
+import {RouterTestingModule} from '@angular/router/testing'
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import {MatSnackBarModule} from '@angular/material/snack-bar'
+import {MatToolbarModule} from '@angular/material/toolbar'
+import {MatIconModule} from '@angular/material/icon'
+import {ApiModule} from '../../../openapi3/top/level/api.module'
+import {MatCardModule} from '@angular/material/card'
+import {SDCORE_ADAPTER} from '../../../environments/environment'
 
 describe('SdcoreComponent', () => {
-    let component: SdcoreComponent;
-    let fixture: ComponentFixture<SdcoreComponent>;
+    let component: SdcoreComponent
+    let fixture: ComponentFixture<SdcoreComponent>
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -38,16 +38,16 @@ describe('SdcoreComponent', () => {
                 {provide: 'sdcore-adapter-service', useValue: SDCORE_ADAPTER}
             ]
         })
-            .compileComponents();
-    });
+            .compileComponents()
+    })
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(SdcoreComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+        fixture = TestBed.createComponent(SdcoreComponent)
+        component = fixture.componentInstance
+        fixture.detectChanges()
+    })
 
     it('should create', () => {
-        expect(component).toBeTruthy();
-    });
-});
+        expect(component).toBeTruthy()
+    })
+})

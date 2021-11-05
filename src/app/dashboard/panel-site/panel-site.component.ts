@@ -3,27 +3,26 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, Inject, Input, OnDestroy, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTable} from '@angular/material/table';
-import {SiteSite} from '../../../openapi3/aether/4.0.0/models';
-import {RocListBase} from '../../roc-list-base';
-import {AETHER_TARGETS, PROMETHEUS_PROXY} from '../../../environments/environment';
-import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services/service';
-import {BasketService} from '../../basket.service';
-import {PanelSiteDatasource} from './panel-site-datasource';
-import {SitePromDataSource} from '../../utils/site-prom-data-source';
-import {HttpClient} from '@angular/common/http';
-import {OAuthService} from 'angular-oauth2-oidc';
-import {IdTokClaims} from '../../idtoken';
+import {AfterViewInit, Component, Inject, Input, OnDestroy, ViewChild} from '@angular/core'
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort'
+import {MatTable} from '@angular/material/table'
+import {SiteSite} from '../../../openapi3/aether/4.0.0/models'
+import {RocListBase} from '../../roc-list-base'
+import {AETHER_TARGETS} from '../../../environments/environment'
+import {OpenPolicyAgentService} from '../../open-policy-agent.service'
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services/service'
+import {BasketService} from '../../basket.service'
+import {PanelSiteDatasource} from './panel-site-datasource'
+import {SitePromDataSource} from '../../utils/site-prom-data-source'
+import {HttpClient} from '@angular/common/http'
+import {OAuthService} from 'angular-oauth2-oidc'
 
 const sitePromTags = [
-    "agentsSum",
-    "agentsCount",
-    "clusterNodesSum",
-    "clusterNodesCount"
+    'agentsSum',
+    'agentsCount',
+    'clusterNodesSum',
+    'clusterNodesCount'
 ]
 
 @Component({
@@ -61,57 +60,57 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
         @Inject('grafana_api_proxy') private grafanaUrl: string,
     ) {
         super(basketService, new PanelSiteDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'site-v4.0.0', 'site');
-        this.promData = new SitePromDataSource(httpClient);
+            'site-v4.0.0', 'site')
+        this.promData = new SitePromDataSource(httpClient)
     }
 
-    onDataLoaded(ScopeOfDataSource): void {
-        console.log('Site Data Loaded');
+    onDataLoaded(): void {
+        console.log('Site Data Loaded')
     }
 
     ngAfterViewInit(): void {
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-        this.table.dataSource = this.dataSource;
+        this.dataSource.sort = this.sort
+        this.dataSource.paginator = this.paginator
+        this.table.dataSource = this.dataSource
         // Wait for token to be loaded
         this.loginTokenTimer = setInterval(() => {
             if (this.oauthService.hasValidIdToken()) {
-                console.log('Load items after token is loaded');
+                console.log('Load items after token is loaded')
                 this.dataSource.loadData(this.aetherService.getSite({
                     target: AETHER_TARGETS[0]
-                }), this.onDataLoaded);
-                const claims = this.oauthService.getIdentityClaims() as IdTokClaims;
+                }), this.onDataLoaded)
+
                 // TODO: enhance this - it takes the last group, having all lower case as the Grafana Org.
-                clearInterval(this.loginTokenTimer);
+                clearInterval(this.loginTokenTimer)
             }
-        }, 10);
+        }, 10)
 
         this.prometheusTimer = setInterval(() => {
             if (this.dataSource.data.length === 0) {
-                clearInterval(this.prometheusTimer);
-                console.log('No Site to monitor');
-                return;
+                clearInterval(this.prometheusTimer)
+                console.log('No Site to monitor')
+                return
             }
 
             this.dataSource.data.forEach((site) => {
-                if(site.monitoring["edge-device"].length === 0) {
+                if(site.monitoring['edge-device'].length === 0) {
                     return
                 }
 
                 sitePromTags.forEach((tag) => {
-                    let url = this.promData.queryBuilder(tag, site)
+                    const url = this.promData.queryBuilder(tag, site)
 
                     this.promData.loadData(url).subscribe((resultItem) => {
                         site[tag] = resultItem.value[1]
                     }, (err) => console.log(site.id, 'has error polling metrics', err))
                 })
-            });
+            })
 
-        },3000);
+        },3000)
     }
 
     ngOnDestroy(): void {
-        clearInterval(this.prometheusTimer);
-        clearInterval(this.loginTokenTimer);
+        clearInterval(this.prometheusTimer)
+        clearInterval(this.loginTokenTimer)
     }
 }

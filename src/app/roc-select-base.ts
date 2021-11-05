@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {FormBuilder} from '@angular/forms';
-import {mergeMap, pluck} from 'rxjs/operators';
-import {from, Observable} from 'rxjs';
-import {EventEmitter} from '@angular/core';
+import {FormBuilder} from '@angular/forms'
+import {mergeMap, pluck} from 'rxjs/operators'
+import {from, Observable} from 'rxjs'
+import {EventEmitter} from '@angular/core'
 
-const IDATTR = 'id';
+const IDATTR = 'id'
 
 export abstract class RocSelectBase<T, U> {
     abstract alreadySelected: string[] = [];
@@ -31,15 +31,15 @@ export abstract class RocSelectBase<T, U> {
             mergeMap((items: T[]) => from(items)),
         ).subscribe(
             value => {
-                const exists = this.alreadySelected.indexOf(value[IDATTR]);
+                const exists = this.alreadySelected.indexOf(value[IDATTR])
                 if (exists === -1) {
-                    this.displayList.push(value);
+                    this.displayList.push(value)
                 }
             }
-        );
+        )
     }
 
     closeCard(selected: string): void {
-        this.closeEvent.emit(selected);
+        this.closeEvent.emit(selected)
     }
 }

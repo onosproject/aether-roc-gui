@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, EventEmitter, Output} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
-import {Service} from "../../../openapi3/aether/4.0.0/services/service";
+import {Component, EventEmitter, Output} from '@angular/core'
+import {FormBuilder, Validators} from '@angular/forms'
+import {Service} from '../../../openapi3/aether/4.0.0/services/service'
 
 export interface EdgeDeviceParam {
     'edge-device-id': string;
@@ -43,13 +43,13 @@ export class EdgeDeviceComponent {
 
     closeCard(cancelled: boolean): void {
         if (cancelled) {
-            this.closeEdgeDeviceEvent.emit();
+            this.closeEdgeDeviceEvent.emit()
         } else {
             this.closeEdgeDeviceEvent.emit({
                 'edge-device-id': this.edgeDeviceForm.get('edge-device-id').value,
                 'display-name': this.edgeDeviceForm.get('display-name').value,
                 description: this.edgeDeviceForm.get('description').value,
-            } as EdgeDeviceParam);
+            } as EdgeDeviceParam)
         }
     }
 

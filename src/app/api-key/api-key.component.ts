@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core'
 
 @Component({
     selector: 'aether-api-key',
@@ -16,10 +16,7 @@ export class ApiKeyComponent {
     @Input() expiry: Date;
     @Output() closeEvent = new EventEmitter<boolean>();
 
-    constructor() {
-    }
-
     closeCard(): void {
-        this.closeEvent.emit(true);
+        this.closeEvent.emit(true)
     }
 }

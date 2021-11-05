@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Pipe, PipeTransform} from '@angular/core';
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {Pipe, PipeTransform} from '@angular/core'
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser'
 
 @Pipe({
     name: 'safe'
@@ -17,8 +17,8 @@ export class SafePipe implements PipeTransform {
     ) {
     }
 
-    transform(url): SafeResourceUrl {
-        return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    transform(url: string): SafeResourceUrl {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(url)
     }
 
 }

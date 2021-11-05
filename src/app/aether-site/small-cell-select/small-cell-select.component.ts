@@ -3,9 +3,9 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
-import {Service} from "../../../openapi3/aether/4.0.0/services/service";
+import {Component, EventEmitter, Output} from '@angular/core'
+import {FormBuilder, Validators} from '@angular/forms'
+import {Service} from '../../../openapi3/aether/4.0.0/services/service'
 
 export interface SmallCellParam {
     'small-cell-id':string;
@@ -50,7 +50,7 @@ export class SmallCellSelectComponent {
 
     closeCard(cancelled: boolean): void {
         if (cancelled) {
-            this.closeEvent.emit();
+            this.closeEvent.emit()
         } else {
             this.closeEvent.emit({
                 'small-cell-id': this.smallCellForm.get('small-cell-id').value,
@@ -58,7 +58,7 @@ export class SmallCellSelectComponent {
                 address: this.smallCellForm.get('address').value,
                 tac: this.smallCellForm.get('tac').value,
                 enable: this.smallCellForm.get('enable').value
-            } as SmallCellParam);
+            } as SmallCellParam)
         }
     }
 

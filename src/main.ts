@@ -4,15 +4,15 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode } from '@angular/core'
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic'
 
-import { AetherModule } from './app/aether.module';
-import { environment } from './environments/environment';
+import { AetherModule } from './app/aether.module'
+import { environment } from './environments/environment'
 
 if (environment.production) {
-  enableProdMode();
+  enableProdMode()
 }
 
 platformBrowserDynamic().bootstrapModule(AetherModule)
-  .catch(err => console.error(err));
+  .catch(err => console.error(err))

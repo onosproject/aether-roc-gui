@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BasketService} from '../../basket.service';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {BasketService} from '../../basket.service'
 
 @Component({
     selector: 'aether-basket-preview',
@@ -23,10 +23,10 @@ export class BasketPreviewComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.basketPreview = JSON.stringify(this.bs.buildPatchBody() as unknown as string, null, 4);
+        this.basketPreview = JSON.stringify(this.bs.buildPatchBody() as unknown as string, null, 4)
     }
 
     closeCard(): void {
-        this.closeEvent.emit(true);
+        this.closeEvent.emit(true)
     }
 }

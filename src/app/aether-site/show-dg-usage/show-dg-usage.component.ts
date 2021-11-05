@@ -3,20 +3,18 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
-import {RocListBase} from "../../roc-list-base";
-import {AETHER_TARGETS} from "../../../environments/environment";
-import {BasketService} from "../../basket.service";
-import {Service as AetherService} from "../../../openapi3/aether/4.0.0/services/service";
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from "@angular/material/sort";
-import {MatTable} from "@angular/material/table";
-import {DeviceGroupDatasource} from "../../aether-device-group/device-group/device-group-datasource";
+import {Component, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core'
+import {FormBuilder} from '@angular/forms'
+import {AETHER_TARGETS} from '../../../environments/environment'
+import {BasketService} from '../../basket.service'
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services/service'
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort'
+import {MatTable} from '@angular/material/table'
 
 export interface displayedColumns {
-    'id';
-    'display-name';
+    id: string;
+    'display-name': string;
 }
 
 @Component({
@@ -46,26 +44,26 @@ export class ShowDgUsageComponent implements OnChanges {
     }
 
     ngOnChanges(): void {
-        this.parentModulesArray = [];
+        this.parentModulesArray = []
         this.aetherService.getDeviceGroup({
             target: AETHER_TARGETS[0]
         }).subscribe(displayData => {
-            displayData["device-group"].forEach(deviceGroupElement => {
+            displayData['device-group'].forEach(deviceGroupElement => {
                 if (deviceGroupElement.site === this.siteID) {
-                    let displayParentModules = {
+                    const displayParentModules = {
                         'id': deviceGroupElement.id,
-                        'display-name': deviceGroupElement["display-name"],
+                        'display-name': deviceGroupElement['display-name'],
                     }
-                    this.parentModulesArray.push(displayParentModules);
+                    this.parentModulesArray.push(displayParentModules)
                 }
             })
-            this.table.dataSource = this.parentModulesArray;
+            this.table.dataSource = this.parentModulesArray
         })
 
     }
 
     keepCardOpen(cancelled: boolean): void {
-        this.closeShowParentCardEvent.emit(cancelled);
+        this.closeShowParentCardEvent.emit(cancelled)
     }
 
 }

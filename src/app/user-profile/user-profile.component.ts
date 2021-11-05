@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Component, EventEmitter, Output} from '@angular/core';
-import {IdTokClaims} from '../idtoken';
+import {Component, EventEmitter, Output} from '@angular/core'
+import {IdTokClaims} from '../idtoken'
 
 @Component({
     selector: 'aether-user-profile',
@@ -15,18 +15,15 @@ import {IdTokClaims} from '../idtoken';
 export class UserProfileComponent {
     @Output() closeEvent = new EventEmitter<boolean>();
 
-    constructor() {
-    }
-
     get idTokClaims(): IdTokClaims {
-        const idTokClaims = localStorage.getItem('id_token_claims_obj');
+        const idTokClaims = localStorage.getItem('id_token_claims_obj')
         if (idTokClaims !== null) {
-            return JSON.parse(idTokClaims) as IdTokClaims;
+            return JSON.parse(idTokClaims) as IdTokClaims
         }
-        return {} as IdTokClaims;
+        return {} as IdTokClaims
     }
 
     closeCard(): void {
-        this.closeEvent.emit(true);
+        this.closeEvent.emit(true)
     }
 }

@@ -3,19 +3,19 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormArray, FormBuilder, FormControl, Validators} from '@angular/forms';
-import {EnterpriseEnterpriseService} from '../../../openapi3/aether/4.0.0/services';
+import {Component, OnInit, ViewChild} from '@angular/core'
+import {ActivatedRoute, Router} from '@angular/router'
+import {FormArray, FormBuilder, Validators} from '@angular/forms'
+import {EnterpriseEnterpriseService} from '../../../openapi3/aether/4.0.0/services'
 import {
     EnterpriseEnterprise, EnterpriseEnterpriseConnectivityService
-} from '../../../openapi3/aether/4.0.0/models';
-import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
-import {MatHeaderRow, MatTable} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
-import {RocEditBase} from '../../roc-edit-base';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+} from '../../../openapi3/aether/4.0.0/models'
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service'
+import {MatHeaderRow, MatTable} from '@angular/material/table'
+import {MatSort} from '@angular/material/sort'
+import {RocEditBase} from '../../roc-edit-base'
+import {MatSnackBar} from '@angular/material/snack-bar'
+import {OpenPolicyAgentService} from '../../open-policy-agent.service'
 
 interface ConnectivityServiceRow {
     id: string;
@@ -29,7 +29,7 @@ interface ConnectivityServiceRow {
         '../../common-edit.component.scss',
     ]
 })
-export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> implements OnInit {
+export class EnterpriseEditComponent extends RocEditBase implements OnInit {
 
     @ViewChild(MatTable) table: MatTable<Array<ConnectivityServiceRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
@@ -69,95 +69,95 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'enterprise-4.0.0', 'enterprise');
-        super.form = this.entForm;
-        super.loadFunc = this.loadEnterpriseEnterprises;
-        this.entForm.get('connectivity-service')[IDATTRIBS] = ['connectivity-service'];
+        super(snackBar, bs, route, router, 'enterprise-4.0.0', 'enterprise')
+        super.form = this.entForm
+        super.loadFunc = this.loadEnterpriseEnterprises
+        this.entForm.get('connectivity-service')[IDATTRIBS] = ['connectivity-service']
     }
 
     get connectivityServices(): FormArray {
-        return this.entForm.get('connectivity-service') as FormArray;
+        return this.entForm.get('connectivity-service') as FormArray
     }
 
     get connectivityServiceExists(): string[] {
         const existingList: string[] = [];
         (this.entForm.get(['connectivity-service']) as FormArray).controls.forEach((cs) => {
-            existingList.push(cs.get('connectivity-service').value);
-        });
-        return existingList;
+            existingList.push(cs.get('connectivity-service').value)
+        })
+        return existingList
     }
 
     csSelected(selected: string): void {
         // Push into form
         if (selected !== undefined && selected !== '') {
-            const csFormControl = this.fb.control(selected);
-            csFormControl.markAsTouched();
-            csFormControl.markAsDirty();
-            const enabledControl = this.fb.control(false);
-            enabledControl.markAsTouched();
-            enabledControl.markAsDirty();
+            const csFormControl = this.fb.control(selected)
+            csFormControl.markAsTouched()
+            csFormControl.markAsDirty()
+            const enabledControl = this.fb.control(false)
+            enabledControl.markAsTouched()
+            enabledControl.markAsDirty()
             enabledControl[TYPE] = 'boolean';
             (this.entForm.get('connectivity-service') as FormArray).push(this.fb.group({
                 'connectivity-service': csFormControl,
                 enabled: enabledControl,
-            }));
-            console.log('Adding new Value', selected);
+            }))
+            console.log('Adding new Value', selected)
         }
-        this.showConnectDisplay = false;
+        this.showConnectDisplay = false
     }
 
     ngOnInit(): void {
-        super.init();
+        super.init()
     }
 
     private populateFormData(value: EnterpriseEnterprise, id: string): void {
         if (value['display-name']) {
-            this.entForm.get('display-name').setValue(value['display-name']);
-            this.entForm.get('display-name')[ORIGINAL] = value['display-name'];
+            this.entForm.get('display-name').setValue(value['display-name'])
+            this.entForm.get('display-name')[ORIGINAL] = value['display-name']
         }
         if (value.description) {
-            this.entForm.get('description').setValue(value.description);
-            this.entForm.get('description')[ORIGINAL] = value.description;
+            this.entForm.get('description').setValue(value.description)
+            this.entForm.get('description')[ORIGINAL] = value.description
         }
         if (value['connectivity-service'] && this.entForm.value['connectivity-service'].length === 0) {
             for (const cs of value['connectivity-service']) {
-                let isDeleted = false;
+                let isDeleted = false
                 Object.keys(localStorage)
                     .filter(checkerKey => checkerKey.startsWith('/basket-delete/enterprise-4.0.0/enterprise[id=' + id +
                         ']/connectivity-service[connectivity-service='))
                     .forEach((checkerKey) => {
                         if (checkerKey.includes(cs['connectivity-service'])) {
-                            isDeleted = true;
+                            isDeleted = true
                         }
-                    });
+                    })
                 if (!isDeleted) {
-                    const csFormControl = this.fb.control(cs['connectivity-service']);
-                    csFormControl[ORIGINAL] = cs['connectivity-service'];
+                    const csFormControl = this.fb.control(cs['connectivity-service'])
+                    csFormControl[ORIGINAL] = cs['connectivity-service']
 
-                    const enabledControl = this.fb.control(cs.enabled);
-                    enabledControl[ORIGINAL] = cs.enabled;
+                    const enabledControl = this.fb.control(cs.enabled)
+                    enabledControl[ORIGINAL] = cs.enabled
                     enabledControl[TYPE] = 'boolean';
 
                     (this.entForm.get('connectivity-service') as FormArray).push(this.fb.group({
                         'connectivity-service': csFormControl,
                         enabled: enabledControl,
-                    }));
+                    }))
                 }
-                isDeleted = false;
+                isDeleted = false
             }
         } else if (value['connectivity-service'] && this.entForm.value['connectivity-service'].length !== 0) {
             this.entForm.value['connectivity-service'].forEach((eachValueCs, eachFormCsPosition) => {
                 for (const eachFormCs of value['connectivity-service']) {
                     if (eachValueCs['connectivity-service'] === eachFormCs['connectivity-service']) {
-                        this.entForm.get(['connectivity-service', eachFormCsPosition, 'enabled']).setValue(eachFormCs.enabled);
+                        this.entForm.get(['connectivity-service', eachFormCsPosition, 'enabled']).setValue(eachFormCs.enabled)
                     } else {
                         (this.entForm.get(['connectivity-service']) as FormArray).push(this.fb.group({
                             'connectivity-service': eachFormCs['connectivity-service'],
                             enabled: eachFormCs.enabled
-                        }));
+                        }))
                     }
                 }
-            });
+            })
         }
 
     }
@@ -168,43 +168,43 @@ export class EnterpriseEditComponent extends RocEditBase<EnterpriseEnterprise> i
             id
         }).subscribe(
             (value => {
-                this.data = value;
-                this.populateFormData(value, id);
+                this.data = value
+                this.populateFormData(value, id)
             }),
             error => {
-                console.warn('Error getting Enterprise Profiles for ', target, error);
+                console.warn('Error getting Enterprise Profiles for ', target, error)
             },
             () => {
-                const basketPreview = this.bs.buildPatchBody().Updates;
+                const basketPreview = this.bs.buildPatchBody().Updates
                 if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['enterprise-4.0.0']) {
                     basketPreview['enterprise-4.0.0'].enterprise.forEach((basketItems) => {
                         if (basketItems.id === id) {
-                            this.populateFormData(basketItems, id);
+                            this.populateFormData(basketItems, id)
                         }
-                    });
+                    })
                 }
-                console.log('Finished loading Enterprise Profiles', target);
+                console.log('Finished loading Enterprise Profiles', target)
             }
-        );
+        )
     }
 
     deleteFromSelect(cs: string): void {
         this.bs.deleteIndexedEntry('/enterprise-4.0.0/enterprise[id=' + this.id +
-            ']/connectivity-service[connectivity-service=' + cs + ']', 'connectivity-service', cs, this.ucmap);
+            ']/connectivity-service[connectivity-service=' + cs + ']', 'connectivity-service', cs, this.ucmap)
         const index = (this.entForm.get('connectivity-service') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === cs);
-        (this.entForm.get('connectivity-service') as FormArray).removeAt(index);
-        this.snackBar.open('Deletion of ' + cs + ' added to basket', undefined, {duration: 2000});
+        (this.entForm.get('connectivity-service') as FormArray).removeAt(index)
+        this.snackBar.open('Deletion of ' + cs + ' added to basket', undefined, {duration: 2000})
     }
 
     private get ucmap(): Map<string, string> {
-        const vcsId = '/enterprise-4.0.0/enterprise[id=' + this.id + ']';
-        let parentUc = localStorage.getItem(vcsId);
+        const vcsId = '/enterprise-4.0.0/enterprise[id=' + this.id + ']'
+        let parentUc = localStorage.getItem(vcsId)
         if (parentUc === null) {
-            parentUc = this.entForm[REQDATTRIBS];
+            parentUc = this.entForm[REQDATTRIBS]
         }
-        const ucMap = new Map<string, string>();
-        ucMap.set(vcsId, parentUc);
-        return ucMap;
+        const ucMap = new Map<string, string>()
+        ucMap.set(vcsId, parentUc)
+        return ucMap
     }
 }

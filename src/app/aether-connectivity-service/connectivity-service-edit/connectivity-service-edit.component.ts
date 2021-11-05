@@ -3,24 +3,24 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core'
 import {
     ConnectivityServiceConnectivityService
-} from '../../../openapi3/aether/4.0.0/models';
-import {RocEditBase} from '../../roc-edit-base';
-import {FormBuilder, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {ConnectivityServiceConnectivityServiceService} from '../../../openapi3/aether/4.0.0/services';
-import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+} from '../../../openapi3/aether/4.0.0/models'
+import {RocEditBase} from '../../roc-edit-base'
+import {FormBuilder, Validators} from '@angular/forms'
+import {ActivatedRoute, Router} from '@angular/router'
+import {BasketService, ORIGINAL} from '../../basket.service'
+import {MatSnackBar} from '@angular/material/snack-bar'
+import {ConnectivityServiceConnectivityServiceService} from '../../../openapi3/aether/4.0.0/services'
+import {OpenPolicyAgentService} from '../../open-policy-agent.service'
 
 @Component({
     selector: 'aether-connectivity-service-edit',
     templateUrl: './connectivity-service-edit.component.html',
     styleUrls: ['../../common-edit.component.scss']
 })
-export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivityServiceConnectivityService> implements OnInit {
+export class ConnectivityServiceEditComponent extends RocEditBase implements OnInit {
     data: ConnectivityServiceConnectivityService;
 
     csForm = this.fb.group({
@@ -54,27 +54,27 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'connectivity-service-4.0.0', 'connectivity-service');
-        super.form = this.csForm;
-        super.loadFunc = this.loadConnectivityServiceConnectivityService;
+        super(snackBar, bs, route, router, 'connectivity-service-4.0.0', 'connectivity-service')
+        super.form = this.csForm
+        super.loadFunc = this.loadConnectivityServiceConnectivityService
     }
 
     ngOnInit(): void {
-        super.init();
+        super.init()
     }
 
     private populateFormData(value: ConnectivityServiceConnectivityService): void {
         if (value['display-name']) {
-            this.csForm.get('display-name').setValue(value['display-name']);
-            this.csForm.get('display-name')[ORIGINAL] = value['display-name'];
+            this.csForm.get('display-name').setValue(value['display-name'])
+            this.csForm.get('display-name')[ORIGINAL] = value['display-name']
         }
         if (value.description) {
-            this.csForm.get('description').setValue(value.description);
-            this.csForm.get('description')[ORIGINAL] = value.description;
+            this.csForm.get('description').setValue(value.description)
+            this.csForm.get('description')[ORIGINAL] = value.description
         }
         if (value['core-5g-endpoint']) {
-            this.csForm.get('core-5g-endpoint').setValue(value['core-5g-endpoint']);
-            this.csForm.get('core-5g-endpoint')[ORIGINAL] = value['core-5g-endpoint'];
+            this.csForm.get('core-5g-endpoint').setValue(value['core-5g-endpoint'])
+            this.csForm.get('core-5g-endpoint')[ORIGINAL] = value['core-5g-endpoint']
         }
     }
 
@@ -84,24 +84,24 @@ export class ConnectivityServiceEditComponent extends RocEditBase<ConnectivitySe
             id
         }).subscribe(
             (value => {
-                this.data = value;
-                this.connectivityServiceId = value.id;
-                this.populateFormData(value);
+                this.data = value
+                this.connectivityServiceId = value.id
+                this.populateFormData(value)
             }),
             error => {
-                console.warn('Error getting ConnectivityServiceConnectivityService(s) for ', target, error);
+                console.warn('Error getting ConnectivityServiceConnectivityService(s) for ', target, error)
             },
             () => {
-                const basketPreview = this.bs.buildPatchBody().Updates;
+                const basketPreview = this.bs.buildPatchBody().Updates
                 if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['connectivity-service-4.0.0']) {
                     basketPreview['connectivity-service-4.0.0']['connectivity-service'].forEach((basketItems) => {
                         if (basketItems.id === id) {
-                            this.populateFormData(basketItems);
+                            this.populateFormData(basketItems)
                         }
-                    });
+                    })
                 }
-                console.log('Finished loading ConnectivityServiceConnectivityService(s)', target, id);
+                console.log('Finished loading ConnectivityServiceConnectivityService(s)', target, id)
             }
-        );
+        )
     }
 }

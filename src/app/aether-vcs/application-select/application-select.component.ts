@@ -3,13 +3,12 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import {ApplicationApplicationService, Service} from 'src/openapi3/aether/4.0.0/services';
-import {AETHER_TARGETS} from '../../../environments/environment';
-import {Application} from '../../../openapi3/aether/4.0.0/models';
-import {RocSelectBase} from '../../roc-select-base';
-import {EndPointParam} from "../../aether-application/endpoint-select/endpoint-select.component";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
+import {FormBuilder, Validators} from '@angular/forms'
+import {ApplicationApplicationService, Service} from 'src/openapi3/aether/4.0.0/services'
+import {AETHER_TARGETS} from '../../../environments/environment'
+import {Application} from '../../../openapi3/aether/4.0.0/models'
+import {RocSelectBase} from '../../roc-select-base'
 
 
 export interface SelectAppParam {
@@ -47,22 +46,22 @@ export class ApplicationSelectComponent extends RocSelectBase<ApplicationApplica
         protected service: Service,
         protected fb: FormBuilder,
     ) {
-        super(fb);
+        super(fb)
     }
 
     ngOnInit(): void {
         super.getData(this.service.getApplication({target: AETHER_TARGETS[0]}),
-            'application');
+            'application')
     }
 
     close(cancelled: boolean): void {
         if (cancelled) {
-            this.appcloseEvent.emit();
+            this.appcloseEvent.emit()
         } else {
             this.appcloseEvent.emit({
                 application: this.selectForm.get('select-item').value,
                 priority: this.selectForm.get('priority').value,
-            } as SelectAppParam);
+            } as SelectAppParam)
         }
     }
 }

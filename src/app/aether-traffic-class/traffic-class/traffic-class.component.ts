@@ -3,17 +3,17 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {RocListBase} from '../../roc-list-base';
-import {TrafficClassDatasource} from './traffic-class-datasource';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTable} from '@angular/material/table';
-import {TrafficClassTrafficClass} from '../../../openapi3/aether/4.0.0/models';
-import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
-import {BasketService} from '../../basket.service';
-import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {AETHER_TARGETS} from '../../../environments/environment';
+import {AfterViewInit, Component, ViewChild} from '@angular/core'
+import {RocListBase} from '../../roc-list-base'
+import {TrafficClassDatasource} from './traffic-class-datasource'
+import {MatPaginator} from '@angular/material/paginator'
+import {MatSort} from '@angular/material/sort'
+import {MatTable} from '@angular/material/table'
+import {TrafficClassTrafficClass} from '../../../openapi3/aether/4.0.0/models'
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services'
+import {BasketService} from '../../basket.service'
+import {OpenPolicyAgentService} from '../../open-policy-agent.service'
+import {AETHER_TARGETS} from '../../../environments/environment'
 
 @Component({
     selector: 'aether-traffic-class',
@@ -43,45 +43,45 @@ export class TrafficClassComponent extends RocListBase<TrafficClassDatasource> i
         public opaService: OpenPolicyAgentService,
     ) {
         super(basketService, new TrafficClassDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'traffic-class-4.0.0', 'traffic-class');
+            'traffic-class-4.0.0', 'traffic-class')
     }
 
-    onDataLoaded(ScopeOfDataSource): void {
-        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if ('traffic-class-4.0.0' in basketPreview && 'traffic-class' in basketPreview['traffic-class-4.0.0']) {
-            basketPreview['traffic-class-4.0.0']['traffic-class'].forEach((basketItems) => {
+    onDataLoaded(ScopeOfDataSource: TrafficClassDatasource): void {
+        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates
+        if ('Traffic-class-4.0.0' in basketPreview && 'traffic-class' in basketPreview['Traffic-class-4.0.0']) {
+            basketPreview['Traffic-class-4.0.0']['traffic-class'].forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
-                            ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name'];
+                            ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name']
                         }
                         if (basketItems.description) {
-                            ScopeOfDataSource.data[listItemCount].description = basketItems.description;
+                            ScopeOfDataSource.data[listItemCount].description = basketItems.description
                         }
                         if (basketItems.pelr) {
-                            ScopeOfDataSource.data[listItemCount].pelr = basketItems.pelr;
+                            ScopeOfDataSource.data[listItemCount].pelr = basketItems.pelr
                         }
                         if (basketItems.pdb) {
-                            ScopeOfDataSource.data[listItemCount].pdb = basketItems.pdb;
+                            ScopeOfDataSource.data[listItemCount].pdb = basketItems.pdb
                         }
                         if (basketItems.arp) {
-                            ScopeOfDataSource.data[listItemCount].arp = basketItems.arp;
+                            ScopeOfDataSource.data[listItemCount].arp = basketItems.arp
                         }
                         if (basketItems.qci) {
-                            ScopeOfDataSource.data[listItemCount].qci = basketItems.qci;
+                            ScopeOfDataSource.data[listItemCount].qci = basketItems.qci
                         }
                     }
-                });
-            });
+                })
+            })
         }
     }
 
     ngAfterViewInit(): void {
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-        this.table.dataSource = this.dataSource;
+        this.dataSource.sort = this.sort
+        this.dataSource.paginator = this.paginator
+        this.table.dataSource = this.dataSource
         this.dataSource.loadData(this.aetherService.getTrafficClass({
             target: AETHER_TARGETS[0]
-        }), this.onDataLoaded);
+        }), this.onDataLoaded)
     }
 }

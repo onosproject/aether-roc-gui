@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {FormGroup} from '@angular/forms';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {BasketService} from './basket.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AETHER_TARGETS} from '../environments/environment';
+import {FormGroup} from '@angular/forms'
+import {MatSnackBar} from '@angular/material/snack-bar'
+import {BasketService} from './basket.service'
+import {ActivatedRoute, Router} from '@angular/router'
+import {AETHER_TARGETS} from '../environments/environment'
 
-export abstract class RocEditBase<T> {
+export abstract class RocEditBase {
     protected form: FormGroup;
     public isNewInstance: boolean;
     protected loadFunc: (target: string, id: string) => void;
@@ -32,48 +32,48 @@ export abstract class RocEditBase<T> {
         this.route.paramMap.subscribe(
             value => {
                 if (value.get('id') === 'newinstance') {
-                    this.isNewInstance = true;
+                    this.isNewInstance = true
                     if (this.initFunc) {
-                        this.form.get('id').setValue(this.initFunc());
+                        this.form.get('id').setValue(this.initFunc())
                     }
-                    console.log('New control', this.pathRoot);
+                    console.log('New control', this.pathRoot)
                 } else {
-                    this.form.get('id').setValue(value.get('id'));
-                    this.loadFunc(this.target, value.get('id'));
+                    this.form.get('id').setValue(value.get('id'))
+                    this.loadFunc(this.target, value.get('id'))
                 }
             }
-        );
+        )
     }
 
     onSubmit(): void {
-        console.log('Submitted!', this.form.getRawValue());
-        let submitId = this.id;
+        console.log('Submitted!', this.form.getRawValue())
+        let submitId = this.id
         if (this.id === undefined) {
-            submitId = this.form.get(this.idAttr).value as unknown as string;
+            submitId = this.form.get(this.idAttr).value as unknown as string
         }
         if (submitId !== '' && submitId !== undefined) {
-            this.bs.logKeyValuePairs(this.form, this.pathRoot + '/' + this.pathListAttr + '[' + this.idAttr + '=' + submitId + ']' );
+            this.bs.logKeyValuePairs(this.form, this.pathRoot + '/' + this.pathListAttr + '[' + this.idAttr + '=' + submitId + ']')
             this.snackBar.open('Added to basket', undefined, {
-                duration: 2000, politeness: 'polite'});
+                duration: 2000, politeness: 'polite'})
         } else {
             this.snackBar.open('ID must be set', undefined, {
-                duration: 5000, politeness: 'assertive'});
+                duration: 5000, politeness: 'assertive'})
         }
     }
 
     get id(): string {
-        return this.form.get('id').value;
+        return this.form.get('id').value
     }
 
     get target(): string {
-        return AETHER_TARGETS[0];
+        return AETHER_TARGETS[0]
     }
 
     public get isNew(): boolean {
-        return this.isNewInstance;
+        return this.isNewInstance
     }
 
-    closeShowParentCard(close: boolean): void {
-        this.showParentDisplay = false;
+    closeShowParentCard(): void {
+        this.showParentDisplay = false
     }
 }

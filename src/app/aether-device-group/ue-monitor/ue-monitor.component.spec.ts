@@ -3,21 +3,21 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing'
 
-import {UeMonitorComponent} from './ue-monitor.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatCardModule} from '@angular/material/card';
-import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
-import {GRAFANA_PROXY} from '../../../environments/environment';
-import {UtilsModule} from '../../utils/utils.module';
+import {UeMonitorComponent} from './ue-monitor.component'
+import {HttpClientTestingModule} from '@angular/common/http/testing'
+import {RouterTestingModule} from '@angular/router/testing'
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import {MatToolbarModule} from '@angular/material/toolbar'
+import {MatCardModule} from '@angular/material/card'
+import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc'
+import {GRAFANA_PROXY} from '../../../environments/environment'
+import {UtilsModule} from '../../utils/utils.module'
 
 describe('UeMonitorComponent', () => {
-    let component: UeMonitorComponent;
-    let fixture: ComponentFixture<UeMonitorComponent>;
+    let component: UeMonitorComponent
+    let fixture: ComponentFixture<UeMonitorComponent>
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -37,16 +37,16 @@ describe('UeMonitorComponent', () => {
                 {provide: 'grafana_api_proxy', useValue: GRAFANA_PROXY},
             ]
         })
-            .compileComponents();
-    });
+            .compileComponents()
+    })
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(UeMonitorComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+        fixture = TestBed.createComponent(UeMonitorComponent)
+        component = fixture.componentInstance
+        fixture.detectChanges()
+    })
 
     it('should create', () => {
-        expect(component).toBeTruthy();
-    });
-});
+        expect(component).toBeTruthy()
+    })
+})

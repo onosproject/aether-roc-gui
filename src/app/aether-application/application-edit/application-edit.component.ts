@@ -3,40 +3,40 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core'
+import {ActivatedRoute, Router} from '@angular/router'
 import {
     AbstractControl,
     FormArray,
     FormBuilder,
-    FormControl, FormGroup,
+    FormGroup,
     ValidationErrors,
     ValidatorFn,
     Validators
-} from '@angular/forms';
-import {ApplicationApplicationService, Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
+} from '@angular/forms'
+import {ApplicationApplicationService, Service as AetherService} from '../../../openapi3/aether/4.0.0/services'
 import {
     ApplicationApplication, EnterpriseEnterprise, TrafficClassTrafficClass
-} from '../../../openapi3/aether/4.0.0/models';
-import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
-import {RocEditBase} from '../../roc-edit-base';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {EndPointParam} from "../endpoint-select/endpoint-select.component";
-import {Observable} from "rxjs";
-import {Bandwidths} from "../../aether-template/template-edit/template-edit.component";
-import {map, startWith} from "rxjs/operators";
+} from '../../../openapi3/aether/4.0.0/models'
+import {BasketService, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service'
+import {RocEditBase} from '../../roc-edit-base'
+import {MatSnackBar} from '@angular/material/snack-bar'
+import {OpenPolicyAgentService} from '../../open-policy-agent.service'
+import {EndPointParam} from '../endpoint-select/endpoint-select.component'
+import {Observable} from 'rxjs'
+import {Bandwidths} from '../../aether-template/template-edit/template-edit.component'
+import {map, startWith} from 'rxjs/operators'
 
 const ValidatePortRange: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     if (control.get(['endpoint']).value.length !== 0) {
-        const endpointFormvalue = control.get(['endpoint']).value;
-        let isValid: ValidationErrors;
+        const endpointFormvalue = control.get(['endpoint']).value
+        let isValid: ValidationErrors
         endpointFormvalue.every(eachEndpoint => {
-            isValid = eachEndpoint['port-start'] <= eachEndpoint['port-end'] ? null : {isEndpointNotValid: true};
-        });
-        return isValid;
+            isValid = eachEndpoint['port-start'] <= eachEndpoint['port-end'] ? null : {isEndpointNotValid: true}
+        })
+        return isValid
     }
-};
+}
 
 @Component({
     selector: 'aether-application-edit',
@@ -46,7 +46,7 @@ const ValidatePortRange: ValidatorFn = (control: AbstractControl): ValidationErr
     ]
 })
 
-export class ApplicationEditComponent extends RocEditBase<ApplicationApplication> implements OnInit {
+export class ApplicationEditComponent extends RocEditBase implements OnInit {
 
     protocolOptions = [
         {name: 'UDP'},
@@ -105,62 +105,62 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'application-4.0.0', 'application');
-        super.form = this.appForm;
-        super.loadFunc = this.loadApplicationApplication;
-        this.appForm[REQDATTRIBS] = ['enterprise', 'address'];
-        this.appForm.get(['endpoint'])[IDATTRIBS] = ['endpoint-id'];
+        super(snackBar, bs, route, router, 'application-4.0.0', 'application')
+        super.form = this.appForm
+        super.loadFunc = this.loadApplicationApplication
+        this.appForm[REQDATTRIBS] = ['enterprise', 'address']
+        this.appForm.get(['endpoint'])[IDATTRIBS] = ['endpoint-id']
     }
 
     ngOnInit(): void {
-        super.init();
-        this.loadTrafficClass(this.target);
-        this.loadEnterprises(this.target);
+        super.init()
+        this.loadTrafficClass(this.target)
+        this.loadEnterprises(this.target)
         this.bandwidthOptions = this.appForm.valueChanges
             .pipe(
                 startWith(''),
                 map(value => typeof value === 'number' ? value : value.megabyte),
-                map(megabyte => megabyte ? this._filter(megabyte) : this.options.slice())
-            );
+                map(megabyte => megabyte ? this._filter() : this.options.slice())
+            )
     }
 
     setOnlyEnterprise(lenEnterprises: number): void {
         if (lenEnterprises === 1) {
-            this.appForm.get('enterprise').markAsTouched();
-            this.appForm.get('enterprise').markAsDirty();
-            this.appForm.get('enterprise').setValue(this.enterprises[0].id);
+            this.appForm.get('enterprise').markAsTouched()
+            this.appForm.get('enterprise').markAsDirty()
+            this.appForm.get('enterprise').setValue(this.enterprises[0].id)
         }
     }
 
     deleteFromSelect(ep: string): void {
         this.bs.deleteIndexedEntry('/application-4.0.0/application[id=' + this.id +
-            ']/endpoint[endpoint-id=' + ep + ']', 'endpoint-id', ep, this.ucmap(ep));
+            ']/endpoint[endpoint-id=' + ep + ']', 'endpoint-id', ep, this.ucmap(ep))
         const index = (this.appForm.get('endpoint') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ep);
-        (this.appForm.get('endpoint') as FormArray).removeAt(index);
-        this.showEndpointAddButton = true;
-        this.snackBar.open('Deletion of ' + ep + ' added to basket', undefined, {duration: 2000});
+        (this.appForm.get('endpoint') as FormArray).removeAt(index)
+        this.showEndpointAddButton = true
+        this.snackBar.open('Deletion of ' + ep + ' added to basket', undefined, {duration: 2000})
     }
 
     private ucmap(ep: string): Map<string, string> {
-        const ucMap = new Map<string, string>();
-        const appId = '/application-4.0.0/application[id=' + this.id + ']';
-        let parentUc = localStorage.getItem(appId);
+        const ucMap = new Map<string, string>()
+        const appId = '/application-4.0.0/application[id=' + this.id + ']'
+        let parentUc = localStorage.getItem(appId)
         if (parentUc === null) {
-            parentUc = this.appForm[REQDATTRIBS];
+            parentUc = this.appForm[REQDATTRIBS]
         }
-        ucMap.set(appId, parentUc);
+        ucMap.set(appId, parentUc)
 
-        const epId = appId + '/endpoint[endpoint-id=' + ep + ']';
-        let epUc = localStorage.getItem(epId);
+        const epId = appId + '/endpoint[endpoint-id=' + ep + ']'
+        let epUc = localStorage.getItem(epId)
         if (epUc === null) {
-            const epFormArray = this.appForm.get(['endpoint']) as FormArray;
-            const epCtl = epFormArray.controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ep);
-            console.log('Getting', epCtl, 'for', epId);
-            epUc = epFormArray.controls[epCtl][REQDATTRIBS];
+            const epFormArray = this.appForm.get(['endpoint']) as FormArray
+            const epCtl = epFormArray.controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ep)
+            console.log('Getting', epCtl, 'for', epId)
+            epUc = epFormArray.controls[epCtl][REQDATTRIBS]
         }
-        ucMap.set(epId, epUc);
-        return ucMap;
+        ucMap.set(epId, epUc)
+        return ucMap
     }
 
     loadApplicationApplication(target: string, id: string): void {
@@ -169,79 +169,78 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             id
         }).subscribe(
             (value => {
-                this.data = value;
-                this.applicationId = value.id;
-                this.populateFormData(value);
+                this.data = value
+                this.applicationId = value.id
+                this.populateFormData(value)
             }),
             error => {
-                console.warn('Error getting ApplicationApplication(s) for ', target, error);
+                console.warn('Error getting ApplicationApplication(s) for ', target, error)
             },
             () => {
-                const basketPreview = this.bs.buildPatchBody().Updates;
+                const basketPreview = this.bs.buildPatchBody().Updates
                 if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['application-4.0.0']) {
                     basketPreview['application-4.0.0'].application.forEach((basketItems) => {
                         if (basketItems.id === id) {
-                            this.populateFormData(basketItems);
+                            this.populateFormData(basketItems)
                         }
-                    });
+                    })
                 }
-                console.log('Finished loading ApplicationApplication(s)', target, id);
+                console.log('Finished loading ApplicationApplication(s)', target, id)
             }
-        );
+        )
     }
 
-    private _filter(bandwidthIndex: number): Bandwidths[] {
-        const filterValue = bandwidthIndex;
-        return this.options.filter(option => option.megabyte.numerical);
+    private _filter(): Bandwidths[] {
+        return this.options.filter(option => option.megabyte.numerical)
     }
 
     endpointSelected(selected: EndPointParam): void {
-        this.shownEndpointDisplay = false;
+        this.shownEndpointDisplay = false
 
         if (selected === undefined) {
-            return;
+            return
         }
-        const epIdControl = this.fb.control(selected['endpoint-id']);
-        epIdControl.markAsTouched();
-        epIdControl.markAsDirty();
+        const epIdControl = this.fb.control(selected['endpoint-id'])
+        epIdControl.markAsTouched()
+        epIdControl.markAsDirty()
 
-        const epNameControl = this.fb.control(selected['display-name']);
-        epNameControl.markAsTouched();
-        epNameControl.markAsDirty();
+        const epNameControl = this.fb.control(selected['display-name'])
+        epNameControl.markAsTouched()
+        epNameControl.markAsDirty()
 
         const epPortStartControl = this.fb.control(selected.portStart, Validators.compose([
             Validators.min(0),
             Validators.max(65535)
-        ]));
-        epPortStartControl.markAsTouched();
-        epPortStartControl.markAsDirty();
+        ]))
+        epPortStartControl.markAsTouched()
+        epPortStartControl.markAsDirty()
 
-        epPortStartControl[TYPE] = 'number';
+        epPortStartControl[TYPE] = 'number'
         const epPortEndControl = this.fb.control(selected.portEnd, Validators.compose([
             Validators.min(0),
             Validators.max(65535)
-        ]));
-        epPortEndControl.markAsTouched();
-        epPortEndControl.markAsDirty();
+        ]))
+        epPortEndControl.markAsTouched()
+        epPortEndControl.markAsDirty()
 
-        epPortEndControl[TYPE] = 'number';
-        const epProtocolcontrol = this.fb.control(selected.protocol);
-        epProtocolcontrol.markAsTouched();
-        epProtocolcontrol.markAsDirty();
+        epPortEndControl[TYPE] = 'number'
+        const epProtocolcontrol = this.fb.control(selected.protocol)
+        epProtocolcontrol.markAsTouched()
+        epProtocolcontrol.markAsDirty()
 
-        const epTrafficClasscontrol = this.fb.control(selected.trafficClass);
-        epTrafficClasscontrol.markAsTouched();
-        epTrafficClasscontrol.markAsDirty();
+        const epTrafficClasscontrol = this.fb.control(selected.trafficClass)
+        epTrafficClasscontrol.markAsTouched()
+        epTrafficClasscontrol.markAsDirty()
 
-        const epMbrUplinkcontrol = this.fb.control(selected.mbrUplink);
-        epMbrUplinkcontrol.markAsTouched();
-        epMbrUplinkcontrol.markAsDirty();
-        epMbrUplinkcontrol[TYPE] = 'number';
+        const epMbrUplinkcontrol = this.fb.control(selected.mbrUplink)
+        epMbrUplinkcontrol.markAsTouched()
+        epMbrUplinkcontrol.markAsDirty()
+        epMbrUplinkcontrol[TYPE] = 'number'
 
-        const epMbrDownlinkcontrol = this.fb.control(selected.mbrDownlink);
-        epMbrDownlinkcontrol.markAsTouched();
-        epMbrDownlinkcontrol.markAsDirty();
-        epMbrDownlinkcontrol[TYPE] = 'number';
+        const epMbrDownlinkcontrol = this.fb.control(selected.mbrDownlink)
+        epMbrDownlinkcontrol.markAsTouched()
+        epMbrDownlinkcontrol.markAsDirty()
+        epMbrDownlinkcontrol[TYPE] = 'number'
 
         const epGroupControl = this.fb.group({
             ['endpoint-id']: epIdControl,
@@ -254,61 +253,61 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                 uplink: epMbrUplinkcontrol,
                 downlink: epMbrDownlinkcontrol
             })
-        });
+        })
         epGroupControl[REQDATTRIBS] = ['port-start'];
 
-        (this.appForm.get('endpoint') as FormArray).push(epGroupControl);
-        this.appForm.markAllAsTouched();
+        (this.appForm.get('endpoint') as FormArray).push(epGroupControl)
+        this.appForm.markAllAsTouched()
     }
 
     private populateFormData(value: ApplicationApplication): void {
         if (value['display-name']) {
-            this.appForm.get('display-name').setValue(value['display-name']);
-            this.appForm.get('display-name')[ORIGINAL] = value['display-name'];
+            this.appForm.get('display-name').setValue(value['display-name'])
+            this.appForm.get('display-name')[ORIGINAL] = value['display-name']
         }
         if (value.description) {
-            this.appForm.get('description').setValue(value.description);
-            this.appForm.get('description')[ORIGINAL] = value.description;
+            this.appForm.get('description').setValue(value.description)
+            this.appForm.get('description')[ORIGINAL] = value.description
         }
         if (value.address) {
-            this.appForm.get('address').setValue(value.address);
-            this.appForm.get('address')[ORIGINAL] = value.address;
+            this.appForm.get('address').setValue(value.address)
+            this.appForm.get('address')[ORIGINAL] = value.address
         }
         if (value.enterprise) {
-            this.appForm.get('enterprise').setValue(value.enterprise);
-            this.appForm.get('enterprise')[ORIGINAL] = value.enterprise;
+            this.appForm.get('enterprise').setValue(value.enterprise)
+            this.appForm.get('enterprise')[ORIGINAL] = value.enterprise
         }
         if (value.endpoint) {
-            this.showEndpointAddButton = false;
+            this.showEndpointAddButton = false
             if (this.appForm.value.endpoint.length === 0) {
                 for (const ep of value.endpoint) {
-                    let isDeleted = false;
+                    let isDeleted = false
                     Object.keys(localStorage)
                         .filter(checkerKey => checkerKey.startsWith('/basket-delete/application-4.0.0/application[id=' + value.id +
                             ']/endpoint[endpoint-id='))
                         .forEach((checkerKey) => {
-                            console.log(checkerKey, "ep['endpoint-id']========", ep['endpoint-id'])
+                            console.log(checkerKey, 'ep[\'endpoint-id\']========', ep['endpoint-id'])
                             if (checkerKey.includes(ep['endpoint-id'])) {
-                                isDeleted = true;
+                                isDeleted = true
                             }
-                        });
+                        })
                     if (!isDeleted) {
-                        const epIdControl = this.fb.control(ep['endpoint-id']);
-                        epIdControl[ORIGINAL] = ep['endpoint-id'];
-                        const epNameControl = this.fb.control(ep['display-name']);
-                        epNameControl[ORIGINAL] = ep['display-name'];
-                        const epPortStartControl = this.fb.control(ep['port-start']);
-                        epPortStartControl[ORIGINAL] = ep['port-start'];
-                        const epPortEndControl = this.fb.control(ep['port-end']);
-                        epPortEndControl[ORIGINAL] = ep['port-end'];
-                        const epProtocolcontrol = this.fb.control(ep.protocol);
-                        epProtocolcontrol[ORIGINAL] = ep.protocol;
-                        const epMbrDownlinkcontrol = this.fb.control(ep.mbr.downlink);
-                        epMbrDownlinkcontrol[ORIGINAL] = ep.mbr.downlink;
-                        const epMbrUplinkcontrol = this.fb.control(ep.mbr.uplink);
-                        epMbrUplinkcontrol[ORIGINAL] = ep.mbr.uplink;
-                        const epTrafficClasscontrol = this.fb.control(ep['traffic-class']);
-                        epTrafficClasscontrol[ORIGINAL] = ep['traffic-class'];
+                        const epIdControl = this.fb.control(ep['endpoint-id'])
+                        epIdControl[ORIGINAL] = ep['endpoint-id']
+                        const epNameControl = this.fb.control(ep['display-name'])
+                        epNameControl[ORIGINAL] = ep['display-name']
+                        const epPortStartControl = this.fb.control(ep['port-start'])
+                        epPortStartControl[ORIGINAL] = ep['port-start']
+                        const epPortEndControl = this.fb.control(ep['port-end'])
+                        epPortEndControl[ORIGINAL] = ep['port-end']
+                        const epProtocolcontrol = this.fb.control(ep.protocol)
+                        epProtocolcontrol[ORIGINAL] = ep.protocol
+                        const epMbrDownlinkcontrol = this.fb.control(ep.mbr.downlink)
+                        epMbrDownlinkcontrol[ORIGINAL] = ep.mbr.downlink
+                        const epMbrUplinkcontrol = this.fb.control(ep.mbr.uplink)
+                        epMbrUplinkcontrol[ORIGINAL] = ep.mbr.uplink
+                        const epTrafficClasscontrol = this.fb.control(ep['traffic-class'])
+                        epTrafficClasscontrol[ORIGINAL] = ep['traffic-class']
                         const epGroupControl = this.fb.group({
                             ['endpoint-id']: epIdControl,
                             ['display-name']: epNameControl,
@@ -320,32 +319,32 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                                 uplink: epMbrUplinkcontrol,
                                 downlink: epMbrDownlinkcontrol
                             })
-                        });
+                        })
                         epGroupControl[REQDATTRIBS] = ['port-start'];
 
-                        (this.appForm.get(['endpoint']) as FormArray).push(epGroupControl);
+                        (this.appForm.get(['endpoint']) as FormArray).push(epGroupControl)
                     }
-                    isDeleted = false;
+                    isDeleted = false
                 }
             } else {
-                let existingEndpoint = this.appForm.value.endpoint;
+                const existingEndpoint = this.appForm.value.endpoint
                 value.endpoint.forEach((eachValueEndpoint, eachFormEndpointPosition) => {
                     for (const eachFormEndpoint of existingEndpoint) {
                         if (eachValueEndpoint['endpoint-id'] === eachFormEndpoint['endpoint-id']) {
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'display-name'])
-                                .setValue(eachValueEndpoint['display-name']);
+                                .setValue(eachValueEndpoint['display-name'])
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'port-start'])
-                                .setValue(eachValueEndpoint['port-start']);
+                                .setValue(eachValueEndpoint['port-start'])
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'port-end'])
-                                .setValue(eachValueEndpoint['port-end']);
+                                .setValue(eachValueEndpoint['port-end'])
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'protocol'])
-                                .setValue(eachValueEndpoint.protocol);
+                                .setValue(eachValueEndpoint.protocol)
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'traffic-class'])
-                                .setValue(eachValueEndpoint['traffic-class']);
+                                .setValue(eachValueEndpoint['traffic-class'])
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'mbr', 'uplink'])
-                                .setValue(eachValueEndpoint.mbr.uplink);
+                                .setValue(eachValueEndpoint.mbr.uplink)
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'mbr', 'downlink'])
-                                .setValue(eachValueEndpoint.mbr.downlink);
+                                .setValue(eachValueEndpoint.mbr.downlink)
                         } else {
                             (this.appForm.get(['endpoint']) as FormArray).push(this.fb.group({
                                 'display-name': eachValueEndpoint['display-name'],
@@ -353,35 +352,35 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                                 'port-start': eachValueEndpoint['port-start'],
                                 'port-end': eachValueEndpoint['port-end'],
                                 protocol: eachValueEndpoint.protocol,
-                                'traffic-class': eachValueEndpoint["traffic-class"],
+                                'traffic-class': eachValueEndpoint['traffic-class'],
                                 'mbr': this.fb.group({
                                     uplink: eachValueEndpoint.mbr.uplink,
                                     downlink: eachValueEndpoint.mbr.downlink
                                 })
-                            }));
+                            }))
                         }
                     }
-                });
+                })
             }
         }
     }
 
     get endpointControls(): FormArray {
-        return this.appForm.get(['endpoint']) as FormArray;
+        return this.appForm.get(['endpoint']) as FormArray
     }
 
     CheckAndShowEndpoint(): void {
         if (this.endpointControls.value.length < this.endpointLimit) {
-            this.shownEndpointDisplay = true;
+            this.shownEndpointDisplay = true
         } else {
             this.snackBar.open('Maximum Endpoints Added', undefined, {
                 duration: 2000, politeness: 'polite'
-            });
+            })
         }
     }
 
     mbrControls(index: number): FormGroup {
-        return this.appForm.get(['endpoint', index, 'mbr']) as FormGroup;
+        return this.appForm.get(['endpoint', index, 'mbr']) as FormGroup
     }
 
 
@@ -390,14 +389,14 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             target,
         }).subscribe(
             (value => {
-                this.enterprises = value.enterprise;
-                this.setOnlyEnterprise(value.enterprise.length);
-                console.log('Got', value.enterprise.length, 'Enterprise');
+                this.enterprises = value.enterprise
+                this.setOnlyEnterprise(value.enterprise.length)
+                console.log('Got', value.enterprise.length, 'Enterprise')
             }),
             error => {
-                console.warn('Error getting Enterprise for ', target, error);
+                console.warn('Error getting Enterprise for ', target, error)
             }
-        );
+        )
     }
 
     loadTrafficClass(target: string): void {
@@ -405,13 +404,13 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             target,
         }).subscribe(
             (value => {
-                this.trafficClassOptions = value['traffic-class'];
-                console.log('Got', value['traffic-class'].length, 'Traffic Class');
+                this.trafficClassOptions = value['traffic-class']
+                console.log('Got', value['traffic-class'].length, 'Traffic Class')
             }),
             error => {
-                console.warn('Error getting Traffic Class for ', target, error);
+                console.warn('Error getting Traffic Class for ', target, error)
             }
-        );
+        )
     }
 
 }
