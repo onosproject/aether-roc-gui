@@ -13,7 +13,7 @@
                 <mat-label>Application</mat-label>
                 <mat-select formControlName="select-item"
                             id="selectApplication">
-                    <mat-option *ngFor="let item of this.displayList" [value]="item.id">
+                    <mat-option *ngFor="let item of this.ApplicationOptions" [value]="item.id">
                         {{item.id}}
                         <span *ngIf="item['display-name']"> ({{item['display-name']}})</span>
                     </mat-option>

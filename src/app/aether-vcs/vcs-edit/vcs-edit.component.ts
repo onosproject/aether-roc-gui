@@ -11,7 +11,7 @@ import {
     ApListApList,
     DeviceGroupDeviceGroup,
     UpfUpf,
-    AdditionalPropertyTarget, EnterpriseEnterprise, SiteSite, TemplateTemplate
+    AdditionalPropertyTarget, EnterpriseEnterprise, SiteSite, TemplateTemplate, ApplicationApplication
 } from '../../../openapi3/aether/4.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -35,9 +35,12 @@ export interface Bandwidths {
 export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     showApplicationDisplay: boolean = false;
     showDeviceGroupDisplay: boolean = false;
+    showAddFilterButton: boolean = true;
+    EndpointLeft: number = 5;
     aps: Array<ApListApList> | AdditionalPropertyTarget;
     deviceGroups: Array<DeviceGroupDeviceGroup>;
     site: Array<SiteSite>;
+    application: Array<ApplicationApplication>;
     templates: Array<TemplateTemplate>;
     selectedSite: string;
     enterprises: Array<EnterpriseEnterprise>;
@@ -122,6 +125,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     ) {
         super(snackBar, bs, route, router, 'vcs-4.0.0', 'vcs');
         super.form = this.vcsForm;
+        this.loadApplication(this.target);
         super.loadFunc = this.loadVcsVcs;
         this.vcsForm[REQDATTRIBS] = ['sd', 'sst', 'enterprise', 'site', 'default-behavior'];
         this.vcsForm.get(['slice', 'mbr', 'uplink'])[TYPE] = 'number';
@@ -162,7 +166,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         return this.vcsForm.get('filter') as FormArray;
     }
 
-    get applicationExists(): string[] {
+    applicationExists(): string[] {
         const existingList: string[] = [];
         (this.vcsForm.get(['filter']) as FormArray).controls.forEach((app) => {
             existingList.push(app.get('application').value);
@@ -211,6 +215,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         });
         (this.vcsForm.get('filter') as FormArray).push(appGroupControl);
         this.vcsForm.get('filter').markAsTouched();
+        this.checkApplicationEndpoint();
         console.log('Adding new Value', selected);
     }
 
@@ -315,6 +320,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
         (this.vcsForm.get('filter') as FormArray).removeAt(index);
         this.snackBar.open('Deletion of ' + app + ' added to basket', undefined, {duration: 2000});
+        this.checkApplicationEndpoint();
     }
 
     deleteDeviceGroupFromSelect(dg: string): void {
@@ -374,6 +380,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                 }
                 isDeleted = false;
             }
+            this.checkApplicationEndpoint();
         } else if (value.filter && this.vcsForm.value.filter.length !== 0) {
             this.vcsForm.value.filter.forEach((eachValueApp, eachValueAppPosition) => {
                 for (const eachFormApp of value.filter) {
@@ -389,6 +396,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                     }
                 }
             });
+            this.checkApplicationEndpoint();
         }
         if (value.slice && value.slice.mbr) {
             this.vcsForm.get(['slice', 'mbr', 'uplink']).setValue(value.slice.mbr.uplink);
@@ -537,6 +545,17 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         );
     }
 
+    checkApplicationEndpoint(): void {
+        let alreadyExistingAppData = this.application?.filter(eachApplication => this.applicationExists().includes(eachApplication.id))
+        this.EndpointLeft = 5;
+        alreadyExistingAppData?.forEach(eachAppData => {
+            this.EndpointLeft = this.EndpointLeft - eachAppData.endpoint.length;
+        })
+        if (this.EndpointLeft <= 0) {
+            this.showAddFilterButton = false;
+        }
+    }
+
     loadSites(target: string): void {
         this.aetherService.getSite({
             target,
@@ -550,6 +569,19 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             },
             () => {
                 console.log('Finished loading Site', target);
+            }
+        );
+    }
+
+    loadApplication(target: string): void {
+        this.aetherService.getApplication({
+            target,
+        }).subscribe(
+            (value => {
+                this.application = value.application;
+            }),
+            error => {
+                console.warn('Error getting Application for ', target, error);
             }
         );
     }
