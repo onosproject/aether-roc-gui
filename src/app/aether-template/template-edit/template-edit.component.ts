@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Service as AetherService, TemplateTemplateService} from '../../../openapi3/aether/4.0.0/services';
 import {TemplateTemplate, TrafficClassTrafficClass} from '../../../openapi3/aether/4.0.0/models';
-import {BasketService, HEX2NUM, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService, HEX2NUM, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
 import {MatHeaderRow} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {RocEditBase} from '../../roc-edit-base';
@@ -121,6 +121,7 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
         super(snackBar, bs, route, router, 'template-4.0.0', 'template');
         super.form = this.tempForm;
         super.loadFunc = this.loadTemplateTemplate;
+        this.tempForm[REQDATTRIBS] = ['default-behavior'];
     }
 
     ngOnInit(): void {

@@ -10,7 +10,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {BasketService, ORIGINAL, TYPE} from '../../basket.service';
+import {BasketService} from '../../basket.service';
 import {RocListBase} from '../../roc-list-base';
 import {TemplateDatasource} from './template-datasource';
 import {TemplateTemplate} from '../../../openapi3/aether/4.0.0/models';
@@ -45,6 +45,7 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
     ) {
         super(basketService, new TemplateDatasource(aetherService, basketService, AETHER_TARGETS[0]),
             'template-4.0.0', 'template');
+        super.reqdAttr = ['default-behavior'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {

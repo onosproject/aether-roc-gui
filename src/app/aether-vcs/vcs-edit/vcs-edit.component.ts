@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {
@@ -23,8 +23,13 @@ import {BasketService, HEX2NUM, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from 'sr
 import {HexPipe} from '../../utils/hex.pipe';
 import {SelectAppParam} from "../application-select/application-select.component";
 
-export interface Bandwidths {
+interface Bandwidths {
     megabyte: { numerical: number, inMb: string };
+}
+
+interface BurstRate {
+    value: number
+    label: string
 }
 
 @Component({
@@ -56,7 +61,18 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         {megabyte: {numerical: 500000000, inMb: '500Mbps'}}
     ];
 
-    defaultBehaviorOpitons = [
+    burstRateOptions: BurstRate[] = [
+        {label: '125 Kbps', value: 125000},
+        {label: '250 Kbps', value: 250000},
+        {label: '375 Kbps', value: 375000},
+        {label: '500 Kbps', value: 500000},
+        {label: '625 Kbps', value: 625000},
+        {label: '750 Kbps', value: 750000},
+        {label: '875 Kbps', value: 875000},
+        {label: '1 Mbps', value: 1000000},
+    ]
+
+    defaultBehaviorOptions = [
         "DENY-ALL",
         "ALLOW-ALL",
         "ALLOW-PUBLIC"
@@ -87,9 +103,17 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             mbr: this.fb.group({
                 uplink: [undefined, Validators.compose([
                     Validators.min(0),
-                    Validators.max(4294967295)
+                    Validators.max(18446744073709552000)
                 ])],
                 downlink: [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(18446744073709552000)
+                ])],
+                'uplink-burst-size': [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])],
+                'downlink-burst-size': [undefined, Validators.compose([
                     Validators.min(0),
                     Validators.max(4294967295)
                 ])]
@@ -137,7 +161,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     ngOnInit(): void {
         super.init();
         if (this.isNewInstance) {
-            this.vcsForm.get('default-behavior').setValue(this.defaultBehaviorOpitons[0])
+            this.vcsForm.get('default-behavior').setValue(this.defaultBehaviorOptions[0])
             this.loadTemplate(this.target);
         }
         this.vcsForm.get('sst').disable();
@@ -258,32 +282,39 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         );
     }
 
-    templateSelecte(templateSelected): void {
+    templateSelected(evt): void {
         if (this.isNewInstance) {
-            this.templates.forEach(eachTemplate => {
-                if (eachTemplate.id === templateSelected.value) {
-                    this.vcsForm.get(['sd']).setValue(eachTemplate.sd.toString(16).toUpperCase());
-                    const SdFormControl = this.vcsForm.get('sd');
-                    SdFormControl.markAsTouched();
-                    SdFormControl.markAsDirty();
-                    this.vcsForm.get(['sst']).setValue(eachTemplate.sst);
-                    const SstFormControl = this.vcsForm.get('sst');
-                    SstFormControl.markAsTouched();
-                    SstFormControl.markAsDirty();
-                    this.vcsForm.get(['default-behavior']).setValue(eachTemplate['default-behavior']);
-                    const dbFormControl = this.vcsForm.get('default-behavior');
-                    dbFormControl.markAsTouched();
-                    dbFormControl.markAsDirty();
-                    this.vcsForm.get(['slice', 'mbr', 'uplink']).setValue(eachTemplate.slice.mbr.uplink);
-                    const UplinkFormControl = this.vcsForm.get(['slice', 'mbr', 'uplink']);
-                    UplinkFormControl.markAsTouched();
-                    UplinkFormControl.markAsDirty();
-                    this.vcsForm.get(['slice', 'mbr', 'downlink']).setValue(eachTemplate.slice.mbr.downlink);
-                    const DownlinkFormControl = this.vcsForm.get(['slice', 'mbr', 'downlink']);
-                    DownlinkFormControl.markAsTouched();
-                    DownlinkFormControl.markAsDirty();
-                }
-            });
+
+            const eachTemplate: TemplateTemplate = evt.value
+            const SdFormControl = this.vcsForm.get('sd');
+            SdFormControl.setValue(eachTemplate.sd.toString(16).toUpperCase());
+            SdFormControl.markAsTouched();
+            SdFormControl.markAsDirty();
+            const SstFormControl = this.vcsForm.get('sst');
+            SstFormControl.setValue(eachTemplate.sst);
+            SstFormControl.markAsTouched();
+            SstFormControl.markAsDirty();
+            const dbFormControl = this.vcsForm.get('default-behavior');
+            dbFormControl.setValue(eachTemplate['default-behavior']);
+            dbFormControl.markAsTouched();
+            dbFormControl.markAsDirty();
+            const UplinkFormControl = this.vcsForm.get(['slice', 'mbr', 'uplink']);
+            UplinkFormControl.setValue(eachTemplate.slice.mbr.uplink);
+            UplinkFormControl.markAsTouched();
+            UplinkFormControl.markAsDirty();
+            const DownlinkFormControl = this.vcsForm.get(['slice', 'mbr', 'downlink']);
+            DownlinkFormControl.setValue(eachTemplate.slice.mbr.downlink);
+            DownlinkFormControl.markAsTouched();
+            DownlinkFormControl.markAsDirty();
+
+            const ulBurstSize = this.vcsForm.get(['slice', 'mbr', 'uplink-burst-size']);
+            ulBurstSize.setValue(eachTemplate.slice.mbr['uplink-burst-size']);
+            ulBurstSize.markAsTouched();
+            ulBurstSize.markAsDirty();
+            const dlBurstSize = this.vcsForm.get(['slice', 'mbr', 'downlink-burst-size']);
+            dlBurstSize.setValue(eachTemplate.slice.mbr['downlink-burst-size']);
+            dlBurstSize.markAsTouched();
+            dlBurstSize.markAsDirty();
         }
     }
 
@@ -315,7 +346,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
 
     deleteApplicationFromSelect(app: string): void {
         this.bs.deleteIndexedEntry('/vcs-4.0.0/vcs[id=' + this.id +
-            ']/application[application=' + app + ']', 'application', app, this.ucmap);
+            ']/filter[application=' + app + ']', 'application', app, this.ucmap);
         const index = (this.vcsForm.get('filter') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
         (this.vcsForm.get('filter') as FormArray).removeAt(index);

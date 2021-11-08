@@ -14,7 +14,8 @@ import {Bandwidths} from "../../aether-template/template-edit/template-edit.comp
 import {map, startWith} from "rxjs/operators";
 
 export interface EndPointParam {
-    name: string;
+    'endpoint-id': string;
+    'display-name': string;
     protocol: string;
     portStart: number;
     portEnd: number;
@@ -60,7 +61,10 @@ export class EndpointSelectComponent {
     @Output() closeEvent = new EventEmitter<EndPointParam>();
 
     endpointForm = this.fb.group({
-        name: [undefined, Validators.compose([
+        ['endpoint-id']: [undefined, Validators.compose([
+            Validators.required
+        ])],
+        ['display-name']: [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
@@ -115,7 +119,8 @@ export class EndpointSelectComponent {
             this.closeEvent.emit();
         } else {
             this.closeEvent.emit({
-                name: this.endpointForm.get('name').value,
+                'endpoint-id': this.endpointForm.get('endpoint-id').value,
+                'display-name': this.endpointForm.get('display-name').value,
                 portStart: this.endpointForm.get('port-start').value,
                 portEnd: this.endpointForm.get('port-end').value,
                 protocol: this.endpointForm.get('protocol').value,

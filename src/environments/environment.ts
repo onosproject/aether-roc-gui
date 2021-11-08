@@ -45,7 +45,7 @@ export const authConfig: AuthConfig = {
     clientId: OIDC_AUTH_CLIENT_ID,
     responseType: 'code',
     requireHttps: false,
-    scope: 'openid profile email offline_access groups',
+    scope: 'openid profile email groups',
     showDebugInformation: true,
     timeoutFactor: 0.01,
     strictDiscoveryDocumentValidation: true,

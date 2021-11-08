@@ -5,9 +5,9 @@ import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 export interface SiteSiteMonitoringEdgeDevice {
 
     /**
-     * name of edge monitoring device
+     * Id of edge monitoring device
      */
-    name: string;
+    'edge-device-id': string;
 
     /**
      * display name to use in GUI or CLI

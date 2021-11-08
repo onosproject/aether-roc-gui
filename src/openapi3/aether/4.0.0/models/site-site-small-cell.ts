@@ -5,14 +5,19 @@ import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 export interface SiteSiteSmallCell {
 
   /**
-   * Name of small cell
+   * Id of small cell
    */
-  name: string;
+  'small-cell-id': string;
+
+  /**
+   * display name to use in GUI or CLI
+   */
+   'display-name'?: string;
 
   /**
    * Address of small cell
    */
-  address: string;
+  address?: string;
 
   /**
    * Type Allocation Code
@@ -22,7 +27,7 @@ export interface SiteSiteSmallCell {
   /**
   * Enable this small cell
   */
-  enable: boolean
+  enable?: boolean
 
   [key: string]: AdditionalPropertyUnchanged | number | string | boolean;
 }

@@ -8,7 +8,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {Service} from "../../../openapi3/aether/4.0.0/services/service";
 
 export interface EdgeDeviceParam {
-    name: string;
+    'edge-device-id': string;
     'display-name': string;
     description: string;
 }
@@ -24,7 +24,7 @@ export class EdgeDeviceComponent {
     @Output() closeEdgeDeviceEvent = new EventEmitter<EdgeDeviceParam>();
 
     edgeDeviceForm = this.fb.group({
-        name: [undefined, Validators.compose([
+        'edge-device-id': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
@@ -46,7 +46,7 @@ export class EdgeDeviceComponent {
             this.closeEdgeDeviceEvent.emit();
         } else {
             this.closeEdgeDeviceEvent.emit({
-                name: this.edgeDeviceForm.get('name').value,
+                'edge-device-id': this.edgeDeviceForm.get('edge-device-id').value,
                 'display-name': this.edgeDeviceForm.get('display-name').value,
                 description: this.edgeDeviceForm.get('description').value,
             } as EdgeDeviceParam);

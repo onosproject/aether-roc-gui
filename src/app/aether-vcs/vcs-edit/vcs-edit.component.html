@@ -35,33 +35,64 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
+
+            <!-- Enterprise Dropdown -->
+            <div class="row" id="enterpriseRow">
+                <mat-form-field class="field-margin half-width">
+                    <mat-select formControlName="enterprise"
+                                placeholder="Please specify an Enterprise"
+                                required
+                                id="selectEnterprise">
+                        <mat-option
+                            *ngFor="let eachEnterprise of enterprises"
+                            [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
+                    </mat-select>
+                    <mat-hint>Enterprise</mat-hint>
+                </mat-form-field>
+            </div>
+<!--            Site dropdown-->
+            <div class="row">
+                <mat-form-field class="field-margin half-width subscriber-section">
+                    <mat-select ngDefaultControl formControlName="site"
+                                title="This field is mandatory."
+                                placeholder="Please specify a Site"
+                                (selectionChange)="OnSiteSelect()"
+                                id="selectSite"
+                                required>
+                        <mat-option *ngFor="let site of site"
+                                    [value]="site.id">{{site.id}}
+                            <span *ngIf="site['display-name']"> ({{site['display-name']}})</span>
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Site</mat-hint>
+                </mat-form-field>
+            </div>
+            
             <div class="row" *ngIf="isNewInstance">
                 <mat-form-field class="field-margin half-width">
                     <mat-select
-                        (selectionChange)="templateSelecte($event)"
-                        id="selectTemplate">
+                                (selectionChange)="templateSelected($event)"
+                                id="selectTemplate">
                         <mat-option
                             *ngFor="let eachTemp of templates"
-                            [value]="eachTemp.id">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
+                            [value]="eachTemp">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
                     </mat-select>
                     <mat-hint>Template</mat-hint>
                 </mat-form-field>
             </div>
 
-            <div class="row" id="defaultBehaviorRow">
+            <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput [matAutocomplete]="auto"
-                           id="inputDefaultBehavior"
-                           formControlName="default-behavior">
-                    <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let option of defaultBehaviorOpitons"
-                                    [value]="option">
-                            {{option}}
-                        </mat-option>
-                    </mat-autocomplete>
+                    <mat-select formControlName="default-behavior"
+                                id="selectBehavior">
+                        <mat-option
+                            *ngFor="let b of defaultBehaviorOptions"
+                            [value]="b">{{b}}</mat-option>
+                    </mat-select>
                     <mat-hint>Default Behavior</mat-hint>
                 </mat-form-field>
             </div>
+
             <!--Sd field-->
             <mat-form-field class="field-margin half-width">
                 <input matInput
@@ -80,22 +111,7 @@
                        id="inputSst">
                 <mat-hint>SST (Slice/Service type 1-255)</mat-hint>
             </mat-form-field>
-            <div class="row">
-                <mat-form-field class="field-margin half-width subscriber-section">
-                    <mat-select ngDefaultControl formControlName="site"
-                                title="This field is mandatory."
-                                placeholder="Please specify a Site"
-                                (selectionChange)="OnSiteSelect()"
-                                id="selectSite"
-                                required>
-                        <mat-option *ngFor="let site of site"
-                                    [value]="site.id">{{site.id}}
-                            <span *ngIf="site['display-name']"> ({{site['display-name']}})</span>
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint>Site</mat-hint>
-                </mat-form-field>
-            </div>
+
             <div formArrayName="filter" class="subscriber-section field-margin">
                 <mat-hint>Filter</mat-hint>
                 <mat-icon (click)="showApplicationDisplay = true" *ngIf="showAddFilterButton" color='accent'
@@ -178,7 +194,6 @@
                             <mat-autocomplete #uplinkAuto="matAutocomplete">
                                 <mat-option *ngFor="let option of bandwidthOptions | async"
                                             [value]="option.megabyte.numerical">
-                                    {{option.megabyte.numerical}}
                                     {{option.megabyte.inMb}}
                                 </mat-option>
                             </mat-autocomplete>
@@ -193,29 +208,43 @@
                             <mat-autocomplete #downlinkAuto="matAutocomplete">
                                 <mat-option *ngFor="let option of bandwidthOptions | async"
                                             [value]="option.megabyte.numerical">
-                                    {{option.megabyte.numerical}}
                                     {{option.megabyte.inMb}}
                                 </mat-option>
                             </mat-autocomplete>
                             <mat-hint>Downlink (bps)</mat-hint>
                         </mat-form-field>
                     </div>
+                    <div class="row float-left" id="sliceUplinkBurstSizeRow">
+                        <mat-form-field class="field-margin">
+                            <input matInput type="number" [matAutocomplete]="auto"
+                                   id="inputsliceUplinkBurstSize"
+                                   formControlName="uplink-burst-size">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of burstRateOptions"
+                                            [value]="option.value">
+                                    {{option.label}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Uplink Burst Size (Mbps)</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="row " id="sliceDownlinkBurstSizeRow">
+                        <mat-form-field class="field-margin">
+                            <input matInput type="number" [matAutocomplete]="auto"
+                                   id="inputsliceDownlinkBurstSize"
+                                   formControlName="downlink-burst-size">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of burstRateOptions"
+                                            [value]="option.value">
+                                    {{option.label}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Downlink Burst Size (Mbps)</mat-hint>
+                        </mat-form-field>
+                    </div>
                 </div>
             </div>
-            <!-- Enterprise Dropdown -->
-            <div class="row" id="enterpriseRow">
-                <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="enterprise"
-                                placeholder="Please specify an Enterprise"
-                                required
-                                id="selectEnterprise">
-                        <mat-option
-                            *ngFor="let eachEnterprise of enterprises"
-                            [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
-                    </mat-select>
-                    <mat-hint>Enterprise</mat-hint>
-                </mat-form-field>
-            </div>
+
             <!--UPF dropdown-->
             <div class="row">
                 <mat-form-field class="field-margin half-width">

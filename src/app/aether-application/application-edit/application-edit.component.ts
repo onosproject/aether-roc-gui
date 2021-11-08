@@ -108,8 +108,8 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         super(snackBar, bs, route, router, 'application-4.0.0', 'application');
         super.form = this.appForm;
         super.loadFunc = this.loadApplicationApplication;
-        this.appForm[REQDATTRIBS] = ['enterprise'];
-        this.appForm.get(['endpoint'])[IDATTRIBS] = ['name'];
+        this.appForm[REQDATTRIBS] = ['enterprise', 'address'];
+        this.appForm.get(['endpoint'])[IDATTRIBS] = ['endpoint-id'];
     }
 
     ngOnInit(): void {
@@ -134,7 +134,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
 
     deleteFromSelect(ep: string): void {
         this.bs.deleteIndexedEntry('/application-4.0.0/application[id=' + this.id +
-            ']/endpoint[name=' + ep + ']', 'name', ep, this.ucmap(ep));
+            ']/endpoint[endpoint-id=' + ep + ']', 'endpoint-id', ep, this.ucmap(ep));
         const index = (this.appForm.get('endpoint') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ep);
         (this.appForm.get('endpoint') as FormArray).removeAt(index);
@@ -151,7 +151,7 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         }
         ucMap.set(appId, parentUc);
 
-        const epId = appId + '/endpoint[name=' + ep + ']';
+        const epId = appId + '/endpoint[endpoint-id=' + ep + ']';
         let epUc = localStorage.getItem(epId);
         if (epUc === null) {
             const epFormArray = this.appForm.get(['endpoint']) as FormArray;
@@ -201,7 +201,11 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         if (selected === undefined) {
             return;
         }
-        const epNameControl = this.fb.control(selected.name);
+        const epIdControl = this.fb.control(selected['endpoint-id']);
+        epIdControl.markAsTouched();
+        epIdControl.markAsDirty();
+
+        const epNameControl = this.fb.control(selected['display-name']);
         epNameControl.markAsTouched();
         epNameControl.markAsDirty();
 
@@ -240,7 +244,8 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
         epMbrDownlinkcontrol[TYPE] = 'number';
 
         const epGroupControl = this.fb.group({
-            name: epNameControl,
+            ['endpoint-id']: epIdControl,
+            ['display-name']: epNameControl,
             ['port-start']: epPortStartControl,
             ['port-end']: epPortEndControl,
             protocol: epProtocolcontrol,
@@ -277,40 +282,57 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
             this.showEndpointAddButton = false;
             if (this.appForm.value.endpoint.length === 0) {
                 for (const ep of value.endpoint) {
-                    const epNameControl = this.fb.control(ep.name);
-                    epNameControl[ORIGINAL] = ep.name;
-                    const epPortStartControl = this.fb.control(ep['port-start']);
-                    epPortStartControl[ORIGINAL] = ep['port-start'];
-                    const epPortEndControl = this.fb.control(ep['port-end']);
-                    epPortEndControl[ORIGINAL] = ep['port-end'];
-                    const epProtocolcontrol = this.fb.control(ep.protocol);
-                    epProtocolcontrol[ORIGINAL] = ep.protocol;
-                    const epMbrDownlinkcontrol = this.fb.control(ep.mbr.downlink);
-                    epMbrDownlinkcontrol[ORIGINAL] = ep.mbr.downlink;
-                    const epMbrUplinkcontrol = this.fb.control(ep.mbr.uplink);
-                    epMbrUplinkcontrol[ORIGINAL] = ep.mbr.uplink;
-                    const epTrafficClasscontrol = this.fb.control(ep['traffic-class']);
-                    epTrafficClasscontrol[ORIGINAL] = ep['traffic-class'];
-                    const epGroupControl = this.fb.group({
-                        name: epNameControl,
-                        ['port-start']: epPortStartControl,
-                        ['port-end']: epPortEndControl,
-                        protocol: epProtocolcontrol,
-                        'traffic-class': epTrafficClasscontrol,
-                        'mbr': this.fb.group({
-                            uplink: epMbrUplinkcontrol,
-                            downlink: epMbrDownlinkcontrol
-                        })
-                    });
-                    epGroupControl[REQDATTRIBS] = ['port-start'];
+                    let isDeleted = false;
+                    Object.keys(localStorage)
+                        .filter(checkerKey => checkerKey.startsWith('/basket-delete/application-4.0.0/application[id=' + value.id +
+                            ']/endpoint[endpoint-id='))
+                        .forEach((checkerKey) => {
+                            if (checkerKey.includes(ep['endpoint-id'])) {
+                                isDeleted = true;
+                            }
+                        });
+                    if (!isDeleted) {
+                        const epIdControl = this.fb.control(ep['endpoint-id']);
+                        epIdControl[ORIGINAL] = ep['endpoint-id'];
+                        const epNameControl = this.fb.control(ep['display-name']);
+                        epNameControl[ORIGINAL] = ep['display-name'];
+                        const epPortStartControl = this.fb.control(ep['port-start']);
+                        epPortStartControl[ORIGINAL] = ep['port-start'];
+                        const epPortEndControl = this.fb.control(ep['port-end']);
+                        epPortEndControl[ORIGINAL] = ep['port-end'];
+                        const epProtocolcontrol = this.fb.control(ep.protocol);
+                        epProtocolcontrol[ORIGINAL] = ep.protocol;
+                        const epMbrDownlinkcontrol = this.fb.control(ep.mbr.downlink);
+                        epMbrDownlinkcontrol[ORIGINAL] = ep.mbr.downlink;
+                        const epMbrUplinkcontrol = this.fb.control(ep.mbr.uplink);
+                        epMbrUplinkcontrol[ORIGINAL] = ep.mbr.uplink;
+                        const epTrafficClasscontrol = this.fb.control(ep['traffic-class']);
+                        epTrafficClasscontrol[ORIGINAL] = ep['traffic-class'];
+                        const epGroupControl = this.fb.group({
+                            ['endpoint-id']: epIdControl,
+                            ['display-name']: epNameControl,
+                            ['port-start']: epPortStartControl,
+                            ['port-end']: epPortEndControl,
+                            protocol: epProtocolcontrol,
+                            'traffic-class': epTrafficClasscontrol,
+                            'mbr': this.fb.group({
+                                uplink: epMbrUplinkcontrol,
+                                downlink: epMbrDownlinkcontrol
+                            })
+                        });
+                        epGroupControl[REQDATTRIBS] = ['port-start'];
 
-                    (this.appForm.get(['endpoint']) as FormArray).push(epGroupControl);
+                        (this.appForm.get(['endpoint']) as FormArray).push(epGroupControl);
+                    }
+                    isDeleted = false;
                 }
             } else {
                 let existingEndpoint = this.appForm.value.endpoint;
                 value.endpoint.forEach((eachValueEndpoint, eachFormEndpointPosition) => {
                     for (const eachFormEndpoint of existingEndpoint) {
-                        if (eachValueEndpoint.name === eachFormEndpoint.name) {
+                        if (eachValueEndpoint['endpoint-id'] === eachFormEndpoint['endpoint-id']) {
+                            this.appForm.get(['endpoint', eachFormEndpointPosition, 'display-name'])
+                                .setValue(eachValueEndpoint['display-name']);
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'port-start'])
                                 .setValue(eachValueEndpoint['port-start']);
                             this.appForm.get(['endpoint', eachFormEndpointPosition, 'port-end'])
@@ -325,7 +347,8 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                                 .setValue(eachValueEndpoint.mbr.downlink);
                         } else {
                             (this.appForm.get(['endpoint']) as FormArray).push(this.fb.group({
-                                name: eachValueEndpoint.name,
+                                'display-name': eachValueEndpoint['display-name'],
+                                'endpoint-id': eachValueEndpoint['endpoint-id'],
                                 'port-start': eachValueEndpoint['port-start'],
                                 'port-end': eachValueEndpoint['port-end'],
                                 protocol: eachValueEndpoint.protocol,

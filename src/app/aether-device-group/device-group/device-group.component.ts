@@ -28,9 +28,9 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
     displayedColumns = [
         'id',
         'description',
+        'site',
         'Imsis',
         'ip-domain',
-        'site',
         'device',
         'edit',
         'delete',
@@ -69,8 +69,8 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
                                     let eachDGPosition = 0;
                                     for (const eachScopeDG of ScopeOfDataSource.data[listItemCount].imsis) {
                                         if (eachBasketDG.imsis === eachScopeDG.imsis) {
-                                            ScopeOfDataSource.data[listItemCount].imsis[eachDGPosition].name
-                                                = eachBasketDG.name;
+                                            ScopeOfDataSource.data[listItemCount].imsis[eachDGPosition]['imsi-id']
+                                                = eachBasketDG['imsi-id'];
                                         }
                                         eachDGPosition++;
                                     }

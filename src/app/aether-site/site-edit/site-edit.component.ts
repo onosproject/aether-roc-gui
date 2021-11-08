@@ -89,8 +89,8 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         this.siteForm.get(['imsi-definition', 'enterprise'])[TYPE] = 'number';
         this.siteForm[REQDATTRIBS] = ['enterprise'];
         this.siteForm.get(['imsi-definition'])[REQDATTRIBS] = ['mcc', 'mnc', 'enterprise', 'format'];
-        this.siteForm.get(['small-cell'])[IDATTRIBS] = ['name'];
-        this.siteForm.get(['monitoring','edge-device'])[IDATTRIBS] = ['name'];
+        this.siteForm.get(['small-cell'])[IDATTRIBS] = ['small-cell-id'];
+        this.siteForm.get(['monitoring','edge-device'])[IDATTRIBS] = ['edge-device-id'];
     }
 
     ngOnInit(): void {
@@ -156,15 +156,17 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
                 let isDeleted = false;
                 Object.keys(localStorage)
                     .filter(checkerKey => checkerKey.startsWith('/basket-delete/site-4.0.0/site[id=' + value.id +
-                        ']/small-cell[name='))
+                        ']/small-cell[small-cell-id='))
                     .forEach((checkerKey) => {
-                        if (checkerKey.includes(sm.name)) {
+                        if (checkerKey.includes(sm['small-cell-id'])) {
                             isDeleted = true;
                         }
                     });
                 if (!isDeleted) {
-                    const scNameControl = this.fb.control(sm.name);
-                    scNameControl[ORIGINAL] = sm.name;
+                    const scIDControl = this.fb.control(sm['small-cell-id']);
+                    scIDControl[ORIGINAL] = sm['small-cell-id'];
+                    const scNameControl = this.fb.control(sm['display-name']);
+                    scNameControl[ORIGINAL] = sm['display-name'];
                     const scAddressControl = this.fb.control(sm.address);
                     scAddressControl[ORIGINAL] = sm.address;
                     const scTacControl = this.fb.control(sm.tac,Validators.compose([
@@ -176,7 +178,8 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
                     scEnablecontrol[ORIGINAL] = sm.enable;
 
                     const scGroupControl = this.fb.group({
-                        name: scNameControl,
+                        'small-cell-id': scIDControl,
+                        'display-name': scNameControl,
                         address: scAddressControl,
                         tac: scTacControl,
                         enable: scEnablecontrol,
@@ -190,7 +193,8 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         } else if (value['small-cell'] && this.siteForm.value['small-cell'].length !== 0) {
             for (const eachValueSM of value['small-cell']) {
                 (this.siteForm.get('small-cell') as FormArray).push(this.fb.group({
-                    name: eachValueSM.name,
+                    'small-cell-id': eachValueSM['small-cell-id'],
+                    'display-name': eachValueSM['display-name'],
                     address: eachValueSM.address,
                     tac: eachValueSM.tac,
                     enable: eachValueSM.enable
@@ -215,22 +219,22 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
                     let isDeleted = false;
                     Object.keys(localStorage)
                         .filter(checkerKey => checkerKey.startsWith('/basket-delete/site-4.0.0/site[id=' + value.id +
-                            ']/monitoring/edge-device[name='))
+                            ']/monitoring/edge-device[edge-device-id='))
                         .forEach((checkerKey) => {
-                            if (checkerKey.includes(ed.name)) {
+                            if (checkerKey.includes(ed['edge-device-id'])) {
                                 isDeleted = true;
                             }
                         });
                     if (!isDeleted) {
-                        const edNameControl = this.fb.control(ed.name);
-                        edNameControl[ORIGINAL] = ed.name;
+                        const edIDControl = this.fb.control(ed['edge-device-id']);
+                        edIDControl[ORIGINAL] = ed['edge-device-id'];
                         const edDisplayNameControl = this.fb.control(ed['display-name']);
                         edDisplayNameControl[ORIGINAL] = ed['display-name'];
                         const edDescriptionControl = this.fb.control(ed.description);
                         edDescriptionControl[ORIGINAL] = ed.description;
 
                         (this.siteForm.get(['monitoring','edge-device']) as FormArray).push(this.fb.group({
-                            name: edNameControl,
+                            'edge-device-id': edIDControl,
                             ['display-name']: edDisplayNameControl,
                             description: edDescriptionControl,
                         }));
@@ -240,7 +244,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
             } else if (value.monitoring['edge-device'] && this.siteForm.value.monitoring['edge-device'].length !== 0) {
                 for (const eachValueED of value.monitoring['edge-device']) {
                     (this.siteForm.get(['monitoring','edge-device']) as FormArray).push(this.fb.group({
-                        name: eachValueED.name,
+                        'edge-device-id': eachValueED['edge-device-id'],
                         'display-name': eachValueED['display-name'],
                         description: eachValueED.description,
                     }));
@@ -267,7 +271,11 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         if (selected === undefined) {
             return;
         }
-        const scNameControl = this.fb.control(selected.name);
+        const scIDControl = this.fb.control(selected['small-cell-id']);
+        scIDControl.markAsTouched();
+        scIDControl.markAsDirty();
+
+        const scNameControl = this.fb.control(selected['display-name']);
         scNameControl.markAsTouched();
         scNameControl.markAsDirty();
 
@@ -287,7 +295,8 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         scEnablecontrol.markAsDirty();
 
         const scGroupControl = this.fb.group({
-            name: scNameControl,
+            'small-cell-id':scIDControl,
+            'display-name': scNameControl,
             address: scAddressControl,
             tac: scTacControl,
             enable: scEnablecontrol,
@@ -298,13 +307,14 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         console.log('Adding new Value', selected);
         this.siteForm.markAllAsTouched();
     }
+
     closeEdgeDeviceCard(selected: EdgeDeviceParam):void{
         this.showEdgeDeviceDisplay = false;
 
         if (selected === undefined) {
             return;
         }
-        const edNameControl = this.fb.control(selected.name);
+        const edNameControl = this.fb.control(selected['edge-device-id']);
         edNameControl.markAsTouched();
         edNameControl.markAsDirty();
 
@@ -317,7 +327,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         edDescriptionControl.markAsDirty();
 
         const epGroupControl = this.fb.group({
-            name: edNameControl,
+            'edge-device-id': edNameControl,
             'display-name': edDisplayNameControl,
             description: edDescriptionControl,
         });
@@ -329,7 +339,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
 
     deleteFromSelect(sc: string): void {
         this.bs.deleteIndexedEntry('/site-4.0.0/site[id=' + this.id +
-            ']/small-cell[name=' + sc + ']', 'name', sc, this.ucmap(sc));
+            ']/small-cell[small-cell-id=' + sc + ']', 'small-cell-id', sc, this.ucmap(sc));
         const index = (this.siteForm.get('small-cell') as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === sc);
         (this.siteForm.get('small-cell') as FormArray).removeAt(index);
@@ -339,7 +349,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
 
     deleteEDFromSelect(ed: string):void{
         this.bs.deleteIndexedEntry('/site-4.0.0/site[id=' + this.id +
-            ']/monitoring/edge-device[name=' + ed + ']', 'name', ed, this.edmap(ed));
+            ']/monitoring/edge-device[edge-device-id=' + ed + ']', 'edge-device-id', ed, this.edmap(ed));
         const index = (this.siteForm.get(['monitoring', 'edge-device']) as FormArray)
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === ed);
         (this.siteForm.get(['monitoring', 'edge-device']) as FormArray).removeAt(index);
@@ -356,7 +366,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         }
         edMap.set(siteId, parentUc);
 
-        const epId = siteId + '/monitoring/edge-device[name=' + ed + ']';
+        const epId = siteId + '/monitoring/edge-device[edge-device-id=' + ed + ']';
         let epUc = localStorage.getItem(epId);
         if (epUc === null) {
             const epFormArray = this.siteForm.get(['monitoring','edge-device']) as FormArray;
@@ -377,7 +387,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         }
         ucMap.set(siteId, parentUc);
 
-        const epId = siteId + '/small-cell[name=' + sc + ']';
+        const epId = siteId + '/small-cell[small-cell-id=' + sc + ']';
         let epUc = localStorage.getItem(epId);
         if (epUc === null) {
             const epFormArray = this.siteForm.get(['small-cell']) as FormArray;

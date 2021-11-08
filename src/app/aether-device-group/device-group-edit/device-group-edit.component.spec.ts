@@ -75,7 +75,7 @@ describe('DeviceGroupEditComponent', () => {
     it ('should validate a single range', () => {
         const imsisControlArray = component.deviceGroupForm.get('imsis') as FormArray;
         imsisControlArray.push(fb.group({
-            name: fb.control("first"),
+            'imsi-id': fb.control("first"),
             'imsi-range-from': fb.control(10),
             'imsi-range-to': fb.control(19),
         }));
@@ -85,7 +85,7 @@ describe('DeviceGroupEditComponent', () => {
     it ('should validate an equal range', () => {
         const imsisControlArray = component.deviceGroupForm.get('imsis') as FormArray;
         imsisControlArray.push(fb.group({
-            name: fb.control("first"),
+            'imsi-id': fb.control("first"),
             'imsi-range-from': fb.control(10),
             'imsi-range-to': fb.control(10),
         }));
@@ -95,7 +95,7 @@ describe('DeviceGroupEditComponent', () => {
     it ('should validate a max range', () => {
         const imsisControlArray = component.deviceGroupForm.get('imsis') as FormArray;
         imsisControlArray.push(fb.group({
-            name: fb.control("first"),
+            'imsi-id': fb.control("first"),
             'imsi-range-from': fb.control(10),
             'imsi-range-to': fb.control(5010),
         }));
@@ -105,7 +105,7 @@ describe('DeviceGroupEditComponent', () => {
     it ('should not validate an excessive range in a single', () => {
         const imsisControlArray = component.deviceGroupForm.get('imsis') as FormArray;
         imsisControlArray.push(fb.group({
-            name: fb.control("first"),
+            'imsi-id': fb.control("first"),
             'imsi-range-from': fb.control(10),
             'imsi-range-to': fb.control(5011),
         }));
@@ -115,12 +115,12 @@ describe('DeviceGroupEditComponent', () => {
     it ('should not validate an excessive range in a double', () => {
         const imsisControlArray = component.deviceGroupForm.get('imsis') as FormArray;
         imsisControlArray.push(fb.group({
-            name: fb.control("first"),
+            'imsi-id': fb.control("first"),
             'imsi-range-from': fb.control(10),
             'imsi-range-to': fb.control(15),
         }));
         imsisControlArray.push(fb.group({
-            name: fb.control("second"),
+            'imsi-id': fb.control("second"),
             'imsi-range-from': fb.control(20),
             'imsi-range-to': fb.control(5021),
         }));
@@ -130,12 +130,12 @@ describe('DeviceGroupEditComponent', () => {
     it ('should validate a double range', () => {
         const imsisControlArray = component.deviceGroupForm.get('imsis') as FormArray;
         imsisControlArray.push(fb.group({
-            name: fb.control("first"),
+            'imsi-id': fb.control("first"),
             'imsi-range-from': fb.control(10),
             'imsi-range-to': fb.control(19),
         }));
         imsisControlArray.push(fb.group({
-            name: fb.control("second"),
+            'imsi-id': fb.control("second"),
             'imsi-range-from': fb.control(20),
             'imsi-range-to': fb.control(29),
         }));
@@ -145,17 +145,17 @@ describe('DeviceGroupEditComponent', () => {
     it ('should validate a juxtaposed triple range', () => {
         const imsisControlArray = component.deviceGroupForm.get('imsis') as FormArray;
         imsisControlArray.push(fb.group({
-            name: fb.control("first"),
+            'imsi-id': fb.control("first"),
             'imsi-range-from': fb.control(300),
             'imsi-range-to': fb.control(400),
         }));
         imsisControlArray.push(fb.group({
-            name: fb.control("second"),
+            'imsi-id': fb.control("second"),
             'imsi-range-from': fb.control(10),
             'imsi-range-to': fb.control(20),
         }));
         imsisControlArray.push(fb.group({
-            name: fb.control("second"),
+            'imsi-id': fb.control("second"),
             'imsi-range-from': fb.control(0),
             'imsi-range-to': fb.control(1),
         }));
@@ -165,7 +165,7 @@ describe('DeviceGroupEditComponent', () => {
     it ('should not validate a single reversed range', () => {
         const imsisControlArray = component.deviceGroupForm.get('imsis') as FormArray;
         imsisControlArray.push(fb.group({
-            name: fb.control("first"),
+            'imsi-id': fb.control("first"),
             'imsi-range-from': fb.control(11),
             'imsi-range-to': fb.control(10),
         }));
@@ -175,12 +175,12 @@ describe('DeviceGroupEditComponent', () => {
     it ('should not validate a reversed range in a double', () => {
         const imsisControlArray = component.deviceGroupForm.get('imsis') as FormArray;
         imsisControlArray.push(fb.group({
-            name: fb.control("first"),
+            'imsi-id': fb.control("first"),
             'imsi-range-from': fb.control(11),
             'imsi-range-to': fb.control(10),
         }));
         imsisControlArray.push(fb.group({
-            name: fb.control("second"),
+            'imsi-id': fb.control("second"),
             'imsi-range-from': fb.control(20),
             'imsi-range-to': fb.control(29),
         }));
@@ -190,12 +190,12 @@ describe('DeviceGroupEditComponent', () => {
     it ('should not validate an overlapping range', () => {
         const imsisControlArray = component.deviceGroupForm.get('imsis') as FormArray;
         imsisControlArray.push(fb.group({
-            name: fb.control("first"),
+            'imsi-id': fb.control("first"),
             'imsi-range-from': fb.control(10),
             'imsi-range-to': fb.control(19),
         }));
         imsisControlArray.push(fb.group({
-            name: fb.control("second"),
+            'imsi-id': fb.control("second"),
             'imsi-range-from': fb.control(15),
             'imsi-range-to': fb.control(25),
         }));

@@ -8,7 +8,8 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {Service} from "../../../openapi3/aether/4.0.0/services/service";
 
 export interface SmallCellParam {
-    name: string;
+    'small-cell-id':string;
+    'display-name': string;
     address: string;
     tac: string;
     enable: boolean;
@@ -26,7 +27,10 @@ export class SmallCellSelectComponent {
     @Output() closeEvent = new EventEmitter<SmallCellParam>();
 
     smallCellForm = this.fb.group({
-        name: [undefined, Validators.compose([
+        'small-cell-id':[undefined, Validators.compose([
+            Validators.required
+        ])],
+        'display-name': [undefined, Validators.compose([
             Validators.minLength(1),
             Validators.maxLength(80),
         ])],
@@ -49,7 +53,8 @@ export class SmallCellSelectComponent {
             this.closeEvent.emit();
         } else {
             this.closeEvent.emit({
-                name: this.smallCellForm.get('name').value,
+                'small-cell-id': this.smallCellForm.get('small-cell-id').value,
+                'display-name': this.smallCellForm.get('display-name').value,
                 address: this.smallCellForm.get('address').value,
                 tac: this.smallCellForm.get('tac').value,
                 enable: this.smallCellForm.get('enable').value

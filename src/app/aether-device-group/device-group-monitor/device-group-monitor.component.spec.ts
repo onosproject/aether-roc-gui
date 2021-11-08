@@ -11,7 +11,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
+import {OAuthLogger, OAuthModule, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
 import {GRAFANA_PROXY} from '../../../environments/environment';
 
 describe('DeviceGroupMonitorComponent', () => {
@@ -26,6 +26,7 @@ describe('DeviceGroupMonitorComponent', () => {
                 HttpClientTestingModule,
                 RouterTestingModule,
                 BrowserAnimationsModule,
+                OAuthModule.forRoot(),
             ],
             providers: [
                 {provide: OAuthService},
