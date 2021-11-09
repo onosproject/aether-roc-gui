@@ -46,7 +46,7 @@ export class SiteComponent extends RocListBase<SiteDatasource> implements AfterV
         private basketService: BasketService,
     ) {
         super(basketService, new SiteDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'site-4.0.0', 'site')
+            'Site-4.0.0', 'site')
         super.reqdAttr = ['enterprise']
     }
 

@@ -91,7 +91,7 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'ip-domain-4.0.0', 'ip-domain')
+        super(snackBar, bs, route, router, 'Ip-domain-4.0.0', 'ip-domain')
         super.form = this.ipForm
         super.loadFunc = this.loadIpDomainIpDomain
         this.ipForm[REQDATTRIBS] = ['enterprise', 'subnet']

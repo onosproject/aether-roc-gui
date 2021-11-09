@@ -68,7 +68,7 @@ export class PanelVcsComponent extends RocListBase<PanelVcsDatasource> implement
         @Inject('grafana_api_proxy') private grafanaUrl: string,
     ) {
         super(basketService, new PanelVcsDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'vcs-4.0.0', 'vcs')
+            'Vcs-4.0.0', 'vcs')
         super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise']
         this.promData = new VcsPromDataSource(httpClient)
     }

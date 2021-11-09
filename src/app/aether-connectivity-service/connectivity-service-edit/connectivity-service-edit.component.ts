@@ -54,7 +54,7 @@ export class ConnectivityServiceEditComponent extends RocEditBase implements OnI
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'connectivity-service-4.0.0', 'connectivity-service')
+        super(snackBar, bs, route, router, 'Connectivity-service-4.0.0', 'connectivity-service')
         super.form = this.csForm
         super.loadFunc = this.loadConnectivityServiceConnectivityService
     }

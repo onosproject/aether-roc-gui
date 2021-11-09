@@ -8,7 +8,7 @@ import {DataSource} from '@angular/cdk/collections'
 import {MatPaginator} from '@angular/material/paginator'
 import {MatSort} from '@angular/material/sort'
 import {Service as AetherService} from '../openapi3/aether/4.0.0/services'
-import {BasketService} from './basket.service'
+import {ADDITIONALPROPS, BasketService} from './basket.service'
 import {from, merge, Observable, of as observableOf} from 'rxjs'
 import {map, mergeMap, skipWhile} from 'rxjs/operators'
 
@@ -30,8 +30,11 @@ export interface RocGenericContainerType {
 
 export interface GenericRocDataSource<T extends RocGenericModelType, U extends RocGenericContainerType> {
     connect(): Observable<T[]>
+
     disconnect(): void
+
     loadData(dataSourceObservable: Observable<U>, onDataLoaded: (dataSourceThisScope: RocDataSource<RocGenericModelType, U>) => void): void
+
     delete(id: string): void
 }
 
@@ -138,5 +141,61 @@ export abstract class RocDataSource<T extends RocGenericModelType, U extends Roc
         const deletedIndex = this.data.findIndex(p => p.id === id)
         this.data.splice(deletedIndex, 1)
         this.paginator._changePageSize(this.paginator.pageSize)
+    }
+
+    /**
+     * Iterates over items updated in the basket and merge them with the existing data
+     * @param basketData: a list of items of type T contained in the basket to be merged with the data coming from the API
+     * @param nestedLists: a list of object that specify the nested attributes of a model with their IDs, see Vcs component for an example
+     */
+    merge(basketData: T[], nestedLists: { fieldName: string, idAttr: string }[] = []): void {
+
+        const nestedListFields = nestedLists.map(i => i.fieldName)
+
+        basketData.forEach(updated => {
+
+            const existing: T = this.data.filter(e => e.id === updated.id)[0]
+            if (!existing) {
+                console.warn(`Item with ID ${updated.id} does not exist in datasource ${this.pathRoot}`)
+                return
+            }
+
+            // iterate over the keys for each updated item and update the corresponding existing item
+            Object.keys(updated).forEach(k => {
+                if (k === ADDITIONALPROPS || k === 'id') {
+                    // nothing to update here
+                    return
+                }
+
+                // if it is a nested list then it deserve a particular treatment
+                if (k in nestedListFields) {
+                    // get the nested object definition
+                    const field = nestedLists.filter(f => f.fieldName === k)[0]
+
+                    // for each updated element in the nested list
+                    updated[k].forEach(_updated => {
+                        // find the existing one
+                        const _existing = existing[field.fieldName].filter(e => e[field.idAttr] === _updated[field.idAttr])[0]
+
+                        if (!_existing) {
+                            // if it does not exist, then it's a new item that was added
+                            existing[field.fieldName].push(_updated)
+                        } else {
+                            // update all the keys except the ID
+                            Object.keys(_updated).forEach(_k => {
+                                if (_k !== field.idAttr) {
+                                    _existing[_k] = _updated[_k]
+                                }
+                            })
+                        }
+
+                    })
+                    return
+                }
+
+                // update the value in the existing model with the updated value from the basket
+                existing[k] = updated[k]
+            })
+        })
     }
 }

@@ -19,7 +19,7 @@ import {from, Observable} from 'rxjs'
 import {OpenPolicyAgentService} from '../../open-policy-agent.service'
 import {map, mergeMap, skipWhile, startWith} from 'rxjs/operators'
 import {VcsVcsService, Service as AetherService} from 'src/openapi3/aether/4.0.0/services'
-import {BasketService, HEX2NUM, ORIGINAL, REQDATTRIBS, TYPE} from 'src/app/basket.service'
+import {BasketService, HEX2NUM, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from 'src/app/basket.service'
 import {HexPipe} from '../../utils/hex.pipe'
 import {SelectAppParam} from '../application-select/application-select.component'
 
@@ -76,8 +76,6 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
     ];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: VcsVcs;
-    pathRoot = 'vcs-4.0.0';
-    pathListAttr = 'vcs';
     sdAsInt = HexPipe.hexAsInt;
 
     vcsForm = this.fb.group({
@@ -144,7 +142,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'vcs-4.0.0', 'vcs')
+        super(snackBar, bs, route, router, 'Vcs-4.0.0', 'vcs')
         super.form = this.vcsForm
         super.loadFunc = this.loadVcsVcs
         this.vcsForm[REQDATTRIBS] = ['sd', 'sst', 'enterprise', 'site', 'default-behavior']
@@ -152,6 +150,8 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
         this.vcsForm.get(['slice', 'mbr', 'downlink'])[TYPE] = 'number'
         this.vcsForm.get(['sst'])[TYPE] = 'number'
         this.vcsForm.get(['sd'])[TYPE] = HEX2NUM
+        this.vcsForm.get(['filter'])[IDATTRIBS] = ['application']
+        this.vcsForm.get(['device-group'])[IDATTRIBS] = ['device-group']
     }
 
     ngOnInit(): void {

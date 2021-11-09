@@ -58,8 +58,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     readonly endpointLimit: number = 5;
     enterprises: Array<EnterpriseEnterprise>;
     trafficClassOptions: Array<TrafficClassTrafficClass>;
-    pathRoot = 'application-4.0.0';
-    pathListAttr = 'application';
+
     applicationId: string;
     data: ApplicationApplication;
     options: Bandwidths[] = [
@@ -105,7 +104,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'application-4.0.0', 'application')
+        super(snackBar, bs, route, router, 'Application-4.0.0', 'application')
         super.form = this.appForm
         super.loadFunc = this.loadApplicationApplication
         this.appForm[REQDATTRIBS] = ['enterprise', 'address']

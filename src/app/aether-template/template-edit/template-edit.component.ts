@@ -36,8 +36,6 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
 
     sdAsInt = HexPipe.hexAsInt;
 
-    pathRoot = 'template-4.0.0';
-    pathListAttr = 'template';
     trafficClass: Array<TrafficClassTrafficClass>;
     defaultBehaviorOpitons = [
         'DENY-ALL',
@@ -118,7 +116,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'template-4.0.0', 'template')
+        super(snackBar, bs, route, router, 'Template-4.0.0', 'template')
         super.form = this.tempForm
         super.loadFunc = this.loadTemplateTemplate
         this.tempForm[REQDATTRIBS] = ['default-behavior']

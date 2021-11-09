@@ -60,7 +60,7 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
         @Inject('grafana_api_proxy') private grafanaUrl: string,
     ) {
         super(basketService, new PanelSiteDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'site-v4.0.0', 'site')
+            'Site-4.0.0', 'site')
         this.promData = new SitePromDataSource(httpClient)
     }
 

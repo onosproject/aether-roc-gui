@@ -6,6 +6,7 @@
 
 import {BasketService} from './basket.service'
 import {GenericRocDataSource, RocGenericContainerType, RocGenericModelType} from './roc-data-source'
+import {RocElement} from '../openapi3/top/level/models/elements'
 
 export abstract class RocListBase<T extends GenericRocDataSource<RocGenericModelType, RocGenericContainerType>> {
     public dataSource: T;
@@ -16,7 +17,7 @@ export abstract class RocListBase<T extends GenericRocDataSource<RocGenericModel
     protected constructor(
         protected bs: BasketService,
         datasource: T,
-        protected pathRoot: string,
+        protected pathRoot: RocElement,
         protected pathListAttr: string,
         protected indexAttr: string = 'id',
     ) {

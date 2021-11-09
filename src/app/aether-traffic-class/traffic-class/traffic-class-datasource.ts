@@ -13,7 +13,7 @@ import {BasketService} from '../../basket.service'
 export class TrafficClassDatasource extends RocDataSource<TrafficClassTrafficClass, TrafficClass> {
     constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
+        public bs: BasketService,
         protected target: string,
     ) {
         super(aetherService, bs, target,

@@ -9,6 +9,7 @@ import {MatSnackBar} from '@angular/material/snack-bar'
 import {BasketService} from './basket.service'
 import {ActivatedRoute, Router} from '@angular/router'
 import {AETHER_TARGETS} from '../environments/environment'
+import {RocElement} from '../openapi3/top/level/models/elements'
 
 export abstract class RocEditBase {
     protected form: FormGroup;
@@ -22,7 +23,7 @@ export abstract class RocEditBase {
         protected bs: BasketService,
         protected route: ActivatedRoute,
         protected router: Router,
-        protected pathRoot: string,
+        protected pathRoot: RocElement,
         protected pathListAttr: string,
         protected idAttr: string = 'id',
     ) {

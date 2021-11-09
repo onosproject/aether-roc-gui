@@ -44,49 +44,16 @@ export class DeviceGroupComponent extends RocListBase<DeviceGroupDatasource> imp
         public opaService: OpenPolicyAgentService,
     ) {
         super(basketService, new DeviceGroupDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'device-group-4.0.0', 'device-group')
+            'Device-group-4.0.0', 'device-group')
         super.reqdAttr = ['site']
     }
 
     onDataLoaded(ScopeOfDataSource: DeviceGroupDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates
         if ('device-group-4.0.0' in basketPreview && 'device-group' in basketPreview['device-group-4.0.0']) {
-            basketPreview['device-group-4.0.0']['device-group'].forEach((basketItems) => {
-                ScopeOfDataSource.data
-                    .filter(listItem => basketItems.id === listItem.id)
-                    .forEach((listItem, listItemCount) => {
-                        if (basketItems['display-name']) {
-                            ScopeOfDataSource.data[listItemCount]['display-name'] = basketItems['display-name']
-                        }
-                        if (basketItems['site']) {
-                            ScopeOfDataSource.data[listItemCount]['site'] = basketItems['site']
-                        }
-                        if (basketItems.imsis) {
-                            if (ScopeOfDataSource.data[listItemCount].imsis.length === 0) {
-                                ScopeOfDataSource.data[listItemCount].imsis = basketItems.imsis
-                            } else {
-                                for (const eachBasketDG of basketItems.imsis) {
-                                    let eachDGPosition = 0
-                                    for (const eachScopeDG of ScopeOfDataSource.data[listItemCount].imsis) {
-                                        if (eachBasketDG.imsis === eachScopeDG.imsis) {
-                                            ScopeOfDataSource.data[listItemCount].imsis[eachDGPosition]['imsi-id']
-                                                = eachBasketDG['imsi-id']
-                                        }
-                                        eachDGPosition++
-                                    }
-                                }
-                            }
-                        }
-                        if (basketItems.device && basketItems.device.mbr) {
-                            ScopeOfDataSource.data[listItemCount].device.mbr.uplink = basketItems.device.mbr.uplink
-                            ScopeOfDataSource.data[listItemCount].device.mbr.downlink = basketItems.device.mbr.downlink
-                            ScopeOfDataSource.data[listItemCount].device['traffic-class'] = basketItems.device['traffic-class']
-                        }
-                        if (basketItems['ip-domain']) {
-                            ScopeOfDataSource.data[listItemCount]['ip-domain'] = basketItems['ip-domain']
-                        }
-                    })
-            })
+            ScopeOfDataSource.merge(basketPreview['Device-group-4.0.0']['device-group'], [
+                {fieldName: 'imsis', idAttr: 'imsi-id'}
+            ])
         }
     }
 

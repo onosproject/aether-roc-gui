@@ -43,7 +43,7 @@ export class TrafficClassComponent extends RocListBase<TrafficClassDatasource> i
         public opaService: OpenPolicyAgentService,
     ) {
         super(basketService, new TrafficClassDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'traffic-class-4.0.0', 'traffic-class')
+            'Traffic-class-4.0.0', 'traffic-class')
     }
 
     onDataLoaded(ScopeOfDataSource: TrafficClassDatasource): void {

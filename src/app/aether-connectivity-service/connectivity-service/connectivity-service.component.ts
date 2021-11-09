@@ -41,7 +41,7 @@ export class ConnectivityServiceComponent extends RocListBase<ConnectivityServic
         public opaService: OpenPolicyAgentService,
     ) {
         super(basketService, new ConnectivityServiceDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'connectivity-service-4.0.0', 'connectivity-service')
+            'Connectivity-service-4.0.0', 'connectivity-service')
     }
 
     onDataLoaded(ScopeOfDataSource: ConnectivityServiceDatasource): void {

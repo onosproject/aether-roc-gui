@@ -136,7 +136,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'device-group-4.0.0', 'device-group')
+        super(snackBar, bs, route, router, 'Device-group-4.0.0', 'device-group')
         super.form = this.deviceGroupForm
         super.loadFunc = this.loadDeviceGroupDeviceGroup
         this.deviceGroupForm[REQDATTRIBS] = ['site']

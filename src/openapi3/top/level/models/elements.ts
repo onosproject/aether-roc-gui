@@ -55,7 +55,7 @@ export interface Elements {
     'Ip-domain-3.0.0'?: IpDomain300;
     'Site-3.0.0'?: Site300;
     'Template-3.0.0'?: Template300;
-    'Traffic-class-3.0.0': TrafficClass300;
+    'Traffic-class-3.0.0'?: TrafficClass300;
     'Upf-3.0.0'?: Upf300;
     'Vcs-3.0.0'?: Vcs300;
     'Ap-list-4.0.0'?: ApList400;
@@ -66,8 +66,9 @@ export interface Elements {
     'Ip-domain-4.0.0'?: IpDomain400;
     'Site-4.0.0'?: Site400;
     'Template-4.0.0'?: Template400;
-    'Traffic-class-4.0.0': TrafficClass400;
+    'Traffic-class-4.0.0'?: TrafficClass400;
     'Upf-4.0.0'?: Upf400;
     'Vcs-4.0.0'?: Vcs400;
-
 }
+
+export type RocElement = keyof Elements

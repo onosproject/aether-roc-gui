@@ -23,8 +23,6 @@ import {SmallCellParam} from '../small-cell-select/small-cell-select.component'
 export class SiteEditComponent extends RocEditBase implements OnInit {
     enterprises: Array<EnterpriseEnterprise>;
     data: SiteSite;
-    pathRoot = 'site-4.0.0';
-    pathListAttr = 'site';
     showConnectDisplay: boolean = false;
     showEdgeDeviceDisplay: boolean = false;
     showSmallCellAddButton: boolean = true;
@@ -83,7 +81,7 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'site-4.0.0', 'site')
+        super(snackBar, bs, route, router, 'Site-4.0.0', 'site')
         super.form = this.siteForm
         super.loadFunc = this.loadSiteSite
         this.siteForm.get(['imsi-definition', 'enterprise'])[TYPE] = 'number'

@@ -21,10 +21,6 @@ import {OpenPolicyAgentService} from '../../open-policy-agent.service'
     ]
 })
 export class TrafficClassEditComponent extends RocEditBase implements OnInit {
-
-
-    pathRoot = 'traffic-class-4.0.0';
-    pathListAttr = 'traffic-class';
     data: TrafficClassTrafficClass;
     showParentDisplay: boolean = false;
     trafficClassId : string;
@@ -61,7 +57,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'traffic-class-4.0.0', 'traffic-class')
+        super(snackBar, bs, route, router, 'Traffic-class-4.0.0', 'traffic-class')
         super.form = this.tcForm
         super.loadFunc = this.loadTrafficClassTrafficClass
     }

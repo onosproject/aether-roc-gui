@@ -25,8 +25,6 @@ import {maxDeviceGroupRange} from '../../../environments/environment'
 export class UpfEditComponent extends RocEditBase implements OnInit {
     data: UpfUpf;
     enterprises: Array<EnterpriseEnterprise>;
-    pathRoot = 'upf-4.0.0';
-    pathListAttr = 'upf';
     SiteImisLength: number;
     site: Array<SiteSite>;
     ImsiRangeLimit: number;
@@ -72,7 +70,7 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService,
     ) {
-        super(snackBar, bs, route, router, 'upf-4.0.0', 'upf')
+        super(snackBar, bs, route, router, 'Upf-4.0.0', 'upf')
         super.form = this.upfForm
         super.loadFunc = this.loadUpfUpf
         this.upfForm[REQDATTRIBS] = ['enterprise', 'port', 'address', 'site']

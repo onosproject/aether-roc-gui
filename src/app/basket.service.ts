@@ -110,7 +110,7 @@ export class BasketService {
                 // There might be more than one key for a list
                 const pathIndices: string[] = []
                 if (!abstractControl[IDATTRIBS]) {
-                    console.warn('Expected Array Control to have IDATTRIBS')
+                    console.error('Expected Array Control to have IDATTRIBS, not updating item in basket', item.value)
                     return
                 }
                 abstractControl[IDATTRIBS].forEach((ak: string) => {

@@ -46,7 +46,7 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
         private basketService: BasketService,
     ) {
         super(basketService, new TemplateDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'template-4.0.0', 'template')
+            'Template-4.0.0', 'template')
         super.reqdAttr = ['default-behavior']
     }
 
@@ -70,10 +70,6 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
                         }
                         if (basketItems['default-behavior']) {
                             ScopeOfDataSource.data[listItemCount]['default-behavior'] = basketItems['default-behavior']
-                        }
-                        if (basketItems.device && basketItems.device.mbr) {
-                            ScopeOfDataSource.data[listItemCount].device.mbr.uplink = basketItems.device.mbr.uplink
-                            ScopeOfDataSource.data[listItemCount].device.mbr.downlink = basketItems.device.mbr.downlink
                         }
                         if (basketItems.slice && basketItems.slice.mbr) {
                             ScopeOfDataSource.data[listItemCount].slice.mbr.uplink = basketItems.slice.mbr.uplink
