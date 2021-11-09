@@ -53,11 +53,11 @@ export class SitePromDataSource {
         switch (tag) {
             case "agentsSum":
                 host = site.monitoring["edge-monitoring-prometheus-url"]
-                query = `sum(aetheredge_e2e_tests_ok{name=~"${site.monitoring["edge-device"].map((device) => device.name).join("|")}"})`
+                query = `sum(aetheredge_e2e_tests_ok{name=~"${site.monitoring["edge-device"].map((device) => device['edge-device-id']).join("|")}"})`
                 break
             case "agentsCount":
                 host = site.monitoring["edge-monitoring-prometheus-url"]
-                query = `count(aetheredge_e2e_tests_ok{name=~"${site.monitoring["edge-device"].map((device) => device.name).join("|")}"})`
+                query = `count(aetheredge_e2e_tests_ok{name=~"${site.monitoring["edge-device"].map((device) => device['edge-device-id']).join("|")}"})`
                 break
             case "clusterNodesSum":
                 host = site.monitoring["edge-cluster-prometheus-url"]
