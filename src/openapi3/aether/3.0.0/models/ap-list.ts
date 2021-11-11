@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
 import { ApListApList } from './ap-list-ap-list';

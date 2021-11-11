@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -50,6 +50,7 @@ export class ApplicationApplicationService extends BaseService {
      */
     id: any;
   }): Observable<StrictHttpResponse<ApplicationApplication>> {
+
     const rb = new RequestBuilder(this.rootUrl, ApplicationApplicationService.GetApplicationApplicationPath, 'get');
     if (params) {
       rb.path('target', params.target, {});

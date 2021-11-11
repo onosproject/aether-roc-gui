@@ -29,6 +29,7 @@ export class ApplicationComponent extends RocListBase<ApplicationDatasource> imp
         'id',
         'description',
         'enterprise',
+        'address',
         'Endpoint',
         'edit',
         'delete',

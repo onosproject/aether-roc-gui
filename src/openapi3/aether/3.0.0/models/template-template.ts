@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 export interface TemplateTemplate {
 
@@ -14,7 +14,7 @@ export interface TemplateTemplate {
   'display-name'?: string;
 
   /**
-   * Downlink data rate in bps
+   * Downlink data rate in mbps
    */
   downlink?: number;
 
@@ -39,7 +39,7 @@ export interface TemplateTemplate {
   'traffic-class'?: string;
 
   /**
-   * Uplink data rate in bps
+   * Uplink data rate in mbps
    */
   uplink?: number;
 }

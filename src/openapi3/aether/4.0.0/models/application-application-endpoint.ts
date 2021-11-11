@@ -1,19 +1,20 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
-import {MaxiumBitrate} from "./maximum-bitrate";
+import { ApplicationApplicationEndpointMbr } from './application-application-endpoint-mbr';
 export interface ApplicationApplicationEndpoint {
 
   /**
-   * Name of this endpoint
+   * display name to use in GUI or CLI
+   */
+  'display-name'?: string;
+
+  /**
+   * Id of this endpoint
    */
   'endpoint-id': string;
-
- /**
-  * Name of this endpoint
-  */
- 'display-name'?: string;
+  mbr?: ApplicationApplicationEndpointMbr;
 
   /**
    * Last port in range
@@ -26,19 +27,14 @@ export interface ApplicationApplicationEndpoint {
   'port-start': number;
 
   /**
-   * Name of this endpoint
+   * Protocol of this endpoint
    */
   protocol?: string;
 
   /**
-   * Link to traffic class.
+   * Link to traffic class
    */
-  'traffic-class': string;
+  'traffic-class'?: string;
 
-  /**
-   * Address of this application. Either a hostname, an IP, or a subnet.
-   */
-  'mbr'?:MaxiumBitrate;
-
-  [key: string]: AdditionalPropertyUnchanged | MaxiumBitrate | number | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | ApplicationApplicationEndpointMbr | number | string | undefined;
 }

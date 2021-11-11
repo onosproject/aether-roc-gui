@@ -8,7 +8,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {
     VcsVcs,
-    ApListApList,
     DeviceGroupDeviceGroup,
     UpfUpf,
     AdditionalPropertyTarget, EnterpriseEnterprise, SiteSite, TemplateTemplate
@@ -40,7 +39,6 @@ interface BurstRate {
 export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     showApplicationDisplay: boolean = false;
     showDeviceGroupDisplay: boolean = false;
-    aps: Array<ApListApList> | AdditionalPropertyTarget;
     deviceGroups: Array<DeviceGroupDeviceGroup>;
     site: Array<SiteSite>;
     templates: Array<TemplateTemplate>;

@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -10,12 +10,12 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { ServicePolicyServicePolicyRules } from '../models/service-policy-service-policy-rules';
+import { SiteSiteSmallCell } from '../models/site-site-small-cell';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ServicePolicyServicePolicyRulesService extends BaseService {
+export class SiteSiteSmallCellService extends BaseService {
   constructor(
     config: ApiConfiguration,
     http: HttpClient
@@ -24,21 +24,21 @@ export class ServicePolicyServicePolicyRulesService extends BaseService {
   }
 
   /**
-   * Path part for operation getServicePolicyServicePolicyRules
+   * Path part for operation getSiteSiteSmallCell
    */
-  static readonly GetServicePolicyServicePolicyRulesPath = '/aether/v2.1.0/{target}/service-policy/service-policy/{id}/rules/{rule}';
+  static readonly GetSiteSiteSmallCellPath = '/aether/v4.0.0/{target}/site/site/{id}/small-cell/{small-cell-id}';
 
   /**
-   * GET /service-policy/service-policy/{id}/rules Generated from YANG model.
+   * GET /site/site/{id}/small-cell.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getServicePolicyServicePolicyRules()` instead.
+   * To access only the response body, use `getSiteSiteSmallCell()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getServicePolicyServicePolicyRules$Response(params: {
+  getSiteSiteSmallCell$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -51,16 +51,16 @@ export class ServicePolicyServicePolicyRulesService extends BaseService {
     id: any;
 
     /**
-     * key {rule}
+     * key {small-cell-id}
      */
-    rule: any;
-  }): Observable<StrictHttpResponse<ServicePolicyServicePolicyRules>> {
+    'small-cell-id': any;
+  }): Observable<StrictHttpResponse<SiteSiteSmallCell>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ServicePolicyServicePolicyRulesService.GetServicePolicyServicePolicyRulesPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, SiteSiteSmallCellService.GetSiteSiteSmallCellPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-      rb.path('rule', params.rule, {});
+      rb.path('small-cell-id', params['small-cell-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -69,22 +69,22 @@ export class ServicePolicyServicePolicyRulesService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<ServicePolicyServicePolicyRules>;
+        return r as StrictHttpResponse<SiteSiteSmallCell>;
       })
     );
   }
 
   /**
-   * GET /service-policy/service-policy/{id}/rules Generated from YANG model.
+   * GET /site/site/{id}/small-cell.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getServicePolicyServicePolicyRules$Response()` instead.
+   * To access the full response (for headers, for example), `getSiteSiteSmallCell$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getServicePolicyServicePolicyRules(params: {
+  getSiteSiteSmallCell(params: {
 
     /**
      * target (device in onos-config)
@@ -97,13 +97,13 @@ export class ServicePolicyServicePolicyRulesService extends BaseService {
     id: any;
 
     /**
-     * key {rule}
+     * key {small-cell-id}
      */
-    rule: any;
-  }): Observable<ServicePolicyServicePolicyRules> {
+    'small-cell-id': any;
+  }): Observable<SiteSiteSmallCell> {
 
-    return this.getServicePolicyServicePolicyRules$Response(params).pipe(
-      map((r: StrictHttpResponse<ServicePolicyServicePolicyRules>) => r.body as ServicePolicyServicePolicyRules)
+    return this.getSiteSiteSmallCell$Response(params).pipe(
+      map((r: StrictHttpResponse<SiteSiteSmallCell>) => r.body as SiteSiteSmallCell)
     );
   }
 

@@ -1,7 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-export interface VcsVcsApplication {
+export interface VcsVcsFilter {
 
   /**
    * Allow or deny this application
@@ -12,4 +12,9 @@ export interface VcsVcsApplication {
    * Link to application
    */
   application: string;
+
+  /**
+   * Priority of this application
+   */
+  priority?: number;
 }
