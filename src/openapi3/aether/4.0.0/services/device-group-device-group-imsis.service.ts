@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -26,7 +26,7 @@ export class DeviceGroupDeviceGroupImsisService extends BaseService {
   /**
    * Path part for operation getDeviceGroupDeviceGroupImsis
    */
-  static readonly GetDeviceGroupDeviceGroupImsisPath = '/aether/v4.0.0/{target}/device-group/device-group/{id}/imsis/{name}';
+  static readonly GetDeviceGroupDeviceGroupImsisPath = '/aether/v4.0.0/{target}/device-group/device-group/{id}/imsis/{imsi-id}';
 
   /**
    * GET /device-group/device-group/{id}/imsis.
@@ -51,16 +51,16 @@ export class DeviceGroupDeviceGroupImsisService extends BaseService {
     id: any;
 
     /**
-     * key {name}
+     * key {imsi-id}
      */
-    name: any;
+    'imsi-id': any;
   }): Observable<StrictHttpResponse<DeviceGroupDeviceGroupImsis>> {
 
     const rb = new RequestBuilder(this.rootUrl, DeviceGroupDeviceGroupImsisService.GetDeviceGroupDeviceGroupImsisPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
-      rb.path('name', params.name, {});
+      rb.path('imsi-id', params['imsi-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -97,9 +97,9 @@ export class DeviceGroupDeviceGroupImsisService extends BaseService {
     id: any;
 
     /**
-     * key {name}
+     * key {imsi-id}
      */
-    name: any;
+    'imsi-id': any;
   }): Observable<DeviceGroupDeviceGroupImsis> {
 
     return this.getDeviceGroupDeviceGroupImsis$Response(params).pipe(

@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -10,12 +10,12 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { UpProfileUpProfile } from '../models/up-profile-up-profile';
+import { TemplateTemplateSliceMbr } from '../models/template-template-slice-mbr';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UpProfileUpProfileService extends BaseService {
+export class TemplateTemplateSliceService extends BaseService {
   constructor(
     config: ApiConfiguration,
     http: HttpClient
@@ -24,21 +24,21 @@ export class UpProfileUpProfileService extends BaseService {
   }
 
   /**
-   * Path part for operation getUpProfileUpProfile
+   * Path part for operation getTemplateTemplateSliceMbr
    */
-  static readonly GetUpProfileUpProfilePath = '/aether/v2.1.0/{target}/up-profile/up-profile/{id}';
+  static readonly GetTemplateTemplateSliceMbrPath = '/aether/v4.0.0/{target}/template/template/{id}/slice/mbr';
 
   /**
-   * GET /up-profile/up-profile Generated from YANG model.
+   * GET /template/template/{id}/slice/mbr.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getUpProfileUpProfile()` instead.
+   * To access only the response body, use `getTemplateTemplateSliceMbr()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getUpProfileUpProfile$Response(params: {
+  getTemplateTemplateSliceMbr$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -49,9 +49,9 @@ export class UpProfileUpProfileService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<StrictHttpResponse<UpProfileUpProfile>> {
+  }): Observable<StrictHttpResponse<TemplateTemplateSliceMbr>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UpProfileUpProfileService.GetUpProfileUpProfilePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, TemplateTemplateSliceService.GetTemplateTemplateSliceMbrPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
@@ -63,22 +63,22 @@ export class UpProfileUpProfileService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<UpProfileUpProfile>;
+        return r as StrictHttpResponse<TemplateTemplateSliceMbr>;
       })
     );
   }
 
   /**
-   * GET /up-profile/up-profile Generated from YANG model.
+   * GET /template/template/{id}/slice/mbr.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getUpProfileUpProfile$Response()` instead.
+   * To access the full response (for headers, for example), `getTemplateTemplateSliceMbr$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getUpProfileUpProfile(params: {
+  getTemplateTemplateSliceMbr(params: {
 
     /**
      * target (device in onos-config)
@@ -89,10 +89,10 @@ export class UpProfileUpProfileService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<UpProfileUpProfile> {
+  }): Observable<TemplateTemplateSliceMbr> {
 
-    return this.getUpProfileUpProfile$Response(params).pipe(
-      map((r: StrictHttpResponse<UpProfileUpProfile>) => r.body as UpProfileUpProfile)
+    return this.getTemplateTemplateSliceMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<TemplateTemplateSliceMbr>) => r.body as TemplateTemplateSliceMbr)
     );
   }
 

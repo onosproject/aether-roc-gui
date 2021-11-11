@@ -13,14 +13,14 @@
             routerLink="/template/template-edit/newinstance">Add</button>
     </mat-toolbar>
     <table mat-table class="full-width-table" matSort aria-label="Elements" id="templateTable">
-             <!-- Id/Name Column -->
-             <ng-container matColumnDef="id" id="nameColumn">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
-                <td mat-cell *matCellDef="let row">
-                    <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}<br><small>({{row.id}})</small></span>
-                    <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
-                </td>
-            </ng-container>
+         <!-- Id/Name Column -->
+         <ng-container matColumnDef="id" id="nameColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
+            <td mat-cell *matCellDef="let row">
+                <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}<br><small>({{row.id}})</small></span>
+                <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
+            </td>
+        </ng-container>
 
         <!-- Description Column -->
         <ng-container matColumnDef="description" id="descColumn">
@@ -30,7 +30,7 @@
 
         <!-- SD Column -->
         <ng-container matColumnDef="sd" id="sdColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>SD</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>SD</th>
             <td mat-cell *matCellDef="let row" [title]="row.sd">{{row.sd | hex}}</td>
         </ng-container>
 
@@ -46,9 +46,9 @@
             <td mat-cell *matCellDef="let row" [title]="row['default-behavior']">{{row['default-behavior']}}</td>
         </ng-container>
 
-    <!-- slice Column -->
+        <!-- slice Column -->
         <ng-container matColumnDef="slice" id="sliceColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Slice</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Slice</th>
             <td mat-cell *matCellDef="let row">
                 <p><mat-icon class="small_icon">arrow_upward</mat-icon>{{row.slice.mbr.uplink}}</p>
                 <p><mat-icon class="small_icon">arrow_downward</mat-icon>{{row.slice.mbr.downlink}}</p>
@@ -57,7 +57,7 @@
 
         <!-- Edit Column -->
         <ng-container matColumnDef="edit" id="editColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Edit</th>
             <td mat-cell *matCellDef="let row" routerLink="/template/template-edit/{{row.id}}" id="edittemplateButton">
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
             </td>
@@ -65,7 +65,7 @@
 
         <!-- Delete Column -->
         <ng-container matColumnDef="delete" id="deleteColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Delete</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Delete</th>
             <td mat-cell *matCellDef="let row">
                 <button mat-icon-button [disabled]="!opaService.canWrite('/template/template[id=' + row.id + ']')"
                         (click)="delete(row.id)"

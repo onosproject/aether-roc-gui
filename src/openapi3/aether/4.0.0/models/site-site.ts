@@ -1,11 +1,10 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { SiteSiteImsiDefinition } from './site-site-imsi-definition';
+import { SiteSiteMonitoring } from './site-site-monitoring';
 import { SiteSiteSmallCell } from './site-site-small-cell';
-import {ApplicationApplicationEndpoint} from "./application-application-endpoint";
-import {SiteSiteMonitoring} from "./site-site-monitoring";
 export interface SiteSite {
 
   /**
@@ -27,12 +26,13 @@ export interface SiteSite {
    * ID for this site.
    */
   id: string;
+  'imsi-definition'?: SiteSiteImsiDefinition;
+  monitoring?: SiteSiteMonitoring;
 
+  /**
+   * List of small cell addresses
+   */
   'small-cell'?: Array<SiteSiteSmallCell>;
 
-  'monitoring'?: SiteSiteMonitoring;
-
-  'imsi-definition'?: SiteSiteImsiDefinition;
-
-  [key: string]: AdditionalPropertyUnchanged | SiteSiteImsiDefinition | Array<SiteSiteSmallCell> | SiteSiteMonitoring | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | Array<SiteSiteSmallCell> | SiteSiteImsiDefinition | SiteSiteMonitoring | string | undefined;
 }

@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -10,12 +10,12 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { ConnectivityServiceConnectivityService } from '../models/connectivity-service-connectivity-service';
+import { VcsVcsSliceMbr } from '../models/vcs-vcs-slice-mbr';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ConnectivityServiceConnectivityServiceService extends BaseService {
+export class VcsVcsSliceService extends BaseService {
   constructor(
     config: ApiConfiguration,
     http: HttpClient
@@ -24,21 +24,21 @@ export class ConnectivityServiceConnectivityServiceService extends BaseService {
   }
 
   /**
-   * Path part for operation getConnectivityServiceConnectivityService
+   * Path part for operation getVcsVcsSliceMbr
    */
-  static readonly GetConnectivityServiceConnectivityServicePath = '/aether/v2.1.0/{target}/connectivity-service/connectivity-service/{id}';
+  static readonly GetVcsVcsSliceMbrPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/slice/mbr';
 
   /**
-   * GET /connectivity-service/connectivity-service Generated from YANG model.
+   * GET /vcs/vcs/{id}/slice/mbr.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getConnectivityServiceConnectivityService()` instead.
+   * To access only the response body, use `getVcsVcsSliceMbr()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getConnectivityServiceConnectivityService$Response(params: {
+  getVcsVcsSliceMbr$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -49,9 +49,9 @@ export class ConnectivityServiceConnectivityServiceService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<StrictHttpResponse<ConnectivityServiceConnectivityService>> {
+  }): Observable<StrictHttpResponse<VcsVcsSliceMbr>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ConnectivityServiceConnectivityServiceService.GetConnectivityServiceConnectivityServicePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, VcsVcsSliceService.GetVcsVcsSliceMbrPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
@@ -63,22 +63,22 @@ export class ConnectivityServiceConnectivityServiceService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<ConnectivityServiceConnectivityService>;
+        return r as StrictHttpResponse<VcsVcsSliceMbr>;
       })
     );
   }
 
   /**
-   * GET /connectivity-service/connectivity-service Generated from YANG model.
+   * GET /vcs/vcs/{id}/slice/mbr.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getConnectivityServiceConnectivityService$Response()` instead.
+   * To access the full response (for headers, for example), `getVcsVcsSliceMbr$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getConnectivityServiceConnectivityService(params: {
+  getVcsVcsSliceMbr(params: {
 
     /**
      * target (device in onos-config)
@@ -89,10 +89,10 @@ export class ConnectivityServiceConnectivityServiceService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<ConnectivityServiceConnectivityService> {
+  }): Observable<VcsVcsSliceMbr> {
 
-    return this.getConnectivityServiceConnectivityService$Response(params).pipe(
-      map((r: StrictHttpResponse<ConnectivityServiceConnectivityService>) => r.body as ConnectivityServiceConnectivityService)
+    return this.getVcsVcsSliceMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<VcsVcsSliceMbr>) => r.body as VcsVcsSliceMbr)
     );
   }
 
