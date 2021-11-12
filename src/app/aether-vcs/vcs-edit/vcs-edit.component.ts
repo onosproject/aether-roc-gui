@@ -8,10 +8,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {
     VcsVcs,
-    ApListApList,
     DeviceGroupDeviceGroup,
     UpfUpf,
-    AdditionalPropertyTarget, EnterpriseEnterprise, SiteSite, TemplateTemplate, ApplicationApplication
+    AdditionalPropertyTarget, EnterpriseEnterprise, SiteSite, TemplateTemplate, ApplicationApplication, ApListApList
 } from '../../../openapi3/aether/4.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';

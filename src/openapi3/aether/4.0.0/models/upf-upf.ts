@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 export interface UpfUpf {
@@ -8,6 +8,11 @@ export interface UpfUpf {
    * Address of UPF
    */
   address: string;
+
+  /**
+   * url for configuring the UPF
+   */
+  'config-endpoint'?: string;
 
   /**
    * description of this UPF
@@ -25,16 +30,6 @@ export interface UpfUpf {
   enterprise: string;
 
   /**
-   * Link to site
-   */
-  site: string;
-
-  /**
-   * url for configuring the UPF
-   */
-  'config-endpoint': string;
-
-  /**
    * ID for this upf.
    */
   id: string;
@@ -43,6 +38,11 @@ export interface UpfUpf {
    * Port for UPF
    */
   port: number;
+
+  /**
+   * Link to site
+   */
+  site: string;
 
   [key: string]: AdditionalPropertyUnchanged | number | string | undefined;
 }

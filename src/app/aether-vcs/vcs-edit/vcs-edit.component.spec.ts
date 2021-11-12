@@ -21,7 +21,6 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSelectModule} from '@angular/material/select';
 import {TemplateTemplate} from "../../../openapi3/aether/4.0.0/models/template-template";
-import {By} from "@angular/platform-browser";
 
 describe('VcsEditComponent', () => {
     let component: VcsEditComponent;
@@ -132,22 +131,25 @@ describe('VcsEditComponent', () => {
                     'uplink-burst-size': 10,
                     'downlink-burst-size': 5
                 }
-            }
+            },
+            'default-behavior': 'ACCEPT-ALL'
         }
         beforeEach(() => {
             // pretend is a new instance
-            component.isNewInstance = true
+            component.isNewInstance = true;
 
             // simulate a change in the dropdown
-            component.templateSelected({value: template})
+            component.templateSelected({value: template});
         })
         it('should populate the burst value', () => {
             // make sure the for is updated
-            const ulBs = component.vcsForm.get(['slice', 'mbr', 'uplink-burst-size']).value
-            const dlBs = component.vcsForm.get(['slice', 'mbr', 'downlink-burst-size']).value
+            const ulBs = component.vcsForm.get(['slice', 'mbr', 'uplink-burst-size']).value;
+            const dlBs = component.vcsForm.get(['slice', 'mbr', 'downlink-burst-size']).value;
+            const db = component.vcsForm.get(['default-behavior']).value;
 
-            expect(ulBs).toEqual(template.slice.mbr['uplink-burst-size'])
-            expect(dlBs).toEqual(template.slice.mbr['downlink-burst-size'])
+            expect(ulBs).toEqual(template.slice.mbr['uplink-burst-size']);
+            expect(dlBs).toEqual(template.slice.mbr['downlink-burst-size']);
+            expect(db).toEqual(template['default-behavior']);
         });
     });
 });

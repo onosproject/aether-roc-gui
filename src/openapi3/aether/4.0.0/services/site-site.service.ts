@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -12,6 +12,7 @@ import { map, filter } from 'rxjs/operators';
 
 import { SiteSite } from '../models/site-site';
 import { SiteSiteImsiDefinition } from '../models/site-site-imsi-definition';
+import { SiteSiteMonitoring } from '../models/site-site-monitoring';
 
 @Injectable({
   providedIn: 'root',
@@ -167,6 +168,79 @@ export class SiteSiteService extends BaseService {
 
     return this.getSiteSiteImsiDefinition$Response(params).pipe(
       map((r: StrictHttpResponse<SiteSiteImsiDefinition>) => r.body as SiteSiteImsiDefinition)
+    );
+  }
+
+  /**
+   * Path part for operation getSiteSiteMonitoring
+   */
+  static readonly GetSiteSiteMonitoringPath = '/aether/v4.0.0/{target}/site/site/{id}/monitoring';
+
+  /**
+   * GET /site/site/{id}/monitoring.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getSiteSiteMonitoring()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getSiteSiteMonitoring$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+  }): Observable<StrictHttpResponse<SiteSiteMonitoring>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSiteService.GetSiteSiteMonitoringPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<SiteSiteMonitoring>;
+      })
+    );
+  }
+
+  /**
+   * GET /site/site/{id}/monitoring.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getSiteSiteMonitoring$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getSiteSiteMonitoring(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+  }): Observable<SiteSiteMonitoring> {
+
+    return this.getSiteSiteMonitoring$Response(params).pipe(
+      map((r: StrictHttpResponse<SiteSiteMonitoring>) => r.body as SiteSiteMonitoring)
     );
   }
 

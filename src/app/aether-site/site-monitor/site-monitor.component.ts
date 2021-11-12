@@ -111,7 +111,7 @@ export class SiteMonitorComponent extends RocMonitorBase implements OnInit, OnDe
 
         // Filter for Monitoring agents
         this.thisSite.monitoring["edge-device"].forEach((device) => {
-            baseUrl += `&var-agents=${device.name}`
+            baseUrl += `&var-agents=${device['edge-device-id']}`
         })
 
         return baseUrl;
@@ -126,7 +126,7 @@ export class SiteMonitorComponent extends RocMonitorBase implements OnInit, OnDe
 
         // Filter for ENBs
         this.thisSite["small-cell"].forEach((enb) => {
-            baseUrl += `&var-enb=${enb.name}`
+            baseUrl += `&var-enb=${enb['small-cell-id']}`
         })
 
         return baseUrl;

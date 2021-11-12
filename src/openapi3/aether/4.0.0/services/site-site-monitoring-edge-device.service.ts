@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -10,12 +10,12 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { EnterpriseEnterprise } from '../models/enterprise-enterprise';
+import { SiteSiteMonitoringEdgeDevice } from '../models/site-site-monitoring-edge-device';
 
 @Injectable({
   providedIn: 'root',
 })
-export class EnterpriseEnterpriseService extends BaseService {
+export class SiteSiteMonitoringEdgeDeviceService extends BaseService {
   constructor(
     config: ApiConfiguration,
     http: HttpClient
@@ -24,21 +24,21 @@ export class EnterpriseEnterpriseService extends BaseService {
   }
 
   /**
-   * Path part for operation getEnterpriseEnterprise
+   * Path part for operation getSiteSiteMonitoringEdgeDevice
    */
-  static readonly GetEnterpriseEnterprisePath = '/aether/v2.1.0/{target}/enterprise/enterprise/{id}';
+  static readonly GetSiteSiteMonitoringEdgeDevicePath = '/aether/v4.0.0/{target}/site/site/{id}/monitoring/edge-device/{edge-device-id}';
 
   /**
-   * GET /enterprise/enterprise Generated from YANG model.
+   * GET /site/site/{id}/monitoring/edge-device.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getEnterpriseEnterprise()` instead.
+   * To access only the response body, use `getSiteSiteMonitoringEdgeDevice()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getEnterpriseEnterprise$Response(params: {
+  getSiteSiteMonitoringEdgeDevice$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -49,12 +49,18 @@ export class EnterpriseEnterpriseService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<StrictHttpResponse<EnterpriseEnterprise>> {
 
-    const rb = new RequestBuilder(this.rootUrl, EnterpriseEnterpriseService.GetEnterpriseEnterprisePath, 'get');
+    /**
+     * key {edge-device-id}
+     */
+    'edge-device-id': any;
+  }): Observable<StrictHttpResponse<SiteSiteMonitoringEdgeDevice>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSiteMonitoringEdgeDeviceService.GetSiteSiteMonitoringEdgeDevicePath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
+      rb.path('edge-device-id', params['edge-device-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -63,22 +69,22 @@ export class EnterpriseEnterpriseService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<EnterpriseEnterprise>;
+        return r as StrictHttpResponse<SiteSiteMonitoringEdgeDevice>;
       })
     );
   }
 
   /**
-   * GET /enterprise/enterprise Generated from YANG model.
+   * GET /site/site/{id}/monitoring/edge-device.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getEnterpriseEnterprise$Response()` instead.
+   * To access the full response (for headers, for example), `getSiteSiteMonitoringEdgeDevice$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getEnterpriseEnterprise(params: {
+  getSiteSiteMonitoringEdgeDevice(params: {
 
     /**
      * target (device in onos-config)
@@ -89,10 +95,15 @@ export class EnterpriseEnterpriseService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<EnterpriseEnterprise> {
 
-    return this.getEnterpriseEnterprise$Response(params).pipe(
-      map((r: StrictHttpResponse<EnterpriseEnterprise>) => r.body as EnterpriseEnterprise)
+    /**
+     * key {edge-device-id}
+     */
+    'edge-device-id': any;
+  }): Observable<SiteSiteMonitoringEdgeDevice> {
+
+    return this.getSiteSiteMonitoringEdgeDevice$Response(params).pipe(
+      map((r: StrictHttpResponse<SiteSiteMonitoringEdgeDevice>) => r.body as SiteSiteMonitoringEdgeDevice)
     );
   }
 

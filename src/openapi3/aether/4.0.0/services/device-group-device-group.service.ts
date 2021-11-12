@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { DeviceGroupDeviceGroup } from '../models/device-group-device-group';
+import { DeviceGroupDeviceGroupDevice } from '../models/device-group-device-group-device';
 
 @Injectable({
   providedIn: 'root',
@@ -93,6 +94,79 @@ export class DeviceGroupDeviceGroupService extends BaseService {
 
     return this.getDeviceGroupDeviceGroup$Response(params).pipe(
       map((r: StrictHttpResponse<DeviceGroupDeviceGroup>) => r.body as DeviceGroupDeviceGroup)
+    );
+  }
+
+  /**
+   * Path part for operation getDeviceGroupDeviceGroupDevice
+   */
+  static readonly GetDeviceGroupDeviceGroupDevicePath = '/aether/v4.0.0/{target}/device-group/device-group/{id}/device';
+
+  /**
+   * GET /device-group/device-group/{id}/device.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getDeviceGroupDeviceGroupDevice()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getDeviceGroupDeviceGroupDevice$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+  }): Observable<StrictHttpResponse<DeviceGroupDeviceGroupDevice>> {
+
+    const rb = new RequestBuilder(this.rootUrl, DeviceGroupDeviceGroupService.GetDeviceGroupDeviceGroupDevicePath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('id', params.id, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<DeviceGroupDeviceGroupDevice>;
+      })
+    );
+  }
+
+  /**
+   * GET /device-group/device-group/{id}/device.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getDeviceGroupDeviceGroupDevice$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getDeviceGroupDeviceGroupDevice(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {id}
+     */
+    id: any;
+  }): Observable<DeviceGroupDeviceGroupDevice> {
+
+    return this.getDeviceGroupDeviceGroupDevice$Response(params).pipe(
+      map((r: StrictHttpResponse<DeviceGroupDeviceGroupDevice>) => r.body as DeviceGroupDeviceGroupDevice)
     );
   }
 
