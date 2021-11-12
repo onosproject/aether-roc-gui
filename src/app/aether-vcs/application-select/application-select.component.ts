@@ -56,12 +56,12 @@ export class ApplicationSelectComponent extends RocSelectBase<ApplicationApplica
 
     ngOnInit(): void {
         if (this.alreadySelected.length !== 0) {
-            let alreadySelectedAppArray = this.applicationList.filter(eachApplication => this.alreadySelected.includes(eachApplication.id))
-            alreadySelectedAppArray.forEach(application => {
+            let alreadySelectedAppArray = this.applicationList?.filter(eachApplication => this.alreadySelected.includes(eachApplication.id))
+            alreadySelectedAppArray?.forEach(application => {
                 this.SliceApplicationEndpointLimit = this.SliceApplicationEndpointLimit - application.endpoint.length;
             })
         }
-        this.applicationList.forEach(eachApplication => {
+        this.applicationList?.forEach(eachApplication => {
             const exists = this.alreadySelected.indexOf(eachApplication.id);
             if ((exists === -1) && eachApplication.endpoint.length <= this.SliceApplicationEndpointLimit) {
                 this.ApplicationOptions.push(eachApplication)

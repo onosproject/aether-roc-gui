@@ -22,6 +22,8 @@ import {VcsVcsService, Service as AetherService} from 'src/openapi3/aether/4.0.0
 import {BasketService, HEX2NUM, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from 'src/app/basket.service';
 import {HexPipe} from '../../utils/hex.pipe';
 import {SelectAppParam} from "../application-select/application-select.component";
+import has = Reflect.has;
+import {ApplicationDatasource} from "../../aether-application/application/application-datasource";
 
 interface Bandwidths {
     megabyte: { numerical: number, inMb: string };
@@ -156,6 +158,8 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         this.vcsForm.get(['slice', 'mbr', 'downlink'])[TYPE] = 'number';
         this.vcsForm.get(['sst'])[TYPE] = 'number';
         this.vcsForm.get(['sd'])[TYPE] = HEX2NUM;
+        this.vcsForm.get(['filter'])[IDATTRIBS] = ['application']
+        this.vcsForm.get(['device-group'])[IDATTRIBS] = ['device-group']
     }
 
     ngOnInit(): void {
@@ -190,12 +194,11 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         return this.vcsForm.get('filter') as FormArray;
     }
 
-    applicationExists(): string[] {
-        const existingList: string[] = [];
-        (this.vcsForm.get(['filter']) as FormArray).controls.forEach((app) => {
-            existingList.push(app.get('application').value);
+    selectedApplications(): string[] {
+        return (this.vcsForm.get(['filter']) as FormArray).controls.map((app) => {
+            return app.get('application').value;
         });
-        return existingList;
+
     }
 
     get deviceGroup(): FormArray {
@@ -239,7 +242,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         });
         (this.vcsForm.get('filter') as FormArray).push(appGroupControl);
         this.vcsForm.get('filter').markAsTouched();
-        this.checkApplicationEndpoint();
+        this.setShowAddFilterButton();
         console.log('Adding new Value', selected);
     }
 
@@ -351,7 +354,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
         (this.vcsForm.get('filter') as FormArray).removeAt(index);
         this.snackBar.open('Deletion of ' + app + ' added to basket', undefined, {duration: 2000});
-        this.checkApplicationEndpoint();
+        this.setShowAddFilterButton();
     }
 
     deleteDeviceGroupFromSelect(dg: string): void {
@@ -411,7 +414,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                 }
                 isDeleted = false;
             }
-            this.checkApplicationEndpoint();
+            this.setShowAddFilterButton();
         } else if (value.filter && this.vcsForm.value.filter.length !== 0) {
             this.vcsForm.value.filter.forEach((eachValueApp, eachValueAppPosition) => {
                 for (const eachFormApp of value.filter) {
@@ -427,7 +430,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                     }
                 }
             });
-            this.checkApplicationEndpoint();
+            this.setShowAddFilterButton();
         }
         if (value.slice && value.slice.mbr) {
             this.vcsForm.get(['slice', 'mbr', 'uplink']).setValue(value.slice.mbr.uplink);
@@ -576,12 +579,12 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         );
     }
 
-    checkApplicationEndpoint(): void {
-        let alreadyExistingAppData = this.application?.filter(eachApplication => this.applicationExists().includes(eachApplication.id))
-        this.EndpointLeft = 5;
-        alreadyExistingAppData?.forEach(eachAppData => {
-            this.EndpointLeft = this.EndpointLeft - eachAppData.endpoint.length;
-        })
+
+    setShowAddFilterButton(): void {
+        this.EndpointLeft = this.application?.filter(eachApplication => this.selectedApplications().includes(eachApplication.id))
+            .reduce((total, application) => {
+                return total - application.endpoint.length
+            }, 5)
         if (this.EndpointLeft <= 0) {
             this.showAddFilterButton = false;
         }
@@ -614,7 +617,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             error => {
                 console.warn('Error getting Application for ', target, error);
             }
-        );
+        )
     }
 }
 

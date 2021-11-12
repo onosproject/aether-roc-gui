@@ -67,7 +67,7 @@
                     <mat-hint>Site</mat-hint>
                 </mat-form-field>
             </div>
-            
+
             <div class="row" *ngIf="isNewInstance">
                 <mat-form-field class="field-margin half-width">
                     <mat-select
@@ -270,7 +270,7 @@
 <aether-application-select
     *ngIf="showApplicationDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
     id="applicationSelectComponent"
-    [alreadySelected]="applicationExists()"
+    [alreadySelected]="selectedApplications()"
     [applicationList]="application"
     (appcloseEvent)="appSelected($event)">
 </aether-application-select>

@@ -65,6 +65,64 @@ describe('VcsEditComponent', () => {
         expect(component).toBeTruthy();
     });
 
+    it('check Application Endpoint validation', () =>{
+        component.application =[{
+            "enterprise": "test enterprise 1",
+            "endpoint": [
+                {
+                    "endpoint-id": "test-endpoint-id",
+                    "port-start": 1,
+                    "traffic-class":"test-traffic-2",
+                }
+            ],
+            "id": "starbucks-nvr"
+        }]
+            component.setShowAddFilterButton()
+        expect(component.showAddFilterButton).toBeTruthy()
+    })
+
+    it('check Application Endpoint validation if it is invalid' , () =>{
+        component.EndpointLeft = 5;
+        component.application =[{
+            "enterprise": "test enterprise 2",
+            "endpoint": [
+                {
+                    "endpoint-id": "test-endpoint-id-1",
+                    "port-start": 1,
+                    "traffic-class":"test-traffic-2",
+                },
+                {
+                    "endpoint-id": "test-endpoint-id-2",
+                    "port-start": 1,
+                    "traffic-class":"test-traffic-2",
+                },
+                {
+                    "endpoint-id": "test-endpoint-id-3",
+                    "port-start": 1,
+                    "traffic-class":"test-traffic-2",
+                },
+                {
+                    "endpoint-id": "test-endpoint-id-4",
+                    "port-start": 1,
+                    "traffic-class":"test-traffic-2",
+                },
+                {
+                    "endpoint-id": "test-endpoint-id-5",
+                    "port-start": 1,
+                    "traffic-class":"test-traffic-2",
+                },
+                {
+                    "endpoint-id": "test-endpoint-id-6",
+                    "port-start": 1,
+                    "traffic-class":"test-traffic-2",
+                }
+            ],
+            "id": "starbucks-nvr"
+        }]
+        component.setShowAddFilterButton()
+        expect(component.showAddFilterButton).toBeTruthy()
+    })
+
     describe('when selecting a template', () => {
         const template: TemplateTemplate = {
             id: 'test-template',
