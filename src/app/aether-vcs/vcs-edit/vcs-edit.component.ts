@@ -10,7 +10,7 @@ import {
     VcsVcs,
     DeviceGroupDeviceGroup,
     UpfUpf,
-    AdditionalPropertyTarget, EnterpriseEnterprise, SiteSite, TemplateTemplate, ApplicationApplication, ApListApList
+    AdditionalPropertyTarget, EnterpriseEnterprise, SiteSite, TemplateTemplate, ApplicationApplication
 } from '../../../openapi3/aether/4.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -43,7 +43,6 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     showDeviceGroupDisplay: boolean = false;
     showAddFilterButton: boolean = true;
     EndpointLeft: number = 5;
-    aps: Array<ApListApList> | AdditionalPropertyTarget;
     deviceGroups: Array<DeviceGroupDeviceGroup>;
     site: Array<SiteSite>;
     application: Array<ApplicationApplication>;
