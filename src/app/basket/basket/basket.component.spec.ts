@@ -14,13 +14,16 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {ApiModule} from '../../../openapi3/aether/3.0.0/api.module';
+import {ApiService} from "../../../openapi3/top/level/services";
+import {Observable, Observer} from "rxjs";
 
-
-describe('BasketComponent', () => {
+describe('The BasketComponent', () => {
     let component: BasketComponent;
     let fixture: ComponentFixture<BasketComponent>;
+    let mockApiService;
 
     beforeEach(async () => {
+        mockApiService = jasmine.createSpyObj(['patchTopLevel']);
         await TestBed.configureTestingModule({
             declarations: [BasketComponent],
             imports: [
@@ -33,6 +36,9 @@ describe('BasketComponent', () => {
                 MatToolbarModule,
                 MatIconModule,
                 ApiModule
+            ],
+            providers: [
+                {provide: ApiService, useValue: mockApiService}
             ]
         })
             .compileComponents();
@@ -64,5 +70,47 @@ describe('BasketComponent', () => {
         localStorage.setItem('/basket-delete/Security-profile-3.0.0/Security-profile[]/0/desc', '{"newValue":"undefined","oldValue":"desc1"}');
         localStorage.setItem('/basket-delete/Security-profile-3.0.0/Security-profile[]/0/something', '{"newValue":"undefined","oldValue":"something1"}');
         localStorage.setItem('/basket-delete/Security-profile-3.0.0/Security-profile[]/1/desc', '{"newValue":"undefined","oldValue":"desc2"}');
+    });
+
+    describe('when committing the content', () => {
+        let confirmSpy;
+        beforeEach(() => {
+            confirmSpy = spyOn(window, 'confirm');
+        })
+        it('should ask for confirmation', () => {
+            confirmSpy.and.returnValue(false);
+            component.commitChanges()
+            expect(mockApiService.patchTopLevel).not.toHaveBeenCalled();
+        })
+
+        it('should not clear the basket in case of error', () => {
+
+            // spy on the clear basket method
+            const clearBasketSpy = spyOn(component, "clearBasket")
+
+            // mock the system to call the backend and return an error
+            confirmSpy.and.returnValue(true);
+            const observableWithFailure = new Observable((observer: Observer<any>) => {
+                observer.error("test-error")
+            })
+            mockApiService.patchTopLevel.and.returnValue(observableWithFailure)
+            component.commitChanges()
+            expect(clearBasketSpy).not.toHaveBeenCalled()
+        })
+
+        it('should clear the basket in case of success', () => {
+
+            // spy on the clear basket method
+            const clearBasketSpy = spyOn(component, "clearBasket")
+
+            // mock the system to call the backend and return an error
+            confirmSpy.and.returnValue(true);
+            const observableWithFailure = new Observable((observer: Observer<any>) => {
+                observer.next("test-success")
+            })
+            mockApiService.patchTopLevel.and.returnValue(observableWithFailure)
+            component.commitChanges()
+            expect(clearBasketSpy).toHaveBeenCalled()
+        })
     });
 });
