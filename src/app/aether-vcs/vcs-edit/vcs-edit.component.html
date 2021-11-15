@@ -67,7 +67,7 @@
                     <mat-hint>Site</mat-hint>
                 </mat-form-field>
             </div>
-            
+
             <div class="row" *ngIf="isNewInstance">
                 <mat-form-field class="field-margin half-width">
                     <mat-select
@@ -119,7 +119,7 @@
                     add
                 </mat-icon>
                 <div *ngFor="let appForm of filter.controls; index as i">
-                    <div [formGroup]="appForm" [id]="'applicationDiv' + i">
+                    <div [formGroup]="appForm" [id]="appForm.value['application']">
                         <mat-form-field class="field-margin">
                             <div class="float-left">
                                 <mat-hint>Application</mat-hint>
@@ -156,7 +156,7 @@
                 <!--device-group-->
                 <div *ngFor="let dgForm of deviceGroup.controls; index as i">
                     <mat-form-field class="field-margin half-width">
-                        <div [formGroup]="dgForm" [id]="'deviceGroupDiv' + i">
+                        <div [formGroup]="dgForm" [id]="dgForm.value['device-group']">
                             <input matInput formControlName="device-group" readonly>
                             <mat-slide-toggle formControlName="enable">Enable</mat-slide-toggle>
                             <mat-icon color='primary' class="subscriber-pointer"

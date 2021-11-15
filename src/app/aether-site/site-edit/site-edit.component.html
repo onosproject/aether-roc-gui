@@ -55,7 +55,7 @@
                           color="accent">add
                 </mat-icon>
                 <div *ngFor="let smallCellForm of smallCellControls.controls; index as i">
-                    <div [formGroup]="smallCellForm" [id]="'scDiv' + i">
+                    <div [formGroup]="smallCellForm" [id]="smallCellForm.value['small-cell-id']">
                         <mat-form-field class="field-margin">
                             <input matInput readonly formControlName="small-cell-id" id="inputSCID">
                             <mat-hint>Small Cell ID</mat-hint>
@@ -100,7 +100,7 @@
                               color="accent">add
                     </mat-icon>
                     <div *ngFor="let edgeDeviceForm of edgeDeviceControls.controls">
-                        <div [formGroup]="edgeDeviceForm">
+                        <div [formGroup]="edgeDeviceForm" [id]="edgeDeviceForm.value['edge-device-id']">
                             <mat-form-field class="field-margin">
                                 <input matInput readonly formControlName="edge-device-id" id="inputEDID">
                                 <mat-hint>Edge Device ID</mat-hint>
