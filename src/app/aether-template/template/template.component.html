@@ -46,12 +46,21 @@
             <td mat-cell *matCellDef="let row" [title]="row['default-behavior']">{{row['default-behavior']}}</td>
         </ng-container>
 
-        <!-- slice Column -->
-        <ng-container matColumnDef="slice" id="sliceColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Slice</th>
+        <!-- mbr Column -->
+        <ng-container matColumnDef="mbr" id="mbrColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Slice MBR (bps)</th>
             <td mat-cell *matCellDef="let row">
-                <p><mat-icon class="small_icon">arrow_upward</mat-icon>{{row.slice.mbr.uplink}}</p>
-                <p><mat-icon class="small_icon">arrow_downward</mat-icon>{{row.slice.mbr.downlink}}</p>
+                <p *ngIf="row.slice && row.slice.mbr"><mat-icon class="small_icon">arrow_upward</mat-icon>{{row.slice.mbr.uplink}}</p>
+                <p *ngIf="row.slice && row.slice.mbr"><mat-icon class="small_icon">arrow_downward</mat-icon>{{row.slice.mbr.downlink}}</p>
+            </td>
+        </ng-container>
+
+        <!-- burst Column -->
+        <ng-container matColumnDef="burst" id="burstColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Slice Burst Size (Byte)</th>
+            <td mat-cell *matCellDef="let row">
+                <p *ngIf="row.slice && row.slice.mbr"><mat-icon class="small_icon">arrow_upward</mat-icon>{{row.slice.mbr['uplink-burst-size']}}</p>
+                <p *ngIf="row.slice && row.slice.mbr"><mat-icon class="small_icon">arrow_downward</mat-icon>{{row.slice.mbr['downlink-burst-size']}}</p>
             </td>
         </ng-container>
 
