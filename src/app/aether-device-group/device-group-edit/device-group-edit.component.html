@@ -77,7 +77,7 @@
             <div formArrayName="imsis" class="subscriber-section">
                 <mat-hint>UE IDs</mat-hint>
                 <mat-icon *ngIf="showAddImsi" (click)="this.showImsiDisplay = true"
-                          id="addNewExistingAccessProfile"
+                          id="addIMSIProfile"
                           color="accent"
                           class="subscriber-pointer">add
                 </mat-icon>
@@ -87,7 +87,7 @@
                           class="subscriber-pointer">info
                 </mat-icon>
                 <div *ngFor="let imsiForm of imsiControls.controls; index as i">
-                    <div [formGroup]="imsiForm" [id]="'dgDiv' + i">
+                    <div [formGroup]="imsiForm" [id]="imsiForm.value['name']">
                         <mat-form-field class="field-margin">
                             <input matInput formControlName="name" id="inputName" readonly>
                             <mat-hint>Name</mat-hint>
@@ -102,7 +102,7 @@
                         </mat-form-field>
                         <button mat-icon-button
                                 color="accent"
-                                id="deleteExistingAccessProfileButton"
+                                id="deleteIMSIButton"
                                 [disabled]="!opaService.canWrite('/devicegroups/devicegroups-edit[id=' + id + ']/imsis')"
                                 (click)="deleteFromSelect(imsiForm.value['name'])">
                             <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>

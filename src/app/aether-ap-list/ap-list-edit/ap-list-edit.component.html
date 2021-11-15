@@ -66,7 +66,7 @@
                           class="subscriber-pointer">add
                 </mat-icon>
                 <div *ngFor="let accessForm of accessPointControls.controls; index as i">
-                    <div [formGroup]="accessForm" [id]="'apDiv' + i">
+                    <div [formGroup]="accessForm" [id]="accessForm.value['address']">
                         <mat-form-field class="field-margin">
                             <input matInput formControlName="address" readonly>
                             <small>Address</small>
