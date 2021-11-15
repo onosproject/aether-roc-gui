@@ -132,7 +132,7 @@
                           class="subscriber-pointer">info
                 </mat-icon>
                 <div *ngFor="let imsiForm of imsiControls.controls">
-                    <div [formGroup]="imsiForm">
+                    <div [formGroup]="imsiForm" [id]="imsiForm.value['imsi-id']">
                         <mat-form-field class="field-margin">
                             <input matInput formControlName="imsi-id" id="inputName" readonly>
                             <mat-hint>IMSI ID</mat-hint>

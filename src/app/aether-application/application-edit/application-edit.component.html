@@ -63,7 +63,7 @@
                           color="accent">add
                 </mat-icon>
                 <div *ngFor="let endpointForm of endpointControls.controls;let i = index">
-                    <div [formGroup]="endpointForm">
+                    <div [formGroup]="endpointForm" [id]="endpointForm.value['endpoint-id']">
                         <div class="float-left">
                             <mat-form-field class="field-margin">
                                 <input matInput readonly formControlName="endpoint-id" id="inputEndpointId">

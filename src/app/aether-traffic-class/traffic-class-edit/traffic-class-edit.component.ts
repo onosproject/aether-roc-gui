@@ -50,6 +50,14 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
             Validators.min(1),
             Validators.max(32)
         ])],
+        pelr: [undefined, Validators.compose([
+            Validators.min(0),
+            Validators.max(10)
+        ])],
+        pdb: [undefined, Validators.compose([
+            Validators.min(0),
+            Validators.max(1000)
+        ])],
     });
 
     constructor(
@@ -105,6 +113,14 @@ export class TrafficClassEditComponent extends RocEditBase<TrafficClassTrafficCl
         if (value.description) {
             this.tcForm.get('description').setValue(value.description);
             this.tcForm.get('description')[ORIGINAL] = value.description;
+        }
+        if (value.pelr) {
+            this.tcForm.get('pelr').setValue(value.pelr);
+            this.tcForm.get('pelr')[ORIGINAL] = value.pelr;
+        }
+        if (value.pdb) {
+            this.tcForm.get('pdb').setValue(value.pdb);
+            this.tcForm.get('pdb')[ORIGINAL] = value.pdb;
         }
         if (value.arp) {
             this.tcForm.get('arp').setValue(value.arp);

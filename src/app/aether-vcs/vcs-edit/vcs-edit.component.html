@@ -163,7 +163,7 @@
                 <!--device-group-->
                 <div *ngFor="let dgForm of deviceGroup.controls; index as i">
                     <mat-form-field class="field-margin half-width">
-                        <div [formGroup]="dgForm" [id]="'deviceGroupDiv' + i">
+                        <div [formGroup]="dgForm" [id]="dgForm.value['device-group']">
                             <input matInput formControlName="device-group" readonly>
                             <mat-slide-toggle formControlName="enable">Enable</mat-slide-toggle>
                             <mat-icon color='primary' class="subscriber-pointer"
@@ -225,7 +225,7 @@
                                     {{option.label}}
                                 </mat-option>
                             </mat-autocomplete>
-                            <mat-hint>Uplink Burst Size (Mbps)</mat-hint>
+                            <mat-hint>Uplink Burst Size (bytes)</mat-hint>
                         </mat-form-field>
                     </div>
                     <div class="row " id="sliceDownlinkBurstSizeRow">
@@ -239,7 +239,7 @@
                                     {{option.label}}
                                 </mat-option>
                             </mat-autocomplete>
-                            <mat-hint>Downlink Burst Size (Mbps)</mat-hint>
+                            <mat-hint>Downlink Burst Size (bytes)</mat-hint>
                         </mat-form-field>
                     </div>
                 </div>

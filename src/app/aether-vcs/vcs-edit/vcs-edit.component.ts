@@ -62,14 +62,14 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     ];
 
     burstRateOptions: BurstRate[] = [
-        {label: '125 Kbps', value: 125000},
-        {label: '250 Kbps', value: 250000},
-        {label: '375 Kbps', value: 375000},
-        {label: '500 Kbps', value: 500000},
-        {label: '625 Kbps', value: 625000},
-        {label: '750 Kbps', value: 750000},
-        {label: '875 Kbps', value: 875000},
-        {label: '1 Mbps', value: 1000000},
+        {label: '125 KB', value: 125000},
+        {label: '250 KB', value: 250000},
+        {label: '375 KB', value: 375000},
+        {label: '500 KB', value: 500000},
+        {label: '625 KB', value: 625000},
+        {label: '750 KB', value: 750000},
+        {label: '875 KB', value: 875000},
+        {label: '1 MB', value: 1000000},
     ]
 
     defaultBehaviorOptions = [
