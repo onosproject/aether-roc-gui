@@ -287,7 +287,6 @@ export class ApplicationEditComponent extends RocEditBase<ApplicationApplication
                         .filter(checkerKey => checkerKey.startsWith('/basket-delete/application-4.0.0/application[id=' + value.id +
                             ']/endpoint[endpoint-id='))
                         .forEach((checkerKey) => {
-                            console.log(checkerKey, "ep['endpoint-id']========", ep['endpoint-id'])
                             if (checkerKey.includes(ep['endpoint-id'])) {
                                 isDeleted = true;
                             }
