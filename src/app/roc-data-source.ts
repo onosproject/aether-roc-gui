@@ -98,8 +98,12 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
         ).subscribe(
             (value => {
                 const id = value[this.indexAttr];
+                // console.log(this.pathListAttr, "this.pathRoot")
+                // if (this.pathRoot !== "/vcs-4.0.0" && this.pathListAttr !== this.pathListAttr) {
+                //
+                // }
                 if (!this.bs.containsDeleteEntry(
-                    this.pathRoot + '/' + this.pathListAttr + '[' + this.indexAttr + '=' + id + ']/' + this.indexAttr)) {
+                    this.pathRoot + '/' + this.pathListAttr + '[' + this.indexAttr + '=' + id + ']/' + this.indexAttr) || (this.pathRoot === "/vcs-4.0.0" && this.pathListAttr === this.pathListAttr)) {
                     this.data.push(value);
                     console.log('Got ' + id);
                 } else {
