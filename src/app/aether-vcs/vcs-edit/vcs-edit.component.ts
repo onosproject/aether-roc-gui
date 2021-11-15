@@ -45,7 +45,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     EndpointLeft: number = 5;
     deviceGroups: Array<DeviceGroupDeviceGroup>;
     site: Array<SiteSite>;
-    application: Array<ApplicationApplication>;
+    applications: Array<ApplicationApplication>;
     templates: Array<TemplateTemplate>;
     selectedSite: string;
     enterprises: Array<EnterpriseEnterprise>;
@@ -579,7 +579,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
 
 
     setShowAddFilterButton(): void {
-        this.EndpointLeft = this.application?.filter(eachApplication => this.selectedApplications().includes(eachApplication.id))
+        this.EndpointLeft = this.applications?.filter(eachApplication => this.selectedApplications().includes(eachApplication.id))
             .reduce((total, application) => {
                 return total - application.endpoint.length
             }, 5)
@@ -610,7 +610,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             target,
         }).subscribe(
             (value => {
-                this.application = value.application;
+                this.applications = value.application;
             }),
             error => {
                 console.warn('Error getting Application for ', target, error);

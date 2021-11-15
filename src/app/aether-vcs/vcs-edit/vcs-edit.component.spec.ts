@@ -65,8 +65,9 @@ describe('VcsEditComponent', () => {
     });
 
     it('check Application Endpoint validation', () =>{
-        component.application =[{
+        component.applications =[{
             "enterprise": "test enterprise 1",
+            "address": "test address 1",
             "endpoint": [
                 {
                     "endpoint-id": "test-endpoint-id",
@@ -82,8 +83,9 @@ describe('VcsEditComponent', () => {
 
     it('check Application Endpoint validation if it is invalid' , () =>{
         component.EndpointLeft = 5;
-        component.application =[{
+        component.applications =[{
             "enterprise": "test enterprise 2",
+            "address": "test address 2",
             "endpoint": [
                 {
                     "endpoint-id": "test-endpoint-id-1",

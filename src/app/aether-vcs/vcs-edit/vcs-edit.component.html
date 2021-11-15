@@ -271,7 +271,7 @@
     *ngIf="showApplicationDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
     id="applicationSelectComponent"
     [alreadySelected]="selectedApplications()"
-    [applicationList]="application"
+    [applicationList]="applications"
     (appcloseEvent)="appSelected($event)">
 </aether-application-select>
 <aether-device-group-select
