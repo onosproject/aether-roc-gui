@@ -34,6 +34,7 @@ import { DeviceGroupSelectComponent } from './device-group-select/device-group-s
 import { VcsMonitorComponent } from './vcs-monitor/vcs-monitor.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {UtilsModule} from '../utils/utils.module';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [
@@ -71,7 +72,8 @@ import {UtilsModule} from '../utils/utils.module';
         MatCheckboxModule,
         MatAutocompleteModule,
         MatExpansionModule,
-        UtilsModule
+        UtilsModule,
+        MatTooltipModule
     ],
     providers: [
         {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}},

@@ -29,8 +29,8 @@ license_check: # @HELP examine and ensure license headers exist
 brew install gsed
 
 openapi-gen: # @HELP compile the OpenAPI files in to Typescript
-	node_modules/.bin/ng-openapi-gen --input ../aether-roc-api/api/aether-2.1.0-openapi3.yaml --output src/openapi3/aether/2.1.0
 	node_modules/.bin/ng-openapi-gen --input ../aether-roc-api/api/aether-3.0.0-openapi3.yaml --output src/openapi3/aether/3.0.0
+	node_modules/.bin/ng-openapi-gen --input ../aether-roc-api/api/aether-4.0.0-openapi3.yaml --output src/openapi3/aether/4.0.0
 	node_modules/.bin/ng-openapi-gen --input ../aether-roc-api/api/aether-top-level-openapi3.yaml --output src/openapi3/top/level
 	for f in src/openapi3/*/*/*.ts src/openapi3/*/*/*/*.ts; do \
 		sed -i '1i// GENERATED CODE -- DO NOT EDIT!' $$f; \

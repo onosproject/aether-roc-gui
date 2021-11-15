@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -10,12 +10,12 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { ApListApList } from '../models/ap-list-ap-list';
+import { VcsVcsFilter } from '../models/vcs-vcs-filter';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ApListApListService extends BaseService {
+export class VcsVcsFilterService extends BaseService {
   constructor(
     config: ApiConfiguration,
     http: HttpClient
@@ -24,21 +24,21 @@ export class ApListApListService extends BaseService {
   }
 
   /**
-   * Path part for operation getApListApList
+   * Path part for operation getVcsVcsFilter
    */
-  static readonly GetApListApListPath = '/aether/v4.0.0/{target}/ap-list/ap-list/{id}';
+  static readonly GetVcsVcsFilterPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/filter/{application}';
 
   /**
-   * GET /ap-list/ap-list.
+   * GET /vcs/vcs/{id}/filter.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getApListApList()` instead.
+   * To access only the response body, use `getVcsVcsFilter()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getApListApList$Response(params: {
+  getVcsVcsFilter$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -49,12 +49,18 @@ export class ApListApListService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<StrictHttpResponse<ApListApList>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApListApListService.GetApListApListPath, 'get');
+    /**
+     * key {application}
+     */
+    application: any;
+  }): Observable<StrictHttpResponse<VcsVcsFilter>> {
+
+    const rb = new RequestBuilder(this.rootUrl, VcsVcsFilterService.GetVcsVcsFilterPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
+      rb.path('application', params.application, {});
     }
 
     return this.http.request(rb.build({
@@ -63,22 +69,22 @@ export class ApListApListService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<ApListApList>;
+        return r as StrictHttpResponse<VcsVcsFilter>;
       })
     );
   }
 
   /**
-   * GET /ap-list/ap-list.
+   * GET /vcs/vcs/{id}/filter.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getApListApList$Response()` instead.
+   * To access the full response (for headers, for example), `getVcsVcsFilter$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getApListApList(params: {
+  getVcsVcsFilter(params: {
 
     /**
      * target (device in onos-config)
@@ -89,10 +95,15 @@ export class ApListApListService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<ApListApList> {
 
-    return this.getApListApList$Response(params).pipe(
-      map((r: StrictHttpResponse<ApListApList>) => r.body as ApListApList)
+    /**
+     * key {application}
+     */
+    application: any;
+  }): Observable<VcsVcsFilter> {
+
+    return this.getVcsVcsFilter$Response(params).pipe(
+      map((r: StrictHttpResponse<VcsVcsFilter>) => r.body as VcsVcsFilter)
     );
   }
 

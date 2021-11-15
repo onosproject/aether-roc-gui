@@ -8,10 +8,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {
     VcsVcs,
-    ApListApList,
     DeviceGroupDeviceGroup,
     UpfUpf,
-    AdditionalPropertyTarget, EnterpriseEnterprise, SiteSite, TemplateTemplate
+    AdditionalPropertyTarget, EnterpriseEnterprise, SiteSite, TemplateTemplate, ApplicationApplication
 } from '../../../openapi3/aether/4.0.0/models';
 import {RocEditBase} from '../../roc-edit-base';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -22,6 +21,8 @@ import {VcsVcsService, Service as AetherService} from 'src/openapi3/aether/4.0.0
 import {BasketService, HEX2NUM, IDATTRIBS, ORIGINAL, REQDATTRIBS, TYPE} from 'src/app/basket.service';
 import {HexPipe} from '../../utils/hex.pipe';
 import {SelectAppParam} from "../application-select/application-select.component";
+import has = Reflect.has;
+import {ApplicationDatasource} from "../../aether-application/application/application-datasource";
 
 interface Bandwidths {
     megabyte: { numerical: number, inMb: string };
@@ -40,9 +41,11 @@ interface BurstRate {
 export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     showApplicationDisplay: boolean = false;
     showDeviceGroupDisplay: boolean = false;
-    aps: Array<ApListApList> | AdditionalPropertyTarget;
+    showAddFilterButton: boolean = true;
+    EndpointLeft: number = 5;
     deviceGroups: Array<DeviceGroupDeviceGroup>;
     site: Array<SiteSite>;
+    applications: Array<ApplicationApplication>;
     templates: Array<TemplateTemplate>;
     selectedSite: string;
     enterprises: Array<EnterpriseEnterprise>;
@@ -59,14 +62,14 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     ];
 
     burstRateOptions: BurstRate[] = [
-        {label: '125 Kbps', value: 125000},
-        {label: '250 Kbps', value: 250000},
-        {label: '375 Kbps', value: 375000},
-        {label: '500 Kbps', value: 500000},
-        {label: '625 Kbps', value: 625000},
-        {label: '750 Kbps', value: 750000},
-        {label: '875 Kbps', value: 875000},
-        {label: '1 Mbps', value: 1000000},
+        {label: '125 KB', value: 125000},
+        {label: '250 KB', value: 250000},
+        {label: '375 KB', value: 375000},
+        {label: '500 KB', value: 500000},
+        {label: '625 KB', value: 625000},
+        {label: '750 KB', value: 750000},
+        {label: '875 KB', value: 875000},
+        {label: '1 MB', value: 1000000},
     ]
 
     defaultBehaviorOptions = [
@@ -146,12 +149,15 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     ) {
         super(snackBar, bs, route, router, 'vcs-4.0.0', 'vcs');
         super.form = this.vcsForm;
+        this.loadApplication(this.target);
         super.loadFunc = this.loadVcsVcs;
         this.vcsForm[REQDATTRIBS] = ['sd', 'sst', 'enterprise', 'site', 'default-behavior'];
         this.vcsForm.get(['slice', 'mbr', 'uplink'])[TYPE] = 'number';
         this.vcsForm.get(['slice', 'mbr', 'downlink'])[TYPE] = 'number';
         this.vcsForm.get(['sst'])[TYPE] = 'number';
         this.vcsForm.get(['sd'])[TYPE] = HEX2NUM;
+        this.vcsForm.get(['filter'])[IDATTRIBS] = ['application']
+        this.vcsForm.get(['device-group'])[IDATTRIBS] = ['device-group']
     }
 
     ngOnInit(): void {
@@ -187,12 +193,11 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         return this.vcsForm.get('filter') as FormArray;
     }
 
-    get applicationExists(): string[] {
-        const existingList: string[] = [];
-        (this.vcsForm.get(['filter']) as FormArray).controls.forEach((app) => {
-            existingList.push(app.get('application').value);
+    selectedApplications(): string[] {
+        return (this.vcsForm.get(['filter']) as FormArray).controls.map((app) => {
+            return app.get('application').value;
         });
-        return existingList;
+
     }
 
     get deviceGroup(): FormArray {
@@ -236,6 +241,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         });
         (this.vcsForm.get('filter') as FormArray).push(appGroupControl);
         this.vcsForm.get('filter').markAsTouched();
+        this.setShowAddFilterButton();
         console.log('Adding new Value', selected);
     }
 
@@ -347,6 +353,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             .controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
         (this.vcsForm.get('filter') as FormArray).removeAt(index);
         this.snackBar.open('Deletion of ' + app + ' added to basket', undefined, {duration: 2000});
+        this.setShowAddFilterButton();
     }
 
     deleteDeviceGroupFromSelect(dg: string): void {
@@ -406,6 +413,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                 }
                 isDeleted = false;
             }
+            this.setShowAddFilterButton();
         } else if (value.filter && this.vcsForm.value.filter.length !== 0) {
             this.vcsForm.value.filter.forEach((eachValueApp, eachValueAppPosition) => {
                 for (const eachFormApp of value.filter) {
@@ -421,6 +429,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                     }
                 }
             });
+            this.setShowAddFilterButton();
         }
         if (value.slice && value.slice.mbr) {
             this.vcsForm.get(['slice', 'mbr', 'uplink']).setValue(value.slice.mbr.uplink);
@@ -569,6 +578,17 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         );
     }
 
+
+    setShowAddFilterButton(): void {
+        this.EndpointLeft = this.applications?.filter(eachApplication => this.selectedApplications().includes(eachApplication.id))
+            .reduce((total, application) => {
+                return total - application.endpoint.length
+            }, 5)
+        if (this.EndpointLeft <= 0) {
+            this.showAddFilterButton = false;
+        }
+    }
+
     loadSites(target: string): void {
         this.aetherService.getSite({
             target,
@@ -586,4 +606,16 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         );
     }
 
+    loadApplication(target: string): void {
+        this.aetherService.getApplication({
+            target,
+        }).subscribe(
+            (value => {
+                this.applications = value.application;
+            }),
+            error => {
+                console.warn('Error getting Application for ', target, error);
+            }
+        )
+    }
 }

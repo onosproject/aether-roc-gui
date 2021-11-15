@@ -44,7 +44,7 @@
 
         <!-- Imsis Column -->
         <ng-container matColumnDef="Imsis" id="imsisColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>UE IDs</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>UE IDs</th>
             <td mat-cell *matCellDef="let row">
                 <p *ngFor="let ip of row.imsis">{{ip['imsi-id']}} {{ip['display-name']}} {{ip['imsi-range-from']}}-{{ip['imsi-range-to']}}</p>
             </td>
@@ -65,7 +65,7 @@
 
         <!--Device Column -->
         <ng-container matColumnDef="device" id="deviceColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Device</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Device</th>
             <td mat-cell *matCellDef="let row">
                 <p><mat-icon class="small_icon">arrow_upward</mat-icon> {{row.device.mbr.uplink}}</p>
                 <p><mat-icon class="small_icon">arrow_downward</mat-icon> {{row.device.mbr.downlink}}</p>
@@ -75,7 +75,7 @@
 
         <!-- Edit Column -->
         <ng-container matColumnDef="edit" id="editColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Edit</th>
             <td mat-cell *matCellDef="let row" routerLink="/devicegroups/devicegroups-edit/{{row.id}}" id="editButton">
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
             </td>
@@ -83,7 +83,7 @@
 
         <!-- Delete Column -->
         <ng-container matColumnDef="delete" id="deleteColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Delete</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Delete</th>
             <td mat-cell *matCellDef="let row">
                 <button mat-icon-button
                         id="deleteButton"
@@ -98,7 +98,7 @@
 
         <!-- Usage Column -->
         <ng-container matColumnDef="usage" id="usageColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Usage</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Usage</th>
             <td mat-cell *matCellDef="let row">
                 <button mat-icon-button
                         id="usageButton"
@@ -111,7 +111,7 @@
 
         <!-- Monitor Column -->
         <ng-container matColumnDef="monitor" id="monitorColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Monitor</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Monitor</th>
             <td mat-cell *matCellDef="let row" routerLink="/devicegroups/devicegroups-monitor/{{row.id}}" id="monitorDgButton">
                 <mat-icon class="table_icon" color="accent">insights</mat-icon>
             </td>

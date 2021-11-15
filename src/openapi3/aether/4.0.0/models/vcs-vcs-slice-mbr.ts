@@ -1,12 +1,29 @@
 // GENERATED CODE -- DO NOT EDIT!
+/* tslint:disable */
 /* eslint-disable */
-/* eslint-disable */
-import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
-import {MaxiumBitrate} from "./maximum-bitrate";
-export interface VcsVcsSliceMbr {
-    /**
-     * Maximum bitrate
-     */
-    mbr?: MaxiumBitrate;
 
+/**
+ * Maximum bitrate
+ */
+export interface VcsVcsSliceMbr {
+
+  /**
+   * Per-Slice MBR downlink data rate in bps
+   */
+  downlink?: number;
+
+  /**
+   * Per-Slice Downlink burst size
+   */
+  'downlink-burst-size'?: number;
+
+  /**
+   * Per-Slice MBR uplink data rate in bps
+   */
+  uplink?: number;
+
+  /**
+   * Per-Slice Uplink burst size
+   */
+  'uplink-burst-size'?: number;
 }

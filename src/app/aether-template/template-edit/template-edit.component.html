@@ -60,10 +60,10 @@
                 <div [formGroup]="sliceMbrControls">
                     <div class="row float-left" id="uplinkRow">
                         <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="auto"
+                            <input matInput type="number" [matAutocomplete]="uplinkAuto"
                                    id="inputsliceUplink"
                                    formControlName="uplink">
-                            <mat-autocomplete #auto="matAutocomplete">
+                            <mat-autocomplete #uplinkAuto="matAutocomplete">
                                 <mat-option *ngFor="let option of bandwidthOptions | async"
                                             [value]="option.megabyte.numerical">
                                     {{option.megabyte.numerical}}
@@ -75,10 +75,10 @@
                     </div>
                     <div class="row " id="downlinkRow">
                         <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="auto"
+                            <input matInput type="number" [matAutocomplete]="downlinkAuto"
                                    id="inputsliceDownlink"
                                    formControlName="downlink">
-                            <mat-autocomplete #auto="matAutocomplete">
+                            <mat-autocomplete #downlinkAuto="matAutocomplete">
                                 <mat-option *ngFor="let option of bandwidthOptions | async"
                                             [value]="option.megabyte.numerical">
                                     {{option.megabyte.numerical}}
@@ -86,6 +86,34 @@
                                 </mat-option>
                             </mat-autocomplete>
                             <mat-hint>Downlink (bps)</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="row float-left" id="sliceUplinkBurstSizeRow">
+                        <mat-form-field class="field-margin">
+                            <input matInput type="number" [matAutocomplete]="burstauto"
+                                   id="inputsliceUplinkBurstSize"
+                                   formControlName="uplink-burst-size">
+                            <mat-autocomplete #burstauto="matAutocomplete">
+                                <mat-option *ngFor="let option of burstRateOptions"
+                                            [value]="option.value">
+                                    {{option.label}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Uplink Burst Size (bytes)</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="row " id="sliceDownlinkBurstSizeRow">
+                        <mat-form-field class="field-margin">
+                            <input matInput type="number" [matAutocomplete]="burstauto"
+                                   id="inputsliceDownlinkBurstSize"
+                                   formControlName="downlink-burst-size">
+                            <mat-autocomplete #burstauto="matAutocomplete">
+                                <mat-option *ngFor="let option of burstRateOptions"
+                                            [value]="option.value">
+                                    {{option.label}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Downlink Burst Size (bytes)</mat-hint>
                         </mat-form-field>
                     </div>
                 </div>

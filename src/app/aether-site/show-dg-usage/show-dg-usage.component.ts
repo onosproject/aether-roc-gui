@@ -36,7 +36,7 @@ export class ShowDgUsageComponent implements OnChanges {
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
     parentModulesArray: Array<displayedColumns> = [];
-    displayColumns = ['id', 'display-name'];
+    displayColumns = ['parent-module', 'id', 'display-name'];
 
     constructor(
         protected fb: FormBuilder,
@@ -55,13 +55,41 @@ export class ShowDgUsageComponent implements OnChanges {
                     let displayParentModules = {
                         'id': deviceGroupElement.id,
                         'display-name': deviceGroupElement["display-name"],
+                        'parent-module': "Device Group"
                     }
                     this.parentModulesArray.push(displayParentModules);
                 }
             })
-            this.table.dataSource = this.parentModulesArray;
+            this.aetherService.getVcs({
+                target: AETHER_TARGETS[0]
+            }).subscribe(displayData => {
+                displayData.vcs.forEach(VCSElement => {
+                    if (VCSElement.site === this.siteID) {
+                        let displayParentModules = {
+                            'id': VCSElement.id,
+                            'display-name': VCSElement["display-name"],
+                            'parent-module': "VCS"
+                        }
+                        this.parentModulesArray.push(displayParentModules);
+                    }
+                })
+                this.aetherService.getUpf({
+                    target: AETHER_TARGETS[0]
+                }).subscribe(displayData => {
+                    displayData.upf.forEach(UPFElement => {
+                        if (UPFElement.site === this.siteID) {
+                            let displayParentModules = {
+                                'id': UPFElement.id,
+                                'display-name': UPFElement["display-name"],
+                                'parent-module': "UPF"
+                            }
+                            this.parentModulesArray.push(displayParentModules);
+                        }
+                        this.table.dataSource = this.parentModulesArray;
+                    })
+                })
+            })
         })
-
     }
 
     keepCardOpen(cancelled: boolean): void {

@@ -52,15 +52,6 @@
             </td>
         </ng-container>
 
-        <!-- slice Burst Size Column -->
-        <ng-container matColumnDef="sliceBurst" id="slicevMbrBurstColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Slice Burst Size</th>
-            <td mat-cell *matCellDef="let row">
-                <p *ngIf="row.slice && row.slice.mbr"><mat-icon class="small_icon">arrow_upward</mat-icon>{{row.slice.mbr["uplink-burst-size"]}}</p>
-                <p *ngIf="row.slice && row.slice.mbr"><mat-icon class="small_icon">arrow_downward</mat-icon>{{row.slice.mbr["downlink-burst-size"]}}</p>
-            </td>
-        </ng-container>
-
         <!-- Enterprise Column-->
         <ng-container matColumnDef="enterprise" id="EnterpriseColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Enterprise</th>

@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { VcsVcsApplication } from './vcs-vcs-application';
@@ -35,7 +35,7 @@ export interface VcsVcs {
   'display-name'?: string;
 
   /**
-   * Downlink data rate in bps
+   * Downlink data rate in mbps
    */
   downlink?: number;
 
@@ -76,7 +76,7 @@ export interface VcsVcs {
   upf?: string;
 
   /**
-   * Uplink data rate in bps
+   * Uplink data rate in mbps
    */
   uplink?: number;
 

@@ -1,81 +1,70 @@
 // GENERATED CODE -- DO NOT EDIT!
+/* tslint:disable */
 /* eslint-disable */
-/* eslint-disable */
-import {AdditionalPropertyUnchanged} from './additional-property-unchanged';
-import {VcsVcsApplication} from './vcs-vcs-application';
-import {VcsVcsDeviceGroup} from './vcs-vcs-device-group';
-import {VcsVcsDeviceMbr} from "./vcs-vcs-device-mbr";
-import {VcsVcsSliceMbr} from "./vcs-vcs-slice-mbr";
-
+import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
+import { VcsVcsDeviceGroup } from './vcs-vcs-device-group';
+import { VcsVcsFilter } from './vcs-vcs-filter';
+import { VcsVcsSlice } from './vcs-vcs-slice';
 export interface VcsVcs {
 
-    /**
-     * A list of applications to allow and/or deny. Rules are executed in
-     * priority order. The first rule to match will determine the fate
-     * of the packet
-     */
-    filter?: Array<VcsVcsApplication>;
+  /**
+   * Default behavior if no filter rules match
+   */
+  'default-behavior': string;
 
-    /**
-     * description of this vcs
-     */
-    description?: string;
+  /**
+   * description of this vcs
+   */
+  description?: string;
 
-    /**
-     * A list of device groups. Groups will only participate in
-     * the VCS if the enable field is set to True
-     */
-    'device-group'?: Array<VcsVcsDeviceGroup>;
+  /**
+   * A list of device groups. Groups will only participate in
+   * the VCS if the enable field is set to True
+   */
+  'device-group'?: Array<VcsVcsDeviceGroup>;
 
-    /**
-     * display name to use in GUI or CLI
-     */
-    'display-name'?: string;
+  /**
+   * display name to use in GUI or CLI
+   */
+  'display-name'?: string;
 
-    /**
-     * Link to enterprise that owns this VCS
-     */
-    enterprise: string;
+  /**
+   * Link to enterprise that owns this VCS
+   */
+  enterprise: string;
 
-    /**
-     * ID for this vcs.
-     */
-    id: string;
+  /**
+   * A list of applications to allow and/or deny. Rules are executed in
+   * priority order. The first rule to match will determine the fate
+   * of the packet.
+   */
+  filter?: Array<VcsVcsFilter>;
 
-    /**
-     * Slice differentiator. Immutable.
-     */
-    sd: number;
+  /**
+   * ID for this vcs.
+   */
+  id: string;
 
-    /**
-     * Slice/Service type. Immutable.
-     */
-    sst: number;
+  /**
+   * Slice differentiator. Immutable.
+   */
+  sd: number;
 
-    /**
-     * Link to traffic class
-     */
-    'traffic-class'?: string;
+  /**
+   * Link to site where this VCS is deployed
+   */
+  site: string;
+  slice?: VcsVcsSlice;
 
-    /**
-     * Link to user plane that implements this vcf
-     */
-    upf?: string;
+  /**
+   * Slice/Service type. Immutable.
+   */
+  sst: number;
 
-    /**
-     * Link to site
-     */
-    site: string;
+  /**
+   * Link to user plane that implements this vcf
+   */
+  upf?: string;
 
-    /**
-     * Per-Slice QOS Settings
-     */
-    slice?: VcsVcsSliceMbr;
-
-    /**
-     * Default behavior if no filter rules match
-     */
-    'default-behavior'?: string;
-
-    [key: string]: AdditionalPropertyUnchanged | Array<VcsVcsApplication> | Array<VcsVcsDeviceGroup> | VcsVcsDeviceMbr | VcsVcsSliceMbr | number | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | Array<VcsVcsDeviceGroup> | Array<VcsVcsFilter> | VcsVcsSlice | number | string | undefined;
 }

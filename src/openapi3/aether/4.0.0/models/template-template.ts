@@ -1,9 +1,14 @@
 // GENERATED CODE -- DO NOT EDIT!
+/* tslint:disable */
 /* eslint-disable */
-/* eslint-disable */
-import {TemplateTemplateSliceMbr} from "./template-template-slice-mbr";
-
+import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
+import { TemplateTemplateSlice } from './template-template-slice';
 export interface TemplateTemplate {
+
+  /**
+   * Default behavior if no filter rules match
+   */
+  'default-behavior': string;
 
   /**
    * description of this vcs template
@@ -15,11 +20,6 @@ export interface TemplateTemplate {
    */
   'display-name'?: string;
 
-    /**
-     * Per-Slice QOS Settings
-     */
-  slice?:TemplateTemplateSliceMbr;
-
   /**
    * ID for this vcs template.
    */
@@ -29,20 +29,12 @@ export interface TemplateTemplate {
    * Slice differentiator
    */
   sd?: number;
+  slice?: TemplateTemplateSlice;
 
   /**
    * Slice/Service type
    */
   sst?: number;
 
-  /**
-   * Link to traffic class
-   */
-  'traffic-class'?: string;
-
-  /**
-   * Default behavior if no filter rules match
-   */
-  'default-behavior'?: string;
-
+  [key: string]: AdditionalPropertyUnchanged | TemplateTemplateSlice | number | string | undefined;
 }

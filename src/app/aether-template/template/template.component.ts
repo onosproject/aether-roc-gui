@@ -33,7 +33,8 @@ export class TemplateComponent extends RocListBase<TemplateDatasource> implement
         'sd',
         'sst',
         'default-behavior',
-        'slice',
+        'mbr',
+        'burst',
         'edit',
         'delete'
     ];

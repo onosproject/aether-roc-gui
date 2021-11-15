@@ -7,14 +7,12 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {RocMonitorBase} from '../../roc-monitor-base';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-    ApListApListService,
     Service as AetherService, SiteSiteService, TrafficClassTrafficClassService,
     UpfUpfService, VcsVcsService
 } from '../../../openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS, PERFORMANCE_METRICS_ENABLED} from '../../../environments/environment';
 import {filter, mergeMap, pluck} from 'rxjs/operators';
 import {
-    ApListApList,
     ApplicationApplication,
     DeviceGroupDeviceGroup, SiteSite, TrafficClassTrafficClass, UpfUpf,
     VcsVcs
@@ -43,7 +41,6 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
     thisVcs: VcsVcs;
     deviceGroups: Map<DeviceGroupDeviceGroup, boolean>;
     applications: Map<ApplicationApplication, boolean>;
-    apList: ApListApList;
     upf: UpfUpf;
     site: SiteSite;
     trafficClass: TrafficClassTrafficClass;
@@ -65,7 +62,6 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
         protected vcsService: VcsVcsService,
         protected upfService: UpfUpfService,
         protected tcService: TrafficClassTrafficClassService,
-        protected apListService: ApListApListService,
         protected siteService: SiteSiteService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -134,7 +130,6 @@ export class VcsMonitorComponent extends RocMonitorBase implements OnInit, OnDes
                 this.getDeviceGroupDetails(enabledDg);
                 this.getApplicationDetails(allowedApp);
                 this.getUpf(vcs.upf);
-                this.getTrafficClass(vcs['traffic-class']);
             },
             (err) => console.warn('VCS', this.id, 'not found.', err)
         );

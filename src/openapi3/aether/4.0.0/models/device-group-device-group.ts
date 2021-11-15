@@ -1,16 +1,16 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
+import { DeviceGroupDeviceGroupDevice } from './device-group-device-group-device';
 import { DeviceGroupDeviceGroupImsis } from './device-group-device-group-imsis';
-import {DeviceGroupDeviceGroupDeviceMbr} from "./device-group-device-group-device";
-
 export interface DeviceGroupDeviceGroup {
 
   /**
    * description of this device group
    */
   description?: string;
+  device?: DeviceGroupDeviceGroupDevice;
 
   /**
    * display name to use in GUI or CLI
@@ -34,12 +34,10 @@ export interface DeviceGroupDeviceGroup {
    */
   'ip-domain'?: string;
 
-  device?: DeviceGroupDeviceGroupDeviceMbr;
-
   /**
    * Link to site
    */
   site: string;
 
-  [key: string]: AdditionalPropertyUnchanged | Array<DeviceGroupDeviceGroupImsis> | DeviceGroupDeviceGroupDeviceMbr | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | Array<DeviceGroupDeviceGroupImsis> | DeviceGroupDeviceGroupDevice | string | undefined;
 }

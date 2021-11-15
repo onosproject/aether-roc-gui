@@ -1,7 +1,12 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 export interface TrafficClassTrafficClass {
+
+  /**
+   * Allocation and Retention Priority. 1 is the highest. 15 is the lowest.
+   */
+  arp?: number;
 
   /**
    * description of this traffic class
@@ -29,12 +34,7 @@ export interface TrafficClassTrafficClass {
   pelr?: number;
 
   /**
-   * Allocation and Retention Priority. 1 is the highest. 15 is the lowest.
-   */
-  arp?:number;
-
-  /**
-   * QCI
+   * QOS Class Identifier
    */
   qci?: number;
 }

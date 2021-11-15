@@ -67,7 +67,7 @@
                     <mat-hint>Site</mat-hint>
                 </mat-form-field>
             </div>
-            
+
             <div class="row" *ngIf="isNewInstance">
                 <mat-form-field class="field-margin half-width">
                     <mat-select
@@ -114,36 +114,43 @@
 
             <div formArrayName="filter" class="subscriber-section field-margin">
                 <mat-hint>Filter</mat-hint>
-                <mat-icon (click)="showApplicationDisplay = true" color='accent' class="subscriber-pointer"
+                <mat-icon (click)="showApplicationDisplay = true" *ngIf="showAddFilterButton" color='accent'
+                          class="subscriber-pointer"
                           id="addFilter">
                     add
                 </mat-icon>
-                <div *ngFor="let appForm of filter.controls; index as i">
-                    <div [formGroup]="appForm" [id]="'applicationDiv' + i">
-                        <mat-form-field class="field-margin">
-                            <div class="float-left">
-                                <mat-hint>Application</mat-hint>
-                                <input matInput formControlName="application" readonly>
-                            </div>
-                        </mat-form-field>
-                        <mat-form-field class="field-margin">
-                            <div class="float-left">
-                                <mat-hint>Priority</mat-hint>
-                                <input matInput type="number" formControlName="priority">
-                            </div>
-                        </mat-form-field>
-                        <mat-slide-toggle formControlName="allow">Allow</mat-slide-toggle>
-                        <mat-icon color='primary' class="ield-margin"
-                                  aria-hidden="false" aria-label="Application"
-                                  routerLink="/application/application-edit/{{appForm.value.application}}"
-                                  id="pointerApplication">launch
-                        </mat-icon>
-                        <button mat-icon-button color="accent"
-                                [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
-                                (click)="deleteApplicationFromSelect(appForm.value['application'])"
-                                id="deleteApplication">
-                            <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
-                        </button>
+                <div class="field-margin">
+                    <mat-hint>Endpoints Left: {{this.EndpointLeft}}</mat-hint>
+                    <mat-icon color='accent' class="subscriber-pointer"
+                              matTooltip="Maximum of 5 Application-Endpoints per slice" id="infoIcon">info
+                    </mat-icon>
+                    <div *ngFor="let appForm of filter.controls; index as i">
+                        <div [formGroup]="appForm" [id]="'applicationDiv' + i">
+                            <mat-form-field>
+                                <div class="float-left">
+                                    <mat-hint>Application</mat-hint>
+                                    <input matInput formControlName="application" readonly>
+                                </div>
+                            </mat-form-field>
+                            <mat-form-field class="field-margin">
+                                <div class="float-left">
+                                    <mat-hint>Priority</mat-hint>
+                                    <input matInput type="number" formControlName="priority">
+                                </div>
+                            </mat-form-field>
+                            <mat-slide-toggle formControlName="allow">Allow</mat-slide-toggle>
+                            <mat-icon color='primary' class="ield-margin"
+                                      aria-hidden="false" aria-label="Application"
+                                      routerLink="/application/application-edit/{{appForm.value.application}}"
+                                      id="pointerApplication">launch
+                            </mat-icon>
+                            <button mat-icon-button color="accent"
+                                    [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
+                                    (click)="deleteApplicationFromSelect(appForm.value['application'])"
+                                    id="deleteApplication">
+                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -156,7 +163,7 @@
                 <!--device-group-->
                 <div *ngFor="let dgForm of deviceGroup.controls; index as i">
                     <mat-form-field class="field-margin half-width">
-                        <div [formGroup]="dgForm" [id]="'deviceGroupDiv' + i">
+                        <div [formGroup]="dgForm" [id]="dgForm.value['device-group']">
                             <input matInput formControlName="device-group" readonly>
                             <mat-slide-toggle formControlName="enable">Enable</mat-slide-toggle>
                             <mat-icon color='primary' class="subscriber-pointer"
@@ -218,7 +225,7 @@
                                     {{option.label}}
                                 </mat-option>
                             </mat-autocomplete>
-                            <mat-hint>Uplink Burst Size (Mbps)</mat-hint>
+                            <mat-hint>Uplink Burst Size (bytes)</mat-hint>
                         </mat-form-field>
                     </div>
                     <div class="row " id="sliceDownlinkBurstSizeRow">
@@ -232,7 +239,7 @@
                                     {{option.label}}
                                 </mat-option>
                             </mat-autocomplete>
-                            <mat-hint>Downlink Burst Size (Mbps)</mat-hint>
+                            <mat-hint>Downlink Burst Size (bytes)</mat-hint>
                         </mat-form-field>
                     </div>
                 </div>
@@ -263,7 +270,8 @@
 <aether-application-select
     *ngIf="showApplicationDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
     id="applicationSelectComponent"
-    [alreadySelected]="applicationExists"
+    [alreadySelected]="selectedApplications()"
+    [applicationList]="applications"
     (appcloseEvent)="appSelected($event)">
 </aether-application-select>
 <aether-device-group-select

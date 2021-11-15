@@ -117,25 +117,6 @@
                         <p>{{ep.name}}: {{ep.address}} {{ep.protocol}} {{ep["port-start"]}}-{{ep["port-end"]}}</p>
                     </div>
                 </mat-expansion-panel>
-                <mat-expansion-panel *ngIf="apList">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title><small>Access Point:</small>&nbsp;{{apList["display-name"]}}</mat-panel-title>
-                        <mat-panel-description>
-                            <small>({{apList.id}})</small>
-                        </mat-panel-description>
-                    </mat-expansion-panel-header>
-                    <h3>Access Points
-                        <mat-icon class="table_icon small_icon" aria-hidden="false" aria-label="Access Point"
-                                  color="accent"
-                                  routerLink="/aplist/aplist-edit/{{apList.id}}">edit
-                        </mat-icon>
-                    </h3>
-                    <div *ngFor="let ap of apList['access-points']">
-                        <p>{{ap.address}} {{ap.tac}}
-                            <mat-icon *ngIf="ap.enable" color="primary">done</mat-icon>
-                        </p>
-                    </div>
-                </mat-expansion-panel>
                 <mat-expansion-panel *ngIf="upf">
                     <mat-expansion-panel-header>
                         <mat-panel-title><small>UPF:</small>&nbsp;{{upf["display-name"]}}</mat-panel-title>
@@ -168,7 +149,7 @@
                     </h3>
                     <div>
                         <p>
-                            <small>PELR</small>&nbsp;{{trafficClass.pelr}}&nbsp;<small>PDB</small>&nbsp;{{trafficClass.pdb}}&nbsp;<small>QCI</small>&nbsp;{{trafficClass.qci}}
+                            <small>PELR</small>&nbsp;{{trafficClass.pelr}}&nbsp;<small>PDB</small>&nbsp;{{trafficClass.pdb}}&nbsp;<small>ARP</small>&nbsp;{{trafficClass.arp}}&nbsp;<small>QCI</small>&nbsp;{{trafficClass.qci}}
                         </p>
                     </div>
                 </mat-expansion-panel>

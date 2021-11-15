@@ -80,6 +80,7 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
 
     ngOnInit(): void {
         this.loadEnterprises(this.target);
+        this.loadSites(this.target);
         super.init();
     }
 
@@ -184,7 +185,6 @@ export class UpfEditComponent extends RocEditBase<UpfUpf> implements OnInit {
         if (value.site) {
             this.upfForm.get('site').setValue(value.site);
             this.upfForm.get('site')[ORIGINAL] = value.site;
-            this.loadSites(this.target);
         }
         if (value.address) {
             this.upfForm.get('address').setValue(value.address);

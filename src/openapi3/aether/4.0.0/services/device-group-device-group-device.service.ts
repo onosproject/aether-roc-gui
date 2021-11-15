@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -10,12 +10,12 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { ApnProfileApnProfile } from '../models/apn-profile-apn-profile';
+import { DeviceGroupDeviceGroupDeviceMbr } from '../models/device-group-device-group-device-mbr';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ApnProfileApnProfileService extends BaseService {
+export class DeviceGroupDeviceGroupDeviceService extends BaseService {
   constructor(
     config: ApiConfiguration,
     http: HttpClient
@@ -24,21 +24,21 @@ export class ApnProfileApnProfileService extends BaseService {
   }
 
   /**
-   * Path part for operation getApnProfileApnProfile
+   * Path part for operation getDeviceGroupDeviceGroupDeviceMbr
    */
-  static readonly GetApnProfileApnProfilePath = '/aether/v2.1.0/{target}/apn-profile/apn-profile/{id}';
+  static readonly GetDeviceGroupDeviceGroupDeviceMbrPath = '/aether/v4.0.0/{target}/device-group/device-group/{id}/device/mbr';
 
   /**
-   * GET /apn-profile/apn-profile Generated from YANG model.
+   * GET /device-group/device-group/{id}/device/mbr.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getApnProfileApnProfile()` instead.
+   * To access only the response body, use `getDeviceGroupDeviceGroupDeviceMbr()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getApnProfileApnProfile$Response(params: {
+  getDeviceGroupDeviceGroupDeviceMbr$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -49,9 +49,9 @@ export class ApnProfileApnProfileService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<StrictHttpResponse<ApnProfileApnProfile>> {
+  }): Observable<StrictHttpResponse<DeviceGroupDeviceGroupDeviceMbr>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApnProfileApnProfileService.GetApnProfileApnProfilePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, DeviceGroupDeviceGroupDeviceService.GetDeviceGroupDeviceGroupDeviceMbrPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
@@ -63,22 +63,22 @@ export class ApnProfileApnProfileService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<ApnProfileApnProfile>;
+        return r as StrictHttpResponse<DeviceGroupDeviceGroupDeviceMbr>;
       })
     );
   }
 
   /**
-   * GET /apn-profile/apn-profile Generated from YANG model.
+   * GET /device-group/device-group/{id}/device/mbr.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getApnProfileApnProfile$Response()` instead.
+   * To access the full response (for headers, for example), `getDeviceGroupDeviceGroupDeviceMbr$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getApnProfileApnProfile(params: {
+  getDeviceGroupDeviceGroupDeviceMbr(params: {
 
     /**
      * target (device in onos-config)
@@ -89,10 +89,10 @@ export class ApnProfileApnProfileService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<ApnProfileApnProfile> {
+  }): Observable<DeviceGroupDeviceGroupDeviceMbr> {
 
-    return this.getApnProfileApnProfile$Response(params).pipe(
-      map((r: StrictHttpResponse<ApnProfileApnProfile>) => r.body as ApnProfileApnProfile)
+    return this.getDeviceGroupDeviceGroupDeviceMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<DeviceGroupDeviceGroupDeviceMbr>) => r.body as DeviceGroupDeviceGroupDeviceMbr)
     );
   }
 

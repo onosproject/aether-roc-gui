@@ -7,9 +7,10 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ApplicationApplicationService, Service} from 'src/openapi3/aether/4.0.0/services';
 import {AETHER_TARGETS} from '../../../environments/environment';
-import {Application} from '../../../openapi3/aether/4.0.0/models';
+import {Application, ApplicationApplication} from '../../../openapi3/aether/4.0.0/models';
 import {RocSelectBase} from '../../roc-select-base';
 import {EndPointParam} from "../../aether-application/endpoint-select/endpoint-select.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 export interface SelectAppParam {
@@ -28,6 +29,8 @@ export interface SelectAppParam {
 export class ApplicationSelectComponent extends RocSelectBase<ApplicationApplicationService, Application>
     implements OnInit {
     closeEvent: EventEmitter<string>;
+    SliceApplicationEndpointLimit: number = 5;
+    ApplicationOptions: Array<ApplicationApplication> = [];
     selectForm = this.fb.group({
         'select-item': [undefined, Validators.compose([
             Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -39,20 +42,31 @@ export class ApplicationSelectComponent extends RocSelectBase<ApplicationApplica
             Validators.maxLength(255),
         ])]
     })
-
     @Input() alreadySelected: string[] = [];
+    @Input() applicationList: Array<ApplicationApplication> = [] = [];
     @Output() appcloseEvent = new EventEmitter<SelectAppParam>();
 
     constructor(
         protected service: Service,
         protected fb: FormBuilder,
+        protected snackBar: MatSnackBar,
     ) {
         super(fb);
     }
 
     ngOnInit(): void {
-        super.getData(this.service.getApplication({target: AETHER_TARGETS[0]}),
-            'application');
+        if (this.alreadySelected.length !== 0) {
+            let alreadySelectedAppArray = this.applicationList?.filter(eachApplication => this.alreadySelected.includes(eachApplication.id))
+            alreadySelectedAppArray?.forEach(application => {
+                this.SliceApplicationEndpointLimit = this.SliceApplicationEndpointLimit - application.endpoint.length;
+            })
+        }
+        this.applicationList?.forEach(eachApplication => {
+            const exists = this.alreadySelected.indexOf(eachApplication.id);
+            if ((exists === -1) && eachApplication.endpoint.length <= this.SliceApplicationEndpointLimit) {
+                this.ApplicationOptions.push(eachApplication)
+            }
+        })
     }
 
     close(cancelled: boolean): void {

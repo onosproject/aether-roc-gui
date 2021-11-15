@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -294,24 +294,24 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * Path part for operation specAether210
+   * Path part for operation specAether400
    */
-  static readonly SpecAether210Path = '/spec/aether-2.1.0-openapi3.yaml';
+  static readonly SpecAether400Path = '/spec/aether-4.0.0-openapi3.yaml';
 
   /**
-   * GET /spec/aether-2.1.0-openapi3.yaml The Aether 2.1.0 spec.
+   * GET /spec/aether-4.0.0-openapi3.yaml The Aether 4.0.0 spec.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `specAether210()` instead.
+   * To access only the response body, use `specAether400()` instead.
    *
    * This method doesn't expect any request body.
    */
-  specAether210$Response(params?: {
+  specAether400$Response(params?: {
   }): Observable<StrictHttpResponse<string>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.SpecAether210Path, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.SpecAether400Path, 'get');
     if (params) {
     }
 
@@ -327,19 +327,19 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * GET /spec/aether-2.1.0-openapi3.yaml The Aether 2.1.0 spec.
+   * GET /spec/aether-4.0.0-openapi3.yaml The Aether 4.0.0 spec.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `specAether210$Response()` instead.
+   * To access the full response (for headers, for example), `specAether400$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  specAether210(params?: {
+  specAether400(params?: {
   }): Observable<string> {
 
-    return this.specAether210$Response(params).pipe(
+    return this.specAether400$Response(params).pipe(
       map((r: StrictHttpResponse<string>) => r.body as string)
     );
   }

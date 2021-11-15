@@ -22,6 +22,11 @@ export interface Bandwidths {
     megabyte: { numerical: number, inMb: string };
 }
 
+interface BurstRate {
+    value: number
+    label: string
+}
+
 @Component({
     selector: 'aether-template-edit',
     templateUrl: './template-edit.component.html',
@@ -54,6 +59,18 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
         {megabyte: {numerical: 100000000, inMb: '100Mbps'}},
         {megabyte: {numerical: 500000000, inMb: '500Mbps'}}
     ];
+
+    burstRateOptions: BurstRate[] = [
+        {label: '125 KB', value: 125000},
+        {label: '250 KB', value: 250000},
+        {label: '375 KB', value: 375000},
+        {label: '500 KB', value: 500000},
+        {label: '625 KB', value: 625000},
+        {label: '750 KB', value: 750000},
+        {label: '875 KB', value: 875000},
+        {label: '1 MB', value: 1000000},
+    ]
+
     bandwidthOptions: Observable<Bandwidths[]>;
     data: TemplateTemplate;
     tempForm = this.fb.group({
@@ -82,18 +99,6 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             Validators.min(1),
             Validators.max(255)
         ])],
-        device: this.fb.group({
-            mbr: this.fb.group({
-                uplink: [undefined, Validators.compose([
-                    Validators.min(0),
-                    Validators.max(4294967295)
-                ])],
-                downlink: [undefined, Validators.compose([
-                    Validators.min(0),
-                    Validators.max(4294967295)
-                ])]
-            }),
-        }),
         slice: this.fb.group({
             mbr: this.fb.group({
                 uplink: [undefined, Validators.compose([
@@ -101,6 +106,14 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
                     Validators.max(4294967295)
                 ])],
                 downlink: [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])],
+                'uplink-burst-size': [undefined, Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295)
+                ])],
+                'downlink-burst-size': [undefined, Validators.compose([
                     Validators.min(0),
                     Validators.max(4294967295)
                 ])]
@@ -137,10 +150,10 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
             );
         this.tempForm.get('sd')[TYPE] = HEX2NUM;
         this.tempForm.get('sst')[TYPE] = 'number';
-        this.tempForm.get(['device','mbr','uplink'])[TYPE] = 'number';
-        this.tempForm.get(['device','mbr','downlink'])[TYPE] = 'number';
         this.tempForm.get(['slice','mbr','uplink'])[TYPE] = 'number';
         this.tempForm.get(['slice','mbr','downlink'])[TYPE] = 'number';
+        this.tempForm.get(['slice','mbr','uplink-burst-size'])[TYPE] = 'number';
+        this.tempForm.get(['slice','mbr','downlink-burst-size'])[TYPE] = 'number';
     }
 
     private _filter(bandwidthIndex: number): Bandwidths[] {
@@ -199,13 +212,13 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
         if (value.slice && value.slice.mbr) {
             this.tempForm.get(['slice','mbr','uplink']).setValue(value.slice.mbr.uplink);
             this.tempForm.get(['slice','mbr','downlink']).setValue(value.slice.mbr.downlink);
+            this.tempForm.get(['slice','mbr','uplink-burst-size']).setValue(value.slice.mbr['uplink-burst-size']);
+            this.tempForm.get(['slice','mbr','downlink-burst-size']).setValue(value.slice.mbr['downlink-burst-size']);
             this.tempForm.get(['slice','mbr','uplink'])[ORIGINAL] = value.slice.mbr.uplink;
             this.tempForm.get(['slice','mbr','downlink'])[ORIGINAL] = value.slice.mbr.downlink;
+            this.tempForm.get(['slice','mbr','uplink-burst-size'])[ORIGINAL] = value.slice.mbr['uplink-burst-size'];
+            this.tempForm.get(['slice','mbr','downlink-burst-size'])[ORIGINAL] = value.slice.mbr['downlink-burst-size'];
         }
-    }
-
-    get deviceMbrControls(): FormGroup {
-        return this.tempForm.get(['device','mbr']) as FormGroup;
     }
 
     get sliceMbrControls(): FormGroup {

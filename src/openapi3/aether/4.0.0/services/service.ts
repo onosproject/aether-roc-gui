@@ -1,5 +1,5 @@
 // GENERATED CODE -- DO NOT EDIT!
-/* eslint-disable */
+/* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
@@ -10,7 +10,6 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { ApList } from '../models/ap-list';
 import { Application } from '../models/application';
 import { ConnectivityService } from '../models/connectivity-service';
 import { DeviceGroup } from '../models/device-group';
@@ -31,68 +30,6 @@ export class Service extends BaseService {
     http: HttpClient
   ) {
     super(config, http);
-  }
-
-  /**
-   * Path part for operation getApList
-   */
-  static readonly GetApListPath = '/aether/v4.0.0/{target}/ap-list';
-
-  /**
-   * GET /ap-list.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getApList()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getApList$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<ApList>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetApListPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<ApList>;
-      })
-    );
-  }
-
-  /**
-   * GET /ap-list.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getApList$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getApList(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<ApList> {
-
-    return this.getApList$Response(params).pipe(
-      map((r: StrictHttpResponse<ApList>) => r.body as ApList)
-    );
   }
 
   /**
@@ -117,6 +54,7 @@ export class Service extends BaseService {
      */
     target: any;
   }): Observable<StrictHttpResponse<Application>> {
+
     const rb = new RequestBuilder(this.rootUrl, Service.GetApplicationPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
