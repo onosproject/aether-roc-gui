@@ -5,8 +5,6 @@
  */
 import {OnChanges, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
-import {RocListBase} from "../../roc-list-base";
-import {VcsDatasource} from "../../aether-vcs/vcs/vcs-datasource";
 import {AETHER_TARGETS} from "../../../environments/environment";
 import {BasketService} from "../../basket.service";
 import {Service as AetherService} from "../../../openapi3/aether/4.0.0/services/service";
@@ -48,31 +46,33 @@ export class ShowVcsUsageComponent implements OnChanges {
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
-        this.aetherService.getVcs({
+        this.aetherService.getDeviceGroup({
             target: AETHER_TARGETS[0]
         }).subscribe(displayData => {
-            displayData.vcs.forEach(vcsElement => {
-                if (vcsElement["traffic-class"] === this.trafficClassID) {
+            displayData["device-group"].forEach(DGElement => {
+                if (DGElement.device["traffic-class"] === this.trafficClassID) {
                     let displayParentModules = {
-                        'id': vcsElement.id,
-                        'display-name': vcsElement["display-name"],
-                        'parent-module': "VCS"
+                        'id': DGElement.id,
+                        'display-name': DGElement["display-name"],
+                        'parent-module': "Device Group"
                     }
                     this.parentModulesArray.push(displayParentModules);
                 }
             })
-            this.aetherService.getTemplate({
+            this.aetherService.getApplication({
                 target: AETHER_TARGETS[0]
             }).subscribe(displayData => {
-                displayData.template.forEach(templateElement => {
-                    if (templateElement["traffic-class"] === this.trafficClassID) {
-                        let displayParentModules = {
-                            'id': templateElement.id,
-                            'display-name': templateElement["display-name"],
-                            'parent-module': "Template"
+                displayData.application.forEach(appElement => {
+                    appElement.endpoint.forEach(appEndpointElement => {
+                        if (appEndpointElement["traffic-class"] === this.trafficClassID) {
+                            let displayParentModules = {
+                                'id': appElement.id,
+                                'display-name': appElement["display-name"],
+                                'parent-module': "Application"
+                            }
+                            this.parentModulesArray.push(displayParentModules);
                         }
-                        this.parentModulesArray.push(displayParentModules);
-                    }
+                    } )
                     this.table.dataSource = this.parentModulesArray;
                 })
             })
