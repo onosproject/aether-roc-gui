@@ -52,3 +52,4 @@ jobs:
           script:
               - bash ./build/bin/push-images
               - bash ../build-tools/release-merge-commit
+
