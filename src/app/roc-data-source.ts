@@ -99,7 +99,7 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
             (value => {
                 const id = value[this.indexAttr];
                 if (!this.bs.containsDeleteEntry(
-                    this.pathRoot + '/' + this.pathListAttr + '[' + this.indexAttr + '=' + id + ']/' + this.indexAttr)) {
+                    this.pathRoot + '/' + this.pathListAttr + '[' + this.indexAttr + '=' + id + ']/' + this.indexAttr) || (this.pathRoot === "/vcs-4.0.0" && this.pathListAttr === this.pathListAttr)) {
                     this.data.push(value);
                     console.log('Got ' + id);
                 } else {

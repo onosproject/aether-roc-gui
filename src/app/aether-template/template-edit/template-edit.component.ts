@@ -139,6 +139,9 @@ export class TemplateEditComponent extends RocEditBase<TemplateTemplate> impleme
 
     ngOnInit(): void {
         super.init();
+        if(this.isNewInstance){
+            this.tempForm.get('default-behavior').setValue(this.defaultBehaviorOpitons[0])
+        }
         this.bandwidthOptions = this.tempForm.valueChanges
             .pipe(
                 startWith(''),

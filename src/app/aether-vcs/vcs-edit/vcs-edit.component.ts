@@ -165,9 +165,10 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         if (this.isNewInstance) {
             this.vcsForm.get('default-behavior').setValue(this.defaultBehaviorOptions[0])
             this.loadTemplate(this.target);
+        } else {
+            this.vcsForm.get('sst').disable();
+            this.vcsForm.get('sd').disable();
         }
-        this.vcsForm.get('sst').disable();
-        this.vcsForm.get('sd').disable();
         this.loadSites(this.target);
         this.OnSiteSelect();
         this.loadDeviceGoup(this.target);
@@ -618,4 +619,3 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         )
     }
 }
-

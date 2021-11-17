@@ -15,6 +15,8 @@ import {RocListBase} from '../../roc-list-base';
 import {VcsDatasource} from './vcs-datasource';
 import {VcsVcs} from '../../../openapi3/aether/4.0.0/models';
 import {HexPipe} from '../../utils/hex.pipe';
+import {from, Observable} from "rxjs";
+import {map, mergeMap, skipWhile} from "rxjs/operators";
 
 @Component({
     selector: 'aether-vcs',
@@ -26,6 +28,7 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<VcsVcs>;
     sdAsInt = HexPipe.hexAsInt;
+    deletedVCS = [];
 
     displayedColumns = [
         'id',
@@ -128,10 +131,27 @@ export class VcsComponent extends RocListBase<VcsDatasource> implements AfterVie
             });
         }
     }
+    checkForDeletedVcs():void{
+        let DeletesBasketPreview = this.basketService.buildPatchBody().Deletes;
+        if (('vcs-4.0.0' in DeletesBasketPreview) && ('vcs' in DeletesBasketPreview['vcs-4.0.0'])) {
+            this.deletedVCS = DeletesBasketPreview["vcs-4.0.0"].vcs.map(DeletedVCSID => DeletedVCSID.id)
+        }
+    }
+
+    deleteVCS(id: string): void {
+        const ucMap = new Map<string, string>();
+        if (this.reqdAttr.length > 0) {
+            ucMap.set('/' + this.pathRoot + '/' +  this.pathListAttr + '[' + this.indexAttr + '=' + id + ']', this.reqdAttr.join(','));
+        }
+        this.bs.deleteIndexedEntry('/' + this.pathRoot + '/' + this.pathListAttr + '[' + this.indexAttr + '=' + id + ']',
+            this.indexAttr, id, ucMap);
+        this.checkForDeletedVcs();
+    }
 
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+        this.checkForDeletedVcs();
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(this.aetherService.getVcs({
             target: AETHER_TARGETS[0]
