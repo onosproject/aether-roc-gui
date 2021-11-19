@@ -134,7 +134,7 @@
                 <div *ngFor="let imsiForm of imsiControls.controls">
                     <div [formGroup]="imsiForm" [id]="imsiForm.value['imsi-id']">
                         <mat-form-field class="field-margin">
-                            <input matInput formControlName="imsi-id" id="inputName" readonly>
+                            <input matInput formControlName="imsi-id" id="inputImsiId" readonly>
                             <mat-hint>IMSI ID</mat-hint>
                         </mat-form-field>
                         <mat-form-field class="field-margin">

@@ -13,24 +13,23 @@
                 <input matInput formControlName="small-cell-id"
                        title="This field is mandatory."
                        placeholder="Please specify a ID"
-                       id="inputSCID" required>
+                       id="inputNewSCID" required>
                 <mat-hint>Small Cell ID</mat-hint>
             </mat-form-field>
             <mat-form-field class="field-margin">
                 <input matInput formControlName="display-name"
-                       id="inputSCName">
+                       id="inputNewSCName">
                 <mat-hint>Small Cell Name</mat-hint>
             </mat-form-field>
             <mat-form-field class="field-margin ">
                 <input matInput formControlName="address"
-                       id="inputAddress">
+                       id="inputNewSCAddress">
                 <mat-hint>Address</mat-hint>
             </mat-form-field>
             <mat-form-field class="field-margin ">
-                <input matInput formControlName="tac" id="inputTac">
-                <mat-hint>Type Allocation Code</mat-hint>
+                <input matInput formControlName="tac" id="inputNewScTac">
+                <mat-hint>Type Allocation Code (4-8 digits)</mat-hint>
             </mat-form-field>
-            <mat-slide-toggle name="enable" ngDefaultControl formControlName="enable">Allow</mat-slide-toggle>
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button color="accent" type="button" (click)="closeCard(true)"

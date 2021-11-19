@@ -290,7 +290,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         scTacControl.markAsTouched();
         scTacControl.markAsDirty();
 
-        const scEnablecontrol = this.fb.control(selected.enable);
+        const scEnablecontrol = this.fb.control(true);
         scEnablecontrol.markAsTouched();
         scEnablecontrol.markAsDirty();
 

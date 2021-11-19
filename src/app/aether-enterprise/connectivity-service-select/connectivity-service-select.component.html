@@ -12,7 +12,7 @@
             <mat-form-field>
                 <mat-label>Connectivity Service</mat-label>
                 <mat-select formControlName="select-item"
-                            id="selectConnectivityService">
+                            id="selectNewConnectivityService">
                     <mat-option *ngFor="let item of this.displayList" (click)="closeCard(item.id)">
                         {{item.id}}
                         <span *ngIf="item['display-name']"> ({{item['display-name']}})</span>
