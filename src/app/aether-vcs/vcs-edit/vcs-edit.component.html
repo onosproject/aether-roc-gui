@@ -129,13 +129,13 @@
                             <mat-form-field>
                                 <div class="float-left">
                                     <mat-hint>Application</mat-hint>
-                                    <input matInput formControlName="application" readonly>
+                                    <input matInput formControlName="application" readonly id="inputFilterApplication">
                                 </div>
                             </mat-form-field>
                             <mat-form-field class="field-margin">
                                 <div class="float-left">
                                     <mat-hint>Priority</mat-hint>
-                                    <input matInput type="number" formControlName="priority">
+                                    <input matInput type="number" formControlName="priority" id="inputFilterPriority">
                                 </div>
                             </mat-form-field>
                             <mat-slide-toggle formControlName="allow">Allow</mat-slide-toggle>
@@ -164,7 +164,7 @@
                 <div *ngFor="let dgForm of deviceGroup.controls; index as i">
                     <mat-form-field class="field-margin half-width">
                         <div [formGroup]="dgForm" [id]="dgForm.value['device-group']">
-                            <input matInput formControlName="device-group" readonly>
+                            <input matInput formControlName="device-group" readonly id="inputDgDg">
                             <mat-slide-toggle formControlName="enable">Enable</mat-slide-toggle>
                             <mat-icon color='primary' class="subscriber-pointer"
                                       aria-hidden="false" aria-label="device-group"

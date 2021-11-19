@@ -24,7 +24,6 @@ export class AuthInterceptor implements HttpInterceptor {
                 headers: req.headers.set(TOKEN_HEADER_KEY,
                     BEARER_KEYWORD + idToken)
             });
-            console.log('Interceptor', cloned);
 
             return next.handle(cloned).pipe(
                 tap(x => x, err => {

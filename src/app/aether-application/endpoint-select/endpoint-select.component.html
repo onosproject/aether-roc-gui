@@ -13,41 +13,51 @@
                 <input matInput formControlName="endpoint-id"
                        title="This field is mandatory."
                        placeholder="Please specify a ID"
-                       id="inputEndpointId" required>
+                       id="inputNewEndpointId" required>
                 <mat-hint>Endpoint ID</mat-hint>
             </mat-form-field>
             <mat-form-field class="field-margin ">
                 <input matInput formControlName="display-name"
                        placeholder="Please specify a Name"
-                       id="inputDisplayName">
+                       id="inputNewEndpointDisplayName">
                 <mat-hint>Name</mat-hint>
             </mat-form-field>
             <mat-form-field class="field-margin ">
                 <input matInput type=number formControlName="port-start"
                        title="This field is mandatory."
                        placeholder="Please specify a starting Port"
-                       id="inputPortStart" required>
+                       id="inputNewEndpointPortStart" required>
                 <mat-hint>Port Start</mat-hint>
             </mat-form-field>
             <mat-form-field class="field-margin ">
-                <input matInput type=number formControlName="port-end" id="inputPortEnd">
+                <input matInput type=number formControlName="port-end" id="inputNewEndpointPortEnd">
                 <mat-hint>Port End</mat-hint>
             </mat-form-field>
             <mat-form-field class="field-margin ">
                 <mat-select formControlName="protocol"
-                            id="selectProtocol">
+                            id="selectNewEndpointProtocol">
                     <mat-option
                         *ngFor="let eachProtocol of protocolOptions"
                         [value]="eachProtocol.name">{{eachProtocol.name}}</mat-option>
                 </mat-select>
                 <mat-hint>Protocol</mat-hint>
             </mat-form-field>
-            <div id="deviceMbrRow">
+            <mat-form-field class="field-margin half-width">
+                <mat-select
+                    id="selectNewEndpointTrafficClass"
+                    formControlName="traffic-class">
+                    <mat-option
+                        *ngFor="let eachTrafficClass of trafficClassOptions"
+                        [value]="eachTrafficClass.id">{{eachTrafficClass['display-name']}} ({{eachTrafficClass.id}})</mat-option>
+                </mat-select>
+                <mat-hint>Traffic Class</mat-hint>
+            </mat-form-field>
+            <div id="deviceEndpointMbrRow">
                 <div [formGroup]="mbrControls">
                     <div class="row float-left" id="uplinkRow">
                         <mat-form-field class="field-margin">
                             <input matInput type="number" [matAutocomplete]="auto"
-                                   id="inputDeviceUplink"
+                                   id="inputNewEndpointUplink"
                                    formControlName="uplink">
                             <mat-autocomplete #auto="matAutocomplete">
                                 <mat-option *ngFor="let option of bandwidthOptions | async"
@@ -62,7 +72,7 @@
                     <div class="row " id="downlinkRow">
                         <mat-form-field class="field-margin">
                             <input matInput type="number" [matAutocomplete]="auto"
-                                   id="inputDeviceDownlink"
+                                   id="inputNewEndpointDownlink"
                                    formControlName="downlink">
                             <mat-autocomplete #auto="matAutocomplete">
                                 <mat-option *ngFor="let option of bandwidthOptions | async"
@@ -76,16 +86,6 @@
                     </div>
                 </div>
             </div>
-            <mat-form-field class="field-margin half-width">
-                <mat-select
-                    id="selectTrafficClass"
-                    formControlName="traffic-class">
-                    <mat-option
-                        *ngFor="let eachTrafficClass of trafficClassOptions"
-                        [value]="eachTrafficClass.id">{{eachTrafficClass['display-name']}}</mat-option>
-                </mat-select>
-                <mat-hint>Traffic Class</mat-hint>
-            </mat-form-field>
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button color="accent" type="button" (click)="closeCard(true)"

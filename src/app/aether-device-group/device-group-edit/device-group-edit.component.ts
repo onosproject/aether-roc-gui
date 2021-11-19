@@ -140,6 +140,8 @@ export class DeviceGroupEditComponent extends RocEditBase<DeviceGroupDeviceGroup
         super.form = this.deviceGroupForm;
         super.loadFunc = this.loadDeviceGroupDeviceGroup;
         this.deviceGroupForm[REQDATTRIBS] = ['site'];
+        this.deviceGroupForm.get(['device'])[REQDATTRIBS] = ['traffic-class'];
+        this.deviceGroupForm.get(['device', 'mbr'])[REQDATTRIBS] = ['uplink', 'downlink'];
         this.deviceGroupForm.get(['imsis'])[IDATTRIBS] = ['imsi-id'];
     }
 

@@ -12,7 +12,6 @@ export interface SmallCellParam {
     'display-name': string;
     address: string;
     tac: string;
-    enable: boolean;
 }
 
 @Component({
@@ -39,7 +38,6 @@ export class SmallCellSelectComponent {
             Validators.minLength(4),
             Validators.maxLength(8),
         ])],
-        enable: [undefined]
     })
 
     constructor(
@@ -57,7 +55,6 @@ export class SmallCellSelectComponent {
                 'display-name': this.smallCellForm.get('display-name').value,
                 address: this.smallCellForm.get('address').value,
                 tac: this.smallCellForm.get('tac').value,
-                enable: this.smallCellForm.get('enable').value
             } as SmallCellParam);
         }
     }
