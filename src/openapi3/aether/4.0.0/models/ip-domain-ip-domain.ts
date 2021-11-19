@@ -22,7 +22,7 @@ export interface IpDomainIpDomain {
   /**
    * DNN/APN
    */
-  dnn?: string;
+  dnn: string;
 
   /**
    * primary dns server name
