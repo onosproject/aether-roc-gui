@@ -75,6 +75,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
             Validators.max(65535),
         ])],
         dnn: [undefined, Validators.compose([
+            Validators.required,
             Validators.minLength(1),
             Validators.maxLength(32),
         ])],
@@ -94,7 +95,7 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         super(snackBar, bs, route, router, 'ip-domain-4.0.0', 'ip-domain');
         super.form = this.ipForm;
         super.loadFunc = this.loadIpDomainIpDomain;
-        this.ipForm[REQDATTRIBS] = ['enterprise', 'subnet'];
+        this.ipForm[REQDATTRIBS] = ['enterprise', 'subnet','dnn'];
         this.ipForm.get('mtu')[TYPE] = 'number';
 
     }

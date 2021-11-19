@@ -24,22 +24,7 @@ export interface ConnectivityServiceConnectivityService {
   'display-name'?: string;
 
   /**
-   * url of the hss service
-   */
-  'hss-endpoint'?: string;
-
-  /**
    * ID for this connectivity service.
    */
   id: string;
-
-  /**
-   * url of the pcrf service
-   */
-  'pcrf-endpoint'?: string;
-
-  /**
-   * url of the spgwc service
-   */
-  'spgwc-endpoint'?: string;
 }
