@@ -7,35 +7,67 @@
     <mat-toolbar class="profile-toolbar" color="primary">
         <p>User Plane Function</p>
         <span class="toolbar-spacer"></span>
-        <button mat-raised-button color="accent" type="submit" aria-label="Add upf"
-                id="addNewUpfButton"
-                [disabled]="!opaService.canWrite('/upf/upf[id=newinstance]')"
-                routerLink="/upf/upf-edit/newinstance">Add
+        <button
+            mat-raised-button
+            color="accent"
+            type="submit"
+            aria-label="Add upf"
+            id="addNewUpfButton"
+            [disabled]="!opaService.canWrite('/upf/upf[id=newinstance]')"
+            routerLink="/upf/upf-edit/newinstance"
+        >
+            Add
         </button>
     </mat-toolbar>
-    <table mat-table class="full-width-table" matSort aria-label="Elements" id="upfTable">
+    <table
+        mat-table
+        class="full-width-table"
+        matSort
+        aria-label="Elements"
+        id="upfTable"
+    >
         <!-- Id/Name Column -->
         <ng-container matColumnDef="id" id="nameColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
             <td mat-cell *matCellDef="let row">
-                <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}
-                    <br><small>({{row.id}})</small></span>
-                <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
+                <span *ngIf="row['display-name'] !== undefined" [title]="row.id"
+                    >{{ row["display-name"] }} <br /><small
+                        >({{ row.id }})</small
+                    ></span
+                >
+                <span *ngIf="row['display-name'] === undefined">{{
+                    row.id
+                }}</span>
             </td>
         </ng-container>
 
         <!-- Description Column -->
         <ng-container matColumnDef="description" id="descColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-            <td mat-cell  *matCellDef="let row" [title]="row.description">{{row.description | truncateText:35}}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Description
+            </th>
+            <td mat-cell *matCellDef="let row" [title]="row.description">
+                {{ row.description | truncateText: 35 }}
+            </td>
         </ng-container>
 
         <!-- Enterprise Column -->
         <ng-container matColumnDef="enterprise" id="enterpriseColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Enterprise</th>
-            <td mat-cell *matCellDef="let row">{{row.enterprise}}
-                <mat-icon class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="Enterprise"
-                          routerLink="/enterprise/enterprise-edit/{{row.enterprise}}">launch</mat-icon>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Enterprise
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.enterprise }}
+                <mat-icon
+                    class="table_icon small_icon"
+                    color="primary"
+                    aria-hidden="false"
+                    aria-label="Enterprise"
+                    routerLink="/enterprise/enterprise-edit/{{
+                        row.enterprise
+                    }}"
+                    >launch</mat-icon
+                >
             </td>
         </ng-container>
 
@@ -43,52 +75,73 @@
         <ng-container matColumnDef="address" id="addressColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
             <td mat-cell *matCellDef="let row">
-                {{row.address}}
+                {{ row.address }}
             </td>
         </ng-container>
 
         <!-- Config-endpoint Column -->
         <ng-container matColumnDef="config-endpoint" id="configEndpointColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Config-Endpoint</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Config-Endpoint
+            </th>
             <td mat-cell *matCellDef="let row">
-                {{row['config-endpoint']}}
+                {{ row["config-endpoint"] }}
             </td>
         </ng-container>
 
         <!-- Network Column -->
         <ng-container matColumnDef="port" id="portColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Port</th>
-            <td mat-cell *matCellDef="let row">{{row.port}}
-            </td>
+            <td mat-cell *matCellDef="let row">{{ row.port }}</td>
         </ng-container>
 
         <!-- Site Name Column -->
         <ng-container matColumnDef="site" id="siteColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Site</th>
-            <td mat-cell *matCellDef="let row">{{row.site}}
-                <mat-icon class="table_icon small_icon" color="primary" aria-hidden="false" aria-label="Site"
-                          id="pointerSite"
-                          routerLink="/site/site-edit/{{row.site}}">launch
+            <td mat-cell *matCellDef="let row">
+                {{ row.site }}
+                <mat-icon
+                    class="table_icon small_icon"
+                    color="primary"
+                    aria-hidden="false"
+                    aria-label="Site"
+                    id="pointerSite"
+                    routerLink="/site/site-edit/{{ row.site }}"
+                    >launch
                 </mat-icon>
             </td>
         </ng-container>
 
         <!-- Edit Column -->
         <ng-container matColumnDef="edit" id="editColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Edit</th>
-            <td mat-cell *matCellDef="let row" routerLink="/upf/upf-edit/{{row.id}}" id="editUpfButton">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
+                Edit
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let row"
+                routerLink="/upf/upf-edit/{{ row.id }}"
+                id="editUpfButton"
+            >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
             </td>
         </ng-container>
 
         <!-- Delete Column -->
         <ng-container matColumnDef="delete" id="deleteColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Delete</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
+                Delete
+            </th>
             <td mat-cell *matCellDef="let row">
-                <button mat-icon-button [disabled]="!opaService.canWrite('/upf/upf[id=' + row.id + ']')"
-                        (click)="delete(row.id)"
-                        color="accent"
-                        id="deleteUpfButton">
+                <button
+                    mat-icon-button
+                    [disabled]="
+                        !opaService.canWrite('/upf/upf[id=' + row.id + ']')
+                    "
+                    (click)="delete(row.id)"
+                    color="accent"
+                    id="deleteUpfButton"
+                >
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
             </td>
@@ -96,30 +149,42 @@
 
         <!-- Usage Column -->
         <ng-container matColumnDef="usage" id="usageColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Usage</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
+                Usage
+            </th>
             <td mat-cell *matCellDef="let row">
-                <button mat-icon-button
-                        id="usageButton"
-                        (click)="showUsage(row.id)"
-                        color="accent">
+                <button
+                    mat-icon-button
+                    id="usageButton"
+                    (click)="showUsage(row.id)"
+                    color="accent"
+                >
                     <mat-icon class="table_icon">assignment</mat-icon>
                 </button>
             </td>
         </ng-container>
 
-        <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr
+            mat-header-row
+            class="profile-header"
+            *matHeaderRowDef="displayedColumns"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-paginator #paginator id="upfPaginator"
-                   [length]="dataSource?.data?.length"
-                   [pageIndex]="0"
-                   [pageSize]="10"
-                   [pageSizeOptions]="[10, 20, 40]">
+    <mat-paginator
+        #paginator
+        id="upfPaginator"
+        [length]="dataSource?.data?.length"
+        [pageIndex]="0"
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 20, 40]"
+    >
     </mat-paginator>
 </div>
 <aether-show-vcs-usage
     *ngIf="showUsageCard"
     id="showVcsUsageComponent"
     [upfID]="id"
-    (closeShowParentCardEvent)="closeShowParentCard($event)">
+    (closeShowParentCardEvent)="closeShowParentCard($event)"
+>
 </aether-show-vcs-usage>

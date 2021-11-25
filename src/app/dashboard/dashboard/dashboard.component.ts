@@ -3,12 +3,12 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services/service';
-import {BasketService} from '../../basket.service';
-import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {Subscription} from 'rxjs';
-import {ResizeService} from '../resize.service';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
+import { BasketService } from '../../basket.service';
+import { OpenPolicyAgentService } from '../../open-policy-agent.service';
+import { Subscription } from 'rxjs';
+import { ResizeService } from '../resize.service';
 
 @Component({
     selector: 'aether-dashboard',
@@ -25,15 +25,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
         private resizeService: ResizeService
-    ) {
-    }
+    ) {}
 
     ngOnInit(): void {
-        this.resizeSubscription = this.resizeService.onResize$
-            .subscribe(window => {
+        this.resizeSubscription = this.resizeService.onResize$.subscribe(
+            (window) => {
                 this.innerWidth = window.innerWidth;
                 this.innerHeight = window.innerHeight;
-            });
+            }
+        );
     }
 
     ngOnDestroy(): void {

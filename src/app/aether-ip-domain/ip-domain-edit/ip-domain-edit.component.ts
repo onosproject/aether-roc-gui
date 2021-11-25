@@ -3,31 +3,36 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, OnInit} from '@angular/core';
-import {RocEditBase} from '../../roc-edit-base';
-import {FormBuilder, Validators} from '@angular/forms';
-import {IpDomainIpDomain} from '../../../openapi3/aether/4.0.0/models/ip-domain-ip-domain';
+import { Component, OnInit } from '@angular/core';
+import { RocEditBase } from '../../roc-edit-base';
+import { FormBuilder, Validators } from '@angular/forms';
+import { IpDomainIpDomain } from '../../../openapi3/aether/4.0.0/models/ip-domain-ip-domain';
 import {
     Service as AetherService,
-    IpDomainIpDomainService
+    IpDomainIpDomainService,
 } from '../../../openapi3/aether/4.0.0/services';
-import {ActivatedRoute, Router} from '@angular/router';
-import {BasketService, ORIGINAL, REQDATTRIBS, TYPE} from '../../basket.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {EnterpriseEnterprise} from '../../../openapi3/aether/4.0.0/models/enterprise-enterprise';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+    BasketService,
+    ORIGINAL,
+    REQDATTRIBS,
+    TYPE,
+} from '../../basket.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { OpenPolicyAgentService } from '../../open-policy-agent.service';
+import { EnterpriseEnterprise } from '../../../openapi3/aether/4.0.0/models/enterprise-enterprise';
 
 export const UPDATED = 'updated';
 
 @Component({
     selector: 'aether-ip-domain-edit',
     templateUrl: './ip-domain-edit.component.html',
-    styleUrls: ['../../common-edit.component.scss']
+    styleUrls: ['../../common-edit.component.scss'],
 })
-
-
-export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> implements OnInit {
-
+export class IpDomainEditComponent
+    extends RocEditBase<IpDomainIpDomain>
+    implements OnInit
+{
     ip: string;
     option: string;
     primCardDisplay: boolean = false;
@@ -40,45 +45,60 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
     displayOption: string;
 
     ipForm = this.fb.group({
-        id: [undefined, Validators.compose([
-            Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
-            Validators.minLength(1),
-            Validators.maxLength(31),
-        ])],
-        'display-name': [undefined, Validators.compose([
-            Validators.minLength(1),
-            Validators.maxLength(80),
-        ])],
-        description: [undefined, Validators.compose([
-            Validators.minLength(1),
-            Validators.maxLength(1024),
-        ])],
+        id: [
+            undefined,
+            Validators.compose([
+                Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
+                Validators.minLength(1),
+                Validators.maxLength(31),
+            ]),
+        ],
+        'display-name': [
+            undefined,
+            Validators.compose([
+                Validators.minLength(1),
+                Validators.maxLength(80),
+            ]),
+        ],
+        description: [
+            undefined,
+            Validators.compose([
+                Validators.minLength(1),
+                Validators.maxLength(1024),
+            ]),
+        ],
         enterprise: [undefined, Validators.required],
         'dns-primary': [undefined],
         'dns-secondary': [undefined],
-        subnet: [undefined, Validators.pattern(
-            '^' +
-            '(?=\\d+\\.\\d+\\.\\d+\\.\\d+\\/\\d+$)' +
-            '(?:' +
-            '(?:' +
-            '25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])' +
-            '\\.?){4}' +
-            '(?:' +
-            '\\/?)' +
-            '(?:' +
-            '3[0-2]|2[0-9]|1[0-9]|[0-9])?' +
-            '$'
-        )],
+        subnet: [
+            undefined,
+            Validators.pattern(
+                '^' +
+                    '(?=\\d+\\.\\d+\\.\\d+\\.\\d+\\/\\d+$)' +
+                    '(?:' +
+                    '(?:' +
+                    '25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])' +
+                    '\\.?){4}' +
+                    '(?:' +
+                    '\\/?)' +
+                    '(?:' +
+                    '3[0-2]|2[0-9]|1[0-9]|[0-9])?' +
+                    '$'
+            ),
+        ],
         'admin-status': [undefined],
-        mtu: [undefined, Validators.compose([
-            Validators.min(68),
-            Validators.max(65535),
-        ])],
-        dnn: [undefined, Validators.compose([
-            Validators.required,
-            Validators.minLength(1),
-            Validators.maxLength(32),
-        ])],
+        mtu: [
+            undefined,
+            Validators.compose([Validators.min(68), Validators.max(65535)]),
+        ],
+        dnn: [
+            undefined,
+            Validators.compose([
+                Validators.required,
+                Validators.minLength(1),
+                Validators.maxLength(32),
+            ]),
+        ],
     });
     ipDomainId: string;
 
@@ -95,9 +115,8 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         super(snackBar, bs, route, router, 'ip-domain-4.0.0', 'ip-domain');
         super.form = this.ipForm;
         super.loadFunc = this.loadIpDomainIpDomain;
-        this.ipForm[REQDATTRIBS] = ['enterprise', 'subnet','dnn'];
+        this.ipForm[REQDATTRIBS] = ['enterprise', 'subnet', 'dnn'];
         this.ipForm.get('mtu')[TYPE] = 'number';
-
     }
 
     ngOnInit(): void {
@@ -163,55 +182,78 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
     }
 
     loadEnterprises(target: string): void {
-        this.aetherService.getEnterprise({
-            target,
-        }).subscribe(
-            (value => {
-                this.enterprises = value.enterprise;
-                this.setOnlyEnterprise(value.enterprise.length);
-                console.log('Got Enterprises', value.enterprise.length);
-            }),
-            error => {
-                console.warn('Error getting Enterprises for ', target, error);
-            },
-            () => {
-                console.log('Finished loading Enterprises', target);
-            }
-        );
+        this.aetherService
+            .getEnterprise({
+                target,
+            })
+            .subscribe(
+                (value) => {
+                    this.enterprises = value.enterprise;
+                    this.setOnlyEnterprise(value.enterprise.length);
+                    console.log('Got Enterprises', value.enterprise.length);
+                },
+                (error) => {
+                    console.warn(
+                        'Error getting Enterprises for ',
+                        target,
+                        error
+                    );
+                },
+                () => {
+                    console.log('Finished loading Enterprises', target);
+                }
+            );
     }
 
     loadIpDomainIpDomain(target: string, id: string): void {
-        this.ipDomainIpDomainService.getIpDomainIpDomain({
-            target,
-            id,
-        }).subscribe(
-            (value => {
-                this.data = value;
-                this.ipDomainId = value.id;
-                this.populateFormData(value);
-            }),
-            error => {
-                console.warn('Error getting IpDomainIpDomain(s) for ', target, error);
-            },
-            () => {
-                const basketPreview = this.bs.buildPatchBody().Updates;
-                if (this.pathRoot in basketPreview && this.pathListAttr in basketPreview['ip-domain-4.0.0']) {
-                    basketPreview['ip-domain-4.0.0']['ip-domain'].forEach((basketItems) => {
-                        if (basketItems.id === id) {
-                            this.populateFormData(basketItems);
-                        }
-                    });
+        this.ipDomainIpDomainService
+            .getIpDomainIpDomain({
+                target,
+                id,
+            })
+            .subscribe(
+                (value) => {
+                    this.data = value;
+                    this.ipDomainId = value.id;
+                    this.populateFormData(value);
+                },
+                (error) => {
+                    console.warn(
+                        'Error getting IpDomainIpDomain(s) for ',
+                        target,
+                        error
+                    );
+                },
+                () => {
+                    const basketPreview = this.bs.buildPatchBody().Updates;
+                    if (
+                        this.pathRoot in basketPreview &&
+                        this.pathListAttr in basketPreview['ip-domain-4.0.0']
+                    ) {
+                        basketPreview['ip-domain-4.0.0']['ip-domain'].forEach(
+                            (basketItems) => {
+                                if (basketItems.id === id) {
+                                    this.populateFormData(basketItems);
+                                }
+                            }
+                        );
+                    }
+                    console.log(
+                        'Finished loading IpDomainIpDomain(s)',
+                        target,
+                        id
+                    );
                 }
-                console.log('Finished loading IpDomainIpDomain(s)', target, id);
-            }
-        );
+            );
     }
 
     checkForUndefinedPrim(): string {
         if (this.ipForm.get('dns-primary').value === undefined) {
             return '';
         } else {
-            this.ipForm.get(['dns-primary'])[UPDATED] = this.ipForm.get(['dns-primary']).value;
+            this.ipForm.get(['dns-primary'])[UPDATED] = this.ipForm.get([
+                'dns-primary',
+            ]).value;
             return this.ipForm.get(['dns-primary'])[UPDATED];
         }
     }
@@ -220,7 +262,9 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         if (this.data === undefined) {
             return '';
         } else {
-            this.ipForm.get(['dns-secondary'])[UPDATED] = this.ipForm.get(['dns-secondary']).value;
+            this.ipForm.get(['dns-secondary'])[UPDATED] = this.ipForm.get([
+                'dns-secondary',
+            ]).value;
             return this.ipForm.get(['dns-secondary'])[UPDATED];
         }
     }
@@ -229,7 +273,9 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         if (this.data === undefined) {
             return '';
         } else {
-            this.ipForm.get(['subnet'])[UPDATED] = this.ipForm.get(['subnet']).value;
+            this.ipForm.get(['subnet'])[UPDATED] = this.ipForm.get([
+                'subnet',
+            ]).value;
             return this.ipForm.get(['subnet'])[UPDATED];
         }
     }
@@ -262,7 +308,6 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         this.ipForm.get('dns-secondary').markAsDirty();
         this.ipForm.get('dns-secondary').markAsTouched();
         this.ipForm.get('dns-secondary').setValue(ip);
-
     }
 
     // TODO - Will come back to
@@ -271,8 +316,5 @@ export class IpDomainEditComponent extends RocEditBase<IpDomainIpDomain> impleme
         this.ipForm.get('subnet').markAsDirty();
         this.ipForm.get('subnet').markAsTouched();
         this.ipForm.get('subnet').setValue(ip);
-
     }
-
-
 }

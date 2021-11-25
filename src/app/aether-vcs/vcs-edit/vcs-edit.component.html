@@ -6,32 +6,48 @@
 <form [formGroup]="vcsForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Virtual Cellular Service ID: {{id}}</mat-card-title>
-            <mat-icon *ngIf="!isNew" class="subscriber-pointer"
-                      color="accent"
-                      routerLink="/vcs/vcs-monitor/{{id}}"
-                      id="monitorVcsButton">insights
+            <mat-card-title
+                >Virtual Cellular Service ID: {{ id }}</mat-card-title
+            >
+            <mat-icon
+                *ngIf="!isNew"
+                class="subscriber-pointer"
+                color="accent"
+                routerLink="/vcs/vcs-monitor/{{ id }}"
+                id="monitorVcsButton"
+                >insights
             </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
                 <mat-form-field class="half-width field-margin">
-                    <input matInput formControlName="id"
-                           placeholder="Please specify an ID"
-                           id="inputID"
-                           required>
+                    <input
+                        matInput
+                        formControlName="id"
+                        placeholder="Please specify an ID"
+                        id="inputID"
+                        required
+                    />
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="display-name" id="inputDisplayName">
+                    <input
+                        matInput
+                        formControlName="display-name"
+                        id="inputDisplayName"
+                    />
                     <mat-hint>Display Name</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <textarea matInput formControlName="description" id="inputDesc"></textarea>
+                    <textarea
+                        matInput
+                        formControlName="description"
+                        id="inputDesc"
+                    ></textarea>
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
@@ -39,29 +55,41 @@
             <!-- Enterprise Dropdown -->
             <div class="row" id="enterpriseRow">
                 <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="enterprise"
-                                placeholder="Please specify an Enterprise"
-                                required
-                                id="selectEnterprise">
+                    <mat-select
+                        formControlName="enterprise"
+                        placeholder="Please specify an Enterprise"
+                        required
+                        id="selectEnterprise"
+                    >
                         <mat-option
                             *ngFor="let eachEnterprise of enterprises"
-                            [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}</mat-option>
+                            [value]="eachEnterprise.id"
+                            >{{ eachEnterprise.id }}
+                            {{ eachEnterprise["display-name"] }}</mat-option
+                        >
                     </mat-select>
                     <mat-hint>Enterprise</mat-hint>
                 </mat-form-field>
             </div>
-<!--            Site dropdown-->
+            <!--            Site dropdown-->
             <div class="row">
-                <mat-form-field class="field-margin half-width subscriber-section">
-                    <mat-select ngDefaultControl formControlName="site"
-                                title="This field is mandatory."
-                                placeholder="Please specify a Site"
-                                (selectionChange)="OnSiteSelect()"
-                                id="selectSite"
-                                required>
-                        <mat-option *ngFor="let site of site"
-                                    [value]="site.id">{{site.id}}
-                            <span *ngIf="site['display-name']"> ({{site['display-name']}})</span>
+                <mat-form-field
+                    class="field-margin half-width subscriber-section"
+                >
+                    <mat-select
+                        ngDefaultControl
+                        formControlName="site"
+                        title="This field is mandatory."
+                        placeholder="Please specify a Site"
+                        (selectionChange)="OnSiteSelect()"
+                        id="selectSite"
+                        required
+                    >
+                        <mat-option *ngFor="let site of site" [value]="site.id"
+                            >{{ site.id }}
+                            <span *ngIf="site['display-name']">
+                                ({{ site["display-name"] }})</span
+                            >
                         </mat-option>
                     </mat-select>
                     <mat-hint>Site</mat-hint>
@@ -71,11 +99,15 @@
             <div class="row" *ngIf="isNewInstance">
                 <mat-form-field class="field-margin half-width">
                     <mat-select
-                                (selectionChange)="templateSelected($event)"
-                                id="selectTemplate">
+                        (selectionChange)="templateSelected($event)"
+                        id="selectTemplate"
+                    >
                         <mat-option
                             *ngFor="let eachTemp of templates"
-                            [value]="eachTemp">{{eachTemp.id}} {{eachTemp['template']}}</mat-option>
+                            [value]="eachTemp"
+                            >{{ eachTemp.id }}
+                            {{ eachTemp["template"] }}</mat-option
+                        >
                     </mat-select>
                     <mat-hint>Template</mat-hint>
                 </mat-form-field>
@@ -83,11 +115,15 @@
 
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="default-behavior"
-                                id="selectBehavior">
+                    <mat-select
+                        formControlName="default-behavior"
+                        id="selectBehavior"
+                    >
                         <mat-option
                             *ngFor="let b of defaultBehaviorOptions"
-                            [value]="b">{{b}}</mat-option>
+                            [value]="b"
+                            >{{ b }}</mat-option
+                        >
                     </mat-select>
                     <mat-hint>Default Behavior</mat-hint>
                 </mat-form-field>
@@ -95,90 +131,170 @@
 
             <!--Sd field-->
             <mat-form-field class="field-margin half-width">
-                <input matInput
-                       placeholder="Please specify an SD"
-                       formControlName="sd"
-                       [title]="sdAsInt(vcsForm.get('sd').value)"
-                       id="inputSd">
-                <mat-hint>SD (Slice differentiator - 6 hex characters)</mat-hint>
+                <input
+                    matInput
+                    placeholder="Please specify an SD"
+                    formControlName="sd"
+                    [title]="sdAsInt(vcsForm.get('sd').value)"
+                    id="inputSd"
+                />
+                <mat-hint
+                    >SD (Slice differentiator - 6 hex characters)</mat-hint
+                >
             </mat-form-field>
             <!--SST field-->
             <mat-form-field class="field-margin half-width">
-                <input matInput
-                       type=number
-                       placeholder="Please specify an SST"
-                       formControlName="sst"
-                       id="inputSst">
+                <input
+                    matInput
+                    type="number"
+                    placeholder="Please specify an SST"
+                    formControlName="sst"
+                    id="inputSst"
+                />
                 <mat-hint>SST (Slice/Service type 1-255)</mat-hint>
             </mat-form-field>
 
             <div formArrayName="filter" class="subscriber-section field-margin">
                 <mat-hint>Filter</mat-hint>
-                <mat-icon (click)="showApplicationDisplay = true" *ngIf="showAddFilterButton" color='accent'
-                          class="subscriber-pointer"
-                          id="addFilter">
+                <mat-icon
+                    (click)="showApplicationDisplay = true"
+                    *ngIf="showAddFilterButton"
+                    color="accent"
+                    class="subscriber-pointer"
+                    id="addFilter"
+                >
                     add
                 </mat-icon>
                 <div class="field-margin">
-                    <mat-hint>Endpoints Left: {{this.EndpointLeft}}</mat-hint>
-                    <mat-icon color='accent' class="subscriber-pointer"
-                              matTooltip="Maximum of 5 Application-Endpoints per slice" id="infoIcon">info
+                    <mat-hint>Endpoints Left: {{ this.EndpointLeft }}</mat-hint>
+                    <mat-icon
+                        color="accent"
+                        class="subscriber-pointer"
+                        matTooltip="Maximum of 5 Application-Endpoints per slice"
+                        id="infoIcon"
+                        >info
                     </mat-icon>
                     <div *ngFor="let appForm of filter.controls; index as i">
                         <div [formGroup]="appForm" [id]="'applicationDiv' + i">
                             <mat-form-field>
                                 <div class="float-left">
                                     <mat-hint>Application</mat-hint>
-                                    <input matInput formControlName="application" readonly id="inputFilterApplication">
+                                    <input
+                                        matInput
+                                        formControlName="application"
+                                        readonly
+                                        id="inputFilterApplication"
+                                    />
                                 </div>
                             </mat-form-field>
                             <mat-form-field class="field-margin">
                                 <div class="float-left">
                                     <mat-hint>Priority</mat-hint>
-                                    <input matInput type="number" formControlName="priority" id="inputFilterPriority">
+                                    <input
+                                        matInput
+                                        type="number"
+                                        formControlName="priority"
+                                        id="inputFilterPriority"
+                                    />
                                 </div>
                             </mat-form-field>
-                            <mat-slide-toggle formControlName="allow">Allow</mat-slide-toggle>
-                            <mat-icon color='primary' class="ield-margin"
-                                      aria-hidden="false" aria-label="Application"
-                                      routerLink="/application/application-edit/{{appForm.value.application}}"
-                                      id="pointerApplication">launch
+                            <mat-slide-toggle formControlName="allow"
+                                >Allow</mat-slide-toggle
+                            >
+                            <mat-icon
+                                color="primary"
+                                class="ield-margin"
+                                aria-hidden="false"
+                                aria-label="Application"
+                                routerLink="/application/application-edit/{{
+                                    appForm.value.application
+                                }}"
+                                id="pointerApplication"
+                                >launch
                             </mat-icon>
-                            <button mat-icon-button color="accent"
-                                    [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
-                                    (click)="deleteApplicationFromSelect(appForm.value['application'])"
-                                    id="deleteApplication">
-                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                [disabled]="
+                                    !opaService.canWrite(
+                                        '/vcs/vcs[id=' + id + ']/application'
+                                    )
+                                "
+                                (click)="
+                                    deleteApplicationFromSelect(
+                                        appForm.value['application']
+                                    )
+                                "
+                                id="deleteApplication"
+                            >
+                                <mat-icon class="pad-left subscriber-pointer"
+                                    >delete</mat-icon
+                                >
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div formArrayName="device-group" class="subscriber-section field-margin">
+            <div
+                formArrayName="device-group"
+                class="subscriber-section field-margin"
+            >
                 <mat-hint>Device Group</mat-hint>
-                <mat-icon (click)="showDeviceGroupDisplay = true" color='accent' class="subscriber-pointer"
-                          id="addADeviceGroup">
+                <mat-icon
+                    (click)="showDeviceGroupDisplay = true"
+                    color="accent"
+                    class="subscriber-pointer"
+                    id="addADeviceGroup"
+                >
                     add
                 </mat-icon>
                 <!--device-group-->
                 <div *ngFor="let dgForm of deviceGroup.controls; index as i">
                     <mat-form-field class="field-margin half-width">
-                        <div [formGroup]="dgForm" [id]="dgForm.value['device-group']">
-                            <input matInput formControlName="device-group" readonly id="inputDgDg">
-                            <mat-slide-toggle formControlName="enable">Enable</mat-slide-toggle>
-                            <mat-icon color='primary' class="subscriber-pointer"
-                                      aria-hidden="false" aria-label="device-group"
-                                      routerLink="/devicegroups/devicegroups-edit/{{dgForm.value['device-group']}}"
-                                      id="pointerDeviceGroup">launch
+                        <div
+                            [formGroup]="dgForm"
+                            [id]="dgForm.value['device-group']"
+                        >
+                            <input
+                                matInput
+                                formControlName="device-group"
+                                readonly
+                                id="inputDgDg"
+                            />
+                            <mat-slide-toggle formControlName="enable"
+                                >Enable</mat-slide-toggle
+                            >
+                            <mat-icon
+                                color="primary"
+                                class="subscriber-pointer"
+                                aria-hidden="false"
+                                aria-label="device-group"
+                                routerLink="/devicegroups/devicegroups-edit/{{
+                                    dgForm.value['device-group']
+                                }}"
+                                id="pointerDeviceGroup"
+                                >launch
                             </mat-icon>
                         </div>
                     </mat-form-field>
-                    <button mat-icon-button
-                            id="deleteDeviceGroup"
-                            color="accent"
-                            [disabled]="!opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
-                            (click)="deleteDeviceGroupFromSelect(dgForm.value['device-group'])">
-                        <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                    <button
+                        mat-icon-button
+                        id="deleteDeviceGroup"
+                        color="accent"
+                        [disabled]="
+                            !opaService.canWrite(
+                                '/vcs/vcs[id=' + id + ']/device-group'
+                            )
+                        "
+                        (click)="
+                            deleteDeviceGroupFromSelect(
+                                dgForm.value['device-group']
+                            )
+                        "
+                    >
+                        <mat-icon class="pad-left subscriber-pointer"
+                            >delete</mat-icon
+                        >
                     </button>
                 </div>
             </div>
@@ -188,27 +304,43 @@
                 <div [formGroup]="sliceMbrControls">
                     <div class="row float-left" id="sliceUplinkRow">
                         <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="uplinkAuto"
-                                   id="inputsliceUplink"
-                                   formControlName="uplink">
+                            <input
+                                matInput
+                                type="number"
+                                [matAutocomplete]="uplinkAuto"
+                                id="inputsliceUplink"
+                                formControlName="uplink"
+                            />
                             <mat-autocomplete #uplinkAuto="matAutocomplete">
-                                <mat-option *ngFor="let option of bandwidthOptions | async"
-                                            [value]="option.megabyte.numerical">
-                                    {{option.megabyte.inMb}}
+                                <mat-option
+                                    *ngFor="
+                                        let option of bandwidthOptions | async
+                                    "
+                                    [value]="option.megabyte.numerical"
+                                >
+                                    {{ option.megabyte.inMb }}
                                 </mat-option>
                             </mat-autocomplete>
                             <mat-hint>Uplink (bps)</mat-hint>
                         </mat-form-field>
                     </div>
-                    <div class="row " id="sliceDownlinkRow">
+                    <div class="row" id="sliceDownlinkRow">
                         <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="downlinkAuto"
-                                   id="inputsliceDownlink"
-                                   formControlName="downlink">
+                            <input
+                                matInput
+                                type="number"
+                                [matAutocomplete]="downlinkAuto"
+                                id="inputsliceDownlink"
+                                formControlName="downlink"
+                            />
                             <mat-autocomplete #downlinkAuto="matAutocomplete">
-                                <mat-option *ngFor="let option of bandwidthOptions | async"
-                                            [value]="option.megabyte.numerical">
-                                    {{option.megabyte.inMb}}
+                                <mat-option
+                                    *ngFor="
+                                        let option of bandwidthOptions | async
+                                    "
+                                    [value]="option.megabyte.numerical"
+                                >
+                                    {{ option.megabyte.inMb }}
                                 </mat-option>
                             </mat-autocomplete>
                             <mat-hint>Downlink (bps)</mat-hint>
@@ -216,27 +348,39 @@
                     </div>
                     <div class="row float-left" id="sliceUplinkBurstSizeRow">
                         <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="auto"
-                                   id="inputsliceUplinkBurstSize"
-                                   formControlName="uplink-burst-size">
+                            <input
+                                matInput
+                                type="number"
+                                [matAutocomplete]="auto"
+                                id="inputsliceUplinkBurstSize"
+                                formControlName="uplink-burst-size"
+                            />
                             <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of burstRateOptions"
-                                            [value]="option.value">
-                                    {{option.label}}
+                                <mat-option
+                                    *ngFor="let option of burstRateOptions"
+                                    [value]="option.value"
+                                >
+                                    {{ option.label }}
                                 </mat-option>
                             </mat-autocomplete>
                             <mat-hint>Uplink Burst Size (bytes)</mat-hint>
                         </mat-form-field>
                     </div>
-                    <div class="row " id="sliceDownlinkBurstSizeRow">
+                    <div class="row" id="sliceDownlinkBurstSizeRow">
                         <mat-form-field class="field-margin">
-                            <input matInput type="number" [matAutocomplete]="auto"
-                                   id="inputsliceDownlinkBurstSize"
-                                   formControlName="downlink-burst-size">
+                            <input
+                                matInput
+                                type="number"
+                                [matAutocomplete]="auto"
+                                id="inputsliceDownlinkBurstSize"
+                                formControlName="downlink-burst-size"
+                            />
                             <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of burstRateOptions"
-                                            [value]="option.value">
-                                    {{option.label}}
+                                <mat-option
+                                    *ngFor="let option of burstRateOptions"
+                                    [value]="option.value"
+                                >
+                                    {{ option.label }}
                                 </mat-option>
                             </mat-autocomplete>
                             <mat-hint>Downlink Burst Size (bytes)</mat-hint>
@@ -248,19 +392,31 @@
             <!--UPF dropdown-->
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="upf"
-                                id="selectUpf">
+                    <mat-select formControlName="upf" id="selectUpf">
                         <mat-option
                             *ngFor="let eachUpf of upfs"
-                            [value]="eachUpf.id">{{eachUpf.id}} {{eachUpf['upf']}}</mat-option>
+                            [value]="eachUpf.id"
+                            >{{ eachUpf.id }} {{ eachUpf["upf"] }}</mat-option
+                        >
                     </mat-select>
                     <mat-hint>UPF</mat-hint>
                 </mat-form-field>
             </div>
             <mat-card-actions>
-                <button mat-raised-button color="accent" type="submit"
-                        id="submitButton"
-                        [disabled]="!(vcsForm.valid && vcsForm.value.id && vcsForm.touched && opaService.canWrite('/vcs/vcs[id=' + id + ']'))">
+                <button
+                    mat-raised-button
+                    color="accent"
+                    type="submit"
+                    id="submitButton"
+                    [disabled]="
+                        !(
+                            vcsForm.valid &&
+                            vcsForm.value.id &&
+                            vcsForm.touched &&
+                            opaService.canWrite('/vcs/vcs[id=' + id + ']')
+                        )
+                    "
+                >
                     Update
                 </button>
             </mat-card-actions>
@@ -268,17 +424,24 @@
     </mat-card>
 </form>
 <aether-application-select
-    *ngIf="showApplicationDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/application')"
+    *ngIf="
+        showApplicationDisplay &&
+        opaService.canWrite('/vcs/vcs[id=' + id + ']/application')
+    "
     id="applicationSelectComponent"
     [alreadySelected]="selectedApplications()"
     [applicationList]="applications"
-    (appcloseEvent)="appSelected($event)">
+    (appcloseEvent)="appSelected($event)"
+>
 </aether-application-select>
 <aether-device-group-select
-    *ngIf="showDeviceGroupDisplay && opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')"
+    *ngIf="
+        showDeviceGroupDisplay &&
+        opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')
+    "
     id="deviceGroupSelectComponent"
     [selectedSite]="selectedSite"
     [alreadySelected]="deviceGroupExists"
-    (closeEvent)="dgSelected($event)">
+    (closeEvent)="dgSelected($event)"
+>
 </aether-device-group-select>
-

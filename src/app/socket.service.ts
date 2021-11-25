@@ -4,15 +4,17 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Injectable} from '@angular/core';
-import {webSocket, WebSocketSubject, WebSocketSubjectConfig} from 'rxjs/webSocket';
-import {WEBSOCKET_PROXY} from '../environments/environment';
+import { Injectable } from '@angular/core';
 import {
-    Observable, Observer, Subject, Subscription, throwError
-} from 'rxjs';
+    webSocket,
+    WebSocketSubject,
+    WebSocketSubjectConfig,
+} from 'rxjs/webSocket';
+import { WEBSOCKET_PROXY } from '../environments/environment';
+import { Observable, Observer, Subject, Subscription, throwError } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class SocketService {
     public webSocketSubject: WebSocketSubject<any>;
@@ -39,17 +41,28 @@ export class SocketService {
     public subscribe(filter: string): Observable<any> {
         const responseObs = new Subject();
         this.onConnected({
-            next: x => x ? console.log('WebSocket not ready when subscribing for', filter) : null,
-            error: err => throwError(err),
+            next: (x) =>
+                x
+                    ? console.log(
+                          'WebSocket not ready when subscribing for',
+                          filter
+                      )
+                    : null,
+            error: (err) => throwError(err),
             complete: () => {
-                console.log('Web Socket connection ready - subscribing to:', filter);
+                console.log(
+                    'Web Socket connection ready - subscribing to:',
+                    filter
+                );
                 setTimeout(() => {
                     // responseObs.next(from(['d', 'e', 'f']));
-                    responseObs.next(this.webSocketSubject.multiplex(
-                        () => ({subscribe: filter}),
-                        () => ({unsubscribe: filter}),
-                        message => message[filter] !== undefined
-                    ));
+                    responseObs.next(
+                        this.webSocketSubject.multiplex(
+                            () => ({ subscribe: filter }),
+                            () => ({ unsubscribe: filter }),
+                            (message) => message[filter] !== undefined
+                        )
+                    );
                 }, 10);
             },
         });
@@ -62,25 +75,33 @@ export class SocketService {
                 url: WEBSOCKET_PROXY,
                 openObserver: {
                     next: () => {
-                        console.log('Websocket connection to', WEBSOCKET_PROXY, 'opened');
-                    }
+                        console.log(
+                            'Websocket connection to',
+                            WEBSOCKET_PROXY,
+                            'opened'
+                        );
+                    },
                 },
                 closeObserver: {
                     next: () => {
-                        console.log('Websocket connection to ', WEBSOCKET_PROXY, 'closed');
+                        console.log(
+                            'Websocket connection to ',
+                            WEBSOCKET_PROXY,
+                            'closed'
+                        );
                         this.webSocketSubject = undefined;
                         // this.connect({ reconnect: true });
-                    }
+                    },
                 },
             } as WebSocketSubjectConfig<any>;
             this.webSocketSubject = webSocket(config);
             // Send the OpenID Connect JWT token down in first message
-            this.sendMessage({idToken: token});
+            this.sendMessage({ idToken: token });
             // Always keep one subscribe open
             const testObs = this.webSocketSubject.multiplex(
-                () => ({subscribe: 'heartbeat'}),
-                () => ({unsubscribe: 'heartbeat'}),
-                message => message.heartbeat !== undefined
+                () => ({ subscribe: 'heartbeat' }),
+                () => ({ unsubscribe: 'heartbeat' }),
+                (message) => message.heartbeat !== undefined
             );
             this.permanentSub = testObs.subscribe(
                 (hbVal) => null, // No need to log websockets - use browser debugger
@@ -95,7 +116,7 @@ export class SocketService {
                     .forEach((co) => {
                         co.next(true);
                         co.complete();
-                });
+                    });
                 this.connectedObservers = []; // Clear the list
             }
         }
@@ -114,5 +135,4 @@ export class SocketService {
             this.webSocketSubject.complete();
         }
     }
-
 }

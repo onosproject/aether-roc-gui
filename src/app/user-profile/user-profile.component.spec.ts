@@ -3,12 +3,12 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {UserProfileComponent} from './user-profile.component';
-import {MatCardModule} from '@angular/material/card';
-import {MatListModule} from '@angular/material/list';
-import {IdTokClaims} from '../idtoken';
+import { UserProfileComponent } from './user-profile.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
+import { IdTokClaims } from '../idtoken';
 
 describe('UserProfileComponent', () => {
     let component: UserProfileComponent;
@@ -17,12 +17,8 @@ describe('UserProfileComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [UserProfileComponent],
-            imports: [
-                MatCardModule,
-                MatListModule,
-            ]
-        })
-            .compileComponents();
+            imports: [MatCardModule, MatListModule],
+        }).compileComponents();
     });
 
     beforeEach(() => {
@@ -31,7 +27,10 @@ describe('UserProfileComponent', () => {
             email: 'test@opennetworking.org',
             groups: ['group1', 'group2'],
         } as IdTokClaims;
-        localStorage.setItem('id_token_claims_obj', JSON.stringify(testTokClObj));
+        localStorage.setItem(
+            'id_token_claims_obj',
+            JSON.stringify(testTokClObj)
+        );
         fixture = TestBed.createComponent(UserProfileComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();

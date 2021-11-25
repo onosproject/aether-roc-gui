@@ -3,17 +3,21 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {UeMonitorComponent} from './ue-monitor.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatCardModule} from '@angular/material/card';
-import {OAuthLogger, OAuthService, UrlHelperService} from 'angular-oauth2-oidc';
-import {GRAFANA_PROXY} from '../../../environments/environment';
-import {UtilsModule} from '../../utils/utils.module';
+import { UeMonitorComponent } from './ue-monitor.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
+import {
+    OAuthLogger,
+    OAuthService,
+    UrlHelperService,
+} from 'angular-oauth2-oidc';
+import { GRAFANA_PROXY } from '../../../environments/environment';
+import { UtilsModule } from '../../utils/utils.module';
 
 describe('UeMonitorComponent', () => {
     let component: UeMonitorComponent;
@@ -28,16 +32,15 @@ describe('UeMonitorComponent', () => {
                 BrowserAnimationsModule,
                 MatToolbarModule,
                 MatCardModule,
-                UtilsModule
+                UtilsModule,
             ],
             providers: [
-                {provide: OAuthService},
-                {provide: UrlHelperService},
-                {provide: OAuthLogger},
-                {provide: 'grafana_api_proxy', useValue: GRAFANA_PROXY},
-            ]
-        })
-            .compileComponents();
+                { provide: OAuthService },
+                { provide: UrlHelperService },
+                { provide: OAuthLogger },
+                { provide: 'grafana_api_proxy', useValue: GRAFANA_PROXY },
+            ],
+        }).compileComponents();
     });
 
     beforeEach(() => {

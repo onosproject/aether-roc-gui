@@ -3,21 +3,21 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {DeviceGroupComponent} from './device-group.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatSortModule} from '@angular/material/sort';
-import {MatTableModule} from '@angular/material/table';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {ActivatedRoute} from '@angular/router';
-import {MatIconModule} from '@angular/material/icon';
-import {of} from 'rxjs';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {ApiModule} from '../../../openapi3/aether/4.0.0/api.module';
+import { DeviceGroupComponent } from './device-group.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { ActivatedRoute } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { of } from 'rxjs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ApiModule } from '../../../openapi3/aether/4.0.0/api.module';
 
 describe('DeviceGroupComponent', () => {
     let component: DeviceGroupComponent;
@@ -36,13 +36,15 @@ describe('DeviceGroupComponent', () => {
                 MatSnackBarModule,
                 MatToolbarModule,
                 MatIconModule,
-                ApiModule
+                ApiModule,
             ],
             providers: [
-                {provide: ActivatedRoute, useValue: {paramMap: of({get: (key) => 'value'})}},
+                {
+                    provide: ActivatedRoute,
+                    useValue: { paramMap: of({ get: (key) => 'value' }) },
+                },
             ],
-        })
-            .compileComponents();
+        }).compileComponents();
     });
 
     beforeEach(() => {

@@ -4,23 +4,29 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
 import {
     ConnectivityService,
     ConnectivityServiceConnectivityService,
 } from '../../../openapi3/aether/4.0.0/models';
-import {BasketService} from '../../basket.service';
-import {RocDataSource} from '../../roc-data-source';
+import { BasketService } from '../../basket.service';
+import { RocDataSource } from '../../roc-data-source';
 
-export class ConnectivityServiceDatasource extends RocDataSource<ConnectivityServiceConnectivityService, ConnectivityService> {
-
+export class ConnectivityServiceDatasource extends RocDataSource<
+    ConnectivityServiceConnectivityService,
+    ConnectivityService
+> {
     constructor(
         protected aetherService: AetherService,
         protected bs: BasketService,
-        protected target: string,
+        protected target: string
     ) {
-        super(aetherService, bs, target,
-            '/connectivity-service-4.0.0', 'connectivity-service',
+        super(
+            aetherService,
+            bs,
+            target,
+            '/connectivity-service-4.0.0',
+            'connectivity-service'
         );
     }
 }

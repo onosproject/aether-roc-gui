@@ -3,15 +3,18 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {OpenPolicyAgentService, AETHER_ROC_ADMIN_USER} from '../../open-policy-agent.service';
-import {ApiService as TopLevelApiService} from '../../../openapi3/top/level/services/api.service';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+    OpenPolicyAgentService,
+    AETHER_ROC_ADMIN_USER,
+} from '../../open-policy-agent.service';
+import { ApiService as TopLevelApiService } from '../../../openapi3/top/level/services/api.service';
 
 @Component({
     selector: 'aether-sdcore',
     templateUrl: './sdcore.component.html',
-    styleUrls: ['../../common-profiles.component.scss']
+    styleUrls: ['../../common-profiles.component.scss'],
 })
 export class SdcoreComponent {
     AETHER_ROC_ADMIN_USER = AETHER_ROC_ADMIN_USER;
@@ -20,21 +23,24 @@ export class SdcoreComponent {
         private topLevelService: TopLevelApiService,
         public opaService: OpenPolicyAgentService,
         protected snackBar: MatSnackBar,
-        @Inject('sdcore-adapter-service') public sdcoreAdapter: string,
-    ) {
-    }
+        @Inject('sdcore-adapter-service') public sdcoreAdapter: string
+    ) {}
 
     synchronize() {
-        this.topLevelService.sdcorePushConfigTopLevel({
-            service: this.sdcoreAdapter,
-        }).subscribe(
-            (value => {
-                this.snackBar.open('Synchronizing: ' + value , undefined, {duration: 2000});
-            }),
-            (err =>
-                this.snackBar.open('Error:' + err.error, 'Dismiss', {duration: 20000})
-            )
-        );
+        this.topLevelService
+            .sdcorePushConfigTopLevel({
+                service: this.sdcoreAdapter,
+            })
+            .subscribe(
+                (value) => {
+                    this.snackBar.open('Synchronizing: ' + value, undefined, {
+                        duration: 2000,
+                    });
+                },
+                (err) =>
+                    this.snackBar.open('Error:' + err.error, 'Dismiss', {
+                        duration: 20000,
+                    })
+            );
     }
-
 }

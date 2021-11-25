@@ -7,45 +7,63 @@
 <form [formGroup]="appForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Application ID: {{id}}</mat-card-title>
-            <mat-icon *ngIf="!isNew" (click)="showParentDisplay = true; $event.preventDefault()"
-                      class="subscriber-pointer"
-                      id="showParentInformation"
-                      color="accent">
+            <mat-card-title>Application ID: {{ id }}</mat-card-title>
+            <mat-icon
+                *ngIf="!isNew"
+                (click)="showParentDisplay = true; $event.preventDefault()"
+                class="subscriber-pointer"
+                id="showParentInformation"
+                color="accent"
+            >
                 assignment
             </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
                 <mat-form-field class="half-width field-margin">
-                    <input matInput formControlName="id"
-                           placeholder="Please specify an ID"
-                           title="This field is mandatory."
-                           id="inputID"
-                           required>
+                    <input
+                        matInput
+                        formControlName="id"
+                        placeholder="Please specify an ID"
+                        title="This field is mandatory."
+                        id="inputID"
+                        required
+                    />
                     <mat-hint>Name (ID)</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row" id="displayNameRow">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="display-name" id="inputDisplayName">
+                    <input
+                        matInput
+                        formControlName="display-name"
+                        id="inputDisplayName"
+                    />
                     <mat-hint>Display Name</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row" id="descriptionRow">
                 <mat-form-field class="field-margin half-width">
-                    <textarea matInput formControlName="description" id="inputDescription"></textarea>
+                    <textarea
+                        matInput
+                        formControlName="description"
+                        id="inputDescription"
+                    ></textarea>
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
             <div id="enterpriseRow">
                 <mat-form-field class="field-margin half-width">
-                    <mat-select formControlName="enterprise"
-                                placeholder="Please specify an Enterprise"
-                                id="selectEnterprise">
+                    <mat-select
+                        formControlName="enterprise"
+                        placeholder="Please specify an Enterprise"
+                        id="selectEnterprise"
+                    >
                         <mat-option
                             *ngFor="let eachEnterprise of enterprises"
-                            [value]="eachEnterprise.id">{{eachEnterprise.id}} {{eachEnterprise['display-name']}}
+                            [value]="eachEnterprise.id"
+                            >{{ eachEnterprise.id }}
+                            {{ eachEnterprise["display-name"] }}
                         </mat-option>
                     </mat-select>
                     <mat-hint>Enterprise</mat-hint>
@@ -53,99 +71,189 @@
             </div>
             <div class="row" id="address">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="address" id="inputAddress" required>
+                    <input
+                        matInput
+                        formControlName="address"
+                        id="inputAddress"
+                        required
+                    />
                     <mat-hint>Address</mat-hint>
                 </mat-form-field>
             </div>
-            <div formArrayName="endpoint" class=" field-margin subscriber-section">
+            <div
+                formArrayName="endpoint"
+                class="field-margin subscriber-section"
+            >
                 <mat-hint>Endpoint</mat-hint>
-                <mat-icon (click)="CheckAndShowEndpoint()" class="subscriber-pointer" id="addEndpoint"
-                          color="accent">add
+                <mat-icon
+                    (click)="CheckAndShowEndpoint()"
+                    class="subscriber-pointer"
+                    id="addEndpoint"
+                    color="accent"
+                    >add
                 </mat-icon>
-                <div *ngFor="let endpointForm of endpointControls.controls;let i = index">
-                    <div [formGroup]="endpointForm" [id]="endpointForm.value['endpoint-id']">
+                <div
+                    *ngFor="
+                        let endpointForm of endpointControls.controls;
+                        let i = index
+                    "
+                >
+                    <div
+                        [formGroup]="endpointForm"
+                        [id]="endpointForm.value['endpoint-id']"
+                    >
                         <div class="float-left">
                             <mat-form-field class="field-margin">
-                                <input matInput readonly formControlName="endpoint-id" id="inputEndpointId">
+                                <input
+                                    matInput
+                                    readonly
+                                    formControlName="endpoint-id"
+                                    id="inputEndpointId"
+                                />
                                 <mat-hint>Endpoint ID</mat-hint>
                             </mat-form-field>
                             <mat-form-field class="field-margin">
-                                <input matInput formControlName="display-name" id="inputEndpointDisplayName">
+                                <input
+                                    matInput
+                                    formControlName="display-name"
+                                    id="inputEndpointDisplayName"
+                                />
                                 <mat-hint>Endpoint Name</mat-hint>
                             </mat-form-field>
-                            <mat-form-field class="field-margin ">
-                                <input matInput type=number formControlName="port-start"
-                                       title="This field is mandatory."
-                                       placeholder="Please specify a starting Port"
-                                       id="inputEndpointPortStart" required>
+                            <mat-form-field class="field-margin">
+                                <input
+                                    matInput
+                                    type="number"
+                                    formControlName="port-start"
+                                    title="This field is mandatory."
+                                    placeholder="Please specify a starting Port"
+                                    id="inputEndpointPortStart"
+                                    required
+                                />
                                 <mat-hint>Port Start</mat-hint>
                             </mat-form-field>
-                            <mat-form-field class="field-margin ">
-                                <input matInput type=number formControlName="port-end" id="inputEndpointPortEnd">
+                            <mat-form-field class="field-margin">
+                                <input
+                                    matInput
+                                    type="number"
+                                    formControlName="port-end"
+                                    id="inputEndpointPortEnd"
+                                />
                                 <mat-hint>Port End</mat-hint>
                             </mat-form-field>
-                            <mat-form-field class="field-margin ">
+                            <mat-form-field class="field-margin">
                                 <mat-select
                                     id="selectEndpointProtocol"
-                                    formControlName="protocol">
+                                    formControlName="protocol"
+                                >
                                     <mat-option
-                                        *ngFor="let eachProtocol of protocolOptions"
-                                        [value]="eachProtocol.name">{{eachProtocol.name}}</mat-option>
+                                        *ngFor="
+                                            let eachProtocol of protocolOptions
+                                        "
+                                        [value]="eachProtocol.name"
+                                        >{{ eachProtocol.name }}</mat-option
+                                    >
                                 </mat-select>
                                 <mat-hint>Protocol</mat-hint>
                             </mat-form-field>
                             <mat-form-field class="field-margin">
                                 <mat-select
                                     id="selectEndpointTrafficClass"
-                                    formControlName="traffic-class">
+                                    formControlName="traffic-class"
+                                >
                                     <mat-option
-                                        *ngFor="let eachTrafficClass of trafficClassOptions"
-                                        [value]="eachTrafficClass.id">{{eachTrafficClass['display-name']}}</mat-option>
+                                        *ngFor="
+                                            let eachTrafficClass of trafficClassOptions
+                                        "
+                                        [value]="eachTrafficClass.id"
+                                        >{{
+                                            eachTrafficClass["display-name"]
+                                        }}</mat-option
+                                    >
                                 </mat-select>
                                 <mat-hint>Traffic Class</mat-hint>
                             </mat-form-field>
                         </div>
                         <div [formGroup]="mbrControls(i)">
                             <mat-form-field class="field-margin">
-                                <input matInput type="number" [matAutocomplete]="auto"
-                                       id="inputEndpointUplink"
-                                       formControlName="uplink">
+                                <input
+                                    matInput
+                                    type="number"
+                                    [matAutocomplete]="auto"
+                                    id="inputEndpointUplink"
+                                    formControlName="uplink"
+                                />
                                 <mat-autocomplete #auto="matAutocomplete">
-                                    <mat-option *ngFor="let option of bandwidthOptions | async"
-                                                [value]="option.megabyte.numerical">
-                                        {{option.megabyte.numerical}}
-                                        {{option.megabyte.inMb}}
+                                    <mat-option
+                                        *ngFor="
+                                            let option of bandwidthOptions
+                                                | async
+                                        "
+                                        [value]="option.megabyte.numerical"
+                                    >
+                                        {{ option.megabyte.numerical }}
+                                        {{ option.megabyte.inMb }}
                                     </mat-option>
                                 </mat-autocomplete>
                                 <mat-hint>Uplink (bps)</mat-hint>
                             </mat-form-field>
                             <mat-form-field class="field-margin">
-                                <input matInput type="number" [matAutocomplete]="auto"
-                                       id="inputEndpointDownlink"
-                                       formControlName="downlink">
+                                <input
+                                    matInput
+                                    type="number"
+                                    [matAutocomplete]="auto"
+                                    id="inputEndpointDownlink"
+                                    formControlName="downlink"
+                                />
                                 <mat-autocomplete #auto="matAutocomplete">
-                                    <mat-option *ngFor="let option of bandwidthOptions | async"
-                                                [value]="option.megabyte.numerical">
-                                        {{option.megabyte.numerical}}
-                                        {{option.megabyte.inMb}}
+                                    <mat-option
+                                        *ngFor="
+                                            let option of bandwidthOptions
+                                                | async
+                                        "
+                                        [value]="option.megabyte.numerical"
+                                    >
+                                        {{ option.megabyte.numerical }}
+                                        {{ option.megabyte.inMb }}
                                     </mat-option>
                                 </mat-autocomplete>
                                 <mat-hint>Downlink (bps)</mat-hint>
                             </mat-form-field>
-                            <button mat-icon-button
-                                    color="accent"
-                                    (click)="deleteFromSelect(endpointForm.value['endpoint-id'])"
-                                    id="deleteEndpoint">
-                                <mat-icon class="pad-left subscriber-pointer">delete</mat-icon>
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                (click)="
+                                    deleteFromSelect(
+                                        endpointForm.value['endpoint-id']
+                                    )
+                                "
+                                id="deleteEndpoint"
+                            >
+                                <mat-icon class="pad-left subscriber-pointer"
+                                    >delete</mat-icon
+                                >
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
             <mat-card-actions>
-                <button mat-raised-button color="accent" type="submit"
-                        [disabled]="!(appForm.valid && (appForm.errors?.isEndpointNotValid === null) && appForm.value.id && appForm.touched && opaService.canWrite('/application/application'))"
-                        id="submitButton">Update
+                <button
+                    mat-raised-button
+                    color="accent"
+                    type="submit"
+                    [disabled]="
+                        !(
+                            appForm.valid &&
+                            appForm.errors?.isEndpointNotValid === null &&
+                            appForm.value.id &&
+                            appForm.touched &&
+                            opaService.canWrite('/application/application')
+                        )
+                    "
+                    id="submitButton"
+                >
+                    Update
                 </button>
             </mat-card-actions>
         </mat-card-content>
@@ -155,11 +263,13 @@
     *ngIf="shownEndpointDisplay"
     id="endpointSelectComponent"
     [trafficClassOptions]="trafficClassOptions"
-    (closeEvent)="endpointSelected($event)">
+    (closeEvent)="endpointSelected($event)"
+>
 </aether-endpoint-select>
 <aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showVcsUsageComponent"
     [applicationID]="applicationId"
-    (closeShowParentCardEvent)="closeShowParentCard($event)">
+    (closeShowParentCardEvent)="closeShowParentCard($event)"
+>
 </aether-show-vcs-usage>

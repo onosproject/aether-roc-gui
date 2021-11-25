@@ -7,70 +7,119 @@
     <mat-toolbar class="profile-toolbar" color="primary">
         <p>TRAFFIC CLASS</p>
         <span class="toolbar-spacer"></span>
-        <button mat-raised-button color="accent" type="submit" aria-label="Add traffic-class"
-                id="addTrafficClassButton"
-                [disabled]="!opaService.canWrite('traffic-class/traffic-class[id=newinstance]')"
-                routerLink="/traffic-class/traffic-class-edit/newinstance">Add
+        <button
+            mat-raised-button
+            color="accent"
+            type="submit"
+            aria-label="Add traffic-class"
+            id="addTrafficClassButton"
+            [disabled]="
+                !opaService.canWrite(
+                    'traffic-class/traffic-class[id=newinstance]'
+                )
+            "
+            routerLink="/traffic-class/traffic-class-edit/newinstance"
+        >
+            Add
         </button>
     </mat-toolbar>
-    <table mat-table class="full-width-table" matSort aria-label="Elements" id="trafficClassTable">
+    <table
+        mat-table
+        class="full-width-table"
+        matSort
+        aria-label="Elements"
+        id="trafficClassTable"
+    >
         <!-- Id Column -->
         <ng-container matColumnDef="id" id="idColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
             <td mat-cell *matCellDef="let row">
-                <span *ngIf="row['display-name'] !== undefined" [title]="row.id">{{row['display-name']}}<br><small>({{row.id}})</small></span>
-                <span *ngIf="row['display-name'] === undefined">{{row.id}}</span>
+                <span *ngIf="row['display-name'] !== undefined" [title]="row.id"
+                    >{{ row["display-name"] }}<br /><small
+                        >({{ row.id }})</small
+                    ></span
+                >
+                <span *ngIf="row['display-name'] === undefined">{{
+                    row.id
+                }}</span>
             </td>
         </ng-container>
 
         <!-- Description Name Column -->
         <ng-container matColumnDef="description" id="descriptionColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-            <td mat-cell  *matCellDef="let row" [title]="row.description">{{row.description | truncateText:50}}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Description
+            </th>
+            <td mat-cell *matCellDef="let row" [title]="row.description">
+                {{ row.description | truncateText: 50 }}
+            </td>
         </ng-container>
 
         <!-- PELR Column -->
         <ng-container matColumnDef="pelr" id="pelrColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>PELR</th>
-            <td mat-cell class="small-spacing" *matCellDef="let row">{{row.pelr}}</td>
+            <td mat-cell class="small-spacing" *matCellDef="let row">
+                {{ row.pelr }}
+            </td>
         </ng-container>
 
         <!-- PDB Column -->
         <ng-container matColumnDef="pdb" id="pdbColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>PDB</th>
-            <td mat-cell class="small-spacing" *matCellDef="let row">{{row.pdb}}</td>
+            <td mat-cell class="small-spacing" *matCellDef="let row">
+                {{ row.pdb }}
+            </td>
         </ng-container>
 
         <!-- ARP Column -->
         <ng-container matColumnDef="arp" id="arpColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>ARP</th>
-            <td mat-cell class="small-spacing" *matCellDef="let row">{{row.arp}}</td>
+            <td mat-cell class="small-spacing" *matCellDef="let row">
+                {{ row.arp }}
+            </td>
         </ng-container>
 
         <!-- QCI Column -->
         <ng-container matColumnDef="qci" id="qciColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>QCI</th>
-            <td mat-cell class="small-spacing" *matCellDef="let row">{{row.qci}}</td>
+            <td mat-cell class="small-spacing" *matCellDef="let row">
+                {{ row.qci }}
+            </td>
         </ng-container>
 
         <!-- Edit Column -->
         <ng-container matColumnDef="edit" id="editColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Edit</th>
-            <td mat-cell *matCellDef="let row" routerLink="/traffic-class/traffic-class-edit/{{row.id}}" id="editButton">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
+                Edit
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let row"
+                routerLink="/traffic-class/traffic-class-edit/{{ row.id }}"
+                id="editButton"
+            >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
             </td>
         </ng-container>
 
         <!-- Delete Column -->
         <ng-container matColumnDef="delete" id="deleteColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Delete</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
+                Delete
+            </th>
             <td mat-cell *matCellDef="let row">
-                <button mat-icon-button
-                        id="deleteButton"
-                        [disabled]="!opaService.canWrite('/traffic-class/traffic-class[id=' + row.id + ']')"
-                        (click)="delete(row.id)"
-                        color="accent"
-                        id="deleteTrafficClassButton">
+                <button
+                    mat-icon-button
+                    id="deleteButton"
+                    [disabled]="
+                        !opaService.canWrite(
+                            '/traffic-class/traffic-class[id=' + row.id + ']'
+                        )
+                    "
+                    (click)="delete(row.id)"
+                    color="accent"
+                    id="deleteTrafficClassButton"
+                >
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
             </td>
@@ -78,31 +127,43 @@
 
         <!-- Usage Column -->
         <ng-container matColumnDef="usage" id="usageColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>Usage</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
+                Usage
+            </th>
             <td mat-cell *matCellDef="let row">
-                <button mat-icon-button
-                        id="usageButton"
-                        (click)="showUsage(row.id)"
-                        color="accent">
+                <button
+                    mat-icon-button
+                    id="usageButton"
+                    (click)="showUsage(row.id)"
+                    color="accent"
+                >
                     <mat-icon class="table_icon">assignment</mat-icon>
                 </button>
             </td>
         </ng-container>
 
-        <tr mat-header-row class="profile-header" *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr
+            mat-header-row
+            class="profile-header"
+            *matHeaderRowDef="displayedColumns"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <mat-paginator #paginator id="trafficClassPaginator"
-                   [length]="dataSource?.data?.length"
-                   [pageIndex]="0"
-                   [pageSize]="10"
-                   [pageSizeOptions]="[10, 20, 40]">
+    <mat-paginator
+        #paginator
+        id="trafficClassPaginator"
+        [length]="dataSource?.data?.length"
+        [pageIndex]="0"
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 20, 40]"
+    >
     </mat-paginator>
 </div>
 <aether-show-vcs-usage
     *ngIf="showUsageCard"
     id="showVcsUsageComponent"
     [trafficClassID]="id"
-    (closeShowParentCardEvent)="closeShowParentCard($event)">
+    (closeShowParentCardEvent)="closeShowParentCard($event)"
+>
 </aether-show-vcs-usage>

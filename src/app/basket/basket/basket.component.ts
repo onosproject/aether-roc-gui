@@ -3,15 +3,21 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
-import {MatTable} from '@angular/material/table';
-import {MatHeaderRow} from '@angular/material/table';
-import {BasketService, BasketValue, HEX2NUM} from '../../basket.service';
-import {ApiService} from '../../../openapi3/top/level/services';
-import {ActivatedRoute, Router} from '@angular/router';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {OpenPolicyAgentService} from '../../open-policy-agent.service';
+import {
+    Component,
+    EventEmitter,
+    OnInit,
+    Output,
+    ViewChild,
+} from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatTable } from '@angular/material/table';
+import { MatHeaderRow } from '@angular/material/table';
+import { BasketService, BasketValue, HEX2NUM } from '../../basket.service';
+import { ApiService } from '../../../openapi3/top/level/services';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 
 interface BasketRow {
     path: string;
@@ -24,7 +30,7 @@ interface BasketRow {
 @Component({
     selector: 'aether-basket',
     templateUrl: './basket.component.html',
-    styleUrls: ['../../common-profiles.component.scss']
+    styleUrls: ['../../common-profiles.component.scss'],
 })
 export class BasketComponent implements OnInit {
     data: Array<BasketRow> = [];
@@ -40,7 +46,7 @@ export class BasketComponent implements OnInit {
         'displayPath',
         'oldChangeValue',
         'newChangeValue',
-        'remove'
+        'remove',
     ];
 
     constructor(
@@ -49,11 +55,10 @@ export class BasketComponent implements OnInit {
         private router: Router,
         private snackBar: MatSnackBar,
         private bs: BasketService,
-        public opaService: OpenPolicyAgentService,
-    ) {
-    }
+        public opaService: OpenPolicyAgentService
+    ) {}
 
-    addPatchName(): void{
+    addPatchName(): void {
         localStorage.setItem('patchName', this.patchName);
     }
 
@@ -64,10 +69,14 @@ export class BasketComponent implements OnInit {
     ngOnInit(): void {
         Object.keys(localStorage)
             .filter((key) => key.startsWith('/basket'))
-            .forEach((key => {
-                const valueFromLocalStorage = localStorage.getItem(key).toString();
+            .forEach((key) => {
+                const valueFromLocalStorage = localStorage
+                    .getItem(key)
+                    .toString();
                 // console.log('processing key', key, valueFromLocalStorage);
-                const changeObject: BasketValue = JSON.parse(valueFromLocalStorage);
+                const changeObject: BasketValue = JSON.parse(
+                    valueFromLocalStorage
+                );
                 if (key.startsWith('/basket-update')) {
                     this.updateCounter = this.updateCounter + 1;
                 } else if (key.startsWith('/basket-delete')) {
@@ -78,36 +87,50 @@ export class BasketComponent implements OnInit {
                     oldValue: changeObject.oldValue,
                     newValue: changeObject.newValue,
                     deleted: key.startsWith('/basket-delete'),
-                    displayPath: key.slice(14)
+                    displayPath: key.slice(14),
                 } as unknown as BasketRow;
                 if (changeObject.type === HEX2NUM) {
-                    basketRow.oldValue = changeObject.oldValue + ' (' + parseInt(changeObject.oldValue, 16) + ')';
-                    basketRow.newValue = changeObject.newValue + ' (' + parseInt(changeObject.newValue, 16) + ')';
+                    basketRow.oldValue =
+                        changeObject.oldValue +
+                        ' (' +
+                        parseInt(changeObject.oldValue, 16) +
+                        ')';
+                    basketRow.newValue =
+                        changeObject.newValue +
+                        ' (' +
+                        parseInt(changeObject.newValue, 16) +
+                        ')';
                 }
                 this.data.push(basketRow);
                 // console.log('processing key', basketRow);
-            }));
+            });
     }
 
     commitChanges(): void {
-        const decision = confirm('Are you sure you want to commit these changes?');
+        const decision = confirm(
+            'Are you sure you want to commit these changes?'
+        );
         if (decision === true) {
             const patchBody = this.bs.buildPatchBody();
             console.info('SENDING', patchBody);
 
-            this.topLevelApiService.patchTopLevel({body: patchBody}).subscribe(
-                (resp) => {
-                    console.log('Complete', resp);
-                    this.snackBar.open('Complete' + resp, undefined, {duration: 2000});
-                    this.clearBasket();
-                },
-                (err) => {
-                    console.warn('error posting patch body', err);
-                    this.snackBar.open('Error:' + err.error, 'Dismiss', {duration: 20000});
-                }
-            );
-
-
+            this.topLevelApiService
+                .patchTopLevel({ body: patchBody })
+                .subscribe(
+                    (resp) => {
+                        console.log('Complete', resp);
+                        this.snackBar.open('Complete' + resp, undefined, {
+                            duration: 2000,
+                        });
+                        this.clearBasket();
+                    },
+                    (err) => {
+                        console.warn('error posting patch body', err);
+                        this.snackBar.open('Error:' + err.error, 'Dismiss', {
+                            duration: 20000,
+                        });
+                    }
+                );
         }
     }
 
@@ -127,7 +150,10 @@ export class BasketComponent implements OnInit {
 
     clearBasket(): void {
         Object.keys(localStorage)
-            .filter(key => key.startsWith('/basket') || key.startsWith('/unchanged-'))
+            .filter(
+                (key) =>
+                    key.startsWith('/basket') || key.startsWith('/unchanged-')
+            )
             .forEach((key) => {
                 localStorage.removeItem(key);
             });
@@ -138,7 +164,9 @@ export class BasketComponent implements OnInit {
     }
 
     discardAllChanges(): void {
-        const decision = confirm('Are you sure you want to discard all changes?');
+        const decision = confirm(
+            'Are you sure you want to discard all changes?'
+        );
         if (decision === true) {
             this.clearBasket();
         }

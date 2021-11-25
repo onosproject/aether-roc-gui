@@ -6,51 +6,84 @@
 <form [formGroup]="imsiForm">
     <mat-card class="card mat-elevation-z8">
         <mat-card-header class="header">
-            <mat-card-title class="subheading-1 title">Create UE ID Range</mat-card-title>
+            <mat-card-title class="subheading-1 title"
+                >Create UE ID Range</mat-card-title
+            >
         </mat-card-header>
         <mat-card-content class="content">
-            <mat-hint>UE ID is suffix of IMSI. Maximum each range: {{maxDeviceGroupRange}}</mat-hint>
+            <mat-hint
+                >UE ID is suffix of IMSI. Maximum each range:
+                {{ maxDeviceGroupRange }}</mat-hint
+            >
             <div>
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="imsi-id" id="inputNewImsiId"
-                           title="This field is mandatory."
-                           placeholder="Please specify an ID"
-                           required>
+                    <input
+                        matInput
+                        formControlName="imsi-id"
+                        id="inputNewImsiId"
+                        title="This field is mandatory."
+                        placeholder="Please specify an ID"
+                        required
+                    />
                     <mat-hint>IMSI-ID</mat-hint>
                 </mat-form-field>
             </div>
             <div>
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="display-name" id="inputNewIMSIDisplayName">
+                    <input
+                        matInput
+                        formControlName="display-name"
+                        id="inputNewIMSIDisplayName"
+                    />
                     <mat-hint>Name</mat-hint>
                 </mat-form-field>
             </div>
             <div>
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="imsi-range-from"
-                           type="number"
-                           id="inputNewImsiRangeFrom">
+                    <input
+                        matInput
+                        formControlName="imsi-range-from"
+                        type="number"
+                        id="inputNewImsiRangeFrom"
+                    />
                     <mat-hint>ID Range From</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="imsi-range-to"
-                           type="number"
-                           placeholder="Max value:{{ImsiRangeLimit}}"
-                           id="inputNewImsiRangeTo">
+                    <input
+                        matInput
+                        formControlName="imsi-range-to"
+                        type="number"
+                        placeholder="Max value:{{ ImsiRangeLimit }}"
+                        id="inputNewImsiRangeTo"
+                    />
                     <mat-hint>ID Range To</mat-hint>
                 </mat-form-field>
             </div>
-
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="accent" type="button" (click)="closeCard(true)"
-                    id="cancelButton">Cancel
+            <button
+                mat-raised-button
+                color="accent"
+                type="button"
+                (click)="closeCard(true)"
+                id="cancelButton"
+            >
+                Cancel
             </button>
-            <button [disabled]="!(imsiForm.valid && (imsiForm.errors?.isRangeNotValid === null))"
-                    mat-raised-button color="accent"
-                    type="button"
-                    id="confirmButton"
-                    (click)="closeCard(false)">Confirm
+            <button
+                [disabled]="
+                    !(
+                        imsiForm.valid &&
+                        imsiForm.errors?.isRangeNotValid === null
+                    )
+                "
+                mat-raised-button
+                color="accent"
+                type="button"
+                id="confirmButton"
+                (click)="closeCard(false)"
+            >
+                Confirm
             </button>
         </mat-card-actions>
     </mat-card>

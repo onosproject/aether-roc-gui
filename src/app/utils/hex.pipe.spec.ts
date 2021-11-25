@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {HexPipe} from './hex.pipe';
+import { HexPipe } from './hex.pipe';
 
 describe('HexPipe', () => {
     it('create an instance', () => {

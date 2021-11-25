@@ -6,35 +6,57 @@
 <form [formGroup]="edgeDeviceForm" (ngSubmit)="closeCard(false)">
     <mat-card class="card mat-elevation-z8">
         <mat-card-header class="header">
-            <mat-card-title class="subheading-1 title">Add Edge Device</mat-card-title>
+            <mat-card-title class="subheading-1 title"
+                >Add Edge Device</mat-card-title
+            >
         </mat-card-header>
         <mat-card-content class="content">
             <mat-form-field class="field-margin">
-                <input matInput formControlName="edge-device-id"
-                       title="This field is mandatory."
-                       placeholder="Please specify a ID"
-                       id="inputNewEDID" required>
+                <input
+                    matInput
+                    formControlName="edge-device-id"
+                    title="This field is mandatory."
+                    placeholder="Please specify a ID"
+                    id="inputNewEDID"
+                    required
+                />
                 <mat-hint>Edge Device ID</mat-hint>
             </mat-form-field>
-            <mat-form-field class="field-margin ">
-                <input matInput formControlName="display-name"
-                       id="inputNewEDDisplayname">
+            <mat-form-field class="field-margin">
+                <input
+                    matInput
+                    formControlName="display-name"
+                    id="inputNewEDDisplayname"
+                />
                 <mat-hint>Display Name</mat-hint>
             </mat-form-field>
-            <mat-form-field class="field-margin ">
-                <input matInput formControlName="description" id="inputNewEDDescription">
+            <mat-form-field class="field-margin">
+                <input
+                    matInput
+                    formControlName="description"
+                    id="inputNewEDDescription"
+                />
                 <mat-hint>Description</mat-hint>
             </mat-form-field>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="accent" type="button" (click)="closeCard(true)"
-                    id="cancelButton">Cancel
+            <button
+                mat-raised-button
+                color="accent"
+                type="button"
+                (click)="closeCard(true)"
+                id="cancelButton"
+            >
+                Cancel
             </button>
             <button
-                [disabled]="!(edgeDeviceForm.valid && edgeDeviceForm.touched )"
-                mat-raised-button color="accent"
+                [disabled]="!(edgeDeviceForm.valid && edgeDeviceForm.touched)"
+                mat-raised-button
+                color="accent"
                 type="submit"
-                id="addButton">Add
+                id="addButton"
+            >
+                Add
             </button>
         </mat-card-actions>
     </mat-card>

@@ -6,22 +6,38 @@
 <form [formGroup]="selectForm">
     <mat-card class="card mat-elevation-z8">
         <mat-card-header class="header">
-            <mat-card-title class="subheading-1 title">Choose Device Group</mat-card-title>
+            <mat-card-title class="subheading-1 title"
+                >Choose Device Group</mat-card-title
+            >
         </mat-card-header>
         <mat-card-content class="content">
             <mat-form-field>
                 <mat-label>Device Group</mat-label>
-                <mat-select formControlName="select-item"
-                            id="selectNewDeviceGroup">
-                    <mat-option *ngFor="let item of DisplayedDeviceGroup" (click)="closeCard(item.id)">
-                        {{item.id}}
-                        <span *ngIf="item['display-name']"> ({{item['display-name']}})</span>
+                <mat-select
+                    formControlName="select-item"
+                    id="selectNewDeviceGroup"
+                >
+                    <mat-option
+                        *ngFor="let item of DisplayedDeviceGroup"
+                        (click)="closeCard(item.id)"
+                    >
+                        {{ item.id }}
+                        <span *ngIf="item['display-name']">
+                            ({{ item["display-name"] }})</span
+                        >
                     </mat-option>
                 </mat-select>
             </mat-form-field>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="primary" (click)="closeCard('')" id="cancelButton">Cancel</button>
+            <button
+                mat-raised-button
+                color="primary"
+                (click)="closeCard('')"
+                id="cancelButton"
+            >
+                Cancel
+            </button>
         </mat-card-actions>
     </mat-card>
 </form>
