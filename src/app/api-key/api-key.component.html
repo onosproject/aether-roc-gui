@@ -7,14 +7,20 @@
 <mat-card class="card mat-elevation-z8" (click)="closeCard()">
     <mat-card-header class="header">
         <mat-card-title class="subheading-1 title">Api Key</mat-card-title>
-        <mat-card-subtitle>Valid until: {{expiry}}</mat-card-subtitle>
+        <mat-card-subtitle>Valid until: {{ expiry }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content class="content">
-        {{apiKey}}
+        {{ apiKey }}
     </mat-card-content>
     <mat-card-actions>
-        <button mat-icon-button >
-            <mat-icon color="accent" [cdkCopyToClipboard]="apiKey" (click)="closeCard()" id="copyButton">content_copy</mat-icon>
+        <button mat-icon-button>
+            <mat-icon
+                color="accent"
+                [cdkCopyToClipboard]="apiKey"
+                (click)="closeCard()"
+                id="copyButton"
+                >content_copy</mat-icon
+            >
         </button>
     </mat-card-actions>
 </mat-card>

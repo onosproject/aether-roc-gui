@@ -3,13 +3,13 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, Input, OnInit} from '@angular/core';
-import {SocketService} from '../../socket.service';
-import {Observable} from 'rxjs';
-import {switchAll, tap, pluck, map} from 'rxjs/operators';
-import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
-import {PROMETHEUS_PROXY} from '../../../environments/environment';
-import {OAuthService} from 'angular-oauth2-oidc';
+import { Component, Input, OnInit } from '@angular/core';
+import { SocketService } from '../../socket.service';
+import { Observable } from 'rxjs';
+import { switchAll, tap, pluck, map } from 'rxjs/operators';
+import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { PROMETHEUS_PROXY } from '../../../environments/environment';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 const RECEIVER = 'receiver';
 const COMMON_LABELS = 'commonLabels';
@@ -56,7 +56,10 @@ export interface PromAlerts {
 @Component({
     selector: 'aether-panel-alerts',
     templateUrl: './panel-alerts.component.html',
-    styleUrls: ['../../common-panel.component.scss', '../panel-dashboard.component.scss']
+    styleUrls: [
+        '../../common-panel.component.scss',
+        '../panel-dashboard.component.scss',
+    ],
 })
 export class PanelAlertsComponent implements OnInit {
     @Input() top: number;
@@ -75,9 +78,8 @@ export class PanelAlertsComponent implements OnInit {
     constructor(
         private socketService: SocketService,
         private aetherService: AetherService,
-        private oauthService: OAuthService,
-    ) {
-    }
+        private oauthService: OAuthService
+    ) {}
 
     ngOnInit(): void {
         this.dataObs = this.openWebSocket();
@@ -85,14 +87,26 @@ export class PanelAlertsComponent implements OnInit {
 
     // Produces an Observable to use with <mat-table>
     openWebSocket(): Observable<PromAlert[]> {
-        return this.socketService.subscribe('truncatedAlerts').pipe(
-            // First subscribe returns an Observable of Observables (1) - here that is flattened down
-            switchAll(),
-        ).pipe(
-            tap(m => console.log('Prometheus alerts from "', m[RECEIVER], '"', m[COMMON_LABELS])),
-            pluck('alerts'),
-            map((alerts: PromAlert[]) => alerts.filter((alert) => alert.status === 'firing'))
-        );
+        return this.socketService
+            .subscribe('truncatedAlerts')
+            .pipe(
+                // First subscribe returns an Observable of Observables (1) - here that is flattened down
+                switchAll()
+            )
+            .pipe(
+                tap((m) =>
+                    console.log(
+                        'Prometheus alerts from "',
+                        m[RECEIVER],
+                        '"',
+                        m[COMMON_LABELS]
+                    )
+                ),
+                pluck('alerts'),
+                map((alerts: PromAlert[]) =>
+                    alerts.filter((alert) => alert.status === 'firing')
+                )
+            );
     }
 
     // ngOnDestroy(): void {

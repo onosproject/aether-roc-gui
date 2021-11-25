@@ -3,14 +3,14 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {AlertDetailComponent} from './alert-detail.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatCardModule} from '@angular/material/card';
+import { AlertDetailComponent } from './alert-detail.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
 
 describe('AlertDetailComponent', () => {
     let component: AlertDetailComponent;
@@ -26,8 +26,7 @@ describe('AlertDetailComponent', () => {
                 MatToolbarModule,
                 MatCardModule,
             ],
-        })
-            .compileComponents();
+        }).compileComponents();
     });
 
     beforeEach(() => {

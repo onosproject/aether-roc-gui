@@ -4,22 +4,15 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {SafePipe} from './safe.pipe';
-import {TruncateTextPipe} from './truncate-text.pipe';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SafePipe } from './safe.pipe';
+import { TruncateTextPipe } from './truncate-text.pipe';
 import { HexPipe } from './hex.pipe';
 
 @NgModule({
     declarations: [SafePipe, TruncateTextPipe, HexPipe],
-    imports: [
-        CommonModule
-    ],
-    exports: [
-        SafePipe,
-        TruncateTextPipe,
-        HexPipe,
-    ]
+    imports: [CommonModule],
+    exports: [SafePipe, TruncateTextPipe, HexPipe],
 })
-export class UtilsModule {
-}
+export class UtilsModule {}

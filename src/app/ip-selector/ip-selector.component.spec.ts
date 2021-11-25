@@ -3,17 +3,17 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {IpSelectorComponent} from './ip-selector.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {RouterTestingModule} from '@angular/router/testing';
-import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
-import {MatCardModule} from '@angular/material/card';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatRadioModule} from '@angular/material/radio';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NgxIpModule} from 'ngx-ip';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { IpSelectorComponent } from './ip-selector.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { MatCardModule } from '@angular/material/card';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxIpModule } from 'ngx-ip';
 
 describe('IpSelectorComponent', () => {
     let component: IpSelectorComponent;
@@ -33,8 +33,7 @@ describe('IpSelectorComponent', () => {
                 FormsModule,
                 NgxIpModule,
             ],
-        })
-            .compileComponents();
+        }).compileComponents();
     });
     beforeEach(() => {
         fixture = TestBed.createComponent(IpSelectorComponent);

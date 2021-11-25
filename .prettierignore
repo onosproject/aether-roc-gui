@@ -1,0 +1,5 @@
+node_modules
+src/openapi3
+dist
+*.json
+*.md

@@ -18,5 +18,4 @@ export interface IdTokClaims {
     sub: string;
 }
 
-export class Idtoken {
-}
+export class Idtoken {}

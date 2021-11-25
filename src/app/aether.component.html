@@ -4,115 +4,127 @@
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
 
-<div style="text-align:center" >
+<div style="text-align: center">
     <mat-toolbar>
-        <img class="mast-margin" src="/assets/AETHER.png" alt="Aether"
-             id="aetherButton"
-             width="270" height="53" routerLink=""/>
+        <img
+            class="mast-margin"
+            src="/assets/AETHER.png"
+            alt="Aether"
+            id="aetherButton"
+            width="270"
+            height="53"
+            routerLink=""
+        />
         <span class="mast-spacer"></span>
-        <button mat-icon-button class="basketIcon" routerLink="/basket" *ngIf="basketServiceEnabled"
-                id="basketButton">
+        <button
+            mat-icon-button
+            class="basketIcon"
+            routerLink="/basket"
+            *ngIf="basketServiceEnabled"
+            id="basketButton"
+        >
             <span class="small-spacing"></span>
-            <div class="txt">{{this.bs.totalNumChanges()}}</div>
+            <div class="txt">{{ this.bs.totalNumChanges() }}</div>
             <mat-icon>shopping_basket</mat-icon>
         </button>
         <span class="small-spacing"></span>
-        <button mat-icon-button [matMenuTriggerFor]="menu"
-                id="menuButton"
-                aria-label="Aether menu icon">
+        <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            id="menuButton"
+            aria-label="Aether menu icon"
+        >
             <mat-icon>person</mat-icon>
             <mat-icon>arrow_drop_down</mat-icon>
         </button>
     </mat-toolbar>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item
-                id="userProfileDisplayButton">
-            <span mat-menu-item (click)="userProfileDisplay = true">{{idTokClaims.name}}</span>
+        <button mat-menu-item id="userProfileDisplayButton">
+            <span mat-menu-item (click)="userProfileDisplay = true">{{
+                idTokClaims.name
+            }}</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item routerLink="/dashboard"
-                id="dashboardButton">
+        <button mat-menu-item routerLink="/dashboard" id="dashboardButton">
             <mat-icon>dashboard</mat-icon>
             <span>Dashboard</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item routerLink="/vcs"
-                id="vcsButton">
+        <button mat-menu-item routerLink="/vcs" id="vcsButton">
             <mat-icon>local_pizza</mat-icon>
             <span>VCS</span>
         </button>
-        <button mat-menu-item routerLink="/upf"
-                id="upfButton">
+        <button mat-menu-item routerLink="/upf" id="upfButton">
             <mat-icon>recent_actors</mat-icon>
             <span>UPF</span>
         </button>
-        <button mat-menu-item routerLink="/site"
-                id="siteButton">
+        <button mat-menu-item routerLink="/site" id="siteButton">
             <mat-icon>gps_fixed</mat-icon>
             <span>Site</span>
         </button>
-        <button mat-menu-item routerLink="/application"
-                id="applicationButton">
+        <button mat-menu-item routerLink="/application" id="applicationButton">
             <mat-icon>layers</mat-icon>
             <span>Application</span>
         </button>
-        <button mat-menu-item routerLink="/devicegroups"
-                id="deviceGroupButton">
+        <button mat-menu-item routerLink="/devicegroups" id="deviceGroupButton">
             <mat-icon>smartphone</mat-icon>
             <span>Device Group</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item [matMenuTriggerFor]="config"
-                id="dropDownConfig">
+        <button mat-menu-item [matMenuTriggerFor]="config" id="dropDownConfig">
             <mat-icon>menu</mat-icon>
             <span>Configuration</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item (click)="apiKeyDisplay = true"
-                id="apiButton">
+        <button mat-menu-item (click)="apiKeyDisplay = true" id="apiButton">
             <mat-icon>vpn_key</mat-icon>
             <span>API Key</span>
         </button>
-        <button *ngIf="opaService.userGroups.includes(AETHER_ROC_ADMIN_USER)" mat-menu-item routerLink="/diagnostics"
-                id="diagnosticsButton">
+        <button
+            *ngIf="opaService.userGroups.includes(AETHER_ROC_ADMIN_USER)"
+            mat-menu-item
+            routerLink="/diagnostics"
+            id="diagnosticsButton"
+        >
             <mat-icon>bug_report</mat-icon>
             <span>Diagnostics</span>
         </button>
-        <button mat-menu-item (click)="showhelp()"
-                id="showHelpButton">
+        <button mat-menu-item (click)="showhelp()" id="showHelpButton">
             <mat-icon>help</mat-icon>
             <span>Help</span>
         </button>
-        <button mat-menu-item (click)="signingOut()"
-                id="signingOutButton">
+        <button mat-menu-item (click)="signingOut()" id="signingOutButton">
             <mat-icon>exit_to_app</mat-icon>
             <span>Sign out</span>
         </button>
     </mat-menu>
     <mat-menu #config="matMenu">
-        <button mat-menu-item routerLink="/template"
-                id="templateButton">
+        <button mat-menu-item routerLink="/template" id="templateButton">
             <mat-icon>topic</mat-icon>
             <span>Template</span>
         </button>
-        <button mat-menu-item routerLink="/traffic-class"
-                id="trafficClassButton">
+        <button
+            mat-menu-item
+            routerLink="/traffic-class"
+            id="trafficClassButton"
+        >
             <mat-icon>traffic</mat-icon>
             <span>Traffic Class</span>
         </button>
-        <button mat-menu-item routerLink="/ipdomain"
-                id="ipDomainButton">
+        <button mat-menu-item routerLink="/ipdomain" id="ipDomainButton">
             <mat-icon>ballot</mat-icon>
             <span>IP Domain</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item routerLink="/enterprise"
-                id="enterpriseButton">
+        <button mat-menu-item routerLink="/enterprise" id="enterpriseButton">
             <mat-icon>apartment</mat-icon>
             <span>Enterprise</span>
         </button>
-        <button mat-menu-item routerLink="/connectivity"
-                id="connectivityButton">
+        <button
+            mat-menu-item
+            routerLink="/connectivity"
+            id="connectivityButton"
+        >
             <mat-icon>wifi_tethering</mat-icon>
             <span>Connectivity</span>
         </button>
@@ -124,12 +136,14 @@
 <aether-user-profile
     id="userProfileComponent"
     *ngIf="userProfileDisplay"
-    (closeEvent)="userProfileDisplay = false">
+    (closeEvent)="userProfileDisplay = false"
+>
 </aether-user-profile>
 <aether-api-key
     id="aetherAPIKeyComponent"
     *ngIf="apiKeyDisplay"
     [apiKey]="apiKey"
     [expiry]="idTokenExpAt"
-    (closeEvent)="apiKeyDisplay = false">
+    (closeEvent)="apiKeyDisplay = false"
+>
 </aether-api-key>

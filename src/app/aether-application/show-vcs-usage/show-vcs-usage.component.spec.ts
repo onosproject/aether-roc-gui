@@ -3,22 +3,25 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {ShowVcsUsageComponent} from './show-vcs-usage.component';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from "@angular/material/form-field";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {RouterTestingModule} from "@angular/router/testing";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatInputModule} from "@angular/material/input";
-import {MatIconModule} from "@angular/material/icon";
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {MatCardModule} from "@angular/material/card";
-import {MatButtonModule} from "@angular/material/button";
-import {MatDividerModule} from "@angular/material/divider";
-import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {MatSelectModule} from "@angular/material/select";
+import { ShowVcsUsageComponent } from './show-vcs-usage.component';
+import {
+    MAT_FORM_FIELD_DEFAULT_OPTIONS,
+    MatFormFieldModule,
+} from '@angular/material/form-field';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('ShowVcsUsageComponent', () => {
     let component: ShowVcsUsageComponent;
@@ -28,7 +31,10 @@ describe('ShowVcsUsageComponent', () => {
         await TestBed.configureTestingModule({
             declarations: [ShowVcsUsageComponent],
             providers: [
-                {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'standard'}}
+                {
+                    provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+                    useValue: { appearance: 'standard' },
+                },
             ],
             imports: [
                 HttpClientTestingModule,
@@ -44,10 +50,9 @@ describe('ShowVcsUsageComponent', () => {
                 MatButtonModule,
                 MatDividerModule,
                 MatSnackBarModule,
-                MatSelectModule
-            ]
-        })
-            .compileComponents();
+                MatSelectModule,
+            ],
+        }).compileComponents();
     });
 
     beforeEach(() => {

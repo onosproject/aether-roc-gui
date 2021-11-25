@@ -4,19 +4,23 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Template, TemplateTemplate} from '../../../openapi3/aether/4.0.0/models';
-import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
-import {BasketService} from '../../basket.service';
-import {RocDataSource} from '../../roc-data-source';
+import {
+    Template,
+    TemplateTemplate,
+} from '../../../openapi3/aether/4.0.0/models';
+import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { BasketService } from '../../basket.service';
+import { RocDataSource } from '../../roc-data-source';
 
-export class TemplateDatasource extends RocDataSource<TemplateTemplate, Template> {
-
+export class TemplateDatasource extends RocDataSource<
+    TemplateTemplate,
+    Template
+> {
     constructor(
         protected aetherService: AetherService,
         protected bs: BasketService,
-        protected target: string,
+        protected target: string
     ) {
-        super( aetherService, bs, target,
-            '/template-4.0.0', 'template' );
+        super(aetherService, bs, target, '/template-4.0.0', 'template');
     }
 }

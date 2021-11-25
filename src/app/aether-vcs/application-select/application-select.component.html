@@ -6,36 +6,65 @@
 <form [formGroup]="selectForm" (ngSubmit)="close(false)">
     <mat-card class="card mat-elevation-z8">
         <mat-card-header class="header">
-            <mat-card-title class="subheading-1 title">Choose Application</mat-card-title>
+            <mat-card-title class="subheading-1 title"
+                >Choose Application</mat-card-title
+            >
         </mat-card-header>
         <mat-card-content class="content">
             <mat-form-field>
                 <mat-label>Application</mat-label>
-                <mat-select formControlName="select-item"
-                            id="selectNewApplicationApplication">
-                    <mat-option *ngFor="let item of this.ApplicationOptions" [value]="item.id">
-                        {{item.id}}
-                        <span *ngIf="item['display-name']"> ({{item['display-name']}})</span>
+                <mat-select
+                    formControlName="select-item"
+                    id="selectNewApplicationApplication"
+                >
+                    <mat-option
+                        *ngFor="let item of this.ApplicationOptions"
+                        [value]="item.id"
+                    >
+                        {{ item.id }}
+                        <span *ngIf="item['display-name']">
+                            ({{ item["display-name"] }})</span
+                        >
                     </mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field class="field-margin half-width">
-                <input matInput type="number" formControlName="priority" id="inputNewApplicationPriority">
+                <input
+                    matInput
+                    type="number"
+                    formControlName="priority"
+                    id="inputNewApplicationPriority"
+                />
                 <mat-hint>Priority</mat-hint>
             </mat-form-field>
-            <mat-icon color='accent' class="subscriber-pointer"
-                      matTooltip="Application with {{this.SliceApplicationEndpointLimit}} or less endpoints appear in dropdown" id="infoIcon">info
+            <mat-icon
+                color="accent"
+                class="subscriber-pointer"
+                matTooltip="Application with {{
+                    this.SliceApplicationEndpointLimit
+                }} or less endpoints appear in dropdown"
+                id="infoIcon"
+                >info
             </mat-icon>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="accent" type="button" (click)="close(true)"
-                     id="cancelButton">Cancel
-        </button>
             <button
-                [disabled]="!(selectForm.valid && selectForm.touched )"
-                mat-raised-button color="accent"
+                mat-raised-button
+                color="accent"
+                type="button"
+                (click)="close(true)"
+                id="cancelButton"
+            >
+                Cancel
+            </button>
+            <button
+                [disabled]="!(selectForm.valid && selectForm.touched)"
+                mat-raised-button
+                color="accent"
                 type="submit"
-                id="addButton">Add
+                id="addButton"
+            >
+                Add
             </button>
         </mat-card-actions>
     </mat-card>

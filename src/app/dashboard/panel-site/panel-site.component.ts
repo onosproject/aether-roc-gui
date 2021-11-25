@@ -3,35 +3,51 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {AfterViewInit, Component, Inject, Input, OnDestroy, ViewChild} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTable} from '@angular/material/table';
-import {SiteSite} from '../../../openapi3/aether/4.0.0/models';
-import {RocListBase} from '../../roc-list-base';
-import {AETHER_TARGETS, PROMETHEUS_PROXY} from '../../../environments/environment';
-import {OpenPolicyAgentService} from '../../open-policy-agent.service';
-import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services/service';
-import {BasketService} from '../../basket.service';
-import {PanelSiteDatasource} from './panel-site-datasource';
-import {SitePromDataSource} from '../../utils/site-prom-data-source';
-import {HttpClient} from '@angular/common/http';
-import {OAuthService} from 'angular-oauth2-oidc';
-import {IdTokClaims} from '../../idtoken';
+import {
+    AfterViewInit,
+    Component,
+    Inject,
+    Input,
+    OnDestroy,
+    ViewChild,
+} from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTable } from '@angular/material/table';
+import { SiteSite } from '../../../openapi3/aether/4.0.0/models';
+import { RocListBase } from '../../roc-list-base';
+import {
+    AETHER_TARGETS,
+    PROMETHEUS_PROXY,
+} from '../../../environments/environment';
+import { OpenPolicyAgentService } from '../../open-policy-agent.service';
+import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
+import { BasketService } from '../../basket.service';
+import { PanelSiteDatasource } from './panel-site-datasource';
+import { SitePromDataSource } from '../../utils/site-prom-data-source';
+import { HttpClient } from '@angular/common/http';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { IdTokClaims } from '../../idtoken';
 
 const sitePromTags = [
-    "agentsSum",
-    "agentsCount",
-    "clusterNodesSum",
-    "clusterNodesCount"
-]
+    'agentsSum',
+    'agentsCount',
+    'clusterNodesSum',
+    'clusterNodesCount',
+];
 
 @Component({
     selector: 'aether-panel-site',
     templateUrl: './panel-site.component.html',
-    styleUrls: ['../../common-panel.component.scss', '../panel-dashboard.component.scss']
+    styleUrls: [
+        '../../common-panel.component.scss',
+        '../panel-dashboard.component.scss',
+    ],
 })
-export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> implements AfterViewInit, OnDestroy {
+export class PanelSiteComponent
+    extends RocListBase<PanelSiteDatasource>
+    implements AfterViewInit, OnDestroy
+{
     @Input() top: number;
     @Input() left: number;
     @Input() width: number;
@@ -44,13 +60,7 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
     loginTokenTimer: any;
     promData: SitePromDataSource;
 
-    displayedColumns = [
-        'id',
-        'description',
-        'agents',
-        'cluster',
-        'monitor'
-    ];
+    displayedColumns = ['id', 'description', 'agents', 'cluster', 'monitor'];
 
     constructor(
         public opaService: OpenPolicyAgentService,
@@ -58,10 +68,18 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
         private basketService: BasketService,
         private httpClient: HttpClient,
         private oauthService: OAuthService,
-        @Inject('grafana_api_proxy') private grafanaUrl: string,
+        @Inject('grafana_api_proxy') private grafanaUrl: string
     ) {
-        super(basketService, new PanelSiteDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'site-v4.0.0', 'site');
+        super(
+            basketService,
+            new PanelSiteDatasource(
+                aetherService,
+                basketService,
+                AETHER_TARGETS[0]
+            ),
+            'site-v4.0.0',
+            'site'
+        );
         this.promData = new SitePromDataSource(httpClient);
     }
 
@@ -77,10 +95,14 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
         this.loginTokenTimer = setInterval(() => {
             if (this.oauthService.hasValidIdToken()) {
                 console.log('Load items after token is loaded');
-                this.dataSource.loadData(this.aetherService.getSite({
-                    target: AETHER_TARGETS[0]
-                }), this.onDataLoaded);
-                const claims = this.oauthService.getIdentityClaims() as IdTokClaims;
+                this.dataSource.loadData(
+                    this.aetherService.getSite({
+                        target: AETHER_TARGETS[0],
+                    }),
+                    this.onDataLoaded
+                );
+                const claims =
+                    this.oauthService.getIdentityClaims() as IdTokClaims;
                 // TODO: enhance this - it takes the last group, having all lower case as the Grafana Org.
                 clearInterval(this.loginTokenTimer);
             }
@@ -94,20 +116,27 @@ export class PanelSiteComponent extends RocListBase<PanelSiteDatasource> impleme
             }
 
             this.dataSource.data.forEach((site) => {
-                if(site.monitoring["edge-device"].length === 0) {
-                    return
+                if (site.monitoring['edge-device'].length === 0) {
+                    return;
                 }
 
                 sitePromTags.forEach((tag) => {
-                    let url = this.promData.queryBuilder(tag, site)
+                    const url = this.promData.queryBuilder(tag, site);
 
-                    this.promData.loadData(url).subscribe((resultItem) => {
-                        site[tag] = resultItem.value[1]
-                    }, (err) => console.log(site.id, 'has error polling metrics', err))
-                })
+                    this.promData.loadData(url).subscribe(
+                        (resultItem) => {
+                            site[tag] = resultItem.value[1];
+                        },
+                        (err) =>
+                            console.log(
+                                site.id,
+                                'has error polling metrics',
+                                err
+                            )
+                    );
+                });
             });
-
-        },3000);
+        }, 3000);
     }
 
     ngOnDestroy(): void {

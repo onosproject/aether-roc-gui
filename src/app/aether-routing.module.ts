@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
 /**
  * The set of Routes in the application - can be chosen from nav menu or
@@ -13,70 +13,109 @@ import {Routes, RouterModule} from '@angular/router';
 const aetherRoutes: Routes = [
     {
         path: 'dashboard',
-        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+        loadChildren: () =>
+            import('./dashboard/dashboard.module').then(
+                (m) => m.DashboardModule
+            ),
     },
     {
         path: 'enterprise',
-        loadChildren: () => import('./aether-enterprise/aether-enterprise.module').then(m => m.AetherEnterpriseModule)
+        loadChildren: () =>
+            import('./aether-enterprise/aether-enterprise.module').then(
+                (m) => m.AetherEnterpriseModule
+            ),
     },
     {
         path: 'ipdomain',
-        loadChildren: () => import('./aether-ip-domain/aether-ip-domain.module').then(m => m.AetherIpDomainModule)
+        loadChildren: () =>
+            import('./aether-ip-domain/aether-ip-domain.module').then(
+                (m) => m.AetherIpDomainModule
+            ),
     },
     {
         path: 'connectivity',
-        loadChildren: () => import('./aether-connectivity-service/aether-connectivity-service.module')
-            .then(m => m.AetherConnectivityServiceModule)
+        loadChildren: () =>
+            import(
+                './aether-connectivity-service/aether-connectivity-service.module'
+            ).then((m) => m.AetherConnectivityServiceModule),
     },
     {
         path: 'basket',
-        loadChildren: () => import('./basket/basket.module').then(m => m.BasketModule)
+        loadChildren: () =>
+            import('./basket/basket.module').then((m) => m.BasketModule),
     },
     {
         path: 'devicegroups',
-        loadChildren: () => import('./aether-device-group/aether-device-group.module').then(m => m.AetherDeviceGroupModule)
+        loadChildren: () =>
+            import('./aether-device-group/aether-device-group.module').then(
+                (m) => m.AetherDeviceGroupModule
+            ),
     },
     {
         path: 'site',
-        loadChildren: () => import('./aether-site/aether-site.module').then(m => m.AetherSiteModule)
+        loadChildren: () =>
+            import('./aether-site/aether-site.module').then(
+                (m) => m.AetherSiteModule
+            ),
     },
     {
         path: 'template',
-        loadChildren: () => import('./aether-template/aether-template.module').then(m => m.AetherTemplateModule)
+        loadChildren: () =>
+            import('./aether-template/aether-template.module').then(
+                (m) => m.AetherTemplateModule
+            ),
     },
     {
         path: 'upf',
-        loadChildren: () => import('./aether-upf/aether-upf.module').then(m => m.AetherUpfModule)
+        loadChildren: () =>
+            import('./aether-upf/aether-upf.module').then(
+                (m) => m.AetherUpfModule
+            ),
     },
     {
         path: 'vcs',
-        loadChildren: () => import('./aether-vcs/aether-vcs.module').then(m => m.AetherVcsModule)
+        loadChildren: () =>
+            import('./aether-vcs/aether-vcs.module').then(
+                (m) => m.AetherVcsModule
+            ),
     },
     {
         path: 'application',
-        loadChildren: () => import('./aether-application/aether-application.module').then(m => m.AetherApplicationModule)
+        loadChildren: () =>
+            import('./aether-application/aether-application.module').then(
+                (m) => m.AetherApplicationModule
+            ),
     },
     {
         path: 'traffic-class',
-        loadChildren: () => import('./aether-traffic-class/traffic-class.module').then(m => m.TrafficClassModule)
+        loadChildren: () =>
+            import('./aether-traffic-class/traffic-class.module').then(
+                (m) => m.TrafficClassModule
+            ),
     },
     {
         path: 'diagnostics',
-        loadChildren: () => import('./diagnostics/diagnostics.module').then(m => m.DiagnosticsModule)
+        loadChildren: () =>
+            import('./diagnostics/diagnostics.module').then(
+                (m) => m.DiagnosticsModule
+            ),
     },
     {
         path: '',
         redirectTo: 'dashboard',
-        pathMatch: 'full'
-    }
+        pathMatch: 'full',
+    },
 ];
 
 @NgModule({
     imports: [
-        RouterModule.forRoot(aetherRoutes, { useHash: true, onSameUrlNavigation: 'reload', relativeLinkResolution: 'legacy' })
+        RouterModule.forRoot(aetherRoutes, {
+            useHash: true,
+            onSameUrlNavigation: 'reload',
+            relativeLinkResolution: 'legacy',
+        }),
     ],
     exports: [RouterModule],
-    providers: [ ]
+    providers: [],
 })
-export class AetherRoutingModule {
-}
+export class AetherRoutingModule {}

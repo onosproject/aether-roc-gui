@@ -6,11 +6,10 @@
 
 import { EventManager } from '@angular/platform-browser';
 import { Injectable } from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class ResizeService {
-
     get onResize$(): Observable<Window> {
         return this.resizeSubject.asObservable();
     }
@@ -19,7 +18,11 @@ export class ResizeService {
 
     constructor(private eventManager: EventManager) {
         this.resizeSubject = new Subject();
-        this.eventManager.addGlobalEventListener('window', 'resize', this.onResize.bind(this));
+        this.eventManager.addGlobalEventListener(
+            'window',
+            'resize',
+            this.onResize.bind(this)
+        );
     }
 
     private onResize(event: UIEvent): void {

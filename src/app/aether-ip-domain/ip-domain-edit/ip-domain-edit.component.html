@@ -6,48 +6,70 @@
 <form [formGroup]="ipForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>IP DOMAIN. ID: {{id}}</mat-card-title>
-            <mat-icon *ngIf="!isNew" (click)="showParentDisplay = true;$event.preventDefault()" class="subscriber-pointer"
-                      id="showParentInformation"
-                      color="accent">
+            <mat-card-title>IP DOMAIN. ID: {{ id }}</mat-card-title>
+            <mat-icon
+                *ngIf="!isNew"
+                (click)="showParentDisplay = true; $event.preventDefault()"
+                class="subscriber-pointer"
+                id="showParentInformation"
+                color="accent"
+            >
                 assignment
             </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
                 <mat-form-field class="half-width field-margin">
-                    <input matInput formControlName="id"
-                           placeholder="Please specify an ID"
-                           title="This field is mandatory."
-                           id="inputID"
-                           required>
+                    <input
+                        matInput
+                        formControlName="id"
+                        placeholder="Please specify an ID"
+                        title="This field is mandatory."
+                        id="inputID"
+                        required
+                    />
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="display-name" id="inputDisplayName">
+                    <input
+                        matInput
+                        formControlName="display-name"
+                        id="inputDisplayName"
+                    />
                     <mat-hint>Display Name</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <textarea matInput formControlName="description" id="inputDescription"></textarea>
+                    <textarea
+                        matInput
+                        formControlName="description"
+                        id="inputDescription"
+                    ></textarea>
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row" id="enterpriseRow">
-                <mat-form-field class="field-margin half-width subscriber-section">
-                    <mat-select ngDefaultControl
-                                title="This field is mandatory."
-                                placeholder="Please specify an Enterprise"
-                                formControlName="enterprise"
-                                id="selectEnterprise"
-                                required>
-                        <mat-option *ngFor="let ent of enterprises"
-
-                                    [value]="ent.id">{{ent.id}}
-                            <span *ngIf="ent['display-name']"> ({{ent['display-name']}})</span>
+                <mat-form-field
+                    class="field-margin half-width subscriber-section"
+                >
+                    <mat-select
+                        ngDefaultControl
+                        title="This field is mandatory."
+                        placeholder="Please specify an Enterprise"
+                        formControlName="enterprise"
+                        id="selectEnterprise"
+                        required
+                    >
+                        <mat-option
+                            *ngFor="let ent of enterprises"
+                            [value]="ent.id"
+                            >{{ ent.id }}
+                            <span *ngIf="ent['display-name']">
+                                ({{ ent["display-name"] }})</span
+                            >
                         </mat-option>
                     </mat-select>
                     <mat-hint>Enterprise</mat-hint>
@@ -55,10 +77,20 @@
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input [readonly]="ipForm" matInput formControlName="dns-primary" id="valuePrimaryDNS">
+                    <input
+                        [readonly]="ipForm"
+                        matInput
+                        formControlName="dns-primary"
+                        id="valuePrimaryDNS"
+                    />
                     <mat-hint>DNS Primary</mat-hint>
                 </mat-form-field>
-                <button class="mat-button" (click)="openPrimaryCard()" type="button" id="editPrimaryDNS">
+                <button
+                    class="mat-button"
+                    (click)="openPrimaryCard()"
+                    type="button"
+                    id="editPrimaryDNS"
+                >
                     <mat-icon color="accent">edit</mat-icon>
                 </button>
             </div>
@@ -68,14 +100,25 @@
                 *ngIf="primCardDisplay"
                 [value]="checkForUndefinedPrim()"
                 (newIP)="updateFormPrim($event)"
-                (closeEvent)="openPrimaryCard()">
+                (closeEvent)="openPrimaryCard()"
+            >
             </aether-ip-selector>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input [readonly]="ipForm" matInput formControlName="dns-secondary" id="valueSecondaryDNS">
+                    <input
+                        [readonly]="ipForm"
+                        matInput
+                        formControlName="dns-secondary"
+                        id="valueSecondaryDNS"
+                    />
                     <mat-hint>DNS Secondary</mat-hint>
                 </mat-form-field>
-                <button class="mat-button" (click)="openSecondaryCard()" type="button" id="editSecondaryDNS">
+                <button
+                    class="mat-button"
+                    (click)="openSecondaryCard()"
+                    type="button"
+                    id="editSecondaryDNS"
+                >
                     <mat-icon color="accent">edit</mat-icon>
                 </button>
             </div>
@@ -85,17 +128,34 @@
                 *ngIf="secCardDisplay"
                 [value]="checkForUndefinedSec()"
                 (newIP)="updateFormSec($event)"
-                (closeEvent)="openSecondaryCard()">
+                (closeEvent)="openSecondaryCard()"
+            >
             </aether-ip-selector>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <mat-label>{{this.displayOption}}</mat-label>
-                    <mat-select formControlName="admin-status" [(value)]="this.option" id="selectAdminStatus">
-                        <mat-option id="statusOptionEnabled" value="ENABLE" (click)="changeAdminStatus()">ENABLE
+                    <mat-label>{{ this.displayOption }}</mat-label>
+                    <mat-select
+                        formControlName="admin-status"
+                        [(value)]="this.option"
+                        id="selectAdminStatus"
+                    >
+                        <mat-option
+                            id="statusOptionEnabled"
+                            value="ENABLE"
+                            (click)="changeAdminStatus()"
+                            >ENABLE
                         </mat-option>
-                        <mat-option id="statusOptionDisabled" value="DISABLE" (click)="changeAdminStatus()">DISABLE
+                        <mat-option
+                            id="statusOptionDisabled"
+                            value="DISABLE"
+                            (click)="changeAdminStatus()"
+                            >DISABLE
                         </mat-option>
-                        <mat-option id="statusOptionMaintenance" value="MAINTENANCE" (click)="changeAdminStatus()">
+                        <mat-option
+                            id="statusOptionMaintenance"
+                            value="MAINTENANCE"
+                            (click)="changeAdminStatus()"
+                        >
                             MAINTENANCE
                         </mat-option>
                     </mat-select>
@@ -123,34 +183,61 @@
             <!--            </aether-ip-selector>-->
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="subnet"
-                           title="This field is mandatory."
-                           placeholder="Please specify a Subnet"
-                           id="inputSubnet" required>
-                    <mat-hint>Subnet Format: (&lt;ipaddress&gt;/&lt;subnet&gt;)</mat-hint>
+                    <input
+                        matInput
+                        formControlName="subnet"
+                        title="This field is mandatory."
+                        placeholder="Please specify a Subnet"
+                        id="inputSubnet"
+                        required
+                    />
+                    <mat-hint
+                        >Subnet Format:
+                        (&lt;ipaddress&gt;/&lt;subnet&gt;)</mat-hint
+                    >
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput type="number" formControlName="mtu"
-                           id="inputMTU">
+                    <input
+                        matInput
+                        type="number"
+                        formControlName="mtu"
+                        id="inputMTU"
+                    />
                     <mat-hint>MTU (68-65535)</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="dnn"
-                           id="inputDnn"
-                           title="This field is mandatory."
-                           placeholder="Please specify a DNN">
+                    <input
+                        matInput
+                        formControlName="dnn"
+                        id="inputDnn"
+                        title="This field is mandatory."
+                        placeholder="Please specify a DNN"
+                    />
                     <mat-hint>Data Network Name/Access Point Name</mat-hint>
                 </mat-form-field>
             </div>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="accent" type="submit"
-                    id="submitButton"
-                    [disabled]="!(ipForm.valid && ipForm.value.id && ipForm.touched && opaService.canWrite('/ip-domain/ip-domain[id=' + id + ']'))">
+            <button
+                mat-raised-button
+                color="accent"
+                type="submit"
+                id="submitButton"
+                [disabled]="
+                    !(
+                        ipForm.valid &&
+                        ipForm.value.id &&
+                        ipForm.touched &&
+                        opaService.canWrite(
+                            '/ip-domain/ip-domain[id=' + id + ']'
+                        )
+                    )
+                "
+            >
                 Update
             </button>
         </mat-card-actions>
@@ -160,5 +247,6 @@
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
     [ipDomainID]="ipDomainId"
-    (closeShowParentCardEvent)="closeShowParentCard($event)">
+    (closeShowParentCardEvent)="closeShowParentCard($event)"
+>
 </aether-show-device-group-usage>

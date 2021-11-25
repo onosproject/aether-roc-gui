@@ -3,12 +3,12 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
     selector: 'aether-ip-selector',
     templateUrl: './ip-selector.component.html',
-    styleUrls: ['../common-profiles.component.scss']
+    styleUrls: ['../common-profiles.component.scss'],
 })
 export class IpSelectorComponent implements OnInit {
     mode = 'ipv4';
@@ -16,9 +16,7 @@ export class IpSelectorComponent implements OnInit {
     @Output() newIP = new EventEmitter<string>();
     @Output() closeEvent = new EventEmitter<boolean>();
 
-    constructor() {
-
-    }
+    constructor() {}
 
     ngOnInit(): void {
         this.checkIfUndefined();
@@ -37,7 +35,7 @@ export class IpSelectorComponent implements OnInit {
             ipType = 1;
         } else if (this.value.includes(':')) {
             ipType = 2;
-        } else if (this.value.includes('/')){
+        } else if (this.value.includes('/')) {
             ipType = 3;
         }
         switch (ipType) {

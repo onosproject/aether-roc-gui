@@ -3,13 +3,13 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {BasketService} from '../../basket.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BasketService } from '../../basket.service';
 
 @Component({
     selector: 'aether-basket-preview',
     templateUrl: './basket-preview.component.html',
-    styleUrls: ['../../common-panel.component.scss']
+    styleUrls: ['../../common-panel.component.scss'],
 })
 export class BasketPreviewComponent implements OnInit {
     @Input() totalThings: string;
@@ -17,13 +17,14 @@ export class BasketPreviewComponent implements OnInit {
     @Output() closeEvent = new EventEmitter<boolean>();
     basketPreview: string;
 
-    constructor(
-        private bs: BasketService
-    ) {
-    }
+    constructor(private bs: BasketService) {}
 
     ngOnInit(): void {
-        this.basketPreview = JSON.stringify(this.bs.buildPatchBody() as unknown as string, null, 4);
+        this.basketPreview = JSON.stringify(
+            this.bs.buildPatchBody() as unknown as string,
+            null,
+            4
+        );
     }
 
     closeCard(): void {

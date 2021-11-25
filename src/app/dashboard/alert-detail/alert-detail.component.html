@@ -3,27 +3,39 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<mat-card class="card mat-elevation-z8" (click)="closeCard()" id="closeCard" *ngIf="alert">
+<mat-card
+    class="card mat-elevation-z8"
+    (click)="closeCard()"
+    id="closeCard"
+    *ngIf="alert"
+>
     <mat-card-header>
-        <mat-card-title class="popup_title">{{alert.annotations?.summary}}</mat-card-title>
+        <mat-card-title class="popup_title">{{
+            alert.annotations?.summary
+        }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <p class="popup_content">{{alert.annotations?.description}}</p>
+        <p class="popup_content">{{ alert.annotations?.description }}</p>
         <table class="details_table">
             <tr>
-                <td class="row_title">Started:</td><td class="row_value">{{alert.startsAt | date: 'short'}}</td>
+                <td class="row_title">Started:</td>
+                <td class="row_value">{{ alert.startsAt | date: "short" }}</td>
             </tr>
             <tr>
-                <td class="row_title">Ended:</td><td class="row_value">{{alert.endsAt | date: 'short'}}</td>
+                <td class="row_title">Ended:</td>
+                <td class="row_value">{{ alert.endsAt | date: "short" }}</td>
             </tr>
             <tr>
-                <td class="row_title">Status:</td><td class="row_value">{{alert.status}}</td>
+                <td class="row_title">Status:</td>
+                <td class="row_value">{{ alert.status }}</td>
             </tr>
             <tr>
-                <td class="row_title">Alert:</td><td class="row_value">{{alert.fingerprint}}</td>
+                <td class="row_title">Alert:</td>
+                <td class="row_value">{{ alert.fingerprint }}</td>
             </tr>
             <tr *ngFor="let item of alert.labels | keyvalue">
-                <td class="row_title">{{item.key}}:</td><td class="row_value">{{item.value}}</td>
+                <td class="row_title">{{ item.key }}:</td>
+                <td class="row_value">{{ item.value }}</td>
             </tr>
         </table>
     </mat-card-content>

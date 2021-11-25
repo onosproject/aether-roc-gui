@@ -11,8 +11,9 @@ import { AetherModule } from './app/aether.module';
 import { environment } from './environments/environment';
 
 if (environment.production) {
-  enableProdMode();
+    enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AetherModule)
-  .catch(err => console.error(err));
+platformBrowserDynamic()
+    .bootstrapModule(AetherModule)
+    .catch((err) => console.error(err));

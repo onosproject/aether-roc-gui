@@ -4,19 +4,18 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Component, EventEmitter, Output} from '@angular/core';
-import {IdTokClaims} from '../idtoken';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { IdTokClaims } from '../idtoken';
 
 @Component({
     selector: 'aether-user-profile',
     templateUrl: './user-profile.component.html',
-    styleUrls: ['../common-panel.component.scss']
+    styleUrls: ['../common-panel.component.scss'],
 })
 export class UserProfileComponent {
     @Output() closeEvent = new EventEmitter<boolean>();
 
-    constructor() {
-    }
+    constructor() {}
 
     get idTokClaims(): IdTokClaims {
         const idTokClaims = localStorage.getItem('id_token_claims_obj');

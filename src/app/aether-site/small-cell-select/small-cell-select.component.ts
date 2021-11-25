@@ -3,12 +3,12 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
-import {Service} from "../../../openapi3/aether/4.0.0/services/service";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Service } from '../../../openapi3/aether/4.0.0/services/service';
 
 export interface SmallCellParam {
-    'small-cell-id':string;
+    'small-cell-id': string;
     'display-name': string;
     address: string;
     tac: string;
@@ -17,34 +17,31 @@ export interface SmallCellParam {
 @Component({
     selector: 'aether-small-cell-select',
     templateUrl: './small-cell-select.component.html',
-    styleUrls: [
-        '../../common-panel.component.scss',
-    ]
+    styleUrls: ['../../common-panel.component.scss'],
 })
 export class SmallCellSelectComponent {
-
     @Output() closeEvent = new EventEmitter<SmallCellParam>();
 
     smallCellForm = this.fb.group({
-        'small-cell-id':[undefined, Validators.compose([
-            Validators.required
-        ])],
-        'display-name': [undefined, Validators.compose([
-            Validators.minLength(1),
-            Validators.maxLength(80),
-        ])],
+        'small-cell-id': [undefined, Validators.compose([Validators.required])],
+        'display-name': [
+            undefined,
+            Validators.compose([
+                Validators.minLength(1),
+                Validators.maxLength(80),
+            ]),
+        ],
         address: [undefined],
-        tac: [undefined, Validators.compose([
-            Validators.minLength(4),
-            Validators.maxLength(8),
-        ])],
-    })
+        tac: [
+            undefined,
+            Validators.compose([
+                Validators.minLength(4),
+                Validators.maxLength(8),
+            ]),
+        ],
+    });
 
-    constructor(
-        protected service: Service,
-        protected fb: FormBuilder) {
-
-    }
+    constructor(protected service: Service, protected fb: FormBuilder) {}
 
     closeCard(cancelled: boolean): void {
         if (cancelled) {
@@ -58,6 +55,4 @@ export class SmallCellSelectComponent {
             } as SmallCellParam);
         }
     }
-
-
 }

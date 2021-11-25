@@ -18,8 +18,11 @@ coverage: deps build license_check test
 deps: # @HELP ensure that the required dependencies are in place
 	NG_CLI_ANALYTICS=false npm install
 
-lint: deps # @HELP run the linters for Typescript source code
+lint: deps prettier # @HELP run the linters for Typescript source code
 	npm run lint
+
+prettier: # @HELP run the prettier code formatting tool
+	npx prettier --check src
 
 license_check: # @HELP examine and ensure license headers exist
 	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi

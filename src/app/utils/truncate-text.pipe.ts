@@ -7,10 +7,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'truncateText'
+    name: 'truncateText',
 })
 export class TruncateTextPipe implements PipeTransform {
-
     transform(value: string, length: number): string {
         const biggestWord = 50;
         const elipses = '...';
@@ -30,7 +29,9 @@ export class TruncateTextPipe implements PipeTransform {
             if (lastSpace === -1) {
                 break;
             }
-            truncatedText = truncatedText.slice(0, lastSpace).replace(/[!,.?;:]$/, '');
+            truncatedText = truncatedText
+                .slice(0, lastSpace)
+                .replace(/[!,.?;:]$/, '');
         }
         return truncatedText + elipses;
     }

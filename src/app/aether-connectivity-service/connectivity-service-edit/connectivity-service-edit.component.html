@@ -6,47 +6,80 @@
 <form [formGroup]="csForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Connectivity Service. ID: {{id}}</mat-card-title>
-                <mat-icon *ngIf="!isNew" (click)="showParentDisplay = true;$event.preventDefault()" class="subscriber-pointer"
-                          id="showParentInformation"
-                          color="accent">
-                    assignment
-                </mat-icon>
+            <mat-card-title>Connectivity Service. ID: {{ id }}</mat-card-title>
+            <mat-icon
+                *ngIf="!isNew"
+                (click)="showParentDisplay = true; $event.preventDefault()"
+                class="subscriber-pointer"
+                id="showParentInformation"
+                color="accent"
+            >
+                assignment
+            </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
                 <mat-form-field class="half-width field-margin">
-                    <input matInput formControlName="id"
-                           placeholder="Please specify an ID"
-                           title="This field is mandatory."
-                           id="inputID"
-                           required>
+                    <input
+                        matInput
+                        formControlName="id"
+                        placeholder="Please specify an ID"
+                        title="This field is mandatory."
+                        id="inputID"
+                        required
+                    />
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="display-name" id="inputDisplayName">
+                    <input
+                        matInput
+                        formControlName="display-name"
+                        id="inputDisplayName"
+                    />
                     <mat-hint>Display Name</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <textarea matInput formControlName="description" id="inputDescription"></textarea>
+                    <textarea
+                        matInput
+                        formControlName="description"
+                        id="inputDescription"
+                    ></textarea>
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input matInput formControlName="core-5g-endpoint" id="inputCoreEndpoint">
+                    <input
+                        matInput
+                        formControlName="core-5g-endpoint"
+                        id="inputCoreEndpoint"
+                    />
                     <mat-hint>Core Endpoint</mat-hint>
                 </mat-form-field>
             </div>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="accent" type="submit"
-                    id="submitButton"
-                    [disabled]="!(csForm.valid && csForm.touched && opaService.canWrite('/connectivity-service/connectivity-service[id=' + id + ']'))">
+            <button
+                mat-raised-button
+                color="accent"
+                type="submit"
+                id="submitButton"
+                [disabled]="
+                    !(
+                        csForm.valid &&
+                        csForm.touched &&
+                        opaService.canWrite(
+                            '/connectivity-service/connectivity-service[id=' +
+                                id +
+                                ']'
+                        )
+                    )
+                "
+            >
                 Update
             </button>
         </mat-card-actions>
@@ -56,5 +89,6 @@
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
     [connectivityServiceID]="connectivityServiceId"
-    (closeShowParentCardEvent)="closeShowParentCard($event)">
+    (closeShowParentCardEvent)="closeShowParentCard($event)"
+>
 </aether-show-enterprise-usage>

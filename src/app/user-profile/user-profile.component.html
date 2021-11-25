@@ -7,16 +7,24 @@
 <mat-card class="card mat-elevation-z8" (click)="closeCard()" id="closeCard">
     <mat-card-header class="header">
         <mat-card-title class="subheading-1 title">
-            User Profile: {{idTokClaims.name}}</mat-card-title>
+            User Profile: {{ idTokClaims.name }}</mat-card-title
+        >
     </mat-card-header>
     <mat-card-content class="content">
         <mat-list>
-            <mat-list-item class="field-margin" id="userEmail">Email: {{idTokClaims.email}}</mat-list-item>
-            <mat-list-item class="field-margin" id="userGroup">Groups:</mat-list-item>
+            <mat-list-item class="field-margin" id="userEmail"
+                >Email: {{ idTokClaims.email }}</mat-list-item
+            >
+            <mat-list-item class="field-margin" id="userGroup"
+                >Groups:</mat-list-item
+            >
             <mat-list>
-                <mat-list-item *ngFor="let g of idTokClaims.groups"
-                               id="userGroupItem"
-                               class="group-margin">{{g}}</mat-list-item>
+                <mat-list-item
+                    *ngFor="let g of idTokClaims.groups"
+                    id="userGroupItem"
+                    class="group-margin"
+                    >{{ g }}</mat-list-item
+                >
             </mat-list>
         </mat-list>
     </mat-card-content>

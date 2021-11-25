@@ -6,40 +6,61 @@
 <form [formGroup]="smallCellForm" (ngSubmit)="closeCard(false)">
     <mat-card class="card mat-elevation-z8">
         <mat-card-header class="header">
-            <mat-card-title class="subheading-1 title">Add Small Cell</mat-card-title>
+            <mat-card-title class="subheading-1 title"
+                >Add Small Cell</mat-card-title
+            >
         </mat-card-header>
         <mat-card-content class="content">
             <mat-form-field class="field-margin">
-                <input matInput formControlName="small-cell-id"
-                       title="This field is mandatory."
-                       placeholder="Please specify a ID"
-                       id="inputNewSCID" required>
+                <input
+                    matInput
+                    formControlName="small-cell-id"
+                    title="This field is mandatory."
+                    placeholder="Please specify a ID"
+                    id="inputNewSCID"
+                    required
+                />
                 <mat-hint>Small Cell ID</mat-hint>
             </mat-form-field>
             <mat-form-field class="field-margin">
-                <input matInput formControlName="display-name"
-                       id="inputNewSCName">
+                <input
+                    matInput
+                    formControlName="display-name"
+                    id="inputNewSCName"
+                />
                 <mat-hint>Small Cell Name</mat-hint>
             </mat-form-field>
-            <mat-form-field class="field-margin ">
-                <input matInput formControlName="address"
-                       id="inputNewSCAddress">
+            <mat-form-field class="field-margin">
+                <input
+                    matInput
+                    formControlName="address"
+                    id="inputNewSCAddress"
+                />
                 <mat-hint>Address</mat-hint>
             </mat-form-field>
-            <mat-form-field class="field-margin ">
-                <input matInput formControlName="tac" id="inputNewScTac">
+            <mat-form-field class="field-margin">
+                <input matInput formControlName="tac" id="inputNewScTac" />
                 <mat-hint>Type Allocation Code (4-8 digits)</mat-hint>
             </mat-form-field>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="accent" type="button" (click)="closeCard(true)"
-                    id="cancelButton">Cancel
+            <button
+                mat-raised-button
+                color="accent"
+                type="button"
+                (click)="closeCard(true)"
+                id="cancelButton"
+            >
+                Cancel
             </button>
             <button
-                [disabled]="!(smallCellForm.valid && smallCellForm.touched )"
-                mat-raised-button color="accent"
+                [disabled]="!(smallCellForm.valid && smallCellForm.touched)"
+                mat-raised-button
+                color="accent"
                 type="submit"
-                id="addButton">Add
+                id="addButton"
+            >
+                Add
             </button>
         </mat-card-actions>
     </mat-card>
