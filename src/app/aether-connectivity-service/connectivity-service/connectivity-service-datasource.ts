@@ -10,7 +10,7 @@ import {
     ConnectivityServiceConnectivityService,
 } from '../../../openapi3/aether/4.0.0/models';
 import { BasketService } from '../../basket.service';
-import { RocDataSource } from '../../roc-data-source';
+import { compare, RocDataSource } from '../../roc-data-source';
 
 export class ConnectivityServiceDatasource extends RocDataSource<
     ConnectivityServiceConnectivityService,
@@ -19,7 +19,8 @@ export class ConnectivityServiceDatasource extends RocDataSource<
     constructor(
         protected aetherService: AetherService,
         protected bs: BasketService,
-        protected target: string
+        protected target: string,
+        protected coreEPAttr: string = 'core-5g-endpoint'
     ) {
         super(
             aetherService,
@@ -28,5 +29,28 @@ export class ConnectivityServiceDatasource extends RocDataSource<
             '/connectivity-service-4.0.0',
             'connectivity-service'
         );
+    }
+    getSortedData(data) {
+        if (
+            !this.sort.active ||
+            this.sort.direction === '' ||
+            this.sort.active === 'id' ||
+            this.sort.active === 'description'
+        ) {
+            return super.getSortedData(data);
+        }
+        return data.sort((a, b) => {
+            const isAsc = this.sort.direction === 'asc';
+            switch (this.sort.active) {
+                case 'core-5g-endpoint':
+                    return compare(
+                        a[this.coreEPAttr],
+                        b[this.coreEPAttr],
+                        isAsc
+                    );
+                default:
+                    return 0;
+            }
+        });
     }
 }

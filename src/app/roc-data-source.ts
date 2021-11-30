@@ -37,27 +37,7 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
         protected pathListAttr: string,
         protected indexAttr: string = 'id',
         protected nameAttr: string = 'display-name',
-        protected descAttr: string = 'description',
-        protected enterpriseAttr: string = 'enterprise',
-        protected siteAttr: string = 'site',
-        protected DBAttr: string = 'default-behavior',
-        protected sdAttr: string = 'sd',
-        protected sstAttr: string = 'sst',
-        protected upfAttr: string = 'upf',
-        protected dgAttr: string = 'device-group',
-        protected addressAttr: string = 'address',
-        protected CEPAttr: string = 'config-endpoint',
-        protected portAttr: string = 'port',
-        protected IPDAttr: string = 'ip-domain',
-        protected pelrAttr: string = 'pelr',
-        protected pdbAttr: string = 'pdb',
-        protected arpAttr: string = 'arp',
-        protected qciAttr: string = 'qci',
-        protected subnetAttr: string = 'subnet',
-        protected AdminStatusAttr: string = 'admin-status',
-        protected mtuAttr: string = 'mtu',
-        protected dnnAttr: string = 'dnn',
-        protected coreEPAttr: string = 'core-5g-endpoint'
+        protected descAttr: string = 'description'
     ) {
         super();
     }
@@ -98,80 +78,19 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
      * Sort the data (client-side). If you're using server-side sorting,
      * this would be replaced by requesting the appropriate data from the server.
      */
-    private getSortedData(data: T[]): T[] {
+    getSortedData(data: T[]): T[] {
         if (!this.sort.active || this.sort.direction === '') {
             return data.sort((a, b) => {
                 return compare(a[this.nameAttr], b[this.nameAttr], true);
             });
         }
-
         return data.sort((a, b) => {
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
-                case 'core-5g-endpoint':
-                    return compare(
-                        a[this.coreEPAttr],
-                        b[this.coreEPAttr],
-                        isAsc
-                    );
-                case 'dnn':
-                    return compare(a[this.dnnAttr], b[this.dnnAttr], isAsc);
-                case 'mtu':
-                    return compare(a[this.mtuAttr], b[this.mtuAttr], isAsc);
-                case 'admin-status':
-                    return compare(
-                        a[this.AdminStatusAttr],
-                        b[this.AdminStatusAttr],
-                        isAsc
-                    );
-                case 'subnet':
-                    return compare(
-                        a[this.subnetAttr],
-                        b[this.subnetAttr],
-                        isAsc
-                    );
-                case 'qci':
-                    return compare(a[this.qciAttr], b[this.qciAttr], isAsc);
-                case 'arp':
-                    return compare(a[this.arpAttr], b[this.arpAttr], isAsc);
-                case 'pdb':
-                    return compare(a[this.pdbAttr], b[this.pdbAttr], isAsc);
-                case 'pelr':
-                    return compare(a[this.pelrAttr], b[this.pelrAttr], isAsc);
-                case 'ip-domain':
-                    return compare(+a[this.IPDAttr], +b[this.IPDAttr], isAsc);
-                case 'port':
-                    return compare(a[this.portAttr], b[this.portAttr], isAsc);
-                case 'config-endpoint':
-                    return compare(a[this.CEPAttr], b[this.CEPAttr], isAsc);
-                case 'address':
-                    return compare(
-                        a[this.addressAttr],
-                        b[this.addressAttr],
-                        isAsc
-                    );
-                case 'device-group':
-                    return compare(a[this.dgAttr], b[this.dgAttr], isAsc);
-                case 'upf':
-                    return compare(a[this.upfAttr], b[this.upfAttr], isAsc);
-                case 'sst':
-                    return compare(+a[this.sstAttr], +b[this.sstAttr], isAsc);
-                case 'sd':
-                    return compare(+a[this.sdAttr], +b[this.sdAttr], isAsc);
-                case 'default-behavior':
-                    return compare(a[this.DBAttr], b[this.DBAttr], isAsc);
-                case 'site':
-                    return compare(a[this.siteAttr], b[this.siteAttr], isAsc);
-                case 'enterprise':
-                    return compare(
-                        a[this.enterpriseAttr],
-                        b[this.enterpriseAttr],
-                        isAsc
-                    );
                 case 'description':
-                    return compare(a[this.descAttr], b[this.descAttr], isAsc);
+                    return compare(+a[this.descAttr], +b[this.descAttr], isAsc);
                 case 'id':
-                    return compare(a[this.nameAttr], b[this.nameAttr], isAsc);
+                    return compare(+a[this.nameAttr], +b[this.nameAttr], isAsc);
                 default:
                     return 0;
             }

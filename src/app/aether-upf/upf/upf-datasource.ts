@@ -7,14 +7,49 @@
 import { Upf, UpfUpf } from '../../../openapi3/aether/4.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
 import { BasketService } from '../../basket.service';
-import { RocDataSource } from '../../roc-data-source';
+import { compare, RocDataSource } from '../../roc-data-source';
 
 export class UpfDatasource extends RocDataSource<UpfUpf, Upf> {
     constructor(
         protected aetherService: AetherService,
         protected bs: BasketService,
-        protected target: string
+        protected target: string,
+        protected addressAttr: string = 'address',
+        protected enterpriseAttr: string = 'enterprise',
+        protected siteAttr: string = 'site'
     ) {
         super(aetherService, bs, target, '/upf-4.0.0', 'upf');
+    }
+
+    getSortedData(data) {
+        if (
+            !this.sort.active ||
+            this.sort.direction === '' ||
+            this.sort.active === 'id' ||
+            this.sort.active === 'description'
+        ) {
+            return super.getSortedData(data);
+        }
+        return data.sort((a, b) => {
+            const isAsc = this.sort.direction === 'asc';
+            switch (this.sort.active) {
+                case 'site':
+                    return compare(a[this.siteAttr], b[this.siteAttr], isAsc);
+                case 'enterprise':
+                    return compare(
+                        a[this.enterpriseAttr],
+                        b[this.enterpriseAttr],
+                        isAsc
+                    );
+                case 'address':
+                    return compare(
+                        a[this.addressAttr],
+                        b[this.addressAttr],
+                        isAsc
+                    );
+                default:
+                    return 0;
+            }
+        });
     }
 }
