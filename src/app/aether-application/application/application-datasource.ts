@@ -10,7 +10,7 @@ import {
     ApplicationApplication,
 } from '../../../openapi3/aether/4.0.0/models';
 import { BasketService } from '../../basket.service';
-import { RocDataSource } from '../../roc-data-source';
+import { compare, RocDataSource } from '../../roc-data-source';
 
 export class ApplicationDatasource extends RocDataSource<
     ApplicationApplication,
@@ -19,8 +19,40 @@ export class ApplicationDatasource extends RocDataSource<
     constructor(
         protected aetherService: AetherService,
         protected bs: BasketService,
-        protected target: string
+        protected target: string,
+        protected enterpriseAttr: string = 'enterprise',
+        protected addressAttr: string = 'address'
     ) {
         super(aetherService, bs, target, '/application-4.0.0', 'application');
+    }
+
+    getSortedData(data) {
+        if (
+            !this.sort.active ||
+            this.sort.direction === '' ||
+            this.sort.active === 'id' ||
+            this.sort.active === 'description'
+        ) {
+            return super.getSortedData(data);
+        }
+        return data.sort((a, b) => {
+            const isAsc = this.sort.direction === 'asc';
+            switch (this.sort.active) {
+                case 'address':
+                    return compare(
+                        a[this.addressAttr],
+                        b[this.addressAttr],
+                        isAsc
+                    );
+                case 'enterprise':
+                    return compare(
+                        a[this.enterpriseAttr],
+                        b[this.enterpriseAttr],
+                        isAsc
+                    );
+                default:
+                    return 0;
+            }
+        });
     }
 }

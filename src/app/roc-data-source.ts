@@ -36,6 +36,7 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
         protected pathRoot: string,
         protected pathListAttr: string,
         protected indexAttr: string = 'id',
+        protected nameAttr: string = 'display-name',
         protected descAttr: string = 'description'
     ) {
         super();
@@ -77,22 +78,19 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
      * Sort the data (client-side). If you're using server-side sorting,
      * this would be replaced by requesting the appropriate data from the server.
      */
-    private getSortedData(data: T[]): T[] {
+    getSortedData(data: T[]): T[] {
         if (!this.sort.active || this.sort.direction === '') {
-            return data;
+            return data.sort((a, b) => {
+                return compare(a[this.nameAttr], b[this.nameAttr], true);
+            });
         }
-
         return data.sort((a, b) => {
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
                 case 'description':
-                    return compare(a[this.descAttr], a[this.descAttr], isAsc);
+                    return compare(+a[this.descAttr], +b[this.descAttr], isAsc);
                 case 'id':
-                    return compare(
-                        +a[this.indexAttr],
-                        +b[this.indexAttr],
-                        isAsc
-                    );
+                    return compare(+a[this.nameAttr], +b[this.nameAttr], isAsc);
                 default:
                     return 0;
             }
