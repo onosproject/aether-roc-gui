@@ -177,6 +177,8 @@ export class TemplateEditComponent
             this.tempForm
                 .get('default-behavior')
                 .setValue(this.defaultBehaviorOpitons[0]);
+            this.tempForm.get('default-behavior').markAsTouched();
+            this.tempForm.get('default-behavior').markAsDirty();
         }
         this.bandwidthOptions = this.tempForm.valueChanges.pipe(
             startWith(''),
