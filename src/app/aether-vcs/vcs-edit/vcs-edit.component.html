@@ -177,26 +177,22 @@
                     <div *ngFor="let appForm of filter.controls; index as i">
                         <div [formGroup]="appForm" [id]="'applicationDiv' + i">
                             <mat-form-field>
-                                <div class="float-left">
-                                    <mat-hint>Application</mat-hint>
-                                    <input
-                                        matInput
-                                        formControlName="application"
-                                        readonly
-                                        id="inputFilterApplication"
-                                    />
-                                </div>
+                                <mat-hint>Application</mat-hint>
+                                <input
+                                    matInput
+                                    formControlName="application"
+                                    readonly
+                                    id="inputFilterApplication"
+                                />
                             </mat-form-field>
                             <mat-form-field class="field-margin">
-                                <div class="float-left">
-                                    <mat-hint>Priority</mat-hint>
-                                    <input
-                                        matInput
-                                        type="number"
-                                        formControlName="priority"
-                                        id="inputFilterPriority"
-                                    />
-                                </div>
+                                <mat-hint>Priority</mat-hint>
+                                <input
+                                    matInput
+                                    type="number"
+                                    formControlName="priority"
+                                    id="inputFilterPriority"
+                                />
                             </mat-form-field>
                             <mat-slide-toggle formControlName="allow"
                                 >Allow</mat-slide-toggle
@@ -250,11 +246,11 @@
                 </mat-icon>
                 <!--device-group-->
                 <div *ngFor="let dgForm of deviceGroup.controls; index as i">
-                    <mat-form-field class="field-margin half-width">
-                        <div
-                            [formGroup]="dgForm"
-                            [id]="dgForm.value['device-group']"
-                        >
+                    <div
+                        [formGroup]="dgForm"
+                        [id]="dgForm.value['device-group']"
+                    >
+                        <mat-form-field class="field-margin half-width">
                             <input
                                 matInput
                                 formControlName="device-group"
@@ -275,8 +271,8 @@
                                 id="pointerDeviceGroup"
                                 >launch
                             </mat-icon>
-                        </div>
-                    </mat-form-field>
+                        </mat-form-field>
+                    </div>
                     <button
                         mat-icon-button
                         id="deleteDeviceGroup"
