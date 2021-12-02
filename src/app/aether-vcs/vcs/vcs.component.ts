@@ -10,12 +10,12 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
 import { AETHER_TARGETS } from '../../../environments/environment';
-import { BasketService} from '../../basket.service';
+import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { VcsDatasource } from './vcs-datasource';
-import {Vcs, VcsVcs} from '../../../openapi3/aether/4.0.0/models';
+import { Vcs, VcsVcs } from '../../../openapi3/aether/4.0.0/models';
 import { HexPipe } from '../../utils/hex.pipe';
-import {RocDataSource} from "../../roc-data-source";
+import { RocDataSource } from '../../roc-data-source';
 
 @Component({
     selector: 'aether-vcs',

@@ -29,10 +29,7 @@ export const UPDATED = 'updated';
     templateUrl: './ip-domain-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class IpDomainEditComponent
-    extends RocEditBase
-    implements OnInit
-{
+export class IpDomainEditComponent extends RocEditBase implements OnInit {
     ip: string;
     option: string;
     primCardDisplay: boolean = false;

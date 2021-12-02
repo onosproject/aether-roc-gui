@@ -19,12 +19,7 @@ import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { from, Observable } from 'rxjs';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import {
-    map,
-    mergeMap,
-    skipWhile,
-    startWith
-} from 'rxjs/operators';
+import { map, mergeMap, skipWhile, startWith } from 'rxjs/operators';
 import {
     VcsVcsService,
     Service as AetherService,
@@ -39,7 +34,7 @@ import {
 } from 'src/app/basket.service';
 import { HexPipe } from '../../utils/hex.pipe';
 import { SelectAppParam } from '../application-select/application-select.component';
-import {RocElement} from "../../../openapi3/top/level/models/elements";
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -338,7 +333,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    templateSelected(evt: {value: TemplateTemplate}): void {
+    templateSelected(evt: { value: TemplateTemplate }): void {
         if (this.isNewInstance) {
             const eachTemplate: TemplateTemplate = evt.value;
             const SdFormControl = this.vcsForm.get('sd');

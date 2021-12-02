@@ -30,7 +30,9 @@ export class ConnectivityServiceDatasource extends RocDataSource<
             'connectivity-service'
         );
     }
-    getSortedData(data: ConnectivityServiceConnectivityService[]): ConnectivityServiceConnectivityService[] {
+    getSortedData(
+        data: ConnectivityServiceConnectivityService[]
+    ): ConnectivityServiceConnectivityService[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

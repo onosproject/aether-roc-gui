@@ -87,26 +87,26 @@ export class DeviceGroupComponent
                                     ScopeOfDataSource.data[
                                         listItemCount
                                     ].imsis = basketItems.imsis;
-                                } else {
-                                    for (const eachBasketDG of basketItems.imsis) {
-                                        // FIXME
-                                        // let eachDGPosition = 0;
-                                        // for (const eachScopeDG of ScopeOfDataSource
-                                        //     .data[listItemCount].imsis) {
-                                        //     if (
-                                        //         eachBasketDG.imsis ===
-                                        //         eachScopeDG.imsis
-                                        //     ) {
-                                        //         ScopeOfDataSource.data[
-                                        //             listItemCount
-                                        //         ].imsis[eachDGPosition][
-                                        //             'imsi-id'
-                                        //         ] = eachBasketDG['imsi-id'];
-                                        //     }
-                                        //     eachDGPosition++;
-                                        // }
-                                    }
-                                }
+                                } // else {
+                                // for (const eachBasketDG of basketItems.imsis) {
+                                // FIXME
+                                // let eachDGPosition = 0;
+                                // for (const eachScopeDG of ScopeOfDataSource
+                                //     .data[listItemCount].imsis) {
+                                //     if (
+                                //         eachBasketDG.imsis ===
+                                //         eachScopeDG.imsis
+                                //     ) {
+                                //         ScopeOfDataSource.data[
+                                //             listItemCount
+                                //         ].imsis[eachDGPosition][
+                                //             'imsi-id'
+                                //         ] = eachBasketDG['imsi-id'];
+                                //     }
+                                //     eachDGPosition++;
+                                // }
+                                // }
+                                // }
                             }
                             if (basketItems.device && basketItems.device.mbr) {
                                 ScopeOfDataSource.data[

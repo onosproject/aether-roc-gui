@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import { Injectable, Input } from '@angular/core';
-import {
-    AbstractControl,
-    FormArray,
-    FormGroup,
-} from '@angular/forms';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { AETHER_TARGETS } from '../environments/environment';
 import { PatchBody } from '../openapi3/top/level/models';
 

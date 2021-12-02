@@ -12,17 +12,13 @@ import {
     SiteSite,
     UpfUpf,
 } from '../../../openapi3/aether/4.0.0/models';
-import {
-    BasketService,
-    ORIGINAL,
-    REQDATTRIBS,
-} from '../../basket.service';
+import { BasketService, ORIGINAL, REQDATTRIBS } from '../../basket.service';
 import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { maxDeviceGroupRange } from '../../../environments/environment';
-import {RocElement} from "../../../openapi3/top/level/models/elements";
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-upf-edit',

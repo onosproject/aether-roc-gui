@@ -103,7 +103,7 @@ export abstract class RocDataSource<
      * any open connections or free any held resources that were set up during connect.
      */
     disconnect(): void {
-        console.log("disconnect");
+        console.log('disconnect');
     }
 
     private getPagedData(data: T[]): T[] {

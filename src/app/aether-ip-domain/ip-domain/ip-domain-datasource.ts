@@ -17,7 +17,7 @@ export class IpDomainDatasource extends RocDataSource<
     constructor(
         protected aetherService: AetherService,
         public bs: BasketService,
-        protected target: string,
+        protected target: string
     ) {
         super(aetherService, bs, target, '/ip-domain-4.0.0', 'ip-domain');
     }
@@ -38,23 +38,11 @@ export class IpDomainDatasource extends RocDataSource<
                 case 'mtu':
                     return compare(a.mtu, b.mtu, isAsc);
                 case 'admin-status':
-                    return compare(
-                        a["admin-status"],
-                        b["admin-status"],
-                        isAsc
-                    );
+                    return compare(a['admin-status'], b['admin-status'], isAsc);
                 case 'subnet':
-                    return compare(
-                        a.subnet,
-                        b.subnet,
-                        isAsc
-                    );
+                    return compare(a.subnet, b.subnet, isAsc);
                 case 'enterprise':
-                    return compare(
-                        a.enterprise,
-                        b.enterprise,
-                        isAsc
-                    );
+                    return compare(a.enterprise, b.enterprise, isAsc);
                 default:
                     return 0;
             }

@@ -4,13 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {
-    Component,
-    EventEmitter,
-    Inject,
-    Input,
-    Output,
-} from '@angular/core';
+import { Component, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { PERFORMANCE_METRICS_ENABLED } from '../../../environments/environment';
 
 @Component({

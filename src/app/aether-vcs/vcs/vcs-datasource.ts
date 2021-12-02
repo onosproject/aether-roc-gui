@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import {Vcs, VcsVcs} from '../../../openapi3/aether/4.0.0/models';
-import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
-import {BasketService} from '../../basket.service';
-import {compare, RocDataSource} from '../../roc-data-source';
+import { Vcs, VcsVcs } from '../../../openapi3/aether/4.0.0/models';
+import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { BasketService } from '../../basket.service';
+import { compare, RocDataSource } from '../../roc-data-source';
 
 export class VcsDatasource extends RocDataSource<VcsVcs, Vcs> {
     constructor(
         protected aetherService: AetherService,
         public bs: BasketService,
-        protected target: string,
+        protected target: string
     ) {
         super(aetherService, bs, target, '/vcs-4.0.0', 'vcs');
     }
@@ -36,13 +36,13 @@ export class VcsDatasource extends RocDataSource<VcsVcs, Vcs> {
                 case 'site':
                     return compare(a.site, b.site, isAsc);
                 case 'default-behavior':
-                    return compare(a["default-behavior"], b["default-behavior"], isAsc);
-                case 'enterprise':
                     return compare(
-                        a.enterprise,
-                        b.enterprise,
+                        a['default-behavior'],
+                        b['default-behavior'],
                         isAsc
                     );
+                case 'enterprise':
+                    return compare(a.enterprise, b.enterprise, isAsc);
                 default:
                     return 0;
             }

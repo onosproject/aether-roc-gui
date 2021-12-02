@@ -17,7 +17,7 @@ export class DeviceGroupDatasource extends RocDataSource<
     constructor(
         protected aetherService: AetherService,
         public bs: BasketService,
-        protected target: string,
+        protected target: string
     ) {
         super(aetherService, bs, target, '/device-group-4.0.0', 'device-group');
     }
@@ -37,7 +37,7 @@ export class DeviceGroupDatasource extends RocDataSource<
 
             switch (this.sort.active) {
                 case 'ip-domain':
-                    return compare(a["ip-domain"], b["ip-domain"], isAsc);
+                    return compare(a['ip-domain'], b['ip-domain'], isAsc);
                 case 'site':
                     return compare(a.site, b.site, isAsc);
                 default:

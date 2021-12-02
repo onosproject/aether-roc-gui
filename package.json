@@ -6,7 +6,7 @@
         "start": "ng serve",
         "build": "ng build",
         "test": "ng test --browsers=ChromeHeadlessNoSandbox --watch=false",
-        "lint": "ng lint",
+        "lint": "prettier --check src && ng lint",
         "e2e": "ng e2e"
     },
     "private": true,

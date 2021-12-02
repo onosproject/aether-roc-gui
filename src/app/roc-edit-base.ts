@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BasketService } from './basket.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AETHER_TARGETS } from '../environments/environment';
-import {RocElement} from "../openapi3/top/level/models/elements";
+import { RocElement } from '../openapi3/top/level/models/elements';
 
 export abstract class RocEditBase {
     protected form: FormGroup;

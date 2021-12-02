@@ -5,10 +5,16 @@
  */
 
 import { BasketService } from './basket.service';
-import {RocElement} from "../openapi3/top/level/models/elements";
-import {GenericRocDataSource, RocGenericContainerType, RocGenericModelType} from "./roc-data-source";
+import { RocElement } from '../openapi3/top/level/models/elements';
+import {
+    GenericRocDataSource,
+    RocGenericContainerType,
+    RocGenericModelType,
+} from './roc-data-source';
 
-export abstract class RocListBase<T extends GenericRocDataSource<RocGenericModelType, RocGenericContainerType>> {
+export abstract class RocListBase<
+    T extends GenericRocDataSource<RocGenericModelType, RocGenericContainerType>
+> {
     public dataSource: T;
     protected reqdAttr: string[] = [];
     public id: string;

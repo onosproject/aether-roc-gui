@@ -12,17 +12,14 @@ import { BasketService, ORIGINAL } from '../../basket.service';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import {RocElement} from "../../../openapi3/top/level/models/elements";
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-traffic-class-edit',
     templateUrl: './traffic-class-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class TrafficClassEditComponent
-    extends RocEditBase
-    implements OnInit
-{
+export class TrafficClassEditComponent extends RocEditBase implements OnInit {
     pathRoot = 'Traffic-class-4.0.0' as RocElement;
     pathListAttr = 'traffic-class';
     data: TrafficClassTrafficClass;

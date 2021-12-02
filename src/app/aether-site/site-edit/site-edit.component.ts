@@ -5,12 +5,7 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-    FormArray,
-    FormBuilder,
-    FormGroup,
-    Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
     Service as AetherService,
     SiteSiteService,
@@ -31,7 +26,7 @@ import {
     EnterpriseEnterprise,
 } from 'src/openapi3/aether/4.0.0/models';
 import { SmallCellParam } from '../small-cell-select/small-cell-select.component';
-import {RocElement} from "../../../openapi3/top/level/models/elements";
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-site-edit',

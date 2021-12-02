@@ -19,7 +19,7 @@ export class ApplicationDatasource extends RocDataSource<
     constructor(
         protected aetherService: AetherService,
         public bs: BasketService,
-        protected target: string,
+        protected target: string
     ) {
         super(aetherService, bs, target, '/application-4.0.0', 'application');
     }
@@ -37,17 +37,9 @@ export class ApplicationDatasource extends RocDataSource<
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
                 case 'address':
-                    return compare(
-                        a.address,
-                        b.address,
-                        isAsc
-                    );
+                    return compare(a.address, b.address, isAsc);
                 case 'enterprise':
-                    return compare(
-                        a.enterprise,
-                        b.enterprise,
-                        isAsc
-                    );
+                    return compare(a.enterprise, b.enterprise, isAsc);
                 default:
                     return 0;
             }

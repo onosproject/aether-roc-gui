@@ -29,7 +29,7 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HexPipe } from '../../utils/hex.pipe';
-import {RocElement} from "../../../openapi3/top/level/models/elements";
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 export interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -45,10 +45,7 @@ interface BurstRate {
     templateUrl: './template-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class TemplateEditComponent
-    extends RocEditBase
-    implements OnInit
-{
+export class TemplateEditComponent extends RocEditBase implements OnInit {
     // @ViewChild(MatTable) table: MatTable<Array<ConnectivityServiceRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;

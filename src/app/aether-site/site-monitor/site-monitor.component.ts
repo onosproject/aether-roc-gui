@@ -111,9 +111,7 @@ export class SiteMonitorComponent
         });
     }
 
-    generateClusterAvailabilityPanelUrl(
-        orgId: number
-    ): string {
+    generateClusterAvailabilityPanelUrl(orgId: number): string {
         // This will show the Cluster metrics
         let baseUrl = `${this.grafanaUrl}/d-solo/site-availability/cluster-health?orgId=${orgId}&theme=light&panelId=1`;
 
@@ -138,9 +136,7 @@ export class SiteMonitorComponent
         return baseUrl;
     }
 
-    generateSmallCellConnectivityPanelUrl(
-        orgId: number,
-    ): string {
+    generateSmallCellConnectivityPanelUrl(orgId: number): string {
         // This will show the E2E metrics for tests, maintenance window, agent down
         let baseUrl = `${this.grafanaUrl}/d-solo/site-small-cell/enb-status?orgId=${orgId}&theme=light&panelId=1`;
 

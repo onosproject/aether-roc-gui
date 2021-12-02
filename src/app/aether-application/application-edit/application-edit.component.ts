@@ -37,7 +37,7 @@ import { EndPointParam } from '../endpoint-select/endpoint-select.component';
 import { Observable } from 'rxjs';
 import { Bandwidths } from '../../aether-template/template-edit/template-edit.component';
 import { map, startWith } from 'rxjs/operators';
-import {RocElement} from "../../../openapi3/top/level/models/elements";
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 const ValidatePortRange: ValidatorFn = (
     control: AbstractControl
@@ -60,10 +60,7 @@ const ValidatePortRange: ValidatorFn = (
     templateUrl: './application-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class ApplicationEditComponent
-    extends RocEditBase
-    implements OnInit
-{
+export class ApplicationEditComponent extends RocEditBase implements OnInit {
     protocolOptions = [{ name: 'UDP' }, { name: 'TCP' }];
     shownEndpointDisplay: boolean = false;
     showEndpointAddButton: boolean = true;

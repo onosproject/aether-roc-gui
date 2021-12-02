@@ -26,7 +26,7 @@ export class OpenPolicyAgentService {
     // for Q12021 - while we have crude RBAC scheme, we allow write access regardless
     // of path, if 1) Security is turned off OR 2) user is in special group
     canWrite(path: string): boolean {
-        console.log(`canWrite on path? ${path}`)
+        console.log(`canWrite on path? ${path}`);
         if (
             authConfig.issuer === undefined ||
             this.userGroups.indexOf(AETHER_ROC_ADMIN_USER) > -1 ||

@@ -88,10 +88,7 @@ const ValidateImsiRange: ValidatorFn = (
     templateUrl: './device-group-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class DeviceGroupEditComponent
-    extends RocEditBase
-    implements OnInit
-{
+export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     data: DeviceGroupDeviceGroup;
     ipdomain: Array<IpDomainIpDomain>;
     site: Array<SiteSite>;

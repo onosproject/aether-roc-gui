@@ -10,9 +10,7 @@ import {
 } from '../../../openapi3/aether/4.0.0/services';
 import { FormBuilder } from '@angular/forms';
 import { AETHER_TARGETS } from '../../../environments/environment';
-import {
-    ConnectivityService,
-} from '../../../openapi3/aether/4.0.0/models';
+import { ConnectivityService } from '../../../openapi3/aether/4.0.0/models';
 import { RocSelectBase } from '../../roc-select-base';
 
 @Component({

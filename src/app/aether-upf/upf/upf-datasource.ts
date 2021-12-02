@@ -13,7 +13,7 @@ export class UpfDatasource extends RocDataSource<UpfUpf, Upf> {
     constructor(
         protected aetherService: AetherService,
         public bs: BasketService,
-        protected target: string,
+        protected target: string
     ) {
         super(aetherService, bs, target, '/upf-4.0.0', 'upf');
     }
@@ -33,17 +33,9 @@ export class UpfDatasource extends RocDataSource<UpfUpf, Upf> {
                 case 'site':
                     return compare(a.site, b.site, isAsc);
                 case 'enterprise':
-                    return compare(
-                        a.enterprise,
-                        b.enterprise,
-                        isAsc
-                    );
+                    return compare(a.enterprise, b.enterprise, isAsc);
                 case 'address':
-                    return compare(
-                        a.address,
-                        b.address,
-                        isAsc
-                    );
+                    return compare(a.address, b.address, isAsc);
                 case 'port':
                     return compare(a.port, b.port, isAsc);
                 default:

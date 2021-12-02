@@ -32,7 +32,9 @@ export class TrafficClassDatasource extends RocDataSource<
         );
     }
 
-    getSortedData(data: TrafficClassTrafficClass[]): TrafficClassTrafficClass[] {
+    getSortedData(
+        data: TrafficClassTrafficClass[]
+    ): TrafficClassTrafficClass[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

@@ -19,7 +19,7 @@ export class TemplateDatasource extends RocDataSource<
     constructor(
         protected aetherService: AetherService,
         public bs: BasketService,
-        protected target: string,
+        protected target: string
     ) {
         super(aetherService, bs, target, '/template-4.0.0', 'template');
     }
@@ -41,7 +41,11 @@ export class TemplateDatasource extends RocDataSource<
                 case 'sd':
                     return compare(+a.sd, +b.sd, isAsc);
                 case 'default-behavior':
-                    return compare(a["default-behavior"], b["default-behavior"], isAsc);
+                    return compare(
+                        a['default-behavior'],
+                        b['default-behavior'],
+                        isAsc
+                    );
                 default:
                     return 0;
             }

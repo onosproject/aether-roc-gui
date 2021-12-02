@@ -5,16 +5,9 @@
  */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-    FormArray,
-    FormBuilder,
-    Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { EnterpriseEnterpriseService } from '../../../openapi3/aether/4.0.0/services';
-import {
-    EnterpriseEnterprise,
-    EnterpriseEnterpriseConnectivityService,
-} from '../../../openapi3/aether/4.0.0/models';
+import { EnterpriseEnterprise } from '../../../openapi3/aether/4.0.0/models';
 import {
     BasketService,
     IDATTRIBS,
@@ -38,10 +31,7 @@ interface ConnectivityServiceRow {
     templateUrl: './enterprise-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class EnterpriseEditComponent
-    extends RocEditBase
-    implements OnInit
-{
+export class EnterpriseEditComponent extends RocEditBase implements OnInit {
     @ViewChild(MatTable) table: MatTable<Array<ConnectivityServiceRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
