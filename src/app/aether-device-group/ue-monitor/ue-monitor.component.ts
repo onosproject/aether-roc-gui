@@ -9,7 +9,6 @@ import {
     EventEmitter,
     Inject,
     Input,
-    OnInit,
     Output,
 } from '@angular/core';
 import { PERFORMANCE_METRICS_ENABLED } from '../../../environments/environment';

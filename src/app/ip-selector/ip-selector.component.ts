@@ -16,8 +16,6 @@ export class IpSelectorComponent implements OnInit {
     @Output() newIP = new EventEmitter<string>();
     @Output() closeEvent = new EventEmitter<boolean>();
 
-    constructor() {}
-
     ngOnInit(): void {
         this.checkIfUndefined();
         this.checkIPType();

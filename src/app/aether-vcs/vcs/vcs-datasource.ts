@@ -4,27 +4,21 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import { Vcs, VcsVcs } from '../../../openapi3/aether/4.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
-import { BasketService } from '../../basket.service';
-import { compare, RocDataSource } from '../../roc-data-source';
+import {Vcs, VcsVcs} from '../../../openapi3/aether/4.0.0/models';
+import {Service as AetherService} from '../../../openapi3/aether/4.0.0/services';
+import {BasketService} from '../../basket.service';
+import {compare, RocDataSource} from '../../roc-data-source';
 
 export class VcsDatasource extends RocDataSource<VcsVcs, Vcs> {
     constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
+        public bs: BasketService,
         protected target: string,
-        protected DBAttr: string = 'default-behavior',
-        protected enterpriseAttr: string = 'enterprise',
-        protected siteAttr: string = 'site',
-        protected upfAttr: string = 'upf',
-        protected CEPAttr: string = 'config-endpoint',
-        protected portAttr: string = 'port'
     ) {
         super(aetherService, bs, target, '/vcs-4.0.0', 'vcs');
     }
 
-    getSortedData(data) {
+    getSortedData(data: VcsVcs[]): VcsVcs[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -37,20 +31,16 @@ export class VcsDatasource extends RocDataSource<VcsVcs, Vcs> {
         return data.sort((a, b) => {
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
-                case 'port':
-                    return compare(a[this.portAttr], b[this.portAttr], isAsc);
-                case 'config-endpoint':
-                    return compare(a[this.CEPAttr], b[this.CEPAttr], isAsc);
                 case 'upf':
-                    return compare(a[this.upfAttr], b[this.upfAttr], isAsc);
+                    return compare(a.upf, b.upf, isAsc);
                 case 'site':
-                    return compare(a[this.siteAttr], b[this.siteAttr], isAsc);
+                    return compare(a.site, b.site, isAsc);
                 case 'default-behavior':
-                    return compare(a[this.DBAttr], b[this.DBAttr], isAsc);
+                    return compare(a["default-behavior"], b["default-behavior"], isAsc);
                 case 'enterprise':
                     return compare(
-                        a[this.enterpriseAttr],
-                        b[this.enterpriseAttr],
+                        a.enterprise,
+                        b.enterprise,
                         isAsc
                     );
                 default:

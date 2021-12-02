@@ -23,6 +23,8 @@ import {TrafficClass as TrafficClass400} from "../../../aether/4.0.0/models";
 import {Upf as Upf400} from "../../../aether/4.0.0/models";
 import {Vcs as Vcs400} from "../../../aether/4.0.0/models";
 
+export type RocElement = keyof Elements
+
 export interface Elements {
     'Ap-list-3.0.0'?: ApList300;
     'Application-3.0.0'?: Application300;

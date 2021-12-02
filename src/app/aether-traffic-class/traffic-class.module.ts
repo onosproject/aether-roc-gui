@@ -29,7 +29,6 @@ import { MatInputModule } from '@angular/material/input';
 import { TrafficClassEditComponent } from './traffic-class-edit/traffic-class-edit.component';
 import { AuthInterceptor } from '../auth-interceptor';
 import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
-import { TruncateTextPipe } from '../utils/truncate-text.pipe';
 import { UtilsModule } from '../utils/utils.module';
 import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
 

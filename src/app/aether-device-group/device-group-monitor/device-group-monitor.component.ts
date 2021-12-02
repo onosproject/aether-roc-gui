@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RocMonitorBase } from '../../roc-monitor-base';
 import {
     DeviceGroupDeviceGroupService,

@@ -16,8 +16,6 @@ export class ApiKeyComponent {
     @Input() expiry: Date;
     @Output() closeEvent = new EventEmitter<boolean>();
 
-    constructor() {}
-
     closeCard(): void {
         this.closeEvent.emit(true);
     }

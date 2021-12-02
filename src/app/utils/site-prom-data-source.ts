@@ -36,7 +36,7 @@ export interface PromResult {
 export class SitePromDataSource {
     constructor(private httpClient: HttpClient) {}
 
-    loadData(url): Observable<ResultItem> {
+    loadData(url: string): Observable<ResultItem> {
         return this.httpClient.get<PromResultData>(url).pipe(
             pluck('data'),
             mergeMap((items: PromResultData) => from(items.result))

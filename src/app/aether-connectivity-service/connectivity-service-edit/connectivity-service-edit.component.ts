@@ -19,7 +19,7 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class ConnectivityServiceEditComponent
-    extends RocEditBase<ConnectivityServiceConnectivityService>
+    extends RocEditBase
     implements OnInit
 {
     data: ConnectivityServiceConnectivityService;
@@ -72,7 +72,7 @@ export class ConnectivityServiceEditComponent
             bs,
             route,
             router,
-            'connectivity-service-4.0.0',
+            'Connectivity-service-4.0.0',
             'connectivity-service'
         );
         super.form = this.csForm;
@@ -130,9 +130,9 @@ export class ConnectivityServiceEditComponent
                     if (
                         this.pathRoot in basketPreview &&
                         this.pathListAttr in
-                            basketPreview['connectivity-service-4.0.0']
+                            basketPreview['Connectivity-service-4.0.0']
                     ) {
-                        basketPreview['connectivity-service-4.0.0'][
+                        basketPreview['Connectivity-service-4.0.0'][
                             'connectivity-service'
                         ].forEach((basketItems) => {
                             if (basketItems.id === id) {

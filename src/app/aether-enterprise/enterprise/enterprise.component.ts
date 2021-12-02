@@ -11,7 +11,7 @@ import { EnterpriseEnterprise } from '../../../openapi3/aether/4.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
 import { EnterpriseDatasource } from './enterprise-datasource';
 import { AETHER_TARGETS } from '../../../environments/environment';
-import { BasketService, ORIGINAL, TYPE } from '../../basket.service';
+import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { RocListBase } from '../../roc-list-base';
 
@@ -43,18 +43,18 @@ export class EnterpriseComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'enterprise-4.0.0',
+            'Enterprise-4.0.0',
             'enterprise'
         );
     }
 
-    onDataLoaded(ScopeOfDataSource): void {
+    onDataLoaded(ScopeOfDataSource: EnterpriseDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'enterprise-4.0.0' in basketPreview &&
-            'enterprise' in basketPreview['enterprise-4.0.0']
+            'Enterprise-4.0.0' in basketPreview &&
+            'enterprise' in basketPreview['Enterprise-4.0.0']
         ) {
-            basketPreview['enterprise-4.0.0'].enterprise.forEach(
+            basketPreview['Enterprise-4.0.0'].enterprise.forEach(
                 (basketItems) => {
                     ScopeOfDataSource.data.forEach(
                         (listItem, listItemCount) => {

@@ -18,15 +18,13 @@ export class ApplicationDatasource extends RocDataSource<
 > {
     constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
+        public bs: BasketService,
         protected target: string,
-        protected enterpriseAttr: string = 'enterprise',
-        protected addressAttr: string = 'address'
     ) {
         super(aetherService, bs, target, '/application-4.0.0', 'application');
     }
 
-    getSortedData(data) {
+    getSortedData(data: ApplicationApplication[]): ApplicationApplication[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -40,14 +38,14 @@ export class ApplicationDatasource extends RocDataSource<
             switch (this.sort.active) {
                 case 'address':
                     return compare(
-                        a[this.addressAttr],
-                        b[this.addressAttr],
+                        a.address,
+                        b.address,
                         isAsc
                     );
                 case 'enterprise':
                     return compare(
-                        a[this.enterpriseAttr],
-                        b[this.enterpriseAttr],
+                        a.enterprise,
+                        b.enterprise,
                         isAsc
                     );
                 default:

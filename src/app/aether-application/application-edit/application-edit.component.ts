@@ -37,6 +37,7 @@ import { EndPointParam } from '../endpoint-select/endpoint-select.component';
 import { Observable } from 'rxjs';
 import { Bandwidths } from '../../aether-template/template-edit/template-edit.component';
 import { map, startWith } from 'rxjs/operators';
+import {RocElement} from "../../../openapi3/top/level/models/elements";
 
 const ValidatePortRange: ValidatorFn = (
     control: AbstractControl
@@ -60,7 +61,7 @@ const ValidatePortRange: ValidatorFn = (
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class ApplicationEditComponent
-    extends RocEditBase<ApplicationApplication>
+    extends RocEditBase
     implements OnInit
 {
     protocolOptions = [{ name: 'UDP' }, { name: 'TCP' }];
@@ -70,7 +71,7 @@ export class ApplicationEditComponent
     readonly endpointLimit: number = 5;
     enterprises: Array<EnterpriseEnterprise>;
     trafficClassOptions: Array<TrafficClassTrafficClass>;
-    pathRoot = 'application-4.0.0';
+    pathRoot = 'Application-4.0.0' as RocElement;
     pathListAttr = 'application';
     applicationId: string;
     data: ApplicationApplication;
@@ -132,7 +133,7 @@ export class ApplicationEditComponent
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'application-4.0.0', 'application');
+        super(snackBar, bs, route, router, 'Application-4.0.0', 'application');
         super.form = this.appForm;
         super.loadFunc = this.loadApplicationApplication;
         this.appForm[REQDATTRIBS] = ['enterprise', 'address'];
@@ -149,7 +150,7 @@ export class ApplicationEditComponent
                 typeof value === 'number' ? value : value.megabyte
             ),
             map((megabyte) =>
-                megabyte ? this._filter(megabyte) : this.options.slice()
+                megabyte ? this._filter() : this.options.slice()
             )
         );
     }
@@ -231,9 +232,9 @@ export class ApplicationEditComponent
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['application-4.0.0']
+                        this.pathListAttr in basketPreview['Application-4.0.0']
                     ) {
-                        basketPreview['application-4.0.0'].application.forEach(
+                        basketPreview['Application-4.0.0'].application.forEach(
                             (basketItems) => {
                                 if (basketItems.id === id) {
                                     this.populateFormData(basketItems);
@@ -250,7 +251,7 @@ export class ApplicationEditComponent
             );
     }
 
-    private _filter(bandwidthIndex: number): Bandwidths[] {
+    private _filter(): Bandwidths[] {
         return this.options.filter((option) => option.megabyte.numerical);
     }
 

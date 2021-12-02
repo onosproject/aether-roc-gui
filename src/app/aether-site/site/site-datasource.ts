@@ -12,14 +12,13 @@ import { compare, RocDataSource } from '../../roc-data-source';
 export class SiteDatasource extends RocDataSource<SiteSite, Site> {
     constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
+        public bs: BasketService,
         protected target: string,
-        protected enterpriseAttr: string = 'enterprise'
     ) {
         super(aetherService, bs, target, '/site-4.0.0', 'site');
     }
 
-    getSortedData(data) {
+    getSortedData(data: SiteSite[]): SiteSite[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -33,8 +32,8 @@ export class SiteDatasource extends RocDataSource<SiteSite, Site> {
             switch (this.sort.active) {
                 case 'enterprise':
                     return compare(
-                        a[this.enterpriseAttr],
-                        b[this.enterpriseAttr],
+                        a.enterprise,
+                        b.enterprise,
                         isAsc
                     );
                 default:

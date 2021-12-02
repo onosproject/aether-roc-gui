@@ -52,18 +52,18 @@ export class TrafficClassComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'traffic-class-4.0.0',
+            'Traffic-class-4.0.0',
             'traffic-class'
         );
     }
 
-    onDataLoaded(ScopeOfDataSource): void {
+    onDataLoaded(ScopeOfDataSource: TrafficClassDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'traffic-class-4.0.0' in basketPreview &&
-            'traffic-class' in basketPreview['traffic-class-4.0.0']
+            'Traffic-class-4.0.0' in basketPreview &&
+            'traffic-class' in basketPreview['Traffic-class-4.0.0']
         ) {
-            basketPreview['traffic-class-4.0.0']['traffic-class'].forEach(
+            basketPreview['Traffic-class-4.0.0']['traffic-class'].forEach(
                 (basketItems) => {
                     ScopeOfDataSource.data.forEach(
                         (listItem, listItemCount) => {

@@ -178,7 +178,7 @@ export class VcsMonitorComponent
                     this.deviceGroups.set(dg, deviceGroups.get(dg.id));
                     this.getSite(dg.site);
                 },
-                (err) => console.warn('Error getting device-group')
+                (err) => console.warn('Error getting device-group', err)
             );
     }
 
@@ -201,7 +201,7 @@ export class VcsMonitorComponent
             )
             .subscribe(
                 (app) => this.applications.set(app, application.get(app.id)),
-                (err) => console.warn('Error getting application')
+                (err) => console.warn('Error getting application', err)
             );
     }
 
@@ -210,7 +210,7 @@ export class VcsMonitorComponent
             .getUpfUpf({ target: AETHER_TARGETS[0], id: upfID })
             .subscribe(
                 (upf: UpfUpf) => (this.upf = upf),
-                (err) => console.warn('Error in getting UPF')
+                (err) => console.warn('Error in getting UPF', err)
             );
     }
 
@@ -222,7 +222,7 @@ export class VcsMonitorComponent
             })
             .subscribe(
                 (tc: TrafficClassTrafficClass) => (this.trafficClass = tc),
-                (err) => console.warn('Error in getting Traffic Class')
+                (err) => console.warn('Error in getting Traffic Class', err)
             );
     }
 

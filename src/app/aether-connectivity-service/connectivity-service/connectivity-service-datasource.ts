@@ -18,7 +18,7 @@ export class ConnectivityServiceDatasource extends RocDataSource<
 > {
     constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
+        public bs: BasketService,
         protected target: string,
         protected coreEPAttr: string = 'core-5g-endpoint'
     ) {
@@ -30,7 +30,7 @@ export class ConnectivityServiceDatasource extends RocDataSource<
             'connectivity-service'
         );
     }
-    getSortedData(data) {
+    getSortedData(data: ConnectivityServiceConnectivityService[]): ConnectivityServiceConnectivityService[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

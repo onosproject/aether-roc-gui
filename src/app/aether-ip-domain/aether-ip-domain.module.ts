@@ -35,7 +35,6 @@ import { IpSelectorComponent } from '../ip-selector/ip-selector.component';
 import { NgxIpModule } from 'ngx-ip';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material/menu';
-import { TruncateTextPipe } from '../utils/truncate-text.pipe';
 import { UtilsModule } from '../utils/utils.module';
 import { ShowDeviceGroupUsageComponent } from './show-device-group-usage/show-device-group-usage.component';
 

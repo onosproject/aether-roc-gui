@@ -10,7 +10,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
 import { AETHER_TARGETS } from '../../../environments/environment';
-import { BasketService, ORIGINAL, TYPE } from '../../basket.service';
+import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { SiteDatasource } from './site-datasource';
 import { SiteSite } from '../../../openapi3/aether/4.0.0/models';
@@ -51,19 +51,19 @@ export class SiteComponent
         super(
             basketService,
             new SiteDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'site-4.0.0',
+            'Site-4.0.0',
             'site'
         );
         super.reqdAttr = ['enterprise'];
     }
 
-    onDataLoaded(ScopeOfDataSource): void {
+    onDataLoaded(ScopeOfDataSource: SiteDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'site-4.0.0' in basketPreview &&
-            'site' in basketPreview['site-4.0.0']
+            'Site-4.0.0' in basketPreview &&
+            'site' in basketPreview['Site-4.0.0']
         ) {
-            basketPreview['site-4.0.0'].site.forEach((basketItems) => {
+            basketPreview['Site-4.0.0'].site.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
