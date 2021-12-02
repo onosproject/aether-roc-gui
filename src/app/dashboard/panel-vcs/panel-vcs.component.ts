@@ -50,9 +50,6 @@ export class PanelVcsComponent
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<VcsVcs>;
-    prometheusTimer: any;
-    grafanaOrgIdTimer: any;
-    grafanaOrgIdRetry: number = 0;
     loginTokenTimer: any;
     panelUrl: string;
     grafanaOrgId: number = 1;
@@ -127,38 +124,9 @@ export class PanelVcsComponent
                 clearInterval(this.loginTokenTimer);
             }
         }, 10);
-
-        this.prometheusTimer = setInterval(
-            () =>
-                this.promData.loadData(vcsPromTags).subscribe(
-                    (resultItem) => {
-                        // Tag these new attributes on to the data in the main data source
-                        // associate it with the right VCS
-                        if (this.dataSource.data.length === 0) {
-                            clearInterval(this.prometheusTimer);
-                            console.log('No VCS to monitor');
-                            return;
-                        }
-                        this.dataSource.data.forEach((vcs) => {
-                            if (vcs[resultItem.metric.__name__] === undefined) {
-                                vcs[resultItem.metric.__name__] = {};
-                            }
-                            if (resultItem.metric.vcs_id === vcs.id) {
-                                vcs[resultItem.metric.__name__][vcs.id] =
-                                    resultItem.value[1];
-                                // console.log('Wrote ', resultItem.metric.__name__, vcs.id, resultItem.value[1]);
-                            }
-                        });
-                    },
-                    (err) => console.log('error polling ', err)
-                ),
-            2000
-        );
     }
 
     ngOnDestroy(): void {
-        clearInterval(this.prometheusTimer);
-        clearInterval(this.grafanaOrgIdTimer);
         clearInterval(this.loginTokenTimer);
     }
 
