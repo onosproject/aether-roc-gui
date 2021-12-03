@@ -337,7 +337,9 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
         if (this.isNewInstance) {
             const eachTemplate: TemplateTemplate = evt.value;
             const SdFormControl = this.vcsForm.get('sd');
-            SdFormControl.setValue(eachTemplate.sd.toString(16).toUpperCase());
+            SdFormControl.setValue(
+                eachTemplate.sd.toString(16).toUpperCase().padStart(6, '0')
+            );
             SdFormControl.markAsTouched();
             SdFormControl.markAsDirty();
             const SstFormControl = this.vcsForm.get('sst');
