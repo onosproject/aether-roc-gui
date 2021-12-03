@@ -60,8 +60,7 @@ export class ConnectivityServiceComponent
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
             this.pathRoot in basketPreview &&
-            'connectivity-service' in
-                basketPreview[this.pathRoot]
+            'connectivity-service' in basketPreview[this.pathRoot]
         ) {
             basketPreview['Connectivity-service-4.0.0'][
                 'connectivity-service'
