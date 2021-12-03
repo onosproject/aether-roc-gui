@@ -54,19 +54,19 @@ export class TemplateComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'template-4.0.0',
+            'Template-4.0.0',
             'template'
         );
         super.reqdAttr = ['default-behavior'];
     }
 
-    onDataLoaded(ScopeOfDataSource): void {
+    onDataLoaded(ScopeOfDataSource: TemplateDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'template-4.0.0' in basketPreview &&
-            'template' in basketPreview['template-4.0.0']
+            this.pathRoot in basketPreview &&
+            'template' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['template-4.0.0'].template.forEach((basketItems) => {
+            basketPreview['Template-4.0.0'].template.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -91,15 +91,16 @@ export class TemplateComponent
                                 'default-behavior'
                             ] = basketItems['default-behavior'];
                         }
-                        if (basketItems.device && basketItems.device.mbr) {
-                            ScopeOfDataSource.data[
-                                listItemCount
-                            ].device.mbr.uplink = basketItems.device.mbr.uplink;
-                            ScopeOfDataSource.data[
-                                listItemCount
-                            ].device.mbr.downlink =
-                                basketItems.device.mbr.downlink;
-                        }
+                        // FIXME
+                        // if (basketItems.device && basketItems.device.mbr) {
+                        //     ScopeOfDataSource.data[
+                        //         listItemCount
+                        //     ].device.mbr.uplink = basketItems.device.mbr.uplink;
+                        //     ScopeOfDataSource.data[
+                        //         listItemCount
+                        //     ].device.mbr.downlink =
+                        //         basketItems.device.mbr.downlink;
+                        // }
                         if (basketItems.slice && basketItems.slice.mbr) {
                             ScopeOfDataSource.data[
                                 listItemCount
@@ -123,7 +124,7 @@ export class TemplateComponent
             this.aetherService.getTemplate({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

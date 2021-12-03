@@ -14,7 +14,7 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { VcsVcs } from '../../../openapi3/aether/4.0.0/models';
+import { Vcs, VcsVcs } from '../../../openapi3/aether/4.0.0/models';
 import { RocListBase } from '../../roc-list-base';
 import {
     AETHER_TARGETS,
@@ -28,6 +28,7 @@ import { VcsPromDataSource } from '../../utils/vcs-prom-data-source';
 import { HttpClient } from '@angular/common/http';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { IdTokClaims } from '../../idtoken';
+import { RocDataSource } from '../../roc-data-source';
 
 const vcsPromTags = ['vcs_active', 'vcs_inactive', 'vcs_idle'];
 
@@ -82,14 +83,14 @@ export class PanelVcsComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'vcs-4.0.0',
+            'Vcs-4.0.0',
             'vcs'
         );
         super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise'];
         this.promData = new VcsPromDataSource(httpClient);
     }
 
-    onDataLoaded(ScopeOfDataSource): void {
+    onDataLoaded(ScopeOfDataSource: RocDataSource<VcsVcs, Vcs>): void {
         ScopeOfDataSource.data.forEach((vcs: VcsVcs) => {
             // Add the tag on to VCS. the data is filled in below
             vcsPromTags.forEach((tag: string) => (vcs[tag] = {}));

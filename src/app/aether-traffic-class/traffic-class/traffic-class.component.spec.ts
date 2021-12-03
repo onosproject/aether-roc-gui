@@ -42,7 +42,7 @@ describe('TrafficClassComponent', () => {
             providers: [
                 {
                     provide: ActivatedRoute,
-                    useValue: { paramMap: of({ get: (key) => 'value' }) },
+                    useValue: { paramMap: of({ get: () => 'value' }) },
                 },
             ],
         }).compileComponents();

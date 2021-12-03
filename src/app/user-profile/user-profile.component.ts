@@ -15,8 +15,6 @@ import { IdTokClaims } from '../idtoken';
 export class UserProfileComponent {
     @Output() closeEvent = new EventEmitter<boolean>();
 
-    constructor() {}
-
     get idTokClaims(): IdTokClaims {
         const idTokClaims = localStorage.getItem('id_token_claims_obj');
         if (idTokClaims !== null) {

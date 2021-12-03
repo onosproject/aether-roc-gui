@@ -16,17 +16,12 @@ export class IpDomainDatasource extends RocDataSource<
 > {
     constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
-        protected target: string,
-        protected subnetAttr: string = 'subnet',
-        protected AdminStatusAttr: string = 'admin-status',
-        protected mtuAttr: string = 'mtu',
-        protected dnnAttr: string = 'dnn',
-        protected enterpriseAttr: string = 'enterprise'
+        public bs: BasketService,
+        protected target: string
     ) {
         super(aetherService, bs, target, '/ip-domain-4.0.0', 'ip-domain');
     }
-    getSortedData(data) {
+    getSortedData(data: IpDomainIpDomain[]): IpDomainIpDomain[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -39,27 +34,15 @@ export class IpDomainDatasource extends RocDataSource<
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
                 case 'dnn':
-                    return compare(a[this.dnnAttr], b[this.dnnAttr], isAsc);
+                    return compare(a.dnn, b.dnn, isAsc);
                 case 'mtu':
-                    return compare(a[this.mtuAttr], b[this.mtuAttr], isAsc);
+                    return compare(a.mtu, b.mtu, isAsc);
                 case 'admin-status':
-                    return compare(
-                        a[this.AdminStatusAttr],
-                        b[this.AdminStatusAttr],
-                        isAsc
-                    );
+                    return compare(a['admin-status'], b['admin-status'], isAsc);
                 case 'subnet':
-                    return compare(
-                        a[this.subnetAttr],
-                        b[this.subnetAttr],
-                        isAsc
-                    );
+                    return compare(a.subnet, b.subnet, isAsc);
                 case 'enterprise':
-                    return compare(
-                        a[this.enterpriseAttr],
-                        b[this.enterpriseAttr],
-                        isAsc
-                    );
+                    return compare(a.enterprise, b.enterprise, isAsc);
                 default:
                     return 0;
             }

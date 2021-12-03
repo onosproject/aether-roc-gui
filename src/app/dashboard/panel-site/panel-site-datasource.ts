@@ -12,7 +12,7 @@ import { BasketService } from '../../basket.service';
 export class PanelSiteDatasource extends RocDataSource<SiteSite, Site> {
     constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
+        public bs: BasketService,
         protected target: string
     ) {
         super(aetherService, bs, target, '/site-v4.0.0', 'site');

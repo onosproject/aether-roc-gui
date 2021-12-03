@@ -20,21 +20,13 @@ import {
 import {
     AETHER_TARGETS,
     PERFORMANCE_METRICS_ENABLED,
-    PROMETHEUS_PROXY,
 } from '../../../environments/environment';
-import { filter } from 'rxjs/operators';
 import { SiteSite } from '../../../openapi3/aether/4.0.0/models';
 import { IdTokClaims } from '../../idtoken';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { SitePromDataSource } from '../../utils/site-prom-data-source';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subscriber } from 'rxjs';
-
-const sitePromTags = [
-    'aetheredge_e2e_tests_ok',
-    'aetheredge_in_maintenance_window',
-    'aetheredge_e2e_tests_down',
-];
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'aether-site-monitor',
@@ -92,18 +84,15 @@ export class SiteMonitorComponent
                     );
                     this.clusterAvailabilityPanelUrl =
                         this.generateClusterAvailabilityPanelUrl(
-                            this.grafanaOrgId,
-                            this.grafanaOrgName
+                            this.grafanaOrgId
                         );
                     this.agentAvailabilityPanelUrl =
                         this.generateAgentAvailabilityPanelUrl(
-                            this.grafanaOrgId,
-                            this.grafanaOrgName
+                            this.grafanaOrgId
                         );
                     this.smallCellConnectivityPanelUrl =
                         this.generateSmallCellConnectivityPanelUrl(
-                            this.grafanaOrgId,
-                            this.grafanaOrgName
+                            this.grafanaOrgId
                         );
                 },
                 (err) => console.warn('Site', this.id, 'not found.', err)
@@ -122,10 +111,7 @@ export class SiteMonitorComponent
         });
     }
 
-    generateClusterAvailabilityPanelUrl(
-        orgId: number,
-        orgName: string
-    ): string {
+    generateClusterAvailabilityPanelUrl(orgId: number): string {
         // This will show the Cluster metrics
         let baseUrl = `${this.grafanaUrl}/d-solo/site-availability/cluster-health?orgId=${orgId}&theme=light&panelId=1`;
 
@@ -135,7 +121,7 @@ export class SiteMonitorComponent
         return baseUrl;
     }
 
-    generateAgentAvailabilityPanelUrl(orgId: number, orgName: string): string {
+    generateAgentAvailabilityPanelUrl(orgId: number): string {
         // This will show the E2E metrics for tests, maintenance window, agent down
         let baseUrl = `${this.grafanaUrl}/d-solo/site-monitoring/e2e-tests?orgId=${orgId}&theme=light&panelId=1`;
 
@@ -150,10 +136,7 @@ export class SiteMonitorComponent
         return baseUrl;
     }
 
-    generateSmallCellConnectivityPanelUrl(
-        orgId: number,
-        orgName: string
-    ): string {
+    generateSmallCellConnectivityPanelUrl(orgId: number): string {
         // This will show the E2E metrics for tests, maintenance window, agent down
         let baseUrl = `${this.grafanaUrl}/d-solo/site-small-cell/enb-status?orgId=${orgId}&theme=light&panelId=1`;
 

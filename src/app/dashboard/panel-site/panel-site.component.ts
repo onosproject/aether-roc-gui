@@ -16,10 +16,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { SiteSite } from '../../../openapi3/aether/4.0.0/models';
 import { RocListBase } from '../../roc-list-base';
-import {
-    AETHER_TARGETS,
-    PROMETHEUS_PROXY,
-} from '../../../environments/environment';
+import { AETHER_TARGETS } from '../../../environments/environment';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
 import { BasketService } from '../../basket.service';
@@ -27,7 +24,6 @@ import { PanelSiteDatasource } from './panel-site-datasource';
 import { SitePromDataSource } from '../../utils/site-prom-data-source';
 import { HttpClient } from '@angular/common/http';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { IdTokClaims } from '../../idtoken';
 
 const sitePromTags = [
     'agentsSum',
@@ -77,13 +73,13 @@ export class PanelSiteComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'site-v4.0.0',
+            'Site-4.0.0',
             'site'
         );
         this.promData = new SitePromDataSource(httpClient);
     }
 
-    onDataLoaded(ScopeOfDataSource): void {
+    onDataLoaded(): void {
         console.log('Site Data Loaded');
     }
 
@@ -101,8 +97,7 @@ export class PanelSiteComponent
                     }),
                     this.onDataLoaded
                 );
-                const claims =
-                    this.oauthService.getIdentityClaims() as IdTokClaims;
+
                 // TODO: enhance this - it takes the last group, having all lower case as the Grafana Org.
                 clearInterval(this.loginTokenTimer);
             }

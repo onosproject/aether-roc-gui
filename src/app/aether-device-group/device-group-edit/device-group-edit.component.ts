@@ -88,10 +88,7 @@ const ValidateImsiRange: ValidatorFn = (
     templateUrl: './device-group-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class DeviceGroupEditComponent
-    extends RocEditBase<DeviceGroupDeviceGroup>
-    implements OnInit
-{
+export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     data: DeviceGroupDeviceGroup;
     ipdomain: Array<IpDomainIpDomain>;
     site: Array<SiteSite>;
@@ -180,7 +177,7 @@ export class DeviceGroupEditComponent
             bs,
             route,
             router,
-            'device-group-4.0.0',
+            'Device-group-4.0.0',
             'device-group'
         );
         super.form = this.deviceGroupForm;
@@ -211,7 +208,7 @@ export class DeviceGroupEditComponent
                 typeof value === 'number' ? value : value.megabyte
             ),
             map((megabyte) =>
-                megabyte ? this._filter(megabyte) : this.options.slice()
+                megabyte ? this._filter() : this.options.slice()
             )
         );
     }
@@ -226,7 +223,7 @@ export class DeviceGroupEditComponent
         );
     }
 
-    private _filter(bandwidthIndex: number): Bandwidths[] {
+    private _filter(): Bandwidths[] {
         return this.options.filter((option) => option.megabyte.numerical);
     }
 
@@ -265,7 +262,7 @@ export class DeviceGroupEditComponent
 
     deleteFromSelect(im: string): void {
         this.bs.deleteIndexedEntry(
-            '/device-group-4.0.0/device-group[id=' +
+            '/Device-group-4.0.0/device-group[id=' +
                 this.id +
                 ']/imsis[imsi-id=' +
                 im +
@@ -287,7 +284,7 @@ export class DeviceGroupEditComponent
 
     private ucmap(): Map<string, string> {
         const ucMap = new Map<string, string>();
-        const dgId = '/device-group-4.0.0/device-group[id=' + this.id + ']';
+        const dgId = '/Device-group-4.0.0/device-group[id=' + this.id + ']';
         let parentUc = localStorage.getItem(dgId);
         if (parentUc === null) {
             parentUc = this.deviceGroupForm[REQDATTRIBS];
@@ -345,7 +342,7 @@ export class DeviceGroupEditComponent
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/device-group-4.0.0/device-group[id=' +
+                            '/basket-delete/Device-group-4.0.0/device-group[id=' +
                                 value.id +
                                 ']/imsis[imsi-id='
                         )
@@ -468,9 +465,9 @@ export class DeviceGroupEditComponent
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['device-group-4.0.0']
+                        this.pathListAttr in basketPreview['Device-group-4.0.0']
                     ) {
-                        basketPreview['device-group-4.0.0'][
+                        basketPreview['Device-group-4.0.0'][
                             'device-group'
                         ].forEach((basketItems) => {
                             if (basketItems.id === id) {

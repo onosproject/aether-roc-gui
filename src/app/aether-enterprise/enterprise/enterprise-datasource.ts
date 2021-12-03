@@ -18,7 +18,7 @@ export class EnterpriseDatasource extends RocDataSource<
 > {
     constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
+        public bs: BasketService,
         protected target: string
     ) {
         super(aetherService, bs, target, '/enterprise-4.0.0', 'enterprise');

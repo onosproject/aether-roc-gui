@@ -104,7 +104,7 @@ export class SocketService {
                 (message) => message.heartbeat !== undefined
             );
             this.permanentSub = testObs.subscribe(
-                (hbVal) => null, // No need to log websockets - use browser debugger
+                () => null, // No need to log websockets - use browser debugger
                 (err) => throwError(err),
                 () => console.log('Closed web socket subscription')
             );
@@ -122,7 +122,7 @@ export class SocketService {
         }
     }
 
-    sendMessage(msg: any): void {
+    private sendMessage(msg: any): void {
         this.webSocketSubject.next(msg);
     }
 

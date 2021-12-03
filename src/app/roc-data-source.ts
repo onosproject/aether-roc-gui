@@ -8,7 +8,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Service as AetherService } from '../openapi3/aether/4.0.0/services';
-import { BasketService, REQDATTRIBS } from './basket.service';
+import { BasketService } from './basket.service';
 import { from, merge, Observable, of as observableOf } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
 
@@ -21,17 +21,52 @@ export function compare(
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
 
+// eg: VcsVcs
+export interface RocGenericModelType {
+    id: string;
+    description?: string;
+}
+
+// eg: Vcs
+export interface RocGenericContainerType {
+    [key: string]: string | RocGenericModelType[] | unknown;
+}
+
+export interface GenericRocDataSource<
+    T extends RocGenericModelType,
+    U extends RocGenericContainerType
+> {
+    connect(): Observable<T[]>;
+
+    disconnect(): void;
+
+    loadData(
+        dataSourceObservable: Observable<U>,
+        onDataLoaded: (
+            dataSourceThisScope: RocDataSource<RocGenericModelType, U>
+        ) => void
+    ): void;
+
+    delete(id: string): void;
+}
+
 // RocDataSource is an abstract class that extends data source
 // T is the type of list item e.g. ConnectivityServiceConnectivityService
 // U is the type of its parent e.g. ConnectivityService
-export abstract class RocDataSource<T, U> extends DataSource<T> {
+export abstract class RocDataSource<
+        T extends RocGenericModelType,
+        U extends RocGenericContainerType
+    >
+    extends DataSource<T>
+    implements GenericRocDataSource<T, U>
+{
     data: Array<T> = [];
     paginator: MatPaginator;
     sort: MatSort;
 
     protected constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
+        public bs: BasketService,
         protected target: string,
         protected pathRoot: string,
         protected pathListAttr: string,
@@ -67,7 +102,9 @@ export abstract class RocDataSource<T, U> extends DataSource<T> {
      *  Called when the table is being destroyed. Use this function, to clean up
      * any open connections or free any held resources that were set up during connect.
      */
-    disconnect(): void {}
+    disconnect(): void {
+        console.log('disconnect');
+    }
 
     private getPagedData(data: T[]): T[] {
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;

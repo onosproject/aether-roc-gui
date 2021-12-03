@@ -16,15 +16,13 @@ export class DeviceGroupDatasource extends RocDataSource<
 > {
     constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
-        protected target: string,
-        protected siteAttr: string = 'site',
-        protected IPDAttr: string = 'ip-domain'
+        public bs: BasketService,
+        protected target: string
     ) {
         super(aetherService, bs, target, '/device-group-4.0.0', 'device-group');
     }
 
-    getSortedData(data) {
+    getSortedData(data: DeviceGroupDeviceGroup[]): DeviceGroupDeviceGroup[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -36,16 +34,12 @@ export class DeviceGroupDatasource extends RocDataSource<
 
         return data.sort((a, b) => {
             const isAsc = this.sort.direction === 'asc';
-            console.log(a[this.IPDAttr], b[this.IPDAttr]);
+
             switch (this.sort.active) {
                 case 'ip-domain':
-                    return compare(a[this.IPDAttr], b[this.IPDAttr], isAsc);
+                    return compare(a['ip-domain'], b['ip-domain'], isAsc);
                 case 'site':
-                    return compare(a[this.siteAttr], b[this.siteAttr], isAsc);
-                case 'description':
-                    return super.getSortedData(data);
-                case 'id':
-                    return super.getSortedData(data);
+                    return compare(a.site, b.site, isAsc);
                 default:
                     return 0;
             }

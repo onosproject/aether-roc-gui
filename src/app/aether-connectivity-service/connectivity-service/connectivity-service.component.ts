@@ -51,19 +51,18 @@ export class ConnectivityServiceComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'connectivity-service-4.0.0',
+            'Connectivity-service-4.0.0',
             'connectivity-service'
         );
     }
 
-    onDataLoaded(ScopeOfDataSource: any): void {
+    onDataLoaded(ScopeOfDataSource: ConnectivityServiceDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'connectivity-service-4.0.0' in basketPreview &&
-            'connectivity-service' in
-                basketPreview['connectivity-service-4.0.0']
+            this.pathRoot in basketPreview &&
+            'connectivity-service' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['connectivity-service-4.0.0'][
+            basketPreview['Connectivity-service-4.0.0'][
                 'connectivity-service'
             ].forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
@@ -96,7 +95,7 @@ export class ConnectivityServiceComponent
             this.aetherService.getConnectivityService({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

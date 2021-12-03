@@ -10,13 +10,12 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
 import { AETHER_TARGETS } from '../../../environments/environment';
-import { BasketService, ORIGINAL, TYPE } from '../../basket.service';
+import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { VcsDatasource } from './vcs-datasource';
-import { VcsVcs } from '../../../openapi3/aether/4.0.0/models';
+import { Vcs, VcsVcs } from '../../../openapi3/aether/4.0.0/models';
 import { HexPipe } from '../../utils/hex.pipe';
-import { from, Observable } from 'rxjs';
-import { map, mergeMap, skipWhile } from 'rxjs/operators';
+import { RocDataSource } from '../../roc-data-source';
 
 @Component({
     selector: 'aether-vcs',
@@ -58,7 +57,7 @@ export class VcsComponent
         super(
             basketService,
             new VcsDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'vcs-4.0.0',
+            'Vcs-4.0.0',
             'vcs'
         );
         super.reqdAttr = [
@@ -70,13 +69,13 @@ export class VcsComponent
         ];
     }
 
-    onDataLoaded(ScopeOfDataSource): void {
+    onDataLoaded(ScopeOfDataSource: RocDataSource<VcsVcs, Vcs>): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'vcs-4.0.0' in basketPreview &&
-            'vcs' in basketPreview['vcs-4.0.0']
+            this.pathRoot in basketPreview &&
+            'vcs' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['vcs-4.0.0'].vcs.forEach((basketItems) => {
+            basketPreview['Vcs-4.0.0'].vcs.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -88,45 +87,45 @@ export class VcsComponent
                             ScopeOfDataSource.data[listItemCount].description =
                                 basketItems.description;
                         }
-                        if (basketItems.filter) {
-                            if (
-                                ScopeOfDataSource.data[listItemCount].filter
-                                    .length === 0
-                            ) {
-                                ScopeOfDataSource.data[
-                                    listItemCount
-                                ].filter.application =
-                                    basketItems.filter.application;
-                                ScopeOfDataSource.data[
-                                    listItemCount
-                                ].filter.priority = basketItems.filter.priority;
-                            } else {
-                                for (const eachBasketApp of basketItems.filter) {
-                                    let eachAppPosition = 0;
-                                    for (const eachScopeaApp of ScopeOfDataSource
-                                        .data[listItemCount].filter) {
-                                        if (
-                                            eachBasketApp.filter.application ===
-                                            eachScopeaApp.filter.application
-                                        ) {
-                                            ScopeOfDataSource.data[
-                                                listItemCount
-                                            ].filter.application[
-                                                eachAppPosition
-                                            ].enabled =
-                                                eachBasketApp.filter.enabled;
-                                            ScopeOfDataSource.data[
-                                                listItemCount
-                                            ].filter.application[
-                                                eachAppPosition
-                                            ].priority =
-                                                eachBasketApp.filter.priority;
-                                        }
-                                        eachAppPosition++;
-                                    }
-                                }
-                            }
-                        }
+                        // if (basketItems.filter) {
+                        //     if (
+                        //         ScopeOfDataSource.data[listItemCount].filter
+                        //             .length === 0
+                        //     ) {
+                        //         ScopeOfDataSource.data[
+                        //             listItemCount
+                        //         ].filter.application =
+                        //             basketItems.filter.application;
+                        //         ScopeOfDataSource.data[
+                        //             listItemCount
+                        //         ].filter.priority = basketItems.filter.priority;
+                        //     } else {
+                        //         for (const eachBasketApp of basketItems.filter) {
+                        //             let eachAppPosition = 0;
+                        //             for (const eachScopeaApp of ScopeOfDataSource
+                        //                 .data[listItemCount].filter) {
+                        //                 if (
+                        //                     eachBasketApp.filter.application ===
+                        //                     eachScopeaApp.filter.application
+                        //                 ) {
+                        //                     ScopeOfDataSource.data[
+                        //                         listItemCount
+                        //                     ].filter.application[
+                        //                         eachAppPosition
+                        //                     ].enabled =
+                        //                         eachBasketApp.filter.enabled;
+                        //                     ScopeOfDataSource.data[
+                        //                         listItemCount
+                        //                     ].filter.application[
+                        //                         eachAppPosition
+                        //                     ].priority =
+                        //                         eachBasketApp.filter.priority;
+                        //                 }
+                        //                 eachAppPosition++;
+                        //             }
+                        //         }
+                        //     }
+                        // }
                         if (basketItems.slice && basketItems.slice.mbr) {
                             ScopeOfDataSource.data[
                                 listItemCount
@@ -181,7 +180,7 @@ export class VcsComponent
                                                 listItemCount
                                             ]['device-group'][
                                                 eachCSPosition
-                                            ].enabled = eachBasketDg.enabled;
+                                            ].enable = eachBasketDg.enable;
                                         }
                                         eachCSPosition++;
                                     }
@@ -252,7 +251,7 @@ export class VcsComponent
             this.aetherService.getVcs({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

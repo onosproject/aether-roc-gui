@@ -51,19 +51,19 @@ export class ApplicationComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'application-4.0.0',
+            'Application-4.0.0',
             'application'
         );
         super.reqdAttr = ['enterprise', 'address'];
     }
 
-    onDataLoaded(ScopeOfDataSource: any): void {
+    onDataLoaded(ScopeOfDataSource: ApplicationDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'application-4.0.0' in basketPreview &&
-            'application' in basketPreview['application-4.0.0']
+            this.pathRoot in basketPreview &&
+            'application' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['application-4.0.0'].application.forEach(
+            basketPreview['Application-4.0.0'].application.forEach(
                 (basketItems) => {
                     ScopeOfDataSource.data.forEach(
                         (listItem, listItemCount) => {
@@ -136,7 +136,7 @@ export class ApplicationComponent
             this.aetherService.getApplication({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

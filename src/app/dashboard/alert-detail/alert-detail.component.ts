@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PromAlert } from '../panel-alerts/panel-alerts.component';
 
 @Component({
@@ -14,8 +14,6 @@ import { PromAlert } from '../panel-alerts/panel-alerts.component';
 export class AlertDetailComponent {
     @Input() alert: PromAlert;
     @Output() closeEvent = new EventEmitter<boolean>();
-
-    constructor() {}
 
     closeCard(): void {
         this.closeEvent.emit(true);

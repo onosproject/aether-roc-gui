@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import { Injectable, Input } from '@angular/core';
-import {
-    AbstractControl,
-    FormArray,
-    FormControl,
-    FormGroup,
-} from '@angular/forms';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { AETHER_TARGETS } from '../environments/environment';
 import { PatchBody } from '../openapi3/top/level/models';
 
@@ -44,8 +39,6 @@ export class BasketService {
     arrayCounter: number;
     pathCounter: number;
     profileIdPathCounter: number;
-
-    constructor() {}
 
     deleteIndexedEntry(
         path: string,
@@ -137,7 +130,7 @@ export class BasketService {
             }
             // If the control is not a FormGroup then we know it's a FormControl
         } else if (abstractControl instanceof FormArray) {
-            (abstractControl as FormArray).controls.forEach((item, idx) => {
+            (abstractControl as FormArray).controls.forEach((item) => {
                 // There should be an extra attribute 'idAttribs' set on the Form Array after creation defining what the keys IDs are
                 // There might be more than one key for a list
                 const pathIndices: string[] = [];
@@ -276,7 +269,7 @@ export class BasketService {
 
     recursePath(
         path: string[],
-        object: object,
+        object: unknown, // FIXME what type should object be?
         value: BasketValue,
         unchangedPath?: string[]
     ): void {

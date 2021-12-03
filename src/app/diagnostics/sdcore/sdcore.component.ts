@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {
     OpenPolicyAgentService,
@@ -26,7 +26,7 @@ export class SdcoreComponent {
         @Inject('sdcore-adapter-service') public sdcoreAdapter: string
     ) {}
 
-    synchronize() {
+    synchronize(): void {
         this.topLevelService
             .sdcorePushConfigTopLevel({
                 service: this.sdcoreAdapter,

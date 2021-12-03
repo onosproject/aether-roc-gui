@@ -12,9 +12,6 @@ import {
     TYPE,
 } from './basket.service';
 import { FormBuilder } from '@angular/forms';
-import arrayContaining = jasmine.arrayContaining;
-import localizeExtractLoader from '@angular-devkit/build-angular/src/extract-i18n/ivy-extract-loader';
-import { group } from '@angular/animations';
 
 describe('BasketService', () => {
     let service: BasketService;

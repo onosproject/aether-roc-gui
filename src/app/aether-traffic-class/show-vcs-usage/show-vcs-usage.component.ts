@@ -11,7 +11,7 @@ import {
     Output,
     ViewChild,
 } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';

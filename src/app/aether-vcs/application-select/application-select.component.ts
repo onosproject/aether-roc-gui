@@ -9,13 +9,11 @@ import {
     ApplicationApplicationService,
     Service,
 } from 'src/openapi3/aether/4.0.0/services';
-import { AETHER_TARGETS } from '../../../environments/environment';
 import {
     Application,
     ApplicationApplication,
 } from '../../../openapi3/aether/4.0.0/models';
 import { RocSelectBase } from '../../roc-select-base';
-import { EndPointParam } from '../../aether-application/endpoint-select/endpoint-select.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface SelectAppParam {

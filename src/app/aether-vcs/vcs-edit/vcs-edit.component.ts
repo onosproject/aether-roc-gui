@@ -3,14 +3,13 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
     VcsVcs,
     DeviceGroupDeviceGroup,
     UpfUpf,
-    AdditionalPropertyTarget,
     EnterpriseEnterprise,
     SiteSite,
     TemplateTemplate,
@@ -20,14 +19,7 @@ import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { from, Observable } from 'rxjs';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import {
-    map,
-    mergeMap,
-    skipWhile,
-    startWith,
-    tap,
-    filter,
-} from 'rxjs/operators';
+import { map, mergeMap, skipWhile, startWith } from 'rxjs/operators';
 import {
     VcsVcsService,
     Service as AetherService,
@@ -42,8 +34,7 @@ import {
 } from 'src/app/basket.service';
 import { HexPipe } from '../../utils/hex.pipe';
 import { SelectAppParam } from '../application-select/application-select.component';
-import has = Reflect.has;
-import { ApplicationDatasource } from '../../aether-application/application/application-datasource';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -59,7 +50,7 @@ interface BurstRate {
     templateUrl: './vcs-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
+export class VcsEditComponent extends RocEditBase implements OnInit {
     showApplicationDisplay: boolean = false;
     showDeviceGroupDisplay: boolean = false;
     showAddFilterButton: boolean = true;
@@ -96,7 +87,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
     defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL', 'ALLOW-PUBLIC'];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: VcsVcs;
-    pathRoot = 'vcs-4.0.0';
+    pathRoot = 'Vcs-4.0.0' as RocElement;
     pathListAttr = 'vcs';
     sdAsInt = HexPipe.hexAsInt;
 
@@ -188,7 +179,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'vcs-4.0.0', 'vcs');
+        super(snackBar, bs, route, router, 'Vcs-4.0.0', 'vcs');
         super.form = this.vcsForm;
         this.loadApplication(this.target);
         super.loadFunc = this.loadVcsVcs;
@@ -228,7 +219,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
                 typeof value === 'number' ? value : value.megabyte
             ),
             map((megabyte) =>
-                megabyte ? this._filter(megabyte) : this.options.slice()
+                megabyte ? this._filter() : this.options.slice()
             )
         );
     }
@@ -322,8 +313,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
         this.showDeviceGroupDisplay = false;
     }
 
-    private _filter(bandwidthIndex: number): Bandwidths[] {
-        const filterValue = bandwidthIndex;
+    private _filter(): Bandwidths[] {
         return this.options.filter((option) => option.megabyte.numerical);
     }
 
@@ -343,7 +333,7 @@ export class VcsEditComponent extends RocEditBase<VcsVcs> implements OnInit {
             );
     }
 
-    templateSelected(evt): void {
+    templateSelected(evt: { value: TemplateTemplate }): void {
         if (this.isNewInstance) {
             const eachTemplate: TemplateTemplate = evt.value;
             const SdFormControl = this.vcsForm.get('sd');

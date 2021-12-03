@@ -5,8 +5,16 @@
  */
 
 import { BasketService } from './basket.service';
+import { RocElement } from '../openapi3/top/level/models/elements';
+import {
+    GenericRocDataSource,
+    RocGenericContainerType,
+    RocGenericModelType,
+} from './roc-data-source';
 
-export abstract class RocListBase<T> {
+export abstract class RocListBase<
+    T extends GenericRocDataSource<RocGenericModelType, RocGenericContainerType>
+> {
     public dataSource: T;
     protected reqdAttr: string[] = [];
     public id: string;
@@ -15,7 +23,7 @@ export abstract class RocListBase<T> {
     protected constructor(
         protected bs: BasketService,
         datasource: T,
-        protected pathRoot: string,
+        public pathRoot: RocElement,
         protected pathListAttr: string,
         protected indexAttr: string = 'id'
     ) {
@@ -52,7 +60,6 @@ export abstract class RocListBase<T> {
             id,
             ucMap
         );
-        // @ts-ignore
         this.dataSource.delete(id);
     }
 
@@ -61,7 +68,7 @@ export abstract class RocListBase<T> {
         this.showUsageCard = true;
     }
 
-    closeShowParentCard(close: boolean): void {
+    closeShowParentCard(): void {
         this.showUsageCard = false;
     }
 }

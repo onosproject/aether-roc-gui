@@ -16,7 +16,7 @@ export class TrafficClassDatasource extends RocDataSource<
 > {
     constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
+        public bs: BasketService,
         protected target: string,
         protected pelrAttr: string = 'pelr',
         protected pdbAttr: string = 'pdb',
@@ -32,7 +32,9 @@ export class TrafficClassDatasource extends RocDataSource<
         );
     }
 
-    getSortedData(data) {
+    getSortedData(
+        data: TrafficClassTrafficClass[]
+    ): TrafficClassTrafficClass[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

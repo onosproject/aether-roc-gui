@@ -29,6 +29,7 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HexPipe } from '../../utils/hex.pipe';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 export interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -44,17 +45,14 @@ interface BurstRate {
     templateUrl: './template-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class TemplateEditComponent
-    extends RocEditBase<TemplateTemplate>
-    implements OnInit
-{
+export class TemplateEditComponent extends RocEditBase implements OnInit {
     // @ViewChild(MatTable) table: MatTable<Array<ConnectivityServiceRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
 
     sdAsInt = HexPipe.hexAsInt;
 
-    pathRoot = 'template-4.0.0';
+    pathRoot = 'Template-4.0.0' as RocElement;
     pathListAttr = 'template';
     trafficClass: Array<TrafficClassTrafficClass>;
     defaultBehaviorOpitons = ['DENY-ALL', 'ALLOW-ALL', 'ALLOW-PUBLIC'];
@@ -165,7 +163,7 @@ export class TemplateEditComponent
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'template-4.0.0', 'template');
+        super(snackBar, bs, route, router, 'Template-4.0.0', 'template');
         super.form = this.tempForm;
         super.loadFunc = this.loadTemplateTemplate;
         this.tempForm[REQDATTRIBS] = ['default-behavior'];
@@ -184,7 +182,7 @@ export class TemplateEditComponent
                 typeof value === 'number' ? value : value.megabyte
             ),
             map((megabyte) =>
-                megabyte ? this._filter(megabyte) : this.options.slice()
+                megabyte ? this._filter() : this.options.slice()
             )
         );
         this.tempForm.get('sd')[TYPE] = HEX2NUM;
@@ -197,8 +195,7 @@ export class TemplateEditComponent
             'number';
     }
 
-    private _filter(bandwidthIndex: number): Bandwidths[] {
-        const filterValue = bandwidthIndex;
+    private _filter(): Bandwidths[] {
         return this.options.filter((option) => option.megabyte.numerical);
     }
 
@@ -224,9 +221,9 @@ export class TemplateEditComponent
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['template-4.0.0']
+                        this.pathListAttr in basketPreview['Template-4.0.0']
                     ) {
-                        basketPreview['template-4.0.0'].template.forEach(
+                        basketPreview['Template-4.0.0'].template.forEach(
                             (basketItems) => {
                                 if (basketItems.id === id) {
                                     this.populateFormData(basketItems);

@@ -53,19 +53,19 @@ export class DeviceGroupComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'device-group-4.0.0',
+            'Device-group-4.0.0',
             'device-group'
         );
         super.reqdAttr = ['site'];
     }
 
-    onDataLoaded(ScopeOfDataSource): void {
+    onDataLoaded(ScopeOfDataSource: DeviceGroupDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'device-group-4.0.0' in basketPreview &&
-            'device-group' in basketPreview['device-group-4.0.0']
+            this.pathRoot in basketPreview &&
+            'device-group' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['device-group-4.0.0']['device-group'].forEach(
+            basketPreview['Device-group-4.0.0']['device-group'].forEach(
                 (basketItems) => {
                     ScopeOfDataSource.data
                         .filter((listItem) => basketItems.id === listItem.id)
@@ -87,25 +87,26 @@ export class DeviceGroupComponent
                                     ScopeOfDataSource.data[
                                         listItemCount
                                     ].imsis = basketItems.imsis;
-                                } else {
-                                    for (const eachBasketDG of basketItems.imsis) {
-                                        let eachDGPosition = 0;
-                                        for (const eachScopeDG of ScopeOfDataSource
-                                            .data[listItemCount].imsis) {
-                                            if (
-                                                eachBasketDG.imsis ===
-                                                eachScopeDG.imsis
-                                            ) {
-                                                ScopeOfDataSource.data[
-                                                    listItemCount
-                                                ].imsis[eachDGPosition][
-                                                    'imsi-id'
-                                                ] = eachBasketDG['imsi-id'];
-                                            }
-                                            eachDGPosition++;
-                                        }
-                                    }
-                                }
+                                } // else {
+                                // for (const eachBasketDG of basketItems.imsis) {
+                                // FIXME
+                                // let eachDGPosition = 0;
+                                // for (const eachScopeDG of ScopeOfDataSource
+                                //     .data[listItemCount].imsis) {
+                                //     if (
+                                //         eachBasketDG.imsis ===
+                                //         eachScopeDG.imsis
+                                //     ) {
+                                //         ScopeOfDataSource.data[
+                                //             listItemCount
+                                //         ].imsis[eachDGPosition][
+                                //             'imsi-id'
+                                //         ] = eachBasketDG['imsi-id'];
+                                //     }
+                                //     eachDGPosition++;
+                                // }
+                                // }
+                                // }
                             }
                             if (basketItems.device && basketItems.device.mbr) {
                                 ScopeOfDataSource.data[
@@ -139,7 +140,7 @@ export class DeviceGroupComponent
             this.aetherService.getDeviceGroup({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

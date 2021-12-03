@@ -10,7 +10,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
 import { AETHER_TARGETS } from '../../../environments/environment';
-import { BasketService, ORIGINAL, TYPE } from '../../basket.service';
+import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { UpfDatasource } from './upf-datasource';
 import { UpfUpf } from '../../../openapi3/aether/4.0.0/models';
@@ -49,19 +49,19 @@ export class UpfComponent
         super(
             basketService,
             new UpfDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'upf-4.0.0',
+            'Upf-4.0.0',
             'upf'
         );
         super.reqdAttr = ['enterprise', 'port', 'address', 'site'];
     }
 
-    onDataLoaded(ScopeOfDataSource): void {
+    onDataLoaded(ScopeOfDataSource: UpfDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'upf-4.0.0' in basketPreview &&
-            'upf' in basketPreview['upf-4.0.0']
+            this.pathRoot in basketPreview &&
+            'upf' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['upf-4.0.0'].upf.forEach((basketItems) => {
+            basketPreview['Upf-4.0.0'].upf.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
                     if (basketItems.id === listItem.id) {
                         if (basketItems['display-name']) {
@@ -108,7 +108,7 @@ export class UpfComponent
             this.aetherService.getUpf({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

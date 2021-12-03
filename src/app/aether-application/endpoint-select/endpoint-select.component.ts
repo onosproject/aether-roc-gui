@@ -111,7 +111,7 @@ export class EndpointSelectComponent {
                 typeof value === 'number' ? value : value.megabyte
             ),
             map((megabyte) =>
-                megabyte ? this._filter(megabyte) : this.options.slice()
+                megabyte ? this._filter() : this.options.slice()
             )
         );
     }
@@ -120,7 +120,7 @@ export class EndpointSelectComponent {
         return this.endpointForm.get(['mbr']) as FormGroup;
     }
 
-    private _filter(bandwidthIndex: number): Bandwidths[] {
+    private _filter(): Bandwidths[] {
         return this.options.filter((option) => option.megabyte.numerical);
     }
 

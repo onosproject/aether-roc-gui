@@ -19,7 +19,6 @@ import {
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { DeviceGroup } from '../../../openapi3/aether/4.0.0/models';
 import { RocSelectBase } from '../../roc-select-base';
-import { Observable } from 'rxjs';
 
 @Component({
     selector: 'aether-device-group-select',

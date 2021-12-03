@@ -3,15 +3,9 @@
  *
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
-import { Component, InjectionToken, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-    FormArray,
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
     Service as AetherService,
     SiteSiteService,
@@ -32,16 +26,17 @@ import {
     EnterpriseEnterprise,
 } from 'src/openapi3/aether/4.0.0/models';
 import { SmallCellParam } from '../small-cell-select/small-cell-select.component';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-site-edit',
     templateUrl: './site-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
+export class SiteEditComponent extends RocEditBase implements OnInit {
     enterprises: Array<EnterpriseEnterprise>;
     data: SiteSite;
-    pathRoot = 'site-4.0.0';
+    pathRoot = 'Site-4.0.0' as RocElement;
     pathListAttr = 'site';
     showConnectDisplay: boolean = false;
     showEdgeDeviceDisplay: boolean = false;
@@ -119,7 +114,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'site-4.0.0', 'site');
+        super(snackBar, bs, route, router, 'Site-4.0.0', 'site');
         super.form = this.siteForm;
         super.loadFunc = this.loadSiteSite;
         this.siteForm.get(['imsi-definition', 'enterprise'])[TYPE] = 'number';
@@ -172,9 +167,9 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['site-4.0.0']
+                        this.pathListAttr in basketPreview['Site-4.0.0']
                     ) {
-                        basketPreview['site-4.0.0'].site.forEach(
+                        basketPreview['Site-4.0.0'].site.forEach(
                             (basketItems) => {
                                 if (basketItems.id === id) {
                                     this.populateFormData(basketItems);
@@ -214,7 +209,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/site-4.0.0/site[id=' +
+                            '/basket-delete/Site-4.0.0/site[id=' +
                                 value.id +
                                 ']/small-cell[small-cell-id='
                         )
@@ -301,7 +296,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
                     Object.keys(localStorage)
                         .filter((checkerKey) =>
                             checkerKey.startsWith(
-                                '/basket-delete/site-4.0.0/site[id=' +
+                                '/basket-delete/Site-4.0.0/site[id=' +
                                     value.id +
                                     ']/monitoring/edge-device[edge-device-id='
                             )
@@ -462,8 +457,8 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
 
     deleteFromSelect(sc: string): void {
         this.bs.deleteIndexedEntry(
-            '/site-4.0.0/site[id=' +
-                this.id +
+            '/Site-4.0.0/site[id=' +
+                this.siteId +
                 ']/small-cell[small-cell-id=' +
                 sc +
                 ']',
@@ -485,8 +480,8 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
 
     deleteEDFromSelect(ed: string): void {
         this.bs.deleteIndexedEntry(
-            '/site-4.0.0/site[id=' +
-                this.id +
+            '/Site-4.0.0/site[id=' +
+                this.siteId +
                 ']/monitoring/edge-device[edge-device-id=' +
                 ed +
                 ']',
@@ -510,7 +505,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
 
     private edmap(ed: string): Map<string, string> {
         const edMap = new Map<string, string>();
-        const siteId = '/site-4.0.0/site[id=' + this.id + ']';
+        const siteId = '/Site-4.0.0/site[id=' + this.siteId + ']';
         let parentUc = localStorage.getItem(siteId);
         if (parentUc === null) {
             parentUc = this.siteForm[REQDATTRIBS];
@@ -537,7 +532,7 @@ export class SiteEditComponent extends RocEditBase<SiteSite> implements OnInit {
 
     private ucmap(sc: string): Map<string, string> {
         const ucMap = new Map<string, string>();
-        const siteId = '/site-4.0.0/site[id=' + this.id + ']';
+        const siteId = '/Site-4.0.0/site[id=' + this.siteId + ']';
         let parentUc = localStorage.getItem(siteId);
         if (parentUc === null) {
             parentUc = this.siteForm[REQDATTRIBS];

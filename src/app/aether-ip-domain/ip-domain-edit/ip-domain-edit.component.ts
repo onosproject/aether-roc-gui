@@ -29,10 +29,7 @@ export const UPDATED = 'updated';
     templateUrl: './ip-domain-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class IpDomainEditComponent
-    extends RocEditBase<IpDomainIpDomain>
-    implements OnInit
-{
+export class IpDomainEditComponent extends RocEditBase implements OnInit {
     ip: string;
     option: string;
     primCardDisplay: boolean = false;
@@ -112,7 +109,7 @@ export class IpDomainEditComponent
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'ip-domain-4.0.0', 'ip-domain');
+        super(snackBar, bs, route, router, 'Ip-domain-4.0.0', 'ip-domain');
         super.form = this.ipForm;
         super.loadFunc = this.loadIpDomainIpDomain;
         this.ipForm[REQDATTRIBS] = ['enterprise', 'subnet', 'dnn'];
@@ -228,9 +225,9 @@ export class IpDomainEditComponent
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['ip-domain-4.0.0']
+                        this.pathListAttr in basketPreview['Ip-domain-4.0.0']
                     ) {
-                        basketPreview['ip-domain-4.0.0']['ip-domain'].forEach(
+                        basketPreview['Ip-domain-4.0.0']['ip-domain'].forEach(
                             (basketItems) => {
                                 if (basketItems.id === id) {
                                     this.populateFormData(basketItems);

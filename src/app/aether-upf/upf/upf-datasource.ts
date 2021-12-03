@@ -12,16 +12,13 @@ import { compare, RocDataSource } from '../../roc-data-source';
 export class UpfDatasource extends RocDataSource<UpfUpf, Upf> {
     constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
-        protected target: string,
-        protected addressAttr: string = 'address',
-        protected enterpriseAttr: string = 'enterprise',
-        protected siteAttr: string = 'site'
+        public bs: BasketService,
+        protected target: string
     ) {
         super(aetherService, bs, target, '/upf-4.0.0', 'upf');
     }
 
-    getSortedData(data) {
+    getSortedData(data: UpfUpf[]): UpfUpf[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -34,19 +31,13 @@ export class UpfDatasource extends RocDataSource<UpfUpf, Upf> {
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
                 case 'site':
-                    return compare(a[this.siteAttr], b[this.siteAttr], isAsc);
+                    return compare(a.site, b.site, isAsc);
                 case 'enterprise':
-                    return compare(
-                        a[this.enterpriseAttr],
-                        b[this.enterpriseAttr],
-                        isAsc
-                    );
+                    return compare(a.enterprise, b.enterprise, isAsc);
                 case 'address':
-                    return compare(
-                        a[this.addressAttr],
-                        b[this.addressAttr],
-                        isAsc
-                    );
+                    return compare(a.address, b.address, isAsc);
+                case 'port':
+                    return compare(a.port, b.port, isAsc);
                 default:
                     return 0;
             }

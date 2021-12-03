@@ -21,7 +21,7 @@ import {
     UrlHelperService,
 } from 'angular-oauth2-oidc';
 import { GRAFANA_PROXY } from '../../../environments/environment';
-import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 describe('PanelAlertsComponent', () => {
     let component: PanelAlertsComponent;

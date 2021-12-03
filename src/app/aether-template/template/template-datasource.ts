@@ -18,16 +18,13 @@ export class TemplateDatasource extends RocDataSource<
 > {
     constructor(
         protected aetherService: AetherService,
-        protected bs: BasketService,
-        protected target: string,
-        protected DBAttr: string = 'default-behavior',
-        protected sdAttr: string = 'sd',
-        protected sstAttr: string = 'sst'
+        public bs: BasketService,
+        protected target: string
     ) {
         super(aetherService, bs, target, '/template-4.0.0', 'template');
     }
 
-    getSortedData(data) {
+    getSortedData(data: TemplateTemplate[]): TemplateTemplate[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -36,15 +33,19 @@ export class TemplateDatasource extends RocDataSource<
         ) {
             return super.getSortedData(data);
         }
-        return data.sort((a, b) => {
+        return data.sort((a: TemplateTemplate, b: TemplateTemplate) => {
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
                 case 'sst':
-                    return compare(a[this.sstAttr], b[this.sstAttr], isAsc);
+                    return compare(a.sst, b.sst, isAsc);
                 case 'sd':
-                    return compare(+a[this.sdAttr], +b[this.sdAttr], isAsc);
+                    return compare(+a.sd, +b.sd, isAsc);
                 case 'default-behavior':
-                    return compare(a[this.DBAttr], b[this.DBAttr], isAsc);
+                    return compare(
+                        a['default-behavior'],
+                        b['default-behavior'],
+                        isAsc
+                    );
                 default:
                     return 0;
             }
