@@ -60,8 +60,8 @@ export class SiteComponent
     onDataLoaded(ScopeOfDataSource: SiteDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'Site-4.0.0' in basketPreview &&
-            'site' in basketPreview['Site-4.0.0']
+            this.pathRoot in basketPreview &&
+            'site' in basketPreview[this.pathRoot]
         ) {
             basketPreview['Site-4.0.0'].site.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
@@ -157,7 +157,7 @@ export class SiteComponent
             this.aetherService.getSite({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

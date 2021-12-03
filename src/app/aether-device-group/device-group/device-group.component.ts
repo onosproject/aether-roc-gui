@@ -62,8 +62,8 @@ export class DeviceGroupComponent
     onDataLoaded(ScopeOfDataSource: DeviceGroupDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'Device-group-4.0.0' in basketPreview &&
-            'device-group' in basketPreview['Device-group-4.0.0']
+            this.pathRoot in basketPreview &&
+            'device-group' in basketPreview[this.pathRoot]
         ) {
             basketPreview['Device-group-4.0.0']['device-group'].forEach(
                 (basketItems) => {
@@ -140,7 +140,7 @@ export class DeviceGroupComponent
             this.aetherService.getDeviceGroup({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

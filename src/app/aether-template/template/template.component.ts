@@ -63,8 +63,8 @@ export class TemplateComponent
     onDataLoaded(ScopeOfDataSource: TemplateDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'Template-4.0.0' in basketPreview &&
-            'template' in basketPreview['Template-4.0.0']
+            this.pathRoot in basketPreview &&
+            'template' in basketPreview[this.pathRoot]
         ) {
             basketPreview['Template-4.0.0'].template.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
@@ -124,7 +124,7 @@ export class TemplateComponent
             this.aetherService.getTemplate({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

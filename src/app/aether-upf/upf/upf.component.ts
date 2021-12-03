@@ -58,8 +58,8 @@ export class UpfComponent
     onDataLoaded(ScopeOfDataSource: UpfDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'Upf-4.0.0' in basketPreview &&
-            'upf' in basketPreview['Upf-4.0.0']
+            this.pathRoot in basketPreview &&
+            'upf' in basketPreview[this.pathRoot]
         ) {
             basketPreview['Upf-4.0.0'].upf.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
@@ -108,7 +108,7 @@ export class UpfComponent
             this.aetherService.getUpf({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

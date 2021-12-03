@@ -63,8 +63,8 @@ export class IpDomainComponent
     onDataLoaded(ScopeOfDataSource: IpDomainDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'Ip-domain-4.0.0' in basketPreview &&
-            'ip-domain' in basketPreview['Ip-domain-4.0.0']
+            this.pathRoot in basketPreview &&
+            'ip-domain' in basketPreview[this.pathRoot]
         ) {
             basketPreview['Ip-domain-4.0.0']['ip-domain'].forEach(
                 (basketItems) => {
@@ -135,7 +135,7 @@ export class IpDomainComponent
             this.aetherService.getIpDomain({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

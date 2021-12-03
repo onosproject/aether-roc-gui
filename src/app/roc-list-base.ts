@@ -23,7 +23,7 @@ export abstract class RocListBase<
     protected constructor(
         protected bs: BasketService,
         datasource: T,
-        protected pathRoot: RocElement,
+        public pathRoot: RocElement,
         protected pathListAttr: string,
         protected indexAttr: string = 'id'
     ) {

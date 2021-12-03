@@ -60,8 +60,8 @@ export class TrafficClassComponent
     onDataLoaded(ScopeOfDataSource: TrafficClassDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'Traffic-class-4.0.0' in basketPreview &&
-            'traffic-class' in basketPreview['Traffic-class-4.0.0']
+            this.pathRoot in basketPreview &&
+            'traffic-class' in basketPreview[this.pathRoot]
         ) {
             basketPreview['Traffic-class-4.0.0']['traffic-class'].forEach(
                 (basketItems) => {
@@ -110,7 +110,7 @@ export class TrafficClassComponent
             this.aetherService.getTrafficClass({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

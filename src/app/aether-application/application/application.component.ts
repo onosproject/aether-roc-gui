@@ -136,7 +136,7 @@ export class ApplicationComponent
             this.aetherService.getApplication({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

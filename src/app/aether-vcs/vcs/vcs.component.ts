@@ -72,8 +72,8 @@ export class VcsComponent
     onDataLoaded(ScopeOfDataSource: RocDataSource<VcsVcs, Vcs>): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'Vcs-4.0.0' in basketPreview &&
-            'vcs' in basketPreview['Vcs-4.0.0']
+            this.pathRoot in basketPreview &&
+            'vcs' in basketPreview[this.pathRoot]
         ) {
             basketPreview['Vcs-4.0.0'].vcs.forEach((basketItems) => {
                 ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
@@ -251,7 +251,7 @@ export class VcsComponent
             this.aetherService.getVcs({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }

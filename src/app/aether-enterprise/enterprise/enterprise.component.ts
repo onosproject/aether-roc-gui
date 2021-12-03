@@ -51,8 +51,8 @@ export class EnterpriseComponent
     onDataLoaded(ScopeOfDataSource: EnterpriseDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
-            'Enterprise-4.0.0' in basketPreview &&
-            'enterprise' in basketPreview['Enterprise-4.0.0']
+            this.pathRoot in basketPreview &&
+            'enterprise' in basketPreview[this.pathRoot]
         ) {
             basketPreview['Enterprise-4.0.0'].enterprise.forEach(
                 (basketItems) => {
@@ -123,7 +123,7 @@ export class EnterpriseComponent
             this.aetherService.getEnterprise({
                 target: AETHER_TARGETS[0],
             }),
-            this.onDataLoaded
+            this.onDataLoaded.bind(this)
         );
     }
 }
