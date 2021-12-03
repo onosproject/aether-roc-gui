@@ -1,8 +1,38 @@
+# set default shell
+SHELL = bash -e -o pipefail
+
+# Variables
+VERSION                  ?= $(shell cat ./VERSION)
+
+## Docker related
+DOCKER_REGISTRY          ?=
+DOCKER_REPOSITORY        ?= onosproject/
+DOCKER_BUILD_ARGS        ?=
+DOCKER_TAG               ?= ${VERSION}
+DOCKER_IMAGENAME         := ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}aether-roc-gui:${DOCKER_TAG}
+
+## Docker labels. Only set ref and commit date if committed
+DOCKER_LABEL_VCS_URL     ?= $(shell git remote get-url $(shell git remote))
+DOCKER_LABEL_BUILD_DATE  ?= $(shell date -u "+%Y-%m-%dT%H:%M:%SZ")
+DOCKER_LABEL_COMMIT_DATE = $(shell git show -s --format=%cd --date=iso-strict HEAD)
+
+ifeq ($(shell git ls-files --others --modified --exclude-standard 2>/dev/null | wc -l | sed -e 's/ //g'),0)
+  DOCKER_LABEL_VCS_REF = $(shell git rev-parse HEAD)
+else
+  DOCKER_LABEL_VCS_REF = $(shell git rev-parse HEAD)+dirty
+endif
+
 .PHONY: build
 
-AETHER_ROC_GUI_VERSION := latest
+help:
+	@grep -E '^.*: *# *@HELP' $(MAKEFILE_LIST) \
+    | sort \
+    | awk ' \
+        BEGIN {FS = ": *# *@HELP"}; \
+        {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}; \
+    '
 
-build: # @HELP build the Web GUI and run all validations (default)
+build: # @HELP build the Web GUI and run all validations (on the host machine)
 build:
 	ng build --configuration production
 
@@ -38,10 +68,21 @@ openapi-gen: # @HELP compile the OpenAPI files in to Typescript
 
 aether-roc-gui-docker: # @HELP build aether-roc-gui Docker image
 	docker build . -f build/aether-roc-gui/Dockerfile \
-		-t onosproject/aether-roc-gui:${AETHER_ROC_GUI_VERSION}
+        --build-arg LOCAL_ONOSAPPS=$(LOCAL_ONOSAPPS) \
+        --build-arg org_label_schema_version="${VERSION}" \
+        --build-arg org_label_schema_vcs_url="${DOCKER_LABEL_VCS_URL}" \
+        --build-arg org_label_schema_vcs_ref="${DOCKER_LABEL_VCS_REF}" \
+        --build-arg org_label_schema_build_date="${DOCKER_LABEL_BUILD_DATE}" \
+        --build-arg org_opencord_vcs_commit_date="${DOCKER_LABEL_COMMIT_DATE}" \
+		-t ${DOCKER_IMAGENAME}
 
-images: # @HELP build all Docker images
-images: build aether-roc-gui-docker
+images: # @HELP build all Docker images (the build happens inside a docker container)
+images: aether-roc-gui-docker
+
+docker-build: aether-roc-gui-docker
+
+docker-push: # push to docker registy: use DOCKER_REGISTRY, DOCKER_REPOSITORY and DOCKER_TAG to customize
+	docker push ${DOCKER_IMAGENAME}
 
 kind: # @HELP build Docker images and add them to the currently configured kind cluster
 kind: images
@@ -55,11 +96,3 @@ publish: build images
 
 clean: # @HELP remove all the build artifacts
 	rm -rf ./dist ./node-modules
-
-help:
-	@grep -E '^.*: *# *@HELP' $(MAKEFILE_LIST) \
-    | sort \
-    | awk ' \
-        BEGIN {FS = ": *# *@HELP"}; \
-        {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}; \
-    '
