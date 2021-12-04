@@ -5,6 +5,8 @@ SHELL = bash -e -o pipefail
 VERSION                  ?= $(shell cat ./VERSION)
 
 ## Docker related
+DOCKER_USER              ?=
+DOCKER_PASSWORD          ?=
 DOCKER_REGISTRY          ?=
 DOCKER_REPOSITORY        ?= onosproject/
 DOCKER_BUILD_ARGS        ?=
@@ -82,6 +84,14 @@ images: aether-roc-gui-docker
 docker-build: aether-roc-gui-docker
 
 docker-push: # push to docker registy: use DOCKER_REGISTRY, DOCKER_REPOSITORY and DOCKER_TAG to customize
+ifdef DOCKER_USER
+ifdef DOCKER_PASSWORD
+	echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USER} --password-stdin
+else
+	@echo "DOCKER_USER is specified but DOCKER_PASSWORD is missing"
+	@exit 1
+endif
+endif
 	docker push ${DOCKER_IMAGENAME}
 
 kind: # @HELP build Docker images and add them to the currently configured kind cluster
