@@ -50,5 +50,10 @@ jobs:
         - stage: release
           if: type != pull_request && fork == false
           script:
-              - bash ./build/bin/push-images
+              # push images with tag latest
+              - DOCKER_TAG=latest make docker-build
+              - DOCKER_TAG=latest make docker-push
+              # push images with the same tag as defined
+              - make docker-build
+              - make docker-push
               - bash ../build-tools/release-merge-commit

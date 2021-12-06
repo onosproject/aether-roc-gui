@@ -5,6 +5,7 @@
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build",
+        "build:prod": "ng build --configuration production",
         "test": "ng test --browsers=ChromeHeadlessNoSandbox --watch=false",
         "lint": "prettier --check src && ng lint",
         "e2e": "ng e2e"
