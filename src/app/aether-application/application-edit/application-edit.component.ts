@@ -312,7 +312,6 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                 downlink: epMbrDownlinkcontrol,
             }),
         });
-        epGroupControl[REQDATTRIBS] = ['port-start'];
 
         (this.appForm.get('endpoint') as FormArray).push(epGroupControl);
         this.appForm.markAllAsTouched();
@@ -394,7 +393,6 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                                 downlink: epMbrDownlinkcontrol,
                             }),
                         });
-                        epGroupControl[REQDATTRIBS] = ['port-start'];
 
                         (this.appForm.get(['endpoint']) as FormArray).push(
                             epGroupControl
