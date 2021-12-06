@@ -14,7 +14,7 @@ DOCKER_TAG               ?= ${VERSION}
 DOCKER_IMAGENAME         := ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}aether-roc-gui:${DOCKER_TAG}
 
 ## Docker labels. Only set ref and commit date if committed
-DOCKER_LABEL_VCS_URL     ?= $(shell git remote get-url $(shell git remote))
+DOCKER_LABEL_VCS_URL     ?= $(shell git remote get-url $(shell git remote | head -n 1))
 DOCKER_LABEL_BUILD_DATE  ?= $(shell date -u "+%Y-%m-%dT%H:%M:%SZ")
 DOCKER_LABEL_COMMIT_DATE = $(shell git show -s --format=%cd --date=iso-strict HEAD)
 
