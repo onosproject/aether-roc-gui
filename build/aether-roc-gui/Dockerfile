@@ -24,7 +24,7 @@ RUN npm run build:prod
 
 # This stage moves the generated and minified code into the final image
 
-FROM nginx:alpine
+FROM nginx:1.21.4-alpine
 
 ENV KUBECTL_VERSION="v1.17.0"
 ENV CODE /var/www
