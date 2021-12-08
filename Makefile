@@ -10,7 +10,7 @@ DOCKER_PASSWORD          ?=
 DOCKER_REGISTRY          ?=
 DOCKER_REPOSITORY        ?= onosproject/
 DOCKER_BUILD_ARGS        ?=
-DOCKER_TAG               ?= ${VERSION}
+DOCKER_TAG               ?= latest
 DOCKER_IMAGENAME         := ${DOCKER_REGISTRY}${DOCKER_REPOSITORY}aether-roc-gui:${DOCKER_TAG}
 
 ## Docker labels. Only set ref and commit date if committed
@@ -42,7 +42,12 @@ test: # @HELP run the unit tests and source code validation
 test: deps build lint license_check
 	npm test
 
-jenkins-test: lint test
+jenkins-test: lint test # @HELP target used in Jenkins to run validation
+
+jenkins-publish: build-tools docker-build docker-push # @HELP target used in Jenkins to publish docker images
+
+build-tools: # @HELP install the build tools if needed
+	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
 
 coverage: # @HELP generate unit test coverage data
 coverage: deps build license_check test
