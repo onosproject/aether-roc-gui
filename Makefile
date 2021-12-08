@@ -36,7 +36,7 @@ help:
 
 build: # @HELP build the Web GUI and run all validations (on the host machine)
 build:
-	ng build --configuration production
+	npm run build:prod
 
 test: # @HELP run the unit tests and source code validation
 test: deps build lint license_check
