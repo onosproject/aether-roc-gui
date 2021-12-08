@@ -145,7 +145,7 @@ export class SiteMonitorComponent
 
         // Filter for ENBs
         this.thisSite['small-cell'].forEach((enb) => {
-            baseUrl += `&var-enb=${enb['small-cell-id']}`;
+            baseUrl += `&var-enb=${enb['display-name']}`;
         });
 
         return baseUrl;
