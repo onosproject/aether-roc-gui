@@ -106,3 +106,6 @@ publish: build images
 
 clean: # @HELP remove all the build artifacts
 	rm -rf ./dist ./node-modules
+
+foo:
+	@echo bar
