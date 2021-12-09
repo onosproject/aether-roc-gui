@@ -81,4 +81,15 @@
             <tr mat-row *matRowDef="let row; columns: displayColumns"></tr>
         </table>
     </mat-card-content>
+    <mat-card-actions class="field-margin">
+        <button
+            mat-raised-button
+            color="accent"
+            type="button"
+            (click)="keepCardOpen(false)"
+            id="cancelButton"
+        >
+            Close
+        </button>
+    </mat-card-actions>
 </mat-card>
