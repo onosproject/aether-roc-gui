@@ -18,7 +18,7 @@ DOCKER_LABEL_VCS_URL     ?= $(shell git remote get-url $(shell git remote | head
 DOCKER_LABEL_BUILD_DATE  ?= $(shell date -u "+%Y-%m-%dT%H:%M:%SZ")
 DOCKER_LABEL_COMMIT_DATE = $(shell git show -s --format=%cd --date=iso-strict HEAD)
 
-NODE                = docker run --rm --user $$(id -u):$$(id -g) -v ${CURDIR}:/app $(shell test -t 0 && echo "-it") weboaks/node-karma-protractor-chrome:debian-node14q
+NODE                = docker run --rm --user $$(id -u):$$(id -g) -v ${CURDIR}:/app $(shell test -t 0 && echo "-it") weboaks/node-karma-protractor-chrome:debian-node14
 
 ifeq ($(shell git ls-files --others --modified --exclude-standard 2>/dev/null | wc -l | sed -e 's/ //g'),0)
   DOCKER_LABEL_VCS_REF = $(shell git rev-parse HEAD)
