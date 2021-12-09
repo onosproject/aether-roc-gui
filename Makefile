@@ -48,6 +48,7 @@ jenkins-test: # @HELP target used in Jenkins to run validation (these tests run 
 	${NODE} bash -c "cd /app && NG_CLI_ANALYTICS=false npm install --cache /tmp/empty-cache && npm run lint && npm test && npm run build:prod"
 
 jenkins-publish: build-tools docker-build docker-push # @HELP target used in Jenkins to publish docker images
+	../build-tools/release-merge-commit
 
 build-tools: # @HELP install the build tools if needed
 	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
