@@ -128,12 +128,13 @@
         </ng-container>
 
         <!-- Delete Column -->
-        <ng-container matColumnDef="delete" id="deleteColumn">
+        <ng-container matColumnDef="usage/delete" id="deleteColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                Delete
+                Usage/Delete
             </th>
             <td mat-cell *matCellDef="let row">
                 <button
+                    *ngIf="!checkForUsage(row.id)"
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite('/upf/upf[id=' + row.id + ']')
@@ -144,16 +145,8 @@
                 >
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
-            </td>
-        </ng-container>
-
-        <!-- Usage Column -->
-        <ng-container matColumnDef="usage" id="usageColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                Usage
-            </th>
-            <td mat-cell *matCellDef="let row">
                 <button
+                    *ngIf="checkForUsage(row.id)"
                     mat-icon-button
                     id="usageButton"
                     (click)="showUsage(row.id)"

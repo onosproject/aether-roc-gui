@@ -36,8 +36,7 @@ export class TrafficClassComponent
         'arp',
         'qci',
         'edit',
-        'delete',
-        'usage',
+        'Usage/delete',
     ];
 
     constructor(
@@ -59,6 +58,44 @@ export class TrafficClassComponent
 
     onDataLoaded(ScopeOfDataSource: TrafficClassDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+        this.aetherService
+            .getDeviceGroup({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                displayData['device-group'].some((DGElement) => {
+                    ScopeOfDataSource.data.forEach((listItem) => {
+                        if (DGElement.device['traffic-class'] === listItem.id) {
+                            const displayParentModules = {
+                                id: listItem.id,
+                            };
+                            this.usageArray.push(displayParentModules);
+                        }
+                    });
+                });
+            });
+        this.aetherService
+            .getApplication({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                ScopeOfDataSource.data.forEach((listItem) => {
+                    displayData.application.forEach((appElement) => {
+                        appElement.endpoint.some((appEndpointElement) => {
+                            if (
+                                appEndpointElement['traffic-class'] ===
+                                listItem.id
+                            ) {
+                                const displayParentModules = {
+                                    id: listItem.id,
+                                };
+                                this.usageArray.push(displayParentModules);
+                            }
+                        });
+                    });
+                });
+            });
         if (
             this.pathRoot in basketPreview &&
             'traffic-class' in basketPreview[this.pathRoot]

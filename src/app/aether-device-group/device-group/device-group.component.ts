@@ -36,8 +36,7 @@ export class DeviceGroupComponent
         'ip-domain',
         'device',
         'edit',
-        'delete',
-        'usage',
+        'Usage/delete',
         'monitor',
     ];
 
@@ -61,6 +60,28 @@ export class DeviceGroupComponent
 
     onDataLoaded(ScopeOfDataSource: DeviceGroupDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+        this.aetherService
+            .getVcs({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                ScopeOfDataSource.data.forEach((listItem) => {
+                    if (
+                        displayData.vcs.some(
+                            (vcsElement) =>
+                                vcsElement['device-group']?.[0]?.[
+                                    'device-group'
+                                ] === listItem.id
+                        )
+                    ) {
+                        const displayParentModules = {
+                            id: listItem.id,
+                        };
+                        this.usageArray.push(displayParentModules);
+                    }
+                });
+            });
         if (
             this.pathRoot in basketPreview &&
             'device-group' in basketPreview[this.pathRoot]

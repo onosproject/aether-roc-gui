@@ -37,8 +37,7 @@ export class UpfComponent
         'config-endpoint',
         'port',
         'edit',
-        'delete',
-        'usage',
+        'usage/delete',
     ];
 
     constructor(
@@ -57,6 +56,25 @@ export class UpfComponent
 
     onDataLoaded(ScopeOfDataSource: UpfDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+        this.aetherService
+            .getVcs({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                ScopeOfDataSource.data.forEach((listItem) => {
+                    if (
+                        displayData.vcs.some(
+                            (vcsElement) => vcsElement.upf === listItem.id
+                        )
+                    ) {
+                        const displayParentModules = {
+                            id: listItem.id,
+                        };
+                        this.usageArray.push(displayParentModules);
+                    }
+                });
+            });
         if (
             this.pathRoot in basketPreview &&
             'upf' in basketPreview[this.pathRoot]

@@ -38,8 +38,7 @@ export class SiteComponent
         'enterpriseID',
         'format',
         'edit',
-        'delete',
-        'usage',
+        'Usage/delete',
         'monitor',
     ];
 
@@ -59,6 +58,55 @@ export class SiteComponent
 
     onDataLoaded(ScopeOfDataSource: SiteDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+        this.aetherService
+            .getDeviceGroup({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                ScopeOfDataSource.data.forEach((listItem) => {
+                    displayData['device-group'].some((deviceGroupElement) => {
+                        if (deviceGroupElement.site === listItem.id) {
+                            const displayParentModules = {
+                                id: listItem.id,
+                            };
+                            this.usageArray.push(displayParentModules);
+                        }
+                    });
+                });
+            });
+        this.aetherService
+            .getVcs({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                ScopeOfDataSource.data.forEach((listItem) => {
+                    displayData.vcs.some((VCSElement) => {
+                        if (VCSElement.site === listItem.id) {
+                            const displayParentModules = {
+                                id: listItem.id,
+                            };
+                            this.usageArray.push(displayParentModules);
+                        }
+                    });
+                });
+            });
+        this.aetherService
+            .getUpf({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                ScopeOfDataSource.data.forEach((listItem) => {
+                    displayData.upf.some((UPFElement) => {
+                        if (UPFElement.site === listItem.id) {
+                            const displayParentModules = {
+                                id: listItem.id,
+                            };
+                            this.usageArray.push(displayParentModules);
+                        }
+                    });
+                });
+            });
         if (
             this.pathRoot in basketPreview &&
             'site' in basketPreview[this.pathRoot]

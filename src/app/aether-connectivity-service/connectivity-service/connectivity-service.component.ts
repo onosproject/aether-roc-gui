@@ -35,8 +35,7 @@ export class ConnectivityServiceComponent
         'description',
         'core-5g-endpoint',
         'edit',
-        'delete',
-        'usage',
+        'Usage/delete',
     ];
 
     constructor(
@@ -58,6 +57,35 @@ export class ConnectivityServiceComponent
 
     onDataLoaded(ScopeOfDataSource: ConnectivityServiceDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+        this.aetherService
+            .getEnterprise({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                ScopeOfDataSource.data.forEach((listItem) => {
+                    displayData.enterprise.some((enterpirseElement) => {
+                        for (
+                            let i = 0;
+                            i <
+                            enterpirseElement['connectivity-service'].length;
+                            i++
+                        ) {
+                            if (
+                                enterpirseElement['connectivity-service']?.[
+                                    i
+                                ]?.['connectivity-service'] === listItem.id
+                            ) {
+                                const displayParentModules = {
+                                    id: listItem.id,
+                                };
+                                this.usageArray.push(displayParentModules);
+                            }
+                        }
+                    });
+                });
+            });
+
         if (
             this.pathRoot in basketPreview &&
             'connectivity-service' in basketPreview[this.pathRoot]

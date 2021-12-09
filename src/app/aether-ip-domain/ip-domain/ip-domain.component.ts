@@ -38,8 +38,7 @@ export class IpDomainComponent
         'mtu',
         'dnn',
         'edit',
-        'delete',
-        'usage',
+        'Usage/delete',
     ];
 
     constructor(
@@ -62,6 +61,26 @@ export class IpDomainComponent
 
     onDataLoaded(ScopeOfDataSource: IpDomainDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+        this.aetherService
+            .getDeviceGroup({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                ScopeOfDataSource.data.forEach((listItem) => {
+                    if (
+                        displayData['device-group'].some(
+                            (deviceGroupElement) =>
+                                deviceGroupElement['ip-domain'] === listItem.id
+                        )
+                    ) {
+                        const displayParentModules = {
+                            id: listItem.id,
+                        };
+                        this.usageArray.push(displayParentModules);
+                    }
+                });
+            });
         if (
             this.pathRoot in basketPreview &&
             'ip-domain' in basketPreview[this.pathRoot]

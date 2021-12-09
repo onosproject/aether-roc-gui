@@ -14,6 +14,7 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { ApplicationDatasource } from './application-datasource';
+import { displayedColumns } from '../show-vcs-usage/show-vcs-usage.component';
 
 @Component({
     selector: 'aether-application',
@@ -27,7 +28,6 @@ export class ApplicationComponent
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<ApplicationApplication>;
-
     displayedColumns = [
         'id',
         'description',
@@ -35,8 +35,7 @@ export class ApplicationComponent
         'address',
         'Endpoint',
         'edit',
-        'delete',
-        'usage',
+        'Usage/delete',
     ];
 
     constructor(
@@ -59,6 +58,27 @@ export class ApplicationComponent
 
     onDataLoaded(ScopeOfDataSource: ApplicationDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+        this.aetherService
+            .getVcs({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                ScopeOfDataSource.data.forEach((listItem) => {
+                    if (
+                        displayData.vcs.some(
+                            (applicationElement) =>
+                                applicationElement.filter?.[0]?.application ===
+                                listItem.id
+                        )
+                    ) {
+                        const displayParentModules = {
+                            id: listItem.id,
+                        };
+                        this.usageArray.push(displayParentModules);
+                    }
+                });
+            });
         if (
             this.pathRoot in basketPreview &&
             'application' in basketPreview[this.pathRoot]
@@ -128,7 +148,6 @@ export class ApplicationComponent
     }
 
     ngAfterViewInit(): void {
-        console.log(this.dataSource, 'this.dataSource');
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
