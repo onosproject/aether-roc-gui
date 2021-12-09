@@ -18,6 +18,8 @@ DOCKER_LABEL_VCS_URL     ?= $(shell git remote get-url $(shell git remote | head
 DOCKER_LABEL_BUILD_DATE  ?= $(shell date -u "+%Y-%m-%dT%H:%M:%SZ")
 DOCKER_LABEL_COMMIT_DATE = $(shell git show -s --format=%cd --date=iso-strict HEAD)
 
+NODE                = docker run --rm --user $$(id -u):$$(id -g) -v ${CURDIR}:/app $(shell test -t 0 && echo "-it") weboaks/node-karma-protractor-chrome:debian-node14q
+
 ifeq ($(shell git ls-files --others --modified --exclude-standard 2>/dev/null | wc -l | sed -e 's/ //g'),0)
   DOCKER_LABEL_VCS_REF = $(shell git rev-parse HEAD)
 else
@@ -42,7 +44,8 @@ test: # @HELP run the unit tests and source code validation
 test: deps build lint license_check
 	npm test
 
-jenkins-test: lint test # @HELP target used in Jenkins to run validation
+jenkins-test: # @HELP target used in Jenkins to run validation (these tests run in a docker container, only use on VM executors)
+	${NODE} bash -c "cd /app && NG_CLI_ANALYTICS=false npm install --cache /tmp/empty-cache && npm run lint && npm test && npm run build:prod"
 
 jenkins-publish: build-tools docker-build docker-push # @HELP target used in Jenkins to publish docker images
 
