@@ -108,9 +108,9 @@ kind: images
 	@if [ `kind get clusters` = '' ]; then echo "no kind cluster found" && exit 1; fi
 	kind load docker-image onosproject/aether-roc-gui:${AETHER_ROC_GUI_VERSION}
 
-all: build images
+all: images
 
-publish: build images
+publish:
 	./../build-tools/publish-version ${VERSION} onosproject/aether-roc-gui
 
 clean: # @HELP remove all the build artifacts
