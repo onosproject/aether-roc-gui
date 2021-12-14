@@ -82,7 +82,7 @@ export class SiteComponent
                         target: AETHER_TARGETS[0],
                     })
                     .subscribe((displayData) => {
-                        this.usageArray =  this.usageArray.concat(
+                        this.usageArray = this.usageArray.concat(
                             _.differenceWith(
                                 this.usageArray,
                                 displayData.vcs,
@@ -102,7 +102,7 @@ export class SiteComponent
                                 target: AETHER_TARGETS[0],
                             })
                             .subscribe((displayData) => {
-                                this.usageArray =  this.usageArray.concat(
+                                this.usageArray = this.usageArray.concat(
                                     _.differenceWith(
                                         this.usageArray,
                                         displayData.upf,
@@ -130,7 +130,7 @@ export class SiteComponent
                         if (basketItems['display-name']) {
                             ScopeOfDataSource.data[listItemCount][
                                 'display-name'
-                                ] = basketItems['display-name'];
+                            ] = basketItems['display-name'];
                         }
                         if (basketItems.description) {
                             ScopeOfDataSource.data[listItemCount].description =
@@ -144,15 +144,15 @@ export class SiteComponent
                             if (
                                 ScopeOfDataSource.data[listItemCount][
                                     'small-cell'
-                                    ].length === 0
+                                ].length === 0
                             ) {
                                 ScopeOfDataSource.data[listItemCount][
                                     'small-cell'
-                                    ] = basketItems['small-cell'];
+                                ] = basketItems['small-cell'];
                             } else {
                                 for (const eachBasketSC of basketItems[
                                     'small-cell'
-                                    ]) {
+                                ]) {
                                     let eachSCPosition = 0;
                                     for (const eachScopeSC of ScopeOfDataSource
                                         .data[listItemCount]['small-cell']) {
@@ -162,9 +162,9 @@ export class SiteComponent
                                         ) {
                                             ScopeOfDataSource.data[
                                                 listItemCount
-                                                ]['small-cell'][eachSCPosition][
+                                            ]['small-cell'][eachSCPosition][
                                                 'small-cell-id'
-                                                ] = eachBasketSC['small-cell-id'];
+                                            ] = eachBasketSC['small-cell-id'];
                                         }
                                         eachSCPosition++;
                                     }
@@ -177,7 +177,7 @@ export class SiteComponent
                         ) {
                             ScopeOfDataSource.data[listItemCount][
                                 'imsi-definition'
-                                ].mcc = basketItems['imsi-definition'].mcc;
+                            ].mcc = basketItems['imsi-definition'].mcc;
                         }
                         if (
                             basketItems['imsi-definition'] &&
@@ -185,7 +185,7 @@ export class SiteComponent
                         ) {
                             ScopeOfDataSource.data[listItemCount][
                                 'imsi-definition'
-                                ].mnc = basketItems['imsi-definition'].mnc;
+                            ].mnc = basketItems['imsi-definition'].mnc;
                         }
                         if (
                             basketItems['imsi-definition'] &&
@@ -193,7 +193,7 @@ export class SiteComponent
                         ) {
                             ScopeOfDataSource.data[listItemCount][
                                 'imsi-definition'
-                                ].enterprise =
+                            ].enterprise =
                                 basketItems['imsi-definition'].enterprise;
                         }
                         if (
@@ -202,7 +202,7 @@ export class SiteComponent
                         ) {
                             ScopeOfDataSource.data[listItemCount][
                                 'imsi-definition'
-                                ].format = basketItems['imsi-definition'].format;
+                            ].format = basketItems['imsi-definition'].format;
                         }
                     }
                 });
