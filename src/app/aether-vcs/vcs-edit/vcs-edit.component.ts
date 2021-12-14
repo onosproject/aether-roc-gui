@@ -84,7 +84,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
         { label: '1 MB', value: 1000000 },
     ];
 
-    defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL', 'ALLOW-PUBLIC'];
+    defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL'];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: VcsVcs;
     pathRoot = 'Vcs-4.0.0' as RocElement;
