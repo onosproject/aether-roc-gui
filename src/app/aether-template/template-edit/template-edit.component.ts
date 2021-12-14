@@ -55,7 +55,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
     pathRoot = 'Template-4.0.0' as RocElement;
     pathListAttr = 'template';
     trafficClass: Array<TrafficClassTrafficClass>;
-    defaultBehaviorOpitons = ['DENY-ALL', 'ALLOW-ALL', 'ALLOW-PUBLIC'];
+    defaultBehaviorOpitons = ['DENY-ALL', 'ALLOW-ALL'];
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
