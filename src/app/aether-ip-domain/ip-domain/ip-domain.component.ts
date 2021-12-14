@@ -14,6 +14,7 @@ import { Service as AetherService } from '../../../openapi3/aether/4.0.0/service
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'aether-ip-domain',
@@ -67,19 +68,18 @@ export class IpDomainComponent
                 target: AETHER_TARGETS[0],
             })
             .subscribe((displayData) => {
-                ScopeOfDataSource.data.forEach((listItem) => {
-                    if (
-                        displayData['device-group'].some(
-                            (deviceGroupElement) =>
-                                deviceGroupElement['ip-domain'] === listItem.id
-                        )
-                    ) {
-                        const displayParentModules = {
-                            id: listItem.id,
-                        };
-                        this.usageArray.push(displayParentModules);
-                    }
-                });
+                this.usageArray.push(
+                    _.differenceWith(
+                        ScopeOfDataSource.data,
+                        displayData['device-group'],
+                        function (ScopeOfDataSourceObject, displayDataObject) {
+                            return (
+                                ScopeOfDataSourceObject.id ===
+                                displayDataObject['ip-domain']
+                            );
+                        }
+                    )
+                );
             });
         if (
             this.pathRoot in basketPreview &&

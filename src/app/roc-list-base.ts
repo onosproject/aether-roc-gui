@@ -74,10 +74,10 @@ export abstract class RocListBase<
     }
 
     checkForUsage(ID: string): boolean {
-        return this.usageArray.some(
+        return this.usageArray?.[0]?.some(
             (applicationElement) => applicationElement.id === ID
         )
-            ? true
-            : false;
+            ? false
+            : true;
     }
 }

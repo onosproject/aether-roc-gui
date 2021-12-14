@@ -14,6 +14,7 @@ import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'aether-connectivity-service',
@@ -63,27 +64,25 @@ export class ConnectivityServiceComponent
                 target: AETHER_TARGETS[0],
             })
             .subscribe((displayData) => {
-                ScopeOfDataSource.data.forEach((listItem) => {
-                    displayData.enterprise.some((enterpirseElement) => {
-                        for (
-                            let i = 0;
-                            i <
-                            enterpirseElement['connectivity-service'].length;
-                            i++
-                        ) {
-                            if (
-                                enterpirseElement['connectivity-service']?.[
-                                    i
-                                ]?.['connectivity-service'] === listItem.id
-                            ) {
-                                const displayParentModules = {
-                                    id: listItem.id,
-                                };
-                                this.usageArray.push(displayParentModules);
-                            }
+                this.usageArray.push(
+                    _.differenceWith(
+                        ScopeOfDataSource.data,
+                        displayData.enterprise,
+                        function (ScopeOfDataSourceObject, displayDataObject) {
+                            return _.findIndex(
+                                displayDataObject['connectivity-service'],
+                                (filterElement) => {
+                                    return (
+                                        filterElement['connectivity-service'] ==
+                                        ScopeOfDataSourceObject.id
+                                    );
+                                }
+                            ) !== -1
+                                ? true
+                                : false;
                         }
-                    });
-                });
+                    )
+                );
             });
 
         if (

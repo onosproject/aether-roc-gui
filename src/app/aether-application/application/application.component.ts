@@ -14,7 +14,7 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { ApplicationDatasource } from './application-datasource';
-import { displayedColumns } from '../show-vcs-usage/show-vcs-usage.component';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'aether-application',
@@ -64,20 +64,25 @@ export class ApplicationComponent
                 target: AETHER_TARGETS[0],
             })
             .subscribe((displayData) => {
-                ScopeOfDataSource.data.forEach((listItem) => {
-                    if (
-                        displayData.vcs.some(
-                            (applicationElement) =>
-                                applicationElement.filter?.[0]?.application ===
-                                listItem.id
-                        )
-                    ) {
-                        const displayParentModules = {
-                            id: listItem.id,
-                        };
-                        this.usageArray.push(displayParentModules);
-                    }
-                });
+                this.usageArray.push(
+                    _.differenceWith(
+                        ScopeOfDataSource.data,
+                        displayData.vcs,
+                        function (ScopeOfDataSourceObject, displayDataObject) {
+                            return _.findIndex(
+                                displayDataObject.filter,
+                                (filterElement) => {
+                                    return (
+                                        filterElement.application ==
+                                        ScopeOfDataSourceObject.id
+                                    );
+                                }
+                            ) !== -1
+                                ? true
+                                : false;
+                        }
+                    )
+                );
             });
         if (
             this.pathRoot in basketPreview &&

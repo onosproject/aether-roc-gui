@@ -14,6 +14,7 @@ import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { UpfDatasource } from './upf-datasource';
 import { UpfUpf } from '../../../openapi3/aether/4.0.0/models';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'aether-upf',
@@ -62,18 +63,18 @@ export class UpfComponent
                 target: AETHER_TARGETS[0],
             })
             .subscribe((displayData) => {
-                ScopeOfDataSource.data.forEach((listItem) => {
-                    if (
-                        displayData.vcs.some(
-                            (vcsElement) => vcsElement.upf === listItem.id
-                        )
-                    ) {
-                        const displayParentModules = {
-                            id: listItem.id,
-                        };
-                        this.usageArray.push(displayParentModules);
-                    }
-                });
+                this.usageArray.push(
+                    _.differenceWith(
+                        ScopeOfDataSource.data,
+                        displayData.vcs,
+                        function (ScopeOfDataSourceObject, displayDataObject) {
+                            return (
+                                ScopeOfDataSourceObject.id ===
+                                displayDataObject.upf
+                            );
+                        }
+                    )
+                );
             });
         if (
             this.pathRoot in basketPreview &&

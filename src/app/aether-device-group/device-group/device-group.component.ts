@@ -14,6 +14,7 @@ import { BasketService } from '../../basket.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { DeviceGroupDatasource } from './device-group-datasource';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'aether-device-group',
@@ -66,21 +67,25 @@ export class DeviceGroupComponent
                 target: AETHER_TARGETS[0],
             })
             .subscribe((displayData) => {
-                ScopeOfDataSource.data.forEach((listItem) => {
-                    if (
-                        displayData.vcs.some(
-                            (vcsElement) =>
-                                vcsElement['device-group']?.[0]?.[
-                                    'device-group'
-                                ] === listItem.id
-                        )
-                    ) {
-                        const displayParentModules = {
-                            id: listItem.id,
-                        };
-                        this.usageArray.push(displayParentModules);
-                    }
-                });
+                this.usageArray.push(
+                    _.differenceWith(
+                        ScopeOfDataSource.data,
+                        displayData.vcs,
+                        function (ScopeOfDataSourceObject, displayDataObject) {
+                            return _.findIndex(
+                                displayDataObject['device-group'],
+                                (filterElement) => {
+                                    return (
+                                        filterElement['device-group'] ==
+                                        ScopeOfDataSourceObject.id
+                                    );
+                                }
+                            ) !== -1
+                                ? true
+                                : false;
+                        }
+                    )
+                );
             });
         if (
             this.pathRoot in basketPreview &&
