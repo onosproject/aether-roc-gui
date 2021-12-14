@@ -65,7 +65,7 @@ export class TrafficClassComponent
                 target: AETHER_TARGETS[0],
             })
             .subscribe((displayData) => {
-                this.usageArray.push(
+                this.usageArray = this.usageArray.concat(
                     _.differenceWith(
                         ScopeOfDataSource.data,
                         displayData['device-group'],
@@ -83,21 +83,18 @@ export class TrafficClassComponent
                 target: AETHER_TARGETS[0],
             })
             .subscribe((displayData) => {
-                ScopeOfDataSource.data.forEach((listItem) => {
-                    displayData.application.forEach((appElement) => {
-                        appElement.endpoint.some((appEndpointElement) => {
-                            if (
-                                appEndpointElement['traffic-class'] ===
-                                listItem.id
-                            ) {
-                                const displayParentModules = {
-                                    id: listItem.id,
-                                };
-                                this.usageArray.push(displayParentModules);
-                            }
-                        });
-                    });
-                });
+                this.usageArray = this.usageArray.concat(
+                    _.differenceWith(
+                        this.usageArray,
+                        displayData.application,
+                        function (ScopeOfDataSourceObject, displayDataObject) {
+                            return (
+                                ScopeOfDataSourceObject.id ===
+                                displayDataObject['traffic-class']
+                            );
+                        }
+                    )
+                );
             });
         if (
             this.pathRoot in basketPreview &&

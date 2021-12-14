@@ -68,7 +68,7 @@ export class IpDomainComponent
                 target: AETHER_TARGETS[0],
             })
             .subscribe((displayData) => {
-                this.usageArray.push(
+              this.usageArray = this.usageArray.concat(
                     _.differenceWith(
                         ScopeOfDataSource.data,
                         displayData['device-group'],

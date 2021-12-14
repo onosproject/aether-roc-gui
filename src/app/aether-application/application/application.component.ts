@@ -64,7 +64,7 @@ export class ApplicationComponent
                 target: AETHER_TARGETS[0],
             })
             .subscribe((displayData) => {
-                this.usageArray.push(
+                this.usageArray = this.usageArray.concat(
                     _.differenceWith(
                         ScopeOfDataSource.data,
                         displayData.vcs,
