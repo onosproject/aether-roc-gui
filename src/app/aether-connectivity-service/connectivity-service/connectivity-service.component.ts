@@ -14,6 +14,7 @@ import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'aether-connectivity-service',
@@ -35,8 +36,7 @@ export class ConnectivityServiceComponent
         'description',
         'core-5g-endpoint',
         'edit',
-        'delete',
-        'usage',
+        'Usage/delete',
     ];
 
     constructor(
@@ -58,6 +58,33 @@ export class ConnectivityServiceComponent
 
     onDataLoaded(ScopeOfDataSource: ConnectivityServiceDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+        this.aetherService
+            .getEnterprise({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                this.usageArray = this.usageArray.concat(
+                    _.differenceWith(
+                        ScopeOfDataSource.data,
+                        displayData.enterprise,
+                        function (ScopeOfDataSourceObject, displayDataObject) {
+                            return _.findIndex(
+                                displayDataObject['connectivity-service'],
+                                (filterElement) => {
+                                    return (
+                                        filterElement['connectivity-service'] ==
+                                        ScopeOfDataSourceObject.id
+                                    );
+                                }
+                            ) !== -1
+                                ? true
+                                : false;
+                        }
+                    )
+                );
+            });
+
         if (
             this.pathRoot in basketPreview &&
             'connectivity-service' in basketPreview[this.pathRoot]

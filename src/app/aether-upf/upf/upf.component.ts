@@ -14,6 +14,7 @@ import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { UpfDatasource } from './upf-datasource';
 import { UpfUpf } from '../../../openapi3/aether/4.0.0/models';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'aether-upf',
@@ -37,8 +38,7 @@ export class UpfComponent
         'config-endpoint',
         'port',
         'edit',
-        'delete',
-        'usage',
+        'usage/delete',
     ];
 
     constructor(
@@ -57,6 +57,25 @@ export class UpfComponent
 
     onDataLoaded(ScopeOfDataSource: UpfDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+        this.aetherService
+            .getVcs({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                this.usageArray = this.usageArray.concat(
+                    _.differenceWith(
+                        ScopeOfDataSource.data,
+                        displayData.vcs,
+                        function (ScopeOfDataSourceObject, displayDataObject) {
+                            return (
+                                ScopeOfDataSourceObject.id ===
+                                displayDataObject.upf
+                            );
+                        }
+                    )
+                );
+            });
         if (
             this.pathRoot in basketPreview &&
             'upf' in basketPreview[this.pathRoot]

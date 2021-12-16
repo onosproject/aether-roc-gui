@@ -18,6 +18,7 @@ export abstract class RocListBase<
     public dataSource: T;
     protected reqdAttr: string[] = [];
     public id: string;
+    public usageArray = [];
     public showUsageCard: boolean = false;
 
     protected constructor(
@@ -70,5 +71,13 @@ export abstract class RocListBase<
 
     closeShowParentCard(): void {
         this.showUsageCard = false;
+    }
+
+    checkForUsage(ID: string): boolean {
+        return this.usageArray?.some(
+            (applicationElement) => applicationElement.id === ID
+        )
+            ? false
+            : true;
     }
 }

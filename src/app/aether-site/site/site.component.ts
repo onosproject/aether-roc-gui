@@ -14,6 +14,7 @@ import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { SiteDatasource } from './site-datasource';
 import { SiteSite } from '../../../openapi3/aether/4.0.0/models';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'aether-site',
@@ -38,8 +39,7 @@ export class SiteComponent
         'enterpriseID',
         'format',
         'edit',
-        'delete',
-        'usage',
+        'Usage/delete',
         'monitor',
     ];
 
@@ -59,6 +59,67 @@ export class SiteComponent
 
     onDataLoaded(ScopeOfDataSource: SiteDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+        this.aetherService
+            .getDeviceGroup({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                this.usageArray = this.usageArray.concat(
+                    _.differenceWith(
+                        ScopeOfDataSource.data,
+                        displayData['device-group'],
+                        function (ScopeOfDataSourceObject, displayDataObject) {
+                            return (
+                                ScopeOfDataSourceObject.id ===
+                                displayDataObject.site
+                            );
+                        }
+                    )
+                );
+                this.aetherService
+                    .getVcs({
+                        target: AETHER_TARGETS[0],
+                    })
+                    .subscribe((displayData) => {
+                        this.usageArray = this.usageArray.concat(
+                            _.differenceWith(
+                                this.usageArray,
+                                displayData.vcs,
+                                function (
+                                    ScopeOfDataSourceObject,
+                                    displayDataObject
+                                ) {
+                                    return (
+                                        ScopeOfDataSourceObject.id ===
+                                        displayDataObject.site
+                                    );
+                                }
+                            )
+                        );
+                        this.aetherService
+                            .getUpf({
+                                target: AETHER_TARGETS[0],
+                            })
+                            .subscribe((displayData) => {
+                                this.usageArray = this.usageArray.concat(
+                                    _.differenceWith(
+                                        this.usageArray,
+                                        displayData.upf,
+                                        function (
+                                            ScopeOfDataSourceObject,
+                                            displayDataObject
+                                        ) {
+                                            return (
+                                                ScopeOfDataSourceObject.id ===
+                                                displayDataObject.site
+                                            );
+                                        }
+                                    )
+                                );
+                            });
+                    });
+            });
         if (
             this.pathRoot in basketPreview &&
             'site' in basketPreview[this.pathRoot]

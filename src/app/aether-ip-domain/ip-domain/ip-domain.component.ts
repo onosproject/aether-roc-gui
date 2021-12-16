@@ -14,6 +14,7 @@ import { Service as AetherService } from '../../../openapi3/aether/4.0.0/service
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'aether-ip-domain',
@@ -38,8 +39,7 @@ export class IpDomainComponent
         'mtu',
         'dnn',
         'edit',
-        'delete',
-        'usage',
+        'Usage/delete',
     ];
 
     constructor(
@@ -62,6 +62,25 @@ export class IpDomainComponent
 
     onDataLoaded(ScopeOfDataSource: IpDomainDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+        this.aetherService
+            .getDeviceGroup({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                this.usageArray = this.usageArray.concat(
+                    _.differenceWith(
+                        ScopeOfDataSource.data,
+                        displayData['device-group'],
+                        function (ScopeOfDataSourceObject, displayDataObject) {
+                            return (
+                                ScopeOfDataSourceObject.id ===
+                                displayDataObject['ip-domain']
+                            );
+                        }
+                    )
+                );
+            });
         if (
             this.pathRoot in basketPreview &&
             'ip-domain' in basketPreview[this.pathRoot]

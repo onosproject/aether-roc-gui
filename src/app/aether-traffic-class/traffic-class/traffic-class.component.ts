@@ -14,6 +14,7 @@ import { Service as AetherService } from '../../../openapi3/aether/4.0.0/service
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'aether-traffic-class',
@@ -36,8 +37,7 @@ export class TrafficClassComponent
         'arp',
         'qci',
         'edit',
-        'delete',
-        'usage',
+        'Usage/delete',
     ];
 
     constructor(
@@ -59,6 +59,43 @@ export class TrafficClassComponent
 
     onDataLoaded(ScopeOfDataSource: TrafficClassDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+        this.aetherService
+            .getDeviceGroup({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                this.usageArray = this.usageArray.concat(
+                    _.differenceWith(
+                        ScopeOfDataSource.data,
+                        displayData['device-group'],
+                        function (ScopeOfDataSourceObject, displayDataObject) {
+                            return (
+                                ScopeOfDataSourceObject.id ===
+                                displayDataObject.device['traffic-class']
+                            );
+                        }
+                    )
+                );
+            });
+        this.aetherService
+            .getApplication({
+                target: AETHER_TARGETS[0],
+            })
+            .subscribe((displayData) => {
+                this.usageArray = this.usageArray.concat(
+                    _.differenceWith(
+                        this.usageArray,
+                        displayData.application,
+                        function (ScopeOfDataSourceObject, displayDataObject) {
+                            return (
+                                ScopeOfDataSourceObject.id ===
+                                displayDataObject['traffic-class']
+                            );
+                        }
+                    )
+                );
+            });
         if (
             this.pathRoot in basketPreview &&
             'traffic-class' in basketPreview[this.pathRoot]
