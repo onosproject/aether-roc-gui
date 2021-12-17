@@ -24,6 +24,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { TemplateTemplate } from '../../../openapi3/aether/4.0.0/models/template-template';
+import { VcsVcs } from '../../../openapi3/aether/4.0.0/models/vcs-vcs';
 
 describe('VcsEditComponent', () => {
     let component: VcsEditComponent;
@@ -67,6 +68,83 @@ describe('VcsEditComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    describe('when loading data from the backend', () => {
+        it('should populate all the fields', () => {
+            const vcs: VcsVcs = {
+                'default-behavior': 'DENY-ALL',
+                description: 'Chicago Robots',
+                'device-group': [
+                    {
+                        'device-group': 'acme-chicago-robots',
+                        enable: true,
+                    },
+                ],
+                'display-name': 'Chicago Robots VCS',
+                enterprise: 'acme',
+                filter: [
+                    {
+                        allow: false,
+                        application: 'acme-dataacquisition',
+                    },
+                ],
+                id: 'acme-chicago-robots',
+                sd: 2973238,
+                site: 'acme-chicago',
+                slice: {
+                    mbr: {
+                        downlink: 5000000,
+                        'downlink-burst-size': 600000,
+                        uplink: 12,
+                        'uplink-burst-size': 13,
+                    },
+                },
+                sst: 79,
+                upf: 'acme-chicago-pool-entry1',
+            };
+
+            component.populateFormData(vcs);
+
+            expect(component.vcsForm.get('default-behavior').value).toEqual(
+                vcs['default-behavior']
+            );
+            expect(component.vcsForm.get('description').value).toEqual(
+                vcs['description']
+            );
+            expect(component.vcsForm.get('device-group').value).toEqual(
+                vcs['device-group']
+            );
+            expect(component.vcsForm.get('display-name').value).toEqual(
+                vcs['display-name']
+            );
+            expect(component.vcsForm.get('enterprise').value).toEqual(
+                vcs['enterprise']
+            );
+            expect(component.vcsForm.get(['filter', 0, 'allow']).value).toEqual(
+                vcs['filter'][0].allow
+            );
+            expect(component.vcsForm.get('sd').value).toEqual(
+                vcs.sd.toString(16).toUpperCase()
+            );
+            expect(component.vcsForm.get('site').value).toEqual(vcs['site']);
+            expect(
+                component.vcsForm.get(['slice', 'mbr', 'uplink']).value
+            ).toEqual(vcs.slice.mbr.uplink);
+            expect(
+                component.vcsForm.get(['slice', 'mbr', 'downlink']).value
+            ).toEqual(vcs.slice.mbr.downlink);
+            expect(
+                component.vcsForm.get(['slice', 'mbr', 'uplink-burst-size'])
+                    .value
+            ).toEqual(vcs.slice.mbr['uplink-burst-size']);
+            expect(
+                component.vcsForm.get(['slice', 'mbr', 'downlink-burst-size'])
+                    .value
+            ).toEqual(vcs.slice.mbr['downlink-burst-size']);
+            expect(component.vcsForm.get('sst').value).toEqual(vcs['sst']);
+            expect(component.vcsForm.get('upf').value).toEqual(vcs['upf']);
+        });
     });
 
     it('check Application Endpoint validation', () => {
