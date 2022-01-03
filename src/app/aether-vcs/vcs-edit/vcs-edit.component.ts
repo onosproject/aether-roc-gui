@@ -404,9 +404,9 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['vcs-4.0.0']
+                        this.pathListAttr in basketPreview[this.pathRoot]
                     ) {
-                        basketPreview['vcs-4.0.0'].vcs.forEach(
+                        basketPreview['Vcs-4.0.0'].vcs.forEach(
                             (basketItems) => {
                                 if (basketItems.id === id) {
                                     this.populateFormData(basketItems);
@@ -473,7 +473,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
         return ucMap;
     }
 
-    private populateFormData(value: VcsVcs): void {
+    public populateFormData(value: VcsVcs): void {
         if (value['display-name']) {
             this.vcsForm.get('display-name').setValue(value['display-name']);
             this.vcsForm.get('display-name')[ORIGINAL] = value['display-name'];
@@ -562,6 +562,18 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                 value.slice.mbr.uplink;
             this.vcsForm.get(['slice', 'mbr', 'downlink'])[ORIGINAL] =
                 value.slice.mbr.downlink;
+
+            this.vcsForm
+                .get(['slice', 'mbr', 'uplink-burst-size'])
+                .setValue(value.slice.mbr['uplink-burst-size']);
+            this.vcsForm
+                .get(['slice', 'mbr', 'downlink-burst-size'])
+                .setValue(value.slice.mbr['downlink-burst-size']);
+            this.vcsForm.get(['slice', 'mbr', 'uplink-burst-size'])[ORIGINAL] =
+                value.slice.mbr['uplink-burst-size'];
+            this.vcsForm.get(['slice', 'mbr', 'downlink-burst-size'])[
+                ORIGINAL
+            ] = value.slice.mbr['downlink-burst-size'];
         }
         if (value.enterprise) {
             this.vcsForm.get('enterprise').setValue(value.enterprise);
