@@ -66,10 +66,7 @@ export class TemplateComponent
             this.pathRoot in basketPreview &&
             'template' in basketPreview[this.pathRoot]
         ) {
-            ScopeOfDataSource.merge(
-                basketPreview['Template-4.0.0'].template,
-                []
-            );
+            ScopeOfDataSource.merge(basketPreview['Template-4.0.0'].template);
         }
     }
 

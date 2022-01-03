@@ -80,42 +80,7 @@ export class UpfComponent
             this.pathRoot in basketPreview &&
             'upf' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['Upf-4.0.0'].upf.forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
-                    if (basketItems.id === listItem.id) {
-                        if (basketItems['display-name']) {
-                            ScopeOfDataSource.data[listItemCount][
-                                'display-name'
-                            ] = basketItems['display-name'];
-                        }
-                        if (basketItems.description) {
-                            ScopeOfDataSource.data[listItemCount].description =
-                                basketItems.description;
-                        }
-                        if (basketItems.enterprise) {
-                            ScopeOfDataSource.data[listItemCount].enterprise =
-                                basketItems.enterprise;
-                        }
-                        if (basketItems.address) {
-                            ScopeOfDataSource.data[listItemCount].address =
-                                basketItems.address;
-                        }
-                        if (basketItems['site']) {
-                            ScopeOfDataSource.data[listItemCount]['site'] =
-                                basketItems['site'];
-                        }
-                        if (basketItems['config-endpoint']) {
-                            ScopeOfDataSource.data[listItemCount][
-                                'config-endpoint'
-                            ] = basketItems['config-endpoint'];
-                        }
-                        if (basketItems.port) {
-                            ScopeOfDataSource.data[listItemCount].port =
-                                basketItems.port;
-                        }
-                    }
-                });
-            });
+            ScopeOfDataSource.merge(basketPreview['Upf-4.0.0'].upf);
         }
     }
 

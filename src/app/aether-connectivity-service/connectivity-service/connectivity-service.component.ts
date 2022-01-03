@@ -89,28 +89,11 @@ export class ConnectivityServiceComponent
             this.pathRoot in basketPreview &&
             'connectivity-service' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['Connectivity-service-4.0.0'][
-                'connectivity-service'
-            ].forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
-                    if (basketItems.id === listItem.id) {
-                        if (basketItems['display-name']) {
-                            ScopeOfDataSource.data[listItemCount][
-                                'display-name'
-                            ] = basketItems['display-name'];
-                        }
-                        if (basketItems['core-5g-endpoint']) {
-                            ScopeOfDataSource.data[listItemCount][
-                                'core-5g-endpoint'
-                            ] = basketItems['core-5g-endpoint'];
-                        }
-                        if (basketItems.description) {
-                            ScopeOfDataSource.data[listItemCount].description =
-                                basketItems.description;
-                        }
-                    }
-                });
-            });
+            ScopeOfDataSource.merge(
+                basketPreview['Connectivity-service-4.0.0'][
+                    'connectivity-service'
+                ]
+            );
         }
     }
 

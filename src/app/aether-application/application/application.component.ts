@@ -88,66 +88,9 @@ export class ApplicationComponent
             this.pathRoot in basketPreview &&
             'application' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['Application-4.0.0'].application.forEach(
-                (basketItems) => {
-                    ScopeOfDataSource.data.forEach(
-                        (listItem, listItemCount) => {
-                            if (basketItems.id === listItem.id) {
-                                if (basketItems['display-name']) {
-                                    ScopeOfDataSource.data[listItemCount][
-                                        'display-name'
-                                    ] = basketItems['display-name'];
-                                }
-                                if (basketItems.description) {
-                                    ScopeOfDataSource.data[
-                                        listItemCount
-                                    ].description = basketItems.description;
-                                }
-                                if (basketItems.address) {
-                                    ScopeOfDataSource.data[
-                                        listItemCount
-                                    ].address = basketItems.address;
-                                }
-                                if (basketItems.enterprise) {
-                                    ScopeOfDataSource.data[
-                                        listItemCount
-                                    ].enterprise = basketItems.enterprise;
-                                }
-                                if (basketItems.endpoint) {
-                                    if (
-                                        ScopeOfDataSource.data[listItemCount]
-                                            .endpoint.length === 0
-                                    ) {
-                                        ScopeOfDataSource.data[
-                                            listItemCount
-                                        ].endpoint = basketItems.endpoint;
-                                    } else {
-                                        for (const eachBasketAPP of basketItems.endpoint) {
-                                            let eachAPPPosition = 0;
-                                            for (const eachScopeAPP of ScopeOfDataSource
-                                                .data[listItemCount].endpoint) {
-                                                if (
-                                                    eachBasketAPP.endpoint ===
-                                                    eachScopeAPP.endpoint
-                                                ) {
-                                                    ScopeOfDataSource.data[
-                                                        listItemCount
-                                                    ].endpoint[eachAPPPosition][
-                                                        'endpoint-id'
-                                                    ] =
-                                                        eachBasketAPP[
-                                                            'endpoint-id'
-                                                        ];
-                                                }
-                                                eachAPPPosition++;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    );
-                }
+            ScopeOfDataSource.merge(
+                basketPreview['Application-4.0.0'].application,
+                [{ fieldName: 'endpoint', idAttr: 'endpoint-id' }]
             );
         }
     }

@@ -124,89 +124,9 @@ export class SiteComponent
             this.pathRoot in basketPreview &&
             'site' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['Site-4.0.0'].site.forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
-                    if (basketItems.id === listItem.id) {
-                        if (basketItems['display-name']) {
-                            ScopeOfDataSource.data[listItemCount][
-                                'display-name'
-                            ] = basketItems['display-name'];
-                        }
-                        if (basketItems.description) {
-                            ScopeOfDataSource.data[listItemCount].description =
-                                basketItems.description;
-                        }
-                        if (basketItems.enterprise) {
-                            ScopeOfDataSource.data[listItemCount].enterprise =
-                                basketItems.enterprise;
-                        }
-                        if (basketItems['small-cell']) {
-                            if (
-                                ScopeOfDataSource.data[listItemCount][
-                                    'small-cell'
-                                ].length === 0
-                            ) {
-                                ScopeOfDataSource.data[listItemCount][
-                                    'small-cell'
-                                ] = basketItems['small-cell'];
-                            } else {
-                                for (const eachBasketSC of basketItems[
-                                    'small-cell'
-                                ]) {
-                                    let eachSCPosition = 0;
-                                    for (const eachScopeSC of ScopeOfDataSource
-                                        .data[listItemCount]['small-cell']) {
-                                        if (
-                                            eachBasketSC['small-cell'] ===
-                                            eachScopeSC['small-cell']
-                                        ) {
-                                            ScopeOfDataSource.data[
-                                                listItemCount
-                                            ]['small-cell'][eachSCPosition][
-                                                'small-cell-id'
-                                            ] = eachBasketSC['small-cell-id'];
-                                        }
-                                        eachSCPosition++;
-                                    }
-                                }
-                            }
-                        }
-                        if (
-                            basketItems['imsi-definition'] &&
-                            basketItems['imsi-definition'].mcc
-                        ) {
-                            ScopeOfDataSource.data[listItemCount][
-                                'imsi-definition'
-                            ].mcc = basketItems['imsi-definition'].mcc;
-                        }
-                        if (
-                            basketItems['imsi-definition'] &&
-                            basketItems['imsi-definition'].mnc
-                        ) {
-                            ScopeOfDataSource.data[listItemCount][
-                                'imsi-definition'
-                            ].mnc = basketItems['imsi-definition'].mnc;
-                        }
-                        if (
-                            basketItems['imsi-definition'] &&
-                            basketItems['imsi-definition'].enterprise
-                        ) {
-                            ScopeOfDataSource.data[listItemCount][
-                                'imsi-definition'
-                            ].enterprise =
-                                basketItems['imsi-definition'].enterprise;
-                        }
-                        if (
-                            basketItems['imsi-definition'] &&
-                            basketItems['imsi-definition'].format
-                        ) {
-                            ScopeOfDataSource.data[listItemCount][
-                                'imsi-definition'
-                            ].format = basketItems['imsi-definition'].format;
-                        }
-                    }
-                });
-            });
+            ScopeOfDataSource.merge(basketPreview['Site-4.0.0'].site, [
+                { fieldName: 'small-cell', idAttr: 'small-cell-id' },
+            ]);
         }
     }
 

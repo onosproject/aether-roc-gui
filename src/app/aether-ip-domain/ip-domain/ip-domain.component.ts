@@ -85,63 +85,8 @@ export class IpDomainComponent
             this.pathRoot in basketPreview &&
             'ip-domain' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['Ip-domain-4.0.0']['ip-domain'].forEach(
-                (basketItems) => {
-                    ScopeOfDataSource.data.forEach(
-                        (listItem, listItemCount) => {
-                            if (basketItems.id === listItem.id) {
-                                if (basketItems['display-name']) {
-                                    ScopeOfDataSource.data[listItemCount][
-                                        'display-name'
-                                    ] = basketItems['display-name'];
-                                }
-                                if (basketItems['dns-primary']) {
-                                    ScopeOfDataSource.data[listItemCount][
-                                        'dns-primary'
-                                    ] = basketItems['dns-primary'];
-                                }
-                                if (basketItems['dns-secondary']) {
-                                    ScopeOfDataSource.data[listItemCount][
-                                        'dns-secondary'
-                                    ] = basketItems['dns-secondary'];
-                                }
-                                if (basketItems.subnet) {
-                                    ScopeOfDataSource.data[
-                                        listItemCount
-                                    ].subnet = basketItems.subnet;
-                                }
-                                if (basketItems['admin-status']) {
-                                    ScopeOfDataSource.data[listItemCount][
-                                        'admin-status'
-                                    ] = basketItems['admin-status'];
-                                }
-                                if (basketItems.mtu) {
-                                    ScopeOfDataSource.data[listItemCount].mtu =
-                                        basketItems.mtu;
-                                }
-                                if (basketItems.dnn) {
-                                    ScopeOfDataSource.data[listItemCount].dnn =
-                                        basketItems.dnn;
-                                }
-                                if (basketItems.description) {
-                                    ScopeOfDataSource.data[
-                                        listItemCount
-                                    ].description = basketItems.description;
-                                }
-                                if (basketItems.enterprise) {
-                                    ScopeOfDataSource.data[
-                                        listItemCount
-                                    ].enterprise = basketItems.enterprise;
-                                }
-                                if (basketItems.filter) {
-                                    ScopeOfDataSource.data[
-                                        listItemCount
-                                    ].filter = basketItems.filter;
-                                }
-                            }
-                        }
-                    );
-                }
+            ScopeOfDataSource.merge(
+                basketPreview['Ip-domain-4.0.0']['ip-domain']
             );
         }
     }

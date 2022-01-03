@@ -100,41 +100,8 @@ export class TrafficClassComponent
             this.pathRoot in basketPreview &&
             'traffic-class' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['Traffic-class-4.0.0']['traffic-class'].forEach(
-                (basketItems) => {
-                    ScopeOfDataSource.data.forEach(
-                        (listItem, listItemCount) => {
-                            if (basketItems.id === listItem.id) {
-                                if (basketItems['display-name']) {
-                                    ScopeOfDataSource.data[listItemCount][
-                                        'display-name'
-                                    ] = basketItems['display-name'];
-                                }
-                                if (basketItems.description) {
-                                    ScopeOfDataSource.data[
-                                        listItemCount
-                                    ].description = basketItems.description;
-                                }
-                                if (basketItems.pelr) {
-                                    ScopeOfDataSource.data[listItemCount].pelr =
-                                        basketItems.pelr;
-                                }
-                                if (basketItems.pdb) {
-                                    ScopeOfDataSource.data[listItemCount].pdb =
-                                        basketItems.pdb;
-                                }
-                                if (basketItems.arp) {
-                                    ScopeOfDataSource.data[listItemCount].arp =
-                                        basketItems.arp;
-                                }
-                                if (basketItems.qci) {
-                                    ScopeOfDataSource.data[listItemCount].qci =
-                                        basketItems.qci;
-                                }
-                            }
-                        }
-                    );
-                }
+            ScopeOfDataSource.merge(
+                basketPreview['Traffic-class-4.0.0']['traffic-class']
             );
         }
     }

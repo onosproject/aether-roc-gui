@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+ */
+
 import { RocDataSource } from './roc-data-source';
 import { VcsVcs } from '../openapi3/aether/4.0.0/models/vcs-vcs';
 import { Vcs } from '../openapi3/aether/4.0.0/models/vcs';
@@ -88,7 +94,19 @@ describe('ROC Data Source', () => {
             expect(updatedVcs.site).toEqual(basketVcs.site);
             expect(updatedVcs.sst).toEqual(basketVcs.sst);
         });
-        it('should combine nested fields from the basket with basic fields in the datasource', () => {
+
+        it('should combine nested fields from the basked with nested fields in the datasource', () => {
+            component.data = existingItems;
+            component.merge(basketItems, [
+                { fieldName: 'filter', idAttr: 'application' },
+                { fieldName: 'device-group', idAttr: 'device-group' },
+            ]);
+            const updatedVcs = component.data[0];
+            const basketVcs = basketItems[0];
+            expect(updatedVcs.slice.mbr).toEqual(basketVcs.slice.mbr);
+        });
+
+        it('should combine nested list from the basket with nested lists in the datasource', () => {
             component.data = existingItems;
             component.merge(basketItems, [
                 { fieldName: 'filter', idAttr: 'application' },
