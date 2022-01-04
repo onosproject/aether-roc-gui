@@ -54,63 +54,14 @@ export class EnterpriseComponent
             this.pathRoot in basketPreview &&
             'enterprise' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['Enterprise-4.0.0'].enterprise.forEach(
-                (basketItems) => {
-                    ScopeOfDataSource.data.forEach(
-                        (listItem, listItemCount) => {
-                            if (basketItems.id === listItem.id) {
-                                if (basketItems['display-name']) {
-                                    ScopeOfDataSource.data[listItemCount][
-                                        'display-name'
-                                    ] = basketItems['display-name'];
-                                }
-                                if (basketItems.description) {
-                                    ScopeOfDataSource.data[
-                                        listItemCount
-                                    ].description = basketItems.description;
-                                }
-                                if (basketItems['connectivity-service']) {
-                                    if (
-                                        ScopeOfDataSource.data[listItemCount][
-                                            'connectivity-service'
-                                        ].length === 0
-                                    ) {
-                                        ScopeOfDataSource.data[listItemCount][
-                                            'connectivity-service'
-                                        ] = basketItems['connectivity-service'];
-                                    } else {
-                                        for (const eachBasketCS of basketItems[
-                                            'connectivity-service'
-                                        ]) {
-                                            let eachCSPosition = 0;
-                                            for (const eachScopeCS of ScopeOfDataSource
-                                                .data[listItemCount][
-                                                'connectivity-service'
-                                            ]) {
-                                                if (
-                                                    eachBasketCS[
-                                                        'connectivity-service'
-                                                    ] ===
-                                                    eachScopeCS[
-                                                        'connectivity-service'
-                                                    ]
-                                                ) {
-                                                    ScopeOfDataSource.data[
-                                                        listItemCount
-                                                    ]['connectivity-service'][
-                                                        eachCSPosition
-                                                    ].enabled =
-                                                        eachBasketCS.enabled;
-                                                }
-                                                eachCSPosition++;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    );
-                }
+            ScopeOfDataSource.merge(
+                basketPreview['Enterprise-4.0.0'].enterprise,
+                [
+                    {
+                        fieldName: 'connectivity-service',
+                        idAttr: 'connectivity-service',
+                    },
+                ]
             );
         }
     }

@@ -66,53 +66,7 @@ export class TemplateComponent
             this.pathRoot in basketPreview &&
             'template' in basketPreview[this.pathRoot]
         ) {
-            basketPreview['Template-4.0.0'].template.forEach((basketItems) => {
-                ScopeOfDataSource.data.forEach((listItem, listItemCount) => {
-                    if (basketItems.id === listItem.id) {
-                        if (basketItems['display-name']) {
-                            ScopeOfDataSource.data[listItemCount][
-                                'display-name'
-                            ] = basketItems['display-name'];
-                        }
-                        if (basketItems.description) {
-                            ScopeOfDataSource.data[listItemCount].description =
-                                basketItems.description;
-                        }
-                        if (basketItems.sd) {
-                            ScopeOfDataSource.data[listItemCount].sd =
-                                basketItems.sd;
-                        }
-                        if (basketItems.sst) {
-                            ScopeOfDataSource.data[listItemCount].sst =
-                                basketItems.sst;
-                        }
-                        if (basketItems['default-behavior']) {
-                            ScopeOfDataSource.data[listItemCount][
-                                'default-behavior'
-                            ] = basketItems['default-behavior'];
-                        }
-                        // FIXME
-                        // if (basketItems.device && basketItems.device.mbr) {
-                        //     ScopeOfDataSource.data[
-                        //         listItemCount
-                        //     ].device.mbr.uplink = basketItems.device.mbr.uplink;
-                        //     ScopeOfDataSource.data[
-                        //         listItemCount
-                        //     ].device.mbr.downlink =
-                        //         basketItems.device.mbr.downlink;
-                        // }
-                        if (basketItems.slice && basketItems.slice.mbr) {
-                            ScopeOfDataSource.data[
-                                listItemCount
-                            ].slice.mbr.uplink = basketItems.slice.mbr.uplink;
-                            ScopeOfDataSource.data[
-                                listItemCount
-                            ].slice.mbr.downlink =
-                                basketItems.slice.mbr.downlink;
-                        }
-                    }
-                });
-            });
+            ScopeOfDataSource.merge(basketPreview['Template-4.0.0'].template);
         }
     }
 
