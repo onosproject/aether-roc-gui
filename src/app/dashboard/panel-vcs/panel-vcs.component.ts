@@ -118,7 +118,7 @@ export class PanelVcsComponent
 
                 clearInterval(this.loginTokenTimer);
             }
-        }, 0);
+        }, 10);
 
         this.dataSource.loadData(
             this.aetherService.getVcs({
