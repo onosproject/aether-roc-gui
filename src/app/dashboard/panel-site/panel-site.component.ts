@@ -53,7 +53,6 @@ export class PanelSiteComponent
     @ViewChild(MatTable) table: MatTable<SiteSite>;
     prometheusTimer: any;
 
-    loadDataTimer: any;
     promData: SitePromDataSource;
 
     displayedColumns = ['id', 'description', 'agents', 'cluster', 'monitor'];
