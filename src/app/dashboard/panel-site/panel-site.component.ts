@@ -127,6 +127,5 @@ export class PanelSiteComponent
 
     ngOnDestroy(): void {
         clearInterval(this.prometheusTimer);
-        clearInterval(this.loadDataTimer);
     }
 }
