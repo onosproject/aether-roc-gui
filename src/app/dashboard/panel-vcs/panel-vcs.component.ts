@@ -104,7 +104,7 @@ export class PanelVcsComponent
         this.table.dataSource = this.dataSource;
 
         this.loginTokenTimer = setInterval(() => {
-            if(this.oauthService.hasValidIdToken()) {
+            if (this.oauthService.hasValidIdToken()) {
                 const claims =
                     this.oauthService.getIdentityClaims() as IdTokClaims;
                 // TODO: enhance this - it takes the last group, having all lower case as the Grafana Org.
