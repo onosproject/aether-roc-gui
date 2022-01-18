@@ -217,6 +217,13 @@
                             <button
                                 mat-icon-button
                                 color="accent"
+                                [disabled]="
+                                    !opaService.canWrite(
+                                        '/application/application[id=' +
+                                            id +
+                                            ']'
+                                    )
+                                "
                                 (click)="
                                     deleteFromSelect(
                                         endpointForm.value['endpoint-id']

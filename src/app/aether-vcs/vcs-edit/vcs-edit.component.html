@@ -388,6 +388,9 @@
             <!--UPF dropdown-->
             <div class="row">
                 <mat-form-field class="field-margin half-width">
+                    <mat-label *ngIf="upfs.length === 0"
+                        >No UPF available</mat-label
+                    >
                     <mat-select formControlName="upf" id="selectUpf">
                         <mat-option
                             *ngFor="let eachUpf of upfs"
