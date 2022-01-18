@@ -102,16 +102,9 @@ export class PanelVcsComponent
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        // Wait for token to be loaded
+
         this.loginTokenTimer = setInterval(() => {
             if (this.oauthService.hasValidIdToken()) {
-                console.log('Load items after token is loaded');
-                this.dataSource.loadData(
-                    this.aetherService.getVcs({
-                        target: AETHER_TARGETS[0],
-                    }),
-                    this.onDataLoaded
-                );
                 const claims =
                     this.oauthService.getIdentityClaims() as IdTokClaims;
                 // TODO: enhance this - it takes the last group, having all lower case as the Grafana Org.
@@ -122,9 +115,17 @@ export class PanelVcsComponent
                     this.grafanaOrgId,
                     this.grafanaOrgName
                 );
+
                 clearInterval(this.loginTokenTimer);
             }
         }, 10);
+
+        this.dataSource.loadData(
+            this.aetherService.getVcs({
+                target: AETHER_TARGETS[0],
+            }),
+            this.onDataLoaded.bind(this)
+        );
     }
 
     ngOnDestroy(): void {

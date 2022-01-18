@@ -53,7 +53,6 @@ export class PanelSiteComponent
     @ViewChild(MatTable) table: MatTable<SiteSite>;
     prometheusTimer: any;
 
-    loginTokenTimer: any;
     promData: SitePromDataSource;
 
     displayedColumns = ['id', 'description', 'agents', 'cluster', 'monitor'];
@@ -87,21 +86,13 @@ export class PanelSiteComponent
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        // Wait for token to be loaded
-        this.loginTokenTimer = setInterval(() => {
-            if (this.oauthService.hasValidIdToken()) {
-                console.log('Load items after token is loaded');
-                this.dataSource.loadData(
-                    this.aetherService.getSite({
-                        target: AETHER_TARGETS[0],
-                    }),
-                    this.onDataLoaded
-                );
 
-                // TODO: enhance this - it takes the last group, having all lower case as the Grafana Org.
-                clearInterval(this.loginTokenTimer);
-            }
-        }, 10);
+        this.dataSource.loadData(
+            this.aetherService.getSite({
+                target: AETHER_TARGETS[0],
+            }),
+            this.onDataLoaded.bind(this)
+        );
 
         this.prometheusTimer = setInterval(() => {
             if (this.dataSource.data.length === 0) {
@@ -136,6 +127,5 @@ export class PanelSiteComponent
 
     ngOnDestroy(): void {
         clearInterval(this.prometheusTimer);
-        clearInterval(this.loginTokenTimer);
     }
 }
