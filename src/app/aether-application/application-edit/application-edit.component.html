@@ -219,9 +219,7 @@
                                 color="accent"
                                 [disabled]="
                                     !opaService.canWrite(
-                                        '/application/application[id=' +
-                                            id +
-                                            ']'
+                                        '/application/application[id=${id}]'
                                     )
                                 "
                                 (click)="
