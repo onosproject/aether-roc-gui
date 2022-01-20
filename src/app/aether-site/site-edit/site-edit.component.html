@@ -129,7 +129,7 @@
                             color="accent"
                             [disabled]="
                                 !opaService.canWrite(
-                                    '/site/site[id=${id}]'
+                                    '/site/site[id=' + id + ']'
                                 )
                             "
                             (click)="
@@ -213,7 +213,7 @@
                                 color="accent"
                                 [disabled]="
                                     !opaService.canWrite(
-                                        '/site/site[id=${id}]'
+                                        '/site/site[id=' + id + ']'
                                     )
                                 "
                                 (click)="
