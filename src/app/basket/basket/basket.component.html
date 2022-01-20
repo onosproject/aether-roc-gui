@@ -34,7 +34,7 @@
             type="submit"
             aria-label="Check History"
             id="TransactionButton"
-            [disabled]="!opaService.canWrite(undefined)"
+            *ngIf="!opaService.canWrite(undefined)"
             (click)="checkHistory()"
         >
             History
