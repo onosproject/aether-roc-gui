@@ -127,8 +127,13 @@ $content-height: 320px;
 
 .transaction-list-path {
     overflow: scroll;
-    height: 90px;
+    height: 85px;
 }
 .transaction-list-change {
     border-bottom: 2px solid;
+}
+.trasaction-List-Table {
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
 }

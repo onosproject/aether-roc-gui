@@ -3,7 +3,7 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<mat-card class="card mat-elevation-z8" (click)="closeCard()">
+<mat-card class="card mat-elevation-z8">
     <mat-card-header class="header">
         <mat-card-title class="subheading-1 title"
             >Transaction List</mat-card-title
@@ -13,6 +13,7 @@
         <table
             mat-table
             matSort
+            class="trasaction-List-Table"
             aria-label="Elements"
             id="TransactionListTable"
         >
@@ -29,27 +30,6 @@
                 </th>
                 <td mat-cell *matCellDef="let row" [title]="row.username">
                     {{ row.username }}
-                </td>
-            </ng-container>
-
-            <!--  Changes Column-->
-            <ng-container matColumnDef="changes" id="ValueColumn">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                    Changes
-                </th>
-                <td mat-cell *matCellDef="let row">
-                    <div class="transaction-list-path">
-                        <div
-                            class="transaction-list-change"
-                            *ngFor="let change of row.changes[0].values"
-                        >
-                            <p>Path: {{ change["path"] }}</p>
-                            <p>
-                                Removed: {{ change["removed"] }} Value:
-                                {{ change["value"] }}
-                            </p>
-                        </div>
-                    </div>
                 </td>
             </ng-container>
 
@@ -74,6 +54,52 @@
                 </td>
             </ng-container>
 
+            <!--  Changes Column-->
+            <ng-container matColumnDef="changes" id="ValueColumn">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
+                    Changes
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <div
+                        *ngIf="showTransactionDetails(row.id)"
+                        class="transaction-list-path"
+                    >
+                        <div
+                            class="transaction-list-change"
+                            *ngFor="let change of row.changes[0].values"
+                        >
+                            <p
+                                [style]="
+                                    change.removed
+                                        ? 'text-decoration: line-through'
+                                        : ''
+                                "
+                            >
+                                Path: {{ change["path"] }}
+                            </p>
+                            <p
+                                [style]="
+                                    change.removed
+                                        ? 'text-decoration: line-through'
+                                        : ''
+                                "
+                            >
+                                Removed: {{ change["removed"] }} Value:
+                                {{ change["value"] }}
+                            </p>
+                        </div>
+                    </div>
+                    <button
+                        mat-icon-button
+                        id="usageButton"
+                        (click)="ViewChanges(row.id)"
+                        color="accent"
+                    >
+                        <mat-icon class="table_icon">view_list</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
             <tr
                 mat-header-row
                 class="profile-header"
@@ -82,4 +108,15 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
     </mat-card-content>
+    <mat-card-actions class="field-margin">
+        <button
+            mat-raised-button
+            color="accent"
+            type="button"
+            (click)="closeCard()"
+            id="cancelButton"
+        >
+            Close
+        </button>
+    </mat-card-actions>
 </mat-card>

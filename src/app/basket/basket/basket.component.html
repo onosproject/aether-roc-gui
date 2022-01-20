@@ -34,7 +34,7 @@
             type="submit"
             aria-label="Check History"
             id="TransactionButton"
-            *ngIf="!opaService.canWrite(undefined)"
+            *ngIf="opaService.userGroups.includes(AETHER_ROC_ADMIN_USER)"
             (click)="checkHistory()"
         >
             History
