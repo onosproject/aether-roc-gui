@@ -32,6 +32,18 @@
             mat-raised-button
             color="accent"
             type="submit"
+            aria-label="Check History"
+            id="TransactionButton"
+            [disabled]="!opaService.canWrite(undefined)"
+            (click)="checkHistory()"
+        >
+            History
+        </button>
+        <span class="small-spacing"></span>
+        <button
+            mat-raised-button
+            color="accent"
+            type="submit"
             aria-label="Commit changes"
             id="commitButton"
             (click)="commitChanges()"
@@ -117,3 +129,7 @@
     (closeEvent)="pbDisplay = false"
 >
 </aether-basket-preview>
+<aether-transaction-list
+    *ngIf="showTransactionList"
+    (closeEvent)="showTransactionList = false"
+></aether-transaction-list>

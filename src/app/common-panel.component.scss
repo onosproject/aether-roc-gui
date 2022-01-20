@@ -124,3 +124,11 @@ $content-height: 320px;
     background: grey;
     border-radius: 10px;
 }
+
+.transaction-list-path {
+    overflow: scroll;
+    height: 90px;
+}
+.transaction-list-change {
+    border-bottom: 2px solid;
+}

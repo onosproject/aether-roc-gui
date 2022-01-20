@@ -26,9 +26,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthInterceptor } from '../auth-interceptor';
 import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
+import { TransactionListComponent } from './transaction-list/transaction-list.component';
 
 @NgModule({
-    declarations: [BasketComponent, BasketPreviewComponent],
+    declarations: [
+        BasketComponent,
+        BasketPreviewComponent,
+        TransactionListComponent,
+    ],
     imports: [
         CommonModule,
         ApiModuleTopLevel.forRoot({ rootUrl: AETHER_ROC_API_URL }),

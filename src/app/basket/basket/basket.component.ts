@@ -34,6 +34,7 @@ export class BasketComponent implements OnInit {
 
     patchName: string;
     pbDisplay: boolean = false;
+    showTransactionList = false;
     updateCounter = 0;
     deleteCounter = 0;
     displayedColumns = [
@@ -140,6 +141,10 @@ export class BasketComponent implements OnInit {
         } else if (key.startsWith('/basket-delete')) {
             this.deleteCounter = this.deleteCounter - 1;
         }
+    }
+
+    checkHistory(): void {
+        this.showTransactionList = true;
     }
 
     clearBasket(): void {
