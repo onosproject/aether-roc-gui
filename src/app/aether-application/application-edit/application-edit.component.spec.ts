@@ -7,7 +7,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+    FormArray,
+    FormBuilder,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import {
     MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -55,6 +60,7 @@ describe('ApplicationEditComponent', () => {
             ],
         }).compileComponents();
     });
+    const fb = new FormBuilder();
 
     beforeEach(() => {
         fixture = TestBed.createComponent(ApplicationEditComponent);
@@ -64,5 +70,53 @@ describe('ApplicationEditComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should not validate if port-start is greater than port-end', () => {
+        const endpointControlArray = component.appForm.get(
+            'endpoint'
+        ) as FormArray;
+        component.appForm.get('id').setValue('testappform');
+        component.appForm.get('address').setValue('testaddress');
+        component.appForm.get('enterprise').setValue('testenterprise');
+        endpointControlArray.push(
+            fb.group({
+                'endpoint-id': fb.control('first'),
+                'port-start': fb.control(20),
+                'port-end': fb.control(19),
+            })
+        );
+        endpointControlArray.push(
+            fb.group({
+                'endpoint-id': fb.control('second'),
+                'port-start': fb.control(15),
+                'port-end': fb.control(25),
+            })
+        );
+        expect(component.appForm.valid).toBeFalse();
+    });
+
+    it('should validate if port-start is not greater than port-end', () => {
+        const endpointControlArray = component.appForm.get(
+            'endpoint'
+        ) as FormArray;
+        component.appForm.get('id').setValue('testappform');
+        component.appForm.get('address').setValue('testaddress');
+        component.appForm.get('enterprise').setValue('testenterprise');
+        endpointControlArray.push(
+            fb.group({
+                'endpoint-id': fb.control('first'),
+                'port-start': fb.control(10),
+                'port-end': fb.control(19),
+            })
+        );
+        endpointControlArray.push(
+            fb.group({
+                'endpoint-id': fb.control('second'),
+                'port-start': fb.control(15),
+                'port-end': fb.control(25),
+            })
+        );
+        expect(component.appForm.valid).toBeTruthy();
     });
 });

@@ -15,7 +15,12 @@ import {
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+    FormArray,
+    FormBuilder,
+    FormsModule,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -26,6 +31,7 @@ import { MatButtonModule } from '@angular/material/button';
 describe('ImsisSelectComponent', () => {
     let component: ImsisSelectComponent;
     let fixture: ComponentFixture<ImsisSelectComponent>;
+    const fb = new FormBuilder();
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -63,5 +69,40 @@ describe('ImsisSelectComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should validate a single range in Imsiforms', () => {
+        component.imsiForm.get('imsi-id').setValue('first'),
+            component.imsiForm.get('imsi-range-from').setValue(10),
+            component.imsiForm.get('imsi-range-to').setValue(19),
+            expect(component.imsiForm.valid).toBeTruthy();
+    });
+
+    it('should validate an equal range in Imsiforms ', () => {
+        component.imsiForm.get('imsi-id').setValue('first'),
+            component.imsiForm.get('imsi-range-from').setValue(10),
+            component.imsiForm.get('imsi-range-to').setValue(10),
+            expect(component.imsiForm.valid).toBeTruthy();
+    });
+
+    it('should validate a max range in Imsiforms', () => {
+        component.imsiForm.get('imsi-id').setValue('first'),
+            component.imsiForm.get('imsi-range-from').setValue(10),
+            component.imsiForm.get('imsi-range-to').setValue(5010),
+            expect(component.imsiForm.valid).toBeTruthy();
+    });
+
+    it('should not validate an excessive imsi range in imsiforms', () => {
+        component.imsiForm.get('imsi-id').setValue('first'),
+            component.imsiForm.get('imsi-range-from').setValue(10),
+            component.imsiForm.get('imsi-range-to').setValue(5011),
+            expect(component.imsiForm.valid).toBeFalse();
+    });
+
+    it('should not validate reversed range in imsiforms', () => {
+        component.imsiForm.get('imsi-id').setValue('first'),
+            component.imsiForm.get('imsi-range-from').setValue(11),
+            component.imsiForm.get('imsi-range-to').setValue(10),
+            expect(component.imsiForm.valid).toBeFalse();
     });
 });
