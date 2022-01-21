@@ -28,6 +28,7 @@ import { AuthInterceptor } from '../auth-interceptor';
 import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
     declarations: [
@@ -60,6 +61,7 @@ import { CdkAccordionModule } from '@angular/cdk/accordion';
         MatFormFieldModule,
         MatInputModule,
         CdkAccordionModule,
+        MatListModule,
     ],
     providers: [AuthInterceptor, API_INTERCEPTOR_PROVIDER],
 })

@@ -37,37 +37,36 @@
                     [attr.id]="'accordion-body-' + index"
                     [attr.aria-labelledby]="'accordion-header-' + index"
                 >
-                    <p>Updated: {{ item.updated }}</p>
-                    <p>
-                        Statue-phase: {{ item.status.phase }}, Statue-state:
-                        {{ item.status.state }}
-                    </p>
-                    <p>Changes :</p>
-                    <div>
-                        <div
-                            class="transaction-list-change"
-                            *ngFor="let change of item.changes[0].values"
-                        >
-                            <p
+                    <h4>Updated:</h4>
+                    <p>{{ item.updated }}</p>
+                    <h4>Statue-phase:</h4>
+                    <p>{{ item.status.phase }}</p>
+                    <h4>Statue-state:</h4>
+                    <p>{{ item.status.state }}</p>
+                    <h4>Changes :</h4>
+                    <div
+                        *ngFor="
+                            let change of item.changes[0].values;
+                            let lastItem = last
+                        "
+                    >
+                        <mat-list>
+                            <mat-list-item
                                 [style]="
                                     change.removed
                                         ? 'text-decoration: line-through'
                                         : ''
                                 "
                             >
-                                Path: {{ change["path"] }}
-                            </p>
-                            <p
-                                [style]="
-                                    change.removed
-                                        ? 'text-decoration: line-through'
-                                        : ''
-                                "
-                            >
-                                Removed: {{ change["removed"] }} Value:
-                                {{ change["value"] }}
-                            </p>
-                        </div>
+                                <h4>Path:</h4>
+                                <p>{{ change["path"] }}</p>
+                                <h4>, Value:</h4>
+                                <p>
+                                    {{ change["value"] }}
+                                </p>
+                            </mat-list-item>
+                            <mat-divider *ngIf="!lastItem"></mat-divider>
+                        </mat-list>
                     </div>
                 </div>
             </cdk-accordion-item>
