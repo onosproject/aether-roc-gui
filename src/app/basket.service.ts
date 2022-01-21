@@ -22,8 +22,8 @@ enum ChangeResult {
 }
 
 export interface BasketValue {
-    oldValue;
-    newValue;
+    oldValue: string;
+    newValue: string;
     type: string;
 }
 

@@ -15,8 +15,8 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 
 interface BasketRow {
     path: string;
-    oldValue: unknown;
-    newValue: unknown;
+    oldValue: string;
+    newValue: string;
     deleted: boolean;
     displayPath: string;
 }

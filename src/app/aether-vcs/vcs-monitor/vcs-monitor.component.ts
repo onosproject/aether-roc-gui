@@ -56,7 +56,7 @@ export class VcsMonitorComponent
     grafanaOrgId = 1;
     grafanaOrgName: string;
 
-    prometheusTimer;
+    prometheusTimer: ReturnType<typeof setTimeout>;
     throughput: unknown;
     latency: unknown;
     jitter: unknown;

@@ -48,7 +48,7 @@ export class SiteMonitorComponent
     grafanaOrgId = 1;
     grafanaOrgName: string;
 
-    prometheusTimer;
+    prometheusTimer: ReturnType<typeof setTimeout>;
     health: string;
     promData: SitePromDataSource;
 

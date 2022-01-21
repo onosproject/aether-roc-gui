@@ -51,7 +51,7 @@ export class PanelSiteComponent
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<SiteSite>;
-    prometheusTimer;
+    prometheusTimer: ReturnType<typeof setTimeout>;
 
     promData: SitePromDataSource;
 
