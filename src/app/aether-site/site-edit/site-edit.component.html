@@ -127,6 +127,9 @@
                         <button
                             mat-icon-button
                             color="accent"
+                            [disabled]="
+                                !opaService.canWrite('/site/site[id={{id}}]')
+                            "
                             (click)="
                                 deleteFromSelect(
                                     smallCellForm.value['small-cell-id']
@@ -206,6 +209,11 @@
                             <button
                                 mat-icon-button
                                 color="accent"
+                                [disabled]="
+                                    !opaService.canWrite(
+                                        '/site/site[id={{ id }}]'
+                                    )
+                                "
                                 (click)="
                                     deleteEDFromSelect(
                                         edgeDeviceForm.value['edge-device-id']
