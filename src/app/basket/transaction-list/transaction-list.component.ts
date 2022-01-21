@@ -33,12 +33,13 @@ export class TransactionListComponent implements OnInit {
     displayedColumns = ['id', 'username', 'updated', 'status', 'changes'];
     displayChanges: boolean = false;
     rowID: string;
+    transactionListData: [];
 
     constructor(private topLevelApiService: ApiService) {}
 
     ngOnInit(): void {
         this.topLevelApiService.transactionsTopLevel().subscribe((value) => {
-            this.table.dataSource = value;
+            this.transactionListData = value;
         });
     }
 
