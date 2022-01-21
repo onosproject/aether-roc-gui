@@ -41,12 +41,12 @@ export interface PromAlertLabel {
 }
 
 export interface PromAlerts {
-    alerts: any[];
-    commonAnnotations: any;
-    commonLabels: any;
+    alerts: unknown[];
+    commonAnnotations: unknown;
+    commonLabels: unknown;
     externalURL: string;
     groupKey: string;
-    groupLabels: any;
+    groupLabels: unknown;
     receiver: string;
     status: string;
     truncatedAlerts: number;
@@ -67,7 +67,7 @@ export class PanelAlertsComponent implements OnInit {
     @Input() width: number;
     @Input() height: number;
     public dataObs: Observable<PromAlert[]>;
-    private loginTokenTimer: any;
+    private loginTokenTimer: unknown;
     public selectedAlert: PromAlert;
 
     public static relativePromLink(url: string): string {

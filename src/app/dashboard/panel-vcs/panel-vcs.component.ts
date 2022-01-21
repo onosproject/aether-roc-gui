@@ -51,9 +51,9 @@ export class PanelVcsComponent
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<VcsVcs>;
-    loginTokenTimer: any;
+    loginTokenTimer;
     panelUrl: string;
-    grafanaOrgId: number = 1;
+    grafanaOrgId = 1;
     grafanaOrgName: string;
     promData: VcsPromDataSource;
 

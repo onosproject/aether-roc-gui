@@ -23,7 +23,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
     pathRoot = 'Traffic-class-4.0.0' as RocElement;
     pathListAttr = 'traffic-class';
     data: TrafficClassTrafficClass;
-    showParentDisplay: boolean = false;
+    showParentDisplay = false;
     trafficClassId: string;
     tcForm = this.fb.group({
         id: [

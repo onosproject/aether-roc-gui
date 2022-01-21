@@ -22,7 +22,7 @@ export interface ResultMetric {
 
 export interface ResultItem {
     metric: ResultMetric;
-    value: any[];
+    value: unknown[];
 }
 
 export interface PromResultData {

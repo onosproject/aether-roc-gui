@@ -33,9 +33,9 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
     SiteImisLength: number;
     site: Array<SiteSite>;
     ImsiRangeLimit: number;
-    showAddImsi: boolean = false;
+    showAddImsi = false;
     upfId: string;
-    showParentDisplay: boolean = false;
+    showParentDisplay = false;
     upfForm = this.fb.group({
         id: [
             undefined,

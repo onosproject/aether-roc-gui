@@ -65,4 +65,51 @@ describe('EndpointSelectComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+    it('should validate if Port-start less than Port-end ', () => {
+        const endpointID = component.endpointForm.get('endpoint-id');
+        const portStart = component.endpointForm.get('port-start');
+        const portEnd = component.endpointForm.get('port-end');
+        endpointID.setValue('testendpointid');
+        portStart.setValue(645);
+        portEnd.setValue(2345);
+        expect(component.endpointForm.valid).toBeTruthy();
+    });
+
+    it('should not validate if Port-start greater than Port-end ', () => {
+        const endpointID = component.endpointForm.get('endpoint-id');
+        const portStart = component.endpointForm.get('port-start');
+        const portEnd = component.endpointForm.get('port-end');
+        endpointID.setValue('testendpointid');
+        portStart.setValue(2345);
+        portEnd.setValue(645);
+        expect(component.endpointForm.valid).toBeFalse();
+    });
+
+    it('should not validate an excessive port-end endpoint range ', () => {
+        component.endpointForm.get('endpoint-id').setValue('first');
+        component.endpointForm.get('port-start').setValue(10);
+        component.endpointForm.get('port-end').setValue(65536);
+        expect(component.endpointForm.valid).toBeFalse();
+    });
+
+    it('should not validate an excessive port-start endpoint range ', () => {
+        component.endpointForm.get('endpoint-id').setValue('first');
+        component.endpointForm.get('port-start').setValue(65536);
+        component.endpointForm.get('port-end').setValue(65536);
+        expect(component.endpointForm.valid).toBeFalse();
+    });
+
+    it('should not validate an excessive mbr uplink and downlink range ', () => {
+        component.endpointForm.get('endpoint-id').setValue('first');
+        component.endpointForm.get(['mbr', 'uplink']).setValue(4294967296);
+        component.endpointForm.get(['mbr', 'downlink']).setValue(4294967296);
+        expect(component.endpointForm.valid).toBeFalse();
+    });
+
+    it('should validate an excessive mbr uplink and downlink range ', () => {
+        component.endpointForm.get('endpoint-id').setValue('first');
+        component.endpointForm.get(['mbr', 'uplink']).setValue(4294967293);
+        component.endpointForm.get(['mbr', 'downlink']).setValue(429496729);
+        expect(component.endpointForm.valid).toBeTruthy();
+    });
 });

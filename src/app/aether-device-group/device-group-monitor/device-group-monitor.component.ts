@@ -31,7 +31,7 @@ export class DeviceGroupMonitorComponent
     extends RocMonitorBase
     implements OnInit
 {
-    grafanaOrgId: number = 1;
+    grafanaOrgId = 1;
     grafanaOrgName: string;
     thisDg: DeviceGroupDeviceGroup;
     site: SiteSite;

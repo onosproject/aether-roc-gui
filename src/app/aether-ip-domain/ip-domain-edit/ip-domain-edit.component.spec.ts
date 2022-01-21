@@ -76,4 +76,23 @@ describe('IpDomainEditComponent', () => {
         subnetControl.setValue('10.11.12.13/33');
         expect(subnetControl.valid).toBeFalse();
     });
+
+    it('should not validate mtu if it exceeds', () => {
+        const subnetControl = component.ipForm.get('mtu');
+        subnetControl.setValue(65536);
+        expect(subnetControl.valid).toBeFalse();
+    });
+
+    it('should validate mtu if it does not exceeds', () => {
+        const subnetControl = component.ipForm.get('mtu');
+        subnetControl.setValue(6555);
+        expect(subnetControl.valid).toBeTruthy();
+    });
+
+    it('should validate dnn if it doesnt exceeds', () => {
+        const dnnControl = component.ipForm.get('dnn');
+        dnnControl.setValue(12);
+        console.log(dnnControl, 'dnnControl');
+        expect(dnnControl.valid).toBeTruthy();
+    });
 });

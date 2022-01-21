@@ -15,8 +15,8 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 
 interface BasketRow {
     path: string;
-    oldValue: any;
-    newValue: any;
+    oldValue: string;
+    newValue: string;
     deleted: boolean;
     displayPath: string;
 }
@@ -33,7 +33,7 @@ export class BasketComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
 
     patchName: string;
-    pbDisplay: boolean = false;
+    pbDisplay = false;
     updateCounter = 0;
     deleteCounter = 0;
     displayedColumns = [

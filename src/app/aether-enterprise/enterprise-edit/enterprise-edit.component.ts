@@ -35,7 +35,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
     @ViewChild(MatTable) table: MatTable<Array<ConnectivityServiceRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
-    showConnectDisplay: boolean = false;
+    showConnectDisplay = false;
     data: EnterpriseEnterprise;
 
     displayedColumns = ['connectivity-service', 'enabled'];

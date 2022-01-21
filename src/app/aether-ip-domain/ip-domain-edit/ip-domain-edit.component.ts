@@ -32,10 +32,10 @@ export const UPDATED = 'updated';
 export class IpDomainEditComponent extends RocEditBase implements OnInit {
     ip: string;
     option: string;
-    primCardDisplay: boolean = false;
-    secCardDisplay: boolean = false;
-    subCardDisplay: boolean = false;
-    showParentDisplay: boolean = false;
+    primCardDisplay = false;
+    secCardDisplay = false;
+    subCardDisplay = false;
+    showParentDisplay = false;
     data: IpDomainIpDomain;
     enterprises: Array<EnterpriseEnterprise>;
 
