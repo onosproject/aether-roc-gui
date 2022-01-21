@@ -169,7 +169,7 @@
                             </mat-select>
                             <mat-hint>Traffic Class</mat-hint>
                         </mat-form-field>
-                        <div [formGroup]="mbrControls(i)" class="float-left">
+                        <div [formGroup]="mbrControls(i)" class="float-right">
                             <mat-form-field class="field-margin">
                                 <input
                                     matInput
@@ -219,9 +219,7 @@
                                 color="accent"
                                 [disabled]="
                                     !opaService.canWrite(
-                                        '/application/application[id=' +
-                                            id +
-                                            ']'
+                                        '/application/application[id={{id}}]'
                                     )
                                 "
                                 (click)="

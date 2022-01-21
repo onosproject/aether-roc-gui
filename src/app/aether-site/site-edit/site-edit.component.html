@@ -128,9 +128,7 @@
                             mat-icon-button
                             color="accent"
                             [disabled]="
-                                !opaService.canWrite(
-                                    '/site/site[id=' + id + ']'
-                                )
+                                !opaService.canWrite('/site/site[id={{id}}]')
                             "
                             (click)="
                                 deleteFromSelect(
@@ -213,7 +211,7 @@
                                 color="accent"
                                 [disabled]="
                                     !opaService.canWrite(
-                                        '/site/site[id=' + id + ']'
+                                        '/site/site[id={{ id }}]'
                                     )
                                 "
                                 (click)="
