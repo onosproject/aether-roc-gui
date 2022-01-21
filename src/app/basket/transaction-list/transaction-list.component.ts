@@ -16,9 +16,9 @@ import { MatTable } from '@angular/material/table';
 export interface TransactionList {
     id: string;
     username: string;
-    changes: any;
+    changes: string;
     updated: string;
-    status: any;
+    status: string;
 }
 
 @Component({
@@ -31,7 +31,7 @@ export class TransactionListComponent implements OnInit {
     table: MatTable<TransactionList>;
     @Output() closeEvent = new EventEmitter<boolean>();
     displayedColumns = ['id', 'username', 'updated', 'status', 'changes'];
-    displayChanges: boolean = false;
+    displayChanges = false;
     rowID: string;
     transactionListData: [];
 
@@ -46,12 +46,12 @@ export class TransactionListComponent implements OnInit {
     closeCard(): void {
         this.closeEvent.emit(true);
     }
-    ViewChanges(id): void {
+    ViewChanges(id: string): void {
         this.rowID = id;
         this.displayChanges = !this.displayChanges;
     }
 
-    showTransactionDetails(id): boolean {
+    showTransactionDetails(id: string): boolean {
         if (this.displayChanges && this.rowID === id) {
             return true;
         } else {
