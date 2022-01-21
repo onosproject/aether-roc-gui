@@ -62,9 +62,9 @@ const ValidatePortRange: ValidatorFn = (
 })
 export class ApplicationEditComponent extends RocEditBase implements OnInit {
     protocolOptions = [{ name: 'UDP' }, { name: 'TCP' }];
-    shownEndpointDisplay: boolean = false;
-    showEndpointAddButton: boolean = true;
-    showParentDisplay: boolean = false;
+    shownEndpointDisplay = false;
+    showEndpointAddButton = true;
+    showParentDisplay = false;
     readonly endpointLimit: number = 5;
     enterprises: Array<EnterpriseEnterprise>;
     trafficClassOptions: Array<TrafficClassTrafficClass>;

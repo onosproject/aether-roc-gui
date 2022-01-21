@@ -47,9 +47,9 @@ const ValidateImsiRange: ValidatorFn = (
 })
 export class ImsisSelectComponent implements OnInit, OnChanges {
     @Output() closeEvent = new EventEmitter<ImsiParam>();
-    @Input() ImisLengthLimits: number = 0;
+    @Input() ImisLengthLimits = 0;
     @Input() OtherImsi: Array<DeviceGroupDeviceGroupImsis> = [];
-    ImsiRangeLimit: number = 0;
+    ImsiRangeLimit = 0;
 
     imsiForm = this.fb.group(
         {

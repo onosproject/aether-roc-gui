@@ -51,10 +51,10 @@ interface BurstRate {
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class VcsEditComponent extends RocEditBase implements OnInit {
-    showApplicationDisplay: boolean = false;
-    showDeviceGroupDisplay: boolean = false;
-    showAddFilterButton: boolean = true;
-    EndpointLeft: number = 5;
+    showApplicationDisplay = false;
+    showDeviceGroupDisplay = false;
+    showAddFilterButton = true;
+    EndpointLeft = 5;
     deviceGroups: Array<DeviceGroupDeviceGroup>;
     site: Array<SiteSite>;
     applications: Array<ApplicationApplication>;

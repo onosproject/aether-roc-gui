@@ -45,10 +45,10 @@ export class SiteMonitorComponent
     agentAvailabilityPanelUrl: string;
     smallCellConnectivityPanelUrl: string;
 
-    grafanaOrgId: number = 1;
+    grafanaOrgId = 1;
     grafanaOrgName: string;
 
-    prometheusTimer: any;
+    prometheusTimer;
     health: string;
     promData: SitePromDataSource;
 

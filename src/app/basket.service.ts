@@ -22,8 +22,8 @@ enum ChangeResult {
 }
 
 export interface BasketValue {
-    oldValue: any;
-    newValue: any;
+    oldValue;
+    newValue;
     type: string;
 }
 
@@ -32,7 +32,7 @@ export interface BasketValue {
 })
 export class BasketService {
     @Input() target: string = AETHER_TARGETS[0];
-    apiKeyDisplay: boolean = false;
+    apiKeyDisplay = false;
     totalChanges = this.totalNumChanges();
     idMap = new Map();
     pathMap = new Map();

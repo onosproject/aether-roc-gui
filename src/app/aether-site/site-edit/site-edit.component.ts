@@ -38,9 +38,9 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
     data: SiteSite;
     pathRoot = 'Site-4.0.0' as RocElement;
     pathListAttr = 'site';
-    showConnectDisplay: boolean = false;
-    showEdgeDeviceDisplay: boolean = false;
-    showSmallCellAddButton: boolean = true;
+    showConnectDisplay = false;
+    showEdgeDeviceDisplay = false;
+    showSmallCellAddButton = true;
     siteForm = this.fb.group({
         id: [
             undefined,
@@ -101,7 +101,7 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
             ],
         }),
     });
-    showParentDisplay: boolean = false;
+    showParentDisplay = false;
     siteId: string;
 
     constructor(

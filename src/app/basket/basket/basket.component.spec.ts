@@ -114,7 +114,7 @@ describe('The BasketComponent', () => {
             // mock the system to call the backend and return an error
             confirmSpy.and.returnValue(true);
             const observableWithFailure = new Observable(
-                (observer: Observer<any>) => {
+                (observer: Observer<unknown>) => {
                     observer.error('test-error');
                 }
             );
@@ -130,7 +130,7 @@ describe('The BasketComponent', () => {
             // mock the system to call the backend and return an error
             confirmSpy.and.returnValue(true);
             const observableWithFailure = new Observable(
-                (observer: Observer<any>) => {
+                (observer: Observer<unknown>) => {
                     observer.next('test-success');
                 }
             );

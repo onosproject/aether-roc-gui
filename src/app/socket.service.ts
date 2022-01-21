@@ -17,6 +17,7 @@ import { Observable, Observer, Subject, Subscription, throwError } from 'rxjs';
     providedIn: 'root',
 })
 export class SocketService {
+    // eslint-disable-next-line
     public webSocketSubject: WebSocketSubject<any>;
     private connectedObservers: Array<Observer<boolean>>;
     private permanentSub: Subscription;
@@ -38,7 +39,7 @@ export class SocketService {
         }
     }
 
-    public subscribe(filter: string): Observable<any> {
+    public subscribe(filter: string): Observable<unknown> {
         const responseObs = new Subject();
         this.onConnected({
             next: (x) =>
@@ -93,7 +94,7 @@ export class SocketService {
                         // this.connect({ reconnect: true });
                     },
                 },
-            } as WebSocketSubjectConfig<any>;
+            } as WebSocketSubjectConfig<unknown>;
             this.webSocketSubject = webSocket(config);
             // Send the OpenID Connect JWT token down in first message
             this.sendMessage({ idToken: token });
@@ -122,7 +123,7 @@ export class SocketService {
         }
     }
 
-    private sendMessage(msg: any): void {
+    private sendMessage(msg: unknown): void {
         this.webSocketSubject.next(msg);
     }
 

@@ -55,7 +55,7 @@ export class ConnectivityServiceEditComponent
             ]),
         ],
     });
-    showParentDisplay: boolean = false;
+    showParentDisplay = false;
     connectivityServiceId: string;
 
     constructor(

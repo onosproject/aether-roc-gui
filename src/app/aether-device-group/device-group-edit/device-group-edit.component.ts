@@ -93,11 +93,11 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     ipdomain: Array<IpDomainIpDomain>;
     site: Array<SiteSite>;
     imsis: Array<DeviceGroupDeviceGroupImsis> = [];
-    showImsiDisplay: boolean = false;
-    showAddImsi: boolean = false;
+    showImsiDisplay = false;
+    showAddImsi = false;
     SiteImisLength: number;
     ImsiRangeLimit: number;
-    showParentDisplay: boolean = false;
+    showParentDisplay = false;
     trafficClass: Array<TrafficClassTrafficClass>;
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },

@@ -19,7 +19,7 @@ export abstract class RocListBase<
     protected reqdAttr: string[] = [];
     public id: string;
     public usageArray = [];
-    public showUsageCard: boolean = false;
+    public showUsageCard = false;
 
     protected constructor(
         protected bs: BasketService,

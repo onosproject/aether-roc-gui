@@ -16,7 +16,7 @@ export abstract class RocEditBase {
     public isNewInstance: boolean;
     protected loadFunc: (target: string, id: string) => void;
     protected initFunc: () => string;
-    public showParentDisplay: boolean = false;
+    public showParentDisplay = false;
 
     protected constructor(
         protected snackBar: MatSnackBar,

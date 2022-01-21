@@ -31,7 +31,7 @@ export class ApplicationSelectComponent
     implements OnInit
 {
     closeEvent: EventEmitter<string>;
-    SliceApplicationEndpointLimit: number = 5;
+    SliceApplicationEndpointLimit = 5;
     ApplicationOptions: Array<ApplicationApplication> = [];
     selectForm = this.fb.group({
         'select-item': [

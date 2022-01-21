@@ -21,9 +21,9 @@ const BEARER_KEYWORD = 'Bearer ';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
     intercept(
-        req: HttpRequest<any>,
+        req: HttpRequest<unknown>,
         next: HttpHandler
-    ): Observable<HttpEvent<any>> {
+    ): Observable<HttpEvent<unknown>> {
         const idToken = localStorage.getItem(ID_TOKEN_ATTR);
         if (idToken) {
             const cloned = req.clone({
