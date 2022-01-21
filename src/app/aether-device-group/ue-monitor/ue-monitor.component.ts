@@ -15,7 +15,7 @@ import { PERFORMANCE_METRICS_ENABLED } from '../../../environments/environment';
 export class UeMonitorComponent {
     @Input() ueId: number;
     @Input() fullImsi: string;
-    @Input() grafanaOrgId: number = 1;
+    @Input() grafanaOrgId = 1;
     @Input() grafanaOrgName: string;
 
     @Output() closeEvent = new EventEmitter<boolean>();

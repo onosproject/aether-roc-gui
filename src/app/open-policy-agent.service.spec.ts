@@ -18,4 +18,14 @@ describe('OpenPolicyAgentService', () => {
     it('should be created', () => {
         expect(service).toBeTruthy();
     });
+
+    it('should validate canwrite function', () => {
+        service.canWrite('/application/application[id=testID]');
+        expect(service).toBeTruthy();
+    });
+
+    it('should validate canwrite for undefined', () => {
+        service.canWrite(undefined);
+        expect(service).toBeTruthy();
+    });
 });

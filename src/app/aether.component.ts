@@ -32,8 +32,8 @@ const ID_TOKEN_EXPIRES_AT = 'id_token_expires_at';
     styleUrls: ['./aether.component.scss'],
 })
 export class AetherComponent implements OnInit, OnDestroy {
-    userProfileDisplay: boolean = false;
-    apiKeyDisplay: boolean = false;
+    userProfileDisplay = false;
+    apiKeyDisplay = false;
     basketServiceEnabled: boolean = BASKET_SERVICE_ENABLED;
     AETHER_ROC_ADMIN_USER = AETHER_ROC_ADMIN_USER;
     constructor(

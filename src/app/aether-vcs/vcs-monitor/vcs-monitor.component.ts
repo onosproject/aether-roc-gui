@@ -53,13 +53,13 @@ export class VcsMonitorComponent
     trafficClass: TrafficClassTrafficClass;
     connectivityPanelUrl: string;
     performancePanelUrl: string;
-    grafanaOrgId: number = 1;
+    grafanaOrgId = 1;
     grafanaOrgName: string;
 
-    prometheusTimer: any;
-    throughput: number;
-    latency: number;
-    jitter: number;
+    prometheusTimer: ReturnType<typeof setTimeout>;
+    throughput: unknown;
+    latency: unknown;
+    jitter: unknown;
     promData: VcsPromDataSource;
 
     performanceMetricsEnabled: boolean = PERFORMANCE_METRICS_ENABLED;

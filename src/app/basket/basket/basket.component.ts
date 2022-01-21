@@ -18,8 +18,8 @@ import {
 
 interface BasketRow {
     path: string;
-    oldValue: any;
-    newValue: any;
+    oldValue: string;
+    newValue: string;
     deleted: boolean;
     displayPath: string;
 }
@@ -37,8 +37,8 @@ export class BasketComponent implements OnInit {
     AETHER_ROC_ADMIN_USER = AETHER_ROC_ADMIN_USER;
 
     patchName: string;
-    pbDisplay: boolean = false;
     showTransactionList = false;
+    pbDisplay = false;
     updateCounter = 0;
     deleteCounter = 0;
     displayedColumns = [

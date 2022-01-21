@@ -64,4 +64,39 @@ describe('ImsisSelectComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('should validate a single range in Imsiforms', () => {
+        component.imsiForm.get('imsi-id').setValue('first'),
+            component.imsiForm.get('imsi-range-from').setValue(10),
+            component.imsiForm.get('imsi-range-to').setValue(19),
+            expect(component.imsiForm.valid).toBeTruthy();
+    });
+
+    it('should validate an equal range in Imsiforms ', () => {
+        component.imsiForm.get('imsi-id').setValue('first'),
+            component.imsiForm.get('imsi-range-from').setValue(10),
+            component.imsiForm.get('imsi-range-to').setValue(10),
+            expect(component.imsiForm.valid).toBeTruthy();
+    });
+
+    it('should validate a max range in Imsiforms', () => {
+        component.imsiForm.get('imsi-id').setValue('first'),
+            component.imsiForm.get('imsi-range-from').setValue(10),
+            component.imsiForm.get('imsi-range-to').setValue(5010),
+            expect(component.imsiForm.valid).toBeTruthy();
+    });
+
+    it('should not validate an excessive imsi range in imsiforms', () => {
+        component.imsiForm.get('imsi-id').setValue('first'),
+            component.imsiForm.get('imsi-range-from').setValue(10),
+            component.imsiForm.get('imsi-range-to').setValue(5011),
+            expect(component.imsiForm.valid).toBeFalse();
+    });
+
+    it('should not validate reversed range in imsiforms', () => {
+        component.imsiForm.get('imsi-id').setValue('first'),
+            component.imsiForm.get('imsi-range-from').setValue(11),
+            component.imsiForm.get('imsi-range-to').setValue(10),
+            expect(component.imsiForm.valid).toBeFalse();
+    });
 });
