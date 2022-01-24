@@ -7,6 +7,7 @@ import { AuthConfig } from 'angular-oauth2-oidc';
 
 export const environment = {
     production: true,
+    helpURL: 'https://docs.aetherproject.org',
 };
 
 export const AETHER_ROC_API_URL = window.location.origin + '/aether-roc-api';
