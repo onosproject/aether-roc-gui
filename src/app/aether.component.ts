@@ -8,6 +8,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import {
     authConfig,
     BASKET_SERVICE_ENABLED,
+    environment,
 } from '../environments/environment';
 import { Meta } from '@angular/platform-browser';
 import { BasketService } from './basket.service';
@@ -86,14 +87,15 @@ export class AetherComponent implements OnInit, OnDestroy {
     }
 
     showhelp(): void {
-        window.open('https://aetherproject.org/', '_blank');
+        window.open(environment.helpURL, '_blank');
     }
 
     signingOut(): void {
         if (this.bs.totalNumChanges() === 0) {
             this.oauthService.logOut();
             localStorage.clear();
-            window.location.reload();
+            this.socketService.close();
+            window.location.href = this.logoutUrl;
         } else {
             const decision = confirm(
                 'You have ' +
@@ -103,10 +105,19 @@ export class AetherComponent implements OnInit, OnDestroy {
             if (decision === true) {
                 this.oauthService.logOut();
                 localStorage.clear();
-                window.location.reload();
                 this.socketService.close();
+                window.location.href = this.logoutUrl;
             }
         }
+    }
+
+    get logoutUrl(): string {
+        if (authConfig.issuer.includes('/auth/realms/')) {
+            // For Keycloak
+            return authConfig.issuer + '/account';
+        }
+        // For Dex
+        return window.location.href;
     }
 
     get idTokClaims(): IdTokClaims {
