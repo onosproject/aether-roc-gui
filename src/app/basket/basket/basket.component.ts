@@ -11,7 +11,10 @@ import { BasketService, BasketValue, HEX2NUM } from '../../basket.service';
 import { ApiService } from '../../../openapi3/top/level/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { OpenPolicyAgentService } from '../../open-policy-agent.service';
+import {
+    AETHER_ROC_ADMIN_USER,
+    OpenPolicyAgentService,
+} from '../../open-policy-agent.service';
 
 interface BasketRow {
     path: string;
@@ -31,8 +34,10 @@ export class BasketComponent implements OnInit {
     @ViewChild(MatTable) table: MatTable<Array<BasketRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
+    AETHER_ROC_ADMIN_USER = AETHER_ROC_ADMIN_USER;
 
     patchName: string;
+    showTransactionList = false;
     pbDisplay = false;
     updateCounter = 0;
     deleteCounter = 0;
@@ -140,6 +145,10 @@ export class BasketComponent implements OnInit {
         } else if (key.startsWith('/basket-delete')) {
             this.deleteCounter = this.deleteCounter - 1;
         }
+    }
+
+    checkHistory(): void {
+        this.showTransactionList = true;
     }
 
     clearBasket(): void {

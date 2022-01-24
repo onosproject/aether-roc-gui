@@ -26,9 +26,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthInterceptor } from '../auth-interceptor';
 import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
+import { TransactionListComponent } from './transaction-list/transaction-list.component';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
-    declarations: [BasketComponent, BasketPreviewComponent],
+    declarations: [
+        BasketComponent,
+        BasketPreviewComponent,
+        TransactionListComponent,
+    ],
     imports: [
         CommonModule,
         ApiModuleTopLevel.forRoot({ rootUrl: AETHER_ROC_API_URL }),
@@ -53,6 +60,8 @@ import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
         MatSnackBarModule,
         MatFormFieldModule,
         MatInputModule,
+        CdkAccordionModule,
+        MatListModule,
     ],
     providers: [AuthInterceptor, API_INTERCEPTOR_PROVIDER],
 })
