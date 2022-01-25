@@ -398,7 +398,11 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                     this.populateFormData(value);
                 },
                 (error) => {
-                    console.warn('Error getting VcsVcs(s) for ', target, error);
+                    console.warn(
+                        'Error getting EnterpriseEnterpriseSiteVcs(s) for ',
+                        target,
+                        error
+                    );
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
@@ -414,7 +418,11 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                             }
                         );
                     }
-                    console.log('Finished loading VcsVcs(s)', target, id);
+                    console.log(
+                        'Finished loading EnterpriseEnterpriseSiteVcs(s)',
+                        target,
+                        id
+                    );
                 }
             );
     }

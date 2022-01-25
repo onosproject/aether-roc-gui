@@ -1,0 +1,15 @@
+import:
+  onos-gui:
+    enabled: true
+
+onos-gui:
+  ingress:
+    enabled: false
+
+aether-roc-gui-v3:
+  ingress:
+    enabled: false
+Aether-roc-gui-v4:
+  ingress:
+    enabled: false
+

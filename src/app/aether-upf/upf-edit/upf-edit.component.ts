@@ -137,7 +137,11 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                     this.populateFormData(value);
                 },
                 (error) => {
-                    console.warn('Error getting UpfUpf(s) for ', target, error);
+                    console.warn(
+                        'Error getting EnterpriseEnterpriseSiteUpf(s) for ',
+                        target,
+                        error
+                    );
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
@@ -153,7 +157,11 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                             }
                         );
                     }
-                    console.log('Finished loading UpfUpf(s)', target, id);
+                    console.log(
+                        'Finished loading EnterpriseEnterpriseSiteUpf(s)',
+                        target,
+                        id
+                    );
                 }
             );
     }

@@ -220,7 +220,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                 },
                 (error) => {
                     console.warn(
-                        'Error getting ApplicationApplication(s) for ',
+                        'Error getting EnterpriseEnterpriseApplication(s) for ',
                         target,
                         error
                     );
@@ -240,7 +240,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                         );
                     }
                     console.log(
-                        'Finished loading ApplicationApplication(s)',
+                        'Finished loading EnterpriseEnterpriseApplication(s)',
                         target,
                         id
                     );

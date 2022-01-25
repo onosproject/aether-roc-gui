@@ -216,7 +216,7 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
                 },
                 (error) => {
                     console.warn(
-                        'Error getting IpDomainIpDomain(s) for ',
+                        'Error getting EnterpriseEnterpriseSiteIpDomain(s) for ',
                         target,
                         error
                     );
@@ -236,7 +236,7 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
                         );
                     }
                     console.log(
-                        'Finished loading IpDomainIpDomain(s)',
+                        'Finished loading EnterpriseEnterpriseSiteIpDomain(s)',
                         target,
                         id
                     );

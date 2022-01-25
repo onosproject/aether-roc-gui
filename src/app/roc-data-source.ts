@@ -21,7 +21,7 @@ export function compare(
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
 
-// eg: VcsVcs
+// eg: EnterpriseEnterpriseSiteVcs
 export interface RocGenericModelType {
     id: string;
     description?: string;

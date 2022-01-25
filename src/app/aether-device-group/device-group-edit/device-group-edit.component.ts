@@ -456,7 +456,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
                 },
                 (error) => {
                     console.warn(
-                        'Error getting DeviceGroupDeviceGroup(s) for ',
+                        'Error getting EnterpriseEnterpriseSiteDeviceGroup(s) for ',
                         target,
                         error
                     );
@@ -476,7 +476,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
                         });
                     }
                     console.log(
-                        'Finished loading DeviceGroupDeviceGroup(s)',
+                        'Finished loading EnterpriseEnterpriseSiteDeviceGroup(s)',
                         target,
                         id
                     );

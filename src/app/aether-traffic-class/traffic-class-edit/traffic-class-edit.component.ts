@@ -105,7 +105,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
                 },
                 (error) => {
                     console.warn(
-                        'Error getting TrafficClassTrafficClass(s) for ',
+                        'Error getting EnterpriseEnterpriseTrafficClass(s) for ',
                         target,
                         error
                     );
@@ -126,7 +126,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
                         });
                     }
                     console.log(
-                        'Finished loading TrafficClassTrafficClass(s)',
+                        'Finished loading EnterpriseEnterpriseTrafficClass(s)',
                         target,
                         id
                     );

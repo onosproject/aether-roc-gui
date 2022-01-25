@@ -158,7 +158,7 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
                 },
                 (error) => {
                     console.warn(
-                        'Error getting SiteSite(s) for ',
+                        'Error getting EnterpriseEnterpriseSite(s) for ',
                         target,
                         error
                     );
@@ -177,7 +177,11 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
                             }
                         );
                     }
-                    console.log('Finished loading SiteSite(s)', target, id);
+                    console.log(
+                        'Finished loading EnterpriseEnterpriseSite(s)',
+                        target,
+                        id
+                    );
                 }
             );
     }
