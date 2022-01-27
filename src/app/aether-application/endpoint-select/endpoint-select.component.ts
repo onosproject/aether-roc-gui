@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Service } from '../../../openapi3/aether/4.0.0/services';
+import { Service } from '../../../openapi3/aether/2.0.0/services';
 import {
     AbstractControl,
     FormBuilder,
@@ -13,10 +13,10 @@ import {
     ValidatorFn,
     Validators,
 } from '@angular/forms';
-import { TrafficClassTrafficClass } from '../../../openapi3/aether/4.0.0/models/traffic-class-traffic-class';
 import { Observable } from 'rxjs';
 import { Bandwidths } from '../../aether-template/template-edit/template-edit.component';
 import { map, startWith } from 'rxjs/operators';
+import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-traffic-class';
 
 export interface EndPointParam {
     'endpoint-id': string;
@@ -58,7 +58,7 @@ export class EndpointSelectComponent {
     bandwidthOptions: Observable<Bandwidths[]>;
 
     @Input() alreadySelected: string[] = [];
-    @Input() trafficClassOptions: Array<TrafficClassTrafficClass>;
+    @Input() trafficClassOptions: Array<EnterpriseEnterpriseTrafficClass>;
     @Output() closeEvent = new EventEmitter<EndPointParam>();
 
     endpointForm = this.fb.group(

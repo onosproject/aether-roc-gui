@@ -6,8 +6,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import { EnterpriseEnterpriseService } from '../../../openapi3/aether/4.0.0/services';
-import { EnterpriseEnterprise } from '../../../openapi3/aether/4.0.0/models';
+import { EnterpriseEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
+import { EnterpriseEnterprise } from '../../../openapi3/aether/2.0.0/models';
 import {
     BasketService,
     IDATTRIBS,
@@ -75,7 +75,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Enterprise-4.0.0', 'enterprise');
+        super(snackBar, bs, route, router, 'Enterprise-2.0.0', 'enterprise');
         super.form = this.entForm;
         super.loadFunc = this.loadEnterpriseEnterprises;
         this.entForm.get('connectivity-service')[IDATTRIBS] = [
@@ -140,7 +140,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/Enterprise-4.0.0/enterprise[id=' +
+                            '/basket-delete/Enterprise-2.0.0/enterprise[id=' +
                                 id +
                                 ']/connectivity-service[connectivity-service='
                         )
@@ -230,11 +230,11 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Enterprise-4.0.0']
+                        this.pathListAttr in basketPreview['Enterprise-2.0.0']
                     ) {
-                        basketPreview['Enterprise-4.0.0'].enterprise.forEach(
+                        basketPreview['Enterprise-2.0.0'].enterprise.forEach(
                             (basketItems) => {
-                                if (basketItems.id === id) {
+                                if (basketItems['ent-id'] === id) {
                                     this.populateFormData(basketItems, id);
                                 }
                             }
@@ -247,8 +247,8 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
 
     deleteFromSelect(cs: string): void {
         this.bs.deleteIndexedEntry(
-            '/Enterprise-4.0.0/enterprise[id=' +
-                this.data.id +
+            '/Enterprise-2.0.0/enterprise[id=' +
+                this.data['ent-id'] +
                 ']/connectivity-service[connectivity-service=' +
                 cs +
                 ']',
@@ -268,7 +268,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
     }
 
     private get ucmap(): Map<string, string> {
-        const vcsId = '/Enterprise-4.0.0/enterprise[id=' + this.id + ']';
+        const vcsId = '/Enterprise-2.0.0/enterprise[id=' + this.id + ']';
         let parentUc = localStorage.getItem(vcsId);
         if (parentUc === null) {
             parentUc = this.entForm[REQDATTRIBS];

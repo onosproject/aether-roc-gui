@@ -26,7 +26,7 @@ export class DeviceGroupDeviceGroupService extends BaseService {
   /**
    * Path part for operation getDeviceGroupDeviceGroup
    */
-  static readonly GetDeviceGroupDeviceGroupPath = '/aether/v4.0.0/{target}/device-group/device-group/{id}';
+  static readonly GetDeviceGroupDeviceGroupPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{ent_id}/site/{site_id}/device-group/{id}';
 
   /**
    * GET /device-group/device-group.
@@ -49,12 +49,24 @@ export class DeviceGroupDeviceGroupService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
+
+      /**
+       * key {ent-id}
+       */
+      site_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseSiteDeviceGroup>> {
 
     const rb = new RequestBuilder(this.rootUrl, DeviceGroupDeviceGroupService.GetDeviceGroupDeviceGroupPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
+        rb.path('ent_id', params['ent_id'], {});
+        rb.path('site_id', params['site_id'], {});
     }
 
     return this.http.request(rb.build({
@@ -89,6 +101,16 @@ export class DeviceGroupDeviceGroupService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
+
+      /**
+       * key {ent-id}
+       */
+      site_id: any;
   }): Observable<EnterpriseEnterpriseSiteDeviceGroup> {
 
     return this.getDeviceGroupDeviceGroup$Response(params).pipe(

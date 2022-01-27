@@ -14,9 +14,9 @@
             aria-label="Add application"
             id="addApplicationButton"
             [disabled]="
-                !opaService.canWrite('application/application[id=newinstance]')
+                !opaService.canWrite('application/application/[ent_id=newinstance]/[id=newinstance]')
             "
-            routerLink="/application/application-edit/newinstance"
+            routerLink="/application/application-edit/newinstance/newinstance"
         >
             Add
         </button>
@@ -34,7 +34,7 @@
             <td mat-cell *matCellDef="let row">
                 <span *ngIf="row['display-name'] !== undefined" [title]="row.id"
                     >{{ row["display-name"] }} <br /><small
-                        >({{ row.id }})</small
+                        >({{ row['app-id'] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
@@ -59,7 +59,7 @@
                 Enterprise
             </th>
             <td mat-cell *matCellDef="let row">
-                {{ row.enterprise }}
+                {{ row['ent-id'] }}
                 <mat-icon
                     class="table_icon small_icon"
                     aria-hidden="false"
@@ -117,7 +117,7 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/application/application-edit/{{ row.id }}"
+                routerLink="/application/application-edit/{{row['ent-id']}}/{{ row['app-id'] }}"
                 id="editButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
@@ -144,7 +144,7 @@
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
-                            '/application/application[id=' + row.id + ']'
+                            '/application/application[id=' + row['app-id'] + ']'
                         )
                     "
                     (click)="delete(row.id)"
@@ -178,6 +178,6 @@
     *ngIf="showUsageCard"
     id="showVcsUsageComponent"
     [applicationID]="id"
-    (closeShowParentCardEvent)="closeShowParentCard($event)"
+    (closeShowParentCardEvent)="closeShowParentCard()"
 >
 </aether-show-vcs-usage>

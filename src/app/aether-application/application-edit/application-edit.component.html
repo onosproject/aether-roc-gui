@@ -52,23 +52,23 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
-            <div id="enterpriseRow">
-                <mat-form-field class="field-margin half-width">
-                    <mat-select
-                        formControlName="enterprise"
-                        placeholder="Please specify an Enterprise"
-                        id="selectEnterprise"
-                    >
-                        <mat-option
-                            *ngFor="let eachEnterprise of enterprises"
-                            [value]="eachEnterprise.id"
-                            >{{ eachEnterprise.id }}
-                            {{ eachEnterprise["display-name"] }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint>Enterprise</mat-hint>
-                </mat-form-field>
-            </div>
+<!--            <div id="enterpriseRow">-->
+<!--                <mat-form-field class="field-margin half-width">-->
+<!--                    <mat-select-->
+<!--                        formControlName="enterprise"-->
+<!--                        placeholder="Please specify an Enterprise"-->
+<!--                        id="selectEnterprise"-->
+<!--                    >-->
+<!--                        <mat-option-->
+<!--                            *ngFor="let eachEnterprise of enterprises"-->
+<!--                            [value]="eachEnterprise.id"-->
+<!--                            >{{ eachEnterprise.id }}-->
+<!--                            {{ eachEnterprise["display-name"] }}-->
+<!--                        </mat-option>-->
+<!--                    </mat-select>-->
+<!--                    <mat-hint>Enterprise</mat-hint>-->
+<!--                </mat-form-field>-->
+<!--            </div>-->
             <div class="row" id="address">
                 <mat-form-field class="field-margin half-width">
                     <input

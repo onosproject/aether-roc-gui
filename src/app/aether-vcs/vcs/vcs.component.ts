@@ -8,12 +8,15 @@ import { OpenPolicyAgentService } from 'src/app/open-policy-agent.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { VcsDatasource } from './vcs-datasource';
-import { Vcs, VcsVcs } from '../../../openapi3/aether/4.0.0/models';
+import {
+    Vcs,
+    EnterpriseEnterpriseSiteVcs,
+} from '../../../openapi3/aether/2.0.0/models';
 import { HexPipe } from '../../utils/hex.pipe';
 import { RocDataSource } from '../../roc-data-source';
 
@@ -28,7 +31,7 @@ export class VcsComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<VcsVcs>;
+    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteVcs>;
     sdAsInt = HexPipe.hexAsInt;
     deletedVCS = [];
 
@@ -57,7 +60,7 @@ export class VcsComponent
         super(
             basketService,
             new VcsDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'Vcs-4.0.0',
+            'Vcs-2.0.0',
             'vcs'
         );
         super.reqdAttr = [
@@ -69,13 +72,15 @@ export class VcsComponent
         ];
     }
 
-    onDataLoaded(ScopeOfDataSource: RocDataSource<VcsVcs, Vcs>): void {
+    onDataLoaded(
+        ScopeOfDataSource: RocDataSource<EnterpriseEnterpriseSiteVcs, Vcs>
+    ): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
             this.pathRoot in basketPreview &&
             'vcs' in basketPreview[this.pathRoot]
         ) {
-            ScopeOfDataSource.merge(basketPreview['Vcs-4.0.0'].vcs, [
+            ScopeOfDataSource.merge(basketPreview['Vcs-2.0.0'].vcs, [
                 { fieldName: 'filter', idAttr: 'application' },
                 { fieldName: 'device-group', idAttr: 'device-group' },
             ]);
@@ -85,10 +90,10 @@ export class VcsComponent
         const DeletesBasketPreview =
             this.basketService.buildPatchBody().Deletes;
         if (
-            'vcs-4.0.0' in DeletesBasketPreview &&
-            'vcs' in DeletesBasketPreview['vcs-4.0.0']
+            'vcs-2.0.0' in DeletesBasketPreview &&
+            'vcs' in DeletesBasketPreview['vcs-2.0.0']
         ) {
-            this.deletedVCS = DeletesBasketPreview['vcs-4.0.0'].vcs.map(
+            this.deletedVCS = DeletesBasketPreview['vcs-2.0.0'].vcs.map(
                 (DeletedVCSID) => DeletedVCSID.id
             );
         }
@@ -124,7 +129,7 @@ export class VcsComponent
             id,
             ucMap
         );
-        this.checkForDeletedVcs();
+        // this.checkForDeletedVcs();
     }
 
     ngAfterViewInit(): void {

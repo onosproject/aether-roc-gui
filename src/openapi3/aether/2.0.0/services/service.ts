@@ -20,6 +20,10 @@ import { Template } from '../models/template';
 import { TrafficClass } from '../models/traffic-class';
 import { Upf } from '../models/upf';
 import { Vcs } from '../models/vcs';
+import {AETHER_TARGETS} from "../../../../environments/environment";
+import {EnterpriseDatasource} from "../../../../app/aether-enterprise/enterprise/enterprise-datasource";
+import {EnterpriseEnterpriseApplication} from "../models/enterprise-enterprise-application";
+import application from "@angular-devkit/build-angular/src/babel/presets/application";
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +39,7 @@ export class Service extends BaseService {
   /**
    * Path part for operation getApplication
    */
-  static readonly GetApplicationPath = '/aether/v4.0.0/{target}/application';
+  // static readonly GetApplicationPath = '/aether/v2.0.0/{target}/enterprises/enterprise/';
 
   /**
    * GET /application.
@@ -47,29 +51,28 @@ export class Service extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getApplication$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<Application>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetApplicationPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Application>;
-      })
-    );
-  }
+  // getApplication$Response(params: {
+  //
+  //   /**
+  //    * target (device in onos-config)
+  //    */
+  //   target: any;
+  // }): Observable<StrictHttpResponse<Application>> {
+  //   const rb = new RequestBuilder(this.rootUrl, Service.GetApplicationPath, 'get');
+  //   if (params) {
+  //     rb.path('target', params.target, {});
+  //   }
+  //
+  //   return this.http.request(rb.build({
+  //     responseType: 'json',
+  //     accept: 'application/json'
+  //   })).pipe(
+  //     filter((r: any) => r instanceof HttpResponse),
+  //     map((r: HttpResponse<any>) => {
+  //       return r as StrictHttpResponse<Application>;
+  //     })
+  //   );
+  // }
 
   /**
    * GET /application.
@@ -88,16 +91,27 @@ export class Service extends BaseService {
      */
     target: any;
   }): Observable<Application> {
+    return this.getEnterprise$Response(params).pipe(
+      map((r: StrictHttpResponse<Enterprise>) => {
+        let ApplicationsDataObject :Application = {application:[], 'ent-id':null};
+          let EnterpriseApplicationArray = [];
+        r.body.enterprise.forEach(enterprise => {
+            enterprise.application.forEach(application=>{
+                application['ent-id']=enterprise["ent-id"];
+            })
+            EnterpriseApplicationArray = [...EnterpriseApplicationArray,...enterprise.application];
 
-    return this.getApplication$Response(params).pipe(
-      map((r: StrictHttpResponse<Application>) => r.body as Application)
+         })
+          ApplicationsDataObject.application = EnterpriseApplicationArray;
+        return ApplicationsDataObject as Application
+      })
     );
   }
 
   /**
    * Path part for operation getConnectivityService
    */
-  static readonly GetConnectivityServicePath = '/aether/v4.0.0/{target}/connectivity-service';
+  static readonly GetConnectivityServicePath = '/aether/v2.0.0/{target}/connectivity-services';
 
   /**
    * GET /connectivity-service.
@@ -159,7 +173,7 @@ export class Service extends BaseService {
   /**
    * Path part for operation getDeviceGroup
    */
-  static readonly GetDeviceGroupPath = '/aether/v4.0.0/{target}/device-group';
+  static readonly GetDeviceGroupPath = '/aether/v2.0.0/{target}/device-group';
 
   /**
    * GET /device-group.
@@ -171,29 +185,29 @@ export class Service extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getDeviceGroup$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<DeviceGroup>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetDeviceGroupPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<DeviceGroup>;
-      })
-    );
-  }
+  // getDeviceGroup$Response(params: {
+  //
+  //   /**
+  //    * target (device in onos-config)
+  //    */
+  //   target: any;
+  // }): Observable<StrictHttpResponse<DeviceGroup>> {
+  //
+  //   const rb = new RequestBuilder(this.rootUrl, Service.GetDeviceGroupPath, 'get');
+  //   if (params) {
+  //     rb.path('target', params.target, {});
+  //   }
+  //
+  //   return this.http.request(rb.build({
+  //     responseType: 'json',
+  //     accept: 'application/json'
+  //   })).pipe(
+  //     filter((r: any) => r instanceof HttpResponse),
+  //     map((r: HttpResponse<any>) => {
+  //       return r as StrictHttpResponse<DeviceGroup>;
+  //     })
+  //   );
+  // }
 
   /**
    * GET /device-group.
@@ -213,15 +227,28 @@ export class Service extends BaseService {
     target: any;
   }): Observable<DeviceGroup> {
 
-    return this.getDeviceGroup$Response(params).pipe(
-      map((r: StrictHttpResponse<DeviceGroup>) => r.body as DeviceGroup)
-    );
+      return this.getEnterprise$Response(params).pipe(
+          map((r: StrictHttpResponse<Enterprise>) => {
+              let DeviceGroupDataObject :DeviceGroup = {'device-group':[]};
+              let EnterpriseSiteDeviceGroupArray = [];
+              r.body.enterprise.forEach(enterprise => {
+                  enterprise.site.forEach(site=>{
+                      site["device-group"].forEach(devicegroup=> {
+                          devicegroup['site-id'] = site['site-id'];
+                          devicegroup['ent-id'] = enterprise['ent-id']})
+                      EnterpriseSiteDeviceGroupArray = [...EnterpriseSiteDeviceGroupArray,...site['device-group']];
+                  })
+              })
+              DeviceGroupDataObject["device-group"] = EnterpriseSiteDeviceGroupArray;
+              return DeviceGroupDataObject as DeviceGroup
+          })
+      );
   }
 
   /**
    * Path part for operation getEnterprise
    */
-  static readonly GetEnterprisePath = '/aether/v4.0.0/{target}/enterprise';
+  static readonly GetEnterprisePath = '/aether/v2.0.0/{target}/enterprises';
 
   /**
    * GET /enterprise.
@@ -274,16 +301,16 @@ export class Service extends BaseService {
      */
     target: any;
   }): Observable<Enterprise> {
-
     return this.getEnterprise$Response(params).pipe(
-      map((r: StrictHttpResponse<Enterprise>) => r.body as Enterprise)
+      map((r: StrictHttpResponse<Enterprise>) =>
+          r.body as Enterprise)
     );
   }
 
   /**
    * Path part for operation getIpDomain
    */
-  static readonly GetIpDomainPath = '/aether/v4.0.0/{target}/ip-domain';
+  static readonly GetIpDomainPath = '/aether/v2.0.0/{target}/ip-domain';
 
   /**
    * GET /ip-domain.
@@ -295,29 +322,29 @@ export class Service extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getIpDomain$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<IpDomain>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetIpDomainPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<IpDomain>;
-      })
-    );
-  }
+  // getIpDomain$Response(params: {
+  //
+  //   /**
+  //    * target (device in onos-config)
+  //    */
+  //   target: any;
+  // }): Observable<StrictHttpResponse<IpDomain>> {
+  //
+  //   const rb = new RequestBuilder(this.rootUrl, Service.GetIpDomainPath, 'get');
+  //   if (params) {
+  //     rb.path('target', params.target, {});
+  //   }
+  //
+  //   return this.http.request(rb.build({
+  //     responseType: 'json',
+  //     accept: 'application/json'
+  //   })).pipe(
+  //     filter((r: any) => r instanceof HttpResponse),
+  //     map((r: HttpResponse<any>) => {
+  //       return r as StrictHttpResponse<IpDomain>;
+  //     })
+  //   );
+  // }
 
   /**
    * GET /ip-domain.
@@ -336,16 +363,28 @@ export class Service extends BaseService {
      */
     target: any;
   }): Observable<IpDomain> {
-
-    return this.getIpDomain$Response(params).pipe(
-      map((r: StrictHttpResponse<IpDomain>) => r.body as IpDomain)
-    );
+      return this.getEnterprise$Response(params).pipe(
+          map((r: StrictHttpResponse<Enterprise>) => {
+              let IpDomainDataObject :IpDomain = {'ip-domain':[]};
+              let EnterpriseSiteIpDomainArray = [];
+              r.body.enterprise.forEach(enterprise => {
+                  enterprise.site.forEach(site=>{
+                      site["ip-domain"].forEach(IpDoamin=> {
+                          IpDoamin['site-id'] = site['site-id'];
+                          IpDoamin['ent-id'] = enterprise['ent-id']})
+                      EnterpriseSiteIpDomainArray = [...EnterpriseSiteIpDomainArray,...site["ip-domain"]];
+                  })
+              })
+              IpDomainDataObject["ip-domain"] = EnterpriseSiteIpDomainArray;
+              return IpDomainDataObject as IpDomain
+          })
+      );
   }
 
   /**
    * Path part for operation getSite
    */
-  static readonly GetSitePath = '/aether/v4.0.0/{target}/site';
+  static readonly GetSitePath = '/aether/v2.0.0/{target}/site';
 
   /**
    * GET /site.
@@ -357,29 +396,29 @@ export class Service extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getSite$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<Site>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetSitePath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Site>;
-      })
-    );
-  }
+  // getSite$Response(params: {
+  //
+  //   /**
+  //    * target (device in onos-config)
+  //    */
+  //   target: any;
+  // }): Observable<StrictHttpResponse<Site>> {
+  //
+  //   const rb = new RequestBuilder(this.rootUrl, Service.GetSitePath, 'get');
+  //   if (params) {
+  //     rb.path('target', params.target, {});
+  //   }
+  //
+  //   return this.http.request(rb.build({
+  //     responseType: 'json',
+  //     accept: 'application/json'
+  //   })).pipe(
+  //     filter((r: any) => r instanceof HttpResponse),
+  //     map((r: HttpResponse<any>) => {
+  //       return r as StrictHttpResponse<Site>;
+  //     })
+  //   );
+  // }
 
   /**
    * GET /site.
@@ -399,15 +438,27 @@ export class Service extends BaseService {
     target: any;
   }): Observable<Site> {
 
-    return this.getSite$Response(params).pipe(
-      map((r: StrictHttpResponse<Site>) => r.body as Site)
-    );
+      return this.getEnterprise$Response(params).pipe(
+          map((r: StrictHttpResponse<Enterprise>) => {
+              let SiteDataObject :Site = { site:[], 'ent-id':null};
+              let EnterpriseSiteArray = [];
+              r.body.enterprise.forEach(enterprise => {
+                  enterprise.site.forEach(site=>{
+                      site['ent-id'] = enterprise["ent-id"];
+                  })
+                  EnterpriseSiteArray = [...EnterpriseSiteArray,...enterprise.site];
+
+              })
+              SiteDataObject.site = EnterpriseSiteArray;
+              return SiteDataObject as Site
+          })
+      );
   }
 
   /**
    * Path part for operation getTemplate
    */
-  static readonly GetTemplatePath = '/aether/v4.0.0/{target}/template';
+  static readonly GetTemplatePath = '/aether/v2.0.0/{target}/template';
 
   /**
    * GET /template.
@@ -419,29 +470,29 @@ export class Service extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getTemplate$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<Template>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetTemplatePath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Template>;
-      })
-    );
-  }
+  // getTemplate$Response(params: {
+  //
+  //   /**
+  //    * target (device in onos-config)
+  //    */
+  //   target: any;
+  // }): Observable<StrictHttpResponse<Template>> {
+  //
+  //   const rb = new RequestBuilder(this.rootUrl, Service.GetTemplatePath, 'get');
+  //   if (params) {
+  //     rb.path('target', params.target, {});
+  //   }
+  //
+  //   return this.http.request(rb.build({
+  //     responseType: 'json',
+  //     accept: 'application/json'
+  //   })).pipe(
+  //     filter((r: any) => r instanceof HttpResponse),
+  //     map((r: HttpResponse<any>) => {
+  //       return r as StrictHttpResponse<Template>;
+  //     })
+  //   );
+  // }
 
   /**
    * GET /template.
@@ -461,15 +512,27 @@ export class Service extends BaseService {
     target: any;
   }): Observable<Template> {
 
-    return this.getTemplate$Response(params).pipe(
-      map((r: StrictHttpResponse<Template>) => r.body as Template)
-    );
+      return this.getEnterprise$Response(params).pipe(
+          map((r: StrictHttpResponse<Enterprise>) => {
+              let TemplateDataObject :Template = { template:[], 'ent-id':null};
+              let EnterpriseTemplateArray = [];
+              r.body.enterprise.forEach(enterprise => {
+                  enterprise.template.forEach(template=>{
+                      template['ent-id'] = enterprise["ent-id"];
+                  })
+                  EnterpriseTemplateArray = [...EnterpriseTemplateArray,...enterprise.template];
+
+              })
+              TemplateDataObject.template = EnterpriseTemplateArray;
+              return TemplateDataObject as Template
+          })
+      );
   }
 
   /**
    * Path part for operation getTrafficClass
    */
-  static readonly GetTrafficClassPath = '/aether/v4.0.0/{target}/traffic-class';
+  // static readonly GetTrafficClassPath = '/aether/v2.0.0/{target}/traffic-class';
 
   /**
    * GET /traffic-class.
@@ -481,29 +544,29 @@ export class Service extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getTrafficClass$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<TrafficClass>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetTrafficClassPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<TrafficClass>;
-      })
-    );
-  }
+  // getTrafficClass$Response(params: {
+  //
+  //   /**
+  //    * target (device in onos-config)
+  //    */
+  //   target: any;
+  // }): Observable<StrictHttpResponse<TrafficClass>> {
+  //
+  //   const rb = new RequestBuilder(this.rootUrl, Service.GetTrafficClassPath, 'get');
+  //   if (params) {
+  //     rb.path('target', params.target, {});
+  //   }
+  //
+  //   return this.http.request(rb.build({
+  //     responseType: 'json',
+  //     accept: 'application/json'
+  //   })).pipe(
+  //     filter((r: any) => r instanceof HttpResponse),
+  //     map((r: HttpResponse<any>) => {
+  //       return r as StrictHttpResponse<TrafficClass>;
+  //     })
+  //   );
+  // }
 
   /**
    * GET /traffic-class.
@@ -523,15 +586,27 @@ export class Service extends BaseService {
     target: any;
   }): Observable<TrafficClass> {
 
-    return this.getTrafficClass$Response(params).pipe(
-      map((r: StrictHttpResponse<TrafficClass>) => r.body as TrafficClass)
-    );
+      return this.getEnterprise$Response(params).pipe(
+          map((r: StrictHttpResponse<Enterprise>) => {
+              let TrafficClassDataObject :TrafficClass = {'traffic-class':[], 'ent-id':null};
+              let EnterpriseTrafficClassArray = [];
+              r.body.enterprise.forEach(enterprise => {
+                  enterprise['traffic-class'].forEach(trafficClassObject=>{
+                      trafficClassObject['ent-id'] = enterprise["ent-id"];
+                  })
+                  EnterpriseTrafficClassArray = [...EnterpriseTrafficClassArray,...enterprise['traffic-class']];
+
+              })
+              TrafficClassDataObject['traffic-class'] = EnterpriseTrafficClassArray;
+              return TrafficClassDataObject as TrafficClass
+          })
+      );
   }
 
   /**
    * Path part for operation getUpf
    */
-  static readonly GetUpfPath = '/aether/v4.0.0/{target}/upf';
+  static readonly GetUpfPath = '/aether/v2.0.0/{target}/upf';
 
   /**
    * GET /upf.
@@ -543,29 +618,29 @@ export class Service extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getUpf$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<Upf>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetUpfPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Upf>;
-      })
-    );
-  }
+  // getUpf$Response(params: {
+  //
+  //   /**
+  //    * target (device in onos-config)
+  //    */
+  //   target: any;
+  // }): Observable<StrictHttpResponse<Upf>> {
+  //
+  //   const rb = new RequestBuilder(this.rootUrl, Service.GetUpfPath, 'get');
+  //   if (params) {
+  //     rb.path('target', params.target, {});
+  //   }
+  //
+  //   return this.http.request(rb.build({
+  //     responseType: 'json',
+  //     accept: 'application/json'
+  //   })).pipe(
+  //     filter((r: any) => r instanceof HttpResponse),
+  //     map((r: HttpResponse<any>) => {
+  //       return r as StrictHttpResponse<Upf>;
+  //     })
+  //   );
+  // }
 
   /**
    * GET /upf.
@@ -584,16 +659,29 @@ export class Service extends BaseService {
      */
     target: any;
   }): Observable<Upf> {
-
-    return this.getUpf$Response(params).pipe(
-      map((r: StrictHttpResponse<Upf>) => r.body as Upf)
-    );
+      return this.getEnterprise$Response(params).pipe(
+          map((r: StrictHttpResponse<Enterprise>) => {
+              let UpfataObject :Upf = {upf:[]};
+              let EnterpriseSiteUpfArray = [];
+              r.body.enterprise.forEach(enterprise => {
+                  enterprise.site.forEach(site=>{
+                      site.upf.forEach(UPF=> {
+                          UPF['site-id'] = site['site-id'];
+                          UPF['ent-id'] = enterprise['ent-id']})
+                      EnterpriseSiteUpfArray = [...EnterpriseSiteUpfArray,...site.upf];
+                  })
+              })
+              UpfataObject.upf = EnterpriseSiteUpfArray;
+              console.log(UpfataObject,"UpfataObject")
+              return UpfataObject as Upf
+          })
+      );
   }
 
   /**
    * Path part for operation getVcs
    */
-  static readonly GetVcsPath = '/aether/v4.0.0/{target}/vcs';
+  static readonly GetVcsPath = '/aether/v2.0.0/{target}/vcs';
 
   /**
    * GET /vcs.
@@ -605,29 +693,29 @@ export class Service extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  getVcs$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<Vcs>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetVcsPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Vcs>;
-      })
-    );
-  }
+  // getVcs$Response(params: {
+  //
+  //   /**
+  //    * target (device in onos-config)
+  //    */
+  //   target: any;
+  // }): Observable<StrictHttpResponse<Vcs>> {
+  //
+  //   const rb = new RequestBuilder(this.rootUrl, Service.GetVcsPath, 'get');
+  //   if (params) {
+  //     rb.path('target', params.target, {});
+  //   }
+  //
+  //   return this.http.request(rb.build({
+  //     responseType: 'json',
+  //     accept: 'application/json'
+  //   })).pipe(
+  //     filter((r: any) => r instanceof HttpResponse),
+  //     map((r: HttpResponse<any>) => {
+  //       return r as StrictHttpResponse<Vcs>;
+  //     })
+  //   );
+  // }
 
   /**
    * GET /vcs.
@@ -647,9 +735,24 @@ export class Service extends BaseService {
     target: any;
   }): Observable<Vcs> {
 
-    return this.getVcs$Response(params).pipe(
-      map((r: StrictHttpResponse<Vcs>) => r.body as Vcs)
-    );
+      return this.getEnterprise$Response(params).pipe(
+          map((r: StrictHttpResponse<Enterprise>) => {
+              let VcsDataObject: Vcs = {vcs: []};
+              let EnterpriseSiteVcsArray = [];
+              r.body.enterprise.forEach(enterprise => {
+                  enterprise.site.forEach(site => {
+                      site.vcs.forEach(vcs => {
+                          vcs['site-id'] = site['site-id'];
+                          vcs['ent-id'] = enterprise['ent-id']
+                      })
+                      EnterpriseSiteVcsArray = [...EnterpriseSiteVcsArray, ...site.vcs];
+                  })
+              })
+              VcsDataObject.vcs = EnterpriseSiteVcsArray;
+              console.log(VcsDataObject,"VcsDataObject")
+              return VcsDataObject as Vcs
+          })
+      );
   }
 
 }

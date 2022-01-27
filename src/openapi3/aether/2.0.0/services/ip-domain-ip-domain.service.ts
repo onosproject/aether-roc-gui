@@ -27,7 +27,7 @@ export class IpDomainIpDomainService extends BaseService {
   /**
    * Path part for operation getIpDomainIpDomain
    */
-  static readonly GetIpDomainIpDomainPath = '/aether/v4.0.0/{target}/ip-domain/ip-domain/{id}';
+  static readonly GetIpDomainIpDomainPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{ent_id}/site/{site_id}/ip-domain/{id}';
 
   /**
    * GET /ip-domain/ip-domain.
@@ -50,12 +50,24 @@ export class IpDomainIpDomainService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
+
+      /**
+       * key {ent-id}
+       */
+      site_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseSiteIpDomain>> {
 
     const rb = new RequestBuilder(this.rootUrl, IpDomainIpDomainService.GetIpDomainIpDomainPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
+        rb.path('ent_id', params['ent_id'], {});
+        rb.path('site_id', params['site_id'], {});
     }
 
     return this.http.request(rb.build({
@@ -90,6 +102,16 @@ export class IpDomainIpDomainService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
+
+      /**
+       * key {ent-id}
+       */
+      site_id: any;
   }): Observable<EnterpriseEnterpriseSiteIpDomain> {
 
     return this.getIpDomainIpDomain$Response(params).pipe(

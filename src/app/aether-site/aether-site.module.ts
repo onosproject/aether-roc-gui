@@ -5,7 +5,7 @@
  */
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiModule as ApiModuleAether } from '../../openapi3/aether/4.0.0/api.module';
+import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.0.0/api.module';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AETHER_ROC_API_URL } from '../../environments/environment';
@@ -52,7 +52,7 @@ import { SiteMonitorComponent } from './site-monitor/site-monitor.component';
         HttpClientModule,
         RouterModule.forChild([
             { path: 'site', component: SiteComponent },
-            { path: 'site-edit/:id', component: SiteEditComponent },
+            { path: 'site-edit/:ent-id/:id', component: SiteEditComponent },
             { path: 'site-monitor/:id', component: SiteMonitorComponent },
             { path: '', component: SiteComponent, pathMatch: 'full' },
         ]),

@@ -225,11 +225,11 @@ export class BasketService {
         // TODO - Add change-name-100 back
 
         const patchBody = {
-            'default-target': 'connectivity-service-v4',
+            'default-target': 'connectivity-service-v2',
             Updates: {},
             Deletes: {},
             Extensions: {
-                'model-version-101': '4.0.0',
+                'model-version-101': '2.0.0',
                 'model-type-102': 'Aether',
             },
         };

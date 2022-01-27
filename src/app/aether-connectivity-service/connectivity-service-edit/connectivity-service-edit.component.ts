@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import { Component, OnInit } from '@angular/core';
-import { ConnectivityServiceConnectivityService } from '../../../openapi3/aether/4.0.0/models';
+import { ConnectivityServiceConnectivityService } from '../../../openapi3/aether/2.0.0/models';
 import { RocEditBase } from '../../roc-edit-base';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BasketService, ORIGINAL } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConnectivityServiceConnectivityServiceService } from '../../../openapi3/aether/4.0.0/services';
+import { ConnectivityServiceConnectivityServiceService } from '../../../openapi3/aether/2.0.0/services';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 
 @Component({
@@ -54,6 +54,13 @@ export class ConnectivityServiceEditComponent
                 Validators.maxLength(80),
             ]),
         ],
+        'acc-prometheus-url': [
+            undefined,
+            Validators.compose([
+                Validators.minLength(1),
+                Validators.maxLength(80),
+            ]),
+        ],
     });
     showParentDisplay: boolean = false;
     connectivityServiceId: string;
@@ -72,7 +79,7 @@ export class ConnectivityServiceEditComponent
             bs,
             route,
             router,
-            'Connectivity-service-4.0.0',
+            'Connectivity-service-2.0.0',
             'connectivity-service'
         );
         super.form = this.csForm;
@@ -100,6 +107,13 @@ export class ConnectivityServiceEditComponent
                 .setValue(value['core-5g-endpoint']);
             this.csForm.get('core-5g-endpoint')[ORIGINAL] =
                 value['core-5g-endpoint'];
+        }
+        if (value['acc-prometheus-url']) {
+            this.csForm
+                .get('acc-prometheus-url')
+                .setValue(value['acc-prometheus-url']);
+            this.csForm.get('acc-prometheus-url')[ORIGINAL] =
+                value['acc-prometheus-url'];
         }
     }
 
@@ -130,9 +144,9 @@ export class ConnectivityServiceEditComponent
                     if (
                         this.pathRoot in basketPreview &&
                         this.pathListAttr in
-                            basketPreview['Connectivity-service-4.0.0']
+                            basketPreview['Connectivity-service-2.0.0']
                     ) {
-                        basketPreview['Connectivity-service-4.0.0'][
+                        basketPreview['Connectivity-service-2.0.0'][
                             'connectivity-service'
                         ].forEach((basketItems) => {
                             if (basketItems.id === id) {

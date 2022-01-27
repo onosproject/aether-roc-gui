@@ -6,13 +6,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import { TrafficClassTrafficClassService } from '../../../openapi3/aether/4.0.0/services';
-import { TrafficClassTrafficClass } from '../../../openapi3/aether/4.0.0/models';
+import { TrafficClassTrafficClassService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService, ORIGINAL } from '../../basket.service';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
+import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-traffic-class';
 
 @Component({
     selector: 'aether-traffic-class-edit',
@@ -20,9 +20,9 @@ import { RocElement } from '../../../openapi3/top/level/models/elements';
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class TrafficClassEditComponent extends RocEditBase implements OnInit {
-    pathRoot = 'Traffic-class-4.0.0' as RocElement;
+    pathRoot = 'Traffic-class-2.0.0' as RocElement;
     pathListAttr = 'traffic-class';
-    data: TrafficClassTrafficClass;
+    data: EnterpriseEnterpriseTrafficClass;
     showParentDisplay: boolean = false;
     trafficClassId: string;
     tcForm = this.fb.group({
@@ -80,7 +80,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
             bs,
             route,
             router,
-            'Traffic-class-4.0.0',
+            'Traffic-class-2.0.0',
             'traffic-class'
         );
         super.form = this.tcForm;
@@ -96,11 +96,13 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
             .getTrafficClassTrafficClass({
                 target,
                 id,
+                ent_id: this.route.snapshot.params['ent-id'],
             })
             .subscribe(
                 (value) => {
+                    console.log(value, 'value');
                     this.data = value;
-                    this.trafficClassId = value.id;
+                    this.trafficClassId = value['tc-id'];
                     this.populateFormData(value);
                 },
                 (error) => {
@@ -115,12 +117,12 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
                     if (
                         this.pathRoot in basketPreview &&
                         this.pathListAttr in
-                            basketPreview['Traffic-class-4.0.0']
+                            basketPreview['Traffic-class-2.0.0']
                     ) {
-                        basketPreview['Traffic-class-4.0.0'][
+                        basketPreview['Traffic-class-2.0.0'][
                             'traffic-class'
                         ].forEach((basketItems) => {
-                            if (basketItems.id === id) {
+                            if (basketItems['tc-id'] === id) {
                                 this.populateFormData(basketItems);
                             }
                         });
@@ -134,7 +136,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    private populateFormData(value: TrafficClassTrafficClass): void {
+    private populateFormData(value: EnterpriseEnterpriseTrafficClass): void {
         if (value['display-name']) {
             this.tcForm.get('display-name').setValue(value['display-name']);
             this.tcForm.get('display-name')[ORIGINAL] = value['display-name'];

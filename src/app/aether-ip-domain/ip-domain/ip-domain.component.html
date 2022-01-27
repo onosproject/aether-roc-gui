@@ -15,9 +15,9 @@
             aria-label="Add IP Domain"
             id="addNewIPDomainButton"
             [disabled]="
-                !opaService.canWrite('/ip-domain/ip-domain[id=newinstance]')
+                !opaService.canWrite('/ip-domain/ip-domain/[ent-id= newentinstance]/[site-id=newentsiteinstance]/[id=newinstance]')
             "
-            routerLink="/ipdomain/ipdomain-edit/newinstance"
+            routerLink="/ipdomain/ipdomain-edit/newentinstance/newentsiteinstance/newinstance"
         >
             Add
         </button>
@@ -34,13 +34,13 @@
         <ng-container matColumnDef="id" id="idColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
             <td mat-cell *matCellDef="let row">
-                <span *ngIf="row['display-name'] !== undefined" [title]="row.id"
+                <span *ngIf="row['display-name'] !== undefined" [title]="row['ip-id']"
                     >{{ row["display-name"] }} <br /><small
-                        >({{ row.id }})</small
+                        >({{ row['ip-id'] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
-                    row.id
+                    row['ip-id']
                 }}</span>
             </td>
         </ng-container>
@@ -56,24 +56,24 @@
         </ng-container>
 
         <!-- Enterprise Column-->
-        <ng-container matColumnDef="enterprise" id="enterpriseColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                Enterprise
-            </th>
-            <td mat-cell *matCellDef="let row">
-                {{ row.enterprise }}
-                <mat-icon
-                    class="table_icon small_icon"
-                    color="primary"
-                    aria-hidden="false"
-                    aria-label="Enterprise"
-                    routerLink="/enterprise/enterprise-edit/{{
-                        row.enterprise
-                    }}"
-                    >launch
-                </mat-icon>
-            </td>
-        </ng-container>
+<!--        <ng-container matColumnDef="enterprise" id="enterpriseColumn">-->
+<!--            <th mat-header-cell *matHeaderCellDef mat-sort-header>-->
+<!--                Enterprise-->
+<!--            </th>-->
+<!--            <td mat-cell *matCellDef="let row">-->
+<!--                {{ row.enterprise }}-->
+<!--                <mat-icon-->
+<!--                    class="table_icon small_icon"-->
+<!--                    color="primary"-->
+<!--                    aria-hidden="false"-->
+<!--                    aria-label="Enterprise"-->
+<!--                    routerLink="/enterprise/enterprise-edit/{{-->
+<!--                        row.enterprise-->
+<!--                    }}"-->
+<!--                    >launch-->
+<!--                </mat-icon>-->
+<!--            </td>-->
+<!--        </ng-container>-->
 
         <!-- DNS Column -->
         <ng-container matColumnDef="dns" id="dnsColumn">
@@ -121,7 +121,7 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/ipdomain/ipdomain-edit/{{ row.id }}"
+                routerLink="/ipdomain/ipdomain-edit/{{row['ent-id']}}/{{row['site-id']}}/{{ row['ip-id'] }}"
                 id="editButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
@@ -135,24 +135,24 @@
             </th>
             <td mat-cell *matCellDef="let row">
                 <button
-                    *ngIf="!checkForUsage(row.id)"
+                    *ngIf="!checkForUsage(row['ip-id'])"
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
-                            '/ipdomain/ipdomain[id=' + row.id + ']'
+                            '/ipdomain/ipdomain[id=' + row['ip-id'] + ']'
                         )
                     "
-                    (click)="delete(row.id)"
+                    (click)="delete(row['ip-id'])"
                     color="accent"
                     id="deleteButton"
                 >
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
                 <button
-                    *ngIf="checkForUsage(row.id)"
+                    *ngIf="checkForUsage(row['ip-id'])"
                     mat-icon-button
                     id="usageButton"
-                    (click)="showUsage(row.id)"
+                    (click)="showUsage(row['ip-id'])"
                     color="accent"
                 >
                     <mat-icon class="table_icon">assignment</mat-icon>
@@ -189,6 +189,6 @@
     *ngIf="showUsageCard"
     id="showParentModulesComponent"
     [ipDomainID]="id"
-    (closeShowParentCardEvent)="closeShowParentCard($event)"
+    (closeShowParentCardEvent)="closeShowParentCard()"
 >
 </aether-show-device-group-usage>

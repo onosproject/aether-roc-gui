@@ -27,7 +27,7 @@ export class SiteSiteService extends BaseService {
   /**
    * Path part for operation getSiteSite
    */
-  static readonly GetSiteSitePath = '/aether/v4.0.0/{target}/site/site/{id}';
+  static readonly GetSiteSitePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{ent_id}/site/{id}';
 
   /**
    * GET /site/site.
@@ -50,12 +50,18 @@ export class SiteSiteService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseSite>> {
 
     const rb = new RequestBuilder(this.rootUrl, SiteSiteService.GetSiteSitePath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
+        rb.path('ent_id', params['ent_id'], {});
     }
 
     return this.http.request(rb.build({
@@ -90,6 +96,11 @@ export class SiteSiteService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
   }): Observable<EnterpriseEnterpriseSite> {
 
     return this.getSiteSite$Response(params).pipe(

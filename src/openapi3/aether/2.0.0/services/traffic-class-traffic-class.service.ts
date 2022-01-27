@@ -26,7 +26,7 @@ export class TrafficClassTrafficClassService extends BaseService {
   /**
    * Path part for operation getTrafficClassTrafficClass
    */
-  static readonly GetTrafficClassTrafficClassPath = '/aether/v4.0.0/{target}/traffic-class/traffic-class/{id}';
+  static readonly GetTrafficClassTrafficClassPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{ent_id}/traffic-class/{id}';
 
   /**
    * GET /traffic-class/traffic-class.
@@ -49,12 +49,18 @@ export class TrafficClassTrafficClassService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseTrafficClass>> {
 
     const rb = new RequestBuilder(this.rootUrl, TrafficClassTrafficClassService.GetTrafficClassTrafficClassPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
+        rb.path('ent_id', params['ent_id'], {});
     }
 
     return this.http.request(rb.build({
@@ -89,6 +95,11 @@ export class TrafficClassTrafficClassService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
   }): Observable<EnterpriseEnterpriseTrafficClass> {
 
     return this.getTrafficClassTrafficClass$Response(params).pipe(

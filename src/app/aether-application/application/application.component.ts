@@ -7,14 +7,13 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { ApplicationApplication } from '../../../openapi3/aether/4.0.0/models/application-application';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { ApplicationDatasource } from './application-datasource';
-import * as _ from 'lodash';
+import { EnterpriseEnterpriseApplication } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-application';
 
 @Component({
     selector: 'aether-application',
@@ -27,7 +26,7 @@ export class ApplicationComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<ApplicationApplication>;
+    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseApplication>;
     displayedColumns = [
         'id',
         'description',
@@ -50,7 +49,7 @@ export class ApplicationComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Application-4.0.0',
+            'Application-2.0.0',
             'application'
         );
         super.reqdAttr = ['enterprise', 'address'];
@@ -59,37 +58,37 @@ export class ApplicationComponent
     onDataLoaded(ScopeOfDataSource: ApplicationDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         this.usageArray = [];
-        this.aetherService
-            .getVcs({
-                target: AETHER_TARGETS[0],
-            })
-            .subscribe((displayData) => {
-                this.usageArray = this.usageArray.concat(
-                    _.differenceWith(
-                        ScopeOfDataSource.data,
-                        displayData.vcs,
-                        function (ScopeOfDataSourceObject, displayDataObject) {
-                            return _.findIndex(
-                                displayDataObject.filter,
-                                (filterElement) => {
-                                    return (
-                                        filterElement.application ==
-                                        ScopeOfDataSourceObject.id
-                                    );
-                                }
-                            ) !== -1
-                                ? true
-                                : false;
-                        }
-                    )
-                );
-            });
+        this.aetherService;
+        // .getVcs({
+        //     target: AETHER_TARGETS[0],
+        // })
+        // .subscribe((displayData) => {
+        //     this.usageArray = this.usageArray.concat(
+        //         _.differenceWith(
+        //             ScopeOfDataSource.data,
+        //             displayData.vcs,
+        //             function (ScopeOfDataSourceObject, displayDataObject) {
+        //                 return _.findIndex(
+        //                     displayDataObject.filter,
+        //                     (filterElement) => {
+        //                         return (
+        //                             filterElement.application ==
+        //                             ScopeOfDataSourceObject.id
+        //                         );
+        //                     }
+        //                 ) !== -1
+        //                     ? true
+        //                     : false;
+        //             }
+        //         )
+        //     );
+        // });
         if (
             this.pathRoot in basketPreview &&
             'application' in basketPreview[this.pathRoot]
         ) {
             ScopeOfDataSource.merge(
-                basketPreview['Application-4.0.0'].application,
+                basketPreview['Application-2.0.0'].application,
                 [{ fieldName: 'endpoint', idAttr: 'endpoint-id' }]
             );
         }

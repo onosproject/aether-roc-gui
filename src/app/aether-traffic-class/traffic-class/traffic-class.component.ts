@@ -9,8 +9,8 @@ import { TrafficClassDatasource } from './traffic-class-datasource';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { TrafficClassTrafficClass } from '../../../openapi3/aether/4.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
@@ -27,7 +27,7 @@ export class TrafficClassComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<TrafficClassTrafficClass>;
+    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseTrafficClass>;
 
     displayedColumns = [
         'id',
@@ -52,7 +52,7 @@ export class TrafficClassComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Traffic-class-4.0.0',
+            'Traffic-class-2.0.0',
             'traffic-class'
         );
     }
@@ -71,7 +71,7 @@ export class TrafficClassComponent
                         displayData['device-group'],
                         function (ScopeOfDataSourceObject, displayDataObject) {
                             return (
-                                ScopeOfDataSourceObject.id ===
+                                ScopeOfDataSourceObject['tc-id'] ===
                                 displayDataObject.device['traffic-class']
                             );
                         }
@@ -101,7 +101,7 @@ export class TrafficClassComponent
             'traffic-class' in basketPreview[this.pathRoot]
         ) {
             ScopeOfDataSource.merge(
-                basketPreview['Traffic-class-4.0.0']['traffic-class']
+                basketPreview['Traffic-class-2.0.0']['traffic-class']
             );
         }
     }

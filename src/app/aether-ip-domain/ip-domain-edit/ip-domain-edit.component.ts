@@ -6,11 +6,10 @@
 import { Component, OnInit } from '@angular/core';
 import { RocEditBase } from '../../roc-edit-base';
 import { FormBuilder, Validators } from '@angular/forms';
-import { IpDomainIpDomain } from '../../../openapi3/aether/4.0.0/models/ip-domain-ip-domain';
 import {
     Service as AetherService,
     IpDomainIpDomainService,
-} from '../../../openapi3/aether/4.0.0/services';
+} from '../../../openapi3/aether/2.0.0/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     BasketService,
@@ -20,7 +19,8 @@ import {
 } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { EnterpriseEnterprise } from '../../../openapi3/aether/4.0.0/models/enterprise-enterprise';
+import { EnterpriseEnterprise } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise';
+import { EnterpriseEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-ip-domain';
 
 export const UPDATED = 'updated';
 
@@ -36,7 +36,7 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
     secCardDisplay: boolean = false;
     subCardDisplay: boolean = false;
     showParentDisplay: boolean = false;
-    data: IpDomainIpDomain;
+    data: EnterpriseEnterpriseSiteIpDomain;
     enterprises: Array<EnterpriseEnterprise>;
 
     displayOption: string;
@@ -109,7 +109,7 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Ip-domain-4.0.0', 'ip-domain');
+        super(snackBar, bs, route, router, 'Ip-domain-2.0.0', 'ip-domain');
         super.form = this.ipForm;
         super.loadFunc = this.loadIpDomainIpDomain;
         this.ipForm[REQDATTRIBS] = ['enterprise', 'subnet', 'dnn'];
@@ -125,11 +125,11 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
         if (lenEnterprises === 1) {
             this.ipForm.get('enterprise').markAsTouched();
             this.ipForm.get('enterprise').markAsDirty();
-            this.ipForm.get('enterprise').setValue(this.enterprises[0].id);
+            // this.ipForm.get('enterprise').setValue(this.enterprises[0].id);
         }
     }
 
-    private populateFormData(value: IpDomainIpDomain): void {
+    private populateFormData(value: EnterpriseEnterpriseSiteIpDomain): void {
         this.displayOption = this.ipForm.get(['admin-status'])[ORIGINAL];
         if (value['display-name']) {
             this.ipForm.get('display-name').setValue(value['display-name']);
@@ -207,11 +207,13 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
             .getIpDomainIpDomain({
                 target,
                 id,
+                ent_id: this.route.snapshot.params['ent-id'],
+                site_id: this.route.snapshot.params['site-id'],
             })
             .subscribe(
                 (value) => {
                     this.data = value;
-                    this.ipDomainId = value.id;
+                    this.ipDomainId = value['ip-id'];
                     this.populateFormData(value);
                 },
                 (error) => {
@@ -225,9 +227,9 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Ip-domain-4.0.0']
+                        this.pathListAttr in basketPreview['Ip-domain-2.0.0']
                     ) {
-                        basketPreview['Ip-domain-4.0.0']['ip-domain'].forEach(
+                        basketPreview['Ip-domain-2.0.0']['ip-domain'].forEach(
                             (basketItems) => {
                                 if (basketItems.id === id) {
                                     this.populateFormData(basketItems);

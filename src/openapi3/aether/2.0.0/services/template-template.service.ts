@@ -28,7 +28,7 @@ export class TemplateTemplateService extends BaseService {
   /**
    * Path part for operation getTemplateTemplate
    */
-  static readonly GetTemplateTemplatePath = '/aether/v4.0.0/{target}/template/template/{id}';
+  static readonly GetTemplateTemplatePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{ent_id}/template/{id}';
 
   /**
    * GET /template/template.
@@ -51,12 +51,19 @@ export class TemplateTemplateService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseTemplate>> {
 
     const rb = new RequestBuilder(this.rootUrl, TemplateTemplateService.GetTemplateTemplatePath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
+        rb.path('ent_id', params['ent_id'], {});
+
     }
 
     return this.http.request(rb.build({
@@ -91,6 +98,12 @@ export class TemplateTemplateService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
+
   }): Observable<EnterpriseEnterpriseTemplate> {
 
     return this.getTemplateTemplate$Response(params).pipe(

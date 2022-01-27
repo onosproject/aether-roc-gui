@@ -14,5 +14,5 @@ export interface IpDomain {
    */
   'ip-domain'?: Array<EnterpriseEnterpriseSiteIpDomain>;
 
-  [key: string]: AdditionalPropertyTarget | Array<EnterpriseEnterpriseSiteIpDomain> | undefined;
+  [key: string]: AdditionalPropertyTarget | Array<EnterpriseEnterpriseSiteIpDomain>| string | undefined;
 }

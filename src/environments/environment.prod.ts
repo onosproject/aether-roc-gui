@@ -16,7 +16,7 @@ export const PROMETHEUS_PROXY = window.location.origin + '/prometheus';
 export const WEBSOCKET_PROXY =
     window.location.origin.toString().replace('http', 'ws') + '/ws';
 
-export const AETHER_TARGETS = ['connectivity-service-v4'];
+export const AETHER_TARGETS = ['connectivity-service-v2'];
 export const SDCORE_ADAPTER = 'sdcore-adapter-v4';
 
 export const OIDC_AUTH_CLIENT_ID = 'aether-roc-gui';

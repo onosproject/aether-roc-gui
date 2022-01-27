@@ -8,12 +8,12 @@ import { OpenPolicyAgentService } from 'src/app/open-policy-agent.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { TemplateDatasource } from './template-datasource';
-import { TemplateTemplate } from '../../../openapi3/aether/4.0.0/models';
+import { EnterpriseEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
 import { HexPipe } from '../../utils/hex.pipe';
 
 @Component({
@@ -27,7 +27,7 @@ export class TemplateComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<TemplateTemplate>;
+    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseTemplate>;
     sdAsInt = HexPipe.hexAsInt;
 
     displayedColumns = [
@@ -54,7 +54,7 @@ export class TemplateComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Template-4.0.0',
+            'Template-2.0.0',
             'template'
         );
         super.reqdAttr = ['default-behavior'];
@@ -66,7 +66,7 @@ export class TemplateComponent
             this.pathRoot in basketPreview &&
             'template' in basketPreview[this.pathRoot]
         ) {
-            ScopeOfDataSource.merge(basketPreview['Template-4.0.0'].template);
+            ScopeOfDataSource.merge(basketPreview['Template-2.0.0'].template);
         }
     }
 

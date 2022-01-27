@@ -14,14 +14,17 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Vcs, VcsVcs } from '../../../openapi3/aether/4.0.0/models';
+import {
+    Vcs,
+    EnterpriseEnterpriseSiteVcs,
+} from '../../../openapi3/aether/2.0.0/models';
 import { RocListBase } from '../../roc-list-base';
 import {
     AETHER_TARGETS,
     PERFORMANCE_METRICS_ENABLED,
 } from '../../../environments/environment';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
 import { BasketService } from '../../basket.service';
 import { PanelVcsDatasource } from './panel-vcs-datasource';
 import { VcsPromDataSource } from '../../utils/vcs-prom-data-source';
@@ -50,7 +53,7 @@ export class PanelVcsComponent
     @Input() height: number;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<VcsVcs>;
+    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteVcs>;
     loginTokenTimer: any;
     panelUrl: string;
     grafanaOrgId: number = 1;
@@ -90,8 +93,10 @@ export class PanelVcsComponent
         this.promData = new VcsPromDataSource(httpClient);
     }
 
-    onDataLoaded(ScopeOfDataSource: RocDataSource<VcsVcs, Vcs>): void {
-        ScopeOfDataSource.data.forEach((vcs: VcsVcs) => {
+    onDataLoaded(
+        ScopeOfDataSource: RocDataSource<EnterpriseEnterpriseSiteVcs, Vcs>
+    ): void {
+        ScopeOfDataSource.data.forEach((vcs: EnterpriseEnterpriseSiteVcs) => {
             // Add the tag on to VCS. the data is filled in below
             vcsPromTags.forEach((tag: string) => (vcs[tag] = {}));
         });

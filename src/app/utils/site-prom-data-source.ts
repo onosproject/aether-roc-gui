@@ -6,7 +6,7 @@
 import { from, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { mergeMap, pluck } from 'rxjs/operators';
-import { SiteSite } from '../../openapi3/aether/4.0.0/models/site-site';
+import { EnterpriseEnterpriseSite } from '../../openapi3/aether/2.0.0/models/enterprise-enterprise-site';
 
 export interface SiteSiteProm {
     id: string;
@@ -43,7 +43,7 @@ export class SitePromDataSource {
         );
     }
 
-    queryBuilder(tag: string, site: SiteSite): string {
+    queryBuilder(tag: string, site: EnterpriseEnterpriseSite): string {
         let host: string, query: string;
 
         switch (tag) {

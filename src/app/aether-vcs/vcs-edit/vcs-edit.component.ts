@@ -6,15 +6,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-    VcsVcs,
-    DeviceGroupDeviceGroup,
-    UpfUpf,
-    EnterpriseEnterprise,
-    SiteSite,
-    TemplateTemplate,
-    ApplicationApplication,
-} from '../../../openapi3/aether/4.0.0/models';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { from, Observable } from 'rxjs';
@@ -23,7 +14,7 @@ import { map, mergeMap, skipWhile, startWith } from 'rxjs/operators';
 import {
     VcsVcsService,
     Service as AetherService,
-} from 'src/openapi3/aether/4.0.0/services';
+} from 'src/openapi3/aether/2.0.0/services';
 import {
     BasketService,
     HEX2NUM,
@@ -35,6 +26,11 @@ import {
 import { HexPipe } from '../../utils/hex.pipe';
 import { SelectAppParam } from '../application-select/application-select.component';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
+import { EnterpriseEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-device-group';
+import { EnterpriseEnterpriseApplication } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-application';
+import { EnterpriseEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-template';
+import { EnterpriseEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-upf';
+import { EnterpriseEnterpriseSiteVcs } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-vcs';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -55,13 +51,13 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
     showDeviceGroupDisplay: boolean = false;
     showAddFilterButton: boolean = true;
     EndpointLeft: number = 5;
-    deviceGroups: Array<DeviceGroupDeviceGroup>;
-    site: Array<SiteSite>;
-    applications: Array<ApplicationApplication>;
-    templates: Array<TemplateTemplate>;
+    deviceGroups: Array<EnterpriseEnterpriseSiteDeviceGroup>;
+    // site: Array<En>;
+    applications: Array<EnterpriseEnterpriseApplication>;
+    templates: Array<EnterpriseEnterpriseTemplate>;
     selectedSite: string;
-    enterprises: Array<EnterpriseEnterprise>;
-    upfs: Array<UpfUpf> = [];
+    // enterprises: Array<EnterpriseEnterprise>;
+    upfs: Array<EnterpriseEnterpriseSiteUpf> = [];
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
@@ -86,8 +82,8 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
 
     defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL'];
     bandwidthOptions: Observable<Bandwidths[]>;
-    data: VcsVcs;
-    pathRoot = 'Vcs-4.0.0' as RocElement;
+    data: EnterpriseEnterpriseSiteVcs;
+    pathRoot = 'Vcs-2.0.0' as RocElement;
     pathListAttr = 'vcs';
     sdAsInt = HexPipe.hexAsInt;
 
@@ -114,7 +110,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                 Validators.maxLength(1024),
             ]),
         ],
-        site: [undefined],
+        // site: [undefined],
         filter: this.fb.array([]),
         slice: this.fb.group({
             mbr: this.fb.group({
@@ -152,7 +148,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
             undefined,
             Validators.compose([Validators.required]),
         ],
-        enterprise: [undefined],
+        // enterprise: [undefined],
         'device-group': this.fb.array([]),
         sd: [
             undefined,
@@ -179,7 +175,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Vcs-4.0.0', 'vcs');
+        super(snackBar, bs, route, router, 'Vcs-2.0.0', 'vcs');
         super.form = this.vcsForm;
         this.loadApplication(this.target);
         super.loadFunc = this.loadVcsVcs;
@@ -209,10 +205,10 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
             this.vcsForm.get('sst').disable();
             this.vcsForm.get('sd').disable();
         }
-        this.loadSites(this.target);
+        // this.loadSites(this.target);
         this.OnSiteSelect();
         this.loadDeviceGoup(this.target);
-        this.loadEnterprises(this.target);
+        // this.loadEnterprises(this.target);
         this.bandwidthOptions = this.vcsForm.valueChanges.pipe(
             startWith(''),
             map((value) =>
@@ -224,13 +220,13 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
         );
     }
 
-    setOnlyEnterprise(lenEnterprises: number): void {
-        if (lenEnterprises === 1) {
-            this.vcsForm.get('enterprise').markAsTouched();
-            this.vcsForm.get('enterprise').markAsDirty();
-            this.vcsForm.get('enterprise').setValue(this.enterprises[0].id);
-        }
-    }
+    // setOnlyEnterprise(lenEnterprises: number): void {
+    //     if (lenEnterprises === 1) {
+    //         this.vcsForm.get('enterprise').markAsTouched();
+    //         this.vcsForm.get('enterprise').markAsDirty();
+    //         // this.vcsForm.get('enterprise').setValue(this.enterprises[0].id);
+    //     }
+    // }
 
     get filter(): FormArray {
         return this.vcsForm.get('filter') as FormArray;
@@ -259,7 +255,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
     }
 
     OnSiteSelect(): void {
-        this.selectedSite = this.vcsForm.get('site').value;
+        // this.selectedSite = this.vcsForm.get('site').value;
         this.loadUpf(this.target);
     }
 
@@ -333,9 +329,9 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    templateSelected(evt: { value: TemplateTemplate }): void {
+    templateSelected(evt: { value: EnterpriseEnterpriseTemplate }): void {
         if (this.isNewInstance) {
-            const eachTemplate: TemplateTemplate = evt.value;
+            const eachTemplate: EnterpriseEnterpriseTemplate = evt.value;
             const SdFormControl = this.vcsForm.get('sd');
             SdFormControl.setValue(
                 eachTemplate.sd.toString(16).toUpperCase().padStart(6, '0')
@@ -391,6 +387,8 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
             .getVcsVcs({
                 target,
                 id,
+                ent_id: this.route.snapshot.params['ent-id'],
+                site_id: this.route.snapshot.params['site-id'],
             })
             .subscribe(
                 (value) => {
@@ -410,7 +408,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                         this.pathRoot in basketPreview &&
                         this.pathListAttr in basketPreview[this.pathRoot]
                     ) {
-                        basketPreview['Vcs-4.0.0'].vcs.forEach(
+                        basketPreview['Vcs-2.0.0'].vcs.forEach(
                             (basketItems) => {
                                 if (basketItems.id === id) {
                                     this.populateFormData(basketItems);
@@ -429,7 +427,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
 
     deleteApplicationFromSelect(app: string): void {
         this.bs.deleteIndexedEntry(
-            '/vcs-4.0.0/vcs[id=' +
+            '/vcs-2.0.0/vcs[id=' +
                 this.id +
                 ']/filter[application=' +
                 app +
@@ -452,7 +450,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
 
     deleteDeviceGroupFromSelect(dg: string): void {
         this.bs.deleteIndexedEntry(
-            '/vcs-4.0.0/vcs[id=' +
+            '/vcs-2.0.0/vcs[id=' +
                 this.id +
                 ']/device-group[device-group=' +
                 dg +
@@ -471,7 +469,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
     }
 
     private get ucmap(): Map<string, string> {
-        const vcsId = '/vcs-4.0.0/vcs[id=' + this.id + ']';
+        const vcsId = '/vcs-2.0.0/vcs[id=' + this.id + ']';
         let parentUc = localStorage.getItem(vcsId);
         if (parentUc === null) {
             parentUc = this.vcsForm[REQDATTRIBS];
@@ -481,7 +479,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
         return ucMap;
     }
 
-    public populateFormData(value: VcsVcs): void {
+    public populateFormData(value: EnterpriseEnterpriseSiteVcs): void {
         if (value['display-name']) {
             this.vcsForm.get('display-name').setValue(value['display-name']);
             this.vcsForm.get('display-name')[ORIGINAL] = value['display-name'];
@@ -496,7 +494,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/vcs-4.0.0/vcs[id=' +
+                            '/basket-delete/vcs-2.0.0/vcs[id=' +
                                 this.id +
                                 ']/application[application='
                         )
@@ -596,7 +594,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/vcs-4.0.0/vcs[id=' +
+                            '/basket-delete/vcs-2.0.0/vcs[id=' +
                                 this.id +
                                 ']/device-group[device-group='
                         )
@@ -664,12 +662,12 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                 .toString(16)
                 .toUpperCase();
         }
-        if (value.site) {
-            this.vcsForm.get('site').setValue(value.site);
-            this.vcsForm.get('site')[ORIGINAL] = value.site;
-            this.loadSites(this.target);
-            this.OnSiteSelect();
-        }
+        // if (value.site) {
+        //     this.vcsForm.get('site').setValue(value.site);
+        //     this.vcsForm.get('site')[ORIGINAL] = value.site;
+        //     // this.loadSites(this.target);
+        //     this.OnSiteSelect();
+        // }
         if (value['default-behavior']) {
             this.vcsForm
                 .get(['default-behavior'])
@@ -686,27 +684,27 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
             this.vcsForm.get('upf')[ORIGINAL] = value.upf;
         }
     }
-
-    loadEnterprises(target: string): void {
-        this.aetherService
-            .getEnterprise({
-                target,
-            })
-            .subscribe(
-                (value) => {
-                    this.enterprises = value.enterprise;
-                    this.setOnlyEnterprise(value.enterprise.length);
-                    console.log('Got', value.enterprise.length, 'Enterprise');
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting Enterprise for ',
-                        target,
-                        error
-                    );
-                }
-            );
-    }
+    //
+    // loadEnterprises(target: string): void {
+    //     this.aetherService
+    //         .getEnterprise({
+    //             target,
+    //         })
+    //         .subscribe(
+    //             (value) => {
+    //                 // this.enterprises = value.enterprise;
+    //                 this.setOnlyEnterprise(value.enterprise.length);
+    //                 console.log('Got', value.enterprise.length, 'Enterprise');
+    //             },
+    //             (error) => {
+    //                 console.warn(
+    //                     'Error getting Enterprise for ',
+    //                     target,
+    //                     error
+    //                 );
+    //             }
+    //         );
+    // }
 
     loadDeviceGoup(target: string): void {
         this.aetherService
@@ -762,13 +760,15 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                         .pipe(
                             map((vcsContainer) => vcsContainer?.vcs),
                             skipWhile((vcsList) => vcsList === undefined),
-                            mergeMap((vcsItem: VcsVcs[]) => from(vcsItem)),
-                            map((vcs: VcsVcs) => vcs.upf)
+                            mergeMap((vcsItem: EnterpriseEnterpriseSiteVcs[]) =>
+                                from(vcsItem)
+                            ),
+                            map((vcs: EnterpriseEnterpriseSiteVcs) => vcs.upf)
                         )
                         .subscribe(
                             (vcsUpf) => {
                                 const idx = this.upfs.findIndex(
-                                    (upf: UpfUpf) =>
+                                    (upf: EnterpriseEnterpriseSiteUpf) =>
                                         upf.id === vcsUpf &&
                                         this.vcsForm.get('upf').value !== vcsUpf
                                 );
@@ -792,7 +792,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
     setShowAddFilterButton(): void {
         this.EndpointLeft = this.applications
             ?.filter((eachApplication) =>
-                this.selectedApplications().includes(eachApplication.id)
+                this.selectedApplications().includes(eachApplication['app-id'])
             )
             .reduce((total, application) => {
                 return total - application.endpoint.length;
@@ -802,24 +802,24 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
         }
     }
 
-    loadSites(target: string): void {
-        this.aetherService
-            .getSite({
-                target,
-            })
-            .subscribe(
-                (value) => {
-                    this.site = value.site;
-                    console.log('Got Site', value.site.length);
-                },
-                (error) => {
-                    console.warn('Error getting Site for ', target, error);
-                },
-                () => {
-                    console.log('Finished loading Site', target);
-                }
-            );
-    }
+    // loadSites(target: string): void {
+    //     this.aetherService
+    //         .getSite({
+    //             target,
+    //         })
+    //         .subscribe(
+    //             (value) => {
+    //                 this.site = value.site;
+    //                 console.log('Got Site', value.site.length);
+    //             },
+    //             (error) => {
+    //                 console.warn('Error getting Site for ', target, error);
+    //             },
+    //             () => {
+    //                 console.log('Finished loading Site', target);
+    //             }
+    //         );
+    // }
 
     loadApplication(target: string): void {
         this.aetherService

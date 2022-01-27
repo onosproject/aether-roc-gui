@@ -6,14 +6,14 @@
 
 import {
     Template,
-    TemplateTemplate,
-} from '../../../openapi3/aether/4.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+    EnterpriseEnterpriseTemplate,
+} from '../../../openapi3/aether/2.0.0/models';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 
 export class TemplateDatasource extends RocDataSource<
-    TemplateTemplate,
+    EnterpriseEnterpriseTemplate,
     Template
 > {
     constructor(
@@ -21,10 +21,12 @@ export class TemplateDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/template-4.0.0', 'template');
+        super(aetherService, bs, target, '/template-2.0.0', 'template');
     }
 
-    getSortedData(data: TemplateTemplate[]): TemplateTemplate[] {
+    getSortedData(
+        data: EnterpriseEnterpriseTemplate[]
+    ): EnterpriseEnterpriseTemplate[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -33,22 +35,27 @@ export class TemplateDatasource extends RocDataSource<
         ) {
             return super.getSortedData(data);
         }
-        return data.sort((a: TemplateTemplate, b: TemplateTemplate) => {
-            const isAsc = this.sort.direction === 'asc';
-            switch (this.sort.active) {
-                case 'sst':
-                    return compare(a.sst, b.sst, isAsc);
-                case 'sd':
-                    return compare(+a.sd, +b.sd, isAsc);
-                case 'default-behavior':
-                    return compare(
-                        a['default-behavior'],
-                        b['default-behavior'],
-                        isAsc
-                    );
-                default:
-                    return 0;
+        return data.sort(
+            (
+                a: EnterpriseEnterpriseTemplate,
+                b: EnterpriseEnterpriseTemplate
+            ) => {
+                const isAsc = this.sort.direction === 'asc';
+                switch (this.sort.active) {
+                    case 'sst':
+                        return compare(a.sst, b.sst, isAsc);
+                    case 'sd':
+                        return compare(+a.sd, +b.sd, isAsc);
+                    case 'default-behavior':
+                        return compare(
+                            a['default-behavior'],
+                            b['default-behavior'],
+                            isAsc
+                        );
+                    default:
+                        return 0;
+                }
             }
-        });
+        );
     }
 }

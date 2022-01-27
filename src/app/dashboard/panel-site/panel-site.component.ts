@@ -14,11 +14,11 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { SiteSite } from '../../../openapi3/aether/4.0.0/models';
+import { EnterpriseEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
 import { RocListBase } from '../../roc-list-base';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
 import { BasketService } from '../../basket.service';
 import { PanelSiteDatasource } from './panel-site-datasource';
 import { SitePromDataSource } from '../../utils/site-prom-data-source';
@@ -50,7 +50,7 @@ export class PanelSiteComponent
     @Input() height: number;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<SiteSite>;
+    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSite>;
     prometheusTimer: any;
 
     promData: SitePromDataSource;
@@ -72,7 +72,7 @@ export class PanelSiteComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Site-4.0.0',
+            'Site-2.0.0',
             'site'
         );
         this.promData = new SitePromDataSource(httpClient);

@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AETHER_TARGETS } from '../../../environments/environment';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
@@ -62,7 +62,7 @@ export class ShowEnterpriseUsageComponent implements OnChanges {
                             ] === this.connectivityServiceID
                         ) {
                             const displayParentModules = {
-                                id: enterpirseElement.id,
+                                id: enterpirseElement['ent-id'],
                                 'display-name':
                                     enterpirseElement['display-name'],
                             };

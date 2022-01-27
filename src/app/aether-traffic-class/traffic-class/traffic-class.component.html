@@ -18,7 +18,7 @@
                     'traffic-class/traffic-class[id=newinstance]'
                 )
             "
-            routerLink="/traffic-class/traffic-class-edit/newinstance"
+            routerLink="/traffic-class/traffic-class-edit/newentinstance/newinstance"
         >
             Add
         </button>
@@ -34,9 +34,9 @@
         <ng-container matColumnDef="id" id="idColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
             <td mat-cell *matCellDef="let row">
-                <span *ngIf="row['display-name'] !== undefined" [title]="row.id"
+                <span *ngIf="row['display-name'] !== undefined" [title]="row['tc-id']"
                     >{{ row["display-name"] }}<br /><small
-                        >({{ row.id }})</small
+                        >({{ row['tc-id'] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
@@ -95,7 +95,7 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/traffic-class/traffic-class-edit/{{ row.id }}"
+                routerLink="/traffic-class/traffic-class-edit/{{row['ent-id']}}/{{ row['tc-id'] }}"
                 id="editButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
@@ -114,7 +114,7 @@
                     id="deleteButton"
                     [disabled]="
                         !opaService.canWrite(
-                            '/traffic-class/traffic-class[id=' + row.id + ']'
+                            '/traffic-class/traffic-class/[ent-id='+row['ent-id']+'/[id=' + row['tc-id'] + ']'
                         )
                     "
                     (click)="delete(row.id)"

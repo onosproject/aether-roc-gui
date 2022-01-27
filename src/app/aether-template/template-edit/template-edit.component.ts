@@ -9,11 +9,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
     Service as AetherService,
     TemplateTemplateService,
-} from '../../../openapi3/aether/4.0.0/services';
+} from '../../../openapi3/aether/2.0.0/services';
 import {
-    TemplateTemplate,
-    TrafficClassTrafficClass,
-} from '../../../openapi3/aether/4.0.0/models';
+    EnterpriseEnterpriseTemplate,
+    EnterpriseEnterpriseTrafficClass,
+} from '../../../openapi3/aether/2.0.0/models';
 import {
     BasketService,
     HEX2NUM,
@@ -52,9 +52,9 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
 
     sdAsInt = HexPipe.hexAsInt;
 
-    pathRoot = 'Template-4.0.0' as RocElement;
+    pathRoot = 'Template-2.0.0' as RocElement;
     pathListAttr = 'template';
-    trafficClass: Array<TrafficClassTrafficClass>;
+    trafficClass: Array<EnterpriseEnterpriseTrafficClass>;
     defaultBehaviorOpitons = ['DENY-ALL', 'ALLOW-ALL'];
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
@@ -79,7 +79,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
     ];
 
     bandwidthOptions: Observable<Bandwidths[]>;
-    data: TemplateTemplate;
+    data: EnterpriseEnterpriseTemplate;
     tempForm = this.fb.group({
         id: [
             undefined,
@@ -163,7 +163,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Template-4.0.0', 'template');
+        super(snackBar, bs, route, router, 'Template-2.0.0', 'template');
         super.form = this.tempForm;
         super.loadFunc = this.loadTemplateTemplate;
         this.tempForm[REQDATTRIBS] = ['default-behavior'];
@@ -206,6 +206,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
             .getTemplateTemplate({
                 target,
                 id,
+                ent_id: this.route.snapshot.params['ent-id'],
             })
             .subscribe(
                 (value) => {
@@ -223,9 +224,9 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Template-4.0.0']
+                        this.pathListAttr in basketPreview['Template-2.0.0']
                     ) {
-                        basketPreview['Template-4.0.0'].template.forEach(
+                        basketPreview['Template-2.0.0'].template.forEach(
                             (basketItems) => {
                                 if (basketItems.id === id) {
                                     this.populateFormData(basketItems);
@@ -242,7 +243,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    private populateFormData(value: TemplateTemplate): void {
+    private populateFormData(value: EnterpriseEnterpriseTemplate): void {
         if (value['display-name']) {
             this.tempForm.get('display-name').setValue(value['display-name']);
             this.tempForm.get('display-name')[ORIGINAL] = value['display-name'];

@@ -30,7 +30,11 @@ export abstract class RocEditBase {
 
     init(): void {
         this.route.paramMap.subscribe((value) => {
-            if (value.get('id') === 'newinstance') {
+            if (
+                value.get('id') === 'newinstance' &&
+                value.get('ent-id') === 'newentinstance' &&
+                value.get('SITE-id') === 'newentSITEinstance'
+            ) {
                 this.isNewInstance = true;
                 if (this.initFunc) {
                     this.form.get('id').setValue(this.initFunc());

@@ -27,7 +27,7 @@ export class VcsVcsService extends BaseService {
   /**
    * Path part for operation getVcsVcs
    */
-  static readonly GetVcsVcsPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}';
+  static readonly GetVcsVcsPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{ent_id}/site/{site_id}/vcs/{id}';
 
   /**
    * GET /vcs/vcs.
@@ -50,12 +50,24 @@ export class VcsVcsService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
+
+      /**
+       * key {ent-id}
+       */
+      site_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseSiteVcs>> {
 
     const rb = new RequestBuilder(this.rootUrl, VcsVcsService.GetVcsVcsPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
+        rb.path('ent_id', params['ent_id'], {});
+        rb.path('site_id', params['site_id'], {});
     }
 
     return this.http.request(rb.build({
@@ -90,6 +102,16 @@ export class VcsVcsService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
+
+      /**
+       * key {ent-id}
+       */
+      site_id: any;
   }): Observable<EnterpriseEnterpriseSiteVcs> {
 
     return this.getVcsVcs$Response(params).pipe(

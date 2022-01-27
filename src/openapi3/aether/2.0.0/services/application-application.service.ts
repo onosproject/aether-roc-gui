@@ -26,7 +26,7 @@ export class ApplicationApplicationService extends BaseService {
   /**
    * Path part for operation getApplicationApplication
    */
-  static readonly GetApplicationApplicationPath = '/aether/v4.0.0/{target}/application/application/{id}';
+  static readonly GetApplicationApplicationPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{ent_id}/application/{id}';
 
   /**
    * GET /application/application.
@@ -49,14 +49,20 @@ export class ApplicationApplicationService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<StrictHttpResponse<EnterpriseEnterpriseApplication>> {
 
+      /**
+       * key {id}
+       */
+      ent_id: any;
+  }): Observable<StrictHttpResponse<EnterpriseEnterpriseApplication>> {
     const rb = new RequestBuilder(this.rootUrl, ApplicationApplicationService.GetApplicationApplicationPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+        rb.path('ent_id', params['ent_id'], {});
+      rb.path('id', params['id'], {});
     }
-
+    debugger
+      console.log(params.ent_id,"ent_id----------",ApplicationApplicationService.GetApplicationApplicationPath)
     return this.http.request(rb.build({
       responseType: 'json',
       accept: 'application/json'
@@ -89,8 +95,13 @@ export class ApplicationApplicationService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<EnterpriseEnterpriseApplication> {
 
+      /**
+       * key {id}
+       */
+      ent_id: any;
+  }): Observable<EnterpriseEnterpriseApplication> {
+      debugger
     return this.getApplicationApplication$Response(params).pipe(
       map((r: StrictHttpResponse<EnterpriseEnterpriseApplication>) => r.body as EnterpriseEnterpriseApplication)
     );

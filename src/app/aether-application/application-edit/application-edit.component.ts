@@ -17,12 +17,12 @@ import {
 import {
     ApplicationApplicationService,
     Service as AetherService,
-} from '../../../openapi3/aether/4.0.0/services';
+} from '../../../openapi3/aether/2.0.0/services';
 import {
-    ApplicationApplication,
+    EnterpriseEnterpriseApplication,
     EnterpriseEnterprise,
-    TrafficClassTrafficClass,
-} from '../../../openapi3/aether/4.0.0/models';
+    EnterpriseEnterpriseTrafficClass,
+} from '../../../openapi3/aether/2.0.0/models';
 import {
     BasketService,
     IDATTRIBS,
@@ -67,11 +67,11 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     showParentDisplay: boolean = false;
     readonly endpointLimit: number = 5;
     enterprises: Array<EnterpriseEnterprise>;
-    trafficClassOptions: Array<TrafficClassTrafficClass>;
-    pathRoot = 'Application-4.0.0' as RocElement;
+    trafficClassOptions: Array<EnterpriseEnterpriseTrafficClass>;
+    pathRoot = 'Application-2.0.0' as RocElement;
     pathListAttr = 'application';
     applicationId: string;
-    data: ApplicationApplication;
+    data: EnterpriseEnterpriseApplication;
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
@@ -130,9 +130,12 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Application-4.0.0', 'application');
+        super(snackBar, bs, route, router, 'Application-2.0.0', 'application');
         super.form = this.appForm;
         super.loadFunc = this.loadApplicationApplication;
+        // this.appForm
+        //     .get('enterprise')
+        //     .setValue(this.route.snapshot.params['ent-id']);
         this.appForm[REQDATTRIBS] = ['enterprise', 'address'];
         this.appForm.get(['endpoint'])[IDATTRIBS] = ['endpoint-id'];
     }
@@ -141,6 +144,9 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
         super.init();
         this.loadTrafficClass(this.target);
         this.loadEnterprises(this.target);
+        this.appForm
+            .get('enterprise')
+            .setValue(this.route.snapshot.params['ent-id']);
         this.bandwidthOptions = this.appForm.valueChanges.pipe(
             startWith(''),
             map((value) =>
@@ -156,13 +162,15 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
         if (lenEnterprises === 1) {
             this.appForm.get('enterprise').markAsTouched();
             this.appForm.get('enterprise').markAsDirty();
-            this.appForm.get('enterprise').setValue(this.enterprises[0].id);
+            this.appForm
+                .get('enterprise')
+                .setValue(this.enterprises[0]['enp-id']);
         }
     }
 
     deleteFromSelect(ep: string): void {
         this.bs.deleteIndexedEntry(
-            '/application-4.0.0/application[id=' +
+            '/application-2.0.0/application[id=' +
                 this.id +
                 ']/endpoint[endpoint-id=' +
                 ep +
@@ -185,7 +193,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
 
     private ucmap(ep: string): Map<string, string> {
         const ucMap = new Map<string, string>();
-        const appId = '/application-4.0.0/application[id=' + this.id + ']';
+        const appId = '/application-2.0.0/application[id=' + this.id + ']';
         let parentUc = localStorage.getItem(appId);
         if (parentUc === null) {
             parentUc = this.appForm[REQDATTRIBS];
@@ -211,11 +219,12 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
             .getApplicationApplication({
                 target,
                 id,
+                ent_id: this.route.snapshot.params['ent-id'],
             })
             .subscribe(
                 (value) => {
                     this.data = value;
-                    this.applicationId = value.id;
+                    this.applicationId = value['app-id'];
                     this.populateFormData(value);
                 },
                 (error) => {
@@ -229,9 +238,9 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Application-4.0.0']
+                        this.pathListAttr in basketPreview['Application-2.0.0']
                     ) {
-                        basketPreview['Application-4.0.0'].application.forEach(
+                        basketPreview['Application-2.0.0'].application.forEach(
                             (basketItems) => {
                                 if (basketItems.id === id) {
                                     this.populateFormData(basketItems);
@@ -317,7 +326,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
         this.appForm.markAllAsTouched();
     }
 
-    private populateFormData(value: ApplicationApplication): void {
+    private populateFormData(value: EnterpriseEnterpriseApplication): void {
         if (value['display-name']) {
             this.appForm.get('display-name').setValue(value['display-name']);
             this.appForm.get('display-name')[ORIGINAL] = value['display-name'];
@@ -342,7 +351,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                     Object.keys(localStorage)
                         .filter((checkerKey) =>
                             checkerKey.startsWith(
-                                '/basket-delete/application-4.0.0/application[id=' +
+                                '/basket-delete/application-2.0.0/application[id=' +
                                     value.id +
                                     ']/endpoint[endpoint-id='
                             )

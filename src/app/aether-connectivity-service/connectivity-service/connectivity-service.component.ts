@@ -7,8 +7,8 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { ConnectivityServiceConnectivityService } from '../../../openapi3/aether/4.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { ConnectivityServiceConnectivityService } from '../../../openapi3/aether/2.0.0/models';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { ConnectivityServiceDatasource } from './connectivity-service-datasource';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
@@ -51,7 +51,7 @@ export class ConnectivityServiceComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Connectivity-service-4.0.0',
+            'Connectivity-service-2.0.0',
             'connectivity-service'
         );
     }
@@ -90,7 +90,7 @@ export class ConnectivityServiceComponent
             'connectivity-service' in basketPreview[this.pathRoot]
         ) {
             ScopeOfDataSource.merge(
-                basketPreview['Connectivity-service-4.0.0'][
+                basketPreview['Connectivity-service-2.0.0'][
                     'connectivity-service'
                 ]
             );

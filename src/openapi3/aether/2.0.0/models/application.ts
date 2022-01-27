@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
-import {EnterpriseEnterpriseApplicationEndpoint} from "./enterprise-enterprise-application-endpoint";
+import {EnterpriseEnterpriseApplication} from "./enterprise-enterprise-application";
 
 /**
  * The top level container
@@ -12,7 +12,7 @@ export interface Application {
   /**
    * List of applications
    */
-  application?: Array<EnterpriseEnterpriseApplicationEndpoint>;
+  application?: Array<EnterpriseEnterpriseApplication>;
 
-  [key: string]: AdditionalPropertyTarget | Array<EnterpriseEnterpriseApplicationEndpoint> | undefined;
+  [key: string]: AdditionalPropertyTarget | Array<EnterpriseEnterpriseApplication> | undefined;
 }

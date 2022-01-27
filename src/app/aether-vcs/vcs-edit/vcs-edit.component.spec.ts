@@ -23,8 +23,8 @@ import { VcsEditComponent } from './vcs-edit.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
-import { TemplateTemplate } from '../../../openapi3/aether/4.0.0/models/template-template';
-import { VcsVcs } from '../../../openapi3/aether/4.0.0/models/vcs-vcs';
+import { EnterpriseEnterpriseSiteVcs } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-vcs';
+import { EnterpriseEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-template';
 
 describe('VcsEditComponent', () => {
     let component: VcsEditComponent;
@@ -72,7 +72,7 @@ describe('VcsEditComponent', () => {
 
     describe('when loading data from the backend', () => {
         it('should populate all the fields', () => {
-            const vcs: VcsVcs = {
+            const vcs: EnterpriseEnterpriseSiteVcs = {
                 'default-behavior': 'DENY-ALL',
                 description: 'Chicago Robots',
                 'device-group': [
@@ -82,16 +82,16 @@ describe('VcsEditComponent', () => {
                     },
                 ],
                 'display-name': 'Chicago Robots VCS',
-                enterprise: 'acme',
+                // enterprise: 'acme',
                 filter: [
                     {
                         allow: false,
                         application: 'acme-dataacquisition',
                     },
                 ],
-                id: 'acme-chicago-robots',
+                'vcs-id': 'acme-chicago-robots',
                 sd: 2973238,
-                site: 'acme-chicago',
+                // site: 'acme-chicago',
                 slice: {
                     mbr: {
                         downlink: 5000000,
@@ -118,16 +118,16 @@ describe('VcsEditComponent', () => {
             expect(component.vcsForm.get('display-name').value).toEqual(
                 vcs['display-name']
             );
-            expect(component.vcsForm.get('enterprise').value).toEqual(
-                vcs['enterprise']
-            );
+            // expect(component.vcsForm.get('enterprise').value).toEqual(
+            //     vcs['enterprise']
+            // );
             expect(component.vcsForm.get(['filter', 0, 'allow']).value).toEqual(
                 vcs['filter'][0].allow
             );
             expect(component.vcsForm.get('sd').value).toEqual(
                 vcs.sd.toString(16).toUpperCase()
             );
-            expect(component.vcsForm.get('site').value).toEqual(vcs['site']);
+            // expect(component.vcsForm.get('site').value).toEqual(vcs['site']);
             expect(
                 component.vcsForm.get(['slice', 'mbr', 'uplink']).value
             ).toEqual(vcs.slice.mbr.uplink);
@@ -159,7 +159,7 @@ describe('VcsEditComponent', () => {
                         'traffic-class': 'test-traffic-2',
                     },
                 ],
-                id: 'starbucks-nvr',
+                'app-id': 'starbucks-nvr',
             },
         ];
         component.setShowAddFilterButton();
@@ -204,7 +204,7 @@ describe('VcsEditComponent', () => {
                         'traffic-class': 'test-traffic-2',
                     },
                 ],
-                id: 'starbucks-nvr',
+                'app-id': 'starbucks-nvr',
             },
         ];
         component.setShowAddFilterButton();
@@ -212,8 +212,8 @@ describe('VcsEditComponent', () => {
     });
 
     describe('when selecting a template', () => {
-        const template: TemplateTemplate = {
-            id: 'test-template',
+        const template: EnterpriseEnterpriseTemplate = {
+            'tp-id': 'test-template',
             sd: 12, // FIXME the method fails if this value is not present
             slice: {
                 mbr: {

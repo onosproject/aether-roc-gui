@@ -26,7 +26,7 @@ export class UpfUpfService extends BaseService {
   /**
    * Path part for operation getUpfUpf
    */
-  static readonly GetUpfUpfPath = '/aether/v4.0.0/{target}/upf/upf/{id}';
+  static readonly GetUpfUpfPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{ent_id}/site/{site_id}/upf/{id}';
 
   /**
    * GET /upf/upf.
@@ -49,12 +49,24 @@ export class UpfUpfService extends BaseService {
      * key {id}
      */
     id: any;
-  }): Observable<StrictHttpResponse<EnterpriseEnterpriseSiteUpf>> {
 
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
+
+      /**
+       * key {ent-id}
+       */
+      site_id: any;
+  }): Observable<StrictHttpResponse<EnterpriseEnterpriseSiteUpf>> {
+    console.log(this.rootUrl, UpfUpfService.GetUpfUpfPath, 'get',"this.rootUrl, UpfUpfService.GetUpfUpfPath, 'get'")
     const rb = new RequestBuilder(this.rootUrl, UpfUpfService.GetUpfUpfPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
       rb.path('id', params.id, {});
+        rb.path('ent_id', params['ent_id'], {});
+        rb.path('site_id', params['site_id'], {});
     }
 
     return this.http.request(rb.build({
@@ -89,7 +101,19 @@ export class UpfUpfService extends BaseService {
      * key {id}
      */
     id: any;
+
+      /**
+       * key {ent-id}
+       */
+      ent_id: any;
+
+      /**
+       * key {ent-id}
+       */
+      site_id: any;
   }): Observable<EnterpriseEnterpriseSiteUpf> {
+      debugger
+      console.log(this.rootUrl, UpfUpfService.GetUpfUpfPath, 'get',"this.rootUrl, UpfUpfService.GetUpfUpfPath, 'get'")
 
     return this.getUpfUpf$Response(params).pipe(
       map((r: StrictHttpResponse<EnterpriseEnterpriseSiteUpf>) => r.body as EnterpriseEnterpriseSiteUpf)
