@@ -11,7 +11,7 @@ export interface EnterpriseEnterpriseTemplate {
   'default-behavior': string;
 
   /**
-   * description of this vcs template
+   * description of this template
    */
   description?: string;
 
@@ -21,7 +21,7 @@ export interface EnterpriseEnterpriseTemplate {
   'display-name'?: string;
 
   /**
-   * ID for this vcs template.
+   * ID for template.
    */
   'tp-id': string;
 

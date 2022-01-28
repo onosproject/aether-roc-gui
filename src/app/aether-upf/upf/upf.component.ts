@@ -67,7 +67,7 @@ export class UpfComponent
         //         this.usageArray = this.usageArray.concat(
         //             _.differenceWith(
         //                 ScopeOfDataSource.data,
-        //                 displayData.vcs,
+        //                 displayData.slice,
         //                 function (ScopeOfDataSourceObject, displayDataObject) {
         //                     return (
         //                         ScopeOfDataSourceObject.id ===

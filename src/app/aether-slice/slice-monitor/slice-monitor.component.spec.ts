@@ -5,7 +5,7 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VcsMonitorComponent } from './vcs-monitor.component';
+import { SliceMonitorComponent } from './slice-monitor.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,12 +31,12 @@ import {
 } from 'angular-oauth2-oidc';
 
 describe('VcsMonitorComponent', () => {
-    let component: VcsMonitorComponent;
-    let fixture: ComponentFixture<VcsMonitorComponent>;
+    let component: SliceMonitorComponent;
+    let fixture: ComponentFixture<SliceMonitorComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [VcsMonitorComponent],
+            declarations: [SliceMonitorComponent],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
@@ -67,7 +67,7 @@ describe('VcsMonitorComponent', () => {
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(VcsMonitorComponent);
+        fixture = TestBed.createComponent(SliceMonitorComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

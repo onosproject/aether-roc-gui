@@ -86,7 +86,7 @@ export class SiteComponent
         //                 this.usageArray = this.usageArray.concat(
         //                     _.differenceWith(
         //                         this.usageArray,
-        //                         displayData.vcs,
+        //                         displayData.slice,
         //                         function (
         //                             ScopeOfDataSourceObject,
         //                             displayDataObject

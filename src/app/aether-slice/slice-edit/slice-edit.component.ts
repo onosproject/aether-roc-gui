@@ -47,10 +47,10 @@ interface BurstRate {
 
 @Component({
     selector: 'aether-vcs-edit',
-    templateUrl: './vcs-edit.component.html',
+    templateUrl: './slice-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class VcsEditComponent extends RocEditBase implements OnInit {
+export class SliceEditComponent extends RocEditBase implements OnInit {
     showApplicationDisplay = false;
     showDeviceGroupDisplay = false;
     showAddFilterButton = true;
@@ -87,7 +87,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
     defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL'];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: VcsVcs;
-    pathRoot = 'Vcs-4.0.0' as RocElement;
+    pathRoot = 'Slice-4.0.0' as RocElement;
     pathListAttr = 'vcs';
     sdAsInt = HexPipe.hexAsInt;
 
@@ -170,7 +170,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
     });
 
     constructor(
-        private vcsVcsService: VcsVcsService,
+        private vcsSliceService: VcsVcsService,
         private aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -182,7 +182,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
         super(snackBar, bs, route, router, 'Vcs-4.0.0', 'vcs');
         super.form = this.vcsForm;
         this.loadApplication(this.target);
-        super.loadFunc = this.loadVcsVcs;
+        super.loadFunc = this.loadSliceSlice;
         this.vcsForm[REQDATTRIBS] = [
             'sd',
             'sst',
@@ -386,8 +386,8 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
         }
     }
 
-    loadVcsVcs(target: string, id: string): void {
-        this.vcsVcsService
+    loadSliceSlice(target: string, id: string): void {
+        this.vcsSliceService
             .getVcsVcs({
                 target,
                 id,
@@ -398,7 +398,11 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                     this.populateFormData(value);
                 },
                 (error) => {
-                    console.warn('Error getting VcsVcs(s) for ', target, error);
+                    console.warn(
+                        'Error getting SliceSlice(s) for ',
+                        target,
+                        error
+                    );
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
@@ -406,7 +410,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                         this.pathRoot in basketPreview &&
                         this.pathListAttr in basketPreview[this.pathRoot]
                     ) {
-                        basketPreview['Vcs-4.0.0'].vcs.forEach(
+                        basketPreview['Slice-4.0.0'].vcs.forEach(
                             (basketItems) => {
                                 if (basketItems.id === id) {
                                     this.populateFormData(basketItems);
@@ -414,14 +418,14 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                             }
                         );
                     }
-                    console.log('Finished loading VcsVcs(s)', target, id);
+                    console.log('Finished loading SliceSlice(s)', target, id);
                 }
             );
     }
 
     deleteApplicationFromSelect(app: string): void {
         this.bs.deleteIndexedEntry(
-            '/vcs-4.0.0/vcs[id=' +
+            '/slice-4.0.0/slice[id=' +
                 this.id +
                 ']/filter[application=' +
                 app +
@@ -444,7 +448,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
 
     deleteDeviceGroupFromSelect(dg: string): void {
         this.bs.deleteIndexedEntry(
-            '/vcs-4.0.0/vcs[id=' +
+            '/slice-4.0.0/slice[id=' +
                 this.id +
                 ']/device-group[device-group=' +
                 dg +
@@ -463,7 +467,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
     }
 
     private get ucmap(): Map<string, string> {
-        const vcsId = '/vcs-4.0.0/vcs[id=' + this.id + ']';
+        const vcsId = '/slice-4.0.0/slice[id=' + this.id + ']';
         let parentUc = localStorage.getItem(vcsId);
         if (parentUc === null) {
             parentUc = this.vcsForm[REQDATTRIBS];
@@ -488,7 +492,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/vcs-4.0.0/vcs[id=' +
+                            '/basket-delete/slice-4.0.0/slice[id=' +
                                 this.id +
                                 ']/application[application='
                         )
@@ -588,7 +592,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/vcs-4.0.0/vcs[id=' +
+                            '/basket-delete/slice-4.0.0/slice[id=' +
                                 this.id +
                                 ']/device-group[device-group='
                         )
@@ -768,7 +772,7 @@ export class VcsEditComponent extends RocEditBase implements OnInit {
                                     this.upfs.splice(idx, 1);
                                 }
                             },
-                            (err) => console.warn('Error getting VCS', err),
+                            (err) => console.warn('Error getting Slice', err),
                             () =>
                                 console.log(
                                     'Showing',

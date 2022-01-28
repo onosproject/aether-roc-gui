@@ -8,7 +8,7 @@ import {EnterpriseEnterpriseSiteSmallCell} from './enterprise-enterprise-site-sm
 import {EnterpriseEnterpriseSiteDevice} from "./enterprise-enterprise-site-device";
 import {EnterpriseEnterpriseSitePriorityTrafficRule} from "./enterprise-enterprise-site-priority-traffic-rule";
 import {EnterpriseEnterpriseSiteUpf} from "./enterprise-enterprise-site-upf";
-import {EnterpriseEnterpriseSiteVcs} from "./enterprise-enterprise-site-vcs";
+import {EnterpriseEnterpriseSiteSlice} from "./enterprise-enterprise-site-slice";
 import {EnterpriseEnterpriseSiteDeviceGroup} from "./enterprise-enterprise-site-device-group";
 import {EnterpriseEnterpriseSiteIpDomain} from "./enterprise-enterprise-site-ip-domain";
 import {EnterpriseEnterpriseSiteSimCard} from "./enterprise-enterprise-site-sim-card";
@@ -69,9 +69,9 @@ export interface EnterpriseEnterpriseSite {
     'device-group'?: Array<EnterpriseEnterpriseSiteDeviceGroup>;
 
     /**
-     * List of vcs
+     * List of slice
      */
-    vcs?: Array<EnterpriseEnterpriseSiteVcs>;
+    slice?: Array<EnterpriseEnterpriseSiteSlice>;
 
     /**
      * List of ip-domain
@@ -79,6 +79,6 @@ export interface EnterpriseEnterpriseSite {
     'ip-domain'?: Array<EnterpriseEnterpriseSiteIpDomain>;
 
   [key: string]: AdditionalPropertyUnchanged | Array<EnterpriseEnterpriseSiteSmallCell> | Array<EnterpriseEnterpriseSiteDevice> | Array<EnterpriseEnterpriseSitePriorityTrafficRule>
-      | Array<EnterpriseEnterpriseSiteUpf> | Array<EnterpriseEnterpriseSiteVcs> | Array<EnterpriseEnterpriseSiteDeviceGroup> | Array<EnterpriseEnterpriseSiteSimCard>
+      | Array<EnterpriseEnterpriseSiteUpf> | Array<EnterpriseEnterpriseSiteSlice> | Array<EnterpriseEnterpriseSiteDeviceGroup> | Array<EnterpriseEnterpriseSiteSimCard>
       | Array<EnterpriseEnterpriseSiteIpDomain> | EnterpriseEnterpriseSiteImsiDefinition | EnterpriseEnterpriseSiteMonitoring | string | undefined;
 }

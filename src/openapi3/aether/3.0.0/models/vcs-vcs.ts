@@ -19,7 +19,7 @@ export interface VcsVcs {
   application?: Array<VcsVcsApplication>;
 
   /**
-   * description of this vcs
+   * description of this slice
    */
   description?: string;
 
@@ -45,7 +45,7 @@ export interface VcsVcs {
   enterprise: string;
 
   /**
-   * ID for this vcs.
+   * ID for this slice.
    */
   id: string;
 
@@ -60,7 +60,7 @@ export interface VcsVcs {
   sst: number;
 
   /**
-   * Link to user vcs template that was used to initialize
+   * Link to user slice template that was used to initialize
    * this VCS
    */
   template?: string;

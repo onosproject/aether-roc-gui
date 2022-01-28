@@ -213,7 +213,7 @@
                                 color="accent"
                                 [disabled]="
                                     !opaService.canWrite(
-                                        '/vcs/vcs[id=' + id + ']/application'
+                                        '/slice/slice[id=' + id + ']/application'
                                     )
                                 "
                                 (click)="
@@ -279,7 +279,7 @@
                         color="accent"
                         [disabled]="
                             !opaService.canWrite(
-                                '/vcs/vcs[id=' + id + ']/device-group'
+                                '/slice/slice[id=' + id + ']/device-group'
                             )
                         "
                         (click)="
@@ -412,7 +412,7 @@
                             vcsForm.valid &&
                             vcsForm.value.id &&
                             vcsForm.touched &&
-                            opaService.canWrite('/vcs/vcs[id=' + id + ']')
+                            opaService.canWrite('/slice/slice[id=' + id + ']')
                         )
                     "
                 >
@@ -425,7 +425,7 @@
 <aether-application-select
     *ngIf="
         showApplicationDisplay &&
-        opaService.canWrite('/vcs/vcs[id=' + id + ']/application')
+        opaService.canWrite('/slice/slice[id=' + id + ']/application')
     "
     id="applicationSelectComponent"
     [alreadySelected]="selectedApplications()"
@@ -436,7 +436,7 @@
 <aether-device-group-select
     *ngIf="
         showDeviceGroupDisplay &&
-        opaService.canWrite('/vcs/vcs[id=' + id + ']/device-group')
+        opaService.canWrite('/slice/slice[id=' + id + ']/device-group')
     "
     id="deviceGroupSelectComponent"
     [selectedSite]="selectedSite"

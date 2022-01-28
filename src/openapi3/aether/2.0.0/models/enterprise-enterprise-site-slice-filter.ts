@@ -1,7 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-export interface EnterpriseEnterpriseSiteVcsFilter {
+export interface EnterpriseEnterpriseSiteSliceFilter {
 
   /**
    * Allow or deny this application

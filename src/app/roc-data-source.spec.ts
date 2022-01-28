@@ -5,26 +5,31 @@
  */
 
 import { RocDataSource } from './roc-data-source';
-import { Vcs } from '../openapi3/aether/2.0.0/models/vcs';
-import { VcsDatasource } from './aether-vcs/vcs/vcs-datasource';
+import { Slice } from '../openapi3/aether/2.0.0/models/slice';
+import { SliceDatasource } from './aether-slice/slice/slice-datasource';
 import { Service } from '../openapi3/aether/2.0.0/services';
 import { ApiConfiguration } from '../openapi3/aether/2.0.0/api-configuration';
 import { BasketService } from './basket.service';
 import { AETHER_TARGETS } from '../environments/environment';
-import { EnterpriseEnterpriseSiteVcs } from '../openapi3/aether/2.0.0/models/enterprise-enterprise-site-vcs';
+import { EnterpriseEnterpriseSiteSlice } from '../openapi3/aether/2.0.0/models/enterprise-enterprise-site-slice';
 
 describe('ROC Data Source', () => {
-    let component: RocDataSource<EnterpriseEnterpriseSiteVcs, Vcs>;
+    let component: RocDataSource<EnterpriseEnterpriseSiteSlice, Slice>;
 
     // this represents the existing data
-    const existingItems: EnterpriseEnterpriseSiteVcs[] = [
+    const existingItems: EnterpriseEnterpriseSiteSlice[] = [
         {
-            'vcs-id': 'vcs1',
+            'slice-id': 'slice1',
             'default-behavior': 'DENY',
             enterprise: 'onf',
             sd: 1,
             site: 'menlo',
             sst: 1,
+            mbr: {
+                'uplink-burst-size': 30,
+                'downlink-burst-size': 40,
+                uplink: 20,
+            },
             'device-group': [
                 {
                     'device-group': 'acme-chicago-default', // this is the ID, must match with below
@@ -35,9 +40,9 @@ describe('ROC Data Source', () => {
     ];
 
     // this represents the updated data in the basket (id must match)
-    const basketItems: EnterpriseEnterpriseSiteVcs[] = [
+    const basketItems: EnterpriseEnterpriseSiteSlice[] = [
         {
-            'vcs-id': 'vcs1',
+            'slice-id': 'slice1',
             'default-behavior': 'DENY-updated',
             enterprise: 'onf-updated',
             sd: 2,
@@ -46,12 +51,10 @@ describe('ROC Data Source', () => {
 
             // optional data
             description: 'updated-descr',
-            slice: {
-                mbr: {
-                    'uplink-burst-size': 30,
-                    'downlink-burst-size': 40,
-                    uplink: 20,
-                },
+            mbr: {
+                'uplink-burst-size': 30,
+                'downlink-burst-size': 40,
+                uplink: 20,
             },
             'device-group': [
                 {
@@ -67,7 +70,7 @@ describe('ROC Data Source', () => {
     ];
 
     beforeEach(() => {
-        component = new VcsDatasource(
+        component = new SliceDatasource(
             new Service(
                 new ApiConfiguration(),
                 jasmine.createSpyObj('HttpClient', ['post', 'get'])
@@ -84,15 +87,15 @@ describe('ROC Data Source', () => {
                 { fieldName: 'filter', idAttr: 'application' },
                 { fieldName: 'device-group', idAttr: 'device-group' },
             ]);
-            const updatedVcs = component.data[0];
-            const basketVcs = basketItems[0];
-            expect(updatedVcs['default-behavior']).toEqual(
-                basketVcs['default-behavior']
+            const updatedSlice = component.data[0];
+            const basketSlice = basketItems[0];
+            expect(updatedSlice['default-behavior']).toEqual(
+                basketSlice['default-behavior']
             );
-            expect(updatedVcs.enterprise).toEqual(basketVcs.enterprise);
-            expect(updatedVcs.sd).toEqual(basketVcs.sd);
-            expect(updatedVcs.site).toEqual(basketVcs.site);
-            expect(updatedVcs.sst).toEqual(basketVcs.sst);
+            expect(updatedSlice.enterprise).toEqual(basketSlice.enterprise);
+            expect(updatedSlice.sd).toEqual(basketSlice.sd);
+            expect(updatedSlice.site).toEqual(basketSlice.site);
+            expect(updatedSlice.sst).toEqual(basketSlice.sst);
         });
 
         it('should combine nested fields from the basked with nested fields in the datasource', () => {
@@ -101,9 +104,9 @@ describe('ROC Data Source', () => {
                 { fieldName: 'filter', idAttr: 'application' },
                 { fieldName: 'device-group', idAttr: 'device-group' },
             ]);
-            const updatedVcs = component.data[0];
-            const basketVcs = basketItems[0];
-            expect(updatedVcs.slice.mbr).toEqual(basketVcs.slice.mbr);
+            const updatedSlice = component.data[0];
+            const basketSlice = basketItems[0];
+            expect(updatedSlice.mbr).toEqual(basketSlice.mbr);
         });
 
         it('should combine nested list from the basket with nested lists in the datasource', () => {
@@ -112,23 +115,19 @@ describe('ROC Data Source', () => {
                 { fieldName: 'filter', idAttr: 'application' },
                 { fieldName: 'device-group', idAttr: 'device-group' },
             ]);
-            const updatedVcs = component.data[0];
-            const basketVcs = basketItems[0];
-            expect(updatedVcs.slice.mbr.downlink).toEqual(
-                basketVcs.slice.mbr.downlink
+            const updatedSlice = component.data[0];
+            const basketSlice = basketItems[0];
+            expect(updatedSlice.mbr.downlink).toEqual(basketSlice.mbr.downlink);
+            expect(updatedSlice.mbr.uplink).toEqual(basketSlice.mbr.uplink);
+            expect(updatedSlice.mbr['downlink-burst-size']).toEqual(
+                basketSlice.mbr['downlink-burst-size']
             );
-            expect(updatedVcs.slice.mbr.uplink).toEqual(
-                basketVcs.slice.mbr.uplink
-            );
-            expect(updatedVcs.slice.mbr['downlink-burst-size']).toEqual(
-                basketVcs.slice.mbr['downlink-burst-size']
-            );
-            expect(updatedVcs.slice.mbr['uplink-burst-size']).toEqual(
-                basketVcs.slice.mbr['uplink-burst-size']
+            expect(updatedSlice.mbr['uplink-burst-size']).toEqual(
+                basketSlice.mbr['uplink-burst-size']
             );
 
-            expect(updatedVcs['device-group'].length).toBe(2);
-            expect(updatedVcs['device-group'][0].enable).toBeTrue();
+            expect(updatedSlice['device-group'].length).toBe(2);
+            expect(updatedSlice['device-group'][0].enable).toBeTrue();
         });
     });
 });

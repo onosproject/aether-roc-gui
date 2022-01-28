@@ -19,11 +19,7 @@ import { Site } from '../models/site';
 import { Template } from '../models/template';
 import { TrafficClass } from '../models/traffic-class';
 import { Upf } from '../models/upf';
-import { Vcs } from '../models/vcs';
-import {AETHER_TARGETS} from "../../../../environments/environment";
-import {EnterpriseDatasource} from "../../../../app/aether-enterprise/enterprise/enterprise-datasource";
-import {EnterpriseEnterpriseApplication} from "../models/enterprise-enterprise-application";
-import application from "@angular-devkit/build-angular/src/babel/presets/application";
+import { Slice } from '../models/slice';
 
 @Injectable({
   providedIn: 'root',
@@ -101,13 +97,13 @@ export class Service extends BaseService {
                 application['ent-id']=enterprise["ent-id"];
             })
             enterprise.site.forEach(site=>{
-                VCSArray = [...VCSArray,...site.vcs];
+                VCSArray = [...VCSArray,...site.slice];
             })
             EnterpriseApplicationArray = [...EnterpriseApplicationArray,...enterprise.application];
          })
           ApplicationsDataObject.application = EnterpriseApplicationArray;
-        // ApplicationsDataObject.application.vcs =
-          ApplicationsDataObject.vcs = VCSArray;
+        // ApplicationsDataObject.application.slice =
+          ApplicationsDataObject.slice = VCSArray;
           console.log(ApplicationsDataObject,"ApplicationsDataObject")
         return ApplicationsDataObject as Application
       })
@@ -685,29 +681,29 @@ export class Service extends BaseService {
   }
 
   /**
-   * Path part for operation getVcs
+   * Path part for operation getSlice
    */
-  static readonly GetVcsPath = '/aether/v2.0.0/{target}/vcs';
+  static readonly GetSlicePath = '/aether/v2.0.0/{target}/slice';
 
   /**
-   * GET /vcs.
+   * GET /slice.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getVcs()` instead.
+   * To access only the response body, use `getSlice()` instead.
    *
    * This method doesn't expect any request body.
    */
-  // getVcs$Response(params: {
+  // getSlice$Response(params: {
   //
   //   /**
   //    * target (device in onos-config)
   //    */
   //   target: any;
-  // }): Observable<StrictHttpResponse<Vcs>> {
+  // }): Observable<StrictHttpResponse<Slice>> {
   //
-  //   const rb = new RequestBuilder(this.rootUrl, Service.GetVcsPath, 'get');
+  //   const rb = new RequestBuilder(this.rootUrl, Service.GetSlicePath, 'get');
   //   if (params) {
   //     rb.path('target', params.target, {});
   //   }
@@ -718,45 +714,45 @@ export class Service extends BaseService {
   //   })).pipe(
   //     filter((r: any) => r instanceof HttpResponse),
   //     map((r: HttpResponse<any>) => {
-  //       return r as StrictHttpResponse<Vcs>;
+  //       return r as StrictHttpResponse<Slice>;
   //     })
   //   );
   // }
 
   /**
-   * GET /vcs.
+   * GET /slice.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getVcs$Response()` instead.
+   * To access the full response (for headers, for example), `getSlice$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getVcs(params: {
+  getSlice(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  }): Observable<Vcs> {
+  }): Observable<Slice> {
 
       return this.getEnterprise$Response(params).pipe(
           map((r: StrictHttpResponse<Enterprise>) => {
-              let VcsDataObject: Vcs = {vcs: []};
-              let EnterpriseSiteVcsArray = [];
+              let SliceDataObject: Slice = {slice: []};
+              let EnterpriseSiteSliceArray = [];
               r.body.enterprise.forEach(enterprise => {
                   enterprise.site.forEach(site => {
-                      site.vcs.forEach(vcs => {
-                          vcs['site-id'] = site['site-id'];
-                          vcs['ent-id'] = enterprise['ent-id']
+                      site.slice.forEach(slice => {
+                          slice['site-id'] = site['site-id'];
+                          slice['ent-id'] = enterprise['ent-id']
                       })
-                      EnterpriseSiteVcsArray = [...EnterpriseSiteVcsArray, ...site.vcs];
+                      EnterpriseSiteSliceArray = [...EnterpriseSiteSliceArray, ...site.slice];
                   })
               })
-              VcsDataObject.vcs = EnterpriseSiteVcsArray;
-              console.log(VcsDataObject,"VcsDataObject")
-              return VcsDataObject as Vcs
+              SliceDataObject.slice = EnterpriseSiteSliceArray;
+              console.log(SliceDataObject,"SliceDataObject")
+              return SliceDataObject as Slice
           })
       );
   }

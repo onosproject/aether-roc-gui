@@ -159,7 +159,7 @@ export abstract class RocDataSource<
                                 ']/' +
                                 this.indexAttr
                         ) ||
-                        (this.pathRoot === '/vcs-2.0.0' &&
+                        (this.pathRoot === '/slice-2.0.0' &&
                             this.pathListAttr === this.pathListAttr)
                     ) {
                         this.data.push(value);

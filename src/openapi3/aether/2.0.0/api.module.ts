@@ -22,10 +22,10 @@ import { Service } from './services/service';
 // import { TemplateTemplateSliceService } from './services/template-template-slice.service';
 // import { TrafficClassTrafficClassService } from './services/traffic-class-traffic-class.service';
 // import { UpfUpfService } from './services/upf-upf.service';
-// import { VcsVcsService } from './services/vcs-vcs.service';
-// import { VcsVcsDeviceGroupService } from './services/vcs-vcs-device-group.service';
-// import { VcsVcsFilterService } from './services/vcs-vcs-filter.service';
-// import { VcsVcsSliceService } from './services/vcs-vcs-slice.service';
+// import { VcsVcsService } from './services/slice-slice.service';
+// import { VcsVcsDeviceGroupService } from './services/slice-slice-device-group.service';
+// import { VcsVcsFilterService } from './services/slice-slice-filter.service';
+// import { VcsVcsSliceService } from './services/slice-slice-slice.service';
 
 /**
  * Module that provides all services and configuration.

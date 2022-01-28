@@ -5,28 +5,28 @@
  */
 
 import {
-    EnterpriseEnterpriseSiteVcs,
-    Vcs,
+    EnterpriseEnterpriseSiteSlice,
+    Slice,
 } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 
-export class VcsDatasource extends RocDataSource<
-    EnterpriseEnterpriseSiteVcs,
-    Vcs
+export class SliceDatasource extends RocDataSource<
+    EnterpriseEnterpriseSiteSlice,
+    Slice
 > {
     constructor(
         protected aetherService: AetherService,
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/vcs-2.0.0', 'vcs');
+        super(aetherService, bs, target, '/slice-2.0.0', 'slice');
     }
 
     getSortedData(
-        data: EnterpriseEnterpriseSiteVcs[]
-    ): EnterpriseEnterpriseSiteVcs[] {
+        data: EnterpriseEnterpriseSiteSlice[]
+    ): EnterpriseEnterpriseSiteSlice[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

@@ -11,14 +11,14 @@
             mat-raised-button
             color="accent"
             type="submit"
-            aria-label="Add vcs"
-            id="addNewVcsButton"
+            aria-label="Add slice"
+            id="addNewSliceButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/vcs/vcs/[ent-id= newentinstance]/[site-id=newentsiteinstance]/[id=newinstance]'
+                    '/slice/slice/[ent-id= newentinstance]/[site-id=newentsiteinstance]/[id=newinstance]'
                 )
             "
-            routerLink="/vcs/vcs-edit/newentinstance/newentsiteinstance/newinstance"
+            routerLink="/slice/slice-edit/newentinstance/newentsiteinstance/newinstance"
         >
             Add
         </button>
@@ -28,14 +28,14 @@
         class="full-width-table"
         matSort
         aria-label="Elements"
-        id="vcsTable"
+        id="sliceTable"
     >
         <!-- Id/Name Column -->
         <ng-container matColumnDef="id" id="nameColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
@@ -44,14 +44,14 @@
             >
                 <span
                     *ngIf="row['display-name'] !== undefined"
-                    [title]="row['vcs-id']"
-                    >{{ row["display-name"] }} <br /><small
-                        >({{ row["vcs-id"] }})</small
-                    ></span
+                    [title]="row['slice-id']"
+                >{{ row["display-name"] }} <br /><small
+                >({{ row["slice-id"] }})</small
+                ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
-                    row["vcs-id"]
-                }}</span>
+                    row["slice-id"]
+                    }}</span>
             </td>
         </ng-container>
 
@@ -63,7 +63,7 @@
             <td
                 mat-cell
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
@@ -81,7 +81,7 @@
             </th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
@@ -100,7 +100,7 @@
             </th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
@@ -124,7 +124,7 @@
             </th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
@@ -149,7 +149,7 @@
             </th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
@@ -164,7 +164,7 @@
                     aria-label="Enterprise"
                     id="pointerConnectivityService"
                     routerLink="/enterprise/enterprise-edit/{{ row['ent-id'] }}"
-                    >launch</mat-icon
+                >launch</mat-icon
                 >
             </td>
         </ng-container>
@@ -174,7 +174,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Site</th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
@@ -189,7 +189,7 @@
                     aria-label="Site"
                     id="pointerSite"
                     routerLink="/site/site-edit/{{ row['site-id'] }}"
-                    >launch
+                >launch
                 </mat-icon>
             </td>
         </ng-container>
@@ -201,7 +201,7 @@
             </th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
@@ -223,7 +223,7 @@
                         routerLink="/devicegroups/devicegroups-edit/{{
                             dg['device-group']
                         }}"
-                        >launch</mat-icon
+                    >launch</mat-icon
                     >
                 </p>
             </td>
@@ -234,7 +234,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SD</th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
@@ -252,7 +252,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SST</th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
@@ -269,7 +269,7 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>UPF</th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
@@ -285,7 +285,7 @@
                     aria-label="Upf"
                     id="pointerUpf"
                     routerLink="/upf/upf-edit/{{ row.upf }}"
-                    >launch</mat-icon
+                >launch</mat-icon
                 >
             </td>
         </ng-container>
@@ -297,14 +297,14 @@
             </th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/vcs/vcs-edit/{{ row['vcs-id'] }}"
-                id="editVcsButton"
+                routerLink="/slice/slice-edit/{{ row['slice-id'] }}"
+                id="editSliceButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
             </td>
@@ -317,7 +317,7 @@
             </th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
@@ -328,12 +328,12 @@
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
-                            '/vcs/vcs[id=' + row['vcs-id'] + ']'
+                            '/slice/slice[id=' + row['slice-id'] + ']'
                         )
                     "
-                    (click)="deleteVCS(row['vcs-id'])"
+                    (click)="deleteSlice(row['slice-id'])"
                     color="accent"
-                    id="deleteVcsButton"
+                    id="deleteSliceButton"
                 >
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
@@ -347,14 +347,14 @@
             </th>
             <td
                 [style]="
-                    deletedVCS.includes(row['vcs-id'])
+                    deletedSliceArray.includes(row['slice-id'])
                         ? 'text-decoration: line-through'
                         : ''
                 "
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/vcs/vcs-monitor/{{ row['vcs-id'] }}"
-                id="monitorVcsButton"
+                routerLink="/slice/slice-monitor/{{ row['slice-id'] }}"
+                id="monitorSliceButton"
             >
                 <mat-icon class="table_icon" color="accent">insights</mat-icon>
             </td>
@@ -369,7 +369,7 @@
     </table>
     <mat-paginator
         #paginator
-        id="vcsPaginator"
+        id="slicePaginator"
         [length]="dataSource?.data?.length"
         [pageIndex]="0"
         [pageSize]="10"

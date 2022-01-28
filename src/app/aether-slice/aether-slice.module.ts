@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 import { AETHER_ROC_API_URL } from '../../environments/environment';
 import { AuthInterceptor } from '../auth-interceptor';
 import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
-import { VcsComponent } from './vcs/vcs.component';
+import { SliceComponent } from './slice/slice.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
@@ -30,35 +30,35 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { VcsEditComponent } from './vcs-edit/vcs-edit.component';
+import { SliceEditComponent } from './slice-edit/slice-edit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ApplicationSelectComponent } from './application-select/application-select.component';
 import { DeviceGroupSelectComponent } from './device-group-select/device-group-select.component';
-import { VcsMonitorComponent } from './vcs-monitor/vcs-monitor.component';
+import { SliceMonitorComponent } from './slice-monitor/slice-monitor.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UtilsModule } from '../utils/utils.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
-        VcsComponent,
-        VcsEditComponent,
+        SliceComponent,
+        SliceEditComponent,
         ApplicationSelectComponent,
         DeviceGroupSelectComponent,
-        VcsMonitorComponent,
+        SliceMonitorComponent,
     ],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([
-            { path: 'vcs', component: VcsComponent },
+            { path: 'vcs', component: SliceComponent },
             {
-                path: 'vcs-edit/:ent-id/:site-id/:id',
-                component: VcsEditComponent,
+                path: 'slice-edit/:ent-id/:site-id/:id',
+                component: SliceEditComponent,
             },
-            { path: 'vcs-monitor/:id', component: VcsMonitorComponent },
-            { path: '', component: VcsComponent, pathMatch: 'full' },
+            { path: 'slice-monitor/:id', component: SliceMonitorComponent },
+            { path: '', component: SliceComponent, pathMatch: 'full' },
         ]),
         MatToolbarModule,
         FormsModule,
@@ -90,4 +90,4 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         API_INTERCEPTOR_PROVIDER,
     ],
 })
-export class AetherVcsModule {}
+export class AetherSliceModule {}

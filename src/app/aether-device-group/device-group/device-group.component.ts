@@ -71,7 +71,7 @@ export class DeviceGroupComponent
         //         this.usageArray = this.usageArray.concat(
         //             _.differenceWith(
         //                 ScopeOfDataSource.data,
-        //                 displayData.vcs,
+        //                 displayData.slice,
         //                 function (ScopeOfDataSourceObject, displayDataObject) {
         //                     return _.findIndex(
         //                         displayDataObject['device-group'],
