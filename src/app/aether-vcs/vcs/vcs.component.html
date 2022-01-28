@@ -13,7 +13,11 @@
             type="submit"
             aria-label="Add vcs"
             id="addNewVcsButton"
-            [disabled]="!opaService.canWrite('/vcs/vcs/[ent-id= newentinstance]/[site-id=newentsiteinstance]/[id=newinstance]')"
+            [disabled]="
+                !opaService.canWrite(
+                    '/vcs/vcs/[ent-id= newentinstance]/[site-id=newentsiteinstance]/[id=newinstance]'
+                )
+            "
             routerLink="/vcs/vcs-edit/newentinstance/newentsiteinstance/newinstance"
         >
             Add
@@ -38,13 +42,15 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <span *ngIf="row['display-name'] !== undefined" [title]="row['vcs-id']"
+                <span
+                    *ngIf="row['display-name'] !== undefined"
+                    [title]="row['vcs-id']"
                     >{{ row["display-name"] }} <br /><small
-                        >({{ row['vcs-id'] }})</small
+                        >({{ row["vcs-id"] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
-                    row['vcs-id']
+                    row["vcs-id"]
                 }}</span>
             </td>
         </ng-container>
@@ -150,16 +156,14 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                {{ row['ent-id'] }}
+                {{ row["ent-id"] }}
                 <mat-icon
                     class="table_icon small_icon"
                     color="primary"
                     aria-hidden="false"
                     aria-label="Enterprise"
                     id="pointerConnectivityService"
-                    routerLink="/enterprise/enterprise-edit/{{
-                        row['ent-id']
-                    }}"
+                    routerLink="/enterprise/enterprise-edit/{{ row['ent-id'] }}"
                     >launch</mat-icon
                 >
             </td>
@@ -177,7 +181,7 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                {{ row['site-id'] }}
+                {{ row["site-id"] }}
                 <mat-icon
                     class="table_icon small_icon"
                     color="primary"
@@ -323,7 +327,9 @@
                 <button
                     mat-icon-button
                     [disabled]="
-                        !opaService.canWrite('/vcs/vcs[id=' + row['vcs-id'] + ']')
+                        !opaService.canWrite(
+                            '/vcs/vcs[id=' + row['vcs-id'] + ']'
+                        )
                     "
                     (click)="deleteVCS(row['vcs-id'])"
                     color="accent"
