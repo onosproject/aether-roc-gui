@@ -15,10 +15,10 @@
             id="addTrafficClassButton"
             [disabled]="
                 !opaService.canWrite(
-                    'traffic-class/traffic-class[id=newinstance]'
+                    'traffic-class/traffic-class/[ent-id=unknownent]/[id=newinstance]'
                 )
             "
-            routerLink="/traffic-class/traffic-class-edit/newentinstance/newinstance"
+            routerLink="/traffic-class/traffic-class-edit/unknownent/newinstance"
         >
             Add
         </button>

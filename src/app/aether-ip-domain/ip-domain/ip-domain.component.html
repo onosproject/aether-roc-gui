@@ -16,10 +16,10 @@
             id="addNewIPDomainButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/ip-domain/ip-domain/[ent-id= newentinstance]/[site-id=newentsiteinstance]/[id=newinstance]'
+                    '/ip-domain/ip-domain/[ent-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
                 )
             "
-            routerLink="/ipdomain/ipdomain-edit/newentinstance/newentsiteinstance/newinstance"
+            routerLink="/ipdomain/ipdomain-edit/unknownent/unknownsite/newinstance"
         >
             Add
         </button>

@@ -15,10 +15,10 @@
             id="addApplicationButton"
             [disabled]="
                 !opaService.canWrite(
-                    'application/application/[ent_id=newinstance]/[id=newinstance]'
+                    'application/application/[ent_id=unknownent]/[id=newinstance]'
                 )
             "
-            routerLink="/application/application-edit/newinstance/newinstance"
+            routerLink="/application/application-edit/unknownent/newinstance"
         >
             Add
         </button>

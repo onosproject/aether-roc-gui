@@ -15,10 +15,10 @@
             id="addNewUpfButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/upf/upf/[ent-id= newentinstance]/[site-id=newentsiteinstance]/[id=newinstance]'
+                    '/upf/upf/[ent-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
                 )
             "
-            routerLink="/upf/upf-edit/newentinstance/newentsiteinstance/newinstance"
+            routerLink="/upf/upf-edit/unknownent/unknownsite/newinstance"
         >
             Add
         </button>

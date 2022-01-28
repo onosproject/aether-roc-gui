@@ -15,10 +15,10 @@
             id="addNewSliceButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/slice/slice/[ent-id= newentinstance]/[site-id=newentsiteinstance]/[id=newinstance]'
+                    '/slice/slice/[ent-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
                 )
             "
-            routerLink="/slice/slice-edit/newentinstance/newentsiteinstance/newinstance"
+            routerLink="/slice/slice-edit/unknownent/unknownsite/newinstance"
         >
             Add
         </button>

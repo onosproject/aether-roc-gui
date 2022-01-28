@@ -15,10 +15,10 @@
             id="addNewSiteButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/site/site/[ent-id=newentinstance]/[id=newinstance]'
+                    '/site/site/[ent-id=unknownent]/[id=newinstance]'
                 )
             "
-            routerLink="/site/site-edit/newentinstance/newinstance"
+            routerLink="/site/site-edit/unknownent/newinstance"
         >
             Add
         </button>

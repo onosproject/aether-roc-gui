@@ -15,10 +15,10 @@
             id="addDeviceGroupButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/devicegroup/devicegroup/[ent-id= newentinstance]/[site-id=newentsiteinstance]/[id=newinstance]'
+                    '/devicegroup/devicegroup/[ent-id= unknownent]/[site-id=unknownsite]/[id=newinstance]'
                 )
             "
-            routerLink="/devicegroups/devicegroups-edit/newentinstance/newentsiteinstance/newinstance"
+            routerLink="/devicegroups/devicegroups-edit/unknownent/unknownsite/newinstance"
         >
             Add
         </button>

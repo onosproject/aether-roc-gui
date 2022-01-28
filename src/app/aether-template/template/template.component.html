@@ -15,10 +15,10 @@
             id="addNewTemplateButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/template/template/[ent-id=newentinstance]/[id=newinstance]'
+                    '/template/template/[ent-id=unknownent]/[id=newinstance]'
                 )
             "
-            routerLink="/template/template-edit/newentinstance/newinstance"
+            routerLink="/template/template-edit/unknownent/newinstance"
         >
             Add
         </button>
