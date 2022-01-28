@@ -5,7 +5,7 @@
  */
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiModule as ApiModuleAether } from '../../openapi3/aether/4.0.0/api.module';
+import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.0.0/api.module';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AETHER_ROC_API_URL } from '../../environments/environment';
@@ -42,7 +42,10 @@ import { UtilsModule } from '../utils/utils.module';
         HttpClientModule,
         RouterModule.forChild([
             { path: 'template', component: TemplateComponent },
-            { path: 'template-edit/:id', component: TemplateEditComponent },
+            {
+                path: 'template-edit/:ent-id/:id',
+                component: TemplateEditComponent,
+            },
             { path: '', component: TemplateComponent, pathMatch: 'full' },
         ]),
         MatToolbarModule,

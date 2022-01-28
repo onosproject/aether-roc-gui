@@ -6,7 +6,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApplicationComponent } from './application/application.component';
-import { ApiModule as ApiModuleAether } from '../../openapi3/aether/4.0.0/api.module';
+import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.0.0/api.module';
 import { AETHER_ROC_API_URL } from '../../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -50,7 +50,7 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         RouterModule.forChild([
             { path: 'application', component: ApplicationComponent },
             {
-                path: 'application-edit/:id',
+                path: 'application-edit/:ent-id/:id',
                 component: ApplicationEditComponent,
             },
             { path: '', component: ApplicationComponent, pathMatch: 'full' },

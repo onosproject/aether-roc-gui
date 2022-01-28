@@ -5,7 +5,7 @@
  */
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiModule as ApiModuleAether } from '../../openapi3/aether/4.0.0/api.module';
+import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.0.0/api.module';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AETHER_ROC_API_URL } from '../../environments/environment';
@@ -42,7 +42,10 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         HttpClientModule,
         RouterModule.forChild([
             { path: 'upf', component: UpfComponent },
-            { path: 'upf-edit/:id', component: UpfEditComponent },
+            {
+                path: 'upf-edit/:ent-id/:site-id/:id',
+                component: UpfEditComponent,
+            },
             { path: '', component: UpfComponent, pathMatch: 'full' },
         ]),
         MatToolbarModule,

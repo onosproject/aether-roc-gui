@@ -4,17 +4,17 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { DeviceGroupDeviceGroup } from '../../../openapi3/aether/4.0.0/models/device-group-device-group';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { BasketService } from '../../basket.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { DeviceGroupDatasource } from './device-group-datasource';
 import * as _ from 'lodash';
+import { EnterpriseEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-device-group';
 
 @Component({
     selector: 'aether-device-group',
@@ -27,13 +27,13 @@ export class DeviceGroupComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<DeviceGroupDeviceGroup>;
+    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteDeviceGroup>;
 
     displayedColumns = [
         'id',
         'description',
         'site',
-        'Imsis',
+        // 'Imsis',
         'ip-domain',
         'device',
         'edit',
@@ -53,7 +53,7 @@ export class DeviceGroupComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Device-group-4.0.0',
+            'Device-group-2.0.0',
             'device-group'
         );
         super.reqdAttr = ['site'];
@@ -62,37 +62,38 @@ export class DeviceGroupComponent
     onDataLoaded(ScopeOfDataSource: DeviceGroupDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         this.usageArray = [];
-        this.aetherService
-            .getVcs({
-                target: AETHER_TARGETS[0],
-            })
-            .subscribe((displayData) => {
-                this.usageArray = this.usageArray.concat(
-                    _.differenceWith(
-                        ScopeOfDataSource.data,
-                        displayData.vcs,
-                        function (ScopeOfDataSourceObject, displayDataObject) {
-                            return _.findIndex(
-                                displayDataObject['device-group'],
-                                (filterElement) => {
-                                    return (
-                                        filterElement['device-group'] ==
-                                        ScopeOfDataSourceObject.id
-                                    );
-                                }
-                            ) !== -1
-                                ? true
-                                : false;
-                        }
-                    )
-                );
-            });
+        /* Needs work*/
+        // this.aetherService
+        //     .getVcs({
+        //         target: AETHER_TARGETS[0],
+        //     })
+        //     .subscribe((displayData) => {
+        //         this.usageArray = this.usageArray.concat(
+        //             _.differenceWith(
+        //                 ScopeOfDataSource.data,
+        //                 displayData.vcs,
+        //                 function (ScopeOfDataSourceObject, displayDataObject) {
+        //                     return _.findIndex(
+        //                         displayDataObject['device-group'],
+        //                         (filterElement) => {
+        //                             return (
+        //                                 filterElement['device-group'] ==
+        //                                 ScopeOfDataSourceObject.id
+        //                             );
+        //                         }
+        //                     ) !== -1
+        //                         ? true
+        //                         : false;
+        //                 }
+        //             )
+        //         );
+        //     });
         if (
             this.pathRoot in basketPreview &&
             'device-group' in basketPreview[this.pathRoot]
         ) {
             ScopeOfDataSource.merge(
-                basketPreview['Device-group-4.0.0']['device-group'],
+                basketPreview['Device-group-2.0.0']['device-group'],
                 [{ fieldName: 'imsis', idAttr: 'imsi-id' }]
             );
         }

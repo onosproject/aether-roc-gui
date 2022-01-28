@@ -8,13 +8,13 @@ import { OpenPolicyAgentService } from 'src/app/open-policy-agent.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { UpfDatasource } from './upf-datasource';
-import { UpfUpf } from '../../../openapi3/aether/4.0.0/models';
 import * as _ from 'lodash';
+import { EnterpriseEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-upf';
 
 @Component({
     selector: 'aether-upf',
@@ -27,7 +27,7 @@ export class UpfComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<UpfUpf>;
+    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteUpf>;
 
     displayedColumns = [
         'id',
@@ -49,7 +49,7 @@ export class UpfComponent
         super(
             basketService,
             new UpfDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'Upf-4.0.0',
+            'Upf-2.0.0',
             'upf'
         );
         super.reqdAttr = ['enterprise', 'port', 'address', 'site'];
@@ -58,29 +58,30 @@ export class UpfComponent
     onDataLoaded(ScopeOfDataSource: UpfDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         this.usageArray = [];
-        this.aetherService
-            .getVcs({
-                target: AETHER_TARGETS[0],
-            })
-            .subscribe((displayData) => {
-                this.usageArray = this.usageArray.concat(
-                    _.differenceWith(
-                        ScopeOfDataSource.data,
-                        displayData.vcs,
-                        function (ScopeOfDataSourceObject, displayDataObject) {
-                            return (
-                                ScopeOfDataSourceObject.id ===
-                                displayDataObject.upf
-                            );
-                        }
-                    )
-                );
-            });
+        /* Needs work*/
+        // this.aetherService
+        //     .getVcs({
+        //         target: AETHER_TARGETS[0],
+        //     })
+        //     .subscribe((displayData) => {
+        //         this.usageArray = this.usageArray.concat(
+        //             _.differenceWith(
+        //                 ScopeOfDataSource.data,
+        //                 displayData.vcs,
+        //                 function (ScopeOfDataSourceObject, displayDataObject) {
+        //                     return (
+        //                         ScopeOfDataSourceObject.id ===
+        //                         displayDataObject.upf
+        //                     );
+        //                 }
+        //             )
+        //         );
+        //     });
         if (
             this.pathRoot in basketPreview &&
             'upf' in basketPreview[this.pathRoot]
         ) {
-            ScopeOfDataSource.merge(basketPreview['Upf-4.0.0'].upf);
+            ScopeOfDataSource.merge(basketPreview['Upf-2.0.0'].upf);
         }
     }
 

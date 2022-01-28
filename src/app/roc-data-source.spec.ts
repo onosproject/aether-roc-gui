@@ -5,21 +5,21 @@
  */
 
 import { RocDataSource } from './roc-data-source';
-import { VcsVcs } from '../openapi3/aether/4.0.0/models/vcs-vcs';
-import { Vcs } from '../openapi3/aether/4.0.0/models/vcs';
+import { Vcs } from '../openapi3/aether/2.0.0/models/vcs';
 import { VcsDatasource } from './aether-vcs/vcs/vcs-datasource';
-import { Service } from '../openapi3/aether/4.0.0/services';
-import { ApiConfiguration } from '../openapi3/aether/4.0.0/api-configuration';
+import { Service } from '../openapi3/aether/2.0.0/services';
+import { ApiConfiguration } from '../openapi3/aether/2.0.0/api-configuration';
 import { BasketService } from './basket.service';
 import { AETHER_TARGETS } from '../environments/environment';
+import { EnterpriseEnterpriseSiteVcs } from '../openapi3/aether/2.0.0/models/enterprise-enterprise-site-vcs';
 
 describe('ROC Data Source', () => {
-    let component: RocDataSource<VcsVcs, Vcs>;
+    let component: RocDataSource<EnterpriseEnterpriseSiteVcs, Vcs>;
 
     // this represents the existing data
-    const existingItems: VcsVcs[] = [
+    const existingItems: EnterpriseEnterpriseSiteVcs[] = [
         {
-            id: 'vcs1',
+            'vcs-id': 'vcs1',
             'default-behavior': 'DENY',
             enterprise: 'onf',
             sd: 1,
@@ -35,9 +35,9 @@ describe('ROC Data Source', () => {
     ];
 
     // this represents the updated data in the basket (id must match)
-    const basketItems: VcsVcs[] = [
+    const basketItems: EnterpriseEnterpriseSiteVcs[] = [
         {
-            id: 'vcs1',
+            'vcs-id': 'vcs1',
             'default-behavior': 'DENY-updated',
             enterprise: 'onf-updated',
             sd: 2,

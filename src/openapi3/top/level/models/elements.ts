@@ -22,6 +22,16 @@ import {Template as Template400} from "../../../aether/4.0.0/models";
 import {TrafficClass as TrafficClass400} from "../../../aether/4.0.0/models";
 import {Upf as Upf400} from "../../../aether/4.0.0/models";
 import {Vcs as Vcs400} from "../../../aether/4.0.0/models";
+import {Application as Application200} from "../../../aether/2.0.0/models";
+import {ConnectivityService as ConnectivityService200} from "../../../aether/2.0.0/models";
+import {DeviceGroup as DeviceGroup200} from "../../../aether/2.0.0/models";
+import {Enterprise as Enterprise200} from "../../../aether/2.0.0/models";
+import {IpDomain as IpDomain200} from "../../../aether/2.0.0/models";
+import {Site as Site200} from "../../../aether/2.0.0/models";
+import {Template as Template200} from "../../../aether/2.0.0/models";
+import {TrafficClass as TrafficClass200} from "../../../aether/2.0.0/models";
+import {Upf as Upf200} from "../../../aether/2.0.0/models";
+import {Vcs as Vcs200} from "../../../aether/2.0.0/models";
 
 export type RocElement = keyof Elements
 
@@ -47,5 +57,15 @@ export interface Elements {
     'Traffic-class-4.0.0': TrafficClass400;
     'Upf-4.0.0'?: Upf400;
     'Vcs-4.0.0'?: Vcs400;
+    'Application-2.0.0'?: Application200;
+    'Connectivity-service-2.0.0'?: ConnectivityService200;
+    'Device-group-2.0.0'?: DeviceGroup200;
+    'Enterprise-2.0.0'?: Enterprise200;
+    'Ip-domain-2.0.0'?: IpDomain200;
+    'Site-2.0.0'?: Site200;
+    'Template-2.0.0'?: Template200;
+    'Traffic-class-2.0.0': TrafficClass200;
+    'Upf-2.0.0'?: Upf200;
+    'Vcs-2.0.0'?: Vcs200;
 
 }

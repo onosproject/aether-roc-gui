@@ -7,7 +7,7 @@
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Service as AetherService } from '../openapi3/aether/4.0.0/services';
+import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
 import { ADDITIONALPROPS, BasketService } from './basket.service';
 import { from, merge, Observable, of as observableOf } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
@@ -23,7 +23,7 @@ export function compare(
 
 // eg: VcsVcs
 export interface RocGenericModelType {
-    id: string;
+    // id: string;
     description?: string;
 }
 
@@ -159,7 +159,7 @@ export abstract class RocDataSource<
                                 ']/' +
                                 this.indexAttr
                         ) ||
-                        (this.pathRoot === '/vcs-4.0.0' &&
+                        (this.pathRoot === '/vcs-2.0.0' &&
                             this.pathListAttr === this.pathListAttr)
                     ) {
                         this.data.push(value);
@@ -204,10 +204,12 @@ export abstract class RocDataSource<
         const nestedListFields = nestedLists.map((i) => i.fieldName);
 
         basketData.forEach((updated) => {
-            const existing: T = this.data.filter((e) => e.id === updated.id)[0];
+            const existing: T = this.data.filter(
+                (e) => e['ent-id'] === updated['ent-id']
+            )[0];
             if (!existing) {
                 console.warn(
-                    `Item with ID ${updated.id} does not exist in datasource ${this.pathRoot}`
+                    `Item with ID ${updated['ent-id']} does not exist in datasource ${this.pathRoot}`
                 );
                 return;
             }

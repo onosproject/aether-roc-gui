@@ -4,21 +4,29 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import { Site, SiteSite } from '../../../openapi3/aether/4.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import {
+    EnterpriseEnterpriseSite,
+    Site,
+} from '../../../openapi3/aether/2.0.0/models';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 
-export class SiteDatasource extends RocDataSource<SiteSite, Site> {
+export class SiteDatasource extends RocDataSource<
+    EnterpriseEnterpriseSite,
+    Site
+> {
     constructor(
         protected aetherService: AetherService,
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/site-4.0.0', 'site');
+        super(aetherService, bs, target, '/site-2.0.0', 'site');
     }
 
-    getSortedData(data: SiteSite[]): SiteSite[] {
+    getSortedData(
+        data: EnterpriseEnterpriseSite[]
+    ): EnterpriseEnterpriseSite[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

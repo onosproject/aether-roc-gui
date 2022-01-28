@@ -5,13 +5,15 @@
  */
 
 import { compare, RocDataSource } from '../../roc-data-source';
-import { TrafficClassTrafficClass } from '../../../openapi3/aether/4.0.0/models';
-import { TrafficClass } from '../../../openapi3/aether/4.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import {
+    EnterpriseEnterpriseTrafficClass,
+    TrafficClass,
+} from '../../../openapi3/aether/2.0.0/models';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 
 export class TrafficClassDatasource extends RocDataSource<
-    TrafficClassTrafficClass,
+    EnterpriseEnterpriseTrafficClass,
     TrafficClass
 > {
     constructor(
@@ -27,14 +29,14 @@ export class TrafficClassDatasource extends RocDataSource<
             aetherService,
             bs,
             target,
-            '/traffic-class-4.0.0',
+            '/traffic-class-2.0.0',
             'traffic-class'
         );
     }
 
     getSortedData(
-        data: TrafficClassTrafficClass[]
-    ): TrafficClassTrafficClass[] {
+        data: EnterpriseEnterpriseTrafficClass[]
+    ): EnterpriseEnterpriseTrafficClass[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

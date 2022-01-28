@@ -5,7 +5,7 @@
  */
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiModule as ApiModuleAether } from '../../openapi3/aether/4.0.0/api.module';
+import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.0.0/api.module';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AETHER_ROC_API_URL } from '../../environments/environment';
@@ -53,7 +53,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         HttpClientModule,
         RouterModule.forChild([
             { path: 'vcs', component: VcsComponent },
-            { path: 'vcs-edit/:id', component: VcsEditComponent },
+            {
+                path: 'vcs-edit/:ent-id/:site-id/:id',
+                component: VcsEditComponent,
+            },
             { path: 'vcs-monitor/:id', component: VcsMonitorComponent },
             { path: '', component: VcsComponent, pathMatch: 'full' },
         ]),

@@ -5,7 +5,7 @@
  */
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiModule as ApiModuleAether } from '../../openapi3/aether/4.0.0/api.module';
+import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.0.0/api.module';
 import { AETHER_ROC_API_URL } from '../../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -56,7 +56,7 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         RouterModule.forChild([
             { path: 'devicegroups', component: DeviceGroupComponent },
             {
-                path: 'devicegroups-edit/:id',
+                path: 'devicegroups-edit/:ent-id/:site-id/:id',
                 component: DeviceGroupEditComponent,
             },
             {

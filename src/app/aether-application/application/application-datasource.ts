@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
-import {
-    Application,
-    ApplicationApplication,
-} from '../../../openapi3/aether/4.0.0/models';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
+import {
+    Application,
+    EnterpriseEnterpriseApplication,
+} from '../../../openapi3/aether/2.0.0/models';
 
 export class ApplicationDatasource extends RocDataSource<
-    ApplicationApplication,
+    EnterpriseEnterpriseApplication,
     Application
 > {
     constructor(
@@ -21,10 +21,12 @@ export class ApplicationDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/application-4.0.0', 'application');
+        super(aetherService, bs, target, '/application-2.0.0', 'application');
     }
 
-    getSortedData(data: ApplicationApplication[]): ApplicationApplication[] {
+    getSortedData(
+        data: EnterpriseEnterpriseApplication[]
+    ): EnterpriseEnterpriseApplication[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -38,8 +40,8 @@ export class ApplicationDatasource extends RocDataSource<
             switch (this.sort.active) {
                 case 'address':
                     return compare(a.address, b.address, isAsc);
-                case 'enterprise':
-                    return compare(a.enterprise, b.enterprise, isAsc);
+                // case 'enterprise':
+                //     return compare(a.enterprise, b.enterprise, isAsc);
                 default:
                     return 0;
             }

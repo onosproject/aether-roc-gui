@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
-import { IpDomainIpDomain } from '../../../openapi3/aether/4.0.0/models/ip-domain-ip-domain';
-import { IpDomain } from '../../../openapi3/aether/4.0.0/models/ip-domain';
+import { IpDomain } from '../../../openapi3/aether/2.0.0/models/ip-domain';
+import { EnterpriseEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-ip-domain';
 
 export class IpDomainDatasource extends RocDataSource<
-    IpDomainIpDomain,
+    EnterpriseEnterpriseSiteIpDomain,
     IpDomain
 > {
     constructor(
@@ -19,9 +19,11 @@ export class IpDomainDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/ip-domain-4.0.0', 'ip-domain');
+        super(aetherService, bs, target, '/ip-domain-2.0.0', 'ip-domain');
     }
-    getSortedData(data: IpDomainIpDomain[]): IpDomainIpDomain[] {
+    getSortedData(
+        data: EnterpriseEnterpriseSiteIpDomain[]
+    ): EnterpriseEnterpriseSiteIpDomain[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -41,8 +43,6 @@ export class IpDomainDatasource extends RocDataSource<
                     return compare(a['admin-status'], b['admin-status'], isAsc);
                 case 'subnet':
                     return compare(a.subnet, b.subnet, isAsc);
-                case 'enterprise':
-                    return compare(a.enterprise, b.enterprise, isAsc);
                 default:
                     return 0;
             }
