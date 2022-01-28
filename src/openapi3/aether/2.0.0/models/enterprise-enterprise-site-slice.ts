@@ -2,10 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
-import { EnterpriseEnterpriseSiteVcsDeviceGroup } from './enterprise-enterprise-site-vcs-device-group';
-import { EnterpriseEnterpriseSiteVcsFilter } from './enterprise-enterprise-site-vcs-filter';
-import { EnterpriseEnterpriseSiteVcsSlice } from './enterprise-enterprise-site-vcs-slice';
-export interface EnterpriseEnterpriseSiteVcs {
+import { EnterpriseEnterpriseSiteSliceDeviceGroup } from './enterprise-enterprise-site-slice-device-group';
+import { EnterpriseEnterpriseSiteSliceFilter } from './enterprise-enterprise-site-slice-filter';
+export interface EnterpriseEnterpriseSiteSlice {
 
   /**
    * Default behavior if no filter rules match
@@ -13,15 +12,15 @@ export interface EnterpriseEnterpriseSiteVcs {
   'default-behavior': string;
 
   /**
-   * description of this vcs
+   * description of this slice
    */
   description?: string;
 
   /**
    * A list of device groups. Groups will only participate in
-   * the VCS if the enable field is set to True
+   * the slice if the enable field is set to True
    */
-  'device-group'?: Array<EnterpriseEnterpriseSiteVcsDeviceGroup>;
+  'device-group'?: Array<EnterpriseEnterpriseSiteSliceDeviceGroup>;
 
   /**
    * display name to use in GUI or CLI
@@ -33,19 +32,17 @@ export interface EnterpriseEnterpriseSiteVcs {
    * priority order. The first rule to match will determine the fate
    * of the packet.
    */
-  filter?: Array<EnterpriseEnterpriseSiteVcsFilter>;
+  filter?: Array<EnterpriseEnterpriseSiteSliceFilter>;
 
   /**
-   * ID for this vcs.
+   * ID for this slice.
    */
-  'vcs-id': string;
+  'slice-id': string;
 
   /**
    * Slice differentiator. Immutable.
    */
   sd: number;
-
-  slice?: EnterpriseEnterpriseSiteVcsSlice;
 
   /**
    * Slice/Service type. Immutable.
@@ -57,5 +54,5 @@ export interface EnterpriseEnterpriseSiteVcs {
    */
   upf?: string;
 
-  [key: string]: AdditionalPropertyUnchanged | Array<EnterpriseEnterpriseSiteVcsDeviceGroup> | Array<EnterpriseEnterpriseSiteVcsFilter> | EnterpriseEnterpriseSiteVcsSlice | number | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | Array<EnterpriseEnterpriseSiteSliceDeviceGroup> | Array<EnterpriseEnterpriseSiteSliceFilter> | number | string | undefined;
 }

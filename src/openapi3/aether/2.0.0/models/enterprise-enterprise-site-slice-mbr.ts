@@ -5,7 +5,7 @@
 /**
  * Maximum bitrate
  */
-export interface EnterpriseEnterpriseSiteVcsSliceMbr {
+export interface EnterpriseEnterpriseSiteSliceMbr {
 
   /**
    * Per-Slice MBR downlink data rate in bps
