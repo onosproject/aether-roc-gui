@@ -12,7 +12,7 @@ export interface Slice {
   /**
    * List of virtual cellular services
    */
-  vcs?: Array<EnterpriseEnterpriseSiteSlice>;
+  slice?: Array<EnterpriseEnterpriseSiteSlice>;
 
   [key: string]: AdditionalPropertyTarget | Array<EnterpriseEnterpriseSiteSlice> | undefined;
 }
