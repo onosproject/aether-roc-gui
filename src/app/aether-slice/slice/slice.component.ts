@@ -64,7 +64,7 @@ export class SliceComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Slice-2.0.0',
+            'Enterprises-2.0.0',
             'slice'
         );
         super.reqdAttr = [

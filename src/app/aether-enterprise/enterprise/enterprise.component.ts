@@ -43,7 +43,7 @@ export class EnterpriseComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Enterprise-2.0.0',
+            'Enterprises-2.0.0',
             'enterprise'
         );
     }

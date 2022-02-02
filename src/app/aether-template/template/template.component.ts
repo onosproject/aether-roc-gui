@@ -54,7 +54,7 @@ export class TemplateComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Template-2.0.0',
+            'Enterprises-2.0.0',
             'template'
         );
         super.reqdAttr = ['default-behavior'];

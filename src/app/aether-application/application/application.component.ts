@@ -50,7 +50,7 @@ export class ApplicationComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Application-2.0.0',
+            'Enterprises-2.0.0',
             'application'
         );
         super.reqdAttr = ['enterprise', 'address'];

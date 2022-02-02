@@ -51,7 +51,7 @@ export class ConnectivityServiceComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Connectivity-service-2.0.0',
+            'Connectivity-services-2.0.0',
             'connectivity-service'
         );
     }

@@ -52,7 +52,7 @@ export class TrafficClassComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Traffic-class-2.0.0',
+            'Enterprises-2.0.0',
             'traffic-class'
         );
     }
