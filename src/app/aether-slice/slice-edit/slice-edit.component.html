@@ -213,7 +213,9 @@
                                 color="accent"
                                 [disabled]="
                                     !opaService.canWrite(
-                                        '/slice/slice[id=' + id + ']/application'
+                                        '/slice/slice[id=' +
+                                            id +
+                                            ']/application'
                                     )
                                 "
                                 (click)="

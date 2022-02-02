@@ -45,13 +45,13 @@
                 <span
                     *ngIf="row['display-name'] !== undefined"
                     [title]="row['slice-id']"
-                >{{ row["display-name"] }} <br /><small
-                >({{ row["slice-id"] }})</small
-                ></span
+                    >{{ row["display-name"] }} <br /><small
+                        >({{ row["slice-id"] }})</small
+                    ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
                     row["slice-id"]
-                    }}</span>
+                }}</span>
             </td>
         </ng-container>
 
@@ -164,7 +164,7 @@
                     aria-label="Enterprise"
                     id="pointerConnectivityService"
                     routerLink="/enterprise/enterprise-edit/{{ row['ent-id'] }}"
-                >launch</mat-icon
+                    >launch</mat-icon
                 >
             </td>
         </ng-container>
@@ -189,7 +189,7 @@
                     aria-label="Site"
                     id="pointerSite"
                     routerLink="/site/site-edit/{{ row['site-id'] }}"
-                >launch
+                    >launch
                 </mat-icon>
             </td>
         </ng-container>
@@ -223,7 +223,7 @@
                         routerLink="/devicegroups/devicegroups-edit/{{
                             dg['device-group']
                         }}"
-                    >launch</mat-icon
+                        >launch</mat-icon
                     >
                 </p>
             </td>
@@ -285,7 +285,7 @@
                     aria-label="Upf"
                     id="pointerUpf"
                     routerLink="/upf/upf-edit/{{ row.upf }}"
-                >launch</mat-icon
+                    >launch</mat-icon
                 >
             </td>
         </ng-container>
