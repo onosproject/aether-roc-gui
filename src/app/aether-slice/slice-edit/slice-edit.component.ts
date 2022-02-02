@@ -6,24 +6,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-    VcsVcs,
-    DeviceGroupDeviceGroup,
-    UpfUpf,
-    EnterpriseEnterprise,
-    SiteSite,
-    TemplateTemplate,
-    ApplicationApplication,
-} from '../../../openapi3/aether/4.0.0/models';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { from, Observable } from 'rxjs';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { map, mergeMap, skipWhile, startWith } from 'rxjs/operators';
-import {
-    VcsVcsService,
-    Service as AetherService,
-} from 'src/openapi3/aether/4.0.0/services';
+import { Service as AetherService } from 'src/openapi3/aether/2.0.0/services';
 import {
     BasketService,
     HEX2NUM,
@@ -35,6 +23,12 @@ import {
 import { HexPipe } from '../../utils/hex.pipe';
 import { SelectAppParam } from '../application-select/application-select.component';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
+import { EnterpriseEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-device-group';
+import { EnterpriseEnterpriseApplication } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-application';
+import { EnterpriseEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-template';
+import { EnterpriseEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-upf';
+import { SliceSliceService } from '../../../openapi3/aether/2.0.0/services/slice-slice.service';
+import { EnterpriseEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-slice';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -46,7 +40,7 @@ interface BurstRate {
 }
 
 @Component({
-    selector: 'aether-vcs-edit',
+    selector: 'aether-slice-edit',
     templateUrl: './slice-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
@@ -55,13 +49,13 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     showDeviceGroupDisplay = false;
     showAddFilterButton = true;
     EndpointLeft = 5;
-    deviceGroups: Array<DeviceGroupDeviceGroup>;
-    site: Array<SiteSite>;
-    applications: Array<ApplicationApplication>;
-    templates: Array<TemplateTemplate>;
+    deviceGroups: Array<EnterpriseEnterpriseSiteDeviceGroup>;
+    // site: Array<EnterpriseEnterpriseSite>;
+    applications: Array<EnterpriseEnterpriseApplication>;
+    templates: Array<EnterpriseEnterpriseTemplate>;
     selectedSite: string;
-    enterprises: Array<EnterpriseEnterprise>;
-    upfs: Array<UpfUpf> = [];
+    // enterprises: Array<EnterpriseEnterprise>;
+    upfs: Array<EnterpriseEnterpriseSiteUpf> = [];
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
@@ -86,12 +80,12 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
 
     defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL'];
     bandwidthOptions: Observable<Bandwidths[]>;
-    data: VcsVcs;
-    pathRoot = 'Slice-4.0.0' as RocElement;
-    pathListAttr = 'vcs';
+    data: EnterpriseEnterpriseSiteSlice;
+    pathRoot = 'Slice-2.0.0' as RocElement;
+    pathListAttr = 'slice';
     sdAsInt = HexPipe.hexAsInt;
 
-    vcsForm = this.fb.group({
+    sliceForm = this.fb.group({
         id: [
             undefined,
             Validators.compose([
@@ -116,37 +110,35 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         ],
         site: [undefined],
         filter: this.fb.array([]),
-        slice: this.fb.group({
-            mbr: this.fb.group({
-                uplink: [
-                    undefined,
-                    Validators.compose([
-                        Validators.min(0),
-                        Validators.max(18446744073709552000),
-                    ]),
-                ],
-                downlink: [
-                    undefined,
-                    Validators.compose([
-                        Validators.min(0),
-                        Validators.max(18446744073709552000),
-                    ]),
-                ],
-                'uplink-burst-size': [
-                    undefined,
-                    Validators.compose([
-                        Validators.min(0),
-                        Validators.max(4294967295),
-                    ]),
-                ],
-                'downlink-burst-size': [
-                    undefined,
-                    Validators.compose([
-                        Validators.min(0),
-                        Validators.max(4294967295),
-                    ]),
-                ],
-            }),
+        mbr: this.fb.group({
+            uplink: [
+                undefined,
+                Validators.compose([
+                    Validators.min(0),
+                    Validators.max(18446744073709552000),
+                ]),
+            ],
+            downlink: [
+                undefined,
+                Validators.compose([
+                    Validators.min(0),
+                    Validators.max(18446744073709552000),
+                ]),
+            ],
+            'uplink-burst-size': [
+                undefined,
+                Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295),
+                ]),
+            ],
+            'downlink-burst-size': [
+                undefined,
+                Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295),
+                ]),
+            ],
         }),
         'default-behavior': [
             undefined,
@@ -170,7 +162,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     });
 
     constructor(
-        private vcsSliceService: VcsVcsService,
+        private sliceSliceService: SliceSliceService,
         private aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -179,41 +171,41 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Vcs-4.0.0', 'vcs');
-        super.form = this.vcsForm;
+        super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'slice');
+        super.form = this.sliceForm;
         this.loadApplication(this.target);
         super.loadFunc = this.loadSliceSlice;
-        this.vcsForm[REQDATTRIBS] = [
+        this.sliceForm[REQDATTRIBS] = [
             'sd',
             'sst',
             'enterprise',
             'site',
             'default-behavior',
         ];
-        this.vcsForm.get(['slice', 'mbr', 'uplink'])[TYPE] = 'number';
-        this.vcsForm.get(['slice', 'mbr', 'downlink'])[TYPE] = 'number';
-        this.vcsForm.get(['sst'])[TYPE] = 'number';
-        this.vcsForm.get(['sd'])[TYPE] = HEX2NUM;
-        this.vcsForm.get(['filter'])[IDATTRIBS] = ['application'];
-        this.vcsForm.get(['device-group'])[IDATTRIBS] = ['device-group'];
+        this.sliceForm.get(['mbr', 'uplink'])[TYPE] = 'number';
+        this.sliceForm.get(['mbr', 'downlink'])[TYPE] = 'number';
+        this.sliceForm.get(['sst'])[TYPE] = 'number';
+        this.sliceForm.get(['sd'])[TYPE] = HEX2NUM;
+        this.sliceForm.get(['filter'])[IDATTRIBS] = ['application'];
+        this.sliceForm.get(['device-group'])[IDATTRIBS] = ['device-group'];
     }
 
     ngOnInit(): void {
         super.init();
         if (this.isNewInstance) {
-            this.vcsForm
+            this.sliceForm
                 .get('default-behavior')
                 .setValue(this.defaultBehaviorOptions[0]);
             this.loadTemplate(this.target);
         } else {
-            this.vcsForm.get('sst').disable();
-            this.vcsForm.get('sd').disable();
+            this.sliceForm.get('sst').disable();
+            this.sliceForm.get('sd').disable();
         }
-        this.loadSites(this.target);
+        // this.loadSites(this.target);
         this.OnSiteSelect();
         this.loadDeviceGoup(this.target);
-        this.loadEnterprises(this.target);
-        this.bandwidthOptions = this.vcsForm.valueChanges.pipe(
+        // this.loadEnterprises(this.target);
+        this.bandwidthOptions = this.sliceForm.valueChanges.pipe(
             startWith(''),
             map((value) =>
                 typeof value === 'number' ? value : value.megabyte
@@ -224,20 +216,20 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         );
     }
 
-    setOnlyEnterprise(lenEnterprises: number): void {
-        if (lenEnterprises === 1) {
-            this.vcsForm.get('enterprise').markAsTouched();
-            this.vcsForm.get('enterprise').markAsDirty();
-            this.vcsForm.get('enterprise').setValue(this.enterprises[0].id);
-        }
-    }
+    // setOnlyEnterprise(lenEnterprises: number): void {
+    //     if (lenEnterprises === 1) {
+    //         this.sliceForm.get('enterprise').markAsTouched();
+    //         this.sliceForm.get('enterprise').markAsDirty();
+    //         this.sliceForm.get('enterprise').setValue(this.enterprises[0].id);
+    //     }
+    // }
 
     get filter(): FormArray {
-        return this.vcsForm.get('filter') as FormArray;
+        return this.sliceForm.get('filter') as FormArray;
     }
 
     selectedApplications(): string[] {
-        return (this.vcsForm.get(['filter']) as FormArray).controls.map(
+        return (this.sliceForm.get(['filter']) as FormArray).controls.map(
             (app) => {
                 return app.get('application').value;
             }
@@ -245,12 +237,12 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     }
 
     get deviceGroup(): FormArray {
-        return this.vcsForm.get('device-group') as FormArray;
+        return this.sliceForm.get('device-group') as FormArray;
     }
 
     get deviceGroupExists(): string[] {
         const existingList: string[] = [];
-        (this.vcsForm.get(['device-group']) as FormArray).controls.forEach(
+        (this.sliceForm.get(['device-group']) as FormArray).controls.forEach(
             (app) => {
                 existingList.push(app.get('device-group').value);
             }
@@ -259,7 +251,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     }
 
     OnSiteSelect(): void {
-        this.selectedSite = this.vcsForm.get('site').value;
+        this.selectedSite = this.sliceForm.get('site').value;
         this.loadUpf(this.target);
     }
 
@@ -285,8 +277,8 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             allow: allowControl,
             priority: priorityControl,
         });
-        (this.vcsForm.get('filter') as FormArray).push(appGroupControl);
-        this.vcsForm.get('filter').markAsTouched();
+        (this.sliceForm.get('filter') as FormArray).push(appGroupControl);
+        this.sliceForm.get('filter').markAsTouched();
         this.setShowAddFilterButton();
         console.log('Adding new Value', selected);
     }
@@ -301,13 +293,13 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             enabledControl.markAsTouched();
             enabledControl.markAsDirty();
             enabledControl[TYPE] = 'boolean';
-            (this.vcsForm.get('device-group') as FormArray).push(
+            (this.sliceForm.get('device-group') as FormArray).push(
                 this.fb.group({
                     'device-group': dgFormControl,
                     enable: enabledControl,
                 })
             );
-            this.vcsForm.get('device-group').markAsTouched();
+            this.sliceForm.get('device-group').markAsTouched();
             console.log('Adding new Value', selected);
         }
         this.showDeviceGroupDisplay = false;
@@ -333,64 +325,58 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    templateSelected(evt: { value: TemplateTemplate }): void {
+    templateSelected(evt: { value: EnterpriseEnterpriseTemplate }): void {
         if (this.isNewInstance) {
-            const eachTemplate: TemplateTemplate = evt.value;
-            const SdFormControl = this.vcsForm.get('sd');
+            const eachTemplate: EnterpriseEnterpriseTemplate = evt.value;
+            const SdFormControl = this.sliceForm.get('sd');
             SdFormControl.setValue(
                 eachTemplate.sd.toString(16).toUpperCase().padStart(6, '0')
             );
             SdFormControl.markAsTouched();
             SdFormControl.markAsDirty();
-            const SstFormControl = this.vcsForm.get('sst');
+            const SstFormControl = this.sliceForm.get('sst');
             SstFormControl.setValue(eachTemplate.sst);
             SstFormControl.markAsTouched();
             SstFormControl.markAsDirty();
-            const dbFormControl = this.vcsForm.get('default-behavior');
+            const dbFormControl = this.sliceForm.get('default-behavior');
             dbFormControl.setValue(eachTemplate['default-behavior']);
             dbFormControl.markAsTouched();
             dbFormControl.markAsDirty();
-            const UplinkFormControl = this.vcsForm.get([
-                'slice',
-                'mbr',
-                'uplink',
-            ]);
-            UplinkFormControl.setValue(eachTemplate.slice.mbr.uplink);
+            const UplinkFormControl = this.sliceForm.get(['mbr', 'uplink']);
+            UplinkFormControl.setValue(eachTemplate.mbr.uplink);
             UplinkFormControl.markAsTouched();
             UplinkFormControl.markAsDirty();
-            const DownlinkFormControl = this.vcsForm.get([
-                'slice',
-                'mbr',
-                'downlink',
-            ]);
-            DownlinkFormControl.setValue(eachTemplate.slice.mbr.downlink);
+            const DownlinkFormControl = this.sliceForm.get(['mbr', 'downlink']);
+            DownlinkFormControl.setValue(eachTemplate.mbr.downlink);
             DownlinkFormControl.markAsTouched();
             DownlinkFormControl.markAsDirty();
 
-            const ulBurstSize = this.vcsForm.get([
+            const ulBurstSize = this.sliceForm.get([
                 'slice',
                 'mbr',
                 'uplink-burst-size',
             ]);
-            ulBurstSize.setValue(eachTemplate.slice.mbr['uplink-burst-size']);
+            ulBurstSize.setValue(eachTemplate.mbr['uplink-burst-size']);
             ulBurstSize.markAsTouched();
             ulBurstSize.markAsDirty();
-            const dlBurstSize = this.vcsForm.get([
+            const dlBurstSize = this.sliceForm.get([
                 'slice',
                 'mbr',
                 'downlink-burst-size',
             ]);
-            dlBurstSize.setValue(eachTemplate.slice.mbr['downlink-burst-size']);
+            dlBurstSize.setValue(eachTemplate.mbr['downlink-burst-size']);
             dlBurstSize.markAsTouched();
             dlBurstSize.markAsDirty();
         }
     }
 
     loadSliceSlice(target: string, id: string): void {
-        this.vcsSliceService
-            .getVcsVcs({
+        this.sliceSliceService
+            .getSliceSlice({
                 target,
                 id,
+                ent_id: this.route.snapshot.params['ent-id'],
+                site_id: this.route.snapshot.params['site-id'],
             })
             .subscribe(
                 (value) => {
@@ -410,7 +396,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                         this.pathRoot in basketPreview &&
                         this.pathListAttr in basketPreview[this.pathRoot]
                     ) {
-                        basketPreview['Slice-4.0.0'].vcs.forEach(
+                        basketPreview['Slice-2.0.0'].slice.forEach(
                             (basketItems) => {
                                 if (basketItems.id === id) {
                                     this.populateFormData(basketItems);
@@ -425,7 +411,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
 
     deleteApplicationFromSelect(app: string): void {
         this.bs.deleteIndexedEntry(
-            '/slice-4.0.0/slice[id=' +
+            '/slice-2.0.0/slice[id=' +
                 this.id +
                 ']/filter[application=' +
                 app +
@@ -435,9 +421,9 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             this.ucmap
         );
         const index = (
-            this.vcsForm.get('filter') as FormArray
+            this.sliceForm.get('filter') as FormArray
         ).controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === app);
-        (this.vcsForm.get('filter') as FormArray).removeAt(index);
+        (this.sliceForm.get('filter') as FormArray).removeAt(index);
         this.snackBar.open(
             'Deletion of ' + app + ' added to basket',
             undefined,
@@ -448,7 +434,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
 
     deleteDeviceGroupFromSelect(dg: string): void {
         this.bs.deleteIndexedEntry(
-            '/slice-4.0.0/slice[id=' +
+            '/slice-2.0.0/slice[id=' +
                 this.id +
                 ']/device-group[device-group=' +
                 dg +
@@ -458,41 +444,42 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             this.ucmap
         );
         const index = (
-            this.vcsForm.get('device-group') as FormArray
+            this.sliceForm.get('device-group') as FormArray
         ).controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === dg);
-        (this.vcsForm.get('device-group') as FormArray).removeAt(index);
+        (this.sliceForm.get('device-group') as FormArray).removeAt(index);
         this.snackBar.open('Deletion ' + dg + ' added to basket', undefined, {
             duration: 2000,
         });
     }
 
     private get ucmap(): Map<string, string> {
-        const vcsId = '/slice-4.0.0/slice[id=' + this.id + ']';
-        let parentUc = localStorage.getItem(vcsId);
+        const sliceId = '/slice-2.0.0/slice[id=' + this.id + ']';
+        let parentUc = localStorage.getItem(sliceId);
         if (parentUc === null) {
-            parentUc = this.vcsForm[REQDATTRIBS];
+            parentUc = this.sliceForm[REQDATTRIBS];
         }
         const ucMap = new Map<string, string>();
-        ucMap.set(vcsId, parentUc);
+        ucMap.set(sliceId, parentUc);
         return ucMap;
     }
 
-    public populateFormData(value: VcsVcs): void {
+    public populateFormData(value: EnterpriseEnterpriseSiteSlice): void {
         if (value['display-name']) {
-            this.vcsForm.get('display-name').setValue(value['display-name']);
-            this.vcsForm.get('display-name')[ORIGINAL] = value['display-name'];
+            this.sliceForm.get('display-name').setValue(value['display-name']);
+            this.sliceForm.get('display-name')[ORIGINAL] =
+                value['display-name'];
         }
         if (value.description) {
-            this.vcsForm.get('description').setValue(value.description);
-            this.vcsForm.get('description')[ORIGINAL] = value.description;
+            this.sliceForm.get('description').setValue(value.description);
+            this.sliceForm.get('description')[ORIGINAL] = value.description;
         }
-        if (value.filter && this.vcsForm.value.filter.length === 0) {
+        if (value.filter && this.sliceForm.value.filter.length === 0) {
             for (const app of value.filter) {
                 let isDeleted = false;
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/slice-4.0.0/slice[id=' +
+                            '/basket-delete/slice-2.0.0/slice[id=' +
                                 this.id +
                                 ']/application[application='
                         )
@@ -515,24 +502,24 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                         allow: enabledControl,
                         priority: priorityControl,
                     });
-                    (this.vcsForm.get('filter') as FormArray).push(
+                    (this.sliceForm.get('filter') as FormArray).push(
                         appControlGroup
                     );
                 }
                 isDeleted = false;
             }
             this.setShowAddFilterButton();
-        } else if (value.filter && this.vcsForm.value.filter.length !== 0) {
-            this.vcsForm.value.filter.forEach(
+        } else if (value.filter && this.sliceForm.value.filter.length !== 0) {
+            this.sliceForm.value.filter.forEach(
                 (eachValueApp, eachValueAppPosition) => {
                     for (const eachFormApp of value.filter) {
                         if (
                             eachValueApp.application === eachFormApp.application
                         ) {
-                            this.vcsForm
+                            this.sliceForm
                                 .get(['filter', eachValueAppPosition, 'allow'])
                                 .setValue(eachFormApp.allow);
-                            this.vcsForm
+                            this.sliceForm
                                 .get([
                                     'filter',
                                     eachValueAppPosition,
@@ -541,7 +528,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                                 .setValue(eachFormApp.priority);
                         } else {
                             (
-                                this.vcsForm.get(['application']) as FormArray
+                                this.sliceForm.get(['application']) as FormArray
                             ).push(
                                 this.fb.group({
                                     application: eachFormApp.application,
@@ -555,44 +542,40 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             );
             this.setShowAddFilterButton();
         }
-        if (value.slice && value.slice.mbr) {
-            this.vcsForm
-                .get(['slice', 'mbr', 'uplink'])
-                .setValue(value.slice.mbr.uplink);
-            this.vcsForm
-                .get(['slice', 'mbr', 'downlink'])
-                .setValue(value.slice.mbr.downlink);
-            this.vcsForm.get(['slice', 'mbr', 'uplink'])[ORIGINAL] =
-                value.slice.mbr.uplink;
-            this.vcsForm.get(['slice', 'mbr', 'downlink'])[ORIGINAL] =
-                value.slice.mbr.downlink;
+        if (value.mbr) {
+            this.sliceForm.get(['mbr', 'uplink']).setValue(value.mbr.uplink);
+            this.sliceForm
+                .get(['mbr', 'downlink'])
+                .setValue(value.mbr.downlink);
+            this.sliceForm.get(['mbr', 'uplink'])[ORIGINAL] = value.mbr.uplink;
+            this.sliceForm.get(['mbr', 'downlink'])[ORIGINAL] =
+                value.mbr.downlink;
 
-            this.vcsForm
-                .get(['slice', 'mbr', 'uplink-burst-size'])
-                .setValue(value.slice.mbr['uplink-burst-size']);
-            this.vcsForm
-                .get(['slice', 'mbr', 'downlink-burst-size'])
-                .setValue(value.slice.mbr['downlink-burst-size']);
-            this.vcsForm.get(['slice', 'mbr', 'uplink-burst-size'])[ORIGINAL] =
-                value.slice.mbr['uplink-burst-size'];
-            this.vcsForm.get(['slice', 'mbr', 'downlink-burst-size'])[
-                ORIGINAL
-            ] = value.slice.mbr['downlink-burst-size'];
+            this.sliceForm
+                .get(['mbr', 'uplink-burst-size'])
+                .setValue(value.mbr['uplink-burst-size']);
+            this.sliceForm
+                .get(['mbr', 'downlink-burst-size'])
+                .setValue(value.mbr['downlink-burst-size']);
+            this.sliceForm.get(['mbr', 'uplink-burst-size'])[ORIGINAL] =
+                value.mbr['uplink-burst-size'];
+            this.sliceForm.get(['mbr', 'downlink-burst-size'])[ORIGINAL] =
+                value.mbr['downlink-burst-size'];
         }
-        if (value.enterprise) {
-            this.vcsForm.get('enterprise').setValue(value.enterprise);
-            this.vcsForm.get('enterprise')[ORIGINAL] = value.enterprise;
-        }
+        // if (value.enterprise) {
+        //     this.sliceForm.get('enterprise').setValue(value.enterprise);
+        //     this.sliceForm.get('enterprise')[ORIGINAL] = value.enterprise;
+        // }
         if (
             value['device-group'] &&
-            this.vcsForm.value['device-group'].length === 0
+            this.sliceForm.value['device-group'].length === 0
         ) {
             for (const dg of value['device-group']) {
                 let isDeleted = false;
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/slice-4.0.0/slice[id=' +
+                            '/basket-delete/slice-2.0.0/slice[id=' +
                                 this.id +
                                 ']/device-group[device-group='
                         )
@@ -608,7 +591,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                     const enabledControl = this.fb.control(dg.enable);
                     enabledControl[ORIGINAL] = dg.enable;
                     enabledControl[TYPE] = 'boolean';
-                    (this.vcsForm.get('device-group') as FormArray).push(
+                    (this.sliceForm.get('device-group') as FormArray).push(
                         this.fb.group({
                             'device-group': dgFormControl,
                             enable: enabledControl,
@@ -619,16 +602,16 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             }
         } else if (
             value['device-group'] &&
-            this.vcsForm.value['device-group'].length !== 0
+            this.sliceForm.value['device-group'].length !== 0
         ) {
-            this.vcsForm.value['device-group'].forEach(
+            this.sliceForm.value['device-group'].forEach(
                 (eachValuedg, eachValuedgPosition) => {
                     for (const eachFormdg of value['device-group']) {
                         if (
                             eachValuedg['device-group'] ===
                             eachFormdg['device-group']
                         ) {
-                            this.vcsForm
+                            this.sliceForm
                                 .get([
                                     'device-group',
                                     eachValuedgPosition,
@@ -645,7 +628,9 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                             newDgGroup.get('enable')[ORIGINAL] =
                                 eachFormdg.enable;
                             (
-                                this.vcsForm.get(['device-group']) as FormArray
+                                this.sliceForm.get([
+                                    'device-group',
+                                ]) as FormArray
                             ).push(newDgGroup);
                         }
                     }
@@ -653,56 +638,56 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             );
         }
         if (value.sd) {
-            this.vcsForm
+            this.sliceForm
                 .get(['sd'])
                 .setValue(value.sd.toString(16).toUpperCase());
-            this.vcsForm.get('sd')[ORIGINAL] = value.sd
+            this.sliceForm.get('sd')[ORIGINAL] = value.sd
                 .toString(16)
                 .toUpperCase();
         }
-        if (value.site) {
-            this.vcsForm.get('site').setValue(value.site);
-            this.vcsForm.get('site')[ORIGINAL] = value.site;
-            this.loadSites(this.target);
-            this.OnSiteSelect();
-        }
+        // if (value.site) {
+        //     this.sliceForm.get('site').setValue(value.site);
+        //     this.sliceForm.get('site')[ORIGINAL] = value.site;
+        //     this.loadSites(this.target);
+        //     this.OnSiteSelect();
+        // }
         if (value['default-behavior']) {
-            this.vcsForm
+            this.sliceForm
                 .get(['default-behavior'])
                 .setValue(value['default-behavior']);
-            this.vcsForm.get(['default-behavior'])[ORIGINAL] =
+            this.sliceForm.get(['default-behavior'])[ORIGINAL] =
                 value['default-behavior'];
         }
         if (value.sst) {
-            this.vcsForm.get(['sst']).setValue(value.sst);
-            this.vcsForm.get('sst')[ORIGINAL] = value.sst;
+            this.sliceForm.get(['sst']).setValue(value.sst);
+            this.sliceForm.get('sst')[ORIGINAL] = value.sst;
         }
         if (value.upf) {
-            this.vcsForm.get(['upf']).setValue(value.upf);
-            this.vcsForm.get('upf')[ORIGINAL] = value.upf;
+            this.sliceForm.get(['upf']).setValue(value.upf);
+            this.sliceForm.get('upf')[ORIGINAL] = value.upf;
         }
     }
 
-    loadEnterprises(target: string): void {
-        this.aetherService
-            .getEnterprise({
-                target,
-            })
-            .subscribe(
-                (value) => {
-                    this.enterprises = value.enterprise;
-                    this.setOnlyEnterprise(value.enterprise.length);
-                    console.log('Got', value.enterprise.length, 'Enterprise');
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting Enterprise for ',
-                        target,
-                        error
-                    );
-                }
-            );
-    }
+    // loadEnterprises(target: string): void {
+    //     this.aetherService
+    //         .getEnterprise({
+    //             target,
+    //         })
+    //         .subscribe(
+    //             (value) => {
+    //                 this.enterprises = value.enterprise;
+    //                 this.setOnlyEnterprise(value.enterprise.length);
+    //                 console.log('Got', value.enterprise.length, 'Enterprise');
+    //             },
+    //             (error) => {
+    //                 console.warn(
+    //                     'Error getting Enterprise for ',
+    //                     target,
+    //                     error
+    //                 );
+    //             }
+    //         );
+    // }
 
     loadDeviceGoup(target: string): void {
         this.aetherService
@@ -729,8 +714,8 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    get sliceMbrControls(): FormGroup {
-        return this.vcsForm.get(['slice', 'mbr']) as FormGroup;
+    get mbrControls(): FormGroup {
+        return this.sliceForm.get(['mbr']) as FormGroup;
     }
 
     loadUpf(target: string): void {
@@ -754,19 +739,26 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                 () => {
                     // eliminate already used UPFs
                     this.aetherService
-                        .getVcs({ target })
+                        .getSlice({ target })
                         .pipe(
-                            map((vcsContainer) => vcsContainer?.vcs),
-                            skipWhile((vcsList) => vcsList === undefined),
-                            mergeMap((vcsItem: VcsVcs[]) => from(vcsItem)),
-                            map((vcs: VcsVcs) => vcs.upf)
+                            map((sliceContainer) => sliceContainer?.slice),
+                            skipWhile((sliceList) => sliceList === undefined),
+                            mergeMap(
+                                (sliceItem: EnterpriseEnterpriseSiteSlice[]) =>
+                                    from(sliceItem)
+                            ),
+                            map(
+                                (sliceItem: EnterpriseEnterpriseSiteSlice) =>
+                                    sliceItem.upf
+                            )
                         )
                         .subscribe(
-                            (vcsUpf) => {
+                            (sliceUpf) => {
                                 const idx = this.upfs.findIndex(
-                                    (upf: UpfUpf) =>
-                                        upf.id === vcsUpf &&
-                                        this.vcsForm.get('upf').value !== vcsUpf
+                                    (upf: EnterpriseEnterpriseSiteUpf) =>
+                                        upf.id === sliceUpf &&
+                                        this.sliceForm.get('upf').value !==
+                                            sliceUpf
                                 );
                                 if (idx > -1) {
                                     this.upfs.splice(idx, 1);
@@ -788,7 +780,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     setShowAddFilterButton(): void {
         this.EndpointLeft = this.applications
             ?.filter((eachApplication) =>
-                this.selectedApplications().includes(eachApplication.id)
+                this.selectedApplications().includes(eachApplication['app-id'])
             )
             .reduce((total, application) => {
                 return total - application.endpoint.length;
@@ -798,24 +790,24 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         }
     }
 
-    loadSites(target: string): void {
-        this.aetherService
-            .getSite({
-                target,
-            })
-            .subscribe(
-                (value) => {
-                    this.site = value.site;
-                    console.log('Got Site', value.site.length);
-                },
-                (error) => {
-                    console.warn('Error getting Site for ', target, error);
-                },
-                () => {
-                    console.log('Finished loading Site', target);
-                }
-            );
-    }
+    // loadSites(target: string): void {
+    //     this.aetherService
+    //         .getSite({
+    //             target,
+    //         })
+    //         .subscribe(
+    //             (value) => {
+    //                 this.site = value.site;
+    //                 console.log('Got Site', value.site.length);
+    //             },
+    //             (error) => {
+    //                 console.warn('Error getting Site for ', target, error);
+    //             },
+    //             () => {
+    //                 console.log('Finished loading Site', target);
+    //             }
+    //         );
+    // }
 
     loadApplication(target: string): void {
         this.aetherService

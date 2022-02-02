@@ -6,14 +6,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-    Service as AetherService,
-    TemplateTemplateService,
-} from '../../../openapi3/aether/4.0.0/services';
-import {
-    TemplateTemplate,
-    TrafficClassTrafficClass,
-} from '../../../openapi3/aether/4.0.0/models';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
     BasketService,
     HEX2NUM,
@@ -30,6 +23,9 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HexPipe } from '../../utils/hex.pipe';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
+import { EnterpriseEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-template';
+import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-traffic-class';
+import { TemplateTemplateService } from '../../../openapi3/aether/2.0.0/services/template-template.service';
 
 export interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -52,9 +48,9 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
 
     sdAsInt = HexPipe.hexAsInt;
 
-    pathRoot = 'Template-4.0.0' as RocElement;
+    pathRoot = 'Template-2.0.0' as RocElement;
     pathListAttr = 'template';
-    trafficClass: Array<TrafficClassTrafficClass>;
+    trafficClass: Array<EnterpriseEnterpriseTrafficClass>;
     defaultBehaviorOpitons = ['DENY-ALL', 'ALLOW-ALL'];
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
@@ -79,7 +75,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
     ];
 
     bandwidthOptions: Observable<Bandwidths[]>;
-    data: TemplateTemplate;
+    data: EnterpriseEnterpriseTemplate;
     tempForm = this.fb.group({
         id: [
             undefined,
@@ -119,38 +115,38 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
             undefined,
             Validators.compose([Validators.min(1), Validators.max(255)]),
         ],
-        slice: this.fb.group({
-            mbr: this.fb.group({
-                uplink: [
-                    undefined,
-                    Validators.compose([
-                        Validators.min(0),
-                        Validators.max(4294967295),
-                    ]),
-                ],
-                downlink: [
-                    undefined,
-                    Validators.compose([
-                        Validators.min(0),
-                        Validators.max(4294967295),
-                    ]),
-                ],
-                'uplink-burst-size': [
-                    undefined,
-                    Validators.compose([
-                        Validators.min(0),
-                        Validators.max(4294967295),
-                    ]),
-                ],
-                'downlink-burst-size': [
-                    undefined,
-                    Validators.compose([
-                        Validators.min(0),
-                        Validators.max(4294967295),
-                    ]),
-                ],
-            }),
+        // slice: this.fb.group({
+        mbr: this.fb.group({
+            uplink: [
+                undefined,
+                Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295),
+                ]),
+            ],
+            downlink: [
+                undefined,
+                Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295),
+                ]),
+            ],
+            'uplink-burst-size': [
+                undefined,
+                Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295),
+                ]),
+            ],
+            'downlink-burst-size': [
+                undefined,
+                Validators.compose([
+                    Validators.min(0),
+                    Validators.max(4294967295),
+                ]),
+            ],
         }),
+        // }),
     });
 
     constructor(
@@ -163,7 +159,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Template-4.0.0', 'template');
+        super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'template');
         super.form = this.tempForm;
         super.loadFunc = this.loadTemplateTemplate;
         this.tempForm[REQDATTRIBS] = ['default-behavior'];
@@ -189,12 +185,10 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
         );
         this.tempForm.get('sd')[TYPE] = HEX2NUM;
         this.tempForm.get('sst')[TYPE] = 'number';
-        this.tempForm.get(['slice', 'mbr', 'uplink'])[TYPE] = 'number';
-        this.tempForm.get(['slice', 'mbr', 'downlink'])[TYPE] = 'number';
-        this.tempForm.get(['slice', 'mbr', 'uplink-burst-size'])[TYPE] =
-            'number';
-        this.tempForm.get(['slice', 'mbr', 'downlink-burst-size'])[TYPE] =
-            'number';
+        this.tempForm.get(['mbr', 'uplink'])[TYPE] = 'number';
+        this.tempForm.get(['mbr', 'downlink'])[TYPE] = 'number';
+        this.tempForm.get(['mbr', 'uplink-burst-size'])[TYPE] = 'number';
+        this.tempForm.get(['mbr', 'downlink-burst-size'])[TYPE] = 'number';
     }
 
     private _filter(): Bandwidths[] {
@@ -206,6 +200,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
             .getTemplateTemplate({
                 target,
                 id,
+                ent_id: this.route.snapshot.params['ent-id'],
             })
             .subscribe(
                 (value) => {
@@ -223,11 +218,11 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Template-4.0.0']
+                        this.pathListAttr in basketPreview['Template-2.0.0']
                     ) {
-                        basketPreview['Template-4.0.0'].template.forEach(
+                        basketPreview['Template-2.0.0'].template.forEach(
                             (basketItems) => {
-                                if (basketItems.id === id) {
+                                if (basketItems['tp-id'] === id) {
                                     this.populateFormData(basketItems);
                                 }
                             }
@@ -242,7 +237,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    private populateFormData(value: TemplateTemplate): void {
+    private populateFormData(value: EnterpriseEnterpriseTemplate): void {
         if (value['display-name']) {
             this.tempForm.get('display-name').setValue(value['display-name']);
             this.tempForm.get('display-name')[ORIGINAL] = value['display-name'];
@@ -271,32 +266,26 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
                 value['default-behavior'];
         }
 
-        if (value.slice && value.slice.mbr) {
+        if (value.mbr) {
+            this.tempForm.get(['mbr', 'uplink']).setValue(value.mbr.uplink);
+            this.tempForm.get(['mbr', 'downlink']).setValue(value.mbr.downlink);
             this.tempForm
-                .get(['slice', 'mbr', 'uplink'])
-                .setValue(value.slice.mbr.uplink);
+                .get(['mbr', 'uplink-burst-size'])
+                .setValue(value.mbr['uplink-burst-size']);
             this.tempForm
-                .get(['slice', 'mbr', 'downlink'])
-                .setValue(value.slice.mbr.downlink);
-            this.tempForm
-                .get(['slice', 'mbr', 'uplink-burst-size'])
-                .setValue(value.slice.mbr['uplink-burst-size']);
-            this.tempForm
-                .get(['slice', 'mbr', 'downlink-burst-size'])
-                .setValue(value.slice.mbr['downlink-burst-size']);
-            this.tempForm.get(['slice', 'mbr', 'uplink'])[ORIGINAL] =
-                value.slice.mbr.uplink;
-            this.tempForm.get(['slice', 'mbr', 'downlink'])[ORIGINAL] =
-                value.slice.mbr.downlink;
-            this.tempForm.get(['slice', 'mbr', 'uplink-burst-size'])[ORIGINAL] =
-                value.slice.mbr['uplink-burst-size'];
-            this.tempForm.get(['slice', 'mbr', 'downlink-burst-size'])[
-                ORIGINAL
-            ] = value.slice.mbr['downlink-burst-size'];
+                .get(['mbr', 'downlink-burst-size'])
+                .setValue(value.mbr['downlink-burst-size']);
+            this.tempForm.get(['mbr', 'uplink'])[ORIGINAL] = value.mbr.uplink;
+            this.tempForm.get(['mbr', 'downlink'])[ORIGINAL] =
+                value.mbr.downlink;
+            this.tempForm.get(['mbr', 'uplink-burst-size'])[ORIGINAL] =
+                value.mbr['uplink-burst-size'];
+            this.tempForm.get(['mbr', 'downlink-burst-size'])[ORIGINAL] =
+                value.mbr['downlink-burst-size'];
         }
     }
 
-    get sliceMbrControls(): FormGroup {
-        return this.tempForm.get(['slice', 'mbr']) as FormGroup;
+    get mbrControls(): FormGroup {
+        return this.tempForm.get(['mbr']) as FormGroup;
     }
 }

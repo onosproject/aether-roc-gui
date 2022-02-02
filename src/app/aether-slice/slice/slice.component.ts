@@ -42,7 +42,7 @@ export class SliceComponent
         'site',
         'filter',
         'default-behavior',
-        'slice',
+        'mbr',
         'device-group',
         'sd',
         'sst',
@@ -64,7 +64,7 @@ export class SliceComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Slice-2.0.0',
+            'Enterprises-2.0.0',
             'slice'
         );
         super.reqdAttr = [
@@ -99,7 +99,7 @@ export class SliceComponent
         ) {
             this.deletedSliceArray = DeletesBasketPreview[
                 'slice-2.0.0'
-            ].slice.map((DeletedSliceID) => DeletedSliceID.id);
+            ].slice.map((DeletedSliceID) => DeletedSliceID['slice-id']);
         }
     }
 

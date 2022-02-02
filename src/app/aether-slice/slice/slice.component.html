@@ -45,13 +45,13 @@
                 <span
                     *ngIf="row['display-name'] !== undefined"
                     [title]="row['slice-id']"
-                >{{ row["display-name"] }} <br /><small
-                >({{ row["slice-id"] }})</small
-                ></span
+                    >{{ row["display-name"] }} <br /><small
+                        >({{ row["slice-id"] }})</small
+                    ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
                     row["slice-id"]
-                    }}</span>
+                }}</span>
             </td>
         </ng-container>
 
@@ -117,10 +117,10 @@
             </td>
         </ng-container>
 
-        <!-- slice MBR Column -->
-        <ng-container matColumnDef="slice" id="slicevMbrColumn">
+        <!-- MBR Column -->
+        <ng-container matColumnDef="mbr" id="slicevMbrColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                Slice MBR
+                MBR
             </th>
             <td
                 [style]="
@@ -131,13 +131,13 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <p *ngIf="row.slice && row.slice.mbr">
+                <p *ngIf="row.mbr">
                     <mat-icon class="small_icon">arrow_upward</mat-icon
-                    >{{ row.slice.mbr.uplink }}
+                    >{{ row.mbr.uplink }}
                 </p>
-                <p *ngIf="row.slice && row.slice.mbr">
+                <p *ngIf="row.mbr">
                     <mat-icon class="small_icon">arrow_downward</mat-icon
-                    >{{ row.slice.mbr.downlink }}
+                    >{{ row.mbr.downlink }}
                 </p>
             </td>
         </ng-container>
@@ -164,7 +164,7 @@
                     aria-label="Enterprise"
                     id="pointerConnectivityService"
                     routerLink="/enterprise/enterprise-edit/{{ row['ent-id'] }}"
-                >launch</mat-icon
+                    >launch</mat-icon
                 >
             </td>
         </ng-container>
@@ -189,7 +189,7 @@
                     aria-label="Site"
                     id="pointerSite"
                     routerLink="/site/site-edit/{{ row['site-id'] }}"
-                >launch
+                    >launch
                 </mat-icon>
             </td>
         </ng-container>
@@ -223,7 +223,7 @@
                         routerLink="/devicegroups/devicegroups-edit/{{
                             dg['device-group']
                         }}"
-                    >launch</mat-icon
+                        >launch</mat-icon
                     >
                 </p>
             </td>
@@ -285,7 +285,7 @@
                     aria-label="Upf"
                     id="pointerUpf"
                     routerLink="/upf/upf-edit/{{ row.upf }}"
-                >launch</mat-icon
+                    >launch</mat-icon
                 >
             </td>
         </ng-container>
@@ -303,7 +303,9 @@
                 "
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/slice/slice-edit/{{ row['slice-id'] }}"
+                routerLink="/slice/slice-edit/{{ row['ent-id'] }}/{{
+                    row['site-id']
+                }}/{{ row['slice-id'] }}"
                 id="editSliceButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>

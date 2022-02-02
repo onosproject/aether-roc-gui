@@ -6,7 +6,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { RocEditBase } from '../../roc-edit-base';
-import { DeviceGroupDeviceGroup } from '../../../openapi3/aether/4.0.0/models/device-group-device-group';
 import {
     AbstractControl,
     FormArray,
@@ -18,7 +17,7 @@ import {
 } from '@angular/forms';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
     BasketService,
     IDATTRIBS,
@@ -27,61 +26,60 @@ import {
     TYPE,
 } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { DeviceGroupDeviceGroupService } from '../../../openapi3/aether/4.0.0/services/device-group-device-group.service';
-import { DeviceGroupDeviceGroupImsis } from '../../../openapi3/aether/4.0.0/models/device-group-device-group-imsis';
-import { IpDomainIpDomain } from '../../../openapi3/aether/4.0.0/models/ip-domain-ip-domain';
-import { SiteSite } from '../../../openapi3/aether/4.0.0/models/site-site';
 import { ImsiParam } from '../imsis-select/imsis-select.component';
 import { maxDeviceGroupRange } from '../../../environments/environment';
 import { map, startWith } from 'rxjs/operators';
 import { Bandwidths } from '../../aether-template/template-edit/template-edit.component';
 import { Observable } from 'rxjs';
-import { TrafficClassTrafficClass } from '../../../openapi3/aether/4.0.0/models/traffic-class-traffic-class';
+import { EnterpriseEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-device-group';
+import { EnterpriseEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-ip-domain';
+import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-traffic-class';
+import { DeviceGroupDeviceGroupService } from '../../../openapi3/aether/2.0.0/services/device-group-device-group.service';
 
-const ValidateImsiRange: ValidatorFn = (
-    control: AbstractControl
-): ValidationErrors | null => {
-    if (control.get(['imsis']).value.length !== 0) {
-        const imsiFormvalue = control.get(['imsis']).value;
-        let isValid: ValidationErrors = null;
-        imsiFormvalue.forEach((eachImsi) => {
-            if (eachImsi['imsi-range-from'] > eachImsi['imsi-range-to']) {
-                isValid = { individualRangeReversed: true };
-                return;
-            } else if (
-                eachImsi['imsi-range-to'] - eachImsi['imsi-range-from'] >
-                maxDeviceGroupRange
-            ) {
-                isValid = { individualRangeExceeded: true };
-                return;
-            }
-            for (const eachImsiFormValues of imsiFormvalue) {
-                if (eachImsiFormValues['imsi-id'] !== eachImsi['imsi-id']) {
-                    if (
-                        (eachImsi['imsi-range-to'] <
-                            eachImsiFormValues['imsi-range-from'] ||
-                            eachImsi['imsi-range-from'] >
-                                eachImsiFormValues['imsi-range-to']) &&
-                        eachImsiFormValues['imsi-range-from'] <=
-                            eachImsiFormValues['imsi-range-to'] &&
-                        eachImsi['imsi-range-from'] <=
-                            eachImsi['imsi-range-to'] &&
-                        eachImsi['imsi-range-to'] <=
-                            maxDeviceGroupRange + eachImsi['imsi-range-from'] &&
-                        eachImsiFormValues['imsi-range-to'] <=
-                            maxDeviceGroupRange +
-                                eachImsiFormValues['imsi-range-from']
-                    ) {
-                    } else {
-                        isValid = { isRangeNotValid: true };
-                        return;
-                    }
-                }
-            }
-        });
-        return isValid;
-    }
-};
+// const ValidateImsiRange: ValidatorFn = (
+//     control: AbstractControl
+// ): ValidationErrors | null => {
+//     if (control.get(['imsis']).value.length !== 0) {
+//         const imsiFormvalue = control.get(['imsis']).value;
+//         let isValid: ValidationErrors = null;
+//         imsiFormvalue.forEach((eachImsi) => {
+//             if (eachImsi['imsi-range-from'] > eachImsi['imsi-range-to']) {
+//                 isValid = { individualRangeReversed: true };
+//                 return;
+//             } else if (
+//                 eachImsi['imsi-range-to'] - eachImsi['imsi-range-from'] >
+//                 maxDeviceGroupRange
+//             ) {
+//                 isValid = { individualRangeExceeded: true };
+//                 return;
+//             }
+//             for (const eachImsiFormValues of imsiFormvalue) {
+//                 if (eachImsiFormValues['imsi-id'] !== eachImsi['imsi-id']) {
+//                     if (
+//                         (eachImsi['imsi-range-to'] <
+//                             eachImsiFormValues['imsi-range-from'] ||
+//                             eachImsi['imsi-range-from'] >
+//                                 eachImsiFormValues['imsi-range-to']) &&
+//                         eachImsiFormValues['imsi-range-from'] <=
+//                             eachImsiFormValues['imsi-range-to'] &&
+//                         eachImsi['imsi-range-from'] <=
+//                             eachImsi['imsi-range-to'] &&
+//                         eachImsi['imsi-range-to'] <=
+//                             maxDeviceGroupRange + eachImsi['imsi-range-from'] &&
+//                         eachImsiFormValues['imsi-range-to'] <=
+//                             maxDeviceGroupRange +
+//                                 eachImsiFormValues['imsi-range-from']
+//                     ) {
+//                     } else {
+//                         isValid = { isRangeNotValid: true };
+//                         return;
+//                     }
+//                 }
+//             }
+//         });
+//         return isValid;
+//     }
+// };
 
 @Component({
     selector: 'aether-device-group-edit',
@@ -89,16 +87,16 @@ const ValidateImsiRange: ValidatorFn = (
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
-    data: DeviceGroupDeviceGroup;
-    ipdomain: Array<IpDomainIpDomain>;
-    site: Array<SiteSite>;
-    imsis: Array<DeviceGroupDeviceGroupImsis> = [];
+    data: EnterpriseEnterpriseSiteDeviceGroup;
+    ipdomain: Array<EnterpriseEnterpriseSiteIpDomain>;
+    // site: Array<Enter>;
+    // imsis: Array<DeviceGroupDeviceGroupImsis> = [];
     showImsiDisplay = false;
     showAddImsi = false;
     SiteImisLength: number;
     ImsiRangeLimit: number;
     showParentDisplay = false;
-    trafficClass: Array<TrafficClassTrafficClass>;
+    trafficClass: Array<EnterpriseEnterpriseTrafficClass>;
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
@@ -136,29 +134,30 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
                 ]),
             ],
             'ip-domain': [undefined],
-            site: [undefined],
-            device: this.fb.group({
-                mbr: this.fb.group({
-                    uplink: [
-                        undefined,
-                        Validators.compose([
-                            Validators.min(0),
-                            Validators.max(4294967295),
-                        ]),
-                    ],
-                    downlink: [
-                        undefined,
-                        Validators.compose([
-                            Validators.min(0),
-                            Validators.max(4294967295),
-                        ]),
-                    ],
-                }),
+            // site: [undefined],
+            // device: this.fb.group({
+            mbr: this.fb.group({
+                uplink: [
+                    undefined,
+                    Validators.compose([
+                        Validators.min(0),
+                        Validators.max(4294967295),
+                    ]),
+                ],
+                downlink: [
+                    undefined,
+                    Validators.compose([
+                        Validators.min(0),
+                        Validators.max(4294967295),
+                    ]),
+                ],
                 'traffic-class': [undefined],
             }),
-            imsis: this.fb.array([]),
-        },
-        { validators: ValidateImsiRange }
+
+            // }),
+            // imsis: this.fb.array([]),
+        }
+        // { validators: ValidateImsiRange }
     );
     private deviceGroupId: string;
 
@@ -172,36 +171,25 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(
-            snackBar,
-            bs,
-            route,
-            router,
-            'Device-group-4.0.0',
-            'device-group'
-        );
+        super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'device-group');
         super.form = this.deviceGroupForm;
         super.loadFunc = this.loadDeviceGroupDeviceGroup;
-        this.deviceGroupForm[REQDATTRIBS] = ['site'];
-        this.deviceGroupForm.get(['device'])[REQDATTRIBS] = ['traffic-class'];
-        this.deviceGroupForm.get(['device', 'mbr'])[REQDATTRIBS] = [
-            'uplink',
-            'downlink',
-        ];
-        this.deviceGroupForm.get(['imsis'])[IDATTRIBS] = ['imsi-id'];
+        // this.deviceGroupForm[REQDATTRIBS] = ['site'];
+        // this.deviceGroupForm.get(['device'])[REQDATTRIBS] = ['traffic-class'];
+        this.deviceGroupForm.get(['mbr'])[REQDATTRIBS] = ['uplink', 'downlink'];
+        // this.deviceGroupForm.get(['imsis'])[IDATTRIBS] = ['imsi-id'];
     }
 
     ngOnInit(): void {
         this.loadIpDomains(this.target);
         this.loadTrafficClass(this.target);
         super.init();
-        if (this.isNewInstance) {
-            this.loadSites(this.target);
-        }
-        this.deviceGroupForm.get(['device', 'mbr', 'uplink'])[TYPE] = 'number';
-        this.deviceGroupForm.get(['device', 'mbr', 'downlink'])[TYPE] =
-            'number';
-        this.deviceGroupForm.get(['device', 'traffic-class'])[TYPE] = 'string';
+        // if (this.isNewInstance) {
+        //     this.loadSites(this.target);
+        // }
+        this.deviceGroupForm.get(['mbr', 'uplink'])[TYPE] = 'number';
+        this.deviceGroupForm.get(['mbr', 'downlink'])[TYPE] = 'number';
+        this.deviceGroupForm.get(['mbr', 'traffic-class'])[TYPE] = 'string';
         this.bandwidthOptions = this.deviceGroupForm.valueChanges.pipe(
             startWith(''),
             map((value) =>
@@ -227,42 +215,42 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
         return this.options.filter((option) => option.megabyte.numerical);
     }
 
-    get imsiControls(): FormArray {
-        return this.deviceGroupForm.get(['imsis']) as FormArray;
+    // get imsiControls(): FormArray {
+    //     return this.deviceGroupForm.get(['imsis']) as FormArray;
+    // }
+
+    get mbrControls(): FormGroup {
+        return this.deviceGroupForm.get(['mbr']) as FormGroup;
     }
 
-    get deviceMbrControls(): FormGroup {
-        return this.deviceGroupForm.get(['device', 'mbr']) as FormGroup;
-    }
+    // get deviceTrafficClassControls(): FormGroup {
+    //     return this.deviceGroupForm.get('device') as FormGroup;
+    // }
 
-    get deviceTrafficClassControls(): FormGroup {
-        return this.deviceGroupForm.get('device') as FormGroup;
-    }
+    // get imsisExisting(): string[] {
+    //     const existingList: string[] = [];
+    //     (this.deviceGroupForm.get(['imsis']) as FormArray).controls.forEach(
+    //         (ap) => {
+    //             existingList.push(ap.get('imsis').value);
+    //         }
+    //     );
+    //     return existingList;
+    // }
 
-    get imsisExisting(): string[] {
-        const existingList: string[] = [];
-        (this.deviceGroupForm.get(['imsis']) as FormArray).controls.forEach(
-            (ap) => {
-                existingList.push(ap.get('imsis').value);
-            }
-        );
-        return existingList;
-    }
-
-    displayImsiAdd(): void {
-        this.showAddImsi = !!this.deviceGroupForm.get('site').value;
-        this.site.forEach((eachSite) => {
-            if (eachSite.id === this.deviceGroupForm.get('site').value) {
-                this.SiteImisLength =
-                    eachSite['imsi-definition'].format.length -
-                    eachSite['imsi-definition'].format.indexOf('S');
-            }
-        });
-    }
+    // displayImsiAdd(): void {
+    //     this.showAddImsi = !!this.deviceGroupForm.get('site').value;
+    // this.site.forEach((eachSite) => {
+    //     if (eachSite.id === this.deviceGroupForm.get('site').value) {
+    //         this.SiteImisLength =
+    //             eachSite['imsi-definition'].format.length -
+    //             eachSite['imsi-definition'].format.indexOf('S');
+    //     }
+    // });
+    // }
 
     deleteFromSelect(im: string): void {
         this.bs.deleteIndexedEntry(
-            '/Device-group-4.0.0/device-group[id=' +
+            '/Device-group-2.0.0/device-group[id=' +
                 this.id +
                 ']/imsis[imsi-id=' +
                 im +
@@ -284,7 +272,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
 
     private ucmap(): Map<string, string> {
         const ucMap = new Map<string, string>();
-        const dgId = '/Device-group-4.0.0/device-group[id=' + this.id + ']';
+        const dgId = '/Device-group-2.0.0/device-group[id=' + this.id + ']';
         let parentUc = localStorage.getItem(dgId);
         if (parentUc === null) {
             parentUc = this.deviceGroupForm[REQDATTRIBS];
@@ -294,7 +282,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
         return ucMap;
     }
 
-    private populateFormData(value: DeviceGroupDeviceGroup): void {
+    private populateFormData(value: EnterpriseEnterpriseSiteDeviceGroup): void {
         if (value['display-name']) {
             this.deviceGroupForm
                 .get('display-name')
@@ -312,146 +300,148 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
             this.deviceGroupForm.get('description')[ORIGINAL] =
                 value.description;
         }
-        if (value.site) {
-            this.deviceGroupForm.get('site').setValue(value.site);
-            this.deviceGroupForm.get('site')[ORIGINAL] = value.site;
-            this.loadSites(this.target);
-        }
-        if (value.device && value.device['traffic-class']) {
+        // if (value.site) {
+        //     this.deviceGroupForm.get('site').setValue(value.site);
+        //     this.deviceGroupForm.get('site')[ORIGINAL] = value.site;
+        //     this.loadSites(this.target);
+        // }
+        if (value.mbr && value.mbr['traffic-class']) {
             this.deviceGroupForm
-                .get(['device', 'traffic-class'])
-                .setValue(value.device['traffic-class']);
-            this.deviceGroupForm.get(['device', 'traffic-class'])[ORIGINAL] =
-                value.device['traffic-class'];
+                .get(['mbr', 'traffic-class'])
+                .setValue(value.mbr['traffic-class']);
+            this.deviceGroupForm.get(['mbr', 'traffic-class'])[ORIGINAL] =
+                value.mbr['traffic-class'];
         }
-        if (value.device && value.device.mbr) {
+        if (value.mbr) {
             this.deviceGroupForm
-                .get(['device', 'mbr', 'uplink'])
-                .setValue(value.device.mbr.uplink);
+                .get(['mbr', 'uplink'])
+                .setValue(value.mbr.uplink);
             this.deviceGroupForm
-                .get(['device', 'mbr', 'downlink'])
-                .setValue(value.device.mbr.downlink);
-            this.deviceGroupForm.get(['device', 'mbr', 'downlink'])[ORIGINAL] =
-                value.device.mbr.uplink;
-            this.deviceGroupForm.get(['device', 'mbr', 'downlink'])[ORIGINAL] =
-                value.device.mbr.downlink;
+                .get(['mbr', 'downlink'])
+                .setValue(value.mbr.downlink);
+            this.deviceGroupForm.get(['mbr', 'downlink'])[ORIGINAL] =
+                value.mbr.uplink;
+            this.deviceGroupForm.get(['mbr', 'downlink'])[ORIGINAL] =
+                value.mbr.downlink;
         }
-        if (value.imsis && this.deviceGroupForm.value.imsis.length === 0) {
-            for (const im of value.imsis) {
-                let isDeleted = false;
-                Object.keys(localStorage)
-                    .filter((checkerKey) =>
-                        checkerKey.startsWith(
-                            '/basket-delete/Device-group-4.0.0/device-group[id=' +
-                                value.id +
-                                ']/imsis[imsi-id='
-                        )
-                    )
-                    .forEach((checkerKey) => {
-                        if (checkerKey.includes(im['imsi-id'])) {
-                            isDeleted = true;
-                        }
-                    });
-                if (!isDeleted) {
-                    const imsiIdFormControl = this.fb.control(im['imsi-id']);
-                    imsiIdFormControl[ORIGINAL] = im['imsi-id'];
-
-                    const imsiNameFormControl = this.fb.control(
-                        im['display-name']
-                    );
-                    imsiNameFormControl[ORIGINAL] = im['display-name'];
-
-                    let fromValue = im['imsi-range-from'];
-                    if (fromValue === undefined) {
-                        fromValue = 0;
-                    }
-                    const imsiRangeFromFormControl = this.fb.control(fromValue);
-                    imsiRangeFromFormControl[ORIGINAL] = fromValue;
-                    imsiRangeFromFormControl[TYPE] = 'number';
-
-                    const imsiRangeToFormControl = this.fb.control(
-                        im['imsi-range-to']
-                    );
-                    imsiRangeToFormControl[ORIGINAL] = im['imsi-range-to'];
-                    imsiRangeToFormControl[TYPE] = 'number';
-
-                    (this.deviceGroupForm.get('imsis') as FormArray).push(
-                        this.fb.group({
-                            'imsi-id': imsiIdFormControl,
-                            'display-name': imsiNameFormControl,
-                            'imsi-range-from': imsiRangeFromFormControl,
-                            'imsi-range-to': imsiRangeToFormControl,
-                        })
-                    );
-                }
-                isDeleted = false;
-            }
-        } else if (
-            value.imsis &&
-            this.deviceGroupForm.value.imsis.length !== 0
-        ) {
-            for (const eachValueImsis of value.imsis) {
-                (this.deviceGroupForm.get('imsis') as FormArray).push(
-                    this.fb.group({
-                        'imsi-id': eachValueImsis['imsi-id'],
-                        'display-name': eachValueImsis['display-name'],
-                        'imsi-range-from': eachValueImsis['imsi-range-from'],
-                        'imsi-range-to': eachValueImsis['imsi-range-to'],
-                    })
-                );
-            }
-        }
-        this.imsis = this.deviceGroupForm.get('imsis').value;
+        //     if (value.imsis && this.deviceGroupForm.value.imsis.length === 0) {
+        //         for (const im of value.imsis) {
+        //             let isDeleted = false;
+        //             Object.keys(localStorage)
+        //                 .filter((checkerKey) =>
+        //                     checkerKey.startsWith(
+        //                         '/basket-delete/Device-group-2.0.0/device-group[id=' +
+        //                             value.id +
+        //                             ']/imsis[imsi-id='
+        //                     )
+        //                 )
+        //                 .forEach((checkerKey) => {
+        //                     if (checkerKey.includes(im['imsi-id'])) {
+        //                         isDeleted = true;
+        //                     }
+        //                 });
+        //             if (!isDeleted) {
+        //                 const imsiIdFormControl = this.fb.control(im['imsi-id']);
+        //                 imsiIdFormControl[ORIGINAL] = im['imsi-id'];
+        //
+        //                 const imsiNameFormControl = this.fb.control(
+        //                     im['display-name']
+        //                 );
+        //                 imsiNameFormControl[ORIGINAL] = im['display-name'];
+        //
+        //                 let fromValue = im['imsi-range-from'];
+        //                 if (fromValue === undefined) {
+        //                     fromValue = 0;
+        //                 }
+        //                 const imsiRangeFromFormControl = this.fb.control(fromValue);
+        //                 imsiRangeFromFormControl[ORIGINAL] = fromValue;
+        //                 imsiRangeFromFormControl[TYPE] = 'number';
+        //
+        //                 const imsiRangeToFormControl = this.fb.control(
+        //                     im['imsi-range-to']
+        //                 );
+        //                 imsiRangeToFormControl[ORIGINAL] = im['imsi-range-to'];
+        //                 imsiRangeToFormControl[TYPE] = 'number';
+        //
+        //                 (this.deviceGroupForm.get('imsis') as FormArray).push(
+        //                     this.fb.group({
+        //                         'imsi-id': imsiIdFormControl,
+        //                         'display-name': imsiNameFormControl,
+        //                         'imsi-range-from': imsiRangeFromFormControl,
+        //                         'imsi-range-to': imsiRangeToFormControl,
+        //                     })
+        //                 );
+        //             }
+        //             isDeleted = false;
+        //         }
+        //     } else if (
+        //         value.imsis &&
+        //         this.deviceGroupForm.value.imsis.length !== 0
+        //     ) {
+        //         for (const eachValueImsis of value.imsis) {
+        //             (this.deviceGroupForm.get('imsis') as FormArray).push(
+        //                 this.fb.group({
+        //                     'imsi-id': eachValueImsis['imsi-id'],
+        //                     'display-name': eachValueImsis['display-name'],
+        //                     'imsi-range-from': eachValueImsis['imsi-range-from'],
+        //                     'imsi-range-to': eachValueImsis['imsi-range-to'],
+        //                 })
+        //             );
+        //         }
+        //     }
+        //     this.imsis = this.deviceGroupForm.get('imsis').value;
     }
 
-    imsiSelectCardClosed(event: ImsiParam): void {
-        this.showImsiDisplay = !this.showImsiDisplay;
-        if (event === undefined) {
-            return;
-        }
-
-        const imsiIdFormControl = this.fb.control(event['imsi-id']);
-        imsiIdFormControl.markAsTouched();
-        imsiIdFormControl.markAsDirty();
-
-        const imsiNameFormControl = this.fb.control(event['display-name']);
-        imsiNameFormControl.markAsTouched();
-        imsiNameFormControl.markAsDirty();
-
-        const imsiRangeFromFormControl = this.fb.control(
-            event['imsi-range-from']
-        );
-        imsiRangeFromFormControl.markAsTouched();
-        imsiRangeFromFormControl.markAsDirty();
-        imsiRangeFromFormControl[TYPE] = 'number';
-
-        const imsiRangeToFormControl = this.fb.control(event['imsi-range-to']);
-        imsiRangeToFormControl.markAsTouched();
-        imsiRangeToFormControl.markAsDirty();
-        imsiRangeToFormControl[TYPE] = 'boolean';
-
-        (this.deviceGroupForm.get('imsis') as FormArray).push(
-            this.fb.group({
-                'imsi-id': imsiIdFormControl,
-                'display-name': imsiNameFormControl,
-                'imsi-range-from': imsiRangeFromFormControl,
-                'imsi-range-to': imsiRangeToFormControl,
-            })
-        );
-        this.deviceGroupForm.markAsDirty();
-        this.deviceGroupForm.markAsTouched();
-    }
+    // imsiSelectCardClosed(event: ImsiParam): void {
+    //     this.showImsiDisplay = !this.showImsiDisplay;
+    //     if (event === undefined) {
+    //         return;
+    //     }
+    //
+    //     const imsiIdFormControl = this.fb.control(event['imsi-id']);
+    //     imsiIdFormControl.markAsTouched();
+    //     imsiIdFormControl.markAsDirty();
+    //
+    //     const imsiNameFormControl = this.fb.control(event['display-name']);
+    //     imsiNameFormControl.markAsTouched();
+    //     imsiNameFormControl.markAsDirty();
+    //
+    //     const imsiRangeFromFormControl = this.fb.control(
+    //         event['imsi-range-from']
+    //     );
+    //     imsiRangeFromFormControl.markAsTouched();
+    //     imsiRangeFromFormControl.markAsDirty();
+    //     imsiRangeFromFormControl[TYPE] = 'number';
+    //
+    //     const imsiRangeToFormControl = this.fb.control(event['imsi-range-to']);
+    //     imsiRangeToFormControl.markAsTouched();
+    //     imsiRangeToFormControl.markAsDirty();
+    //     imsiRangeToFormControl[TYPE] = 'boolean';
+    //
+    //     (this.deviceGroupForm.get('imsis') as FormArray).push(
+    //         this.fb.group({
+    //             'imsi-id': imsiIdFormControl,
+    //             'display-name': imsiNameFormControl,
+    //             'imsi-range-from': imsiRangeFromFormControl,
+    //             'imsi-range-to': imsiRangeToFormControl,
+    //         })
+    //     );
+    //     this.deviceGroupForm.markAsDirty();
+    //     this.deviceGroupForm.markAsTouched();
+    // }
 
     loadDeviceGroupDeviceGroup(target: string, id: string): void {
         this.deviceGroupDeviceGroupService
             .getDeviceGroupDeviceGroup({
                 target,
                 id,
+                ent_id: this.route.snapshot.params['ent-id'],
+                site_id: this.route.snapshot.params['site-id'],
             })
             .subscribe(
                 (value) => {
                     this.data = value;
-                    this.deviceGroupId = value.id;
+                    this.deviceGroupId = value['dg-id'];
                     this.populateFormData(value);
                 },
                 (error) => {
@@ -465,9 +455,9 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Device-group-4.0.0']
+                        this.pathListAttr in basketPreview['Device-group-2.0.0']
                     ) {
-                        basketPreview['Device-group-4.0.0'][
+                        basketPreview['Device-group-2.0.0'][
                             'device-group'
                         ].forEach((basketItems) => {
                             if (basketItems.id === id) {
@@ -527,23 +517,23 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    loadSites(target: string): void {
-        this.aetherService
-            .getSite({
-                target,
-            })
-            .subscribe(
-                (value) => {
-                    this.site = value.site;
-                    this.displayImsiAdd();
-                    console.log('Got Site', value.site.length);
-                },
-                (error) => {
-                    console.warn('Error getting Site for ', target, error);
-                },
-                () => {
-                    console.log('Finished loading Site', target);
-                }
-            );
-    }
+    // loadSites(target: string): void {
+    //     this.aetherService
+    //         .getSite({
+    //             target,
+    //         })
+    //         .subscribe(
+    //             (value) => {
+    //                 this.site = value.site;
+    //                 this.displayImsiAdd();
+    //                 console.log('Got Site', value.site.length);
+    //             },
+    //             (error) => {
+    //                 console.warn('Error getting Site for ', target, error);
+    //             },
+    //             () => {
+    //                 console.log('Finished loading Site', target);
+    //             }
+    //         );
+    // }
 }

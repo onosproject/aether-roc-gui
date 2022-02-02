@@ -22,7 +22,6 @@ export { EnterpriseEnterpriseSiteMonitoring } from './models/enterprise-enterpri
 export { EnterpriseEnterpriseSiteMonitoringEdgeDevice } from './models/enterprise-enterprise-site-monitoring-edge-device'
 export { Template } from './models/template'
 export { EnterpriseEnterpriseTemplate } from './models/enterprise-enterprise-template'
-export { EnterpriseEnterpriseTemplateSlice } from './models/enterprise-enterprise-template-slice'
 export { EnterpriseEnterpriseTemplateSliceMbr } from './models/enterprise-enterprise-template-slice-mbr'
 export { TrafficClass } from './models/traffic-class'
 export { EnterpriseEnterpriseTrafficClass } from './models/enterprise-enterprise-traffic-class'

@@ -3,7 +3,7 @@
 ~
 ~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
 -->
-<form [formGroup]="vcsForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="sliceForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
             <mat-card-title
@@ -13,7 +13,7 @@
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/vcs/vcs-monitor/{{ id }}"
+                routerLink="/slice/slice-monitor/{{ id }}"
                 id="monitorVcsButton"
                 >insights
             </mat-icon>
@@ -53,48 +53,48 @@
             </div>
 
             <!-- Enterprise Dropdown -->
-            <div class="row" id="enterpriseRow">
-                <mat-form-field class="field-margin half-width">
-                    <mat-select
-                        formControlName="enterprise"
-                        placeholder="Please specify an Enterprise"
-                        required
-                        id="selectEnterprise"
-                    >
-                        <mat-option
-                            *ngFor="let eachEnterprise of enterprises"
-                            [value]="eachEnterprise.id"
-                            >{{ eachEnterprise.id }}
-                            {{ eachEnterprise["display-name"] }}</mat-option
-                        >
-                    </mat-select>
-                    <mat-hint>Enterprise</mat-hint>
-                </mat-form-field>
-            </div>
+            <!--            <div class="row" id="enterpriseRow">-->
+            <!--                <mat-form-field class="field-margin half-width">-->
+            <!--                    <mat-select-->
+            <!--                        formControlName="enterprise"-->
+            <!--                        placeholder="Please specify an Enterprise"-->
+            <!--                        required-->
+            <!--                        id="selectEnterprise"-->
+            <!--                    >-->
+            <!--                        <mat-option-->
+            <!--                            *ngFor="let eachEnterprise of enterprises"-->
+            <!--                            [value]="eachEnterprise.id"-->
+            <!--                            >{{ eachEnterprise.id }}-->
+            <!--                            {{ eachEnterprise["display-name"] }}</mat-option-->
+            <!--                        >-->
+            <!--                    </mat-select>-->
+            <!--                    <mat-hint>Enterprise</mat-hint>-->
+            <!--                </mat-form-field>-->
+            <!--            </div>-->
             <!--            Site dropdown-->
-            <div class="row">
-                <mat-form-field
-                    class="field-margin half-width subscriber-section"
-                >
-                    <mat-select
-                        ngDefaultControl
-                        formControlName="site"
-                        title="This field is mandatory."
-                        placeholder="Please specify a Site"
-                        (selectionChange)="OnSiteSelect()"
-                        id="selectSite"
-                        required
-                    >
-                        <mat-option *ngFor="let site of site" [value]="site.id"
-                            >{{ site.id }}
-                            <span *ngIf="site['display-name']">
-                                ({{ site["display-name"] }})</span
-                            >
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint>Site</mat-hint>
-                </mat-form-field>
-            </div>
+            <!--            <div class="row">-->
+            <!--                <mat-form-field-->
+            <!--                    class="field-margin half-width subscriber-section"-->
+            <!--                >-->
+            <!--                    <mat-select-->
+            <!--                        ngDefaultControl-->
+            <!--                        formControlName="site"-->
+            <!--                        title="This field is mandatory."-->
+            <!--                        placeholder="Please specify a Site"-->
+            <!--                        (selectionChange)="OnSiteSelect()"-->
+            <!--                        id="selectSite"-->
+            <!--                        required-->
+            <!--                    >-->
+            <!--                        <mat-option *ngFor="let site of site" [value]="site.id"-->
+            <!--                            >{{ site.id }}-->
+            <!--                            <span *ngIf="site['display-name']">-->
+            <!--                                ({{ site["display-name"] }})</span-->
+            <!--                            >-->
+            <!--                        </mat-option>-->
+            <!--                    </mat-select>-->
+            <!--                    <mat-hint>Site</mat-hint>-->
+            <!--                </mat-form-field>-->
+            <!--            </div>-->
 
             <div class="row" *ngIf="isNewInstance">
                 <mat-form-field class="field-margin half-width">
@@ -135,7 +135,7 @@
                     matInput
                     placeholder="Please specify an SD"
                     formControlName="sd"
-                    [title]="sdAsInt(vcsForm.get('sd').value)"
+                    [title]="sdAsInt(sliceForm.get('sd').value)"
                     id="inputSd"
                 />
                 <mat-hint
@@ -213,7 +213,9 @@
                                 color="accent"
                                 [disabled]="
                                     !opaService.canWrite(
-                                        '/slice/slice[id=' + id + ']/application'
+                                        '/slice/slice[id=' +
+                                            id +
+                                            ']/application'
                                     )
                                 "
                                 (click)="
@@ -272,39 +274,40 @@
                                 >launch
                             </mat-icon>
                         </mat-form-field>
-                    </div>
-                    <button
-                        mat-icon-button
-                        id="deleteDeviceGroup"
-                        color="accent"
-                        [disabled]="
-                            !opaService.canWrite(
-                                '/slice/slice[id=' + id + ']/device-group'
-                            )
-                        "
-                        (click)="
-                            deleteDeviceGroupFromSelect(
-                                dgForm.value['device-group']
-                            )
-                        "
-                    >
-                        <mat-icon class="pad-left subscriber-pointer"
-                            >delete</mat-icon
+
+                        <button
+                            mat-icon-button
+                            id="deleteDeviceGroup"
+                            color="accent"
+                            [disabled]="
+                                !opaService.canWrite(
+                                    '/slice/slice[id=' + id + ']/device-group'
+                                )
+                            "
+                            (click)="
+                                deleteDeviceGroupFromSelect(
+                                    dgForm.value['device-group']
+                                )
+                            "
                         >
-                    </button>
+                            <mat-icon class="pad-left subscriber-pointer"
+                                >delete</mat-icon
+                            >
+                        </button>
+                    </div>
                 </div>
             </div>
-            <!--                slice uplink/downlink-->
+            <!-- uplink/downlink-->
             <div id="sliceMbrRow" class="subscriber-section field-margin">
-                <mat-hint>Slice Maximum bitrate</mat-hint>
-                <div [formGroup]="sliceMbrControls">
-                    <div class="row float-left" id="sliceUplinkRow">
+                <mat-hint>Maximum bitrate</mat-hint>
+                <div [formGroup]="mbrControls">
+                    <div class="row float-left" id="UplinkRow">
                         <mat-form-field class="field-margin">
                             <input
                                 matInput
                                 type="number"
                                 [matAutocomplete]="uplinkAuto"
-                                id="inputsliceUplink"
+                                id="inputmbrUplink"
                                 formControlName="uplink"
                             />
                             <mat-autocomplete #uplinkAuto="matAutocomplete">
@@ -320,13 +323,13 @@
                             <mat-hint>Uplink (bps)</mat-hint>
                         </mat-form-field>
                     </div>
-                    <div class="row" id="sliceDownlinkRow">
+                    <div class="row" id="DownlinkRow">
                         <mat-form-field class="field-margin">
                             <input
                                 matInput
                                 type="number"
                                 [matAutocomplete]="downlinkAuto"
-                                id="inputsliceDownlink"
+                                id="inputmbrDownlink"
                                 formControlName="downlink"
                             />
                             <mat-autocomplete #downlinkAuto="matAutocomplete">
@@ -342,13 +345,13 @@
                             <mat-hint>Downlink (bps)</mat-hint>
                         </mat-form-field>
                     </div>
-                    <div class="row float-left" id="sliceUplinkBurstSizeRow">
+                    <div class="row float-left" id="UplinkBurstSizeRow">
                         <mat-form-field class="field-margin">
                             <input
                                 matInput
                                 type="number"
                                 [matAutocomplete]="auto"
-                                id="inputsliceUplinkBurstSize"
+                                id="inputUplinkBurstSize"
                                 formControlName="uplink-burst-size"
                             />
                             <mat-autocomplete #auto="matAutocomplete">
@@ -362,13 +365,13 @@
                             <mat-hint>Uplink Burst Size (bytes)</mat-hint>
                         </mat-form-field>
                     </div>
-                    <div class="row" id="sliceDownlinkBurstSizeRow">
+                    <div class="row" id="DownlinkBurstSizeRow">
                         <mat-form-field class="field-margin">
                             <input
                                 matInput
                                 type="number"
                                 [matAutocomplete]="auto"
-                                id="inputsliceDownlinkBurstSize"
+                                id="inputDownlinkBurstSize"
                                 formControlName="downlink-burst-size"
                             />
                             <mat-autocomplete #auto="matAutocomplete">
@@ -394,8 +397,9 @@
                     <mat-select formControlName="upf" id="selectUpf">
                         <mat-option
                             *ngFor="let eachUpf of upfs"
-                            [value]="eachUpf.id"
-                            >{{ eachUpf.id }} {{ eachUpf["upf"] }}</mat-option
+                            [value]="eachUpf['upf-id']"
+                            >{{ eachUpf["upf-id"] }}
+                            {{ eachUpf["upf"] }}</mat-option
                         >
                     </mat-select>
                     <mat-hint>UPF</mat-hint>
@@ -409,9 +413,9 @@
                     id="submitButton"
                     [disabled]="
                         !(
-                            vcsForm.valid &&
-                            vcsForm.value.id &&
-                            vcsForm.touched &&
+                            sliceForm.valid &&
+                            sliceForm.value.id &&
+                            sliceForm.touched &&
                             opaService.canWrite('/slice/slice[id=' + id + ']')
                         )
                     "

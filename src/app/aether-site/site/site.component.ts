@@ -51,7 +51,7 @@ export class SiteComponent
         super(
             basketService,
             new SiteDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'Site-2.0.0',
+            'Enterprises-2.0.0',
             'site'
         );
         super.reqdAttr = ['enterprise'];

@@ -49,7 +49,7 @@ export class UpfComponent
         super(
             basketService,
             new UpfDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'Upf-2.0.0',
+            'Enterprises-2.0.0',
             'upf'
         );
         super.reqdAttr = ['enterprise', 'port', 'address', 'site'];

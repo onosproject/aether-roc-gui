@@ -52,7 +52,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([
-            { path: 'vcs', component: SliceComponent },
+            { path: 'slice', component: SliceComponent },
             {
                 path: 'slice-edit/:ent-id/:site-id/:id',
                 component: SliceEditComponent,

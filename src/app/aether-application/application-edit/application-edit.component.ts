@@ -14,15 +14,12 @@ import {
     ValidatorFn,
     Validators,
 } from '@angular/forms';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
-    ApplicationApplicationService,
-    Service as AetherService,
-} from '../../../openapi3/aether/4.0.0/services';
-import {
-    ApplicationApplication,
     EnterpriseEnterprise,
-    TrafficClassTrafficClass,
-} from '../../../openapi3/aether/4.0.0/models';
+    EnterpriseEnterpriseApplication,
+    EnterpriseEnterpriseTrafficClass,
+} from '../../../openapi3/aether/2.0.0/models';
 import {
     BasketService,
     IDATTRIBS,
@@ -38,6 +35,7 @@ import { Observable } from 'rxjs';
 import { Bandwidths } from '../../aether-template/template-edit/template-edit.component';
 import { map, startWith } from 'rxjs/operators';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
+import { ApplicationApplicationService } from '../../../openapi3/aether/2.0.0/services/application-application.service';
 
 const ValidatePortRange: ValidatorFn = (
     control: AbstractControl
@@ -67,11 +65,11 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     showParentDisplay = false;
     readonly endpointLimit: number = 5;
     enterprises: Array<EnterpriseEnterprise>;
-    trafficClassOptions: Array<TrafficClassTrafficClass>;
-    pathRoot = 'Application-4.0.0' as RocElement;
+    trafficClassOptions: Array<EnterpriseEnterpriseTrafficClass>;
+    pathRoot = 'Application-2.0.0' as RocElement;
     pathListAttr = 'application';
     applicationId: string;
-    data: ApplicationApplication;
+    data: EnterpriseEnterpriseApplication;
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
@@ -115,7 +113,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                 ]),
             ],
             endpoint: this.fb.array([]),
-            enterprise: [undefined, Validators.required],
+            // enterprise: [undefined, Validators.required],
         },
         { validators: ValidatePortRange }
     );
@@ -130,7 +128,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Application-4.0.0', 'application');
+        super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'application');
         super.form = this.appForm;
         super.loadFunc = this.loadApplicationApplication;
         this.appForm[REQDATTRIBS] = ['enterprise', 'address'];
@@ -140,7 +138,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     ngOnInit(): void {
         super.init();
         this.loadTrafficClass(this.target);
-        this.loadEnterprises(this.target);
+        // this.loadEnterprises(this.target);
         this.bandwidthOptions = this.appForm.valueChanges.pipe(
             startWith(''),
             map((value) =>
@@ -151,18 +149,18 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
             )
         );
     }
-
-    setOnlyEnterprise(lenEnterprises: number): void {
-        if (lenEnterprises === 1) {
-            this.appForm.get('enterprise').markAsTouched();
-            this.appForm.get('enterprise').markAsDirty();
-            this.appForm.get('enterprise').setValue(this.enterprises[0].id);
-        }
-    }
+    //
+    // setOnlyEnterprise(lenEnterprises: number): void {
+    //     if (lenEnterprises === 1) {
+    //         this.appForm.get('enterprise').markAsTouched();
+    //         this.appForm.get('enterprise').markAsDirty();
+    //         this.appForm.get('enterprise').setValue(this.enterprises[0].id);
+    //     }
+    // }
 
     deleteFromSelect(ep: string): void {
         this.bs.deleteIndexedEntry(
-            '/application-4.0.0/application[id=' +
+            '/application-2.0.0/application[id=' +
                 this.id +
                 ']/endpoint[endpoint-id=' +
                 ep +
@@ -185,7 +183,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
 
     private ucmap(ep: string): Map<string, string> {
         const ucMap = new Map<string, string>();
-        const appId = '/application-4.0.0/application[id=' + this.id + ']';
+        const appId = '/application-2.0.0/application[id=' + this.id + ']';
         let parentUc = localStorage.getItem(appId);
         if (parentUc === null) {
             parentUc = this.appForm[REQDATTRIBS];
@@ -211,11 +209,12 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
             .getApplicationApplication({
                 target,
                 id,
+                ent_id: this.route.snapshot.params['ent-id'],
             })
             .subscribe(
                 (value) => {
                     this.data = value;
-                    this.applicationId = value.id;
+                    this.applicationId = value['app-id'];
                     this.populateFormData(value);
                 },
                 (error) => {
@@ -229,11 +228,11 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Application-4.0.0']
+                        this.pathListAttr in basketPreview['Application-2.0.0']
                     ) {
-                        basketPreview['Application-4.0.0'].application.forEach(
+                        basketPreview['Application-2.0.0'].application.forEach(
                             (basketItems) => {
-                                if (basketItems.id === id) {
+                                if (basketItems['app-id'] === id) {
                                     this.populateFormData(basketItems);
                                 }
                             }
@@ -317,7 +316,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
         this.appForm.markAllAsTouched();
     }
 
-    private populateFormData(value: ApplicationApplication): void {
+    private populateFormData(value: EnterpriseEnterpriseApplication): void {
         if (value['display-name']) {
             this.appForm.get('display-name').setValue(value['display-name']);
             this.appForm.get('display-name')[ORIGINAL] = value['display-name'];
@@ -342,7 +341,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                     Object.keys(localStorage)
                         .filter((checkerKey) =>
                             checkerKey.startsWith(
-                                '/basket-delete/application-4.0.0/application[id=' +
+                                '/basket-delete/application-2.0.0/application[id=' +
                                     value.id +
                                     ']/endpoint[endpoint-id='
                             )
@@ -514,27 +513,27 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     mbrControls(index: number): FormGroup {
         return this.appForm.get(['endpoint', index, 'mbr']) as FormGroup;
     }
-
-    loadEnterprises(target: string): void {
-        this.aetherService
-            .getEnterprise({
-                target,
-            })
-            .subscribe(
-                (value) => {
-                    this.enterprises = value.enterprise;
-                    this.setOnlyEnterprise(value.enterprise.length);
-                    console.log('Got', value.enterprise.length, 'Enterprise');
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting Enterprise for ',
-                        target,
-                        error
-                    );
-                }
-            );
-    }
+    //
+    // loadEnterprises(target: string): void {
+    //     this.aetherService
+    //         .getEnterprise({
+    //             target,
+    //         })
+    //         .subscribe(
+    //             (value) => {
+    //                 this.enterprises = value.enterprise;
+    //                 this.setOnlyEnterprise(value.enterprise.length);
+    //                 console.log('Got', value.enterprise.length, 'Enterprise');
+    //             },
+    //             (error) => {
+    //                 console.warn(
+    //                     'Error getting Enterprise for ',
+    //                     target,
+    //                     error
+    //                 );
+    //             }
+    //         );
+    // }
 
     loadTrafficClass(target: string): void {
         this.aetherService

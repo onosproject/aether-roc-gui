@@ -51,7 +51,10 @@ import { ShowDeviceGroupUsageComponent } from './show-device-group-usage/show-de
         HttpClientModule,
         RouterModule.forChild([
             { path: 'ipdomain', component: IpDomainComponent },
-            { path: 'ipdomain-edit/:id', component: IpDomainEditComponent },
+            {
+                path: 'ipdomain-edit/:ent-id/:site-id/:id',
+                component: IpDomainEditComponent,
+            },
 
             { path: '', component: IpDomainComponent, pathMatch: 'full' },
         ]),

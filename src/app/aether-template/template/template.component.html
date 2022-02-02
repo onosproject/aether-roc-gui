@@ -91,13 +91,13 @@
                 Slice MBR (bps)
             </th>
             <td mat-cell *matCellDef="let row">
-                <p *ngIf="row.slice && row.slice.mbr">
+                <p *ngIf="row.mbr">
                     <mat-icon class="small_icon">arrow_upward </mat-icon>
-                    {{ row.slice.mbr.uplink }}
+                    {{ row.mbr.uplink }}
                 </p>
-                <p *ngIf="row.slice && row.slice.mbr">
+                <p *ngIf="row.mbr">
                     <mat-icon class="small_icon">arrow_downward </mat-icon>
-                    {{ row.slice.mbr.downlink }}
+                    {{ row.mbr.downlink }}
                 </p>
             </td>
         </ng-container>
@@ -108,13 +108,13 @@
                 Slice Burst Size (Byte)
             </th>
             <td mat-cell *matCellDef="let row">
-                <p *ngIf="row.slice && row.slice.mbr">
+                <p *ngIf="row.mbr">
                     <mat-icon class="small_icon">arrow_upward </mat-icon>
-                    {{ row.slice.mbr["uplink-burst-size"] }}
+                    {{ row.mbr["uplink-burst-size"] }}
                 </p>
-                <p *ngIf="row.slice && row.slice.mbr">
+                <p *ngIf="row.mbr">
                     <mat-icon class="small_icon">arrow_downward </mat-icon>
-                    {{ row.slice.mbr["downlink-burst-size"] }}
+                    {{ row.mbr["downlink-burst-size"] }}
                 </p>
             </td>
         </ng-container>

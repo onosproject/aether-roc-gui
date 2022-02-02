@@ -50,7 +50,7 @@ export class ApplicationComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Application-2.0.0',
+            'Enterprises-2.0.0',
             'application'
         );
         super.reqdAttr = ['enterprise', 'address'];
@@ -106,12 +106,5 @@ export class ApplicationComponent
             }),
             this.onDataLoaded.bind(this)
         );
-
-        // console.log(
-        // this.aetherService
-        //     .getApplication({
-        //         target: AETHER_TARGETS[0],
-        //     })
-        //     .subscribe((x) => console.log(x, 'output------'));
     }
 }

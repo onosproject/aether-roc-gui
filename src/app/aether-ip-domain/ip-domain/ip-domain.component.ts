@@ -54,7 +54,7 @@ export class IpDomainComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Ip-domain-2.0.0',
+            'Enterprises-2.0.0',
             'ip-domain'
         );
         super.reqdAttr = ['enterprise', 'subnet', 'dnn'];

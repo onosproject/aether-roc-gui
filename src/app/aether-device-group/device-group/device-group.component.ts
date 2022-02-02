@@ -53,7 +53,7 @@ export class DeviceGroupComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Device-group-2.0.0',
+            'Enterprises-2.0.0',
             'device-group'
         );
         super.reqdAttr = ['site'];

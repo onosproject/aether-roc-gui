@@ -57,15 +57,8 @@ export interface Elements {
     'Traffic-class-4.0.0': TrafficClass400;
     'Upf-4.0.0'?: Upf400;
     'Vcs-4.0.0'?: Vcs400;
-    'Application-2.0.0'?: Application200;
-    'Connectivity-service-2.0.0'?: ConnectivityService200;
-    'Device-group-2.0.0'?: DeviceGroup200;
-    'Enterprise-2.0.0'?: Enterprise200;
-    'Ip-domain-2.0.0'?: IpDomain200;
-    'Site-2.0.0'?: Site200;
-    'Template-2.0.0'?: Template200;
-    'Traffic-class-2.0.0': TrafficClass200;
-    'Upf-2.0.0'?: Upf200;
-    'Slice-2.0.0'?: Slice200;
+    'Connectivity-services-2.0.0'?: ConnectivityService200;
+    'Enterprises-2.0.0'?: Enterprise200;
+
 
 }

@@ -86,7 +86,7 @@ export class PanelSliceComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Slice-2.0.0',
+            'Enterprises-2.0.0',
             'slice'
         );
         super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise'];

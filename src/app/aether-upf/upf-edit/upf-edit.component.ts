@@ -6,19 +6,19 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import { UpfUpfService } from '../../../openapi3/aether/4.0.0/services';
 import {
     EnterpriseEnterprise,
-    SiteSite,
-    UpfUpf,
-} from '../../../openapi3/aether/4.0.0/models';
+    EnterpriseEnterpriseSite,
+    EnterpriseEnterpriseSiteUpf,
+} from '../../../openapi3/aether/2.0.0/models';
 import { BasketService, ORIGINAL, REQDATTRIBS } from '../../basket.service';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { maxDeviceGroupRange } from '../../../environments/environment';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
+import { UpfUpfService } from '../../../openapi3/aether/2.0.0/services/upf-upf.service';
 
 @Component({
     selector: 'aether-upf-edit',
@@ -26,14 +26,14 @@ import { RocElement } from '../../../openapi3/top/level/models/elements';
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class UpfEditComponent extends RocEditBase implements OnInit {
-    data: UpfUpf;
-    enterprises: Array<EnterpriseEnterprise>;
-    pathRoot = 'Upf-4.0.0' as RocElement;
+    data: EnterpriseEnterpriseSiteUpf;
+    // enterprises: Array<EnterpriseEnterprise>;
+    pathRoot = 'Upf-2.0.0' as RocElement;
     pathListAttr = 'upf';
     SiteImisLength: number;
-    site: Array<SiteSite>;
+    // site: Array<EnterpriseEnterpriseSite>;
     ImsiRangeLimit: number;
-    showAddImsi = false;
+    // showAddImsi = false;
     upfId: string;
     showParentDisplay = false;
     upfForm = this.fb.group({
@@ -90,15 +90,15 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Upf-4.0.0', 'upf');
+        super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'upf');
         super.form = this.upfForm;
         super.loadFunc = this.loadUpfUpf;
         this.upfForm[REQDATTRIBS] = ['enterprise', 'port', 'address', 'site'];
     }
 
     ngOnInit(): void {
-        this.loadEnterprises(this.target);
-        this.loadSites(this.target);
+        // this.loadEnterprises(this.target);
+        // this.loadSites(this.target);
         super.init();
     }
 
@@ -106,13 +106,13 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
         this.showParentDisplay = false;
     }
 
-    setOnlyEnterprise(lenEnterprises: number): void {
-        if (lenEnterprises === 1) {
-            this.upfForm.get('enterprise').markAsTouched();
-            this.upfForm.get('enterprise').markAsDirty();
-            this.upfForm.get('enterprise').setValue(this.enterprises[0].id);
-        }
-    }
+    // setOnlyEnterprise(lenEnterprises: number): void {
+    //     if (lenEnterprises === 1) {
+    //         this.upfForm.get('enterprise').markAsTouched();
+    //         this.upfForm.get('enterprise').markAsDirty();
+    //         this.upfForm.get('enterprise').setValue(this.enterprises[0][id);
+    //     }
+    // }
 
     fetchTooltipContent(): string {
         this.ImsiRangeLimit = Math.pow(10, this.SiteImisLength) - 1;
@@ -129,11 +129,13 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
             .getUpfUpf({
                 target,
                 id,
+                ent_id: this.route.snapshot.params['ent-id'],
+                site_id: this.route.snapshot.params['site-id'],
             })
             .subscribe(
                 (value) => {
                     this.data = value;
-                    this.upfId = value.id;
+                    this.upfId = value['upf-id'];
                     this.populateFormData(value);
                 },
                 (error) => {
@@ -143,9 +145,9 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Upf-4.0.0']
+                        this.pathListAttr in basketPreview['Upf-2.0.0']
                     ) {
-                        basketPreview['Upf-4.0.0'].upf.forEach(
+                        basketPreview['Upf-2.0.0'].upf.forEach(
                             (basketItems) => {
                                 if (basketItems.id === id) {
                                     this.populateFormData(basketItems);
@@ -158,50 +160,50 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    loadEnterprises(target: string): void {
-        this.aetherService
-            .getEnterprise({
-                target,
-            })
-            .subscribe(
-                (value) => {
-                    this.enterprises = value.enterprise;
-                    this.setOnlyEnterprise(value.enterprise.length);
-                    console.log('Got Enterprises', value.enterprise.length);
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting Enterprises for ',
-                        target,
-                        error
-                    );
-                },
-                () => {
-                    console.log('Finished loading Enterprises', target);
-                }
-            );
-    }
+    // loadEnterprises(target: string): void {
+    //     this.aetherService
+    //         .getEnterprise({
+    //             target,
+    //         })
+    //         .subscribe(
+    //             (value) => {
+    //                 this.enterprises = value.enterprise;
+    //                 this.setOnlyEnterprise(value.enterprise.length);
+    //                 console.log('Got Enterprises', value.enterprise.length);
+    //             },
+    //             (error) => {
+    //                 console.warn(
+    //                     'Error getting Enterprises for ',
+    //                     target,
+    //                     error
+    //                 );
+    //             },
+    //             () => {
+    //                 console.log('Finished loading Enterprises', target);
+    //             }
+    //         );
+    // }
 
-    loadSites(target: string): void {
-        this.aetherService
-            .getSite({
-                target,
-            })
-            .subscribe(
-                (value) => {
-                    this.site = value.site;
-                    console.log('Got Site', value.site.length);
-                },
-                (error) => {
-                    console.warn('Error getting Site for ', target, error);
-                },
-                () => {
-                    console.log('Finished loading Site', target);
-                }
-            );
-    }
+    // loadSites(target: string): void {
+    //     this.aetherService
+    //         .getSite({
+    //             target,
+    //         })
+    //         .subscribe(
+    //             (value) => {
+    //                 this.site = value.site;
+    //                 console.log('Got Site', value.site.length);
+    //             },
+    //             (error) => {
+    //                 console.warn('Error getting Site for ', target, error);
+    //             },
+    //             () => {
+    //                 console.log('Finished loading Site', target);
+    //             }
+    //         );
+    // }
 
-    private populateFormData(value: UpfUpf): void {
+    private populateFormData(value: EnterpriseEnterpriseSiteUpf): void {
         if (value['display-name']) {
             this.upfForm.get('display-name').setValue(value['display-name']);
             this.upfForm.get('display-name')[ORIGINAL] = value['display-name'];
