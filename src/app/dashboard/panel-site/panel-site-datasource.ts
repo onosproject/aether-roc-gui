@@ -18,6 +18,6 @@ export class PanelSiteDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/site-v4.0.0', 'site');
+        super(aetherService, bs, target, '/site-v2.0.0', 'site');
     }
 }

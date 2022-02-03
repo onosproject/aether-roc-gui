@@ -22,16 +22,9 @@ import {Template as Template400} from "../../../aether/4.0.0/models";
 import {TrafficClass as TrafficClass400} from "../../../aether/4.0.0/models";
 import {Upf as Upf400} from "../../../aether/4.0.0/models";
 import {Vcs as Vcs400} from "../../../aether/4.0.0/models";
-import {Application as Application200} from "../../../aether/2.0.0/models";
 import {ConnectivityService as ConnectivityService200} from "../../../aether/2.0.0/models";
-import {DeviceGroup as DeviceGroup200} from "../../../aether/2.0.0/models";
 import {Enterprise as Enterprise200} from "../../../aether/2.0.0/models";
-import {IpDomain as IpDomain200} from "../../../aether/2.0.0/models";
-import {Site as Site200} from "../../../aether/2.0.0/models";
-import {Template as Template200} from "../../../aether/2.0.0/models";
-import {TrafficClass as TrafficClass200} from "../../../aether/2.0.0/models";
-import {Upf as Upf200} from "../../../aether/2.0.0/models";
-import {Slice as Slice200} from "../../../aether/2.0.0/models";
+
 
 export type RocElement = keyof Elements
 

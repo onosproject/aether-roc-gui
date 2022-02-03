@@ -54,6 +54,7 @@ export abstract class RocEditBase {
             submitId = this.form.get(this.idAttr).value as unknown as string;
         }
         if (submitId !== '' && submitId !== undefined) {
+            debugger;
             this.bs.logKeyValuePairs(
                 this.form,
                 this.pathRoot +

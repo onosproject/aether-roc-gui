@@ -28,7 +28,7 @@ import { UpfUpfService } from '../../../openapi3/aether/2.0.0/services/upf-upf.s
 export class UpfEditComponent extends RocEditBase implements OnInit {
     data: EnterpriseEnterpriseSiteUpf;
     // enterprises: Array<EnterpriseEnterprise>;
-    pathRoot = 'Upf-2.0.0' as RocElement;
+    pathRoot = 'Enterprises-2.0.0/Site-2.0.0/Upf-2.0.0' as RocElement;
     pathListAttr = 'upf';
     SiteImisLength: number;
     // site: Array<EnterpriseEnterpriseSite>;

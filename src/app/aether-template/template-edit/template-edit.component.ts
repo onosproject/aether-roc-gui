@@ -48,7 +48,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
 
     sdAsInt = HexPipe.hexAsInt;
 
-    pathRoot = 'Template-2.0.0' as RocElement;
+    pathRoot = 'Enterprises-2.0.0/Template-2.0.0' as RocElement;
     pathListAttr = 'template';
     trafficClass: Array<EnterpriseEnterpriseTrafficClass>;
     defaultBehaviorOpitons = ['DENY-ALL', 'ALLOW-ALL'];

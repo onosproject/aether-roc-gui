@@ -38,13 +38,13 @@
                 class="spacing"
             ></th>
             <td mat-cell *matCellDef="let row" class="spacing">
-                <span *ngIf="row['display-name'] !== undefined" [title]="row.id"
+                <span *ngIf="row['display-name'] !== undefined" [title]="row['slice-id']"
                     >{{ row["display-name"] }}<br /><small
-                        >({{ row.id }})</small
+                        >({{ row['slice-id'] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
-                    row.id
+                    row['slice-id']
                 }}</span>
             </td>
         </ng-container>
@@ -75,7 +75,7 @@
                 Active
             </th>
             <td mat-cell *matCellDef="let row" class="spacing">
-                {{ row.vcs_active[row.id] | number: "1.2" }}
+                {{ row.vcs_active[row['slice-id']] | number: "1.2" }}
             </td>
         </ng-container>
         <ng-container matColumnDef="inactive" id="inactiveColumn">
@@ -88,7 +88,7 @@
                 Inactive
             </th>
             <td mat-cell *matCellDef="let row" class="spacing">
-                {{ row.vcs_inactive[row.id] | number: "1.2" }}
+                {{ row.vcs_inactive[row['slice-id']] | number: "1.2" }}
             </td>
         </ng-container>
         <ng-container matColumnDef="idle" id="idleColumn">
@@ -101,7 +101,7 @@
                 Idle
             </th>
             <td mat-cell *matCellDef="let row" class="spacing">
-                {{ row.vcs_idle[row.id] | number: "1.0" }}
+                {{ row.vcs_idle[row['slice-id']] | number: "1.0" }}
             </td>
         </ng-container>
         <ng-container matColumnDef="monitor" id="monitorColumn">
@@ -115,7 +115,7 @@
                 mat-cell
                 class="icon-pointer"
                 *matCellDef="let row"
-                routerLink="/vcs/vcs-monitor/{{ row.id }}"
+                routerLink="/vcs/vcs-monitor/{{ row['slice-id'] }}"
                 id="monitorVcsButton"
             >
                 <mat-icon class="table_icon" color="accent">insights</mat-icon>

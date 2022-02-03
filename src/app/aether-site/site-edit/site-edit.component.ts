@@ -34,7 +34,7 @@ import { SiteSiteService } from '../../../openapi3/aether/2.0.0/services/site-si
 export class SiteEditComponent extends RocEditBase implements OnInit {
     enterprises: Array<EnterpriseEnterprise>;
     data: EnterpriseEnterpriseSite;
-    pathRoot = 'Site-2.0.0' as RocElement;
+    pathRoot = 'Enterprises-2.0.0/Site-2.0.0' as RocElement;
     pathListAttr = 'site';
     showConnectDisplay = false;
     showEdgeDeviceDisplay = false;

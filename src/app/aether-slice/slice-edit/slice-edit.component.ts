@@ -81,7 +81,8 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL'];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: EnterpriseEnterpriseSiteSlice;
-    pathRoot = 'Slice-2.0.0' as RocElement;
+    pathRoot = 'Enterprises-2.0.0/Site-2.0.0/Slice-2.0.0' as RocElement;
+
     pathListAttr = 'slice';
     sdAsInt = HexPipe.hexAsInt;
 
@@ -352,7 +353,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             DownlinkFormControl.markAsDirty();
 
             const ulBurstSize = this.sliceForm.get([
-                'slice',
                 'mbr',
                 'uplink-burst-size',
             ]);
@@ -360,7 +360,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             ulBurstSize.markAsTouched();
             ulBurstSize.markAsDirty();
             const dlBurstSize = this.sliceForm.get([
-                'slice',
                 'mbr',
                 'downlink-burst-size',
             ]);

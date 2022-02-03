@@ -99,7 +99,6 @@ export class ApplicationApplicationService extends BaseService {
        */
       ent_id: any;
   }): Observable<EnterpriseEnterpriseApplication> {
-      debugger
     return this.getApplicationApplication$Response(params).pipe(
       map((r: StrictHttpResponse<EnterpriseEnterpriseApplication>) => r.body as EnterpriseEnterpriseApplication)
     );

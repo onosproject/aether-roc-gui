@@ -66,7 +66,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     readonly endpointLimit: number = 5;
     enterprises: Array<EnterpriseEnterprise>;
     trafficClassOptions: Array<EnterpriseEnterpriseTrafficClass>;
-    pathRoot = 'Application-2.0.0' as RocElement;
+    pathRoot = 'Enterprises-2.0.0/Application-2.0.0' as RocElement;
     pathListAttr = 'application';
     applicationId: string;
     data: EnterpriseEnterpriseApplication;

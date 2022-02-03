@@ -23,10 +23,10 @@ import { SliceEditComponent } from './slice-edit.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
-import { TemplateTemplate } from '../../../openapi3/aether/4.0.0/models/template-template';
-import { VcsVcs } from '../../../openapi3/aether/4.0.0/models/vcs-vcs';
+import { EnterpriseEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-slice';
+import { EnterpriseEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-template';
 
-describe('VcsEditComponent', () => {
+describe('SliceEditComponent', () => {
     let component: SliceEditComponent;
     let fixture: ComponentFixture<SliceEditComponent>;
 
@@ -72,7 +72,7 @@ describe('VcsEditComponent', () => {
 
     describe('when loading data from the backend', () => {
         it('should populate all the fields', () => {
-            const vcs: VcsVcs = {
+            const slice: EnterpriseEnterpriseSiteSlice = {
                 'default-behavior': 'DENY-ALL',
                 description: 'Chicago Robots',
                 'device-group': [
@@ -82,68 +82,59 @@ describe('VcsEditComponent', () => {
                     },
                 ],
                 'display-name': 'Chicago Robots VCS',
-                enterprise: 'acme',
                 filter: [
                     {
                         allow: false,
                         application: 'acme-dataacquisition',
                     },
                 ],
-                id: 'acme-chicago-robots',
+                'slice-id': 'acme-chicago-robots',
                 sd: 2973238,
-                site: 'acme-chicago',
-                slice: {
-                    mbr: {
-                        downlink: 5000000,
-                        'downlink-burst-size': 600000,
-                        uplink: 12,
-                        'uplink-burst-size': 13,
-                    },
+                mbr: {
+                    downlink: 5000000,
+                    'downlink-burst-size': 600000,
+                    uplink: 12,
+                    'uplink-burst-size': 13,
                 },
+
                 sst: 79,
                 upf: 'acme-chicago-pool-entry1',
             };
 
-            component.populateFormData(vcs);
+            component.populateFormData(slice);
 
-            expect(component.vcsForm.get('default-behavior').value).toEqual(
-                vcs['default-behavior']
+            expect(component.sliceForm.get('default-behavior').value).toEqual(
+                slice['default-behavior']
             );
-            expect(component.vcsForm.get('description').value).toEqual(
-                vcs['description']
+            expect(component.sliceForm.get('description').value).toEqual(
+                slice['description']
             );
-            expect(component.vcsForm.get('device-group').value).toEqual(
-                vcs['device-group']
+            expect(component.sliceForm.get('device-group').value).toEqual(
+                slice['device-group']
             );
-            expect(component.vcsForm.get('display-name').value).toEqual(
-                vcs['display-name']
+            expect(component.sliceForm.get('display-name').value).toEqual(
+                slice['display-name']
             );
-            expect(component.vcsForm.get('enterprise').value).toEqual(
-                vcs['enterprise']
-            );
-            expect(component.vcsForm.get(['filter', 0, 'allow']).value).toEqual(
-                vcs['filter'][0].allow
-            );
-            expect(component.vcsForm.get('sd').value).toEqual(
-                vcs.sd.toString(16).toUpperCase()
-            );
-            expect(component.vcsForm.get('site').value).toEqual(vcs['site']);
             expect(
-                component.vcsForm.get(['slice', 'mbr', 'uplink']).value
-            ).toEqual(vcs.slice.mbr.uplink);
+                component.sliceForm.get(['filter', 0, 'allow']).value
+            ).toEqual(slice['filter'][0].allow);
+            expect(component.sliceForm.get('sd').value).toEqual(
+                slice.sd.toString(16).toUpperCase()
+            );
+            expect(component.sliceForm.get(['mbr', 'uplink']).value).toEqual(
+                slice.mbr.uplink
+            );
+            expect(component.sliceForm.get(['mbr', 'downlink']).value).toEqual(
+                slice.mbr.downlink
+            );
             expect(
-                component.vcsForm.get(['slice', 'mbr', 'downlink']).value
-            ).toEqual(vcs.slice.mbr.downlink);
+                component.sliceForm.get(['mbr', 'uplink-burst-size']).value
+            ).toEqual(slice.mbr['uplink-burst-size']);
             expect(
-                component.vcsForm.get(['slice', 'mbr', 'uplink-burst-size'])
-                    .value
-            ).toEqual(vcs.slice.mbr['uplink-burst-size']);
-            expect(
-                component.vcsForm.get(['slice', 'mbr', 'downlink-burst-size'])
-                    .value
-            ).toEqual(vcs.slice.mbr['downlink-burst-size']);
-            expect(component.vcsForm.get('sst').value).toEqual(vcs['sst']);
-            expect(component.vcsForm.get('upf').value).toEqual(vcs['upf']);
+                component.sliceForm.get(['mbr', 'downlink-burst-size']).value
+            ).toEqual(slice.mbr['downlink-burst-size']);
+            expect(component.sliceForm.get('sst').value).toEqual(slice['sst']);
+            expect(component.sliceForm.get('upf').value).toEqual(slice['upf']);
         });
     });
 
@@ -159,7 +150,7 @@ describe('VcsEditComponent', () => {
                         'traffic-class': 'test-traffic-2',
                     },
                 ],
-                id: 'starbucks-nvr',
+                'app-id': 'starbucks-nvr',
             },
         ];
         component.setShowAddFilterButton();
@@ -204,7 +195,7 @@ describe('VcsEditComponent', () => {
                         'traffic-class': 'test-traffic-2',
                     },
                 ],
-                id: 'starbucks-nvr',
+                ['app-id']: 'starbucks-nvr',
             },
         ];
         component.setShowAddFilterButton();
@@ -212,14 +203,12 @@ describe('VcsEditComponent', () => {
     });
 
     describe('when selecting a template', () => {
-        const template: TemplateTemplate = {
-            id: 'test-template',
+        const template: EnterpriseEnterpriseTemplate = {
+            ['tp-id']: 'test-template',
             sd: 12, // FIXME the method fails if this value is not present
-            slice: {
-                mbr: {
-                    'uplink-burst-size': 10,
-                    'downlink-burst-size': 5,
-                },
+            mbr: {
+                'uplink-burst-size': 10,
+                'downlink-burst-size': 5,
             },
             'default-behavior': 'ACCEPT-ALL',
         };
@@ -232,20 +221,18 @@ describe('VcsEditComponent', () => {
         });
         it('should populate the burst value', () => {
             // make sure the for is updated
-            const ulBs = component.vcsForm.get([
-                'slice',
+            const ulBs = component.sliceForm.get([
                 'mbr',
                 'uplink-burst-size',
             ]).value;
-            const dlBs = component.vcsForm.get([
-                'slice',
+            const dlBs = component.sliceForm.get([
                 'mbr',
                 'downlink-burst-size',
             ]).value;
-            const db = component.vcsForm.get(['default-behavior']).value;
+            const db = component.sliceForm.get(['default-behavior']).value;
 
-            expect(ulBs).toEqual(template.slice.mbr['uplink-burst-size']);
-            expect(dlBs).toEqual(template.slice.mbr['downlink-burst-size']);
+            expect(ulBs).toEqual(template.mbr['uplink-burst-size']);
+            expect(dlBs).toEqual(template.mbr['downlink-burst-size']);
             expect(db).toEqual(template['default-behavior']);
         });
     });

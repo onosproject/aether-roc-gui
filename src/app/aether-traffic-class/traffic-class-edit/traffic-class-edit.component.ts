@@ -20,7 +20,7 @@ import { TrafficClassTrafficClassService } from '../../../openapi3/aether/2.0.0/
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class TrafficClassEditComponent extends RocEditBase implements OnInit {
-    pathRoot = 'Traffic-class-2.0.0' as RocElement;
+    pathRoot = 'Enterprises-2.0.0/Traffic-class-2.0.0' as RocElement;
     pathListAttr = 'traffic-class';
     data: EnterpriseEnterpriseTrafficClass;
     showParentDisplay = false;

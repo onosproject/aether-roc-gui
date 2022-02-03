@@ -35,6 +35,7 @@ import { EnterpriseEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.
 import { EnterpriseEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-ip-domain';
 import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-traffic-class';
 import { DeviceGroupDeviceGroupService } from '../../../openapi3/aether/2.0.0/services/device-group-device-group.service';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 // const ValidateImsiRange: ValidatorFn = (
 //     control: AbstractControl
@@ -87,12 +88,13 @@ import { DeviceGroupDeviceGroupService } from '../../../openapi3/aether/2.0.0/se
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
+    pathRoot = 'Enterprises-2.0.0/Site-2.0.0/Traffic-class-2.0.0' as RocElement;
     data: EnterpriseEnterpriseSiteDeviceGroup;
     ipdomain: Array<EnterpriseEnterpriseSiteIpDomain>;
     // site: Array<Enter>;
     // imsis: Array<DeviceGroupDeviceGroupImsis> = [];
-    showImsiDisplay = false;
-    showAddImsi = false;
+    // showImsiDisplay = false;
+    // showAddImsi = false;
     SiteImisLength: number;
     ImsiRangeLimit: number;
     showParentDisplay = false;

@@ -19,6 +19,7 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EnterpriseEnterprise } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise';
 import { IpDomainIpDomainService } from '../../../openapi3/aether/2.0.0/services/ip-domain-ip-domain.service';
 import { EnterpriseEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-ip-domain';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 export const UPDATED = 'updated';
 
@@ -28,6 +29,7 @@ export const UPDATED = 'updated';
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class IpDomainEditComponent extends RocEditBase implements OnInit {
+    pathRoot = 'Enterprises-2.0.0/Site-2.0.0/Ip-domain-2.0.0' as RocElement;
     ip: string;
     option: string;
     primCardDisplay = false;

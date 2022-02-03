@@ -19,9 +19,9 @@
                 >
                     <mat-option
                         *ngFor="let item of this.ApplicationOptions"
-                        [value]="item.id"
+                        [value]="item['app-id']"
                     >
-                        {{ item.id }}
+                        {{ item['app-id'] }}
                         <span *ngIf="item['display-name']">
                             ({{ item["display-name"] }})</span
                         >
