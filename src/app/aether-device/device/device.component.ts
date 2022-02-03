@@ -12,30 +12,27 @@ import { Service as AetherService } from '../../../openapi3/aether/2.0.0/service
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
-import { UpfDatasource } from './upf-datasource';
-import { EnterpriseEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-upf';
+import { EnterpriseEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-device';
+import { DeviceDatasource } from './device-datasoruce';
 
 @Component({
-    selector: 'aether-upf',
-    templateUrl: './upf.component.html',
+    selector: 'aether-device',
+    templateUrl: './device.component.html',
     styleUrls: ['../../common-profiles.component.scss'],
 })
-export class UpfComponent
-    extends RocListBase<UpfDatasource>
+export class DeviceComponent
+    extends RocListBase<DeviceDatasource>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteUpf>;
+    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteDevice>;
 
     displayedColumns = [
         'id',
+        'imei',
         'description',
-        'enterprise',
-        'site',
-        'address',
-        'config-endpoint',
-        'port',
+        'sim-card',
         'edit',
         'usage/delete',
     ];
@@ -47,40 +44,24 @@ export class UpfComponent
     ) {
         super(
             basketService,
-            new UpfDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            new DeviceDatasource(
+                aetherService,
+                basketService,
+                AETHER_TARGETS[0]
+            ),
             'Enterprises-2.0.0',
-            'upf'
+            'device'
         );
-        super.reqdAttr = ['enterprise', 'port', 'address', 'site'];
     }
 
-    onDataLoaded(ScopeOfDataSource: UpfDatasource): void {
+    onDataLoaded(ScopeOfDataSource: DeviceDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         this.usageArray = [];
-        /* Needs work*/
-        // this.aetherService
-        //     .getVcs({
-        //         target: AETHER_TARGETS[0],
-        //     })
-        //     .subscribe((displayData) => {
-        //         this.usageArray = this.usageArray.concat(
-        //             _.differenceWith(
-        //                 ScopeOfDataSource.data,
-        //                 displayData.slice,
-        //                 function (ScopeOfDataSourceObject, displayDataObject) {
-        //                     return (
-        //                         ScopeOfDataSourceObject.id ===
-        //                         displayDataObject.upf
-        //                     );
-        //                 }
-        //             )
-        //         );
-        //     });
         if (
             this.pathRoot in basketPreview &&
-            'upf' in basketPreview[this.pathRoot]
+            'device' in basketPreview[this.pathRoot]
         ) {
-            ScopeOfDataSource.merge(basketPreview['Upf-2.0.0'].upf);
+            ScopeOfDataSource.merge(basketPreview['Device-2.0.0'].device);
         }
     }
 
@@ -89,7 +70,7 @@ export class UpfComponent
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
-            this.aetherService.getUpf({
+            this.aetherService.getDevice({
                 target: AETHER_TARGETS[0],
             }),
             this.onDataLoaded.bind(this)

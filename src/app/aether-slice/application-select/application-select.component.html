@@ -21,7 +21,7 @@
                         *ngFor="let item of this.ApplicationOptions"
                         [value]="item['app-id']"
                     >
-                        {{ item['app-id'] }}
+                        {{ item["app-id"] }}
                         <span *ngIf="item['display-name']">
                             ({{ item["display-name"] }})</span
                         >

@@ -1,0 +1,94 @@
+<!--
+~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+-->
+<form [formGroup]="deviceForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>User Plane Function ID: {{ id }}</mat-card-title>
+            <mat-icon
+                *ngIf="!isNew"
+                (click)="showParentDisplay = true; $event.preventDefault()"
+                class="subscriber-pointer"
+                id="showParentInformation"
+                color="accent"
+            >
+                assignment
+            </mat-icon>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row" *ngIf="isNew">
+                <mat-form-field class="half-width field-margin">
+                    <input
+                        matInput
+                        formControlName="id"
+                        placeholder="Please specify an ID"
+                        id="inputID"
+                    />
+                    <mat-hint>ID</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="displayNameRow">
+                <mat-form-field class="field-margin half-width">
+                    <input
+                        matInput
+                        formControlName="display-name"
+                        id="inputDisplayName"
+                    />
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="descriptionRow">
+                <mat-form-field class="field-margin half-width">
+                    <textarea
+                        matInput
+                        formControlName="description"
+                        id="inputDescription"
+                    ></textarea>
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="imeiRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="imei" id="inputimei" />
+                    <mat-hint>IMEI</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="simCardRow">
+                <mat-form-field class="field-margin half-width">
+                    <input
+                        matInput
+                        formControlName="sim-card"
+                        id="inputSimCard"
+                    />
+                    <mat-hint>Sim Card</mat-hint>
+                </mat-form-field>
+            </div>
+            <button
+                mat-raised-button
+                color="accent"
+                type="submit"
+                [disabled]="
+                    !(
+                        deviceForm.valid &&
+                        deviceForm.value.id &&
+                        deviceForm.touched &&
+                        opaService.canWrite('/upf/upf')
+                    )
+                "
+                id="submitButton"
+            >
+                Update
+            </button>
+        </mat-card-content>
+    </mat-card>
+</form>
+
+<!--<aether-show-vcs-usage-->
+<!--    *ngIf="showParentDisplay"-->
+<!--    id="showParentModulesComponent"-->
+<!--    [upfID]="upfId"-->
+<!--    (closeShowParentCardEvent)="closeShowParentCard($event)"-->
+<!--&gt;-->
+<!--</aether-show-vcs-usage>-->

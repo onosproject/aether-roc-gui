@@ -26,6 +26,7 @@ import {SliceSliceService} from "./services/slice-slice.service";
 import {SliceSliceDeviceGroupService} from "./services/slice-slice-device-group.service";
 import {SliceSliceFilterService} from "./services/slice-slice-filter.service";
 import {SliceSliceSliceService} from "./services/slice-slice-slice.service";
+import {DeviceDeviceService} from "./services/device-device.service";
 
 /**
  * Module that provides all services and configuration.
@@ -40,6 +41,7 @@ import {SliceSliceSliceService} from "./services/slice-slice-slice.service";
         ApplicationApplicationService,
         ApplicationApplicationEndpointService,
         ConnectivityServiceConnectivityServiceService,
+        DeviceDeviceService,
         DeviceGroupDeviceGroupService,
         DeviceGroupDeviceGroupDeviceService,
         EnterpriseEnterpriseService,

@@ -37,13 +37,15 @@
                 class="spacing"
             ></th>
             <td mat-cell *matCellDef="let row" class="spacing">
-                <span *ngIf="row['display-name'] !== undefined" [title]="row['site-id']"
+                <span
+                    *ngIf="row['display-name'] !== undefined"
+                    [title]="row['site-id']"
                     >{{ row["display-name"] }}<br /><small
-                        >({{ row['site-id'] }})</small
+                        >({{ row["site-id"] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
-                    row['site-id']
+                    row["site-id"]
                 }}</span>
             </td>
         </ng-container>
