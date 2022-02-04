@@ -13,18 +13,18 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { ApiModule } from '../../../openapi3/aether/4.0.0/api.module';
+import { ApiModule } from '../../../openapi3/aether/2.0.0/api.module';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { VcsComponent } from './vcs.component';
+import { SliceComponent } from './slice.component';
 
-describe('VcsComponent', () => {
-    let component: VcsComponent;
-    let fixture: ComponentFixture<VcsComponent>;
+describe('SliceComponent', () => {
+    let component: SliceComponent;
+    let fixture: ComponentFixture<SliceComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [VcsComponent],
+            declarations: [SliceComponent],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
@@ -47,7 +47,7 @@ describe('VcsComponent', () => {
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(VcsComponent);
+        fixture = TestBed.createComponent(SliceComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

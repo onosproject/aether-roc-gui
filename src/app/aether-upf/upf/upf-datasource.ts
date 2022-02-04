@@ -4,21 +4,29 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import { Upf, UpfUpf } from '../../../openapi3/aether/4.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import {
+    EnterpriseEnterpriseSiteUpf,
+    Upf,
+} from '../../../openapi3/aether/2.0.0/models';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 
-export class UpfDatasource extends RocDataSource<UpfUpf, Upf> {
+export class UpfDatasource extends RocDataSource<
+    EnterpriseEnterpriseSiteUpf,
+    Upf
+> {
     constructor(
         protected aetherService: AetherService,
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/upf-4.0.0', 'upf');
+        super(aetherService, bs, target, '/upf-2.0.0', 'upf');
     }
 
-    getSortedData(data: UpfUpf[]): UpfUpf[] {
+    getSortedData(
+        data: EnterpriseEnterpriseSiteUpf[]
+    ): EnterpriseEnterpriseSiteUpf[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -30,10 +38,6 @@ export class UpfDatasource extends RocDataSource<UpfUpf, Upf> {
         return data.sort((a, b) => {
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
-                case 'site':
-                    return compare(a.site, b.site, isAsc);
-                case 'enterprise':
-                    return compare(a.enterprise, b.enterprise, isAsc);
                 case 'address':
                     return compare(a.address, b.address, isAsc);
                 case 'port':

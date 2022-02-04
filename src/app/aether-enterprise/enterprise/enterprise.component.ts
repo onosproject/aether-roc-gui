@@ -7,8 +7,8 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { EnterpriseEnterprise } from '../../../openapi3/aether/4.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { EnterpriseEnterprise } from '../../../openapi3/aether/2.0.0/models';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { EnterpriseDatasource } from './enterprise-datasource';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
@@ -43,7 +43,7 @@ export class EnterpriseComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Enterprise-4.0.0',
+            'Enterprises-2.0.0',
             'enterprise'
         );
     }
@@ -55,7 +55,7 @@ export class EnterpriseComponent
             'enterprise' in basketPreview[this.pathRoot]
         ) {
             ScopeOfDataSource.merge(
-                basketPreview['Enterprise-4.0.0'].enterprise,
+                basketPreview['Enterprise-2.0.0'].enterprise,
                 [
                     {
                         fieldName: 'connectivity-service',

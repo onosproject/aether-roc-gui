@@ -5,7 +5,7 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PanelVcsComponent } from './panel-vcs.component';
+import { PanelSliceComponent } from './panel-slice.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
@@ -23,12 +23,12 @@ import {
 import { UtilsModule } from '../../utils/utils.module';
 
 describe('PanelVcsComponent', () => {
-    let component: PanelVcsComponent;
-    let fixture: ComponentFixture<PanelVcsComponent>;
+    let component: PanelSliceComponent;
+    let fixture: ComponentFixture<PanelSliceComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [PanelVcsComponent],
+            declarations: [PanelSliceComponent],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
@@ -50,7 +50,7 @@ describe('PanelVcsComponent', () => {
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(PanelVcsComponent);
+        fixture = TestBed.createComponent(PanelSliceComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

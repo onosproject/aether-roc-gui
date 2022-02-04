@@ -13,7 +13,7 @@ export interface VcsVcs {
   'default-behavior': string;
 
   /**
-   * description of this vcs
+   * description of this slice
    */
   description?: string;
 
@@ -41,7 +41,7 @@ export interface VcsVcs {
   filter?: Array<VcsVcsFilter>;
 
   /**
-   * ID for this vcs.
+   * ID for this slice.
    */
   id: string;
 

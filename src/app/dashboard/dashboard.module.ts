@@ -16,7 +16,7 @@ import {
 import { AuthInterceptor } from '../auth-interceptor';
 import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { PanelVcsComponent } from './panel-vcs/panel-vcs.component';
+import { PanelSliceComponent } from './panel-slice/panel-slice.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -33,7 +33,7 @@ import { PanelSiteComponent } from './panel-site/panel-site.component';
 @NgModule({
     declarations: [
         DashboardComponent,
-        PanelVcsComponent,
+        PanelSliceComponent,
         PanelSiteComponent,
         PanelAlertsComponent,
         AlertDetailComponent,

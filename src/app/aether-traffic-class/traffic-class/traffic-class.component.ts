@@ -9,12 +9,12 @@ import { TrafficClassDatasource } from './traffic-class-datasource';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { TrafficClassTrafficClass } from '../../../openapi3/aether/4.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import * as _ from 'lodash';
+import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-traffic-class';
 
 @Component({
     selector: 'aether-traffic-class',
@@ -27,7 +27,7 @@ export class TrafficClassComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<TrafficClassTrafficClass>;
+    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseTrafficClass>;
 
     displayedColumns = [
         'id',
@@ -52,7 +52,7 @@ export class TrafficClassComponent
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Traffic-class-4.0.0',
+            'Enterprises-2.0.0',
             'traffic-class'
         );
     }
@@ -60,48 +60,49 @@ export class TrafficClassComponent
     onDataLoaded(ScopeOfDataSource: TrafficClassDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         this.usageArray = [];
-        this.aetherService
-            .getDeviceGroup({
-                target: AETHER_TARGETS[0],
-            })
-            .subscribe((displayData) => {
-                this.usageArray = this.usageArray.concat(
-                    _.differenceWith(
-                        ScopeOfDataSource.data,
-                        displayData['device-group'],
-                        function (ScopeOfDataSourceObject, displayDataObject) {
-                            return (
-                                ScopeOfDataSourceObject.id ===
-                                displayDataObject.device['traffic-class']
-                            );
-                        }
-                    )
-                );
-            });
-        this.aetherService
-            .getApplication({
-                target: AETHER_TARGETS[0],
-            })
-            .subscribe((displayData) => {
-                this.usageArray = this.usageArray.concat(
-                    _.differenceWith(
-                        this.usageArray,
-                        displayData.application,
-                        function (ScopeOfDataSourceObject, displayDataObject) {
-                            return (
-                                ScopeOfDataSourceObject.id ===
-                                displayDataObject['traffic-class']
-                            );
-                        }
-                    )
-                );
-            });
+        /* Needs work*/
+        // this.aetherService
+        //     .getDeviceGroup({
+        //         target: AETHER_TARGETS[0],
+        //     })
+        //     .subscribe((displayData) => {
+        //         this.usageArray = this.usageArray.concat(
+        //             _.differenceWith(
+        //                 ScopeOfDataSource.data,
+        //                 displayData['device-group'],
+        //                 function (ScopeOfDataSourceObject, displayDataObject) {
+        //                     return (
+        //                         ScopeOfDataSourceObject.id ===
+        //                         displayDataObject.device['traffic-class']
+        //                     );
+        //                 }
+        //             )
+        //         );
+        //     });
+        // this.aetherService
+        //     .getApplication({
+        //         target: AETHER_TARGETS[0],
+        //     })
+        //     .subscribe((displayData) => {
+        //         this.usageArray = this.usageArray.concat(
+        //             _.differenceWith(
+        //                 this.usageArray,
+        //                 displayData.application,
+        //                 function (ScopeOfDataSourceObject, displayDataObject) {
+        //                     return (
+        //                         ScopeOfDataSourceObject.id ===
+        //                         displayDataObject['traffic-class']
+        //                     );
+        //                 }
+        //             )
+        //         );
+        //     });
         if (
             this.pathRoot in basketPreview &&
             'traffic-class' in basketPreview[this.pathRoot]
         ) {
             ScopeOfDataSource.merge(
-                basketPreview['Traffic-class-4.0.0']['traffic-class']
+                basketPreview['Traffic-class-2.0.0']['traffic-class']
             );
         }
     }

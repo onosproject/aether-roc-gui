@@ -4,14 +4,16 @@
  * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
  */
 
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
-import { DeviceGroupDeviceGroup } from '../../../openapi3/aether/4.0.0/models';
-import { DeviceGroup } from '../../../openapi3/aether/4.0.0/models';
+import {
+    DeviceGroup,
+    EnterpriseEnterpriseSiteDeviceGroup,
+} from '../../../openapi3/aether/2.0.0/models';
 
 export class DeviceGroupDatasource extends RocDataSource<
-    DeviceGroupDeviceGroup,
+    EnterpriseEnterpriseSiteDeviceGroup,
     DeviceGroup
 > {
     constructor(
@@ -19,10 +21,12 @@ export class DeviceGroupDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/device-group-4.0.0', 'device-group');
+        super(aetherService, bs, target, '/device-group-2.0.0', 'device-group');
     }
 
-    getSortedData(data: DeviceGroupDeviceGroup[]): DeviceGroupDeviceGroup[] {
+    getSortedData(
+        data: EnterpriseEnterpriseSiteDeviceGroup[]
+    ): EnterpriseEnterpriseSiteDeviceGroup[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -38,8 +42,8 @@ export class DeviceGroupDatasource extends RocDataSource<
             switch (this.sort.active) {
                 case 'ip-domain':
                     return compare(a['ip-domain'], b['ip-domain'], isAsc);
-                case 'site':
-                    return compare(a.site, b.site, isAsc);
+                // case 'site':
+                //     return compare(a.site, b.site, isAsc);
                 default:
                     return 0;
             }

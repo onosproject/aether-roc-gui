@@ -100,10 +100,10 @@ export class VcsVcsService extends BaseService {
   /**
    * Path part for operation getVcsVcsSlice
    */
-  static readonly GetVcsVcsSlicePath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/slice';
+  static readonly GetVcsVcsSlicePath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/vcs';
 
   /**
-   * GET /vcs/vcs/{id}/slice.
+   * GET /vcs/vcs/{id}/vcs.
    *
    *
    *
@@ -143,7 +143,7 @@ export class VcsVcsService extends BaseService {
   }
 
   /**
-   * GET /vcs/vcs/{id}/slice.
+   * GET /vcs/vcs/{id}/vcs.
    *
    *
    *

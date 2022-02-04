@@ -4,6 +4,7 @@
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { EnterpriseEnterpriseSiteSliceDeviceGroup } from './enterprise-enterprise-site-slice-device-group';
 import { EnterpriseEnterpriseSiteSliceFilter } from './enterprise-enterprise-site-slice-filter';
+import {EnterpriseEnterpriseSiteSliceMbr} from "./enterprise-enterprise-site-slice-mbr";
 export interface EnterpriseEnterpriseSiteSlice {
 
   /**
@@ -39,6 +40,11 @@ export interface EnterpriseEnterpriseSiteSlice {
    */
   'slice-id': string;
 
+    /**
+     * Mbr
+     */
+    mbr: EnterpriseEnterpriseSiteSliceMbr
+
   /**
    * Slice differentiator. Immutable.
    */
@@ -54,5 +60,6 @@ export interface EnterpriseEnterpriseSiteSlice {
    */
   upf?: string;
 
-  [key: string]: AdditionalPropertyUnchanged | Array<EnterpriseEnterpriseSiteSliceDeviceGroup> | Array<EnterpriseEnterpriseSiteSliceFilter> | number | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | Array<EnterpriseEnterpriseSiteSliceDeviceGroup> | EnterpriseEnterpriseSiteSliceMbr
+      | Array<EnterpriseEnterpriseSiteSliceFilter> | number | string | undefined;
 }

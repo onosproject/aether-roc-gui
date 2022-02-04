@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TrafficClassComponent } from './traffic-class/traffic-class.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ApiModule as ApiModuleAether } from '../../openapi3/aether/4.0.0/api.module';
+import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.0.0/api.module';
 import { AETHER_ROC_API_URL } from '../../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -45,7 +45,7 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         RouterModule.forChild([
             { path: 'traffic-class', component: TrafficClassComponent },
             {
-                path: 'traffic-class-edit/:id',
+                path: 'traffic-class-edit/:ent-id/:id',
                 component: TrafficClassEditComponent,
             },
             { path: '', component: TrafficClassComponent },

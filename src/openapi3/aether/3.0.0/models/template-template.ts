@@ -4,7 +4,7 @@
 export interface TemplateTemplate {
 
   /**
-   * description of this vcs template
+   * description of this slice template
    */
   description?: string;
 
@@ -19,7 +19,7 @@ export interface TemplateTemplate {
   downlink?: number;
 
   /**
-   * ID for this vcs template.
+   * ID for this slice template.
    */
   id: string;
 

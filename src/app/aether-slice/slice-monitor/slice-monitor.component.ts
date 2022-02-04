@@ -36,10 +36,10 @@ const vcsPromTags = ['vcs_latency', 'vcs_jitter', 'vcs_throughput'];
 
 @Component({
     selector: 'aether-vcs-monitor',
-    templateUrl: './vcs-monitor.component.html',
+    templateUrl: './slice-monitor.component.html',
     styleUrls: ['../../common-profiles.component.scss'],
 })
-export class VcsMonitorComponent
+export class SliceMonitorComponent
     extends RocMonitorBase
     implements OnInit, OnDestroy
 {
@@ -248,7 +248,7 @@ export class VcsMonitorComponent
     ): string {
         return (
             this.grafanaUrl +
-            '/d-solo/vcs-' +
+            '/d-solo/slice-' +
             vcsName +
             '?orgId=' +
             orgId +

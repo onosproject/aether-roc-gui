@@ -14,16 +14,19 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Vcs, VcsVcs } from '../../../openapi3/aether/4.0.0/models';
+import {
+    EnterpriseEnterpriseSiteSlice,
+    Slice,
+} from '../../../openapi3/aether/2.0.0/models';
 import { RocListBase } from '../../roc-list-base';
 import {
     AETHER_TARGETS,
     PERFORMANCE_METRICS_ENABLED,
 } from '../../../environments/environment';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
 import { BasketService } from '../../basket.service';
-import { PanelVcsDatasource } from './panel-vcs-datasource';
+import { PanelSliceDatasource } from './panel-Slice-datasource';
 import { VcsPromDataSource } from '../../utils/vcs-prom-data-source';
 import { HttpClient } from '@angular/common/http';
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -34,14 +37,14 @@ const vcsPromTags = ['vcs_active', 'vcs_inactive', 'vcs_idle'];
 
 @Component({
     selector: 'aether-panel-vcs',
-    templateUrl: './panel-vcs.component.html',
+    templateUrl: './panel-slice.component.html',
     styleUrls: [
         '../../common-panel.component.scss',
         '../panel-dashboard.component.scss',
     ],
 })
-export class PanelVcsComponent
-    extends RocListBase<PanelVcsDatasource>
+export class PanelSliceComponent
+    extends RocListBase<PanelSliceDatasource>
     implements AfterViewInit, OnDestroy
 {
     @Input() top: number;
@@ -50,7 +53,7 @@ export class PanelVcsComponent
     @Input() height: number;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<VcsVcs>;
+    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteSlice>;
     loginTokenTimer;
     panelUrl: string;
     grafanaOrgId = 1;
@@ -78,20 +81,22 @@ export class PanelVcsComponent
     ) {
         super(
             basketService,
-            new PanelVcsDatasource(
+            new PanelSliceDatasource(
                 aetherService,
                 basketService,
                 AETHER_TARGETS[0]
             ),
-            'Vcs-4.0.0',
-            'vcs'
+            'Enterprises-2.0.0',
+            'slice'
         );
         super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise'];
         this.promData = new VcsPromDataSource(httpClient);
     }
 
-    onDataLoaded(ScopeOfDataSource: RocDataSource<VcsVcs, Vcs>): void {
-        ScopeOfDataSource.data.forEach((vcs: VcsVcs) => {
+    onDataLoaded(
+        ScopeOfDataSource: RocDataSource<EnterpriseEnterpriseSiteSlice, Slice>
+    ): void {
+        ScopeOfDataSource.data.forEach((vcs: EnterpriseEnterpriseSiteSlice) => {
             // Add the tag on to VCS. the data is filled in below
             vcsPromTags.forEach((tag: string) => (vcs[tag] = {}));
         });
@@ -121,7 +126,7 @@ export class PanelVcsComponent
         }, 10);
 
         this.dataSource.loadData(
-            this.aetherService.getVcs({
+            this.aetherService.getSlice({
                 target: AETHER_TARGETS[0],
             }),
             this.onDataLoaded.bind(this)
@@ -136,7 +141,7 @@ export class PanelVcsComponent
         if (vcsName === undefined) {
             return (
                 this.grafanaUrl +
-                '/d-solo/vcs-' +
+                '/d-solo/slice-' +
                 orgName +
                 '-all?orgId=' +
                 orgId +
@@ -145,7 +150,7 @@ export class PanelVcsComponent
         }
         return (
             this.grafanaUrl +
-            '/d-solo/vcs-' +
+            '/d-solo/slice-' +
             vcsName +
             '?orgId=' +
             orgId +

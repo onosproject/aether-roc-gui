@@ -8,29 +8,32 @@ import { OpenPolicyAgentService } from 'src/app/open-policy-agent.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
-import { VcsDatasource } from './vcs-datasource';
-import { Vcs, VcsVcs } from '../../../openapi3/aether/4.0.0/models';
+import { SliceDatasource } from './slice-datasource';
+import {
+    EnterpriseEnterpriseSiteSlice,
+    Slice,
+} from '../../../openapi3/aether/2.0.0/models';
 import { HexPipe } from '../../utils/hex.pipe';
 import { RocDataSource } from '../../roc-data-source';
 
 @Component({
-    selector: 'aether-vcs',
-    templateUrl: './vcs.component.html',
+    selector: 'aether-slice',
+    templateUrl: './slice.component.html',
     styleUrls: ['../../common-profiles.component.scss'],
 })
-export class VcsComponent
-    extends RocListBase<VcsDatasource>
+export class SliceComponent
+    extends RocListBase<SliceDatasource>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<VcsVcs>;
+    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteSlice>;
     sdAsInt = HexPipe.hexAsInt;
-    deletedVCS = [];
+    deletedSliceArray = [];
 
     displayedColumns = [
         'id',
@@ -56,9 +59,13 @@ export class VcsComponent
     ) {
         super(
             basketService,
-            new VcsDatasource(aetherService, basketService, AETHER_TARGETS[0]),
-            'Vcs-4.0.0',
-            'vcs'
+            new SliceDatasource(
+                aetherService,
+                basketService,
+                AETHER_TARGETS[0]
+            ),
+            'Enterprises-2.0.0',
+            'slice'
         );
         super.reqdAttr = [
             'sd',
@@ -69,32 +76,34 @@ export class VcsComponent
         ];
     }
 
-    onDataLoaded(ScopeOfDataSource: RocDataSource<VcsVcs, Vcs>): void {
+    onDataLoaded(
+        ScopeOfDataSource: RocDataSource<EnterpriseEnterpriseSiteSlice, Slice>
+    ): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
             this.pathRoot in basketPreview &&
-            'vcs' in basketPreview[this.pathRoot]
+            'slice' in basketPreview[this.pathRoot]
         ) {
-            ScopeOfDataSource.merge(basketPreview['Vcs-4.0.0'].vcs, [
+            ScopeOfDataSource.merge(basketPreview['Slice-2.0.0'].slice, [
                 { fieldName: 'filter', idAttr: 'application' },
                 { fieldName: 'device-group', idAttr: 'device-group' },
             ]);
         }
     }
-    checkForDeletedVcs(): void {
+    checkForDeletedSlice(): void {
         const DeletesBasketPreview =
             this.basketService.buildPatchBody().Deletes;
         if (
-            'vcs-4.0.0' in DeletesBasketPreview &&
-            'vcs' in DeletesBasketPreview['vcs-4.0.0']
+            'slice-2.0.0' in DeletesBasketPreview &&
+            'slice' in DeletesBasketPreview['slice-2.0.0']
         ) {
-            this.deletedVCS = DeletesBasketPreview['vcs-4.0.0'].vcs.map(
-                (DeletedVCSID) => DeletedVCSID.id
-            );
+            this.deletedSliceArray = DeletesBasketPreview[
+                'slice-2.0.0'
+            ].slice.map((DeletedSliceID) => DeletedSliceID.id);
         }
     }
 
-    deleteVCS(id: string): void {
+    deleteSlice(id: string): void {
         const ucMap = new Map<string, string>();
         if (this.reqdAttr.length > 0) {
             ucMap.set(
@@ -124,16 +133,16 @@ export class VcsComponent
             id,
             ucMap
         );
-        this.checkForDeletedVcs();
+        this.checkForDeletedSlice();
     }
 
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        this.checkForDeletedVcs();
+        this.checkForDeletedSlice();
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
-            this.aetherService.getVcs({
+            this.aetherService.getSlice({
                 target: AETHER_TARGETS[0],
             }),
             this.onDataLoaded.bind(this)

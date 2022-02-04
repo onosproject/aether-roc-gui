@@ -75,8 +75,8 @@ const aetherRoutes: Routes = [
     {
         path: 'vcs',
         loadChildren: () =>
-            import('./aether-vcs/aether-vcs.module').then(
-                (m) => m.AetherVcsModule
+            import('./aether-slice/aether-slice.module').then(
+                (m) => m.AetherSliceModule
             ),
     },
     {
