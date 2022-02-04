@@ -1,7 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
  *
- * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+ * SPDX-License-Identifier: Apache-2.0
  */
 import { from, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';

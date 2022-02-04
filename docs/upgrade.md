@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Upgrade to new API models
 
 Currently the aether-roc-gui runs aether-1.0.0, 2.0.0 and 2.1.0 versions of the
