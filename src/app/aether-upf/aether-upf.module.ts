@@ -43,7 +43,7 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         RouterModule.forChild([
             { path: 'upf', component: UpfComponent },
             {
-                path: 'upf-edit/:ent-id/:site-id/:id',
+                path: 'upf-edit/:enterprise-id/:site-id/:id',
                 component: UpfEditComponent,
             },
             { path: '', component: UpfComponent, pathMatch: 'full' },

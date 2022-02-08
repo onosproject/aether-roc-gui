@@ -27,17 +27,20 @@ import { UpfUpfService } from '../../../openapi3/aether/2.0.0/services/upf-upf.s
 })
 export class UpfEditComponent extends RocEditBase implements OnInit {
     data: EnterpriseEnterpriseSiteUpf;
-    // enterprises: Array<EnterpriseEnterprise>;
-    pathRoot = 'Enterprises-2.0.0/Site-2.0.0/Upf-2.0.0' as RocElement;
+    pathRoot = ('Enterprises-2.0.0/enterprise' +
+        '[enterprise-id=' +
+        this.route.snapshot.params['enterprise-id'] +
+        ']/site' +
+        '[site-id=' +
+        this.route.snapshot.params['site-id'] +
+        ']') as RocElement;
     pathListAttr = 'upf';
     SiteImisLength: number;
-    // site: Array<EnterpriseEnterpriseSite>;
     ImsiRangeLimit: number;
-    // showAddImsi = false;
     upfId: string;
     showParentDisplay = false;
     upfForm = this.fb.group({
-        id: [
+        'upf-id': [
             undefined,
             Validators.compose([
                 Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -60,8 +63,6 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
             ]),
         ],
         'config-endpoint': [undefined],
-        enterprise: [undefined],
-        site: [undefined],
         address: [
             undefined,
             Validators.compose([
@@ -97,8 +98,6 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
     }
 
     ngOnInit(): void {
-        // this.loadEnterprises(this.target);
-        // this.loadSites(this.target);
         super.init();
     }
 
@@ -106,30 +105,12 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
         this.showParentDisplay = false;
     }
 
-    // setOnlyEnterprise(lenEnterprises: number): void {
-    //     if (lenEnterprises === 1) {
-    //         this.upfForm.get('enterprise').markAsTouched();
-    //         this.upfForm.get('enterprise').markAsDirty();
-    //         this.upfForm.get('enterprise').setValue(this.enterprises[0][id);
-    //     }
-    // }
-
-    fetchTooltipContent(): string {
-        this.ImsiRangeLimit = Math.pow(10, this.SiteImisLength) - 1;
-        return (
-            'UE ID is suffix of IMSI. Ranges must not overlap. Maximum value: ' +
-            this.ImsiRangeLimit +
-            ' Maximum each range: ' +
-            maxDeviceGroupRange
-        );
-    }
-
     loadUpfUpf(target: string, id: string): void {
         this.upfUpfService
             .getUpfUpf({
                 target,
                 id,
-                ent_id: this.route.snapshot.params['ent-id'],
+                ent_id: this.route.snapshot.params['enterprise-id'],
                 site_id: this.route.snapshot.params['site-id'],
             })
             .subscribe(
@@ -147,10 +128,36 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                         this.pathRoot in basketPreview &&
                         this.pathListAttr in basketPreview['Upf-2.0.0']
                     ) {
-                        basketPreview['Upf-2.0.0'].upf.forEach(
-                            (basketItems) => {
-                                if (basketItems.id === id) {
-                                    this.populateFormData(basketItems);
+                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
+                            (enterpriseBasketItems) => {
+                                if (
+                                    enterpriseBasketItems['enterprise-id'] ===
+                                    this.route.snapshot.params['enterprise-id']
+                                ) {
+                                    enterpriseBasketItems.site.forEach(
+                                        (SitebasketItems) => {
+                                            if (
+                                                SitebasketItems['site-id'] ===
+                                                this.route.snapshot.params[
+                                                    'site-id'
+                                                ]
+                                            ) {
+                                                SitebasketItems['upf'].forEach(
+                                                    (basketItems) => {
+                                                        if (
+                                                            basketItems[
+                                                                'upf-id'
+                                                            ] === id
+                                                        ) {
+                                                            this.populateFormData(
+                                                                basketItems
+                                                            );
+                                                        }
+                                                    }
+                                                );
+                                            }
+                                        }
+                                    );
                                 }
                             }
                         );
@@ -160,50 +167,11 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    // loadEnterprises(target: string): void {
-    //     this.aetherService
-    //         .getEnterprise({
-    //             target,
-    //         })
-    //         .subscribe(
-    //             (value) => {
-    //                 this.enterprises = value.enterprise;
-    //                 this.setOnlyEnterprise(value.enterprise.length);
-    //                 console.log('Got Enterprises', value.enterprise.length);
-    //             },
-    //             (error) => {
-    //                 console.warn(
-    //                     'Error getting Enterprises for ',
-    //                     target,
-    //                     error
-    //                 );
-    //             },
-    //             () => {
-    //                 console.log('Finished loading Enterprises', target);
-    //             }
-    //         );
-    // }
-
-    // loadSites(target: string): void {
-    //     this.aetherService
-    //         .getSite({
-    //             target,
-    //         })
-    //         .subscribe(
-    //             (value) => {
-    //                 this.site = value.site;
-    //                 console.log('Got Site', value.site.length);
-    //             },
-    //             (error) => {
-    //                 console.warn('Error getting Site for ', target, error);
-    //             },
-    //             () => {
-    //                 console.log('Finished loading Site', target);
-    //             }
-    //         );
-    // }
-
     private populateFormData(value: EnterpriseEnterpriseSiteUpf): void {
+        if (value['upf-id']) {
+            this.upfForm.get('upf-id').setValue(value['upf-id']);
+            this.upfForm.get('upf-id')[ORIGINAL] = value['upf-id'];
+        }
         if (value['display-name']) {
             this.upfForm.get('display-name').setValue(value['display-name']);
             this.upfForm.get('display-name')[ORIGINAL] = value['display-name'];

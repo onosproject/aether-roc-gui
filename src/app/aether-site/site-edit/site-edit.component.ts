@@ -34,13 +34,16 @@ import { SiteSiteService } from '../../../openapi3/aether/2.0.0/services/site-si
 export class SiteEditComponent extends RocEditBase implements OnInit {
     enterprises: Array<EnterpriseEnterprise>;
     data: EnterpriseEnterpriseSite;
-    pathRoot = 'Enterprises-2.0.0/Site-2.0.0' as RocElement;
+    pathRoot = ('Enterprises-2.0.0/enterprise' +
+        '[enterprise-id=' +
+        this.route.snapshot.params['enterprise-id'] +
+        ']') as RocElement;
     pathListAttr = 'site';
     showConnectDisplay = false;
     showEdgeDeviceDisplay = false;
     showSmallCellAddButton = true;
     siteForm = this.fb.group({
-        id: [
+        'site-id': [
             undefined,
             Validators.compose([
                 Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -68,7 +71,6 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
             'edge-monitoring-prometheus-url': [undefined],
             'edge-device': this.fb.array([]),
         }),
-        enterprise: [undefined],
         'imsi-definition': this.fb.group({
             mcc: [
                 undefined,
@@ -116,11 +118,9 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
         super.form = this.siteForm;
         super.loadFunc = this.loadSiteSite;
         this.siteForm.get(['imsi-definition', 'enterprise'])[TYPE] = 'number';
-        this.siteForm[REQDATTRIBS] = ['enterprise'];
         this.siteForm.get(['imsi-definition'])[REQDATTRIBS] = [
             'mcc',
             'mnc',
-            'enterprise',
             'format',
         ];
         this.siteForm.get(['small-cell'])[IDATTRIBS] = ['small-cell-id'];
@@ -131,23 +131,14 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
 
     ngOnInit(): void {
         super.init();
-        // this.loadEnterprises(this.target);
     }
-
-    // setOnlyEnterprise(lenEnterprises: number): void {
-    //     if (lenEnterprises === 1) {
-    //         this.siteForm.get('enterprise').markAsTouched();
-    //         this.siteForm.get('enterprise').markAsDirty();
-    //         this.siteForm.get('enterprise').setValue(this.enterprises[0].id);
-    //     }
-    // }
 
     loadSiteSite(target: string, id: string): void {
         this.siteSiteService
             .getSiteSite({
                 target,
                 id,
-                ent_id: this.route.snapshot.params['ent-id'],
+                ent_id: this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {
@@ -168,10 +159,24 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
                         this.pathRoot in basketPreview &&
                         this.pathListAttr in basketPreview['Site-2.0.0']
                     ) {
-                        basketPreview['Site-2.0.0'].site.forEach(
-                            (basketItems) => {
-                                if (basketItems.id === id) {
-                                    this.populateFormData(basketItems);
+                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
+                            (enterpriseBasketItems) => {
+                                if (
+                                    enterpriseBasketItems['enterprise-id'] ===
+                                    this.route.snapshot.params['enterprise-id']
+                                ) {
+                                    enterpriseBasketItems.site.forEach(
+                                        (SitebasketItems) => {
+                                            if (
+                                                SitebasketItems['site-id'] ===
+                                                id
+                                            ) {
+                                                this.populateFormData(
+                                                    SitebasketItems
+                                                );
+                                            }
+                                        }
+                                    );
                                 }
                             }
                         );
@@ -190,6 +195,10 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
     }
 
     private populateFormData(value: EnterpriseEnterpriseSite): void {
+        if (value['site-id']) {
+            this.siteForm.get('site-id').setValue(value['site-id']);
+            this.siteForm.get('site-id')[ORIGINAL] = value['site-id'];
+        }
         if (value['display-name']) {
             this.siteForm.get('display-name').setValue(value['display-name']);
             this.siteForm.get('display-name')[ORIGINAL] = value['display-name'];
@@ -267,11 +276,6 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
                 );
             }
         }
-
-        // if (value.enterprise) {
-        //     this.siteForm.get(['enterprise']).setValue(value.enterprise);
-        //     this.siteForm.get('enterprise')[ORIGINAL] = value.enterprise;
-        // }
 
         if (value.monitoring) {
             if (value.monitoring['edge-cluster-prometheus-url']) {
@@ -559,25 +563,4 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
     get edgeDeviceControls(): FormArray {
         return this.siteForm.get(['monitoring', 'edge-device']) as FormArray;
     }
-    //
-    // loadEnterprises(target: string): void {
-    //     this.aetherService
-    //         .getEnterprise({
-    //             target,
-    //         })
-    //         .subscribe(
-    //             (value) => {
-    //                 this.enterprises = value.enterprise;
-    //                 this.setOnlyEnterprise(value.enterprise.length);
-    //                 console.log('Got', value.enterprise.length, 'Enterprise');
-    //             },
-    //             (error) => {
-    //                 console.warn(
-    //                     'Error getting Enterprise for ',
-    //                     target,
-    //                     error
-    //                 );
-    //             }
-    //         );
-    // }
 }

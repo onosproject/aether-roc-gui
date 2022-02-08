@@ -65,7 +65,9 @@ export class ApplicationSelectComponent
         if (this.alreadySelected.length !== 0) {
             const alreadySelectedAppArray = this.applicationList?.filter(
                 (eachApplication) =>
-                    this.alreadySelected.includes(eachApplication['app-id'])
+                    this.alreadySelected.includes(
+                        eachApplication['application-id']
+                    )
             );
             alreadySelectedAppArray?.forEach((application) => {
                 this.SliceApplicationEndpointLimit =
@@ -75,7 +77,7 @@ export class ApplicationSelectComponent
         }
         this.applicationList?.forEach((eachApplication) => {
             const exists = this.alreadySelected.indexOf(
-                eachApplication['app-id']
+                eachApplication['application-id']
             );
             if (
                 exists === -1 &&

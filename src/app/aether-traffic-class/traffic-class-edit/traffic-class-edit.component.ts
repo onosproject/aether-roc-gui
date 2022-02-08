@@ -20,13 +20,16 @@ import { TrafficClassTrafficClassService } from '../../../openapi3/aether/2.0.0/
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class TrafficClassEditComponent extends RocEditBase implements OnInit {
-    pathRoot = 'Enterprises-2.0.0/Traffic-class-2.0.0' as RocElement;
+    pathRoot = ('Enterprises-2.0.0/enterprise' +
+        '[enterprise-id=' +
+        this.route.snapshot.params['enterprise-id'] +
+        ']') as RocElement;
     pathListAttr = 'traffic-class';
     data: EnterpriseEnterpriseTrafficClass;
     showParentDisplay = false;
     trafficClassId: string;
     tcForm = this.fb.group({
-        id: [
+        'traffic-class-id': [
             undefined,
             Validators.compose([
                 Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -96,12 +99,12 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
             .getTrafficClassTrafficClass({
                 target,
                 id,
-                ent_id: this.route.snapshot.params['ent-id'],
+                ent_id: this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {
                     this.data = value;
-                    this.trafficClassId = value['tc-id'];
+                    this.trafficClassId = value['traffic-class-id'];
                     this.populateFormData(value);
                 },
                 (error) => {
@@ -118,13 +121,25 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
                         this.pathListAttr in
                             basketPreview['Traffic-class-2.0.0']
                     ) {
-                        basketPreview['Traffic-class-2.0.0'][
-                            'traffic-class'
-                        ].forEach((basketItems) => {
-                            if (basketItems['tc-id'] === id) {
-                                this.populateFormData(basketItems);
+                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
+                            (enterpriseBasketItems) => {
+                                if (
+                                    enterpriseBasketItems['enterprise-id'] ===
+                                    this.route.snapshot.params['enterprise-id']
+                                ) {
+                                    enterpriseBasketItems[
+                                        'traffic-class'
+                                    ].forEach((basketItems) => {
+                                        if (
+                                            basketItems['traffic-class-id'] ===
+                                            id
+                                        ) {
+                                            this.populateFormData(basketItems);
+                                        }
+                                    });
+                                }
                             }
-                        });
+                        );
                     }
                     console.log(
                         'Finished loading TrafficClassTrafficClass(s)',
@@ -136,6 +151,13 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
     }
 
     private populateFormData(value: EnterpriseEnterpriseTrafficClass): void {
+        if (value['traffic-class-id']) {
+            this.tcForm
+                .get('traffic-class-id')
+                .setValue(value['traffic-class-id']);
+            this.tcForm.get('traffic-class-id')[ORIGINAL] =
+                value['traffic-class-id'];
+        }
         if (value['display-name']) {
             this.tcForm.get('display-name').setValue(value['display-name']);
             this.tcForm.get('display-name')[ORIGINAL] = value['display-name'];

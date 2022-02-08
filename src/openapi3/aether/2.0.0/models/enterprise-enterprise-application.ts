@@ -24,7 +24,7 @@ export interface EnterpriseEnterpriseApplication {
   /**
    * ID for this application.
    */
-  'app-id': string;
+  'application-id': string;
 
   [key: string]: AdditionalPropertyUnchanged | Array<EnterpriseEnterpriseApplicationEndpoint> | string | undefined;
 }

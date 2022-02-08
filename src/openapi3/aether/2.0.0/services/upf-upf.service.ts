@@ -9,7 +9,6 @@ import { StrictHttpResponse } from '../strict-http-response';
 import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
-import {EnterpriseEnterpriseTrafficClass} from "../models/enterprise-enterprise-traffic-class";
 import {EnterpriseEnterpriseSiteUpf} from "../models/enterprise-enterprise-site-upf";
 
 @Injectable({
@@ -51,16 +50,15 @@ export class UpfUpfService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       site_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseSiteUpf>> {
-    console.log(this.rootUrl, UpfUpfService.GetUpfUpfPath, 'get',"this.rootUrl, UpfUpfService.GetUpfUpfPath, 'get'")
     const rb = new RequestBuilder(this.rootUrl, UpfUpfService.GetUpfUpfPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
@@ -103,18 +101,15 @@ export class UpfUpfService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       site_id: any;
   }): Observable<EnterpriseEnterpriseSiteUpf> {
-      debugger
-      console.log(this.rootUrl, UpfUpfService.GetUpfUpfPath, 'get',"this.rootUrl, UpfUpfService.GetUpfUpfPath, 'get'")
-
     return this.getUpfUpf$Response(params).pipe(
       map((r: StrictHttpResponse<EnterpriseEnterpriseSiteUpf>) => r.body as EnterpriseEnterpriseSiteUpf)
     );

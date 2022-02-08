@@ -6,14 +6,17 @@
 <form [formGroup]="entForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Enterprise ID: {{ id }}</mat-card-title>
+            <mat-card-title
+                >Enterprise ID:
+                {{ this.entForm.get("enterprise-id").value }}</mat-card-title
+            >
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
                 <mat-form-field class="half-width field-margin">
                     <input
                         matInput
-                        formControlName="id"
+                        formControlName="enterprise-id"
                         placeholder="Please specify an ID"
                         title="This field is mandatory."
                         id="inputID"
@@ -81,7 +84,7 @@
                                 [disabled]="
                                     !opaService.canWrite(
                                         '/enterprise/enterprise[id=' +
-                                            id +
+                                            entpriseid +
                                             ']/connectivity-service'
                                     )
                                 "
@@ -121,7 +124,6 @@
                     [disabled]="
                         !(
                             entForm.valid &&
-                            entForm.value.id &&
                             entForm.touched &&
                             opaService.canWrite('/enterprise/enterprise')
                         )

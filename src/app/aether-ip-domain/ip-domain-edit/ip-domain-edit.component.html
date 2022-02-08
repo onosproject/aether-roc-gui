@@ -6,7 +6,7 @@
 <form [formGroup]="ipForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>IP DOMAIN. ID: {{ id }}</mat-card-title>
+            <mat-card-title>IP DOMAIN. ID: {{ ipDomainId }}</mat-card-title>
             <mat-icon
                 *ngIf="!isNew"
                 (click)="showParentDisplay = true; $event.preventDefault()"
@@ -22,7 +22,7 @@
                 <mat-form-field class="half-width field-margin">
                     <input
                         matInput
-                        formControlName="id"
+                        formControlName="ip-domain-id"
                         placeholder="Please specify an ID"
                         title="This field is mandatory."
                         id="inputID"
@@ -51,30 +51,6 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
-            <!--            <div class="row" id="enterpriseRow">-->
-            <!--                <mat-form-field-->
-            <!--                    class="field-margin half-width subscriber-section"-->
-            <!--                >-->
-            <!--                    <mat-select-->
-            <!--                        ngDefaultControl-->
-            <!--                        title="This field is mandatory."-->
-            <!--                        placeholder="Please specify an Enterprise"-->
-            <!--                        formControlName="enterprise"-->
-            <!--                        id="selectEnterprise"-->
-            <!--                        required-->
-            <!--                    >-->
-            <!--                        <mat-option-->
-            <!--                            *ngFor="let ent of enterprises"-->
-            <!--                            [value]="ent.id"-->
-            <!--                            >{{ ent.id }}-->
-            <!--                            <span *ngIf="ent['display-name']">-->
-            <!--                                ({{ ent["display-name"] }})</span-->
-            <!--                            >-->
-            <!--                        </mat-option>-->
-            <!--                    </mat-select>-->
-            <!--                    <mat-hint>Enterprise</mat-hint>-->
-            <!--                </mat-form-field>-->
-            <!--            </div>-->
             <div class="row">
                 <mat-form-field class="field-margin half-width">
                     <input
@@ -230,7 +206,6 @@
                 [disabled]="
                     !(
                         ipForm.valid &&
-                        ipForm.value.id &&
                         ipForm.touched &&
                         opaService.canWrite(
                             '/ip-domain/ip-domain[id=' + id + ']'

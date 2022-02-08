@@ -52,7 +52,7 @@ import { ShowDeviceGroupUsageComponent } from './show-device-group-usage/show-de
         RouterModule.forChild([
             { path: 'ipdomain', component: IpDomainComponent },
             {
-                path: 'ipdomain-edit/:ent-id/:site-id/:id',
+                path: 'ipdomain-edit/:enterprise-id/:site-id/:id',
                 component: IpDomainEditComponent,
             },
 

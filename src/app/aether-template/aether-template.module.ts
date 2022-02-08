@@ -43,7 +43,7 @@ import { UtilsModule } from '../utils/utils.module';
         RouterModule.forChild([
             { path: 'template', component: TemplateComponent },
             {
-                path: 'template-edit/:ent-id/:id',
+                path: 'template-edit/:enterprise-id/:id',
                 component: TemplateEditComponent,
             },
             { path: '', component: TemplateComponent, pathMatch: 'full' },

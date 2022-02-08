@@ -31,7 +31,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AuthInterceptor } from '../auth-interceptor';
 import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
 import { DeviceGroupEditComponent } from './device-group-edit/device-group-edit.component';
-import { ImsisSelectComponent } from './imsis-select/imsis-select.component';
 import { DeviceGroupMonitorComponent } from './device-group-monitor/device-group-monitor.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UtilsModule } from '../utils/utils.module';
@@ -44,7 +43,6 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
     declarations: [
         DeviceGroupComponent,
         DeviceGroupEditComponent,
-        ImsisSelectComponent,
         DeviceGroupMonitorComponent,
         UeMonitorComponent,
         ShowVcsUsageComponent,
@@ -56,7 +54,7 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         RouterModule.forChild([
             { path: 'devicegroups', component: DeviceGroupComponent },
             {
-                path: 'devicegroups-edit/:ent-id/:site-id/:id',
+                path: 'devicegroups-edit/:enterprise-id/:site-id/:id',
                 component: DeviceGroupEditComponent,
             },
             {

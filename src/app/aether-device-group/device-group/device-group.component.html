@@ -15,7 +15,7 @@
             id="addDeviceGroupButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/devicegroup/devicegroup/[ent-id= unknownent]/[site-id=unknownsite]/[id=newinstance]'
+                    '/devicegroup/devicegroup/[enterprise-id= unknownent]/[site-id=unknownsite]/[id=newinstance]'
                 )
             "
             routerLink="/devicegroups/devicegroups-edit/unknownent/unknownsite/newinstance"
@@ -36,13 +36,13 @@
             <td mat-cell *matCellDef="let row">
                 <span
                     *ngIf="row['display-name'] !== undefined"
-                    [title]="row['dg-id']"
+                    [title]="row['device-group-id']"
                     >{{ row["display-name"] }} <br /><small
-                        >({{ row["dg-id"] }})</small
+                        >({{ row["device-group-id"] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
-                    row["dg-id"]
+                    row["device-group-id"]
                 }}</span>
             </td>
         </ng-container>
@@ -73,19 +73,6 @@
                 </mat-icon>
             </td>
         </ng-container>
-
-        <!--        &lt;!&ndash; Imsis Column &ndash;&gt;-->
-        <!--        <ng-container matColumnDef="Imsis" id="imsisColumn">-->
-        <!--            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>-->
-        <!--                UE IDs-->
-        <!--            </th>-->
-        <!--            <td mat-cell *matCellDef="let row">-->
-        <!--                <p *ngFor="let ip of row.imsis">-->
-        <!--                    {{ ip["imsi-id"] }} {{ ip["display-name"] }}-->
-        <!--                    {{ ip["imsi-range-from"] }}-{{ ip["imsi-range-to"] }}-->
-        <!--                </p>-->
-        <!--            </td>-->
-        <!--        </ng-container>-->
 
         <!-- IP-Domain Name Column -->
         <ng-container matColumnDef="ip-domain" id="idDomainColumn">
@@ -144,8 +131,8 @@
                 mat-cell
                 *matCellDef="let row"
                 routerLink="/devicegroups/devicegroups-edit/{{
-                    row['ent-id']
-                }}/{{ row['site-id'] }}/{{ row['dg-id'] }}"
+                    row['enterprise-id']
+                }}/{{ row['site-id'] }}/{{ row['device-group-id'] }}"
                 id="editButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>

@@ -17,6 +17,7 @@ export abstract class RocEditBase {
     protected loadFunc: (target: string, id: string) => void;
     protected initFunc: () => string;
     public showParentDisplay = false;
+    private moduleID: string;
 
     protected constructor(
         protected snackBar: MatSnackBar,
@@ -31,18 +32,17 @@ export abstract class RocEditBase {
     init(): void {
         this.route.paramMap.subscribe((value) => {
             if (
-                value.get('id') === 'newinstance' &&
-                value.get('ent-id') === 'unknownent' &&
+                value.get('id') === 'newinstance' ||
+                value.get('enterprise-id') === 'unknownent' ||
                 value.get('SITE-id') === 'unknownsitee'
             ) {
                 this.isNewInstance = true;
                 if (this.initFunc) {
                     this.form.get('id').setValue(this.initFunc());
                 }
-                console.log('New control', this.pathRoot);
             } else {
-                this.form.get('id').setValue(value.get('id'));
                 this.loadFunc(this.target, value.get('id'));
+                this.moduleID = value.get('id');
             }
         });
     }
@@ -50,17 +50,20 @@ export abstract class RocEditBase {
     onSubmit(): void {
         console.log('Submitted!', this.form.getRawValue());
         let submitId = this.id;
+        // needs work on enterprise-id and site-id
         if (this.id === undefined) {
-            submitId = this.form.get(this.idAttr).value as unknown as string;
+            submitId = this.form.get(this.pathListAttr + '-id')
+                .value as unknown as string;
         }
         if (submitId !== '' && submitId !== undefined) {
-            debugger;
             this.bs.logKeyValuePairs(
                 this.form,
                 this.pathRoot +
                     '/' +
                     this.pathListAttr +
                     '[' +
+                    this.pathListAttr +
+                    '-' +
                     this.idAttr +
                     '=' +
                     submitId +
@@ -79,7 +82,7 @@ export abstract class RocEditBase {
     }
 
     get id(): string {
-        return this.form.get('id').value;
+        return this.moduleID;
     }
 
     get target(): string {

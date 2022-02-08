@@ -52,7 +52,7 @@ export class SiteSiteService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseSite>> {
@@ -98,7 +98,7 @@ export class SiteSiteService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
   }): Observable<EnterpriseEnterpriseSite> {

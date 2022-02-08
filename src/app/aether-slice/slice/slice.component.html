@@ -15,7 +15,7 @@
             id="addNewSliceButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/slice/slice/[ent-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
+                    '/slice/slice/[enterprise-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
                 )
             "
             routerLink="/slice/slice-edit/unknownent/unknownsite/newinstance"
@@ -156,14 +156,16 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                {{ row["ent-id"] }}
+                {{ row["enterprise-id"] }}
                 <mat-icon
                     class="table_icon small_icon"
                     color="primary"
                     aria-hidden="false"
                     aria-label="Enterprise"
                     id="pointerConnectivityService"
-                    routerLink="/enterprise/enterprise-edit/{{ row['ent-id'] }}"
+                    routerLink="/enterprise/enterprise-edit/{{
+                        row['enterprise-id']
+                    }}"
                     >launch</mat-icon
                 >
             </td>
@@ -303,7 +305,7 @@
                 "
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/slice/slice-edit/{{ row['ent-id'] }}/{{
+                routerLink="/slice/slice-edit/{{ row['enterprise-id'] }}/{{
                     row['site-id']
                 }}/{{ row['slice-id'] }}"
                 id="editSliceButton"

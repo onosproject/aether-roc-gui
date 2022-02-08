@@ -22,7 +22,7 @@ import {Template as Template400} from "../../../aether/4.0.0/models";
 import {TrafficClass as TrafficClass400} from "../../../aether/4.0.0/models";
 import {Upf as Upf400} from "../../../aether/4.0.0/models";
 import {Vcs as Vcs400} from "../../../aether/4.0.0/models";
-import {ConnectivityService as ConnectivityService200} from "../../../aether/2.0.0/models";
+import {ConnectivityService as ConnectivityService200, Enterprise} from "../../../aether/2.0.0/models";
 import {Enterprise as Enterprise200} from "../../../aether/2.0.0/models";
 
 
@@ -52,6 +52,4 @@ export interface Elements {
     'Vcs-4.0.0'?: Vcs400;
     'Connectivity-services-2.0.0'?: ConnectivityService200;
     'Enterprises-2.0.0'?: Enterprise200;
-
-
 }

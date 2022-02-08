@@ -71,7 +71,7 @@ describe('DeviceGroupEditComponent', () => {
         fixture = TestBed.createComponent(DeviceGroupEditComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-        component.deviceGroupForm.get('id').setValue('testDg');
+        component.deviceGroupForm.get('device-group-id').setValue('testDg');
         component.deviceGroupForm.get('description').setValue('testDg');
         component.deviceGroupForm.get('display-name').setValue('testDg');
         component.deviceGroupForm.get('ip-domain').setValue('testDg');

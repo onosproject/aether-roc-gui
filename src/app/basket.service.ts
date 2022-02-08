@@ -86,17 +86,14 @@ export class BasketService {
         abstractControl: AbstractControl,
         parent?: string
     ): ChangeResult {
-        console.log(abstractControl, 'abstractControl-----', parent);
         // Path is either '/' if undefined == true or '/' + parent if false
         const path = parent === undefined ? '/' : '/' + parent;
-
         if (abstractControl instanceof FormGroup) {
             let unchangedUpdate: string[] = [];
             let unchangedDelete: string[] = [];
             if (abstractControl[REQDATTRIBS]) {
                 unchangedUpdate.push(...abstractControl[REQDATTRIBS]);
                 unchangedDelete.push(...abstractControl[REQDATTRIBS]);
-                // console.log(parent, 'Required', unchangedUpdate, unchangedDelete);
             }
             Object.keys(abstractControl.controls).forEach((key: string) => {
                 const changed = this.logKeyValuePairs(

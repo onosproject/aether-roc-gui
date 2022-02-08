@@ -49,12 +49,11 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     showDeviceGroupDisplay = false;
     showAddFilterButton = true;
     EndpointLeft = 5;
+    sliceID: string;
     deviceGroups: Array<EnterpriseEnterpriseSiteDeviceGroup>;
-    // site: Array<EnterpriseEnterpriseSite>;
     applications: Array<EnterpriseEnterpriseApplication>;
     templates: Array<EnterpriseEnterpriseTemplate>;
     selectedSite: string;
-    // enterprises: Array<EnterpriseEnterprise>;
     upfs: Array<EnterpriseEnterpriseSiteUpf> = [];
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
@@ -81,13 +80,19 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL'];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: EnterpriseEnterpriseSiteSlice;
-    pathRoot = 'Enterprises-2.0.0/Site-2.0.0/Slice-2.0.0' as RocElement;
+    pathRoot = ('Enterprises-2.0.0/enterprise' +
+        '[enterprise-id=' +
+        this.route.snapshot.params['enterprise-id'] +
+        ']/site' +
+        '[site-id=' +
+        this.route.snapshot.params['site-id'] +
+        ']') as RocElement;
 
     pathListAttr = 'slice';
     sdAsInt = HexPipe.hexAsInt;
 
     sliceForm = this.fb.group({
-        id: [
+        'slice-id': [
             undefined,
             Validators.compose([
                 Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -109,7 +114,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                 Validators.maxLength(1024),
             ]),
         ],
-        site: [undefined],
         filter: this.fb.array([]),
         mbr: this.fb.group({
             uplink: [
@@ -145,7 +149,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             undefined,
             Validators.compose([Validators.required]),
         ],
-        enterprise: [undefined],
         'device-group': this.fb.array([]),
         sd: [
             undefined,
@@ -202,10 +205,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             this.sliceForm.get('sst').disable();
             this.sliceForm.get('sd').disable();
         }
-        // this.loadSites(this.target);
-        this.OnSiteSelect();
         this.loadDeviceGoup(this.target);
-        // this.loadEnterprises(this.target);
         this.bandwidthOptions = this.sliceForm.valueChanges.pipe(
             startWith(''),
             map((value) =>
@@ -216,14 +216,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             )
         );
     }
-
-    // setOnlyEnterprise(lenEnterprises: number): void {
-    //     if (lenEnterprises === 1) {
-    //         this.sliceForm.get('enterprise').markAsTouched();
-    //         this.sliceForm.get('enterprise').markAsDirty();
-    //         this.sliceForm.get('enterprise').setValue(this.enterprises[0].id);
-    //     }
-    // }
 
     get filter(): FormArray {
         return this.sliceForm.get('filter') as FormArray;
@@ -249,11 +241,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             }
         );
         return existingList;
-    }
-
-    OnSiteSelect(): void {
-        this.selectedSite = this.sliceForm.get('site').value;
-        this.loadUpf(this.target);
     }
 
     appSelected(selected: SelectAppParam): void {
@@ -374,12 +361,13 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             .getSliceSlice({
                 target,
                 id,
-                ent_id: this.route.snapshot.params['ent-id'],
+                ent_id: this.route.snapshot.params['enterprise-id'],
                 site_id: this.route.snapshot.params['site-id'],
             })
             .subscribe(
                 (value) => {
                     this.data = value;
+                    this.sliceID = value['slice-id'];
                     this.populateFormData(value);
                 },
                 (error) => {
@@ -395,10 +383,36 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                         this.pathRoot in basketPreview &&
                         this.pathListAttr in basketPreview[this.pathRoot]
                     ) {
-                        basketPreview['Slice-2.0.0'].slice.forEach(
-                            (basketItems) => {
-                                if (basketItems.id === id) {
-                                    this.populateFormData(basketItems);
+                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
+                            (enterpriseBasketItems) => {
+                                if (
+                                    enterpriseBasketItems['enterprise-id'] ===
+                                    this.route.snapshot.params['enterprise-id']
+                                ) {
+                                    enterpriseBasketItems.site.forEach(
+                                        (SitebasketItems) => {
+                                            if (
+                                                SitebasketItems['site-id'] ===
+                                                this.route.snapshot.params[
+                                                    'site-id'
+                                                ]
+                                            ) {
+                                                SitebasketItems[
+                                                    'slice'
+                                                ].forEach((basketItems) => {
+                                                    if (
+                                                        basketItems[
+                                                            'slice-id'
+                                                        ] === id
+                                                    ) {
+                                                        this.populateFormData(
+                                                            basketItems
+                                                        );
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    );
                                 }
                             }
                         );
@@ -463,6 +477,10 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     }
 
     public populateFormData(value: EnterpriseEnterpriseSiteSlice): void {
+        if (value['slice-id']) {
+            this.sliceForm.get('slice-id').setValue(value['slice-id']);
+            this.sliceForm.get('slice-id')[ORIGINAL] = value['slice-id'];
+        }
         if (value['display-name']) {
             this.sliceForm.get('display-name').setValue(value['display-name']);
             this.sliceForm.get('display-name')[ORIGINAL] =
@@ -561,10 +579,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             this.sliceForm.get(['mbr', 'downlink-burst-size'])[ORIGINAL] =
                 value.mbr['downlink-burst-size'];
         }
-        // if (value.enterprise) {
-        //     this.sliceForm.get('enterprise').setValue(value.enterprise);
-        //     this.sliceForm.get('enterprise')[ORIGINAL] = value.enterprise;
-        // }
         if (
             value['device-group'] &&
             this.sliceForm.value['device-group'].length === 0
@@ -644,12 +658,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                 .toString(16)
                 .toUpperCase();
         }
-        // if (value.site) {
-        //     this.sliceForm.get('site').setValue(value.site);
-        //     this.sliceForm.get('site')[ORIGINAL] = value.site;
-        //     this.loadSites(this.target);
-        //     this.OnSiteSelect();
-        // }
         if (value['default-behavior']) {
             this.sliceForm
                 .get(['default-behavior'])
@@ -666,27 +674,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             this.sliceForm.get('upf')[ORIGINAL] = value.upf;
         }
     }
-
-    // loadEnterprises(target: string): void {
-    //     this.aetherService
-    //         .getEnterprise({
-    //             target,
-    //         })
-    //         .subscribe(
-    //             (value) => {
-    //                 this.enterprises = value.enterprise;
-    //                 this.setOnlyEnterprise(value.enterprise.length);
-    //                 console.log('Got', value.enterprise.length, 'Enterprise');
-    //             },
-    //             (error) => {
-    //                 console.warn(
-    //                     'Error getting Enterprise for ',
-    //                     target,
-    //                     error
-    //                 );
-    //             }
-    //         );
-    // }
 
     loadDeviceGoup(target: string): void {
         this.aetherService
@@ -779,7 +766,9 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     setShowAddFilterButton(): void {
         this.EndpointLeft = this.applications
             ?.filter((eachApplication) =>
-                this.selectedApplications().includes(eachApplication['app-id'])
+                this.selectedApplications().includes(
+                    eachApplication['application-id']
+                )
             )
             .reduce((total, application) => {
                 return total - application.endpoint.length;
@@ -788,25 +777,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             this.showAddFilterButton = false;
         }
     }
-
-    // loadSites(target: string): void {
-    //     this.aetherService
-    //         .getSite({
-    //             target,
-    //         })
-    //         .subscribe(
-    //             (value) => {
-    //                 this.site = value.site;
-    //                 console.log('Got Site', value.site.length);
-    //             },
-    //             (error) => {
-    //                 console.warn('Error getting Site for ', target, error);
-    //             },
-    //             () => {
-    //                 console.log('Finished loading Site', target);
-    //             }
-    //         );
-    // }
 
     loadApplication(target: string): void {
         this.aetherService

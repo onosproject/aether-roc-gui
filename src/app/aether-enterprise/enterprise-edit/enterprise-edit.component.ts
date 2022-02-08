@@ -37,11 +37,12 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
     showConnectDisplay = false;
     data: EnterpriseEnterprise;
+    entpriseid: string;
 
     displayedColumns = ['connectivity-service', 'enabled'];
 
     entForm = this.fb.group({
-        id: [
+        'enterprise-id': [
             undefined,
             Validators.compose([
                 Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -123,6 +124,11 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
     }
 
     private populateFormData(value: EnterpriseEnterprise, id: string): void {
+        if (value['enterprise-id']) {
+            this.entForm.get('enterprise-id').setValue(value['enterprise-id']);
+            this.entForm.get('enterprise-id')[ORIGINAL] =
+                value['enterprise-id'];
+        }
         if (value['display-name']) {
             this.entForm.get('display-name').setValue(value['display-name']);
             this.entForm.get('display-name')[ORIGINAL] = value['display-name'];
@@ -217,6 +223,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
             .subscribe(
                 (value) => {
                     this.data = value;
+                    this.entpriseid = value['enterprise-id'];
                     this.populateFormData(value, id);
                 },
                 (error) => {
@@ -230,11 +237,11 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Enterprise-2.0.0']
+                        this.pathListAttr in basketPreview['Enterprises-2.0.0']
                     ) {
-                        basketPreview['Enterprise-2.0.0'].enterprise.forEach(
+                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
                             (basketItems) => {
-                                if (basketItems['ent-id'] === id) {
+                                if (basketItems['enterprise-id'] === id) {
                                     this.populateFormData(basketItems, id);
                                 }
                             }
@@ -248,7 +255,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
     deleteFromSelect(cs: string): void {
         this.bs.deleteIndexedEntry(
             '/Enterprise-2.0.0/enterprise[id=' +
-                this.data['ent-id'] +
+                this.data['enterprise-id'] +
                 ']/connectivity-service[connectivity-service=' +
                 cs +
                 ']',

@@ -22,7 +22,7 @@ import {EnterpriseEnterpriseSiteDeviceGroupDevice} from "../models/enterprise-en
 import {EnterpriseEnterpriseSiteDeviceGroupMbr} from "../models/enterprise-enterprise-site-device-group-mbr";
 import {Enterprise} from "../models/enterprise";
 import {EnterpriseEnterprise} from "../models/enterprise-enterprise";
-import {EnterpriseEnterpriseConnectivityService} from "../models/enterprise-enterprise-connectivity-service";
+import {EnterpriseConnectivityService} from "../models/enterprise-connectivity-service";
 import {IpDomain} from "../models/ip-domain";
 import {EnterpriseEnterpriseSiteIpDomain} from "../models/enterprise-enterprise-site-ip-domain";
 import {Site} from "../models/site";
@@ -1829,7 +1829,7 @@ export class ApiService extends BaseService {
      * key {connectivity-service}
      */
     'connectivity-service': any;
-    body?: EnterpriseEnterpriseConnectivityService
+    body?: EnterpriseConnectivityService
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterpriseEnterpriseConnectivityServicePath, 'post');
@@ -1877,7 +1877,7 @@ export class ApiService extends BaseService {
      * key {connectivity-service}
      */
     'connectivity-service': any;
-    body?: EnterpriseEnterpriseConnectivityService
+    body?: EnterpriseConnectivityService
   }): Observable<void> {
 
     return this.postEnterpriseEnterpriseConnectivityService$Response(params).pipe(

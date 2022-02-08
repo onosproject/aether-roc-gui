@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
-    EnterpriseEnterprise,
+    Enterprise,
     EnterpriseEnterpriseApplication,
     EnterpriseEnterpriseTrafficClass,
 } from '../../../openapi3/aether/2.0.0/models';
@@ -64,9 +64,12 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     showEndpointAddButton = true;
     showParentDisplay = false;
     readonly endpointLimit: number = 5;
-    enterprises: Array<EnterpriseEnterprise>;
+    enterprises: Array<Enterprise>;
     trafficClassOptions: Array<EnterpriseEnterpriseTrafficClass>;
-    pathRoot = 'Enterprises-2.0.0/Application-2.0.0' as RocElement;
+    pathRoot = ('Enterprises-2.0.0/enterprise' +
+        '[enterprise-id=' +
+        this.route.snapshot.params['enterprise-id'] +
+        ']') as RocElement;
     pathListAttr = 'application';
     applicationId: string;
     data: EnterpriseEnterpriseApplication;
@@ -83,7 +86,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     bandwidthOptions: Observable<Bandwidths[]>;
     appForm = this.fb.group(
         {
-            id: [
+            'application-id': [
                 undefined,
                 Validators.compose([
                     Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -113,7 +116,6 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                 ]),
             ],
             endpoint: this.fb.array([]),
-            // enterprise: [undefined, Validators.required],
         },
         { validators: ValidatePortRange }
     );
@@ -149,14 +151,6 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
             )
         );
     }
-    //
-    // setOnlyEnterprise(lenEnterprises: number): void {
-    //     if (lenEnterprises === 1) {
-    //         this.appForm.get('enterprise').markAsTouched();
-    //         this.appForm.get('enterprise').markAsDirty();
-    //         this.appForm.get('enterprise').setValue(this.enterprises[0].id);
-    //     }
-    // }
 
     deleteFromSelect(ep: string): void {
         this.bs.deleteIndexedEntry(
@@ -209,12 +203,12 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
             .getApplicationApplication({
                 target,
                 id,
-                ent_id: this.route.snapshot.params['ent-id'],
+                ent_id: this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {
                     this.data = value;
-                    this.applicationId = value['app-id'];
+                    this.applicationId = value['application-id'];
                     this.populateFormData(value);
                 },
                 (error) => {
@@ -228,12 +222,28 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Application-2.0.0']
+                        'enterprise' in basketPreview['Enterprises-2.0.0'] &&
+                        this.pathListAttr in basketPreview['Enterprises-2.0.0']
                     ) {
-                        basketPreview['Application-2.0.0'].application.forEach(
-                            (basketItems) => {
-                                if (basketItems['app-id'] === id) {
-                                    this.populateFormData(basketItems);
+                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
+                            (enterpriseBasketItems) => {
+                                if (
+                                    enterpriseBasketItems['enterprise-id'] ===
+                                    this.route.snapshot.params['enterprise-id']
+                                ) {
+                                    enterpriseBasketItems.application.forEach(
+                                        (basketItems) => {
+                                            if (
+                                                basketItems[
+                                                    'application-id'
+                                                ] === id
+                                            ) {
+                                                this.populateFormData(
+                                                    basketItems
+                                                );
+                                            }
+                                        }
+                                    );
                                 }
                             }
                         );
@@ -317,6 +327,13 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     }
 
     private populateFormData(value: EnterpriseEnterpriseApplication): void {
+        if (value['application-id']) {
+            this.appForm
+                .get('application-id')
+                .setValue(value['application-id']);
+            this.appForm.get('application-id')[ORIGINAL] =
+                value['application-id'];
+        }
         if (value['display-name']) {
             this.appForm.get('display-name').setValue(value['display-name']);
             this.appForm.get('display-name')[ORIGINAL] = value['display-name'];
@@ -342,7 +359,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                         .filter((checkerKey) =>
                             checkerKey.startsWith(
                                 '/basket-delete/application-2.0.0/application[id=' +
-                                    value.id +
+                                    value['application-id '] +
                                     ']/endpoint[endpoint-id='
                             )
                         )
@@ -513,27 +530,6 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     mbrControls(index: number): FormGroup {
         return this.appForm.get(['endpoint', index, 'mbr']) as FormGroup;
     }
-    //
-    // loadEnterprises(target: string): void {
-    //     this.aetherService
-    //         .getEnterprise({
-    //             target,
-    //         })
-    //         .subscribe(
-    //             (value) => {
-    //                 this.enterprises = value.enterprise;
-    //                 this.setOnlyEnterprise(value.enterprise.length);
-    //                 console.log('Got', value.enterprise.length, 'Enterprise');
-    //             },
-    //             (error) => {
-    //                 console.warn(
-    //                     'Error getting Enterprise for ',
-    //                     target,
-    //                     error
-    //                 );
-    //             }
-    //         );
-    // }
 
     loadTrafficClass(target: string): void {
         this.aetherService

@@ -6,14 +6,17 @@
 <form [formGroup]="tempForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Template ID: {{ id }}</mat-card-title>
+            <mat-card-title
+                >Template ID:
+                {{ this.tempForm.get("template-id").value }}</mat-card-title
+            >
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
                 <mat-form-field class="half-width field-margin">
                     <input
                         matInput
-                        formControlName="id"
+                        formControlName="template-id"
                         placeholder="Please specify an ID"
                         id="inputID"
                     />

@@ -51,7 +51,7 @@ export class TrafficClassTrafficClassService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseTrafficClass>> {
@@ -97,7 +97,7 @@ export class TrafficClassTrafficClassService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
   }): Observable<EnterpriseEnterpriseTrafficClass> {

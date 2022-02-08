@@ -42,15 +42,18 @@ interface BurstRate {
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class TemplateEditComponent extends RocEditBase implements OnInit {
-    // @ViewChild(MatTable) table: MatTable<Array<ConnectivityServiceRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
 
     sdAsInt = HexPipe.hexAsInt;
 
-    pathRoot = 'Enterprises-2.0.0/Template-2.0.0' as RocElement;
+    pathRoot = ('Enterprises-2.0.0/enterprise' +
+        '[enterprise-id=' +
+        this.route.snapshot.params['enterprise-id'] +
+        ']') as RocElement;
     pathListAttr = 'template';
     trafficClass: Array<EnterpriseEnterpriseTrafficClass>;
+    templateID: string;
     defaultBehaviorOpitons = ['DENY-ALL', 'ALLOW-ALL'];
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
@@ -77,7 +80,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
     bandwidthOptions: Observable<Bandwidths[]>;
     data: EnterpriseEnterpriseTemplate;
     tempForm = this.fb.group({
-        id: [
+        'template-id': [
             undefined,
             Validators.compose([
                 Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -115,7 +118,6 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
             undefined,
             Validators.compose([Validators.min(1), Validators.max(255)]),
         ],
-        // slice: this.fb.group({
         mbr: this.fb.group({
             uplink: [
                 undefined,
@@ -146,7 +148,6 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
                 ]),
             ],
         }),
-        // }),
     });
 
     constructor(
@@ -200,11 +201,12 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
             .getTemplateTemplate({
                 target,
                 id,
-                ent_id: this.route.snapshot.params['ent-id'],
+                ent_id: this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {
                     this.data = value;
+                    this.templateID = value['template-id'];
                     this.populateFormData(value);
                 },
                 (error) => {
@@ -220,14 +222,29 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
                         this.pathRoot in basketPreview &&
                         this.pathListAttr in basketPreview['Template-2.0.0']
                     ) {
-                        basketPreview['Template-2.0.0'].template.forEach(
-                            (basketItems) => {
-                                if (basketItems['tp-id'] === id) {
-                                    this.populateFormData(basketItems);
+                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
+                            (enterpriseBasketItems) => {
+                                if (
+                                    enterpriseBasketItems['enterprise-id'] ===
+                                    this.route.snapshot.params['enterprise-id']
+                                ) {
+                                    enterpriseBasketItems.template.forEach(
+                                        (basketItems) => {
+                                            if (
+                                                basketItems['template-id'] ===
+                                                id
+                                            ) {
+                                                this.populateFormData(
+                                                    basketItems
+                                                );
+                                            }
+                                        }
+                                    );
                                 }
                             }
                         );
                     }
+
                     console.log(
                         'Finished loading TemplateTemplte(s)',
                         target,
@@ -238,6 +255,10 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
     }
 
     private populateFormData(value: EnterpriseEnterpriseTemplate): void {
+        if (value['template-id']) {
+            this.tempForm.get('template-id').setValue(value['template-id']);
+            this.tempForm.get('template-id')[ORIGINAL] = value['template-id'];
+        }
         if (value['display-name']) {
             this.tempForm.get('display-name').setValue(value['display-name']);
             this.tempForm.get('display-name')[ORIGINAL] = value['display-name'];

@@ -54,7 +54,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         RouterModule.forChild([
             { path: 'slice', component: SliceComponent },
             {
-                path: 'slice-edit/:ent-id/:site-id/:id',
+                path: 'slice-edit/:enterprise-id/:site-id/:id',
                 component: SliceEditComponent,
             },
             { path: 'slice-monitor/:id', component: SliceMonitorComponent },

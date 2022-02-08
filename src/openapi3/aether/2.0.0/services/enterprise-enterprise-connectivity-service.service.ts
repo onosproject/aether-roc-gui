@@ -10,7 +10,7 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { EnterpriseEnterpriseConnectivityService } from '../models/enterprise-enterprise-connectivity-service';
+import { EnterpriseConnectivityService } from '../models/enterprise-connectivity-service';
 
 @Injectable({
   providedIn: 'root',
@@ -54,7 +54,7 @@ export class EnterpriseEnterpriseConnectivityServiceService extends BaseService 
      * key {connectivity-service}
      */
     'connectivity-service': any;
-  }): Observable<StrictHttpResponse<EnterpriseEnterpriseConnectivityService>> {
+  }): Observable<StrictHttpResponse<EnterpriseConnectivityService>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterpriseEnterpriseConnectivityServiceService.GetEnterpriseEnterpriseConnectivityServicePath, 'get');
     if (params) {
@@ -69,7 +69,7 @@ export class EnterpriseEnterpriseConnectivityServiceService extends BaseService 
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<EnterpriseEnterpriseConnectivityService>;
+        return r as StrictHttpResponse<EnterpriseConnectivityService>;
       })
     );
   }
@@ -100,10 +100,10 @@ export class EnterpriseEnterpriseConnectivityServiceService extends BaseService 
      * key {connectivity-service}
      */
     'connectivity-service': any;
-  }): Observable<EnterpriseEnterpriseConnectivityService> {
+  }): Observable<EnterpriseConnectivityService> {
 
     return this.getEnterpriseEnterpriseConnectivityService$Response(params).pipe(
-      map((r: StrictHttpResponse<EnterpriseEnterpriseConnectivityService>) => r.body as EnterpriseEnterpriseConnectivityService)
+      map((r: StrictHttpResponse<EnterpriseConnectivityService>) => r.body as EnterpriseConnectivityService)
     );
   }
 

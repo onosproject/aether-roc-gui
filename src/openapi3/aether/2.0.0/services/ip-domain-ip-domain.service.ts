@@ -52,12 +52,12 @@ export class IpDomainIpDomainService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       site_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseSiteIpDomain>> {
@@ -104,12 +104,12 @@ export class IpDomainIpDomainService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       site_id: any;
   }): Observable<EnterpriseEnterpriseSiteIpDomain> {

@@ -7,13 +7,14 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title
-                >Virtual Cellular Service ID: {{ id }}</mat-card-title
+                >Virtual Cellular Service ID:
+                {{ this.sliceForm.get("slice-id").value }}</mat-card-title
             >
             <mat-icon
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/slice/slice-monitor/{{ id }}"
+                routerLink="/slice/slice-monitor/{{ sliceID }}"
                 id="monitorVcsButton"
                 >insights
             </mat-icon>
@@ -23,7 +24,7 @@
                 <mat-form-field class="half-width field-margin">
                     <input
                         matInput
-                        formControlName="id"
+                        formControlName="slice-id"
                         placeholder="Please specify an ID"
                         id="inputID"
                         required
@@ -51,51 +52,6 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
-
-            <!-- Enterprise Dropdown -->
-            <!--            <div class="row" id="enterpriseRow">-->
-            <!--                <mat-form-field class="field-margin half-width">-->
-            <!--                    <mat-select-->
-            <!--                        formControlName="enterprise"-->
-            <!--                        placeholder="Please specify an Enterprise"-->
-            <!--                        required-->
-            <!--                        id="selectEnterprise"-->
-            <!--                    >-->
-            <!--                        <mat-option-->
-            <!--                            *ngFor="let eachEnterprise of enterprises"-->
-            <!--                            [value]="eachEnterprise.id"-->
-            <!--                            >{{ eachEnterprise.id }}-->
-            <!--                            {{ eachEnterprise["display-name"] }}</mat-option-->
-            <!--                        >-->
-            <!--                    </mat-select>-->
-            <!--                    <mat-hint>Enterprise</mat-hint>-->
-            <!--                </mat-form-field>-->
-            <!--            </div>-->
-            <!--            Site dropdown-->
-            <!--            <div class="row">-->
-            <!--                <mat-form-field-->
-            <!--                    class="field-margin half-width subscriber-section"-->
-            <!--                >-->
-            <!--                    <mat-select-->
-            <!--                        ngDefaultControl-->
-            <!--                        formControlName="site"-->
-            <!--                        title="This field is mandatory."-->
-            <!--                        placeholder="Please specify a Site"-->
-            <!--                        (selectionChange)="OnSiteSelect()"-->
-            <!--                        id="selectSite"-->
-            <!--                        required-->
-            <!--                    >-->
-            <!--                        <mat-option *ngFor="let site of site" [value]="site.id"-->
-            <!--                            >{{ site.id }}-->
-            <!--                            <span *ngIf="site['display-name']">-->
-            <!--                                ({{ site["display-name"] }})</span-->
-            <!--                            >-->
-            <!--                        </mat-option>-->
-            <!--                    </mat-select>-->
-            <!--                    <mat-hint>Site</mat-hint>-->
-            <!--                </mat-form-field>-->
-            <!--            </div>-->
-
             <div class="row" *ngIf="isNewInstance">
                 <mat-form-field class="field-margin half-width">
                     <mat-select
@@ -213,9 +169,7 @@
                                 color="accent"
                                 [disabled]="
                                     !opaService.canWrite(
-                                        '/slice/slice[id=' +
-                                            id +
-                                            ']/application'
+                                        '/slice/slice[id={{sliceID}}]/application'
                                     )
                                 "
                                 (click)="
@@ -281,7 +235,7 @@
                             color="accent"
                             [disabled]="
                                 !opaService.canWrite(
-                                    '/slice/slice[id=' + id + ']/device-group'
+                                    '/slice/slice[id={{sliceID}}]/application'
                                 )
                             "
                             (click)="
@@ -414,9 +368,8 @@
                     [disabled]="
                         !(
                             sliceForm.valid &&
-                            sliceForm.value.id &&
                             sliceForm.touched &&
-                            opaService.canWrite('/slice/slice[id=' + id + ']')
+                            opaService.canWrite('/slice/slice[id={{sliceID}}]')
                         )
                     "
                 >

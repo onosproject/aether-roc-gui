@@ -51,12 +51,12 @@ export class DeviceGroupDeviceGroupService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       site_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseSiteDeviceGroup>> {
@@ -103,12 +103,12 @@ export class DeviceGroupDeviceGroupService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       site_id: any;
   }): Observable<EnterpriseEnterpriseSiteDeviceGroup> {

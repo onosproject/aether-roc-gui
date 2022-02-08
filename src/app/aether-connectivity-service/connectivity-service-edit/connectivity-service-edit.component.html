@@ -6,7 +6,10 @@
 <form [formGroup]="csForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Connectivity Service. ID: {{ id }}</mat-card-title>
+            <mat-card-title
+                >Connectivity Service. ID:
+                {{ connectivityServiceId }}</mat-card-title
+            >
             <mat-icon
                 *ngIf="!isNew"
                 (click)="showParentDisplay = true; $event.preventDefault()"

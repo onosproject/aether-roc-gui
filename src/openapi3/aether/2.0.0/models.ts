@@ -12,7 +12,7 @@ export { EnterpriseEnterpriseSiteDeviceGroup } from './models/enterprise-enterpr
 export { EnterpriseEnterpriseSiteDeviceGroupDevice } from './models/enterprise-enterprise-site-device-group-device'
 export { Enterprise } from './models/enterprise'
 export { EnterpriseEnterprise } from './models/enterprise-enterprise'
-export { EnterpriseEnterpriseConnectivityService } from './models/enterprise-enterprise-connectivity-service'
+export { EnterpriseConnectivityService } from './models/enterprise-connectivity-service'
 export { IpDomain } from './models/ip-domain'
 export { EnterpriseEnterpriseSiteIpDomain } from './models/enterprise-enterprise-site-ip-domain'
 export { Site } from './models/site'

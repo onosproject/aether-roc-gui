@@ -150,7 +150,7 @@ describe('SliceEditComponent', () => {
                         'traffic-class': 'test-traffic-2',
                     },
                 ],
-                'app-id': 'starbucks-nvr',
+                'application-id': 'starbucks-nvr',
             },
         ];
         component.setShowAddFilterButton();
@@ -195,7 +195,7 @@ describe('SliceEditComponent', () => {
                         'traffic-class': 'test-traffic-2',
                     },
                 ],
-                ['app-id']: 'starbucks-nvr',
+                ['application-id']: 'starbucks-nvr',
             },
         ];
         component.setShowAddFilterButton();
@@ -204,7 +204,7 @@ describe('SliceEditComponent', () => {
 
     describe('when selecting a template', () => {
         const template: EnterpriseEnterpriseTemplate = {
-            ['tp-id']: 'test-template',
+            ['template-id']: 'test-template',
             sd: 12, // FIXME the method fails if this value is not present
             mbr: {
                 'uplink-burst-size': 10,

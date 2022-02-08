@@ -23,7 +23,7 @@ export interface EnterpriseEnterpriseTemplate {
   /**
    * ID for template.
    */
-  'tp-id': string;
+  'template-id': string;
 
   /**
    * Slice differentiator

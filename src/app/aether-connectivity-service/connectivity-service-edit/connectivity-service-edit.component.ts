@@ -25,7 +25,7 @@ export class ConnectivityServiceEditComponent
     data: ConnectivityServiceConnectivityService;
 
     csForm = this.fb.group({
-        id: [
+        'connectivity-service-id': [
             undefined,
             Validators.compose([
                 Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -86,6 +86,13 @@ export class ConnectivityServiceEditComponent
     private populateFormData(
         value: ConnectivityServiceConnectivityService
     ): void {
+        if (value['connectivity-service-id']) {
+            this.csForm
+                .get('connectivity-service-id')
+                .setValue(value['connectivity-service-id']);
+            this.csForm.get('connectivity-service-id')[ORIGINAL] =
+                value['connectivity-service-id'];
+        }
         if (value['display-name']) {
             this.csForm.get('display-name').setValue(value['display-name']);
             this.csForm.get('display-name')[ORIGINAL] = value['display-name'];
@@ -115,7 +122,8 @@ export class ConnectivityServiceEditComponent
             .subscribe(
                 (value) => {
                     this.data = value;
-                    this.connectivityServiceId = value.id;
+                    this.connectivityServiceId =
+                        value['connectivity-service-id'];
                     this.populateFormData(value);
                 },
                 (error) => {

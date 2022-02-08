@@ -36,13 +36,13 @@
             <td mat-cell *matCellDef="let row">
                 <span
                     *ngIf="row['display-name'] !== undefined"
-                    [title]="row['app-id']"
+                    [title]="row['application-id']"
                     >{{ row["display-name"] }} <br /><small
-                        >({{ row["app-id"] }})</small
+                        >({{ row["application-id"] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
-                    row["app-id"]
+                    row["application-id"]
                 }}</span>
             </td>
         </ng-container>
@@ -63,7 +63,7 @@
                 Enterprise
             </th>
             <td mat-cell *matCellDef="let row">
-                {{ row.enterprise }}
+                {{ row["enterprise-id"] }}
                 <mat-icon
                     class="table_icon small_icon"
                     aria-hidden="false"
@@ -71,7 +71,7 @@
                     color="primary"
                     id="pointerEnterprise"
                     routerLink="/enterprise/enterprise-edit/{{
-                        row.enterprise
+                        row['enterprise-id']
                     }}"
                     >launch
                 </mat-icon>
@@ -121,9 +121,9 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/application/application-edit/{{ row['ent-id'] }}/{{
-                    row['app-id']
-                }}"
+                routerLink="/application/application-edit/{{
+                    row['enterprise-id']
+                }}/{{ row['application-id'] }}"
                 id="editButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
@@ -137,23 +137,25 @@
             </th>
             <td mat-cell *matCellDef="let row; let i = index">
                 <button
-                    *ngIf="checkForUsage(row['app-id'])"
+                    *ngIf="checkForUsage(row['application-id'])"
                     mat-icon-button
                     id="usageButton"
-                    (click)="showUsage(row['app-id'])"
+                    (click)="showUsage(row['application-id'])"
                     color="accent"
                 >
                     <mat-icon class="table_icon">assignment</mat-icon>
                 </button>
                 <button
-                    *ngIf="!checkForUsage(row['app-id'])"
+                    *ngIf="!checkForUsage(row['application-id'])"
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
-                            '/application/application[id=' + row['app-id'] + ']'
+                            '/application/application[id=' +
+                                row['application-id'] +
+                                ']'
                         )
                     "
-                    (click)="delete(row['app-id'])"
+                    (click)="delete(row['application-id'])"
                     color="accent"
                     id="deleteApplicationButton"
                 >
@@ -184,6 +186,6 @@
     *ngIf="showUsageCard"
     id="showVcsUsageComponent"
     [applicationID]="id"
-    (closeShowParentCardEvent)="closeShowParentCard($event)"
+    (closeShowParentCardEvent)="closeShowParentCard()"
 >
 </aether-show-vcs-usage>

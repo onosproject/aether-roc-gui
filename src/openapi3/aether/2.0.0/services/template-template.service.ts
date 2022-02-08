@@ -52,7 +52,7 @@ export class TemplateTemplateService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseTemplate>> {
@@ -99,7 +99,7 @@ export class TemplateTemplateService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
 

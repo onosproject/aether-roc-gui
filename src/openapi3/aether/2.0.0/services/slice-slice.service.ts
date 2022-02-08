@@ -50,12 +50,12 @@ export class SliceSliceService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       site_id: any;
   }): Observable<StrictHttpResponse<EnterpriseEnterpriseSiteSlice>> {
@@ -102,12 +102,12 @@ export class SliceSliceService extends BaseService {
     id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       ent_id: any;
 
       /**
-       * key {ent-id}
+       * key {enterprise-id}
        */
       site_id: any;
   }): Observable<EnterpriseEnterpriseSiteSlice> {
