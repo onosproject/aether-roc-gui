@@ -50,7 +50,7 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         RouterModule.forChild([
             { path: 'application', component: ApplicationComponent },
             {
-                path: 'application-edit/:ent-id/:id',
+                path: 'application-edit/:enterprise-id/:id',
                 component: ApplicationEditComponent,
             },
             { path: '', component: ApplicationComponent, pathMatch: 'full' },

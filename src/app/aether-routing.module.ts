@@ -73,7 +73,7 @@ const aetherRoutes: Routes = [
             ),
     },
     {
-        path: 'vcs',
+        path: 'slice',
         loadChildren: () =>
             import('./aether-slice/aether-slice.module').then(
                 (m) => m.AetherSliceModule

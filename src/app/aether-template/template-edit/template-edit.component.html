@@ -6,14 +6,17 @@
 <form [formGroup]="tempForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Template ID: {{ id }}</mat-card-title>
+            <mat-card-title
+                >Template ID:
+                {{ this.tempForm.get("template-id").value }}</mat-card-title
+            >
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
                 <mat-form-field class="half-width field-margin">
                     <input
                         matInput
-                        formControlName="id"
+                        formControlName="template-id"
                         placeholder="Please specify an ID"
                         id="inputID"
                     />
@@ -83,16 +86,16 @@
                     <mat-hint>SST (Slice/Service type 1-255)</mat-hint>
                 </mat-form-field>
             </div>
-            <div id="sliceMbrRow" class="subscriber-section">
-                <mat-hint>Slice Maximum bitrate</mat-hint>
-                <div [formGroup]="sliceMbrControls">
+            <div id="mbrRow" class="subscriber-section">
+                <mat-hint> Maximum bitrate</mat-hint>
+                <div [formGroup]="mbrControls">
                     <div class="row float-left" id="uplinkRow">
                         <mat-form-field class="field-margin">
                             <input
                                 matInput
                                 type="number"
                                 [matAutocomplete]="uplinkAuto"
-                                id="inputsliceUplink"
+                                id="inputUplink"
                                 formControlName="uplink"
                             />
                             <mat-autocomplete #uplinkAuto="matAutocomplete">
@@ -115,7 +118,7 @@
                                 matInput
                                 type="number"
                                 [matAutocomplete]="downlinkAuto"
-                                id="inputsliceDownlink"
+                                id="inputDownlink"
                                 formControlName="downlink"
                             />
                             <mat-autocomplete #downlinkAuto="matAutocomplete">
@@ -132,13 +135,13 @@
                             <mat-hint>Downlink (bps)</mat-hint>
                         </mat-form-field>
                     </div>
-                    <div class="row float-left" id="sliceUplinkBurstSizeRow">
+                    <div class="row float-left" id="UplinkBurstSizeRow">
                         <mat-form-field class="field-margin">
                             <input
                                 matInput
                                 type="number"
                                 [matAutocomplete]="burstauto"
-                                id="inputsliceUplinkBurstSize"
+                                id="inputUplinkBurstSize"
                                 formControlName="uplink-burst-size"
                             />
                             <mat-autocomplete #burstauto="matAutocomplete">
@@ -152,13 +155,13 @@
                             <mat-hint>Uplink Burst Size (bytes)</mat-hint>
                         </mat-form-field>
                     </div>
-                    <div class="row" id="sliceDownlinkBurstSizeRow">
+                    <div class="row" id="DownlinkBurstSizeRow">
                         <mat-form-field class="field-margin">
                             <input
                                 matInput
                                 type="number"
                                 [matAutocomplete]="burstauto"
-                                id="inputsliceDownlinkBurstSize"
+                                id="inputDownlinkBurstSize"
                                 formControlName="downlink-burst-size"
                             />
                             <mat-autocomplete #burstauto="matAutocomplete">

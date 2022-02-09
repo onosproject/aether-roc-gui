@@ -37,7 +37,7 @@ export interface EnterpriseEnterpriseSiteIpDomain {
   /**
    * ID for this ip domain.
    */
-  'ip-id': string;
+  'ip-domain-id': string;
 
   /**
    * maximum transmission unit

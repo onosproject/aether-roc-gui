@@ -33,7 +33,6 @@ export class DeviceGroupComponent
         'id',
         'description',
         'site',
-        // 'Imsis',
         'ip-domain',
         'device',
         'edit',
@@ -93,7 +92,7 @@ export class DeviceGroupComponent
             'device-group' in basketPreview[this.pathRoot]
         ) {
             ScopeOfDataSource.merge(
-                basketPreview['Device-group-2.0.0']['device-group'],
+                basketPreview['Enterprises-2.0.0'].site['device-group'],
                 [{ fieldName: 'imsis', idAttr: 'imsi-id' }]
             );
         }

@@ -205,11 +205,11 @@ export abstract class RocDataSource<
 
         basketData.forEach((updated) => {
             const existing: T = this.data.filter(
-                (e) => e['ent-id'] === updated['ent-id']
+                (e) => e['enterprise-id'] === updated['enterprise-id']
             )[0];
             if (!existing) {
                 console.warn(
-                    `Item with ID ${updated['ent-id']} does not exist in datasource ${this.pathRoot}`
+                    `Item with ID ${updated['enterprise-id']} does not exist in datasource ${this.pathRoot}`
                 );
                 return;
             }

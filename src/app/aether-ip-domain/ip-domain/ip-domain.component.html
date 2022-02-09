@@ -16,7 +16,7 @@
             id="addNewIPDomainButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/ip-domain/ip-domain/[ent-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
+                    '/ip-domain/ip-domain/[enterprise-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
                 )
             "
             routerLink="/ipdomain/ipdomain-edit/unknownent/unknownsite/newinstance"
@@ -38,13 +38,13 @@
             <td mat-cell *matCellDef="let row">
                 <span
                     *ngIf="row['display-name'] !== undefined"
-                    [title]="row['ip-id']"
+                    [title]="row['ip-domain-id']"
                     >{{ row["display-name"] }} <br /><small
-                        >({{ row["ip-id"] }})</small
+                        >({{ row["ip-domain-id"] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
-                    row["ip-id"]
+                    row["ip-domain-id"]
                 }}</span>
             </td>
         </ng-container>
@@ -65,13 +65,15 @@
                 Enterprise
             </th>
             <td mat-cell *matCellDef="let row">
-                {{ row["ent-id"] }}
+                {{ row["enterprise-id"] }}
                 <mat-icon
                     class="table_icon small_icon"
                     color="primary"
                     aria-hidden="false"
                     aria-label="Enterprise"
-                    routerLink="/enterprise/enterprise-edit/{{ row['ent-id'] }}"
+                    routerLink="/enterprise/enterprise-edit/{{
+                        row['enterprise-id']
+                    }}"
                     >launch
                 </mat-icon>
             </td>
@@ -123,7 +125,9 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/ipdomain/ipdomain-edit/{{ row['ip-id'] }}"
+                routerLink="/ipdomain/ipdomain-edit/{{
+                    row['enterprise-id']
+                }}/{{ row['site-id'] }}/{{ row['ip-domain-id'] }}"
                 id="editButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
@@ -137,24 +141,24 @@
             </th>
             <td mat-cell *matCellDef="let row">
                 <button
-                    *ngIf="!checkForUsage(row['ip-id'])"
+                    *ngIf="!checkForUsage(row['ip-domain-id'])"
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
                             '/ipdomain/ipdomain[id=' + row.id + ']'
                         )
                     "
-                    (click)="delete(row['ip-id'])"
+                    (click)="delete(row['ip-domain-id'])"
                     color="accent"
                     id="deleteButton"
                 >
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
                 <button
-                    *ngIf="checkForUsage(row['ip-id'])"
+                    *ngIf="checkForUsage(row['ip-domain-id'])"
                     mat-icon-button
                     id="usageButton"
-                    (click)="showUsage(row['ip-id'])"
+                    (click)="showUsage(row['ip-domain-id'])"
                     color="accent"
                 >
                     <mat-icon class="table_icon">assignment</mat-icon>

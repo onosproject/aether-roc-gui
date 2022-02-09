@@ -6,7 +6,10 @@
 <form [formGroup]="upfForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>User Plane Function ID: {{ id }}</mat-card-title>
+            <mat-card-title
+                >User Plane Function ID:
+                {{ this.upfForm.get("upf-id").value }}</mat-card-title
+            >
             <mat-icon
                 *ngIf="!isNew"
                 (click)="showParentDisplay = true; $event.preventDefault()"
@@ -22,7 +25,7 @@
                 <mat-form-field class="half-width field-margin">
                     <input
                         matInput
-                        formControlName="id"
+                        formControlName="upf-id"
                         placeholder="Please specify an ID"
                         id="inputID"
                     />
@@ -47,50 +50,6 @@
                         id="inputDescription"
                     ></textarea>
                     <mat-hint>Description</mat-hint>
-                </mat-form-field>
-            </div>
-            <div class="row" id="enterpriseRow">
-                <mat-form-field
-                    class="field-margin half-width subscriber-section"
-                >
-                    <mat-select
-                        ngDefaultControl
-                        formControlName="enterprise"
-                        placeholder="Please specify an Enterprise"
-                        id="selectEnterprise"
-                    >
-                        <mat-option
-                            *ngFor="let ent of enterprises"
-                            [value]="ent.id"
-                            >{{ ent.id }}
-                            <span *ngIf="ent['display-name']">
-                                ({{ ent["display-name"] }})</span
-                            >
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint>Enterprise</mat-hint>
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <mat-form-field
-                    class="field-margin half-width subscriber-section"
-                >
-                    <mat-select
-                        ngDefaultControl
-                        formControlName="site"
-                        title="This field is mandatory."
-                        placeholder="Please specify a Site"
-                        id="selectSite"
-                        required
-                    >
-                        <mat-option *ngFor="let site of site" [value]="site.id"
-                            >{{ site.id }}
-                            <span *ngIf="site['display-name']">
-                                ({{ site["display-name"] }})</span
-                            >
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint>Site</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row" id="configEndpointRow">
@@ -137,7 +96,6 @@
                 [disabled]="
                     !(
                         upfForm.valid &&
-                        upfForm.value.id &&
                         upfForm.touched &&
                         opaService.canWrite('/upf/upf')
                     )

@@ -6,12 +6,19 @@
 <form [formGroup]="deviceGroupForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Device Group ID: {{ id }}</mat-card-title>
+            <mat-card-title
+                >Device Group ID:
+                {{
+                    this.deviceGroupForm.get("device-group-id").value
+                }}</mat-card-title
+            >
             <mat-icon
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/devicegroups/devicegroups-monitor/{{ id }}"
+                routerLink="/devicegroups/devicegroups-monitor/{{
+                    deviceGroupId
+                }}"
                 id="monitorDgButton"
                 >insights
             </mat-icon>
@@ -30,7 +37,7 @@
                 <mat-form-field class="half-width field-margin">
                     <input
                         matInput
-                        formControlName="id"
+                        formControlName="device-group-id"
                         placeholder="Please specify an ID"
                         title="This field is mandatory."
                         id="inputID"
@@ -65,34 +72,13 @@
                 >
                     <mat-select
                         ngDefaultControl
-                        formControlName="site"
-                        title="This field is mandatory."
-                        placeholder="Please specify a Site"
-                        (selectionChange)="displayImsiAdd()"
-                        id="selectSite"
-                        required
-                    >
-                        <mat-option *ngFor="let site of site" [value]="site.id"
-                            >{{ site.id }}
-                            <span *ngIf="site['display-name']">
-                                ({{ site["display-name"] }})</span
-                            >
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint>Site</mat-hint>
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <mat-form-field
-                    class="field-margin half-width subscriber-section"
-                >
-                    <mat-select
-                        ngDefaultControl
                         formControlName="ip-domain"
                         id="selectIpDomain"
                     >
-                        <mat-option *ngFor="let ip of ipdomain" [value]="ip.id"
-                            >{{ ip.id }}
+                        <mat-option
+                            *ngFor="let ip of ipdomain"
+                            [value]="ip['ip-domain-id']"
+                            >{{ ip["ip-domain-id"] }}
                             <span *ngIf="ip['display-name']">
                                 ({{ ip["display-name"] }})</span
                             >
@@ -102,16 +88,16 @@
                 </mat-form-field>
             </div>
 
-            <div id="deviceMbrRow">
-                <mat-hint>Device Maximum bitrate</mat-hint>
-                <div [formGroup]="deviceMbrControls">
+            <div id="mbrRow">
+                <mat-hint>Maximum bitrate</mat-hint>
+                <div [formGroup]="mbrControls">
                     <div class="row float-left" id="uplinkRow">
                         <mat-form-field class="field-margin">
                             <input
                                 matInput
                                 type="number"
                                 [matAutocomplete]="auto"
-                                id="inputDeviceUplink"
+                                id="inputMbrUplink"
                                 formControlName="uplink"
                             />
                             <mat-autocomplete #auto="matAutocomplete">
@@ -134,7 +120,7 @@
                                 matInput
                                 type="number"
                                 [matAutocomplete]="auto"
-                                id="inputDeviceDownlink"
+                                id="inputMbrDownlink"
                                 formControlName="downlink"
                             />
                             <mat-autocomplete #auto="matAutocomplete">
@@ -152,11 +138,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div
-                    [formGroup]="deviceTrafficClassControls"
-                    class="row"
-                    id="trafficClassnRow"
-                >
+                <div [formGroup]="mbrControls" class="row" id="trafficClassRow">
                     <mat-form-field class="half-width subscriber-section">
                         <mat-select
                             formControlName="traffic-class"
@@ -164,96 +146,14 @@
                         >
                             <mat-option
                                 *ngFor="let tc of trafficClass"
-                                [value]="tc.id"
-                                >{{ tc.id }}
-                                {{ tc["traffic-class"] }}</mat-option
-                            >
+                                [value]="tc['traffic-class-id']"
+                                >{{ tc["traffic-class-id"] }}
+                            </mat-option>
                         </mat-select>
                         <mat-hint>Traffic Class</mat-hint>
                     </mat-form-field>
                 </div>
             </div>
-
-            <div formArrayName="imsis" class="subscriber-section">
-                <mat-hint>UE IDs</mat-hint>
-                <mat-icon
-                    *ngIf="showAddImsi"
-                    (click)="this.showImsiDisplay = true"
-                    id="addNewExistingAccessProfile"
-                    color="accent"
-                    class="subscriber-pointer"
-                    >add
-                </mat-icon>
-                <mat-icon
-                    id="IMSIinfo"
-                    color="accent"
-                    [matTooltip]="fetchTooltipContent()"
-                    class="subscriber-pointer"
-                    >info
-                </mat-icon>
-                <div *ngFor="let imsiForm of imsiControls.controls">
-                    <div
-                        [formGroup]="imsiForm"
-                        [id]="imsiForm.value['imsi-id']"
-                    >
-                        <mat-form-field class="field-margin">
-                            <input
-                                matInput
-                                formControlName="imsi-id"
-                                id="inputImsiId"
-                                readonly
-                            />
-                            <mat-hint>IMSI ID</mat-hint>
-                        </mat-form-field>
-                        <mat-form-field class="field-margin">
-                            <input
-                                matInput
-                                formControlName="display-name"
-                                id="inputIMSIDisplayName"
-                            />
-                            <mat-hint>IMSI Name</mat-hint>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <input
-                                matInput
-                                formControlName="imsi-range-from"
-                                type="number"
-                                id="inputImsiRangeFrom"
-                            />
-                            <mat-hint>ID Range Start</mat-hint>
-                        </mat-form-field>
-                        <mat-form-field>
-                            <input
-                                matInput
-                                formControlName="imsi-range-to"
-                                type="number"
-                                id="inputImsiRangeTo"
-                            />
-                            <mat-hint>ID Range End</mat-hint>
-                        </mat-form-field>
-                        <button
-                            mat-icon-button
-                            color="accent"
-                            id="deleteExistingAccessProfileButton"
-                            [disabled]="
-                                !opaService.canWrite(
-                                    '/devicegroups/devicegroups-edit[id=' +
-                                        id +
-                                        ']/imsis'
-                                )
-                            "
-                            (click)="
-                                deleteFromSelect(imsiForm.value['imsi-id'])
-                            "
-                        >
-                            <mat-icon class="pad-left subscriber-pointer"
-                                >delete</mat-icon
-                            >
-                        </button>
-                    </div>
-                </div>
-            </div>
-
             <mat-card-actions>
                 <button
                     mat-raised-button
@@ -275,21 +175,10 @@
         </mat-card-content>
     </mat-card>
 </form>
-<aether-imsis-select
-    *ngIf="
-        showImsiDisplay &&
-        opaService.canWrite('/devicegroup/devicegroup[id=' + id + ']/imsis')
-    "
-    id="imsiSelectComponent"
-    [OtherImsi]="imsis"
-    [ImisLengthLimits]="SiteImisLength"
-    (closeEvent)="imsiSelectCardClosed($event)"
->
-</aether-imsis-select>
 <aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
     [deviceGroupID]="deviceGroupId"
-    (closeShowParentCardEvent)="closeShowParentCard($event)"
+    (closeShowParentCardEvent)="closeShowParentCard()"
 >
 </aether-show-vcs-usage>

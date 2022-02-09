@@ -15,7 +15,7 @@
             id="addNewUpfButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/upf/upf/[ent-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
+                    '/upf/upf/[enterprise-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
                 )
             "
             routerLink="/upf/upf-edit/unknownent/unknownsite/newinstance"
@@ -126,29 +126,12 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/upf/upf-edit/{{ row['ent-id'] }}/{{
+                routerLink="/upf/upf-edit/{{ row['enterprise-id'] }}/{{
                     row['site-id']
                 }}/{{ row['upf-id'] }}"
                 id="editUpfButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
-            </td>
-        </ng-container>
-
-        <!-- Monitor Column -->
-        <ng-container matColumnDef="monitor" id="monitorColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                Monitor
-            </th>
-            <td
-                mat-cell
-                *matCellDef="let row"
-                routerLink="/upf/upf-monitor/{{ row['upf-id'] }}"
-                id="monitorUpfButton"
-            >
-                <mat-icon class="table_icon small_icon" color="accent"
-                    >insights</mat-icon
-                >
             </td>
         </ng-container>
 

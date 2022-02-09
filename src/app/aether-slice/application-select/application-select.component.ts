@@ -5,16 +5,14 @@
  */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import {
-    ApplicationApplicationService,
-    Service,
-} from 'src/openapi3/aether/4.0.0/services';
+import { Service } from 'src/openapi3/aether/2.0.0/services';
 import {
     Application,
-    ApplicationApplication,
-} from '../../../openapi3/aether/4.0.0/models';
+    EnterpriseEnterpriseApplication,
+} from '../../../openapi3/aether/2.0.0/models';
 import { RocSelectBase } from '../../roc-select-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ApplicationApplicationService } from '../../../openapi3/aether/2.0.0/services/application-application.service';
 
 export interface SelectAppParam {
     application: string;
@@ -32,7 +30,7 @@ export class ApplicationSelectComponent
 {
     closeEvent: EventEmitter<string>;
     SliceApplicationEndpointLimit = 5;
-    ApplicationOptions: Array<ApplicationApplication> = [];
+    ApplicationOptions: Array<EnterpriseEnterpriseApplication> = [];
     selectForm = this.fb.group({
         'select-item': [
             undefined,
@@ -51,7 +49,8 @@ export class ApplicationSelectComponent
         ],
     });
     @Input() alreadySelected: string[] = [];
-    @Input() applicationList: Array<ApplicationApplication> = ([] = []);
+    @Input() applicationList: Array<EnterpriseEnterpriseApplication> = ([] =
+        []);
     @Output() appcloseEvent = new EventEmitter<SelectAppParam>();
 
     constructor(
@@ -66,7 +65,9 @@ export class ApplicationSelectComponent
         if (this.alreadySelected.length !== 0) {
             const alreadySelectedAppArray = this.applicationList?.filter(
                 (eachApplication) =>
-                    this.alreadySelected.includes(eachApplication.id)
+                    this.alreadySelected.includes(
+                        eachApplication['application-id']
+                    )
             );
             alreadySelectedAppArray?.forEach((application) => {
                 this.SliceApplicationEndpointLimit =
@@ -75,7 +76,9 @@ export class ApplicationSelectComponent
             });
         }
         this.applicationList?.forEach((eachApplication) => {
-            const exists = this.alreadySelected.indexOf(eachApplication.id);
+            const exists = this.alreadySelected.indexOf(
+                eachApplication['application-id']
+            );
             if (
                 exists === -1 &&
                 eachApplication.endpoint.length <=

@@ -15,7 +15,7 @@
             id="addNewSliceButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/slice/slice/[ent-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
+                    '/slice/slice/[enterprise-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
                 )
             "
             routerLink="/slice/slice-edit/unknownent/unknownsite/newinstance"
@@ -117,10 +117,10 @@
             </td>
         </ng-container>
 
-        <!-- slice MBR Column -->
-        <ng-container matColumnDef="slice" id="slicevMbrColumn">
+        <!-- MBR Column -->
+        <ng-container matColumnDef="mbr" id="slicevMbrColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                Slice MBR
+                MBR
             </th>
             <td
                 [style]="
@@ -131,13 +131,13 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <p *ngIf="row.slice && row.slice.mbr">
+                <p *ngIf="row.mbr">
                     <mat-icon class="small_icon">arrow_upward</mat-icon
-                    >{{ row.slice.mbr.uplink }}
+                    >{{ row.mbr.uplink }}
                 </p>
-                <p *ngIf="row.slice && row.slice.mbr">
+                <p *ngIf="row.mbr">
                     <mat-icon class="small_icon">arrow_downward</mat-icon
-                    >{{ row.slice.mbr.downlink }}
+                    >{{ row.mbr.downlink }}
                 </p>
             </td>
         </ng-container>
@@ -156,14 +156,16 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                {{ row["ent-id"] }}
+                {{ row["enterprise-id"] }}
                 <mat-icon
                     class="table_icon small_icon"
                     color="primary"
                     aria-hidden="false"
                     aria-label="Enterprise"
                     id="pointerConnectivityService"
-                    routerLink="/enterprise/enterprise-edit/{{ row['ent-id'] }}"
+                    routerLink="/enterprise/enterprise-edit/{{
+                        row['enterprise-id']
+                    }}"
                     >launch</mat-icon
                 >
             </td>
@@ -303,7 +305,9 @@
                 "
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/slice/slice-edit/{{ row['slice-id'] }}"
+                routerLink="/slice/slice-edit/{{ row['enterprise-id'] }}/{{
+                    row['site-id']
+                }}/{{ row['slice-id'] }}"
                 id="editSliceButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>

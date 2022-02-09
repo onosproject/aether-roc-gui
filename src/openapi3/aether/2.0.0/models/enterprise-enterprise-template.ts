@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
-import { EnterpriseEnterpriseTemplateSlice } from './enterprise-enterprise-template-slice';
+import {EnterpriseEnterpriseTemplateSliceMbr} from "./enterprise-enterprise-template-slice-mbr";
 export interface EnterpriseEnterpriseTemplate {
 
   /**
@@ -23,18 +23,18 @@ export interface EnterpriseEnterpriseTemplate {
   /**
    * ID for template.
    */
-  'tp-id': string;
+  'template-id': string;
 
   /**
    * Slice differentiator
    */
   sd?: number;
-  slice?: EnterpriseEnterpriseTemplateSlice;
+  mbr?: EnterpriseEnterpriseTemplateSliceMbr;
 
   /**
    * Slice/Service type
    */
   sst?: number;
 
-  [key: string]: AdditionalPropertyUnchanged | EnterpriseEnterpriseTemplateSlice | number | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | EnterpriseEnterpriseTemplateSliceMbr | number | string | undefined;
 }

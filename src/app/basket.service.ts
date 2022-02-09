@@ -88,14 +88,12 @@ export class BasketService {
     ): ChangeResult {
         // Path is either '/' if undefined == true or '/' + parent if false
         const path = parent === undefined ? '/' : '/' + parent;
-
         if (abstractControl instanceof FormGroup) {
             let unchangedUpdate: string[] = [];
             let unchangedDelete: string[] = [];
             if (abstractControl[REQDATTRIBS]) {
                 unchangedUpdate.push(...abstractControl[REQDATTRIBS]);
                 unchangedDelete.push(...abstractControl[REQDATTRIBS]);
-                // console.log(parent, 'Required', unchangedUpdate, unchangedDelete);
             }
             Object.keys(abstractControl.controls).forEach((key: string) => {
                 const changed = this.logKeyValuePairs(
@@ -225,11 +223,11 @@ export class BasketService {
         // TODO - Add change-name-100 back
 
         const patchBody = {
-            'default-target': 'connectivity-service-v4',
+            'default-target': 'connectivity-service-v2',
             Updates: {},
             Deletes: {},
             Extensions: {
-                'model-version-101': '4.0.0',
+                'model-version-101': '2.0.0',
                 'model-type-102': 'Aether',
             },
         };

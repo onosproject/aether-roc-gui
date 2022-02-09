@@ -52,7 +52,10 @@ import { SiteMonitorComponent } from './site-monitor/site-monitor.component';
         HttpClientModule,
         RouterModule.forChild([
             { path: 'site', component: SiteComponent },
-            { path: 'site-edit/:ent-id/:id', component: SiteEditComponent },
+            {
+                path: 'site-edit/:enterprise-id/:id',
+                component: SiteEditComponent,
+            },
             { path: 'site-monitor/:id', component: SiteMonitorComponent },
             { path: '', component: SiteComponent, pathMatch: 'full' },
         ]),

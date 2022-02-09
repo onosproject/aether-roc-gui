@@ -38,7 +38,6 @@ export class UpfComponent
         'config-endpoint',
         'port',
         'edit',
-        'monitor',
         'usage/delete',
     ];
 
