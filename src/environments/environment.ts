@@ -1,7 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
  *
- * SPDX-License-Identifier: LicenseRef-ONF-Member-1.0
+ * SPDX-License-Identifier: Apache-2.0
  */
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
