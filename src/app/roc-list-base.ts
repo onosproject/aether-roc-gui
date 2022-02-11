@@ -40,6 +40,8 @@ export abstract class RocListBase<
                     '/' +
                     this.pathListAttr +
                     '[' +
+                    this.pathListAttr +
+                    '-' +
                     this.indexAttr +
                     '=' +
                     id +
@@ -53,6 +55,8 @@ export abstract class RocListBase<
                 '/' +
                 this.pathListAttr +
                 '[' +
+                this.pathListAttr +
+                '-' +
                 this.indexAttr +
                 '=' +
                 id +

@@ -155,7 +155,12 @@
                                 ']'
                         )
                     "
-                    (click)="delete(row['application-id'])"
+                    (click)="
+                        deleteApplication(
+                            row['application-id'],
+                            row['enterprise-id']
+                        )
+                    "
                     color="accent"
                     id="deleteApplicationButton"
                 >

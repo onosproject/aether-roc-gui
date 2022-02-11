@@ -15,6 +15,7 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import * as _ from 'lodash';
 import { EnterpriseEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-ip-domain';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-ip-domain',
@@ -90,6 +91,16 @@ export class IpDomainComponent
                 basketPreview['Ip-domain-2.0.0']['ip-domain']
             );
         }
+    }
+
+    deleteIpDoamin(id: string, enterpriseID: string, siteID: string): void {
+        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
+            '[enterprise-id=' +
+            enterpriseID +
+            '[site-id=' +
+            siteID +
+            ']') as RocElement;
+        this.delete(id);
     }
 
     ngAfterViewInit(): void {

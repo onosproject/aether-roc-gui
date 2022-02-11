@@ -148,7 +148,13 @@
                             '/ipdomain/ipdomain[id=' + row.id + ']'
                         )
                     "
-                    (click)="delete(row['ip-domain-id'])"
+                    (click)="
+                        deleteIpDoamin(
+                            row['ip-domain-id'],
+                            row['enterprise-id'],
+                            row['site-id']
+                        )
+                    "
                     color="accent"
                     id="deleteButton"
                 >

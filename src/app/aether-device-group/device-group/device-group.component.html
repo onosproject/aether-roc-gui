@@ -158,7 +158,13 @@
                             '/devicegroup/devicegroup[id=' + row.id + ']'
                         )
                     "
-                    (click)="delete(row.id)"
+                    (click)="
+                        deleteDeviceGroup(
+                            row.id,
+                            row['enterprise-id'],
+                            row['site-id']
+                        )
+                    "
                     color="accent"
                     id="deleteDeviceGroupButton"
                 >

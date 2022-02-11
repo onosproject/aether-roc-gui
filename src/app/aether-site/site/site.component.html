@@ -159,7 +159,7 @@
                             '/site/site[id=' + row['site-id'] + ']'
                         )
                     "
-                    (click)="delete(row['site-id'])"
+                    (click)="deleteSite(row['site-id'], row['entreprise-id'])"
                     color="accent"
                     id="deleteSiteButton"
                 >

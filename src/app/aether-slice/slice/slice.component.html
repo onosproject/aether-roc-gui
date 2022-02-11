@@ -339,7 +339,13 @@
                             '/slice/slice[id=' + row['slice-id'] + ']'
                         )
                     "
-                    (click)="deleteSlice(row['slice-id'])"
+                    (click)="
+                        deleteSlice(
+                            row['slice-id'],
+                            row['enterprise-id'],
+                            row['site-id']
+                        )
+                    "
                     color="accent"
                     id="deleteSliceButton"
                 >

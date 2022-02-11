@@ -168,7 +168,13 @@
                             '/upf/upf[id=' + row['upf-id'] + ']'
                         )
                     "
-                    (click)="delete(row['upf-id'])"
+                    (click)="
+                        deleteUpf(
+                            row['upf-id'],
+                            row['enterprise-id'],
+                            row['site-id']
+                        )
+                    "
                     color="accent"
                     id="deleteUpfButton"
                 >

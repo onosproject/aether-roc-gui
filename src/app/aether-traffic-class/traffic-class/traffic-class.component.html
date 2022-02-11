@@ -57,6 +57,27 @@
             </td>
         </ng-container>
 
+        <!-- Enterprise Column -->
+        <ng-container matColumnDef="enterprise" id="EnterpriseColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Enterprise
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row["enterprise-id"] }}
+                <mat-icon
+                    class="table_icon small_icon"
+                    aria-hidden="false"
+                    aria-label="Enterprise"
+                    color="primary"
+                    id="pointerEnterprise"
+                    routerLink="/enterprise/enterprise-edit/{{
+                        row['enterprise-id']
+                    }}"
+                    >launch
+                </mat-icon>
+            </td>
+        </ng-container>
+
         <!-- PELR Column -->
         <ng-container matColumnDef="pelr" id="pelrColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>PELR</th>
@@ -123,7 +144,12 @@
                                 ']'
                         )
                     "
-                    (click)="delete(row['traffic-class-id'])"
+                    (click)="
+                        deleteTrafficClass(
+                            row['traffic-class-id'],
+                            row['enterprise-id']
+                        )
+                    "
                     color="accent"
                     id="deleteTrafficClassButton"
                 >

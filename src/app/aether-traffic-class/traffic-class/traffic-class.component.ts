@@ -15,6 +15,7 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import * as _ from 'lodash';
 import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-traffic-class';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-traffic-class',
@@ -32,6 +33,7 @@ export class TrafficClassComponent
     displayedColumns = [
         'id',
         'description',
+        'enterprise',
         'pelr',
         'pdb',
         'arp',
@@ -105,6 +107,14 @@ export class TrafficClassComponent
                 basketPreview['Traffic-class-2.0.0']['traffic-class']
             );
         }
+    }
+
+    deleteTrafficClass(id: string, enterpriseID: string): void {
+        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
+            '[enterprise-id=' +
+            enterpriseID +
+            ']') as RocElement;
+        this.delete(id);
     }
 
     ngAfterViewInit(): void {

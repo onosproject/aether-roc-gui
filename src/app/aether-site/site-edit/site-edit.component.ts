@@ -460,7 +460,9 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
 
     deleteFromSelect(sc: string): void {
         this.bs.deleteIndexedEntry(
-            '/Site-2.0.0/site[id=' +
+            '/Enterprises-2.0.0/enterprise[enterprise-id=' +
+                this.route.snapshot.params['enterprise-id'] +
+                '/site[site-id=' +
                 this.siteId +
                 ']/small-cell[small-cell-id=' +
                 sc +
@@ -483,7 +485,10 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
 
     deleteEDFromSelect(ed: string): void {
         this.bs.deleteIndexedEntry(
-            '/Site-2.0.0/site[id=' +
+            '/Enterprises-2.0.0/enterprise' +
+                '[enterprise-id=' +
+                this.route.snapshot.params['enterprise-id'] +
+                '/site[site-id=' +
                 this.siteId +
                 ']/monitoring/edge-device[edge-device-id=' +
                 ed +
@@ -508,7 +513,12 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
 
     private edmap(ed: string): Map<string, string> {
         const edMap = new Map<string, string>();
-        const siteId = '/Site-2.0.0/site[id=' + this.siteId + ']';
+        const siteId =
+            '/Enterprises-2.0.0/enterprise[enterprise-id=' +
+            this.route.snapshot.params['enterprise-id'] +
+            '/site[id=' +
+            this.siteId +
+            ']';
         let parentUc = localStorage.getItem(siteId);
         if (parentUc === null) {
             parentUc = this.siteForm[REQDATTRIBS];
@@ -535,7 +545,12 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
 
     private ucmap(sc: string): Map<string, string> {
         const ucMap = new Map<string, string>();
-        const siteId = '/Site-2.0.0/site[id=' + this.siteId + ']';
+        const siteId =
+            '/Enterprises-2.0.0/enterprise[enterprise-id=' +
+            this.route.snapshot.params['enterprise-id'] +
+            'site[id=' +
+            this.siteId +
+            ']';
         let parentUc = localStorage.getItem(siteId);
         if (parentUc === null) {
             parentUc = this.siteForm[REQDATTRIBS];

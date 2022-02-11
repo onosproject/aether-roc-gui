@@ -15,6 +15,7 @@ import { RocListBase } from '../../roc-list-base';
 import { TemplateDatasource } from './template-datasource';
 import { HexPipe } from '../../utils/hex.pipe';
 import { EnterpriseEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-template';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-template',
@@ -33,6 +34,7 @@ export class TemplateComponent
     displayedColumns = [
         'id',
         'description',
+        'enterprise',
         'sd',
         'sst',
         'default-behavior',
@@ -68,6 +70,14 @@ export class TemplateComponent
         ) {
             ScopeOfDataSource.merge(basketPreview['Template-2.0.0'].template);
         }
+    }
+
+    deleteTemplate(id: string, enterpriseID: string): void {
+        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
+            '[enterprise-id=' +
+            enterpriseID +
+            ']') as RocElement;
+        this.delete(id);
     }
 
     ngAfterViewInit(): void {
