@@ -190,7 +190,9 @@
                     aria-hidden="false"
                     aria-label="Site"
                     id="pointerSite"
-                    routerLink="/site/site-edit/{{ row['site-id'] }}"
+                    routerLink="/site/site-edit/{{ row['enterprise-id'] }}/{{
+                        row['site-id']
+                    }}"
                     >launch
                 </mat-icon>
             </td>
@@ -223,8 +225,8 @@
                         color="primary"
                         id="pointerDeviceGroup"
                         routerLink="/devicegroups/devicegroups-edit/{{
-                            dg['device-group']
-                        }}"
+                            row['enterprise-id']
+                        }}/{{ row['site-id'] }}/{{ dg['device-group'] }}"
                         >launch</mat-icon
                     >
                 </p>
@@ -286,7 +288,9 @@
                     aria-hidden="false"
                     aria-label="Upf"
                     id="pointerUpf"
-                    routerLink="/upf/upf-edit/{{ row.upf }}"
+                    routerLink="/upf/upf-edit/{{ row['enterprise-id'] }}/{{
+                        row['site-id']
+                    }}/{{ row.upf }}"
                     >launch</mat-icon
                 >
             </td>

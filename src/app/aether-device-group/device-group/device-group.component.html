@@ -68,7 +68,9 @@
                     aria-hidden="false"
                     aria-label="Site"
                     id="pointerSite"
-                    routerLink="/site/site-edit/{{ row['site-id'] }}"
+                    routerLink="/site/site-edit/{{ row['enterprise-id'] }}/{{
+                        row['site-id']
+                    }}"
                     >launch
                 </mat-icon>
             </td>
@@ -86,7 +88,9 @@
                     aria-hidden="false"
                     aria-label="Network"
                     id="pointerIPDomain"
-                    routerLink="/ipdomain/ipdomain-edit/{{ row['ip-domain'] }}"
+                    routerLink="/ipdomain/ipdomain-edit/{{
+                        row['enterprise-id']
+                    }}/{{ row['site-id'] }}/{{ row['ip-domain'] }}"
                     >launch
                 </mat-icon>
             </td>

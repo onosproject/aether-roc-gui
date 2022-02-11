@@ -33,6 +33,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UpfEditComponent } from './upf-edit/upf-edit.component';
 import { UtilsModule } from '../utils/utils.module';
 import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
+// import { UpfMonitorComponent } from './upf-monitor/upf-monitor.component';
 
 @NgModule({
     declarations: [UpfComponent, UpfEditComponent, ShowVcsUsageComponent],
@@ -46,6 +47,7 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
                 path: 'upf-edit/:enterprise-id/:site-id/:id',
                 component: UpfEditComponent,
             },
+            // { path: 'upf-monitor/:id', component: UpfMonitorComponent },
             { path: '', component: UpfComponent, pathMatch: 'full' },
         ]),
         MatToolbarModule,

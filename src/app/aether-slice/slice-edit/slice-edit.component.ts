@@ -23,12 +23,14 @@ import {
 import { HexPipe } from '../../utils/hex.pipe';
 import { SelectAppParam } from '../application-select/application-select.component';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
-import { EnterpriseEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-device-group';
-import { EnterpriseEnterpriseApplication } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-application';
-import { EnterpriseEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-template';
-import { EnterpriseEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-upf';
+import {
+    EnterpriseEnterpriseSiteDeviceGroup,
+    EnterpriseEnterpriseApplication,
+    EnterpriseEnterpriseTemplate,
+    EnterpriseEnterpriseSiteUpf,
+    EnterpriseEnterpriseSiteSlice,
+} from '../../../openapi3/aether/2.0.0/models';
 import { SliceSliceService } from '../../../openapi3/aether/2.0.0/services/slice-slice.service';
-import { EnterpriseEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-slice';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -50,6 +52,8 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     showAddFilterButton = true;
     EndpointLeft = 5;
     sliceID: string;
+    enterpriseID: string;
+    siteID: string;
     deviceGroups: Array<EnterpriseEnterpriseSiteDeviceGroup>;
     applications: Array<EnterpriseEnterpriseApplication>;
     templates: Array<EnterpriseEnterpriseTemplate>;
@@ -195,6 +199,8 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     }
 
     ngOnInit(): void {
+        this.enterpriseID = this.route.snapshot.params['enterprise-id'];
+        this.siteID = this.route.snapshot.params['site-id'];
         super.init();
         if (this.isNewInstance) {
             this.sliceForm
@@ -361,8 +367,8 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             .getSliceSlice({
                 target,
                 id,
-                ent_id: this.route.snapshot.params['enterprise-id'],
-                site_id: this.route.snapshot.params['site-id'],
+                ent_id: this.enterpriseID,
+                site_id: this.siteID,
             })
             .subscribe(
                 (value) => {
@@ -387,7 +393,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                             (enterpriseBasketItems) => {
                                 if (
                                     enterpriseBasketItems['enterprise-id'] ===
-                                    this.route.snapshot.params['enterprise-id']
+                                    this.enterpriseID
                                 ) {
                                     enterpriseBasketItems.site.forEach(
                                         (SitebasketItems) => {

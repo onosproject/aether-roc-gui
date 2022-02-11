@@ -39,6 +39,7 @@ export class UpfComponent
         'port',
         'edit',
         'usage/delete',
+        'monitor',
     ];
 
     constructor(

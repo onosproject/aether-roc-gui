@@ -138,9 +138,9 @@ export class ConnectivityServiceEditComponent
                     if (
                         this.pathRoot in basketPreview &&
                         this.pathListAttr in
-                            basketPreview['Connectivity-service-2.0.0']
+                            basketPreview['Connectivity-services-2.0.0']
                     ) {
-                        basketPreview['Connectivity-service-2.0.0'][
+                        basketPreview['Connectivity-services-2.0.0'][
                             'connectivity-service'
                         ].forEach((basketItems) => {
                             if (basketItems.id === id) {

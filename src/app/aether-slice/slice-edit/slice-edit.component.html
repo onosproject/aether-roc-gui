@@ -159,8 +159,8 @@
                                 aria-hidden="false"
                                 aria-label="Application"
                                 routerLink="/application/application-edit/{{
-                                    appForm.value.application
-                                }}"
+                                    enterpriseID
+                                }}/{{ appForm.value.application }}"
                                 id="pointerApplication"
                                 >launch
                             </mat-icon>
@@ -222,6 +222,8 @@
                                 aria-hidden="false"
                                 aria-label="device-group"
                                 routerLink="/devicegroups/devicegroups-edit/{{
+                                    enterpriseID
+                                }}/{{ siteID }}/{{
                                     dgForm.value['device-group']
                                 }}"
                                 id="pointerDeviceGroup"
