@@ -2,6 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 import { SiteSiteMonitoringEdgeDevice } from './site-site-monitoring-edge-device';
+
+/**
+ * container for monitoring
+ */
 export interface SiteSiteMonitoring {
 
   /**

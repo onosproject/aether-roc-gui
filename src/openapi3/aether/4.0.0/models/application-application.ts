@@ -19,6 +19,10 @@ export interface ApplicationApplication {
    * display name to use in GUI or CLI
    */
   'display-name'?: string;
+
+  /**
+   * list for endpoint
+   */
   endpoint?: Array<ApplicationApplicationEndpoint>;
 
   /**

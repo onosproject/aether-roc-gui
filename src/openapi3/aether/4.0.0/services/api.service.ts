@@ -4465,10 +4465,10 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postVcs
    */
-  static readonly PostVcsPath = '/aether/v4.0.0/{target}/slice';
+  static readonly PostVcsPath = '/aether/v4.0.0/{target}/vcs';
 
   /**
-   * POST /slice.
+   * POST /vcs.
    *
    *
    *
@@ -4504,7 +4504,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /slice.
+   * POST /vcs.
    *
    *
    *
@@ -4530,10 +4530,10 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteVcs
    */
-  static readonly DeleteVcsPath = '/aether/v4.0.0/{target}/slice';
+  static readonly DeleteVcsPath = '/aether/v4.0.0/{target}/vcs';
 
   /**
-   * DELETE /slice.
+   * DELETE /vcs.
    *
    *
    *
@@ -4567,7 +4567,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /slice.
+   * DELETE /vcs.
    *
    *
    *
@@ -4592,10 +4592,10 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postVcsVcs
    */
-  static readonly PostVcsVcsPath = '/aether/v4.0.0/{target}/slice/slice/{id}';
+  static readonly PostVcsVcsPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}';
 
   /**
-   * POST /slice/slice.
+   * POST /vcs/vcs.
    *
    *
    *
@@ -4637,7 +4637,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /slice/slice.
+   * POST /vcs/vcs.
    *
    *
    *
@@ -4668,10 +4668,10 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteVcsVcs
    */
-  static readonly DeleteVcsVcsPath = '/aether/v4.0.0/{target}/slice/slice/{id}';
+  static readonly DeleteVcsVcsPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}';
 
   /**
-   * DELETE /slice/slice.
+   * DELETE /vcs/vcs.
    *
    *
    *
@@ -4711,7 +4711,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /slice/slice.
+   * DELETE /vcs/vcs.
    *
    *
    *
@@ -4741,10 +4741,10 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postVcsVcsDeviceGroup
    */
-  static readonly PostVcsVcsDeviceGroupPath = '/aether/v4.0.0/{target}/slice/slice/{id}/device-group/{device-group}';
+  static readonly PostVcsVcsDeviceGroupPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/device-group/{device-group}';
 
   /**
-   * POST /slice/slice/{id}/device-group.
+   * POST /vcs/vcs/{id}/device-group.
    *
    *
    *
@@ -4792,7 +4792,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /slice/slice/{id}/device-group.
+   * POST /vcs/vcs/{id}/device-group.
    *
    *
    *
@@ -4828,10 +4828,10 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteVcsVcsDeviceGroup
    */
-  static readonly DeleteVcsVcsDeviceGroupPath = '/aether/v4.0.0/{target}/slice/slice/{id}/device-group/{device-group}';
+  static readonly DeleteVcsVcsDeviceGroupPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/device-group/{device-group}';
 
   /**
-   * DELETE /slice/slice/{id}/device-group.
+   * DELETE /vcs/vcs/{id}/device-group.
    *
    *
    *
@@ -4877,7 +4877,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /slice/slice/{id}/device-group.
+   * DELETE /vcs/vcs/{id}/device-group.
    *
    *
    *
@@ -4912,10 +4912,10 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postVcsVcsFilter
    */
-  static readonly PostVcsVcsFilterPath = '/aether/v4.0.0/{target}/slice/slice/{id}/filter/{application}';
+  static readonly PostVcsVcsFilterPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/filter/{application}';
 
   /**
-   * POST /slice/slice/{id}/filter.
+   * POST /vcs/vcs/{id}/filter.
    *
    *
    *
@@ -4963,7 +4963,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /slice/slice/{id}/filter.
+   * POST /vcs/vcs/{id}/filter.
    *
    *
    *
@@ -4999,10 +4999,10 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteVcsVcsFilter
    */
-  static readonly DeleteVcsVcsFilterPath = '/aether/v4.0.0/{target}/slice/slice/{id}/filter/{application}';
+  static readonly DeleteVcsVcsFilterPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/filter/{application}';
 
   /**
-   * DELETE /slice/slice/{id}/filter.
+   * DELETE /vcs/vcs/{id}/filter.
    *
    *
    *
@@ -5048,7 +5048,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /slice/slice/{id}/filter.
+   * DELETE /vcs/vcs/{id}/filter.
    *
    *
    *
@@ -5083,10 +5083,10 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postVcsVcsSlice
    */
-  static readonly PostVcsVcsSlicePath = '/aether/v4.0.0/{target}/slice/slice/{id}/slice';
+  static readonly PostVcsVcsSlicePath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/slice';
 
   /**
-   * POST /slice/slice/{id}/slice.
+   * POST /vcs/vcs/{id}/slice.
    *
    *
    *
@@ -5128,7 +5128,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /slice/slice/{id}/slice.
+   * POST /vcs/vcs/{id}/slice.
    *
    *
    *
@@ -5159,10 +5159,10 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteVcsVcsSlice
    */
-  static readonly DeleteVcsVcsSlicePath = '/aether/v4.0.0/{target}/slice/slice/{id}/slice';
+  static readonly DeleteVcsVcsSlicePath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/slice';
 
   /**
-   * DELETE /slice/slice/{id}/slice.
+   * DELETE /vcs/vcs/{id}/slice.
    *
    *
    *
@@ -5202,7 +5202,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /slice/slice/{id}/slice.
+   * DELETE /vcs/vcs/{id}/slice.
    *
    *
    *
@@ -5232,10 +5232,10 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postVcsVcsSliceMbr
    */
-  static readonly PostVcsVcsSliceMbrPath = '/aether/v4.0.0/{target}/slice/slice/{id}/slice/mbr';
+  static readonly PostVcsVcsSliceMbrPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/slice/mbr';
 
   /**
-   * POST /slice/slice/{id}/slice/mbr.
+   * POST /vcs/vcs/{id}/slice/mbr.
    *
    *
    *
@@ -5277,7 +5277,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /slice/slice/{id}/slice/mbr.
+   * POST /vcs/vcs/{id}/slice/mbr.
    *
    *
    *
@@ -5308,10 +5308,10 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteVcsVcsSliceMbr
    */
-  static readonly DeleteVcsVcsSliceMbrPath = '/aether/v4.0.0/{target}/slice/slice/{id}/slice/mbr';
+  static readonly DeleteVcsVcsSliceMbrPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/slice/mbr';
 
   /**
-   * DELETE /slice/slice/{id}/slice/mbr.
+   * DELETE /vcs/vcs/{id}/slice/mbr.
    *
    *
    *
@@ -5351,7 +5351,7 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /slice/slice/{id}/slice/mbr.
+   * DELETE /vcs/vcs/{id}/slice/mbr.
    *
    *
    *

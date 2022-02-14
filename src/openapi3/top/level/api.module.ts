@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { ApiService } from './services/api.service';
+import { TransactionListService } from './services/transaction-list.service';
 
 /**
  * Module that provides all services and configuration.
@@ -16,6 +17,7 @@ import { ApiService } from './services/api.service';
   declarations: [],
   providers: [
     ApiService,
+    TransactionListService,
     ApiConfiguration
   ],
 })

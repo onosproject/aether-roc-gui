@@ -2,6 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
+
+/**
+ * container for imsi-defination
+ */
 export interface SiteSiteImsiDefinition {
 
   /**

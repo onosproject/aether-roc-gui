@@ -10,7 +10,7 @@ import { TemplateTemplate } from './template-template';
 export interface Template {
 
   /**
-   * List of slice templates
+   * List of vcs templates
    */
   template?: Array<TemplateTemplate>;
 

@@ -242,69 +242,25 @@ export class ApiService extends BaseService {
     );
   }
 
-    /**
-     * Path part for operation transactionsTopLevel
-     */
-    static readonly TransactionsTopLevelPath = '/transactions';
-
-    /**
-     * GET /transactions The Top Level transactions in JSON format
-     *
-     *
-     *
-     * This method provides access to the full `HttpResponse`, allowing access to response headers.
-     * To access only the response body, use `transactionsTopLevel()` instead.
-     *
-     * This method doesn't expect any request body.
-     */
-    transactionsTopLevel$Response(){
-        const rb = new RequestBuilder(this.rootUrl, ApiService.TransactionsTopLevelPath, 'get');
-        return this.http.request(rb.build({
-            responseType: 'json',
-            accept: 'application/json'
-        })).pipe(
-            filter((r: any) => r instanceof HttpResponse),
-            map((r: HttpResponse<any>) => {
-                return r ;
-            })
-        );
-    }
-
-    /**
-     * GET /transactions The Top Level Transactions in JSON format
-     *
-     *
-     *
-     * This method provides access to only to the response body.
-     * To access the full response (for headers, for example), `transactionsTopLevel$Response()` instead.
-     *
-     * This method doesn't expect any request body.
-     */
-    transactionsTopLevel() {
-        return this.transactionsTopLevel$Response().pipe(
-            map((r) => r.body)
-        );
-    }
-
   /**
-   * Path part for operation specAether300
+   * Path part for operation specAether200
    */
-  static readonly SpecAether300Path = '/spec/aether-3.0.0-openapi3.yaml';
+  static readonly SpecAether200Path = '/spec/aether-2.0.0-openapi3.yaml';
 
   /**
-   * GET /spec/aether-3.0.0-openapi3.yaml The Aether 3.0.0 spec.
+   * GET /spec/aether-2.0.0-openapi3.yaml The Aether 2.0.0 spec.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `specAether300()` instead.
+   * To access only the response body, use `specAether200()` instead.
    *
    * This method doesn't expect any request body.
    */
-  specAether300$Response(params?: {
+  specAether200$Response(params?: {
   }): Observable<StrictHttpResponse<string>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.SpecAether300Path, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.SpecAether200Path, 'get');
     if (params) {
     }
 
@@ -320,19 +276,19 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * GET /spec/aether-3.0.0-openapi3.yaml The Aether 3.0.0 spec.
+   * GET /spec/aether-2.0.0-openapi3.yaml The Aether 2.0.0 spec.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `specAether300$Response()` instead.
+   * To access the full response (for headers, for example), `specAether200$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  specAether300(params?: {
+  specAether200(params?: {
   }): Observable<string> {
 
-    return this.specAether300$Response(params).pipe(
+    return this.specAether200$Response(params).pipe(
       map((r: StrictHttpResponse<string>) => r.body as string)
     );
   }

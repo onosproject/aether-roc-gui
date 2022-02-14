@@ -11,7 +11,7 @@ export interface TemplateTemplate {
   'default-behavior': string;
 
   /**
-   * description of this slice template
+   * description of this vcs template
    */
   description?: string;
 
@@ -21,7 +21,7 @@ export interface TemplateTemplate {
   'display-name'?: string;
 
   /**
-   * ID for this slice template.
+   * ID for this vcs template.
    */
   id: string;
 
