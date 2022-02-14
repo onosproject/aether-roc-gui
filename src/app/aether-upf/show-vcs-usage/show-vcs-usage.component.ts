@@ -14,10 +14,10 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
 
 export interface displayedColumns {
     id;
@@ -42,17 +42,19 @@ export class ShowVcsUsageComponent implements OnChanges {
     constructor(
         protected fb: FormBuilder,
         private basketService: BasketService,
-        private aetherService: AetherService
+        protected siteService: EnterprisesEnterpriseSiteService
     ) {}
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
-        this.aetherService
-            .getVcs({
+        this.siteService
+            .getEnterprisesEnterpriseSite({
                 target: AETHER_TARGETS[0],
+                'site-id': '??????????',
+                'enterprise-id': '??????',
             })
             .subscribe((displayData) => {
-                displayData.vcs.forEach((vcsElement) => {
+                displayData.slice.forEach((vcsElement) => {
                     if (vcsElement.upf === this.upfID) {
                         const displayParentModules = {
                             id: vcsElement.id,

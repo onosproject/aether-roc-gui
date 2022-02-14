@@ -11,7 +11,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { from, Observable } from 'rxjs';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { map, mergeMap, skipWhile, startWith } from 'rxjs/operators';
-import { Service as AetherService } from 'src/openapi3/aether/2.0.0/services';
+import {
+    EnterprisesEnterpriseService,
+    EnterprisesEnterpriseSiteService,
+    Service as AetherService,
+} from 'src/openapi3/aether/2.0.0/services';
 import {
     BasketService,
     HEX2NUM,
@@ -24,13 +28,13 @@ import { HexPipe } from '../../utils/hex.pipe';
 import { SelectAppParam } from '../application-select/application-select.component';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 import {
-    EnterpriseEnterpriseSiteDeviceGroup,
-    EnterpriseEnterpriseApplication,
-    EnterpriseEnterpriseTemplate,
-    EnterpriseEnterpriseSiteUpf,
-    EnterpriseEnterpriseSiteSlice,
+    EnterprisesEnterpriseSiteDeviceGroup,
+    EnterprisesEnterpriseApplication,
+    EnterprisesEnterpriseTemplate,
+    EnterprisesEnterpriseSiteUpf,
+    EnterprisesEnterpriseSiteSlice,
 } from '../../../openapi3/aether/2.0.0/models';
-import { SliceSliceService } from '../../../openapi3/aether/2.0.0/services/slice-slice.service';
+import { EnterprisesEnterpriseSiteSliceService } from '../../../openapi3/aether/2.0.0/services';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -54,11 +58,11 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     sliceID: string;
     enterpriseID: string;
     siteID: string;
-    deviceGroups: Array<EnterpriseEnterpriseSiteDeviceGroup>;
-    applications: Array<EnterpriseEnterpriseApplication>;
-    templates: Array<EnterpriseEnterpriseTemplate>;
+    deviceGroups: Array<EnterprisesEnterpriseSiteDeviceGroup>;
+    applications: Array<EnterprisesEnterpriseApplication>;
+    templates: Array<EnterprisesEnterpriseTemplate>;
     selectedSite: string;
-    upfs: Array<EnterpriseEnterpriseSiteUpf> = [];
+    upfs: Array<EnterprisesEnterpriseSiteUpf> = [];
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
@@ -83,7 +87,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
 
     defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL'];
     bandwidthOptions: Observable<Bandwidths[]>;
-    data: EnterpriseEnterpriseSiteSlice;
+    data: EnterprisesEnterpriseSiteSlice;
     pathRoot = ('Enterprises-2.0.0/enterprise' +
         '[enterprise-id=' +
         this.route.snapshot.params['enterprise-id'] +
@@ -170,8 +174,9 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     });
 
     constructor(
-        private sliceSliceService: SliceSliceService,
-        private aetherService: AetherService,
+        protected sliceService: EnterprisesEnterpriseSiteSliceService,
+        protected enterpriseService: EnterprisesEnterpriseService,
+        protected siteService: EnterprisesEnterpriseSiteService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -304,9 +309,10 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     }
 
     loadTemplate(target: string): void {
-        this.aetherService
-            .getTemplate({
+        this.enterpriseService
+            .getEnterprisesEnterprise({
                 target,
+                'enterprise-id': '????????????',
             })
             .subscribe(
                 (value) => {
@@ -319,9 +325,9 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    templateSelected(evt: { value: EnterpriseEnterpriseTemplate }): void {
+    templateSelected(evt: { value: EnterprisesEnterpriseTemplate }): void {
         if (this.isNewInstance) {
-            const eachTemplate: EnterpriseEnterpriseTemplate = evt.value;
+            const eachTemplate: EnterprisesEnterpriseTemplate = evt.value;
             const SdFormControl = this.sliceForm.get('sd');
             SdFormControl.setValue(
                 eachTemplate.sd.toString(16).toUpperCase().padStart(6, '0')
@@ -363,12 +369,12 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     }
 
     loadSliceSlice(target: string, id: string): void {
-        this.sliceSliceService
-            .getSliceSlice({
+        this.sliceService
+            .getEnterprisesEnterpriseSiteSlice({
                 target,
-                id,
-                ent_id: this.enterpriseID,
-                site_id: this.siteID,
+                'slice-id': id,
+                'enterprise-id': this.enterpriseID,
+                'site-id': this.siteID,
             })
             .subscribe(
                 (value) => {
@@ -482,7 +488,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         return ucMap;
     }
 
-    public populateFormData(value: EnterpriseEnterpriseSiteSlice): void {
+    public populateFormData(value: EnterprisesEnterpriseSiteSlice): void {
         if (value['slice-id']) {
             this.sliceForm.get('slice-id').setValue(value['slice-id']);
             this.sliceForm.get('slice-id')[ORIGINAL] = value['slice-id'];
@@ -682,9 +688,11 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     }
 
     loadDeviceGoup(target: string): void {
-        this.aetherService
-            .getDeviceGroup({
+        this.siteService
+            .getEnterprisesEnterpriseSite({
                 target,
+                'enterprise-id': '?????????',
+                'site-id': '???????',
             })
             .pipe(skipWhile((dgContainer) => dgContainer === null))
             .subscribe(
@@ -712,9 +720,11 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
 
     loadUpf(target: string): void {
         let origLen = 0;
-        this.aetherService
-            .getUpf({
+        this.siteService
+            .getEnterprisesEnterpriseSite({
                 target,
+                'enterprise-id': '???????',
+                'site-id': '???????',
             })
             .subscribe(
                 (value) => {
@@ -730,24 +740,28 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     // eliminate already used UPFs
-                    this.aetherService
-                        .getSlice({ target })
+                    this.siteService
+                        .getEnterprisesEnterpriseSite({
+                            target,
+                            'enterprise-id': '????????',
+                            'site-id': '???????/',
+                        })
                         .pipe(
                             map((sliceContainer) => sliceContainer?.slice),
                             skipWhile((sliceList) => sliceList === undefined),
                             mergeMap(
-                                (sliceItem: EnterpriseEnterpriseSiteSlice[]) =>
+                                (sliceItem: EnterprisesEnterpriseSiteSlice[]) =>
                                     from(sliceItem)
                             ),
                             map(
-                                (sliceItem: EnterpriseEnterpriseSiteSlice) =>
+                                (sliceItem: EnterprisesEnterpriseSiteSlice) =>
                                     sliceItem.upf
                             )
                         )
                         .subscribe(
                             (sliceUpf) => {
                                 const idx = this.upfs.findIndex(
-                                    (upf: EnterpriseEnterpriseSiteUpf) =>
+                                    (upf: EnterprisesEnterpriseSiteUpf) =>
                                         upf.id === sliceUpf &&
                                         this.sliceForm.get('upf').value !==
                                             sliceUpf
@@ -785,9 +799,10 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     }
 
     loadApplication(target: string): void {
-        this.aetherService
-            .getApplication({
+        this.enterpriseService
+            .getEnterprisesEnterprise({
                 target,
+                'enterprise-id': '??????????',
             })
             .subscribe(
                 (value) => {

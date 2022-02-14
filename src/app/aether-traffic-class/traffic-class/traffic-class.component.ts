@@ -13,8 +13,7 @@ import { Service as AetherService } from '../../../openapi3/aether/2.0.0/service
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
-import * as _ from 'lodash';
-import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-traffic-class';
+import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
@@ -28,7 +27,7 @@ export class TrafficClassComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseTrafficClass>;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseTrafficClass>;
 
     displayedColumns = [
         'id',
@@ -122,7 +121,7 @@ export class TrafficClassComponent
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
-            this.aetherService.getTrafficClass({
+            this.aetherService.getEnterprises({
                 target: AETHER_TARGETS[0],
             }),
             this.onDataLoaded.bind(this)

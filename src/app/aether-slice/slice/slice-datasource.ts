@@ -4,17 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-    EnterpriseEnterpriseSiteSlice,
-    Slice,
-} from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 
 export class SliceDatasource extends RocDataSource<
-    EnterpriseEnterpriseSiteSlice,
-    Slice
+    EnterprisesEnterpriseSiteSlice,
+    any
 > {
     constructor(
         protected aetherService: AetherService,
@@ -25,8 +22,8 @@ export class SliceDatasource extends RocDataSource<
     }
 
     getSortedData(
-        data: EnterpriseEnterpriseSiteSlice[]
-    ): EnterpriseEnterpriseSiteSlice[] {
+        data: EnterprisesEnterpriseSiteSlice[]
+    ): EnterprisesEnterpriseSiteSlice[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

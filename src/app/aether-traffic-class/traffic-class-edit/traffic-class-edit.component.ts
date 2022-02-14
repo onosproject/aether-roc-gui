@@ -11,8 +11,8 @@ import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
-import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-traffic-class';
-import { TrafficClassTrafficClassService } from '../../../openapi3/aether/2.0.0/services/traffic-class-traffic-class.service';
+import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseTrafficClassService } from '../../../openapi3/aether/2.0.0/services';
 
 @Component({
     selector: 'aether-traffic-class-edit',
@@ -25,7 +25,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
         this.route.snapshot.params['enterprise-id'] +
         ']') as RocElement;
     pathListAttr = 'traffic-class';
-    data: EnterpriseEnterpriseTrafficClass;
+    data: EnterprisesEnterpriseTrafficClass;
     showParentDisplay = false;
     trafficClassId: string;
     tcForm = this.fb.group({
@@ -70,7 +70,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
     });
 
     constructor(
-        private trafficClassTrafficClassService: TrafficClassTrafficClassService,
+        private trafficClassTrafficClassService: EnterprisesEnterpriseTrafficClassService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -96,10 +96,10 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
 
     loadTrafficClassTrafficClass(target: string, id: string): void {
         this.trafficClassTrafficClassService
-            .getTrafficClassTrafficClass({
+            .getEnterprisesEnterpriseTrafficClass({
                 target,
-                id,
-                ent_id: this.route.snapshot.params['enterprise-id'],
+                'traffic-class-id': id,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {
@@ -109,7 +109,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
                 },
                 (error) => {
                     console.warn(
-                        'Error getting TrafficClassTrafficClass(s) for ',
+                        'Error getting EnterprisesEnterpriseTrafficClass(s) for ',
                         target,
                         error
                     );
@@ -142,7 +142,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
                         );
                     }
                     console.log(
-                        'Finished loading TrafficClassTrafficClass(s)',
+                        'Finished loading EnterprisesEnterpriseTrafficClass(s)',
                         target,
                         id
                     );
@@ -150,7 +150,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    private populateFormData(value: EnterpriseEnterpriseTrafficClass): void {
+    private populateFormData(value: EnterprisesEnterpriseTrafficClass): void {
         if (value['traffic-class-id']) {
             this.tcForm
                 .get('traffic-class-id')

@@ -16,9 +16,9 @@ import {
 } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { EnterpriseEnterprise } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise';
-import { IpDomainIpDomainService } from '../../../openapi3/aether/2.0.0/services/ip-domain-ip-domain.service';
-import { EnterpriseEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-ip-domain';
+import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseSiteIpDomainService } from '../../../openapi3/aether/2.0.0/services';
+import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 export const UPDATED = 'updated';
@@ -42,8 +42,8 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
     secCardDisplay = false;
     subCardDisplay = false;
     showParentDisplay = false;
-    data: EnterpriseEnterpriseSiteIpDomain;
-    enterprises: Array<EnterpriseEnterprise>;
+    data: EnterprisesEnterpriseSiteIpDomain;
+    enterprises: Array<EnterprisesEnterprise>;
 
     displayOption: string;
 
@@ -105,7 +105,7 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
     ipDomainId: string;
 
     constructor(
-        private ipDomainIpDomainService: IpDomainIpDomainService,
+        private ipDomainIpDomainService: EnterprisesEnterpriseSiteIpDomainService,
         private aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -125,7 +125,7 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
         super.init();
     }
 
-    private populateFormData(value: EnterpriseEnterpriseSiteIpDomain): void {
+    private populateFormData(value: EnterprisesEnterpriseSiteIpDomain): void {
         this.displayOption = this.ipForm.get(['admin-status'])[ORIGINAL];
         if (value['ip-domain-id']) {
             this.ipForm.get('ip-domain-id').setValue(value['ip-domain-id']);
@@ -176,11 +176,11 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
 
     loadIpDomainIpDomain(target: string, id: string): void {
         this.ipDomainIpDomainService
-            .getIpDomainIpDomain({
+            .getEnterprisesEnterpriseSiteIpDomain({
                 target,
-                id,
-                ent_id: this.route.snapshot.params['enterprise-id'],
-                site_id: this.route.snapshot.params['site-id'],
+                'ip-domain-id': id,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
             })
             .subscribe(
                 (value) => {
@@ -190,7 +190,7 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
                 },
                 (error) => {
                     console.warn(
-                        'Error getting IpDomainIpDomain(s) for ',
+                        'Error getting EnterprisesEnterpriseSiteIpDomain(s) for ',
                         target,
                         error
                     );
@@ -236,7 +236,7 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
                         );
                     }
                     console.log(
-                        'Finished loading IpDomainIpDomain(s)',
+                        'Finished loading EnterprisesEnterpriseSiteIpDomain(s)',
                         target,
                         id
                     );

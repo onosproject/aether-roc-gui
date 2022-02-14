@@ -14,7 +14,7 @@ import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { UpfDatasource } from './upf-datasource';
 import * as _ from 'lodash';
-import { EnterpriseEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-upf';
+import { EnterprisesEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
@@ -28,7 +28,7 @@ export class UpfComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteUpf>;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteUpf>;
 
     displayedColumns = [
         'id',
@@ -102,7 +102,7 @@ export class UpfComponent
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
-            this.aetherService.getUpf({
+            this.aetherService.getEnterprises({
                 target: AETHER_TARGETS[0],
             }),
             this.onDataLoaded.bind(this)

@@ -5,19 +5,18 @@
  */
 
 import { RocDataSource } from './roc-data-source';
-import { Slice } from '../openapi3/aether/2.0.0/models/slice';
 import { SliceDatasource } from './aether-slice/slice/slice-datasource';
 import { Service } from '../openapi3/aether/2.0.0/services';
 import { ApiConfiguration } from '../openapi3/aether/2.0.0/api-configuration';
 import { BasketService } from './basket.service';
 import { AETHER_TARGETS } from '../environments/environment';
-import { EnterpriseEnterpriseSiteSlice } from '../openapi3/aether/2.0.0/models/enterprise-enterprise-site-slice';
+import { EnterprisesEnterpriseSiteSlice } from '../openapi3/aether/2.0.0/models';
 
 describe('ROC Data Source', () => {
-    let component: RocDataSource<EnterpriseEnterpriseSiteSlice, Slice>;
+    let component: RocDataSource<EnterprisesEnterpriseSiteSlice, any>;
 
     // this represents the existing data
-    const existingItems: EnterpriseEnterpriseSiteSlice[] = [
+    const existingItems: EnterprisesEnterpriseSiteSlice[] = [
         {
             'slice-id': 'slice1',
             'default-behavior': 'DENY',
@@ -40,7 +39,7 @@ describe('ROC Data Source', () => {
     ];
 
     // this represents the updated data in the basket (id must match)
-    const basketItems: EnterpriseEnterpriseSiteSlice[] = [
+    const basketItems: EnterprisesEnterpriseSiteSlice[] = [
         {
             'slice-id': 'slice1',
             'default-behavior': 'DENY-updated',

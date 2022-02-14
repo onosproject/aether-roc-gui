@@ -13,10 +13,7 @@ import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { SliceDatasource } from './slice-datasource';
-import {
-    EnterpriseEnterpriseSiteSlice,
-    Slice,
-} from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models';
 import { HexPipe } from '../../utils/hex.pipe';
 import { RocDataSource } from '../../roc-data-source';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
@@ -32,7 +29,7 @@ export class SliceComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteSlice>;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteSlice>;
     sdAsInt = HexPipe.hexAsInt;
     deletedSliceArray = [];
 
@@ -78,7 +75,7 @@ export class SliceComponent
     }
 
     onDataLoaded(
-        ScopeOfDataSource: RocDataSource<EnterpriseEnterpriseSiteSlice, Slice>
+        ScopeOfDataSource: RocDataSource<EnterprisesEnterpriseSiteSlice, any>
     ): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (
@@ -153,7 +150,7 @@ export class SliceComponent
         this.checkForDeletedSlice();
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
-            this.aetherService.getSlice({
+            this.aetherService.getEnterprises({
                 target: AETHER_TARGETS[0],
             }),
             this.onDataLoaded.bind(this)

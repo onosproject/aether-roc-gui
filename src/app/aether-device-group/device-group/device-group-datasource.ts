@@ -7,14 +7,11 @@
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
-import {
-    DeviceGroup,
-    EnterpriseEnterpriseSiteDeviceGroup,
-} from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models';
 
 export class DeviceGroupDatasource extends RocDataSource<
-    EnterpriseEnterpriseSiteDeviceGroup,
-    DeviceGroup
+    EnterprisesEnterpriseSiteDeviceGroup,
+    any
 > {
     constructor(
         protected aetherService: AetherService,
@@ -25,8 +22,8 @@ export class DeviceGroupDatasource extends RocDataSource<
     }
 
     getSortedData(
-        data: EnterpriseEnterpriseSiteDeviceGroup[]
-    ): EnterpriseEnterpriseSiteDeviceGroup[] {
+        data: EnterprisesEnterpriseSiteDeviceGroup[]
+    ): EnterprisesEnterpriseSiteDeviceGroup[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

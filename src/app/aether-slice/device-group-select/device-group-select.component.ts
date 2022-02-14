@@ -13,11 +13,10 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import {
-    DeviceGroupDeviceGroupService,
+    EnterprisesEnterpriseSiteDeviceGroupService,
     Service,
-} from 'src/openapi3/aether/4.0.0/services';
+} from 'src/openapi3/aether/2.0.0/services';
 import { AETHER_TARGETS } from '../../../environments/environment';
-import { DeviceGroup } from '../../../openapi3/aether/4.0.0/models';
 import { RocSelectBase } from '../../roc-select-base';
 
 @Component({
@@ -26,7 +25,7 @@ import { RocSelectBase } from '../../roc-select-base';
     styleUrls: ['../../common-panel.component.scss'],
 })
 export class DeviceGroupSelectComponent
-    extends RocSelectBase<DeviceGroupDeviceGroupService, DeviceGroup>
+    extends RocSelectBase<EnterprisesEnterpriseSiteDeviceGroupService, any>
     implements OnInit, OnChanges
 {
     @Input() alreadySelected: string[] = [];
@@ -41,7 +40,7 @@ export class DeviceGroupSelectComponent
 
     ngOnInit(): void {
         super.getData(
-            this.service.getDeviceGroup({ target: AETHER_TARGETS[0] }),
+            this.service.getEnterprises({ target: AETHER_TARGETS[0] }),
             'device-group'
         );
     }

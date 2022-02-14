@@ -5,12 +5,12 @@
  */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
-    ConnectivityServiceConnectivityServiceService,
+    ConnectivityServicesConnectivityServiceService,
     Service,
-} from '../../../openapi3/aether/4.0.0/services';
+} from '../../../openapi3/aether/2.0.0/services';
 import { FormBuilder } from '@angular/forms';
 import { AETHER_TARGETS } from '../../../environments/environment';
-import { ConnectivityService } from '../../../openapi3/aether/4.0.0/models';
+import { ConnectivityServices } from '../../../openapi3/aether/2.0.0/models';
 import { RocSelectBase } from '../../roc-select-base';
 
 @Component({
@@ -20,8 +20,8 @@ import { RocSelectBase } from '../../roc-select-base';
 })
 export class ConnectivityServiceSelectComponent
     extends RocSelectBase<
-        ConnectivityServiceConnectivityServiceService,
-        ConnectivityService
+        ConnectivityServicesConnectivityServiceService,
+        ConnectivityServices
     >
     implements OnInit
 {
@@ -34,7 +34,7 @@ export class ConnectivityServiceSelectComponent
 
     ngOnInit(): void {
         super.getData(
-            this.service.getConnectivityService({ target: AETHER_TARGETS[0] }),
+            this.service.getConnectivityServices({ target: AETHER_TARGETS[0] }),
             'connectivity-service'
         );
     }

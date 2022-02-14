@@ -6,15 +6,15 @@
 
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
-    ConnectivityService,
-    ConnectivityServiceConnectivityService,
+    ConnectivityServices,
+    ConnectivityServicesConnectivityService,
 } from '../../../openapi3/aether/2.0.0/models';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 
 export class ConnectivityServiceDatasource extends RocDataSource<
-    ConnectivityServiceConnectivityService,
-    ConnectivityService
+    ConnectivityServicesConnectivityService,
+    ConnectivityServices
 > {
     constructor(
         protected aetherService: AetherService,
@@ -31,8 +31,8 @@ export class ConnectivityServiceDatasource extends RocDataSource<
         );
     }
     getSortedData(
-        data: ConnectivityServiceConnectivityService[]
-    ): ConnectivityServiceConnectivityService[] {
+        data: ConnectivityServicesConnectivityService[]
+    ): ConnectivityServicesConnectivityService[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

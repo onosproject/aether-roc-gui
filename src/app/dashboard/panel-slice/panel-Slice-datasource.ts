@@ -4,14 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { RocDataSource } from '../../roc-data-source';
-import { Slice } from '../../../openapi3/aether/2.0.0/models/slice';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
-import { EnterpriseEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-slice';
+import { EnterprisesEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models';
 
 export class PanelSliceDatasource extends RocDataSource<
-    EnterpriseEnterpriseSiteSlice,
-    Slice
+    EnterprisesEnterpriseSiteSlice,
+    any
 > {
     constructor(
         protected aetherService: AetherService,

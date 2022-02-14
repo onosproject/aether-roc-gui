@@ -14,11 +14,14 @@ import {
     ValidatorFn,
     Validators,
 } from '@angular/forms';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
-    Enterprise,
-    EnterpriseEnterpriseApplication,
-    EnterpriseEnterpriseTrafficClass,
+    EnterprisesEnterpriseService,
+    Service as AetherService,
+} from '../../../openapi3/aether/2.0.0/services';
+import {
+    EnterprisesEnterprise,
+    EnterprisesEnterpriseApplication,
+    EnterprisesEnterpriseTrafficClass,
 } from '../../../openapi3/aether/2.0.0/models';
 import {
     BasketService,
@@ -35,7 +38,7 @@ import { Observable } from 'rxjs';
 import { Bandwidths } from '../../aether-template/template-edit/template-edit.component';
 import { map, startWith } from 'rxjs/operators';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
-import { ApplicationApplicationService } from '../../../openapi3/aether/2.0.0/services/application-application.service';
+import { EnterprisesEnterpriseApplicationService } from '../../../openapi3/aether/2.0.0/services';
 
 const ValidatePortRange: ValidatorFn = (
     control: AbstractControl
@@ -64,15 +67,15 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     showEndpointAddButton = true;
     showParentDisplay = false;
     readonly endpointLimit: number = 5;
-    enterprises: Array<Enterprise>;
-    trafficClassOptions: Array<EnterpriseEnterpriseTrafficClass>;
+    enterprises: Array<EnterprisesEnterprise>;
+    trafficClassOptions: Array<EnterprisesEnterpriseTrafficClass>;
     pathRoot = ('Enterprises-2.0.0/enterprise' +
         '[enterprise-id=' +
         this.route.snapshot.params['enterprise-id'] +
         ']') as RocElement;
     pathListAttr = 'application';
     applicationId: string;
-    data: EnterpriseEnterpriseApplication;
+    data: EnterprisesEnterpriseApplication;
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
@@ -121,8 +124,8 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     );
 
     constructor(
-        private applicationApplicationService: ApplicationApplicationService,
-        private aetherService: AetherService,
+        private applicationApplicationService: EnterprisesEnterpriseApplicationService,
+        private enterpriseService: EnterprisesEnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -200,10 +203,10 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
 
     loadApplicationApplication(target: string, id: string): void {
         this.applicationApplicationService
-            .getApplicationApplication({
+            .getEnterprisesEnterpriseApplication({
                 target,
-                id,
-                ent_id: this.route.snapshot.params['enterprise-id'],
+                'application-id': id,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {
@@ -213,7 +216,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                 },
                 (error) => {
                     console.warn(
-                        'Error getting ApplicationApplication(s) for ',
+                        'Error getting EnterprisesEnterpriseApplication(s) for ',
                         target,
                         error
                     );
@@ -249,7 +252,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                         );
                     }
                     console.log(
-                        'Finished loading ApplicationApplication(s)',
+                        'Finished loading EnterprisesEnterpriseApplication(s)',
                         target,
                         id
                     );
@@ -326,7 +329,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
         this.appForm.markAllAsTouched();
     }
 
-    private populateFormData(value: EnterpriseEnterpriseApplication): void {
+    private populateFormData(value: EnterprisesEnterpriseApplication): void {
         if (value['application-id']) {
             this.appForm
                 .get('application-id')
@@ -532,9 +535,10 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     }
 
     loadTrafficClass(target: string): void {
-        this.aetherService
-            .getTrafficClass({
+        this.enterpriseService
+            .getEnterprisesEnterprise({
                 target,
+                'enterprise-id': '????????????????',
             })
             .subscribe(
                 (value) => {

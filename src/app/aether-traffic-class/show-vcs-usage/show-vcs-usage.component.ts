@@ -14,15 +14,15 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
 
 export interface displayedColumns {
-    'parent-module';
-    id;
-    'display-name';
+    'parent-module': string;
+    id: string;
+    'display-name': string;
 }
 
 @Component({
@@ -43,56 +43,47 @@ export class ShowVcsUsageComponent implements OnChanges {
     constructor(
         protected fb: FormBuilder,
         private basketService: BasketService,
-        private aetherService: AetherService
+        private siteService: EnterprisesEnterpriseService
     ) {}
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
-        this.aetherService
-            .getDeviceGroup({
+        this.siteService
+            .getEnterprisesEnterprise({
                 target: AETHER_TARGETS[0],
+                'enterprise-id': '??????',
             })
             .subscribe((displayData) => {
-                displayData['device-group'].forEach((DGElement) => {
-                    if (
-                        DGElement.device['traffic-class'] ===
-                        this.trafficClassID
-                    ) {
-                        const displayParentModules = {
-                            id: DGElement.id,
-                            'display-name': DGElement['display-name'],
-                            'parent-module': 'Device Group',
-                        };
-                        this.parentModulesArray.push(displayParentModules);
-                    }
-                });
-                this.aetherService
-                    .getApplication({
-                        target: AETHER_TARGETS[0],
-                    })
-                    .subscribe((displayData) => {
-                        displayData.application.forEach((appElement) => {
-                            appElement.endpoint.forEach(
-                                (appEndpointElement) => {
-                                    if (
-                                        appEndpointElement['traffic-class'] ===
-                                        this.trafficClassID
-                                    ) {
-                                        const displayParentModules = {
-                                            id: appElement.id,
-                                            'display-name':
-                                                appElement['display-name'],
-                                            'parent-module': 'Application',
-                                        };
-                                        this.parentModulesArray.push(
-                                            displayParentModules
-                                        );
-                                    }
-                                }
-                            );
-                            this.table.dataSource = this.parentModulesArray;
-                        });
+                displayData.site
+                    .find((s) => s['site-id'] === '?????')
+                    ['device-group'].forEach((dg) => {
+                        if (
+                            dg.device['traffic-class'] === this.trafficClassID
+                        ) {
+                            const displayParentModules = {
+                                id: dg['device-group-id'],
+                                'display-name': dg['display-name'],
+                                'parent-module': 'Device Group',
+                            };
+                            this.parentModulesArray.push(displayParentModules);
+                        }
                     });
+                displayData.application.forEach((appElement) => {
+                    appElement.endpoint.forEach((appEndpointElement) => {
+                        if (
+                            appEndpointElement['traffic-class'] ===
+                            this.trafficClassID
+                        ) {
+                            const displayParentModules = {
+                                id: appElement['application-id'],
+                                'display-name': appElement['display-name'],
+                                'parent-module': 'Application',
+                            };
+                            this.parentModulesArray.push(displayParentModules);
+                        }
+                    });
+                });
+                this.table.dataSource = this.parentModulesArray;
             });
     }
 

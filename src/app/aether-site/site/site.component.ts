@@ -14,7 +14,7 @@ import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { SiteDatasource } from './site-datasource';
 import * as _ from 'lodash';
-import { EnterpriseEnterpriseSite } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site';
+import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
@@ -28,7 +28,7 @@ export class SiteComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSite>;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSite>;
 
     displayedColumns = [
         'id',
@@ -145,7 +145,7 @@ export class SiteComponent
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
-            this.aetherService.getSite({
+            this.aetherService.getEnterprises({
                 target: AETHER_TARGETS[0],
             }),
             this.onDataLoaded.bind(this)

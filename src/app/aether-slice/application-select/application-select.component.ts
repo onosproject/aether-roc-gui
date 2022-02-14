@@ -6,13 +6,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Service } from 'src/openapi3/aether/2.0.0/services';
-import {
-    Application,
-    EnterpriseEnterpriseApplication,
-} from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseApplication } from '../../../openapi3/aether/2.0.0/models';
 import { RocSelectBase } from '../../roc-select-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ApplicationApplicationService } from '../../../openapi3/aether/2.0.0/services/application-application.service';
+import { EnterprisesEnterpriseApplicationService } from '../../../openapi3/aether/2.0.0/services';
 
 export interface SelectAppParam {
     application: string;
@@ -25,12 +22,12 @@ export interface SelectAppParam {
     styleUrls: ['../../common-panel.component.scss'],
 })
 export class ApplicationSelectComponent
-    extends RocSelectBase<ApplicationApplicationService, Application>
+    extends RocSelectBase<EnterprisesEnterpriseApplicationService, any>
     implements OnInit
 {
     closeEvent: EventEmitter<string>;
     SliceApplicationEndpointLimit = 5;
-    ApplicationOptions: Array<EnterpriseEnterpriseApplication> = [];
+    ApplicationOptions: Array<EnterprisesEnterpriseApplication> = [];
     selectForm = this.fb.group({
         'select-item': [
             undefined,
@@ -49,7 +46,7 @@ export class ApplicationSelectComponent
         ],
     });
     @Input() alreadySelected: string[] = [];
-    @Input() applicationList: Array<EnterpriseEnterpriseApplication> = ([] =
+    @Input() applicationList: Array<EnterprisesEnterpriseApplication> = ([] =
         []);
     @Output() appcloseEvent = new EventEmitter<SelectAppParam>();
 

@@ -6,19 +6,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import {
-    EnterpriseEnterprise,
-    EnterpriseEnterpriseSite,
-    EnterpriseEnterpriseSiteUpf,
-} from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models';
 import { BasketService, ORIGINAL, REQDATTRIBS } from '../../basket.service';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { maxDeviceGroupRange } from '../../../environments/environment';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
-import { UpfUpfService } from '../../../openapi3/aether/2.0.0/services/upf-upf.service';
+import { EnterprisesEnterpriseSiteUpfService } from '../../../openapi3/aether/2.0.0/services';
 
 @Component({
     selector: 'aether-upf-edit',
@@ -26,7 +21,7 @@ import { UpfUpfService } from '../../../openapi3/aether/2.0.0/services/upf-upf.s
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class UpfEditComponent extends RocEditBase implements OnInit {
-    data: EnterpriseEnterpriseSiteUpf;
+    data: EnterprisesEnterpriseSiteUpf;
     pathRoot = ('Enterprises-2.0.0/enterprise' +
         '[enterprise-id=' +
         this.route.snapshot.params['enterprise-id'] +
@@ -82,7 +77,7 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
     });
 
     constructor(
-        private upfUpfService: UpfUpfService,
+        private upfUpfService: EnterprisesEnterpriseSiteUpfService,
         private aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -107,11 +102,11 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
 
     loadUpfUpf(target: string, id: string): void {
         this.upfUpfService
-            .getUpfUpf({
+            .getEnterprisesEnterpriseSiteUpf({
                 target,
-                id,
-                ent_id: this.route.snapshot.params['enterprise-id'],
-                site_id: this.route.snapshot.params['site-id'],
+                'upf-id': id,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
             })
             .subscribe(
                 (value) => {
@@ -120,7 +115,11 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                     this.populateFormData(value);
                 },
                 (error) => {
-                    console.warn('Error getting UpfUpf(s) for ', target, error);
+                    console.warn(
+                        'Error getting EnterprisesEnterpriseSiteUpf(s) for ',
+                        target,
+                        error
+                    );
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
@@ -162,12 +161,16 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                             }
                         );
                     }
-                    console.log('Finished loading UpfUpf(s)', target, id);
+                    console.log(
+                        'Finished loading EnterprisesEnterpriseSiteUpf(s)',
+                        target,
+                        id
+                    );
                 }
             );
     }
 
-    private populateFormData(value: EnterpriseEnterpriseSiteUpf): void {
+    private populateFormData(value: EnterprisesEnterpriseSiteUpf): void {
         if (value['upf-id']) {
             this.upfForm.get('upf-id').setValue(value['upf-id']);
             this.upfForm.get('upf-id')[ORIGINAL] = value['upf-id'];

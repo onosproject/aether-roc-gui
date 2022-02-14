@@ -4,17 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-    EnterpriseEnterpriseSiteUpf,
-    Upf,
-} from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 
 export class UpfDatasource extends RocDataSource<
-    EnterpriseEnterpriseSiteUpf,
-    Upf
+    EnterprisesEnterpriseSiteUpf,
+    any
 > {
     constructor(
         protected aetherService: AetherService,
@@ -25,8 +22,8 @@ export class UpfDatasource extends RocDataSource<
     }
 
     getSortedData(
-        data: EnterpriseEnterpriseSiteUpf[]
-    ): EnterpriseEnterpriseSiteUpf[] {
+        data: EnterprisesEnterpriseSiteUpf[]
+    ): EnterprisesEnterpriseSiteUpf[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

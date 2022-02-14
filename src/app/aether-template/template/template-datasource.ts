@@ -4,17 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-    EnterpriseEnterpriseTemplate,
-    Template,
-} from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 
 export class TemplateDatasource extends RocDataSource<
-    EnterpriseEnterpriseTemplate,
-    Template
+    EnterprisesEnterpriseTemplate,
+    any
 > {
     constructor(
         protected aetherService: AetherService,
@@ -25,8 +22,8 @@ export class TemplateDatasource extends RocDataSource<
     }
 
     getSortedData(
-        data: EnterpriseEnterpriseTemplate[]
-    ): EnterpriseEnterpriseTemplate[] {
+        data: EnterprisesEnterpriseTemplate[]
+    ): EnterprisesEnterpriseTemplate[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -37,8 +34,8 @@ export class TemplateDatasource extends RocDataSource<
         }
         return data.sort(
             (
-                a: EnterpriseEnterpriseTemplate,
-                b: EnterpriseEnterpriseTemplate
+                a: EnterprisesEnterpriseTemplate,
+                b: EnterprisesEnterpriseTemplate
             ) => {
                 const isAsc = this.sort.direction === 'asc';
                 switch (this.sort.active) {

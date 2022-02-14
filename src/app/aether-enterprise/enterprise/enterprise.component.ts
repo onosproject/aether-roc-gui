@@ -7,7 +7,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { EnterpriseEnterprise } from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { EnterpriseDatasource } from './enterprise-datasource';
 import { AETHER_TARGETS } from '../../../environments/environment';
@@ -26,7 +26,7 @@ export class EnterpriseComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterprise>;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterprise>;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
     displayedColumns = ['id', 'description', 'connectivity', 'edit', 'delete'];
@@ -71,7 +71,7 @@ export class EnterpriseComponent
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
-            this.aetherService.getEnterprise({
+            this.aetherService.getEnterprises({
                 target: AETHER_TARGETS[0],
             }),
             this.onDataLoaded.bind(this)

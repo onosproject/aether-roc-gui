@@ -10,8 +10,9 @@ import {
     Output,
     ViewChild,
 } from '@angular/core';
-import { ApiService } from '../../../openapi3/top/level/services/api.service';
+import { TransactionListService } from '../../../openapi3/top/level/services';
 import { MatTable } from '@angular/material/table';
+import { Transaction } from '../../../openapi3/top/level/models';
 
 export interface TransactionList {
     id: string;
@@ -33,12 +34,12 @@ export class TransactionListComponent implements OnInit {
     displayedColumns = ['id', 'username', 'updated', 'status', 'changes'];
     displayChanges = false;
     rowID: string;
-    transactionListData: [];
+    transactionListData: Transaction[];
 
-    constructor(private topLevelApiService: ApiService) {}
+    constructor(private topLevelApiService: TransactionListService) {}
 
     ngOnInit(): void {
-        this.topLevelApiService.transactionsTopLevel().subscribe((value) => {
+        this.topLevelApiService.getTransactions().subscribe((value) => {
             this.transactionListData = value;
         });
     }

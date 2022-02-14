@@ -14,7 +14,10 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
+import {
+    EnterprisesEnterpriseSiteService,
+    Service as AetherService,
+} from '../../../openapi3/aether/2.0.0/services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
@@ -42,14 +45,16 @@ export class ShowDgUsageComponent implements OnChanges {
     constructor(
         protected fb: FormBuilder,
         private basketService: BasketService,
-        private aetherService: AetherService
+        private siteService: EnterprisesEnterpriseSiteService
     ) {}
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
-        this.aetherService
-            .getDeviceGroup({
+        this.siteService
+            .getEnterprisesEnterpriseSite({
                 target: AETHER_TARGETS[0],
+                'enterprise-id': '???????',
+                'site-id': '?????????????',
             })
             .subscribe((displayData) => {
                 displayData['device-group'].forEach((deviceGroupElement) => {
@@ -62,45 +67,27 @@ export class ShowDgUsageComponent implements OnChanges {
                         this.parentModulesArray.push(displayParentModules);
                     }
                 });
-                this.aetherService
-                    .getVcs({
-                        target: AETHER_TARGETS[0],
-                    })
-                    .subscribe((displayData) => {
-                        displayData.vcs.forEach((VCSElement) => {
-                            if (VCSElement.site === this.siteID) {
-                                const displayParentModules = {
-                                    id: VCSElement.id,
-                                    'display-name': VCSElement['display-name'],
-                                    'parent-module': 'VCS',
-                                };
-                                this.parentModulesArray.push(
-                                    displayParentModules
-                                );
-                            }
-                        });
-                        this.aetherService
-                            .getUpf({
-                                target: AETHER_TARGETS[0],
-                            })
-                            .subscribe((displayData) => {
-                                displayData.upf.forEach((UPFElement) => {
-                                    if (UPFElement.site === this.siteID) {
-                                        const displayParentModules = {
-                                            id: UPFElement.id,
-                                            'display-name':
-                                                UPFElement['display-name'],
-                                            'parent-module': 'UPF',
-                                        };
-                                        this.parentModulesArray.push(
-                                            displayParentModules
-                                        );
-                                    }
-                                    this.table.dataSource =
-                                        this.parentModulesArray;
-                                });
-                            });
-                    });
+                displayData.slice.forEach((VCSElement) => {
+                    if (VCSElement.site === this.siteID) {
+                        const displayParentModules = {
+                            id: VCSElement.id,
+                            'display-name': VCSElement['display-name'],
+                            'parent-module': 'VCS',
+                        };
+                        this.parentModulesArray.push(displayParentModules);
+                    }
+                });
+                displayData.upf.forEach((UPFElement) => {
+                    if (UPFElement.site === this.siteID) {
+                        const displayParentModules = {
+                            id: UPFElement.id,
+                            'display-name': UPFElement['display-name'],
+                            'parent-module': 'UPF',
+                        };
+                        this.parentModulesArray.push(displayParentModules);
+                    }
+                    this.table.dataSource = this.parentModulesArray;
+                });
             });
     }
 

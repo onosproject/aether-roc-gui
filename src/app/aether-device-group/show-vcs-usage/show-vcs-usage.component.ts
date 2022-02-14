@@ -13,7 +13,10 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AETHER_TARGETS } from '../../../environments/environment';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
+import {
+    EnterprisesEnterpriseSiteService,
+    Service as AetherService,
+} from '../../../openapi3/aether/2.0.0/services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
@@ -39,17 +42,19 @@ export class ShowVcsUsageComponent implements OnChanges {
 
     constructor(
         protected fb: FormBuilder,
-        private aetherService: AetherService
+        private siteService: EnterprisesEnterpriseSiteService
     ) {}
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
-        this.aetherService
-            .getVcs({
+        this.siteService
+            .getEnterprisesEnterpriseSite({
                 target: AETHER_TARGETS[0],
+                'enterprise-id': '?????????',
+                'site-id': '??????????????',
             })
             .subscribe((displayData) => {
-                displayData.vcs.forEach((vcsElement) => {
+                displayData.slice.forEach((vcsElement) => {
                     if (
                         vcsElement['device-group']?.[0]?.['device-group'] ===
                         this.deviceGroupID

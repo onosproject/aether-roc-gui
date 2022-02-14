@@ -7,25 +7,24 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { RocMonitorBase } from '../../roc-monitor-base';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-    Service as AetherService,
-    SiteSiteService,
-    TrafficClassTrafficClassService,
-    UpfUpfService,
-    VcsVcsService,
-} from '../../../openapi3/aether/4.0.0/services';
+    EnterprisesEnterpriseSiteService,
+    EnterprisesEnterpriseTrafficClassService,
+    EnterprisesEnterpriseSiteUpfService,
+    EnterprisesEnterpriseSiteSliceService,
+} from '../../../openapi3/aether/2.0.0/services';
 import {
     AETHER_TARGETS,
     PERFORMANCE_METRICS_ENABLED,
 } from '../../../environments/environment';
 import { filter, mergeMap, pluck } from 'rxjs/operators';
 import {
-    ApplicationApplication,
-    DeviceGroupDeviceGroup,
-    SiteSite,
-    TrafficClassTrafficClass,
-    UpfUpf,
-    VcsVcs,
-} from '../../../openapi3/aether/4.0.0/models';
+    EnterprisesEnterpriseApplication,
+    EnterprisesEnterpriseSiteDeviceGroup,
+    EnterprisesEnterpriseSite,
+    EnterprisesEnterpriseTrafficClass,
+    EnterprisesEnterpriseSiteUpf,
+    EnterprisesEnterpriseSiteSlice,
+} from '../../../openapi3/aether/2.0.0/models';
 import { from } from 'rxjs';
 import { IdTokClaims } from '../../idtoken';
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -45,12 +44,12 @@ export class SliceMonitorComponent
 {
     performancePanels: string[] = [];
     ueConnectivityPanels: string[] = [];
-    thisVcs: VcsVcs;
-    deviceGroups: Map<DeviceGroupDeviceGroup, boolean>;
-    applications: Map<ApplicationApplication, boolean>;
-    upf: UpfUpf;
-    site: SiteSite;
-    trafficClass: TrafficClassTrafficClass;
+    thisVcs: EnterprisesEnterpriseSiteSlice;
+    deviceGroups: Map<EnterprisesEnterpriseSiteDeviceGroup, boolean>;
+    applications: Map<EnterprisesEnterpriseApplication, boolean>;
+    upf: EnterprisesEnterpriseSiteUpf;
+    site: EnterprisesEnterpriseSite;
+    trafficClass: EnterprisesEnterpriseTrafficClass;
     connectivityPanelUrl: string;
     performancePanelUrl: string;
     grafanaOrgId = 1;
@@ -65,11 +64,10 @@ export class SliceMonitorComponent
     performanceMetricsEnabled: boolean = PERFORMANCE_METRICS_ENABLED;
 
     constructor(
-        protected aetherService: AetherService,
-        protected vcsService: VcsVcsService,
-        protected upfService: UpfUpfService,
-        protected tcService: TrafficClassTrafficClassService,
-        protected siteService: SiteSiteService,
+        protected sliceService: EnterprisesEnterpriseSiteSliceService,
+        protected upfService: EnterprisesEnterpriseSiteUpfService,
+        protected tcService: EnterprisesEnterpriseTrafficClassService,
+        protected siteService: EnterprisesEnterpriseSiteService,
         protected route: ActivatedRoute,
         protected router: Router,
         private httpClient: HttpClient,
@@ -77,8 +75,14 @@ export class SliceMonitorComponent
         @Inject('grafana_api_proxy') private grafanaUrl: string
     ) {
         super(route, router);
-        this.deviceGroups = new Map<DeviceGroupDeviceGroup, boolean>();
-        this.applications = new Map<ApplicationApplication, boolean>();
+        this.deviceGroups = new Map<
+            EnterprisesEnterpriseSiteDeviceGroup,
+            boolean
+        >();
+        this.applications = new Map<
+            EnterprisesEnterpriseApplication,
+            boolean
+        >();
         this.promData = new VcsPromDataSource(httpClient);
     }
 
@@ -136,8 +140,13 @@ export class SliceMonitorComponent
     }
 
     private getChildrenOfVcs(): void {
-        this.vcsService
-            .getVcsVcs({ target: AETHER_TARGETS[0], id: this.id })
+        this.sliceService
+            .getEnterprisesEnterpriseSiteSlice({
+                target: AETHER_TARGETS[0],
+                'enterprise-id': '??????????',
+                'site-id': '????????',
+                'slice-id': this.id,
+            })
             .subscribe(
                 (vcs) => {
                     console.log(
@@ -166,17 +175,28 @@ export class SliceMonitorComponent
     }
 
     private getDeviceGroupDetails(deviceGroups: Map<string, boolean>): void {
-        this.aetherService
-            .getDeviceGroup({ target: AETHER_TARGETS[0] })
+        this.siteService
+            .getEnterprisesEnterpriseSite({
+                target: AETHER_TARGETS[0],
+                'enterprise-id': '??????',
+                'site-id': '??????????',
+            })
             .pipe(
                 pluck('device-group'),
-                mergeMap((items: DeviceGroupDeviceGroup[]) => from(items)),
-                filter((dg: DeviceGroupDeviceGroup) => deviceGroups.has(dg.id))
+                mergeMap((items: EnterprisesEnterpriseSiteDeviceGroup[]) =>
+                    from(items)
+                ),
+                filter((dg: EnterprisesEnterpriseSiteDeviceGroup) =>
+                    deviceGroups.has(dg['device-group-id'])
+                )
             )
             .subscribe(
                 (dg) => {
-                    this.deviceGroups.set(dg, deviceGroups.get(dg.id));
-                    this.getSite(dg.site);
+                    this.deviceGroups.set(
+                        dg,
+                        deviceGroups.get(dg['device-group-id'])
+                    );
+                    // this.getSite(dg.);
                 },
                 (err) => console.warn('Error getting device-group', err)
             );
@@ -184,45 +204,54 @@ export class SliceMonitorComponent
 
     private getSite(siteID: string): void {
         this.siteService
-            .getSiteSite({ target: AETHER_TARGETS[0], id: siteID })
+            .getEnterprisesEnterpriseSite({
+                target: AETHER_TARGETS[0],
+                'enterprise-id': '???????',
+                'site-id': siteID,
+            })
             .subscribe(
-                (value: SiteSite) => (this.site = value),
+                (value: EnterprisesEnterpriseSite) => (this.site = value),
                 (err) => console.warn('Error loading site', siteID, err)
             );
     }
 
     private getApplicationDetails(application: Map<string, boolean>): void {
-        this.aetherService
-            .getApplication({ target: AETHER_TARGETS[0] })
+        this.siteService
+            .getEnterprisesEnterpriseSite({
+                target: AETHER_TARGETS[0],
+                'enterprise-id': '???????',
+                'site-id': '????????',
+            })
             .pipe(
                 pluck('application'),
-                mergeMap((items: ApplicationApplication[]) => from(items)),
-                filter((app: ApplicationApplication) => application.has(app.id))
+                mergeMap((items: EnterprisesEnterpriseApplication[]) =>
+                    from(items)
+                ),
+                filter((app: EnterprisesEnterpriseApplication) =>
+                    application.has(app['application-id'])
+                )
             )
             .subscribe(
-                (app) => this.applications.set(app, application.get(app.id)),
+                (app) =>
+                    this.applications.set(
+                        app,
+                        application.get(app['application-id'])
+                    ),
                 (err) => console.warn('Error getting application', err)
             );
     }
 
     private getUpf(upfID: string): void {
         this.upfService
-            .getUpfUpf({ target: AETHER_TARGETS[0], id: upfID })
-            .subscribe(
-                (upf: UpfUpf) => (this.upf = upf),
-                (err) => console.warn('Error in getting UPF', err)
-            );
-    }
-
-    private getTrafficClass(trafficClassId: string): void {
-        this.tcService
-            .getTrafficClassTrafficClass({
+            .getEnterprisesEnterpriseSiteUpf({
                 target: AETHER_TARGETS[0],
-                id: trafficClassId,
+                'enterprise-id': '??????',
+                'site-id': '??????????',
+                'upf-id': upfID,
             })
             .subscribe(
-                (tc: TrafficClassTrafficClass) => (this.trafficClass = tc),
-                (err) => console.warn('Error in getting Traffic Class', err)
+                (upf: EnterprisesEnterpriseSiteUpf) => (this.upf = upf),
+                (err) => console.warn('Error in getting UPF', err)
             );
     }
 

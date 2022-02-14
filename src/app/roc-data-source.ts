@@ -21,7 +21,7 @@ export function compare(
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
 
-// eg: VcsVcs
+// eg: EnterprisesEnterpriseSiteSlice
 export interface RocGenericModelType {
     // id: string;
     description?: string;
@@ -51,7 +51,7 @@ export interface GenericRocDataSource<
 }
 
 // RocDataSource is an abstract class that extends data source
-// T is the type of list item e.g. ConnectivityServiceConnectivityService
+// T is the type of list item e.g. ConnectivityServicesConnectivityService
 // U is the type of its parent e.g. ConnectivityService
 export abstract class RocDataSource<
         T extends RocGenericModelType,

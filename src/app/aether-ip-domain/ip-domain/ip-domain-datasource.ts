@@ -7,12 +7,11 @@
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
-import { IpDomain } from '../../../openapi3/aether/2.0.0/models/ip-domain';
-import { EnterpriseEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-ip-domain';
+import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
 
 export class IpDomainDatasource extends RocDataSource<
-    EnterpriseEnterpriseSiteIpDomain,
-    IpDomain
+    EnterprisesEnterpriseSiteIpDomain,
+    any
 > {
     constructor(
         protected aetherService: AetherService,
@@ -22,8 +21,8 @@ export class IpDomainDatasource extends RocDataSource<
         super(aetherService, bs, target, '/ip-domain-2.0.0', 'ip-domain');
     }
     getSortedData(
-        data: EnterpriseEnterpriseSiteIpDomain[]
-    ): EnterpriseEnterpriseSiteIpDomain[] {
+        data: EnterprisesEnterpriseSiteIpDomain[]
+    ): EnterprisesEnterpriseSiteIpDomain[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
