@@ -33,6 +33,7 @@ export class DeviceGroupComponent
     displayedColumns = [
         'id',
         'description',
+        'enterprise',
         'site',
         'ip-domain',
         'device',

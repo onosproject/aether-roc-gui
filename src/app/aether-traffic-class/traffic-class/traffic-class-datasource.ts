@@ -5,9 +5,16 @@
  */
 
 import { compare, RocDataSource } from '../../roc-data-source';
-import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
+import {
+    Enterprises,
+    EnterprisesEnterprise,
+    EnterprisesEnterpriseSiteIpDomain,
+    EnterprisesEnterpriseTrafficClass,
+} from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
+import { from, Observable } from 'rxjs';
+import { map, mergeMap, skipWhile } from 'rxjs/operators';
 
 export class TrafficClassDatasource extends RocDataSource<
     EnterprisesEnterpriseTrafficClass,
@@ -29,6 +36,59 @@ export class TrafficClassDatasource extends RocDataSource<
             '/traffic-class-2.0.0',
             'traffic-class'
         );
+    }
+
+    loadData(
+        dataSourceObservable: Observable<Enterprises>,
+        onDataLoaded: (
+            dataSourceThisScope: RocDataSource<
+                EnterprisesEnterpriseTrafficClass,
+                any
+            >
+        ) => void
+    ): void {
+        dataSourceObservable
+            .pipe(
+                map((x: Enterprises) => x?.enterprise),
+                skipWhile((x) => x === undefined),
+                mergeMap((items: EnterprisesEnterprise[]) => from(items))
+            )
+            .subscribe(
+                (value: EnterprisesEnterprise) => {
+                    value['traffic-class'].forEach((tc) => {
+                        if (
+                            !this.bs.containsDeleteEntry(
+                                '/enterprises/enterprise[' +
+                                    value['enterprise-id'] +
+                                    '/traffic-class[traffic-class-id=' +
+                                    tc['traffic-class-id'] +
+                                    ']'
+                            )
+                        ) {
+                            tc['enterprise-id'] = value['enterprise-id'];
+                            this.data.push(tc);
+                        } else {
+                            console.log(
+                                'traffic-class-id is already in basket',
+                                tc['traffic-class-id']
+                            );
+                        }
+                    });
+                },
+                (error) => {
+                    console.warn(
+                        'Error getting data from ',
+                        this.target,
+                        error
+                    );
+                },
+                () => {
+                    // table.refreshRows() does not seem to work - using this trick instead
+                    // const basketPreview = this.bs.buildPatchBody().Updates;
+                    onDataLoaded(this);
+                    this.paginator._changePageSize(this.paginator.pageSize);
+                }
+            );
     }
 
     getSortedData(
