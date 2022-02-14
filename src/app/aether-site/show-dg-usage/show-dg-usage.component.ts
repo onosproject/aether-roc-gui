@@ -12,7 +12,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import {
     EnterprisesEnterpriseSiteService,
@@ -21,6 +21,7 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 
 export interface displayedColumns {
     id;
@@ -45,6 +46,7 @@ export class ShowDgUsageComponent implements OnChanges {
     constructor(
         protected fb: FormBuilder,
         private basketService: BasketService,
+        protected route: ActivatedRoute,
         private siteService: EnterprisesEnterpriseSiteService
     ) {}
 
@@ -52,9 +54,9 @@ export class ShowDgUsageComponent implements OnChanges {
         this.parentModulesArray = [];
         this.siteService
             .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGETS[0],
-                'enterprise-id': '???????',
-                'site-id': '?????????????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
             })
             .subscribe((displayData) => {
                 displayData['device-group'].forEach((deviceGroupElement) => {

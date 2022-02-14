@@ -13,7 +13,7 @@ import {
     EnterprisesEnterpriseSiteSliceService,
 } from '../../../openapi3/aether/2.0.0/services';
 import {
-    AETHER_TARGETS,
+    AETHER_TARGET,
     PERFORMANCE_METRICS_ENABLED,
 } from '../../../environments/environment';
 import { filter, mergeMap, pluck } from 'rxjs/operators';
@@ -142,9 +142,9 @@ export class SliceMonitorComponent
     private getChildrenOfVcs(): void {
         this.sliceService
             .getEnterprisesEnterpriseSiteSlice({
-                target: AETHER_TARGETS[0],
-                'enterprise-id': '??????????',
-                'site-id': '????????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
                 'slice-id': this.id,
             })
             .subscribe(
@@ -177,9 +177,9 @@ export class SliceMonitorComponent
     private getDeviceGroupDetails(deviceGroups: Map<string, boolean>): void {
         this.siteService
             .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGETS[0],
-                'enterprise-id': '??????',
-                'site-id': '??????????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
             })
             .pipe(
                 pluck('device-group'),
@@ -205,8 +205,8 @@ export class SliceMonitorComponent
     private getSite(siteID: string): void {
         this.siteService
             .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGETS[0],
-                'enterprise-id': '???????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': siteID,
             })
             .subscribe(
@@ -218,9 +218,9 @@ export class SliceMonitorComponent
     private getApplicationDetails(application: Map<string, boolean>): void {
         this.siteService
             .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGETS[0],
-                'enterprise-id': '???????',
-                'site-id': '????????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
             })
             .pipe(
                 pluck('application'),
@@ -244,9 +244,9 @@ export class SliceMonitorComponent
     private getUpf(upfID: string): void {
         this.upfService
             .getEnterprisesEnterpriseSiteUpf({
-                target: AETHER_TARGETS[0],
-                'enterprise-id': '??????',
-                'site-id': '??????????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
                 'upf-id': upfID,
             })
             .subscribe(

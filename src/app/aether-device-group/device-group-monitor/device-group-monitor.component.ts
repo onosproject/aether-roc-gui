@@ -14,7 +14,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { IdTokClaims } from '../../idtoken';
 import {
     EnterprisesEnterpriseSiteDeviceGroup,
@@ -66,9 +66,9 @@ export class DeviceGroupMonitorComponent
     private getChildrenOfDg(dgID: string): void {
         this.dgService
             .getEnterprisesEnterpriseSiteDeviceGroup({
-                target: AETHER_TARGETS[0],
-                'enterprise-id': '????????',
-                'site-id': '????????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
                 'device-group-id': dgID,
             })
             .subscribe(
@@ -85,8 +85,8 @@ export class DeviceGroupMonitorComponent
     private getSite(siteID: string): void {
         this.siteService
             .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGETS[0],
-                'enterprise-id': '?????????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': siteID,
             })
             .subscribe(
@@ -98,9 +98,9 @@ export class DeviceGroupMonitorComponent
     private getEnterprisesEnterpriseSiteIpDomain(ipDomainID: string): void {
         this.ipDomainService
             .getEnterprisesEnterpriseSiteIpDomain({
-                target: AETHER_TARGETS[0],
-                'enterprise-id': '???????',
-                'site-id': '???????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
                 'ip-domain-id': ipDomainID,
             })
             .subscribe(

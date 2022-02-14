@@ -20,6 +20,7 @@ import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 interface ConnectivityServiceRow {
     id: string;
@@ -217,7 +218,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
     loadEnterprisesEnterprises(target: string, id: string): void {
         this.enterpriseEnterpriseService
             .getEnterprisesEnterprise({
-                target,
+                target: AETHER_TARGET,
                 'enterprise-id': id,
             })
             .subscribe(

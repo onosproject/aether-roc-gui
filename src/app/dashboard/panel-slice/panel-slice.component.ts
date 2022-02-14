@@ -17,7 +17,7 @@ import { MatTable } from '@angular/material/table';
 import { EnterprisesEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models';
 import { RocListBase } from '../../roc-list-base';
 import {
-    AETHER_TARGETS,
+    AETHER_TARGET,
     PERFORMANCE_METRICS_ENABLED,
 } from '../../../environments/environment';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
@@ -81,7 +81,7 @@ export class PanelSliceComponent
             new PanelSliceDatasource(
                 aetherService,
                 basketService,
-                AETHER_TARGETS[0]
+                AETHER_TARGET
             ),
             'Enterprises-2.0.0',
             'slice'
@@ -126,7 +126,7 @@ export class PanelSliceComponent
 
         this.dataSource.loadData(
             this.aetherService.getEnterprises({
-                target: AETHER_TARGETS[0],
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );

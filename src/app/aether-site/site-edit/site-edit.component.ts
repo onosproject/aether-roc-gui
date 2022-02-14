@@ -25,6 +25,7 @@ import {
 import { SmallCellParam } from '../small-cell-select/small-cell-select.component';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({
     selector: 'aether-site-edit',
@@ -136,7 +137,7 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
     loadSiteSite(target: string, id: string): void {
         this.siteSiteService
             .getEnterprisesEnterpriseSite({
-                target,
+                target: AETHER_TARGET,
                 'site-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })

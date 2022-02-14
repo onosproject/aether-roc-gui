@@ -18,7 +18,7 @@ import {
     EnterprisesEnterpriseSiteService,
 } from '../../../openapi3/aether/2.0.0/services';
 import {
-    AETHER_TARGETS,
+    AETHER_TARGET,
     PERFORMANCE_METRICS_ENABLED,
 } from '../../../environments/environment';
 import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
@@ -106,8 +106,8 @@ export class SiteMonitorComponent
 
     private getSite(): Observable<EnterprisesEnterpriseSite> {
         return this.siteService.getEnterprisesEnterpriseSite({
-            target: AETHER_TARGETS[0],
-            'enterprise-id': '??????',
+            target: AETHER_TARGET,
+            'enterprise-id': this.route.snapshot.params['enterprise-id'],
             'site-id': this.id,
         });
     }

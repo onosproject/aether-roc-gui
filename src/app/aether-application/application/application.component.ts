@@ -10,7 +10,7 @@ import { MatTable } from '@angular/material/table';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { ApplicationDatasource } from './application-datasource';
 import { EnterprisesEnterpriseApplication } from '../../../openapi3/aether/2.0.0/models';
@@ -48,7 +48,7 @@ export class ApplicationComponent
             new ApplicationDatasource(
                 aetherService,
                 basketService,
-                AETHER_TARGETS[0]
+                AETHER_TARGET
             ),
             'Enterprises-2.0.0',
             'application'
@@ -62,7 +62,7 @@ export class ApplicationComponent
         /* Needs work*/
         // this.aetherService
         //     .getVcs({
-        //         target: AETHER_TARGETS[0],
+        //         target: AETHER_TARGET,
         //     })
         //     .subscribe((displayData) => {
         //         this.usageArray = this.usageArray.concat(
@@ -110,7 +110,7 @@ export class ApplicationComponent
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
             this.aetherService.getEnterprises({
-                target: AETHER_TARGETS[0],
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );
@@ -118,7 +118,7 @@ export class ApplicationComponent
         // console.log(
         // this.aetherService
         //     .getApplication({
-        //         target: AETHER_TARGETS[0],
+        //         target: AETHER_TARGET,
         //     })
         //     .subscribe((x) => console.log(x, 'output------'));
     }

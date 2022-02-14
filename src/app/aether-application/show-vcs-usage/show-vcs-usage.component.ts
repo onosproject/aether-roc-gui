@@ -12,12 +12,13 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services/enterprises-enterprise-site.service';
+import { ActivatedRoute } from '@angular/router';
 
 export interface displayedColumns {
     id;
@@ -41,6 +42,7 @@ export class ShowVcsUsageComponent implements OnChanges {
 
     constructor(
         protected fb: FormBuilder,
+        protected route: ActivatedRoute,
         protected siteService: EnterprisesEnterpriseSiteService
     ) {}
 
@@ -48,9 +50,9 @@ export class ShowVcsUsageComponent implements OnChanges {
         this.parentModulesArray = [];
         this.siteService
             .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGETS[0],
-                'enterprise-id': '????????',
-                'site-id': '???????????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
             })
             .subscribe((displayData) => {
                 displayData.slice.forEach((vcsElement) => {

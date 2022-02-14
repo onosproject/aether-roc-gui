@@ -9,7 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { SliceDatasource } from './slice-datasource';
@@ -57,11 +57,7 @@ export class SliceComponent
     ) {
         super(
             basketService,
-            new SliceDatasource(
-                aetherService,
-                basketService,
-                AETHER_TARGETS[0]
-            ),
+            new SliceDatasource(aetherService, basketService, AETHER_TARGET),
             'Enterprises-2.0.0',
             'slice'
         );
@@ -151,7 +147,7 @@ export class SliceComponent
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
             this.aetherService.getEnterprises({
-                target: AETHER_TARGETS[0],
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );

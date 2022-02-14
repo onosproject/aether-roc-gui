@@ -12,7 +12,7 @@ import { IpDomainDatasource } from './ip-domain-datasource';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import * as _ from 'lodash';
 import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
@@ -34,6 +34,7 @@ export class IpDomainComponent
         'id',
         'description',
         'enterprise',
+        'site',
         'dns',
         'subnet',
         'admin-status',
@@ -50,11 +51,7 @@ export class IpDomainComponent
     ) {
         super(
             basketService,
-            new IpDomainDatasource(
-                aetherService,
-                basketService,
-                AETHER_TARGETS[0]
-            ),
+            new IpDomainDatasource(aetherService, basketService, AETHER_TARGET),
             'Enterprises-2.0.0',
             'ip-domain'
         );
@@ -67,7 +64,7 @@ export class IpDomainComponent
         /* Needs work*/
         // this.aetherService
         //     .getDeviceGroup({
-        //         target: AETHER_TARGETS[0],
+        //         target: AETHER_TARGET,
         //     })
         //     .subscribe((displayData) => {
         //         this.usageArray = this.usageArray.concat(
@@ -109,7 +106,7 @@ export class IpDomainComponent
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
             this.aetherService.getEnterprises({
-                target: AETHER_TARGETS[0],
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );

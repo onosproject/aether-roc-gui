@@ -20,6 +20,7 @@ import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseSiteIpDomainService } from '../../../openapi3/aether/2.0.0/services';
 import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 export const UPDATED = 'updated';
 
@@ -177,7 +178,7 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
     loadIpDomainIpDomain(target: string, id: string): void {
         this.ipDomainIpDomainService
             .getEnterprisesEnterpriseSiteIpDomain({
-                target,
+                target: AETHER_TARGET,
                 'ip-domain-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],

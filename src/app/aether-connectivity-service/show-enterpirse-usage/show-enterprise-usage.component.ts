@@ -12,7 +12,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -47,7 +47,7 @@ export class ShowEnterpriseUsageComponent implements OnChanges {
         this.parentModulesArray = [];
         this.aetherService
             .getEnterprises({
-                target: AETHER_TARGETS[0],
+                target: AETHER_TARGET,
             })
             .subscribe((displayData) => {
                 displayData.enterprise.forEach((enterpirseElement) => {

@@ -10,7 +10,7 @@ import { MatTable } from '@angular/material/table';
 import { ConnectivityServicesConnectivityService } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { ConnectivityServiceDatasource } from './connectivity-service-datasource';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
@@ -49,7 +49,7 @@ export class ConnectivityServiceComponent
             new ConnectivityServiceDatasource(
                 aetherService,
                 basketService,
-                AETHER_TARGETS[0]
+                AETHER_TARGET
             ),
             'Connectivity-services-2.0.0',
             'connectivity-service'
@@ -62,7 +62,7 @@ export class ConnectivityServiceComponent
         /* Needs work*/
         // this.aetherService
         //     .getEnterprise({
-        //         target: AETHER_TARGETS[0],
+        //         target: AETHER_TARGET,
         //     })
         //     .subscribe((displayData) => {
         //         this.usageArray = this.usageArray.concat(
@@ -104,7 +104,7 @@ export class ConnectivityServiceComponent
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
             this.aetherService.getConnectivityServices({
-                target: AETHER_TARGETS[0],
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );

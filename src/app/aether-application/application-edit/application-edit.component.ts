@@ -39,6 +39,7 @@ import { Bandwidths } from '../../aether-template/template-edit/template-edit.co
 import { map, startWith } from 'rxjs/operators';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 import { EnterprisesEnterpriseApplicationService } from '../../../openapi3/aether/2.0.0/services';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 const ValidatePortRange: ValidatorFn = (
     control: AbstractControl
@@ -204,7 +205,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     loadApplicationApplication(target: string, id: string): void {
         this.applicationApplicationService
             .getEnterprisesEnterpriseApplication({
-                target,
+                target: AETHER_TARGET,
                 'application-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
@@ -537,8 +538,8 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     loadTrafficClass(target: string): void {
         this.enterpriseService
             .getEnterprisesEnterprise({
-                target,
-                'enterprise-id': '????????????????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {

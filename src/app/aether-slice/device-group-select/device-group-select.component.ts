@@ -16,7 +16,7 @@ import {
     EnterprisesEnterpriseSiteDeviceGroupService,
     Service,
 } from 'src/openapi3/aether/2.0.0/services';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { RocSelectBase } from '../../roc-select-base';
 
 @Component({
@@ -40,7 +40,7 @@ export class DeviceGroupSelectComponent
 
     ngOnInit(): void {
         super.getData(
-            this.service.getEnterprises({ target: AETHER_TARGETS[0] }),
+            this.service.getEnterprises({ target: AETHER_TARGET }),
             'device-group'
         );
     }

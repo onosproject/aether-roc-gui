@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 import { EnterprisesEnterpriseSiteUpfService } from '../../../openapi3/aether/2.0.0/services';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({
     selector: 'aether-upf-edit',
@@ -78,7 +79,6 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
 
     constructor(
         private upfUpfService: EnterprisesEnterpriseSiteUpfService,
-        private aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -100,11 +100,11 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
         this.showParentDisplay = false;
     }
 
-    loadUpfUpf(target: string, id: string): void {
+    loadUpfUpf(target: string, upfId: string): void {
         this.upfUpfService
             .getEnterprisesEnterpriseSiteUpf({
-                target,
-                'upf-id': id,
+                target: AETHER_TARGET,
+                'upf-id': upfId,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
             })
@@ -146,7 +146,7 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                                                         if (
                                                             basketItems[
                                                                 'upf-id'
-                                                            ] === id
+                                                            ] === upfId
                                                         ) {
                                                             this.populateFormData(
                                                                 basketItems
@@ -164,7 +164,7 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                     console.log(
                         'Finished loading EnterprisesEnterpriseSiteUpf(s)',
                         target,
-                        id
+                        upfId
                     );
                 }
             );

@@ -26,6 +26,7 @@ import { RocElement } from '../../../openapi3/top/level/models/elements';
 import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseTemplateService } from '../../../openapi3/aether/2.0.0/services';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 export interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -199,7 +200,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
     loadTemplateTemplate(target: string, id: string): void {
         this.templateTemplateService
             .getEnterprisesEnterpriseTemplate({
-                target,
+                target: AETHER_TARGET,
                 'template-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })

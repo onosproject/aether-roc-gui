@@ -9,7 +9,7 @@ import { SliceDatasource } from './aether-slice/slice/slice-datasource';
 import { Service } from '../openapi3/aether/2.0.0/services';
 import { ApiConfiguration } from '../openapi3/aether/2.0.0/api-configuration';
 import { BasketService } from './basket.service';
-import { AETHER_TARGETS } from '../environments/environment';
+import { AETHER_TARGET } from '../environments/environment';
 import { EnterprisesEnterpriseSiteSlice } from '../openapi3/aether/2.0.0/models';
 
 describe('ROC Data Source', () => {
@@ -75,7 +75,7 @@ describe('ROC Data Source', () => {
                 jasmine.createSpyObj('HttpClient', ['post', 'get'])
             ),
             new BasketService(),
-            AETHER_TARGETS[0]
+            AETHER_TARGET
         );
     });
 

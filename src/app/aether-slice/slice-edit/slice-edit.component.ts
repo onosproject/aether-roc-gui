@@ -35,6 +35,7 @@ import {
     EnterprisesEnterpriseSiteSlice,
 } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseSiteSliceService } from '../../../openapi3/aether/2.0.0/services';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -311,8 +312,8 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     loadTemplate(target: string): void {
         this.enterpriseService
             .getEnterprisesEnterprise({
-                target,
-                'enterprise-id': '????????????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {
@@ -371,7 +372,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     loadSliceSlice(target: string, id: string): void {
         this.sliceService
             .getEnterprisesEnterpriseSiteSlice({
-                target,
+                target: AETHER_TARGET,
                 'slice-id': id,
                 'enterprise-id': this.enterpriseID,
                 'site-id': this.siteID,
@@ -690,9 +691,9 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     loadDeviceGoup(target: string): void {
         this.siteService
             .getEnterprisesEnterpriseSite({
-                target,
-                'enterprise-id': '?????????',
-                'site-id': '???????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
             })
             .pipe(skipWhile((dgContainer) => dgContainer === null))
             .subscribe(
@@ -722,9 +723,9 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         let origLen = 0;
         this.siteService
             .getEnterprisesEnterpriseSite({
-                target,
-                'enterprise-id': '???????',
-                'site-id': '???????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
             })
             .subscribe(
                 (value) => {
@@ -742,9 +743,10 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                     // eliminate already used UPFs
                     this.siteService
                         .getEnterprisesEnterpriseSite({
-                            target,
-                            'enterprise-id': '????????',
-                            'site-id': '???????/',
+                            target: AETHER_TARGET,
+                            'enterprise-id':
+                                this.route.snapshot.params['enterprise-id'],
+                            'site-id': this.route.snapshot.params['site-id'],
                         })
                         .pipe(
                             map((sliceContainer) => sliceContainer?.slice),
@@ -801,8 +803,8 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     loadApplication(target: string): void {
         this.enterpriseService
             .getEnterprisesEnterprise({
-                target,
-                'enterprise-id': '??????????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {

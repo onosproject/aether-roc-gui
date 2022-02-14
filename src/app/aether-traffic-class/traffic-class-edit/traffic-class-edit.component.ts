@@ -13,6 +13,7 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseTrafficClassService } from '../../../openapi3/aether/2.0.0/services';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({
     selector: 'aether-traffic-class-edit',
@@ -97,7 +98,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
     loadTrafficClassTrafficClass(target: string, id: string): void {
         this.trafficClassTrafficClassService
             .getEnterprisesEnterpriseTrafficClass({
-                target,
+                target: AETHER_TARGET,
                 'traffic-class-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })

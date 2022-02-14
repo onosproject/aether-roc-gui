@@ -9,7 +9,7 @@ import {
     Service,
 } from '../../../openapi3/aether/2.0.0/services';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { ConnectivityServices } from '../../../openapi3/aether/2.0.0/models';
 import { RocSelectBase } from '../../roc-select-base';
 
@@ -34,7 +34,7 @@ export class ConnectivityServiceSelectComponent
 
     ngOnInit(): void {
         super.getData(
-            this.service.getConnectivityServices({ target: AETHER_TARGETS[0] }),
+            this.service.getConnectivityServices({ target: AETHER_TARGET }),
             'connectivity-service'
         );
     }

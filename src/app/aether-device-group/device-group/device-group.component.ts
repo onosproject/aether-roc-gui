@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { BasketService } from '../../basket.service';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { DeviceGroupDatasource } from './device-group-datasource';
 import * as _ from 'lodash';
@@ -51,7 +51,7 @@ export class DeviceGroupComponent
             new DeviceGroupDatasource(
                 aetherService,
                 basketService,
-                AETHER_TARGETS[0]
+                AETHER_TARGET
             ),
             'Enterprises-2.0.0',
             'device-group'
@@ -65,7 +65,7 @@ export class DeviceGroupComponent
         /* Needs work*/
         // this.aetherService
         //     .getVcs({
-        //         target: AETHER_TARGETS[0],
+        //         target: AETHER_TARGET,
         //     })
         //     .subscribe((displayData) => {
         //         this.usageArray = this.usageArray.concat(
@@ -115,7 +115,7 @@ export class DeviceGroupComponent
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
             this.aetherService.getEnterprises({
-                target: AETHER_TARGETS[0],
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );

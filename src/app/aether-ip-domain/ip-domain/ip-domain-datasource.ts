@@ -7,7 +7,13 @@
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
-import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
+import {
+    Enterprises,
+    EnterprisesEnterprise,
+    EnterprisesEnterpriseSiteIpDomain,
+} from '../../../openapi3/aether/2.0.0/models';
+import { from, Observable } from 'rxjs';
+import { map, mergeMap, pluck, skipWhile, tap } from 'rxjs/operators';
 
 export class IpDomainDatasource extends RocDataSource<
     EnterprisesEnterpriseSiteIpDomain,
@@ -20,6 +26,65 @@ export class IpDomainDatasource extends RocDataSource<
     ) {
         super(aetherService, bs, target, '/ip-domain-2.0.0', 'ip-domain');
     }
+
+    loadData(
+        dataSourceObservable: Observable<Enterprises>,
+        onDataLoaded: (
+            dataSourceThisScope: RocDataSource<
+                EnterprisesEnterpriseSiteIpDomain,
+                any
+            >
+        ) => void
+    ): void {
+        dataSourceObservable
+            .pipe(
+                map((x: Enterprises) => x?.enterprise),
+                skipWhile((x) => x === undefined),
+                mergeMap((items: EnterprisesEnterprise[]) => from(items))
+            )
+            .subscribe(
+                (value: EnterprisesEnterprise) => {
+                    value.site.forEach((s) => {
+                        s['ip-domain'].forEach((i) => {
+                            if (
+                                !this.bs.containsDeleteEntry(
+                                    '/enterprises/enterprise[' +
+                                        value['enterprise-id'] +
+                                        '/site[site-id=' +
+                                        s['site-id'] +
+                                        '/ip-domain[ip-domain-id=' +
+                                        i['ip-domain-id'] +
+                                        ']'
+                                )
+                            ) {
+                                i['enterprise-id'] = value['enterprise-id'];
+                                i['site-id'] = s['site-id'];
+                                this.data.push(i);
+                            } else {
+                                console.log(
+                                    'ip-domain-id is already in basket',
+                                    i['ip-domain-id']
+                                );
+                            }
+                        });
+                    });
+                },
+                (error) => {
+                    console.warn(
+                        'Error getting data from ',
+                        this.target,
+                        error
+                    );
+                },
+                () => {
+                    // table.refreshRows() does not seem to work - using this trick instead
+                    // const basketPreview = this.bs.buildPatchBody().Updates;
+                    onDataLoaded(this);
+                    this.paginator._changePageSize(this.paginator.pageSize);
+                }
+            );
+    }
+
     getSortedData(
         data: EnterprisesEnterpriseSiteIpDomain[]
     ): EnterprisesEnterpriseSiteIpDomain[] {

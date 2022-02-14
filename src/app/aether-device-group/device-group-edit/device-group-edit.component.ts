@@ -25,7 +25,7 @@ import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.
 import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseSiteDeviceGroupService } from '../../../openapi3/aether/2.0.0/services';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({
     selector: 'aether-device-group-edit',
@@ -227,7 +227,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     loadDeviceGroupDeviceGroup(target: string, id: string): void {
         this.deviceGroupDeviceGroupService
             .getEnterprisesEnterpriseSiteDeviceGroup({
-                target,
+                target: AETHER_TARGET,
                 'device-group-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
@@ -301,8 +301,8 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     loadIpDomains(target: string): void {
         this.entService
             .getEnterprisesEnterprise({
-                target: AETHER_TARGETS[0],
-                'enterprise-id': '??????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {
@@ -321,8 +321,8 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     loadTrafficClass(target: string): void {
         this.entService
             .getEnterprisesEnterprise({
-                target: AETHER_TARGETS[0],
-                'enterprise-id': '???????',
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {
