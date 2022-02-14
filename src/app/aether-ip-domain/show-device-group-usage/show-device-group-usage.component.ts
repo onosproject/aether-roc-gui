@@ -36,6 +36,8 @@ export class ShowDeviceGroupUsageComponent implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<displayedColumns>;
+    @Input() enterpriseID: string;
+    @Input() siteID: string;
     @Input() ipDomainID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
@@ -53,15 +55,15 @@ export class ShowDeviceGroupUsageComponent implements OnChanges {
         this.siteService
             .getEnterprisesEnterpriseSite({
                 target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
-                'site-id': this.route.snapshot.params['site-id'],
+                'enterprise-id': this.enterpriseID,
+                'site-id': this.siteID,
             })
             .subscribe((displayData) => {
-                displayData['device-group'].forEach((deviceGroupElement) => {
-                    if (deviceGroupElement['ip-domain'] === this.ipDomainID) {
+                displayData['device-group'].forEach((dg) => {
+                    if (dg['ip-domain'] === this.ipDomainID) {
                         const displayParentModules = {
-                            id: deviceGroupElement.id,
-                            'display-name': deviceGroupElement['display-name'],
+                            id: dg['device-group-id'],
+                            'display-name': dg['display-name'],
                         };
                         this.parentModulesArray.push(displayParentModules);
                     }

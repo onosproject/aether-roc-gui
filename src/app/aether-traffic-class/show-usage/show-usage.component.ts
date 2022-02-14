@@ -27,15 +27,16 @@ export interface displayedColumns {
 }
 
 @Component({
-    selector: 'aether-show-vcs-usage',
-    templateUrl: './show-vcs-usage.component.html',
+    selector: 'aether-show-usage',
+    templateUrl: './show-usage.component.html',
     styleUrls: ['../../common-panel.component.scss'],
 })
-export class ShowVcsUsageComponent implements OnChanges {
+export class ShowUsageComponent implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<displayedColumns>;
     @Input() trafficClassID: string;
+    @Input() enterpriseID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
     parentModulesArray: Array<displayedColumns> = [];
@@ -53,15 +54,12 @@ export class ShowVcsUsageComponent implements OnChanges {
         this.siteService
             .getEnterprisesEnterprise({
                 target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'enterprise-id': this.enterpriseID,
             })
             .subscribe((displayData) => {
-                displayData.site
-                    .find((s) => s['site-id'] === '?????')
-                    ['device-group'].forEach((dg) => {
-                        if (
-                            dg.device['traffic-class'] === this.trafficClassID
-                        ) {
+                displayData.site.forEach((s) => {
+                    s['device-group'].forEach((dg) => {
+                        if (dg['traffic-class'] === this.trafficClassID) {
                             const displayParentModules = {
                                 id: dg['device-group-id'],
                                 'display-name': dg['display-name'],
@@ -70,6 +68,21 @@ export class ShowVcsUsageComponent implements OnChanges {
                             this.parentModulesArray.push(displayParentModules);
                         }
                     });
+                    s.slice.forEach((sl) => {
+                        sl['priority-traffic-rule'].forEach((ptr) => {
+                            if (ptr['traffic-class'] === this.trafficClassID) {
+                                const displayParentModules = {
+                                    id: ptr['priority-traffic-rule-id'],
+                                    'display-name': ptr['display-name'],
+                                    'parent-module': 'Priority Traffic Rule',
+                                };
+                                this.parentModulesArray.push(
+                                    displayParentModules
+                                );
+                            }
+                        });
+                    });
+                });
                 displayData.application.forEach((appElement) => {
                     appElement.endpoint.forEach((appEndpointElement) => {
                         if (
@@ -79,7 +92,7 @@ export class ShowVcsUsageComponent implements OnChanges {
                             const displayParentModules = {
                                 id: appElement['application-id'],
                                 'display-name': appElement['display-name'],
-                                'parent-module': 'Application',
+                                'parent-module': 'Application Endpoint',
                             };
                             this.parentModulesArray.push(displayParentModules);
                         }

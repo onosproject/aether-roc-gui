@@ -19,6 +19,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services/enterprises-enterprise-site.service';
 import { ActivatedRoute } from '@angular/router';
+import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services/enterprises-enterprise.service';
 
 export interface displayedColumns {
     id;
@@ -34,6 +35,7 @@ export class ShowVcsUsageComponent implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<displayedColumns>;
+    @Input() enterpriseID: string;
     @Input() applicationID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
@@ -43,30 +45,35 @@ export class ShowVcsUsageComponent implements OnChanges {
     constructor(
         protected fb: FormBuilder,
         protected route: ActivatedRoute,
-        protected siteService: EnterprisesEnterpriseSiteService
+        protected siteService: EnterprisesEnterpriseService
     ) {}
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
         this.siteService
-            .getEnterprisesEnterpriseSite({
+            .getEnterprisesEnterprise({
                 target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
-                'site-id': this.route.snapshot.params['site-id'],
+                'enterprise-id': this.enterpriseID,
             })
             .subscribe((displayData) => {
-                displayData.slice.forEach((vcsElement) => {
-                    if (
-                        vcsElement.filter?.[0]?.application ===
-                        this.applicationID
-                    ) {
-                        const displayParentModules = {
-                            id: vcsElement.id,
-                            'display-name': vcsElement['display-name'],
-                        };
-                        this.parentModulesArray.push(displayParentModules);
-                    }
-                    this.table.dataSource = this.parentModulesArray;
+                displayData.site.forEach((s) => {
+                    s.slice.forEach((sliceElement) => {
+                        sliceElement.filter.forEach((filterElement) => {
+                            if (
+                                filterElement.application === this.applicationID
+                            ) {
+                                const displayParentModules = {
+                                    id: filterElement.application,
+                                    'display-name':
+                                        filterElement['display-name'],
+                                };
+                                this.parentModulesArray.push(
+                                    displayParentModules
+                                );
+                            }
+                            this.table.dataSource = this.parentModulesArray;
+                        });
+                    });
                 });
             });
     }

@@ -146,13 +146,12 @@
         </ng-container>
 
         <!-- Delete Column -->
-        <ng-container matColumnDef="Usage/delete" id="deleteColumn">
+        <ng-container matColumnDef="delete" id="deleteColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                Usage/delete
+                Delete
             </th>
             <td mat-cell *matCellDef="let row">
                 <button
-                    *ngIf="!checkForUsage(row['site-id'])"
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
@@ -164,15 +163,6 @@
                     id="deleteSiteButton"
                 >
                     <mat-icon class="table_icon">delete</mat-icon>
-                </button>
-                <button
-                    *ngIf="checkForUsage(row['site-id'])"
-                    mat-icon-button
-                    id="usageButton"
-                    (click)="showUsage(row['site-id'])"
-                    color="accent"
-                >
-                    <mat-icon class="table_icon">assignment</mat-icon>
                 </button>
             </td>
         </ng-container>

@@ -140,7 +140,7 @@
                     *ngIf="checkForUsage(row['application-id'])"
                     mat-icon-button
                     id="usageButton"
-                    (click)="showUsage(row['application-id'])"
+                    (click)="showUsage(row['application-id'], row['enterprise-id'], undefined)"
                     color="accent"
                 >
                     <mat-icon class="table_icon">assignment</mat-icon>
@@ -190,7 +190,8 @@
 <aether-show-vcs-usage
     *ngIf="showUsageCard"
     id="showVcsUsageComponent"
-    [applicationID]="id"
+    [enterpriseID]="selected.enterprise"
+    [applicationID]="selected.id"
     (closeShowParentCardEvent)="closeShowParentCard()"
 >
 </aether-show-vcs-usage>

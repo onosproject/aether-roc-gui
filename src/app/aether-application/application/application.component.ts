@@ -13,16 +13,8 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGET } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { ApplicationDatasource } from './application-datasource';
-import {
-    Enterprises,
-    EnterprisesEnterprise,
-    EnterprisesEnterpriseApplication,
-    EnterprisesEnterpriseTemplate,
-} from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseApplication } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
-import { from, Observable } from 'rxjs';
-import { RocDataSource } from '../../roc-data-source';
-import { map, mergeMap, skipWhile } from 'rxjs/operators';
 
 @Component({
     selector: 'aether-application',

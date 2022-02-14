@@ -5,7 +5,7 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShowDgUsageComponent } from './show-dg-usage.component';
+import { ShowUsageComponent } from './show-usage.component';
 import {
     MAT_FORM_FIELD_DEFAULT_OPTIONS,
     MatFormFieldModule,
@@ -22,14 +22,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 
-describe('ShowDgUsageComponent', () => {
-    let component: ShowDgUsageComponent;
-    let fixture: ComponentFixture<ShowDgUsageComponent>;
+describe('ShowUsageComponent', () => {
+    let component: ShowUsageComponent;
+    let fixture: ComponentFixture<ShowUsageComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ShowDgUsageComponent],
+            declarations: [ShowUsageComponent],
             providers: [
                 {
                     provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -51,12 +52,13 @@ describe('ShowDgUsageComponent', () => {
                 MatDividerModule,
                 MatSnackBarModule,
                 MatSelectModule,
+                MatTableModule,
             ],
         }).compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ShowDgUsageComponent);
+        fixture = TestBed.createComponent(ShowUsageComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

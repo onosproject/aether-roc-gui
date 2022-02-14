@@ -183,7 +183,7 @@
                     *ngIf="checkForUsage(row['ip-domain-id'])"
                     mat-icon-button
                     id="usageButton"
-                    (click)="showUsage(row['ip-domain-id'])"
+                    (click)="showUsage(row['ip-domain-id'], row['enterprise-id'], row['site-id'])"
                     color="accent"
                 >
                     <mat-icon class="table_icon">assignment</mat-icon>
@@ -219,7 +219,9 @@
 <aether-show-device-group-usage
     *ngIf="showUsageCard"
     id="showParentModulesComponent"
-    [ipDomainID]="id"
+    [enterpriseID]="selected.enterprise"
+    [siteID]="selected.site"
+    [ipDomainID]="selected.id"
     (closeShowParentCardEvent)="closeShowParentCard()"
 >
 </aether-show-device-group-usage>

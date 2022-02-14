@@ -40,7 +40,7 @@ export class SiteComponent
         'enterpriseID',
         'format',
         'edit',
-        'Usage/delete',
+        'delete',
         'monitor',
     ];
 

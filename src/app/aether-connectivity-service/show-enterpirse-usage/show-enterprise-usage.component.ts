@@ -50,25 +50,19 @@ export class ShowEnterpriseUsageComponent implements OnChanges {
                 target: AETHER_TARGET,
             })
             .subscribe((displayData) => {
-                displayData.enterprise.forEach((enterpirseElement) => {
-                    for (
-                        let i = 0;
-                        i < enterpirseElement['connectivity-service'].length;
-                        i++
-                    ) {
+                displayData.enterprise.forEach((e) => {
+                    e['connectivity-service'].forEach((cs) => {
                         if (
-                            enterpirseElement['connectivity-service']?.[i]?.[
-                                'connectivity-service'
-                            ] === this.connectivityServiceID
+                            cs['connectivity-service'] ===
+                            this.connectivityServiceID
                         ) {
                             const displayParentModules = {
-                                id: enterpirseElement['enterprise-id'],
-                                'display-name':
-                                    enterpirseElement['display-name'],
+                                id: e['enterprise-id'],
+                                'display-name': e['display-name'],
                             };
                             this.parentModulesArray.push(displayParentModules);
                         }
-                    }
+                    });
                 });
                 this.table.dataSource = this.parentModulesArray;
             });

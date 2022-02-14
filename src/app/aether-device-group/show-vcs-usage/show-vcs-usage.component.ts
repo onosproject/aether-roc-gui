@@ -35,6 +35,8 @@ export class ShowVcsUsageComponent implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<displayedColumns>;
+    @Input() enterpriseID: string;
+    @Input() siteID: string;
     @Input() deviceGroupID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
@@ -52,21 +54,20 @@ export class ShowVcsUsageComponent implements OnChanges {
         this.siteService
             .getEnterprisesEnterpriseSite({
                 target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
-                'site-id': this.route.snapshot.params['site-id'],
+                'enterprise-id': this.enterpriseID,
+                'site-id': this.siteID,
             })
             .subscribe((displayData) => {
-                displayData.slice.forEach((vcsElement) => {
-                    if (
-                        vcsElement['device-group']?.[0]?.['device-group'] ===
-                        this.deviceGroupID
-                    ) {
-                        const displayParentModules = {
-                            id: vcsElement.id,
-                            'display-name': vcsElement['display-name'],
-                        };
-                        this.parentModulesArray.push(displayParentModules);
-                    }
+                displayData.slice.forEach((sliceElement) => {
+                    sliceElement['device-group'].forEach((dg) => {
+                        if (dg['device-group'] === this.deviceGroupID) {
+                            const displayParentModules = {
+                                id: sliceElement['slice-id'],
+                                'display-name': sliceElement['display-name'],
+                            };
+                            this.parentModulesArray.push(displayParentModules);
+                        }
+                    });
                 });
                 this.table.dataSource = this.parentModulesArray;
             });

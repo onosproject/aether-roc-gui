@@ -93,5 +93,6 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         AuthInterceptor,
         API_INTERCEPTOR_PROVIDER,
     ],
+    exports: [ShowVcsUsageComponent],
 })
 export class AetherDeviceGroupModule {}

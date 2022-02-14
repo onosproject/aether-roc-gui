@@ -12,12 +12,18 @@ import {
     RocGenericModelType,
 } from './roc-data-source';
 
+interface Selected {
+    id: string;
+    enterprise: string;
+    site: string;
+}
+
 export abstract class RocListBase<
     T extends GenericRocDataSource<RocGenericModelType, RocGenericContainerType>
 > {
     public dataSource: T;
     protected reqdAttr: string[] = [];
-    public id: string;
+    public selected: Selected;
     public usageArray = [];
     public showUsageCard = false;
 
@@ -68,8 +74,8 @@ export abstract class RocListBase<
         this.dataSource.delete(id);
     }
 
-    showUsage(id: string): void {
-        this.id = id;
+    showUsage(id: string, enterprise?: string, site?: string): void {
+        this.selected = { id, enterprise, site } as Selected;
         this.showUsageCard = true;
     }
 

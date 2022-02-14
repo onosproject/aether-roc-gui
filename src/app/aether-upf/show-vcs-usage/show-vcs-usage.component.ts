@@ -34,6 +34,8 @@ export class ShowVcsUsageComponent implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<displayedColumns>;
+    @Input() enterpriseID: string;
+    @Input() siteID: string;
     @Input() upfID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
@@ -51,15 +53,15 @@ export class ShowVcsUsageComponent implements OnChanges {
         this.siteService
             .getEnterprisesEnterpriseSite({
                 target: AETHER_TARGET,
-                'site-id': this.route.snapshot.params['site-id'],
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.siteID,
+                'enterprise-id': this.enterpriseID,
             })
             .subscribe((displayData) => {
-                displayData.slice.forEach((vcsElement) => {
-                    if (vcsElement.upf === this.upfID) {
+                displayData.slice.forEach((sliceElement) => {
+                    if (sliceElement.upf === this.upfID) {
                         const displayParentModules = {
-                            id: vcsElement.id,
-                            'display-name': vcsElement['display-name'],
+                            id: sliceElement.upf,
+                            'display-name': sliceElement['display-name'],
                         };
                         this.parentModulesArray.push(displayParentModules);
                     }
