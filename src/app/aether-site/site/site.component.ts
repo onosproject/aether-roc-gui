@@ -15,6 +15,7 @@ import { RocListBase } from '../../roc-list-base';
 import { SiteDatasource } from './site-datasource';
 import * as _ from 'lodash';
 import { EnterpriseEnterpriseSite } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-site',
@@ -129,6 +130,14 @@ export class SiteComponent
                 { fieldName: 'small-cell', idAttr: 'small-cell-id' },
             ]);
         }
+    }
+
+    deleteSite(id: string, enterpriseID: string): void {
+        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
+            '[enterprise-id=' +
+            enterpriseID +
+            ']') as RocElement;
+        this.delete(id);
     }
 
     ngAfterViewInit(): void {

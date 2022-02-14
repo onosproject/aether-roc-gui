@@ -71,9 +71,9 @@
                 >
                     <mat-option
                         *ngFor="let eachTrafficClass of trafficClassOptions"
-                        [value]="eachTrafficClass.id"
+                        [value]="eachTrafficClass['traffic-class-id']"
                         >{{ eachTrafficClass["display-name"] }} ({{
-                            eachTrafficClass.id
+                            eachTrafficClass["traffic-class-id"]
                         }})</mat-option
                     >
                 </mat-select>

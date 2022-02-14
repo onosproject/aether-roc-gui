@@ -34,13 +34,13 @@
             <td mat-cell *matCellDef="let row">
                 <span
                     *ngIf="row['display-name'] !== undefined"
-                    [title]="row['ent-id']"
+                    [title]="row['enterprise-id']"
                     >{{ row["display-name"] }}<br /><small
-                        >({{ row["ent-id"] }})</small
+                        >({{ row["enterprise-id"] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
-                    row["ent-id"]
+                    row["enterprise-id"]
                 }}</span>
             </td>
         </ng-container>
@@ -89,7 +89,9 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/enterprise/enterprise-edit/{{ row['ent-id'] }}"
+                routerLink="/enterprise/enterprise-edit/{{
+                    row['enterprise-id']
+                }}"
                 id="editEnterpriseButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
@@ -109,7 +111,7 @@
                             '/enterprise/enterprise[id=' + row.id + ']'
                         )
                     "
-                    (click)="delete(row['ent-id'])"
+                    (click)="delete(row['enterprise-id'])"
                     color="accent"
                     id="deleteEnterpriseButton"
                 >

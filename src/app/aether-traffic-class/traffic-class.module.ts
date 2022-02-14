@@ -45,7 +45,7 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         RouterModule.forChild([
             { path: 'traffic-class', component: TrafficClassComponent },
             {
-                path: 'traffic-class-edit/:ent-id/:id',
+                path: 'traffic-class-edit/:enterprise-id/:id',
                 component: TrafficClassEditComponent,
             },
             { path: '', component: TrafficClassComponent },

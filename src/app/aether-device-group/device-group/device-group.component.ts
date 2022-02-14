@@ -15,6 +15,7 @@ import { RocListBase } from '../../roc-list-base';
 import { DeviceGroupDatasource } from './device-group-datasource';
 import * as _ from 'lodash';
 import { EnterpriseEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-device-group';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-device-group',
@@ -33,7 +34,6 @@ export class DeviceGroupComponent
         'id',
         'description',
         'site',
-        // 'Imsis',
         'ip-domain',
         'device',
         'edit',
@@ -93,10 +93,20 @@ export class DeviceGroupComponent
             'device-group' in basketPreview[this.pathRoot]
         ) {
             ScopeOfDataSource.merge(
-                basketPreview['Device-group-2.0.0']['device-group'],
+                basketPreview['Enterprises-2.0.0'].site['device-group'],
                 [{ fieldName: 'imsis', idAttr: 'imsi-id' }]
             );
         }
+    }
+
+    deleteDeviceGroup(id: string, enterpriseID: string, siteID: string): void {
+        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
+            '[enterprise-id=' +
+            enterpriseID +
+            '[site-id=' +
+            siteID +
+            ']') as RocElement;
+        this.delete(id);
     }
 
     ngAfterViewInit(): void {

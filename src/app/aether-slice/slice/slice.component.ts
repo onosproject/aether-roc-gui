@@ -19,6 +19,7 @@ import {
 } from '../../../openapi3/aether/2.0.0/models';
 import { HexPipe } from '../../utils/hex.pipe';
 import { RocDataSource } from '../../roc-data-source';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-slice',
@@ -42,7 +43,7 @@ export class SliceComponent
         'site',
         'filter',
         'default-behavior',
-        'slice',
+        'mbr',
         'device-group',
         'sd',
         'sst',
@@ -99,11 +100,17 @@ export class SliceComponent
         ) {
             this.deletedSliceArray = DeletesBasketPreview[
                 'slice-2.0.0'
-            ].slice.map((DeletedSliceID) => DeletedSliceID.id);
+            ].slice.map((DeletedSliceID) => DeletedSliceID['slice-id']);
         }
     }
 
-    deleteSlice(id: string): void {
+    deleteSlice(id: string, enterpriseID: string, siteID: string): void {
+        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
+            '[enterprise-id=' +
+            enterpriseID +
+            '[site-id=' +
+            siteID +
+            ']') as RocElement;
         const ucMap = new Map<string, string>();
         if (this.reqdAttr.length > 0) {
             ucMap.set(
@@ -112,6 +119,8 @@ export class SliceComponent
                     '/' +
                     this.pathListAttr +
                     '[' +
+                    this.pathListAttr +
+                    '-' +
                     this.indexAttr +
                     '=' +
                     id +
@@ -125,6 +134,8 @@ export class SliceComponent
                 '/' +
                 this.pathListAttr +
                 '[' +
+                this.pathListAttr +
+                '-' +
                 this.indexAttr +
                 '=' +
                 id +

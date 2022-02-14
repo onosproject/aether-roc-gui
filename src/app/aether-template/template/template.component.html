@@ -15,7 +15,7 @@
             id="addNewTemplateButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/template/template/[ent-id=unknownent]/[id=newinstance]'
+                    '/template/template/[enterprise-id=unknownent]/[id=newinstance]'
                 )
             "
             routerLink="/template/template-edit/unknownent/newinstance"
@@ -36,13 +36,13 @@
             <td mat-cell *matCellDef="let row">
                 <span
                     *ngIf="row['display-name'] !== undefined"
-                    [title]="row['tp-id']"
+                    [title]="row['template-id']"
                     >{{ row["display-name"] }}<br /><small
-                        >({{ row["tp-id"] }})</small
+                        >({{ row["template-id"] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
-                    row["tp-id"]
+                    row["template-id"]
                 }}</span>
             </td>
         </ng-container>
@@ -54,6 +54,27 @@
             </th>
             <td mat-cell *matCellDef="let row" [title]="row.description">
                 {{ row.description | truncateText: 35 }}
+            </td>
+        </ng-container>
+
+        <!-- Enterprise Column -->
+        <ng-container matColumnDef="enterprise" id="EnterpriseColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Enterprise
+            </th>
+            <td mat-cell *matCellDef="let row">
+                {{ row["enterprise-id"] }}
+                <mat-icon
+                    class="table_icon small_icon"
+                    aria-hidden="false"
+                    aria-label="Enterprise"
+                    color="primary"
+                    id="pointerEnterprise"
+                    routerLink="/enterprise/enterprise-edit/{{
+                        row['enterprise-id']
+                    }}"
+                    >launch
+                </mat-icon>
             </td>
         </ng-container>
 
@@ -91,13 +112,13 @@
                 Slice MBR (bps)
             </th>
             <td mat-cell *matCellDef="let row">
-                <p *ngIf="row.slice && row.slice.mbr">
+                <p *ngIf="row.mbr">
                     <mat-icon class="small_icon">arrow_upward </mat-icon>
-                    {{ row.slice.mbr.uplink }}
+                    {{ row.mbr.uplink }}
                 </p>
-                <p *ngIf="row.slice && row.slice.mbr">
+                <p *ngIf="row.mbr">
                     <mat-icon class="small_icon">arrow_downward </mat-icon>
-                    {{ row.slice.mbr.downlink }}
+                    {{ row.mbr.downlink }}
                 </p>
             </td>
         </ng-container>
@@ -108,13 +129,13 @@
                 Slice Burst Size (Byte)
             </th>
             <td mat-cell *matCellDef="let row">
-                <p *ngIf="row.slice && row.slice.mbr">
+                <p *ngIf="row.mbr">
                     <mat-icon class="small_icon">arrow_upward </mat-icon>
-                    {{ row.slice.mbr["uplink-burst-size"] }}
+                    {{ row.mbr["uplink-burst-size"] }}
                 </p>
-                <p *ngIf="row.slice && row.slice.mbr">
+                <p *ngIf="row.mbr">
                     <mat-icon class="small_icon">arrow_downward </mat-icon>
-                    {{ row.slice.mbr["downlink-burst-size"] }}
+                    {{ row.mbr["downlink-burst-size"] }}
                 </p>
             </td>
         </ng-container>
@@ -127,9 +148,9 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/template/template-edit/{{ row['ent-id'] }}/{{
-                    row['tp-id']
-                }}"
+                routerLink="/template/template-edit/{{
+                    row['enterprise-id']
+                }}/{{ row['template-id'] }}"
                 id="edittemplateButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
@@ -146,10 +167,12 @@
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
-                            '/template/template[id=' + row['tp-id'] + ']'
+                            '/template/template[id=' + row['template-id'] + ']'
                         )
                     "
-                    (click)="delete(row['tp-id'])"
+                    (click)="
+                        deleteTemplate(row['template-id'], row['enterprise-id'])
+                    "
                     color="accent"
                     id="deletetemplateButton"
                 >

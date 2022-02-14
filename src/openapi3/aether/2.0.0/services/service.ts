@@ -94,7 +94,7 @@ export class Service extends BaseService {
           let VCSArray = [];
         r.body.enterprise.forEach(enterprise => {
             enterprise.application.forEach(application=>{
-                application['ent-id']=enterprise["ent-id"];
+                application['enterprise-id']=enterprise["enterprise-id"];
             })
             enterprise.site.forEach(site=>{
                 VCSArray = [...VCSArray,...site.slice];
@@ -102,9 +102,7 @@ export class Service extends BaseService {
             EnterpriseApplicationArray = [...EnterpriseApplicationArray,...enterprise.application];
          })
           ApplicationsDataObject.application = EnterpriseApplicationArray;
-        // ApplicationsDataObject.application.slice =
           ApplicationsDataObject.slice = VCSArray;
-          console.log(ApplicationsDataObject,"ApplicationsDataObject")
         return ApplicationsDataObject as Application
       })
     );
@@ -237,7 +235,7 @@ export class Service extends BaseService {
                   enterprise.site.forEach(site=>{
                       site["device-group"].forEach(devicegroup=> {
                           devicegroup['site-id'] = site['site-id'];
-                          devicegroup['ent-id'] = enterprise['ent-id']})
+                          devicegroup['enterprise-id'] = enterprise['enterprise-id']})
                       EnterpriseSiteDeviceGroupArray = [...EnterpriseSiteDeviceGroupArray,...site['device-group']];
                   })
               })
@@ -373,7 +371,7 @@ export class Service extends BaseService {
                   enterprise.site.forEach(site=>{
                       site["ip-domain"].forEach(IpDoamin=> {
                           IpDoamin['site-id'] = site['site-id'];
-                          IpDoamin['ent-id'] = enterprise['ent-id']})
+                          IpDoamin['enterprise-id'] = enterprise['enterprise-id']})
                       EnterpriseSiteIpDomainArray = [...EnterpriseSiteIpDomainArray,...site["ip-domain"]];
                   })
               })
@@ -442,11 +440,11 @@ export class Service extends BaseService {
 
       return this.getEnterprise$Response(params).pipe(
           map((r: StrictHttpResponse<Enterprise>) => {
-              let SiteDataObject :Site = { site:[], 'ent-id':null};
+              let SiteDataObject :Site = { site:[], 'enterprise-id':null};
               let EnterpriseSiteArray = [];
               r.body.enterprise.forEach(enterprise => {
                   enterprise.site.forEach(site=>{
-                      site['ent-id'] = enterprise["ent-id"];
+                      site['enterprise-id'] = enterprise["enterprise-id"];
                   })
                   EnterpriseSiteArray = [...EnterpriseSiteArray,...enterprise.site];
 
@@ -516,11 +514,11 @@ export class Service extends BaseService {
 
       return this.getEnterprise$Response(params).pipe(
           map((r: StrictHttpResponse<Enterprise>) => {
-              let TemplateDataObject :Template = { template:[], 'ent-id':null};
+              let TemplateDataObject :Template = { template:[], 'enterprise-id':null};
               let EnterpriseTemplateArray = [];
               r.body.enterprise.forEach(enterprise => {
                   enterprise.template.forEach(template=>{
-                      template['ent-id'] = enterprise["ent-id"];
+                      template['enterprise-id'] = enterprise["enterprise-id"];
                   })
                   EnterpriseTemplateArray = [...EnterpriseTemplateArray,...enterprise.template];
 
@@ -590,11 +588,11 @@ export class Service extends BaseService {
 
       return this.getEnterprise$Response(params).pipe(
           map((r: StrictHttpResponse<Enterprise>) => {
-              let TrafficClassDataObject :TrafficClass = {'traffic-class':[], 'ent-id':null};
+              let TrafficClassDataObject :TrafficClass = {'traffic-class':[], 'enterprise-id':null};
               let EnterpriseTrafficClassArray = [];
               r.body.enterprise.forEach(enterprise => {
                   enterprise['traffic-class'].forEach(trafficClassObject=>{
-                      trafficClassObject['ent-id'] = enterprise["ent-id"];
+                      trafficClassObject['enterprise-id'] = enterprise["enterprise-id"];
                   })
                   EnterpriseTrafficClassArray = [...EnterpriseTrafficClassArray,...enterprise['traffic-class']];
 
@@ -669,12 +667,11 @@ export class Service extends BaseService {
                   enterprise.site.forEach(site=>{
                       site.upf.forEach(UPF=> {
                           UPF['site-id'] = site['site-id'];
-                          UPF['ent-id'] = enterprise['ent-id']})
+                          UPF['enterprise-id'] = enterprise['enterprise-id']})
                       EnterpriseSiteUpfArray = [...EnterpriseSiteUpfArray,...site.upf];
                   })
               })
               UpfataObject.upf = EnterpriseSiteUpfArray;
-              console.log(UpfataObject,"UpfataObject")
               return UpfataObject as Upf
           })
       );
@@ -745,13 +742,12 @@ export class Service extends BaseService {
                   enterprise.site.forEach(site => {
                       site.slice.forEach(slice => {
                           slice['site-id'] = site['site-id'];
-                          slice['ent-id'] = enterprise['ent-id']
+                          slice['enterprise-id'] = enterprise['enterprise-id']
                       })
                       EnterpriseSiteSliceArray = [...EnterpriseSiteSliceArray, ...site.slice];
                   })
               })
               SliceDataObject.slice = EnterpriseSiteSliceArray;
-              console.log(SliceDataObject,"SliceDataObject")
               return SliceDataObject as Slice
           })
       );

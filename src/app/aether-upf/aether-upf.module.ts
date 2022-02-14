@@ -33,15 +33,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UpfEditComponent } from './upf-edit/upf-edit.component';
 import { UtilsModule } from '../utils/utils.module';
 import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
-import { UpfMonitorComponent } from './upf-monitor/upf-monitor.component';
+// import { UpfMonitorComponent } from './upf-monitor/upf-monitor.component';
 
 @NgModule({
-    declarations: [
-        UpfComponent,
-        UpfEditComponent,
-        ShowVcsUsageComponent,
-        UpfMonitorComponent,
-    ],
+    declarations: [UpfComponent, UpfEditComponent, ShowVcsUsageComponent],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
@@ -49,10 +44,10 @@ import { UpfMonitorComponent } from './upf-monitor/upf-monitor.component';
         RouterModule.forChild([
             { path: 'upf', component: UpfComponent },
             {
-                path: 'upf-edit/:ent-id/:site-id/:id',
+                path: 'upf-edit/:enterprise-id/:site-id/:id',
                 component: UpfEditComponent,
             },
-            { path: 'upf-monitor/:id', component: UpfMonitorComponent },
+            // { path: 'upf-monitor/:id', component: UpfMonitorComponent },
             { path: '', component: UpfComponent, pathMatch: 'full' },
         ]),
         MatToolbarModule,

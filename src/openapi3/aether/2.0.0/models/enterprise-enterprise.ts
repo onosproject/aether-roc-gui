@@ -1,16 +1,17 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { EnterpriseEnterpriseConnectivityService } from './enterprise-enterprise-connectivity-service';
+import { EnterpriseConnectivityService } from './enterprise-connectivity-service';
 import {EnterpriseEnterpriseApplication} from "./enterprise-enterprise-application";
 import {EnterpriseEnterpriseTrafficClass} from "./enterprise-enterprise-traffic-class";
 import {EnterpriseEnterpriseTemplate} from "./enterprise-enterprise-template";
 import {EnterpriseEnterpriseSite} from "./enterprise-enterprise-site";
 export interface EnterpriseEnterprise {
+
     /**
      * Link for connectivity-service.
      */
-  'connectivity-service'?: Array<EnterpriseEnterpriseConnectivityService>;
+    'connectivity-service'?: Array<EnterpriseConnectivityService>;
 
     /**
      * Link for application.
@@ -45,5 +46,5 @@ export interface EnterpriseEnterprise {
   /**
    * ID for this enterprise.
    */
-  'ent-id': string;
+  'enterprise-id': string;
 }

@@ -6,7 +6,9 @@
 <form [formGroup]="tcForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Traffic Class ID: {{ id }}</mat-card-title>
+            <mat-card-title
+                >Traffic Class ID: {{ trafficClassId }}</mat-card-title
+            >
             <mat-icon
                 *ngIf="!isNew"
                 (click)="showParentDisplay = true; $event.preventDefault()"
@@ -22,7 +24,7 @@
                 <mat-form-field class="half-width field-margin">
                     <input
                         matInput
-                        formControlName="id"
+                        formControlName="traffic-class-id"
                         placeholder="Please specify an ID"
                         id="inputID"
                     />
@@ -108,7 +110,6 @@
                 [disabled]="
                     !(
                         tcForm.valid &&
-                        tcForm.value.id &&
                         tcForm.touched &&
                         opaService.canWrite(
                             '/traffic-class/traffic-class[id=' + id + ']'
@@ -125,6 +126,6 @@
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
     [trafficClassID]="trafficClassId"
-    (closeShowParentCardEvent)="closeShowParentCard($event)"
+    (closeShowParentCardEvent)="closeShowParentCard()"
 >
 </aether-show-vcs-usage>

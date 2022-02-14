@@ -15,6 +15,7 @@ import { RocListBase } from '../../roc-list-base';
 import { UpfDatasource } from './upf-datasource';
 import * as _ from 'lodash';
 import { EnterpriseEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-upf';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-upf',
@@ -38,8 +39,8 @@ export class UpfComponent
         'config-endpoint',
         'port',
         'edit',
-        'monitor',
         'usage/delete',
+        'monitor',
     ];
 
     constructor(
@@ -84,6 +85,16 @@ export class UpfComponent
         ) {
             ScopeOfDataSource.merge(basketPreview['Upf-2.0.0'].upf);
         }
+    }
+
+    deleteUpf(id: string, enterpriseID: string, siteID: string): void {
+        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
+            '[enterprise-id=' +
+            enterpriseID +
+            '[site-id=' +
+            siteID +
+            ']') as RocElement;
+        this.delete(id);
     }
 
     ngAfterViewInit(): void {

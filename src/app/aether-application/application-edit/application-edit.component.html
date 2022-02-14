@@ -7,7 +7,10 @@
 <form [formGroup]="appForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
-            <mat-card-title>Application ID: {{ id }}</mat-card-title>
+            <mat-card-title
+                >Application ID:
+                {{ this.appForm.get("application-id").value }}</mat-card-title
+            >
             <mat-icon
                 *ngIf="!isNew"
                 (click)="showParentDisplay = true; $event.preventDefault()"
@@ -23,7 +26,7 @@
                 <mat-form-field class="half-width field-margin">
                     <input
                         matInput
-                        formControlName="id"
+                        formControlName="application-id"
                         placeholder="Please specify an ID"
                         title="This field is mandatory."
                         id="inputID"
@@ -50,23 +53,6 @@
                         id="inputDescription"
                     ></textarea>
                     <mat-hint>Description</mat-hint>
-                </mat-form-field>
-            </div>
-            <div id="enterpriseRow">
-                <mat-form-field class="field-margin half-width">
-                    <mat-select
-                        formControlName="enterprise"
-                        placeholder="Please specify an Enterprise"
-                        id="selectEnterprise"
-                    >
-                        <mat-option
-                            *ngFor="let eachEnterprise of enterprises"
-                            [value]="eachEnterprise.id"
-                            >{{ eachEnterprise.id }}
-                            {{ eachEnterprise["display-name"] }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-hint>Enterprise</mat-hint>
                 </mat-form-field>
             </div>
             <div class="row" id="address">
@@ -164,7 +150,9 @@
                                         *ngFor="
                                             let eachTrafficClass of trafficClassOptions
                                         "
-                                        [value]="eachTrafficClass.id"
+                                        [value]="
+                                            eachTrafficClass['traffic-class-id']
+                                        "
                                         >{{
                                             eachTrafficClass["display-name"]
                                         }}</mat-option
@@ -250,7 +238,6 @@
                         !(
                             appForm.valid &&
                             appForm.errors?.isEndpointNotValid === null &&
-                            appForm.value.id &&
                             appForm.touched &&
                             opaService.canWrite('/application/application')
                         )
@@ -274,6 +261,6 @@
     *ngIf="showParentDisplay"
     id="showVcsUsageComponent"
     [applicationID]="applicationId"
-    (closeShowParentCardEvent)="closeShowParentCard($event)"
+    (closeShowParentCardEvent)="closeShowParentCard()"
 >
 </aether-show-vcs-usage>

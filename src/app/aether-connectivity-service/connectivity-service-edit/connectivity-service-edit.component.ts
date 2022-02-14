@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { Component, OnInit } from '@angular/core';
-import { ConnectivityServiceConnectivityService } from '../../../openapi3/aether/4.0.0/models';
+import { ConnectivityServiceConnectivityService } from '../../../openapi3/aether/2.0.0/models';
 import { RocEditBase } from '../../roc-edit-base';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BasketService, ORIGINAL } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConnectivityServiceConnectivityServiceService } from '../../../openapi3/aether/4.0.0/services';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
+import { ConnectivityServiceConnectivityServiceService } from '../../../openapi3/aether/2.0.0/services/connectivity-service-connectivity-service.service';
 
 @Component({
     selector: 'aether-connectivity-service-edit',
@@ -25,7 +25,7 @@ export class ConnectivityServiceEditComponent
     data: ConnectivityServiceConnectivityService;
 
     csForm = this.fb.group({
-        id: [
+        'connectivity-service-id': [
             undefined,
             Validators.compose([
                 Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
@@ -72,7 +72,7 @@ export class ConnectivityServiceEditComponent
             bs,
             route,
             router,
-            'Connectivity-service-4.0.0',
+            'Connectivity-services-2.0.0',
             'connectivity-service'
         );
         super.form = this.csForm;
@@ -86,6 +86,13 @@ export class ConnectivityServiceEditComponent
     private populateFormData(
         value: ConnectivityServiceConnectivityService
     ): void {
+        if (value['connectivity-service-id']) {
+            this.csForm
+                .get('connectivity-service-id')
+                .setValue(value['connectivity-service-id']);
+            this.csForm.get('connectivity-service-id')[ORIGINAL] =
+                value['connectivity-service-id'];
+        }
         if (value['display-name']) {
             this.csForm.get('display-name').setValue(value['display-name']);
             this.csForm.get('display-name')[ORIGINAL] = value['display-name'];
@@ -115,7 +122,8 @@ export class ConnectivityServiceEditComponent
             .subscribe(
                 (value) => {
                     this.data = value;
-                    this.connectivityServiceId = value.id;
+                    this.connectivityServiceId =
+                        value['connectivity-service-id'];
                     this.populateFormData(value);
                 },
                 (error) => {
@@ -130,9 +138,9 @@ export class ConnectivityServiceEditComponent
                     if (
                         this.pathRoot in basketPreview &&
                         this.pathListAttr in
-                            basketPreview['Connectivity-service-4.0.0']
+                            basketPreview['Connectivity-services-2.0.0']
                     ) {
-                        basketPreview['Connectivity-service-4.0.0'][
+                        basketPreview['Connectivity-services-2.0.0'][
                             'connectivity-service'
                         ].forEach((basketItems) => {
                             if (basketItems.id === id) {

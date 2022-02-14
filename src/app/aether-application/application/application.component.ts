@@ -13,8 +13,8 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGETS } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { ApplicationDatasource } from './application-datasource';
-import * as _ from 'lodash';
 import { EnterpriseEnterpriseApplication } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-application';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-application',
@@ -53,7 +53,7 @@ export class ApplicationComponent
             'Enterprises-2.0.0',
             'application'
         );
-        super.reqdAttr = ['enterprise', 'address'];
+        super.reqdAttr = ['address'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
@@ -90,10 +90,18 @@ export class ApplicationComponent
             'application' in basketPreview[this.pathRoot]
         ) {
             ScopeOfDataSource.merge(
-                basketPreview['Application-2.0.0'].application,
+                basketPreview['Enterprises-2.0.0'].application,
                 [{ fieldName: 'endpoint', idAttr: 'endpoint-id' }]
             );
         }
+    }
+
+    deleteApplication(id: string, enterpriseID: string): void {
+        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
+            '[enterprise-id=' +
+            enterpriseID +
+            ']') as RocElement;
+        this.delete(id);
     }
 
     ngAfterViewInit(): void {

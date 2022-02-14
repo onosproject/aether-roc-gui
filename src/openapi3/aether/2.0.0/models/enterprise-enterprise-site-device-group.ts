@@ -20,7 +20,7 @@ export interface EnterpriseEnterpriseSiteDeviceGroup {
   /**
    * ID for this device group.
    */
-  'dg-id': string;
+  'device-group-id': string;
 
   /**
    * Link to ip-domain settings that determine the pool of IP addresses,

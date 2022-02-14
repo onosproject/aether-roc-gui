@@ -76,9 +76,8 @@ describe('ApplicationEditComponent', () => {
         const endpointControlArray = component.appForm.get(
             'endpoint'
         ) as FormArray;
-        component.appForm.get('id').setValue('testappform');
+        component.appForm.get('application-id').setValue('testappform');
         component.appForm.get('address').setValue('testaddress');
-        component.appForm.get('enterprise').setValue('testenterprise');
         endpointControlArray.push(
             fb.group({
                 'endpoint-id': fb.control('first'),
@@ -100,9 +99,8 @@ describe('ApplicationEditComponent', () => {
         const endpointControlArray = component.appForm.get(
             'endpoint'
         ) as FormArray;
-        component.appForm.get('id').setValue('testappform');
+        component.appForm.get('application-id').setValue('testappform');
         component.appForm.get('address').setValue('testaddress');
-        component.appForm.get('enterprise').setValue('testenterprise');
         endpointControlArray.push(
             fb.group({
                 'endpoint-id': fb.control('first'),

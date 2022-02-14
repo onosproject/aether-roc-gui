@@ -55,7 +55,7 @@ export class EnterpriseComponent
             'enterprise' in basketPreview[this.pathRoot]
         ) {
             ScopeOfDataSource.merge(
-                basketPreview['Enterprise-2.0.0'].enterprise,
+                basketPreview['Enterprises-2.0.0'].enterprise,
                 [
                     {
                         fieldName: 'connectivity-service',

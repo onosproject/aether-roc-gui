@@ -21,7 +21,7 @@ export interface EnterpriseEnterpriseTrafficClass {
   /**
    * ID for this traffic class.
    */
-  'tc-id': string;
+  'traffic-class-id': string;
 
   /**
    * PDB
