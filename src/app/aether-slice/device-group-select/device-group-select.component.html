@@ -18,10 +18,10 @@
                     id="selectNewDeviceGroup"
                 >
                     <mat-option
-                        *ngFor="let item of DisplayedDeviceGroup"
-                        (click)="closeCard(item.id)"
+                        *ngFor="let item of displayList"
+                        (click)="closeCard(item['device-group-id'])"
                     >
-                        {{ item.id }}
+                        {{ item["device-group-id"] }}
                         <span *ngIf="item['display-name']">
                             ({{ item["display-name"] }})</span
                         >

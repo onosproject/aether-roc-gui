@@ -32,6 +32,20 @@
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
+            <div class="row" id="enterpriseRowReadOnly" *ngIf="!isNew">
+                <p class="field-margin half-width">
+                    <br /><mat-hint>Enterprise</mat-hint>:&nbsp;{{
+                        route.snapshot.params["enterprise-id"]
+                    }}
+                </p>
+            </div>
+            <div class="row" id="siteRowReadOnly" *ngIf="!isNew">
+                <p class="field-margin half-width">
+                    <br /><mat-hint>Site</mat-hint>:&nbsp;{{
+                        route.snapshot.params["site-id"]
+                    }}
+                </p>
+            </div>
             <div class="row">
                 <mat-form-field class="field-margin half-width">
                     <input
@@ -114,22 +128,22 @@
                 <mat-hint>Filter</mat-hint>
                 <mat-icon
                     (click)="showApplicationDisplay = true"
-                    *ngIf="showAddFilterButton"
                     color="accent"
                     class="subscriber-pointer"
                     id="addFilter"
                 >
                     add
                 </mat-icon>
+                <mat-icon
+                    color="accent"
+                    class="subscriber-pointer"
+                    matTooltip="Maximum of {{
+                        EndpointLimit
+                    }} Application-Endpoints per slice"
+                    id="infoIcon"
+                    >info
+                </mat-icon>
                 <div class="field-margin">
-                    <mat-hint>Endpoints Left: {{ this.EndpointLeft }}</mat-hint>
-                    <mat-icon
-                        color="accent"
-                        class="subscriber-pointer"
-                        matTooltip="Maximum of 5 Application-Endpoints per slice"
-                        id="infoIcon"
-                        >info
-                    </mat-icon>
                     <div *ngFor="let appForm of filter.controls; index as i">
                         <div [formGroup]="appForm" [id]="'applicationDiv' + i">
                             <mat-form-field>
@@ -159,7 +173,7 @@
                                 aria-hidden="false"
                                 aria-label="Application"
                                 routerLink="/application/application-edit/{{
-                                    enterpriseID
+                                    route.snapshot.params['enterprise-id']
                                 }}/{{ appForm.value.application }}"
                                 id="pointerApplication"
                                 >launch
@@ -169,7 +183,7 @@
                                 color="accent"
                                 [disabled]="
                                     !opaService.canWrite(
-                                        '/slice/slice[id={{sliceID}}]/application'
+                                        '/slice/slice[slice-id={{sliceID}}]/application'
                                     )
                                 "
                                 (click)="
@@ -222,8 +236,8 @@
                                 aria-hidden="false"
                                 aria-label="device-group"
                                 routerLink="/devicegroups/devicegroups-edit/{{
-                                    enterpriseID
-                                }}/{{ siteID }}/{{
+                                    route.snapshot.params['enterprise-id']
+                                }}/{{ route.snapshot.params['site-id'] }}/{{
                                     dgForm.value['device-group']
                                 }}"
                                 id="pointerDeviceGroup"
@@ -237,7 +251,7 @@
                             color="accent"
                             [disabled]="
                                 !opaService.canWrite(
-                                    '/slice/slice[id={{sliceID}}]/application'
+                                    '/slice/slice[slice-id={{sliceID}}]/application'
                                 )
                             "
                             (click)="
@@ -371,7 +385,9 @@
                         !(
                             sliceForm.valid &&
                             sliceForm.touched &&
-                            opaService.canWrite('/slice/slice[id={{sliceID}}]')
+                            opaService.canWrite(
+                                '/slice/slice[slice-id={{sliceID}}]'
+                            )
                         )
                     "
                 >
@@ -384,21 +400,22 @@
 <aether-application-select
     *ngIf="
         showApplicationDisplay &&
-        opaService.canWrite('/slice/slice[id=' + id + ']/application')
+        opaService.canWrite('/slice/slice[slice-id=' + id + ']/application')
     "
     id="applicationSelectComponent"
     [alreadySelected]="selectedApplications()"
-    [applicationList]="applications"
+    [selectedEnterprise]="route.snapshot.params['enterprise-id']"
     (appcloseEvent)="appSelected($event)"
 >
 </aether-application-select>
 <aether-device-group-select
     *ngIf="
         showDeviceGroupDisplay &&
-        opaService.canWrite('/slice/slice[id=' + id + ']/device-group')
+        opaService.canWrite('/slice/slice[slice-id=' + id + ']/device-group')
     "
     id="deviceGroupSelectComponent"
-    [selectedSite]="selectedSite"
+    [selectedEnterprise]="route.snapshot.params['enterprise-id']"
+    [selectedSite]="route.snapshot.params['site-id']"
     [alreadySelected]="deviceGroupExists"
     (closeEvent)="dgSelected($event)"
 >

@@ -53,7 +53,8 @@ export class TemplateComponent
             basketService,
             new TemplateDatasource(aetherService, basketService, AETHER_TARGET),
             'Enterprises-2.0.0',
-            'template'
+            'template',
+            'template-id'
         );
         super.reqdAttr = ['default-behavior'];
     }

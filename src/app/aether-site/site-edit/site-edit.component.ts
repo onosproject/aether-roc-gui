@@ -222,7 +222,9 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/Site-2.0.0/site[id=' +
+                            '/basket-delete/Enterprises-2.0.0/enterprise[enterprise-id=' +
+                                this.route.snapshot.params['enterprise-id'] +
+                                ']/site[site-id=' +
                                 value['site-id'] +
                                 ']/small-cell[small-cell-id='
                         )
@@ -467,7 +469,7 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
         this.bs.deleteIndexedEntry(
             '/Enterprises-2.0.0/enterprise[enterprise-id=' +
                 this.route.snapshot.params['enterprise-id'] +
-                '/site[site-id=' +
+                ']/site[site-id=' +
                 this.siteId +
                 ']/small-cell[small-cell-id=' +
                 sc +
@@ -490,17 +492,15 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
 
     deleteEDFromSelect(ed: string): void {
         this.bs.deleteIndexedEntry(
-            '/Enterprises-2.0.0/enterprise' +
-                '[enterprise-id=' +
+            '/Enterprises-2.0.0/enterprise[enterprise-id=' +
                 this.route.snapshot.params['enterprise-id'] +
-                '/site[site-id=' +
+                ']/site[site-id=' +
                 this.siteId +
                 ']/monitoring/edge-device[edge-device-id=' +
                 ed +
                 ']',
             'edge-device-id',
-            ed,
-            this.edmap(ed)
+            ed
         );
         const index = (
             this.siteForm.get(['monitoring', 'edge-device']) as FormArray
@@ -516,51 +516,14 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
         );
     }
 
-    private edmap(ed: string): Map<string, string> {
-        const edMap = new Map<string, string>();
-        const siteId =
-            '/Enterprises-2.0.0/enterprise[enterprise-id=' +
-            this.route.snapshot.params['enterprise-id'] +
-            '/site[id=' +
-            this.siteId +
-            ']';
-        let parentUc = localStorage.getItem(siteId);
-        if (parentUc === null) {
-            parentUc = this.siteForm[REQDATTRIBS];
-        }
-        edMap.set(siteId, parentUc);
-
-        const epId =
-            siteId + '/monitoring/edge-device[edge-device-id=' + ed + ']';
-        let epUc = localStorage.getItem(epId);
-        if (epUc === null) {
-            const epFormArray = this.siteForm.get([
-                'monitoring',
-                'edge-device',
-            ]) as FormArray;
-            const epCtl = epFormArray.controls.findIndex(
-                (c) => c.value[Object.keys(c.value)[0]] === ed
-            );
-            console.log('Getting', epCtl, 'for', epId);
-            epUc = epFormArray.controls[epCtl][REQDATTRIBS];
-        }
-        edMap.set(epId, epUc);
-        return edMap;
-    }
-
     private ucmap(sc: string): Map<string, string> {
         const ucMap = new Map<string, string>();
         const siteId =
             '/Enterprises-2.0.0/enterprise[enterprise-id=' +
             this.route.snapshot.params['enterprise-id'] +
-            'site[id=' +
+            ']/site[site-id=' +
             this.siteId +
             ']';
-        let parentUc = localStorage.getItem(siteId);
-        if (parentUc === null) {
-            parentUc = this.siteForm[REQDATTRIBS];
-        }
-        ucMap.set(siteId, parentUc);
 
         const epId = siteId + '/small-cell[small-cell-id=' + sc + ']';
         let epUc = localStorage.getItem(epId);

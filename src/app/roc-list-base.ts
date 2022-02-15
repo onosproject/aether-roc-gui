@@ -46,8 +46,6 @@ export abstract class RocListBase<
                     '/' +
                     this.pathListAttr +
                     '[' +
-                    this.pathListAttr +
-                    '-' +
                     this.indexAttr +
                     '=' +
                     id +
@@ -61,8 +59,6 @@ export abstract class RocListBase<
                 '/' +
                 this.pathListAttr +
                 '[' +
-                this.pathListAttr +
-                '-' +
                 this.indexAttr +
                 '=' +
                 id +
@@ -84,10 +80,8 @@ export abstract class RocListBase<
     }
 
     checkForUsage(ID: string): boolean {
-        return this.usageArray?.some(
+        return !this.usageArray?.some(
             (applicationElement) => applicationElement.id === ID
-        )
-            ? false
-            : true;
+        );
     }
 }

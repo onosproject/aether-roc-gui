@@ -155,10 +155,10 @@
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
-                            '/site/site[id=' + row['site-id'] + ']'
+                            '/site/site[site-id=' + row['site-id'] + ']'
                         )
                     "
-                    (click)="deleteSite(row['site-id'], row['entreprise-id'])"
+                    (click)="deleteSite(row['site-id'], row['enterprise-id'])"
                     color="accent"
                     id="deleteSiteButton"
                 >

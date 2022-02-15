@@ -14,10 +14,13 @@ import {
 import { FormBuilder } from '@angular/forms';
 import {
     EnterprisesEnterpriseSiteDeviceGroupService,
+    EnterprisesEnterpriseSiteService,
     Service,
 } from 'src/openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
 import { RocSelectBase } from '../../roc-select-base';
+import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site';
+import { EnterprisesEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-device-group';
 
 @Component({
     selector: 'aether-device-group-select',
@@ -25,32 +28,32 @@ import { RocSelectBase } from '../../roc-select-base';
     styleUrls: ['../../common-panel.component.scss'],
 })
 export class DeviceGroupSelectComponent
-    extends RocSelectBase<EnterprisesEnterpriseSiteDeviceGroupService, any>
-    implements OnInit, OnChanges
+    extends RocSelectBase<
+        EnterprisesEnterpriseSiteDeviceGroup,
+        EnterprisesEnterpriseSite
+    >
+    implements OnInit
 {
     @Input() alreadySelected: string[] = [];
+    @Input() selectedEnterprise: string;
     @Input() selectedSite: string;
     @Output() closeEvent = new EventEmitter<string>();
 
-    DisplayedDeviceGroup = [];
-
-    constructor(protected service: Service, protected fb: FormBuilder) {
-        super(fb);
+    constructor(
+        protected siteService: EnterprisesEnterpriseSiteService,
+        protected fb: FormBuilder
+    ) {
+        super(fb, 'device-group-id');
     }
 
     ngOnInit(): void {
         super.getData(
-            this.service.getEnterprises({ target: AETHER_TARGET }),
+            this.siteService.getEnterprisesEnterpriseSite({
+                target: AETHER_TARGET,
+                'enterprise-id': this.selectedEnterprise,
+                'site-id': this.selectedSite,
+            }),
             'device-group'
         );
-    }
-
-    ngOnChanges(): void {
-        this.DisplayedDeviceGroup = [];
-        this.displayList.forEach((eachDisplayDGList) => {
-            if (eachDisplayDGList['site'] == this.selectedSite) {
-                this.DisplayedDeviceGroup.push(eachDisplayDGList);
-            }
-        });
     }
 }

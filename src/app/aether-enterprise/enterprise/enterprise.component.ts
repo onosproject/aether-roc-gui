@@ -44,7 +44,8 @@ export class EnterpriseComponent
                 AETHER_TARGET
             ),
             'Enterprises-2.0.0',
-            'enterprise'
+            'enterprise',
+            'enterprise-id'
         );
     }
 

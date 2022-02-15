@@ -13,13 +13,11 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AETHER_TARGET } from '../../../environments/environment';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services/enterprises-enterprise-site.service';
 import { ActivatedRoute } from '@angular/router';
-import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services/enterprises-enterprise.service';
+import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
 
 export interface displayedColumns {
     id;

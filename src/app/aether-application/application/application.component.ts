@@ -51,7 +51,8 @@ export class ApplicationComponent
                 AETHER_TARGET
             ),
             'Enterprises-2.0.0',
-            'application'
+            'application',
+            'application-id'
         );
         super.reqdAttr = ['address'];
     }

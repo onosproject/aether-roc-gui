@@ -11,7 +11,6 @@ import {
     Enterprises,
     EnterprisesEnterprise,
     EnterprisesEnterpriseApplication,
-    EnterprisesEnterpriseTemplate,
 } from '../../../openapi3/aether/2.0.0/models';
 import { from, Observable } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';

@@ -111,7 +111,13 @@
                     *ngIf="checkForUsage(row['connectivity-service-id'])"
                     mat-icon-button
                     id="usageButton"
-                    (click)="showUsage(row['connectivity-service-id'], undefined, undefined)"
+                    (click)="
+                        showUsage(
+                            row['connectivity-service-id'],
+                            undefined,
+                            undefined
+                        )
+                    "
                     color="accent"
                 >
                     <mat-icon class="table_icon">assignment</mat-icon>

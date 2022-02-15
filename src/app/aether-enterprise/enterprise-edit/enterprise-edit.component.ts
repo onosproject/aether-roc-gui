@@ -105,7 +105,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
             const csFormControl = this.fb.control(selected);
             csFormControl.markAsTouched();
             csFormControl.markAsDirty();
-            const enabledControl = this.fb.control(false);
+            const enabledControl = this.fb.control(true);
             enabledControl.markAsTouched();
             enabledControl.markAsDirty();
             enabledControl[TYPE] = 'boolean';
@@ -115,6 +115,9 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
                     enabled: enabledControl,
                 })
             );
+            (
+                this.entForm.get('connectivity-service') as FormArray
+            ).markAsTouched();
             console.log('Adding new Value', selected);
         }
         this.showConnectDisplay = false;
@@ -147,7 +150,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/Enterprise-2.0.0/enterprise[id=' +
+                            '/basket-delete/Enterprises-2.0.0/enterprise[enterprise-id=' +
                                 id +
                                 ']/connectivity-service[connectivity-service='
                         )
@@ -255,7 +258,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
 
     deleteFromSelect(cs: string): void {
         this.bs.deleteIndexedEntry(
-            '/Enterprise-2.0.0/enterprise[id=' +
+            '/Enterprises-2.0.0/enterprise[enterprise-id=' +
                 this.data['enterprise-id'] +
                 ']/connectivity-service[connectivity-service=' +
                 cs +
@@ -276,7 +279,8 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
     }
 
     private get ucmap(): Map<string, string> {
-        const vcsId = '/Enterprise-2.0.0/enterprise[id=' + this.id + ']';
+        const vcsId =
+            '/Enterprises-2.0.0/enterprise[enterprise-id=' + this.id + ']';
         let parentUc = localStorage.getItem(vcsId);
         if (parentUc === null) {
             parentUc = this.entForm[REQDATTRIBS];

@@ -14,10 +14,7 @@ import {
     ValidatorFn,
     Validators,
 } from '@angular/forms';
-import {
-    EnterprisesEnterpriseService,
-    Service as AetherService,
-} from '../../../openapi3/aether/2.0.0/services';
+import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
 import {
     EnterprisesEnterprise,
     EnterprisesEnterpriseApplication,
@@ -137,7 +134,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
         super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'application');
         super.form = this.appForm;
         super.loadFunc = this.loadApplicationApplication;
-        this.appForm[REQDATTRIBS] = ['enterprise', 'address'];
+        this.appForm[REQDATTRIBS] = ['address'];
         this.appForm.get(['endpoint'])[IDATTRIBS] = ['endpoint-id'];
     }
 
@@ -158,14 +155,16 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
 
     deleteFromSelect(ep: string): void {
         this.bs.deleteIndexedEntry(
-            '/application-2.0.0/application[id=' +
+            '/' +
+                this.pathRoot +
+                '/application[application-id=' +
                 this.id +
                 ']/endpoint[endpoint-id=' +
                 ep +
                 ']',
             'endpoint-id',
             ep,
-            this.ucmap(ep)
+            this.ucmap()
         );
         const index = (
             this.appForm.get('endpoint') as FormArray
@@ -179,26 +178,20 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
         );
     }
 
-    private ucmap(ep: string): Map<string, string> {
+    private ucmap(): Map<string, string> {
         const ucMap = new Map<string, string>();
-        const appId = '/application-2.0.0/application[id=' + this.id + ']';
+        const appId =
+            '/' +
+            this.pathRoot +
+            '/application[application-id=' +
+            this.id +
+            ']';
         let parentUc = localStorage.getItem(appId);
         if (parentUc === null) {
             parentUc = this.appForm[REQDATTRIBS];
         }
         ucMap.set(appId, parentUc);
 
-        const epId = appId + '/endpoint[endpoint-id=' + ep + ']';
-        let epUc = localStorage.getItem(epId);
-        if (epUc === null) {
-            const epFormArray = this.appForm.get(['endpoint']) as FormArray;
-            const epCtl = epFormArray.controls.findIndex(
-                (c) => c.value[Object.keys(c.value)[0]] === ep
-            );
-            console.log('Getting', epCtl, 'for', epId);
-            epUc = epFormArray.controls[epCtl][REQDATTRIBS];
-        }
-        ucMap.set(epId, epUc);
         return ucMap;
     }
 
@@ -362,7 +355,11 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                     Object.keys(localStorage)
                         .filter((checkerKey) =>
                             checkerKey.startsWith(
-                                '/basket-delete/application-2.0.0/application[id=' +
+                                '/basket-delete/Enterprises/enterprise[enterprise-id=[' +
+                                    this.route.snapshot.params[
+                                        'enterprise-id'
+                                    ] +
+                                    ']/application[application-id=' +
                                     value['application-id '] +
                                     ']/endpoint[endpoint-id='
                             )
