@@ -4,14 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { Component, OnInit } from '@angular/core';
-import { ConnectivityServiceConnectivityService } from '../../../openapi3/aether/2.0.0/models';
+import { ConnectivityServicesConnectivityService } from '../../../openapi3/aether/2.0.0/models';
 import { RocEditBase } from '../../roc-edit-base';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BasketService, ORIGINAL } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { ConnectivityServiceConnectivityServiceService } from '../../../openapi3/aether/2.0.0/services/connectivity-service-connectivity-service.service';
+import { ConnectivityServicesConnectivityServiceService } from '../../../openapi3/aether/2.0.0/services';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({
     selector: 'aether-connectivity-service-edit',
@@ -22,7 +23,7 @@ export class ConnectivityServiceEditComponent
     extends RocEditBase
     implements OnInit
 {
-    data: ConnectivityServiceConnectivityService;
+    data: ConnectivityServicesConnectivityService;
 
     csForm = this.fb.group({
         'connectivity-service-id': [
@@ -59,7 +60,7 @@ export class ConnectivityServiceEditComponent
     connectivityServiceId: string;
 
     constructor(
-        private connectivityServiceConnectivityServiceService: ConnectivityServiceConnectivityServiceService,
+        private connectivityServiceConnectivityServiceService: ConnectivityServicesConnectivityServiceService,
         protected route: ActivatedRoute,
         protected router: Router,
         private fb: FormBuilder,
@@ -76,7 +77,7 @@ export class ConnectivityServiceEditComponent
             'connectivity-service'
         );
         super.form = this.csForm;
-        super.loadFunc = this.loadConnectivityServiceConnectivityService;
+        super.loadFunc = this.loadConnectivityServicesConnectivityService;
     }
 
     ngOnInit(): void {
@@ -84,7 +85,7 @@ export class ConnectivityServiceEditComponent
     }
 
     private populateFormData(
-        value: ConnectivityServiceConnectivityService
+        value: ConnectivityServicesConnectivityService
     ): void {
         if (value['connectivity-service-id']) {
             this.csForm
@@ -110,14 +111,14 @@ export class ConnectivityServiceEditComponent
         }
     }
 
-    loadConnectivityServiceConnectivityService(
+    loadConnectivityServicesConnectivityService(
         target: string,
         id: string
     ): void {
         this.connectivityServiceConnectivityServiceService
-            .getConnectivityServiceConnectivityService({
-                target,
-                id,
+            .getConnectivityServicesConnectivityService({
+                target: AETHER_TARGET,
+                'connectivity-service-id': id,
             })
             .subscribe(
                 (value) => {
@@ -128,7 +129,7 @@ export class ConnectivityServiceEditComponent
                 },
                 (error) => {
                     console.warn(
-                        'Error getting ConnectivityServiceConnectivityService(s) for ',
+                        'Error getting ConnectivityServicesConnectivityService(s) for ',
                         target,
                         error
                     );
@@ -143,13 +144,13 @@ export class ConnectivityServiceEditComponent
                         basketPreview['Connectivity-services-2.0.0'][
                             'connectivity-service'
                         ].forEach((basketItems) => {
-                            if (basketItems.id === id) {
+                            if (basketItems['connectivity-service-id'] === id) {
                                 this.populateFormData(basketItems);
                             }
                         });
                     }
                     console.log(
-                        'Finished loading ConnectivityServiceConnectivityService(s)',
+                        'Finished loading ConnectivityServicesConnectivityService(s)',
                         target,
                         id
                     );

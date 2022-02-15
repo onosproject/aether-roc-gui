@@ -26,10 +26,10 @@ export class VcsVcsDeviceGroupService extends BaseService {
   /**
    * Path part for operation getVcsVcsDeviceGroup
    */
-  static readonly GetVcsVcsDeviceGroupPath = '/aether/v4.0.0/{target}/slice/slice/{id}/device-group/{device-group}';
+  static readonly GetVcsVcsDeviceGroupPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/device-group/{device-group}';
 
   /**
-   * GET /slice/slice/{id}/device-group.
+   * GET /vcs/vcs/{id}/device-group.
    *
    *
    *
@@ -75,7 +75,7 @@ export class VcsVcsDeviceGroupService extends BaseService {
   }
 
   /**
-   * GET /slice/slice/{id}/device-group.
+   * GET /vcs/vcs/{id}/device-group.
    *
    *
    *

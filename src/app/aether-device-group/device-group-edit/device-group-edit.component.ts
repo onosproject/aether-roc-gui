@@ -9,10 +9,9 @@ import { RocEditBase } from '../../roc-edit-base';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
+import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
 import {
     BasketService,
-    IDATTRIBS,
     ORIGINAL,
     REQDATTRIBS,
     TYPE,
@@ -21,11 +20,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { map, startWith } from 'rxjs/operators';
 import { Bandwidths } from '../../aether-template/template-edit/template-edit.component';
 import { Observable } from 'rxjs';
-import { EnterpriseEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-device-group';
-import { EnterpriseEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-ip-domain';
-import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-traffic-class';
-import { DeviceGroupDeviceGroupService } from '../../../openapi3/aether/2.0.0/services/device-group-device-group.service';
+import { EnterprisesEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseSiteDeviceGroupService } from '../../../openapi3/aether/2.0.0/services';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({
     selector: 'aether-device-group-edit',
@@ -40,10 +40,10 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
         '[site-id=' +
         this.route.snapshot.params['site-id'] +
         ']') as RocElement;
-    data: EnterpriseEnterpriseSiteDeviceGroup;
-    ipdomain: Array<EnterpriseEnterpriseSiteIpDomain>;
+    data: EnterprisesEnterpriseSiteDeviceGroup;
+    ipdomain: Array<EnterprisesEnterpriseSiteIpDomain>;
     showParentDisplay = false;
-    trafficClass: Array<EnterpriseEnterpriseTrafficClass>;
+    trafficClass: Array<EnterprisesEnterpriseTrafficClass>;
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
@@ -101,8 +101,8 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     deviceGroupId: string;
 
     constructor(
-        private deviceGroupDeviceGroupService: DeviceGroupDeviceGroupService,
-        private aetherService: AetherService,
+        private deviceGroupDeviceGroupService: EnterprisesEnterpriseSiteDeviceGroupService,
+        protected entService: EnterprisesEnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
         private fb: FormBuilder,
@@ -176,7 +176,9 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
         return ucMap;
     }
 
-    private populateFormData(value: EnterpriseEnterpriseSiteDeviceGroup): void {
+    private populateFormData(
+        value: EnterprisesEnterpriseSiteDeviceGroup
+    ): void {
         if (value['device-group-id']) {
             this.deviceGroupForm
                 .get('device-group-id')
@@ -224,11 +226,11 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
 
     loadDeviceGroupDeviceGroup(target: string, id: string): void {
         this.deviceGroupDeviceGroupService
-            .getDeviceGroupDeviceGroup({
-                target,
-                id,
-                ent_id: this.route.snapshot.params['enterprise-id'],
-                site_id: this.route.snapshot.params['site-id'],
+            .getEnterprisesEnterpriseSiteDeviceGroup({
+                target: AETHER_TARGET,
+                'device-group-id': id,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
             })
             .subscribe(
                 (value) => {
@@ -238,7 +240,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
                 },
                 (error) => {
                     console.warn(
-                        'Error getting DeviceGroupDeviceGroup(s) for ',
+                        'Error getting EnterprisesEnterpriseSiteDeviceGroup(s) for ',
                         target,
                         error
                     );
@@ -288,7 +290,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
                         );
                     }
                     console.log(
-                        'Finished loading DeviceGroupDeviceGroup(s)',
+                        'Finished loading EnterprisesEnterpriseSiteDeviceGroup(s)',
                         target,
                         id
                     );
@@ -297,9 +299,10 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     }
 
     loadIpDomains(target: string): void {
-        this.aetherService
-            .getIpDomain({
-                target,
+        this.entService
+            .getEnterprisesEnterprise({
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {
@@ -316,9 +319,10 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     }
 
     loadTrafficClass(target: string): void {
-        this.aetherService
-            .getTrafficClass({
-                target,
+        this.entService
+            .getEnterprisesEnterprise({
+                target: AETHER_TARGET,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {

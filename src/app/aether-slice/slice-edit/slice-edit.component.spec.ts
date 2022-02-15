@@ -23,8 +23,8 @@ import { SliceEditComponent } from './slice-edit.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
-import { EnterpriseEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-slice';
-import { EnterpriseEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-template';
+import { EnterprisesEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
 
 describe('SliceEditComponent', () => {
     let component: SliceEditComponent;
@@ -72,7 +72,7 @@ describe('SliceEditComponent', () => {
 
     describe('when loading data from the backend', () => {
         it('should populate all the fields', () => {
-            const slice: EnterpriseEnterpriseSiteSlice = {
+            const slice: EnterprisesEnterpriseSiteSlice = {
                 'default-behavior': 'DENY-ALL',
                 description: 'Chicago Robots',
                 'device-group': [
@@ -203,7 +203,7 @@ describe('SliceEditComponent', () => {
     });
 
     describe('when selecting a template', () => {
-        const template: EnterpriseEnterpriseTemplate = {
+        const template: EnterprisesEnterpriseTemplate = {
             ['template-id']: 'test-template',
             sd: 12, // FIXME the method fails if this value is not present
             mbr: {

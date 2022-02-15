@@ -10,38 +10,34 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { Application } from '../models/application';
-import { EnterpriseEnterpriseApplication} from "../models/enterprise-enterprise-application";
-import { EnterpriseEnterpriseApplicationEndpoint } from "../models/enterprise-enterprise-application-endpoint"
-import { EnterpriseEnterpriseApplicationEndpointMbr} from "../models/enterprise-enterprise-application-endpoint-mbr";
-import { ConnectivityService } from '../models/connectivity-service';
-import { ConnectivityServiceConnectivityService } from '../models/connectivity-service-connectivity-service';
-import {DeviceGroup} from "../models/device-group";
-import {EnterpriseEnterpriseSiteDeviceGroup} from "../models/enterprise-enterprise-site-device-group";
-import {EnterpriseEnterpriseSiteDeviceGroupDevice} from "../models/enterprise-enterprise-site-device-group-device";
-import {EnterpriseEnterpriseSiteDeviceGroupMbr} from "../models/enterprise-enterprise-site-device-group-mbr";
-import {Enterprise} from "../models/enterprise";
-import {EnterpriseEnterprise} from "../models/enterprise-enterprise";
-import {EnterpriseConnectivityService} from "../models/enterprise-connectivity-service";
-import {IpDomain} from "../models/ip-domain";
-import {EnterpriseEnterpriseSiteIpDomain} from "../models/enterprise-enterprise-site-ip-domain";
-import {Site} from "../models/site";
-import {EnterpriseEnterpriseSite} from "../models/enterprise-enterprise-site";
-import {EnterpriseEnterpriseSiteImsiDefinition} from "../models/enterprise-enterprise-site-imsi-definition";
-import {EnterpriseEnterpriseSiteMonitoring} from "../models/enterprise-enterprise-site-monitoring";
-import {EnterpriseEnterpriseSiteMonitoringEdgeDevice} from "../models/enterprise-enterprise-site-monitoring-edge-device";
-import {EnterpriseEnterpriseSiteSmallCell} from "../models/enterprise-enterprise-site-small-cell";
-import {Template} from "../models/template";
-import {EnterpriseEnterpriseTemplate} from "../models/enterprise-enterprise-template";
-import {EnterpriseEnterpriseTemplateSliceMbr} from "../models/enterprise-enterprise-template-slice-mbr";
-import {TrafficClass} from "../models/traffic-class";
-import {EnterpriseEnterpriseTrafficClass} from "../models/enterprise-enterprise-traffic-class";
-import {Upf} from "../models/upf";
-import {EnterpriseEnterpriseSiteUpf} from "../models/enterprise-enterprise-site-upf";
-import {Slice} from "../models/slice";
-import {EnterpriseEnterpriseSiteSliceDeviceGroup} from "../models/enterprise-enterprise-site-slice-device-group";
-import {EnterpriseEnterpriseSiteSliceFilter} from "../models/enterprise-enterprise-site-slice-filter";
-import {EnterpriseEnterpriseSiteSliceMbr} from "../models/enterprise-enterprise-site-slice-mbr";
+import { ConnectivityServices } from '../models/connectivity-services';
+import { ConnectivityServicesConnectivityService } from '../models/connectivity-services-connectivity-service';
+import { Enterprises } from '../models/enterprises';
+import { EnterprisesEnterprise } from '../models/enterprises-enterprise';
+import { EnterprisesEnterpriseApplication } from '../models/enterprises-enterprise-application';
+import { EnterprisesEnterpriseApplicationEndpoint } from '../models/enterprises-enterprise-application-endpoint';
+import { EnterprisesEnterpriseApplicationEndpointMbr } from '../models/enterprises-enterprise-application-endpoint-mbr';
+import { EnterprisesEnterpriseConnectivityService } from '../models/enterprises-enterprise-connectivity-service';
+import { EnterprisesEnterpriseSite } from '../models/enterprises-enterprise-site';
+import { EnterprisesEnterpriseSiteDevice } from '../models/enterprises-enterprise-site-device';
+import { EnterprisesEnterpriseSiteDeviceGroup } from '../models/enterprises-enterprise-site-device-group';
+import { EnterprisesEnterpriseSiteDeviceGroupDevice } from '../models/enterprises-enterprise-site-device-group-device';
+import { EnterprisesEnterpriseSiteDeviceGroupMbr } from '../models/enterprises-enterprise-site-device-group-mbr';
+import { EnterprisesEnterpriseSiteImsiDefinition } from '../models/enterprises-enterprise-site-imsi-definition';
+import { EnterprisesEnterpriseSiteIpDomain } from '../models/enterprises-enterprise-site-ip-domain';
+import { EnterprisesEnterpriseSiteMonitoring } from '../models/enterprises-enterprise-site-monitoring';
+import { EnterprisesEnterpriseSiteMonitoringEdgeDevice } from '../models/enterprises-enterprise-site-monitoring-edge-device';
+import { EnterprisesEnterpriseSiteSimCard } from '../models/enterprises-enterprise-site-sim-card';
+import { EnterprisesEnterpriseSiteSlice } from '../models/enterprises-enterprise-site-slice';
+import { EnterprisesEnterpriseSiteSliceDeviceGroup } from '../models/enterprises-enterprise-site-slice-device-group';
+import { EnterprisesEnterpriseSiteSliceFilter } from '../models/enterprises-enterprise-site-slice-filter';
+import { EnterprisesEnterpriseSiteSliceMbr } from '../models/enterprises-enterprise-site-slice-mbr';
+import { EnterprisesEnterpriseSiteSlicePriorityTrafficRule } from '../models/enterprises-enterprise-site-slice-priority-traffic-rule';
+import { EnterprisesEnterpriseSiteSmallCell } from '../models/enterprises-enterprise-site-small-cell';
+import { EnterprisesEnterpriseSiteUpf } from '../models/enterprises-enterprise-site-upf';
+import { EnterprisesEnterpriseTemplate } from '../models/enterprises-enterprise-template';
+import { EnterprisesEnterpriseTemplateMbr } from '../models/enterprises-enterprise-template-mbr';
+import { EnterprisesEnterpriseTrafficClass } from '../models/enterprises-enterprise-traffic-class';
 
 @Injectable({
   providedIn: 'root',
@@ -55,30 +51,30 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * Path part for operation postApplication
+   * Path part for operation postConnectivityServices
    */
-  static readonly PostApplicationPath = '/aether/v4.0.0/{target}/application';
+  static readonly PostConnectivityServicesPath = '/aether/v2.0.0/{target}/connectivity-services';
 
   /**
-   * POST /application.
+   * POST /connectivity-services.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postApplication()` instead.
+   * To access only the response body, use `postConnectivityServices()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postApplication$Response(params: {
+  postConnectivityServices$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-    body?: Application
+    body?: ConnectivityServices
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostApplicationPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostConnectivityServicesPath, 'post');
     if (params) {
       rb.path('target', params.target, {});
       rb.body(params.body, 'application/json');
@@ -96,45 +92,45 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /application.
+   * POST /connectivity-services.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postApplication$Response()` instead.
+   * To access the full response (for headers, for example), `postConnectivityServices$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postApplication(params: {
+  postConnectivityServices(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-    body?: Application
+    body?: ConnectivityServices
   }): Observable<void> {
 
-    return this.postApplication$Response(params).pipe(
+    return this.postConnectivityServices$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteApplication
+   * Path part for operation deleteConnectivityServices
    */
-  static readonly DeleteApplicationPath = '/aether/v4.0.0/{target}/application';
+  static readonly DeleteConnectivityServicesPath = '/aether/v2.0.0/{target}/connectivity-services';
 
   /**
-   * DELETE /application.
+   * DELETE /connectivity-services.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteApplication()` instead.
+   * To access only the response body, use `deleteConnectivityServices()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteApplication$Response(params: {
+  deleteConnectivityServices$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -142,7 +138,7 @@ export class ApiService extends BaseService {
     target: any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteApplicationPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteConnectivityServicesPath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
     }
@@ -159,16 +155,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /application.
+   * DELETE /connectivity-services.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteApplication$Response()` instead.
+   * To access the full response (for headers, for example), `deleteConnectivityServices$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteApplication(params: {
+  deleteConnectivityServices(params: {
 
     /**
      * target (device in onos-config)
@@ -176,27 +172,27 @@ export class ApiService extends BaseService {
     target: any;
   }): Observable<void> {
 
-    return this.deleteApplication$Response(params).pipe(
+    return this.deleteConnectivityServices$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postApplicationApplication
+   * Path part for operation postConnectivityServicesConnectivityService
    */
-  static readonly PostApplicationApplicationPath = '/aether/v4.0.0/{target}/application/application/{id}';
+  static readonly PostConnectivityServicesConnectivityServicePath = '/aether/v2.0.0/{target}/connectivity-services/connectivity-service/{connectivity-service-id}';
 
   /**
-   * POST /application/application.
+   * POST /connectivity-services/connectivity-service.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postApplicationApplication()` instead.
+   * To access only the response body, use `postConnectivityServicesConnectivityService()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postApplicationApplication$Response(params: {
+  postConnectivityServicesConnectivityService$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -204,16 +200,16 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {connectivity-service-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseApplication
+    'connectivity-service-id': any;
+    body?: ConnectivityServicesConnectivityService
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostApplicationApplicationPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostConnectivityServicesConnectivityServicePath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('connectivity-service-id', params['connectivity-service-id'], {});
       rb.body(params.body, 'application/json');
     }
 
@@ -229,16 +225,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /application/application.
+   * POST /connectivity-services/connectivity-service.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postApplicationApplication$Response()` instead.
+   * To access the full response (for headers, for example), `postConnectivityServicesConnectivityService$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postApplicationApplication(params: {
+  postConnectivityServicesConnectivityService(params: {
 
     /**
      * target (device in onos-config)
@@ -246,33 +242,33 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {connectivity-service-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseApplication
+    'connectivity-service-id': any;
+    body?: ConnectivityServicesConnectivityService
   }): Observable<void> {
 
-    return this.postApplicationApplication$Response(params).pipe(
+    return this.postConnectivityServicesConnectivityService$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteApplicationApplication
+   * Path part for operation deleteConnectivityServicesConnectivityService
    */
-  static readonly DeleteApplicationApplicationPath = '/aether/v4.0.0/{target}/application/application/{id}';
+  static readonly DeleteConnectivityServicesConnectivityServicePath = '/aether/v2.0.0/{target}/connectivity-services/connectivity-service/{connectivity-service-id}';
 
   /**
-   * DELETE /application/application.
+   * DELETE /connectivity-services/connectivity-service.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteApplicationApplication()` instead.
+   * To access only the response body, use `deleteConnectivityServicesConnectivityService()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteApplicationApplication$Response(params: {
+  deleteConnectivityServicesConnectivityService$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -280,15 +276,15 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {connectivity-service-id}
      */
-    id: any;
+    'connectivity-service-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteApplicationApplicationPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteConnectivityServicesConnectivityServicePath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('connectivity-service-id', params['connectivity-service-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -303,16 +299,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /application/application.
+   * DELETE /connectivity-services/connectivity-service.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteApplicationApplication$Response()` instead.
+   * To access the full response (for headers, for example), `deleteConnectivityServicesConnectivityService$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteApplicationApplication(params: {
+  deleteConnectivityServicesConnectivityService(params: {
 
     /**
      * target (device in onos-config)
@@ -320,32 +316,159 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {connectivity-service-id}
      */
-    id: any;
+    'connectivity-service-id': any;
   }): Observable<void> {
 
-    return this.deleteApplicationApplication$Response(params).pipe(
+    return this.deleteConnectivityServicesConnectivityService$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postApplicationApplicationEndpoint
+   * Path part for operation postEnterprises
    */
-  static readonly PostApplicationApplicationEndpointPath = '/aether/v4.0.0/{target}/application/application/{id}/endpoint/{endpoint-id}';
+  static readonly PostEnterprisesPath = '/aether/v2.0.0/{target}/enterprises';
 
   /**
-   * POST /application/application/{id}/endpoint.
+   * POST /enterprises.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postApplicationApplicationEndpoint()` instead.
+   * To access only the response body, use `postEnterprises()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postApplicationApplicationEndpoint$Response(params: {
+  postEnterprises$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+    body?: Enterprises
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /enterprises.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postEnterprises$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprises(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+    body?: Enterprises
+  }): Observable<void> {
+
+    return this.postEnterprises$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteEnterprises
+   */
+  static readonly DeleteEnterprisesPath = '/aether/v2.0.0/{target}/enterprises';
+
+  /**
+   * DELETE /enterprises.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteEnterprises()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprises$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /enterprises.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteEnterprises$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprises(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+  }): Observable<void> {
+
+    return this.deleteEnterprises$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postEnterprisesEnterprise
+   */
+  static readonly PostEnterprisesEnterprisePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}';
+
+  /**
+   * POST /enterprises/enterprise.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postEnterprisesEnterprise()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterprise$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -353,21 +476,347 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+    body?: EnterprisesEnterprise
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterprisePath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /enterprises/enterprise.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postEnterprisesEnterprise$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterprise(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+    body?: EnterprisesEnterprise
+  }): Observable<void> {
+
+    return this.postEnterprisesEnterprise$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteEnterprisesEnterprise
+   */
+  static readonly DeleteEnterprisesEnterprisePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}';
+
+  /**
+   * DELETE /enterprises/enterprise.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteEnterprisesEnterprise()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterprise$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterprisePath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /enterprises/enterprise.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterprise$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterprise(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<void> {
+
+    return this.deleteEnterprisesEnterprise$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postEnterprisesEnterpriseApplication
+   */
+  static readonly PostEnterprisesEnterpriseApplicationPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}';
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/application.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postEnterprisesEnterpriseApplication()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseApplication$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+    body?: EnterprisesEnterpriseApplication
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseApplicationPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('application-id', params['application-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/application.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseApplication$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseApplication(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+    body?: EnterprisesEnterpriseApplication
+  }): Observable<void> {
+
+    return this.postEnterprisesEnterpriseApplication$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteEnterprisesEnterpriseApplication
+   */
+  static readonly DeleteEnterprisesEnterpriseApplicationPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}';
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/application.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteEnterprisesEnterpriseApplication()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseApplication$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseApplicationPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('application-id', params['application-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/application.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseApplication$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseApplication(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+  }): Observable<void> {
+
+    return this.deleteEnterprisesEnterpriseApplication$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postEnterprisesEnterpriseApplicationEndpoint
+   */
+  static readonly PostEnterprisesEnterpriseApplicationEndpointPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}';
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postEnterprisesEnterpriseApplicationEndpoint()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseApplicationEndpoint$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
 
     /**
      * key {endpoint-id}
      */
     'endpoint-id': any;
-    body?: EnterpriseEnterpriseApplicationEndpoint
+    body?: EnterprisesEnterpriseApplicationEndpoint
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostApplicationApplicationEndpointPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseApplicationEndpointPath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('application-id', params['application-id'], {});
       rb.path('endpoint-id', params['endpoint-id'], {});
       rb.body(params.body, 'application/json');
     }
@@ -384,16 +833,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /application/application/{id}/endpoint.
+   * POST /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postApplicationApplicationEndpoint$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseApplicationEndpoint$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postApplicationApplicationEndpoint(params: {
+  postEnterprisesEnterpriseApplicationEndpoint(params: {
 
     /**
      * target (device in onos-config)
@@ -401,38 +850,43 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
 
     /**
      * key {endpoint-id}
      */
     'endpoint-id': any;
-    body?: EnterpriseEnterpriseApplicationEndpoint
+    body?: EnterprisesEnterpriseApplicationEndpoint
   }): Observable<void> {
 
-    return this.postApplicationApplicationEndpoint$Response(params).pipe(
+    return this.postEnterprisesEnterpriseApplicationEndpoint$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteApplicationApplicationEndpoint
+   * Path part for operation deleteEnterprisesEnterpriseApplicationEndpoint
    */
-  static readonly DeleteApplicationApplicationEndpointPath = '/aether/v4.0.0/{target}/application/application/{id}/endpoint/{endpoint-id}';
+  static readonly DeleteEnterprisesEnterpriseApplicationEndpointPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}';
 
   /**
-   * DELETE /application/application/{id}/endpoint.
+   * DELETE /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteApplicationApplicationEndpoint()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseApplicationEndpoint()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteApplicationApplicationEndpoint$Response(params: {
+  deleteEnterprisesEnterpriseApplicationEndpoint$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -440,9 +894,14 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
 
     /**
      * key {endpoint-id}
@@ -450,10 +909,11 @@ export class ApiService extends BaseService {
     'endpoint-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteApplicationApplicationEndpointPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseApplicationEndpointPath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('application-id', params['application-id'], {});
       rb.path('endpoint-id', params['endpoint-id'], {});
     }
 
@@ -469,16 +929,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /application/application/{id}/endpoint.
+   * DELETE /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteApplicationApplicationEndpoint$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseApplicationEndpoint$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteApplicationApplicationEndpoint(params: {
+  deleteEnterprisesEnterpriseApplicationEndpoint(params: {
 
     /**
      * target (device in onos-config)
@@ -486,9 +946,14 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
 
     /**
      * key {endpoint-id}
@@ -496,27 +961,27 @@ export class ApiService extends BaseService {
     'endpoint-id': any;
   }): Observable<void> {
 
-    return this.deleteApplicationApplicationEndpoint$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseApplicationEndpoint$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postApplicationApplicationEndpointMbr
+   * Path part for operation postEnterprisesEnterpriseApplicationEndpointMbr
    */
-  static readonly PostApplicationApplicationEndpointMbrPath = '/aether/v4.0.0/{target}/application/application/{id}/endpoint/{endpoint-id}/mbr';
+  static readonly PostEnterprisesEnterpriseApplicationEndpointMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr';
 
   /**
-   * POST /application/application/{id}/endpoint/{endpoint-id}/mbr.
+   * POST /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postApplicationApplicationEndpointMbr()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseApplicationEndpointMbr()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postApplicationApplicationEndpointMbr$Response(params: {
+  postEnterprisesEnterpriseApplicationEndpointMbr$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -524,21 +989,27 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
 
     /**
      * key {endpoint-id}
      */
     'endpoint-id': any;
-    body?: EnterpriseEnterpriseApplicationEndpointMbr
+    body?: EnterprisesEnterpriseApplicationEndpointMbr
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostApplicationApplicationEndpointMbrPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseApplicationEndpointMbrPath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('application-id', params['application-id'], {});
       rb.path('endpoint-id', params['endpoint-id'], {});
       rb.body(params.body, 'application/json');
     }
@@ -555,16 +1026,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /application/application/{id}/endpoint/{endpoint-id}/mbr.
+   * POST /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postApplicationApplicationEndpointMbr$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseApplicationEndpointMbr$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postApplicationApplicationEndpointMbr(params: {
+  postEnterprisesEnterpriseApplicationEndpointMbr(params: {
 
     /**
      * target (device in onos-config)
@@ -572,38 +1043,43 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
 
     /**
      * key {endpoint-id}
      */
     'endpoint-id': any;
-    body?: EnterpriseEnterpriseApplicationEndpointMbr
+    body?: EnterprisesEnterpriseApplicationEndpointMbr
   }): Observable<void> {
 
-    return this.postApplicationApplicationEndpointMbr$Response(params).pipe(
+    return this.postEnterprisesEnterpriseApplicationEndpointMbr$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteApplicationApplicationEndpointMbr
+   * Path part for operation deleteEnterprisesEnterpriseApplicationEndpointMbr
    */
-  static readonly DeleteApplicationApplicationEndpointMbrPath = '/aether/v4.0.0/{target}/application/application/{id}/endpoint/{endpoint-id}/mbr';
+  static readonly DeleteEnterprisesEnterpriseApplicationEndpointMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr';
 
   /**
-   * DELETE /application/application/{id}/endpoint/{endpoint-id}/mbr.
+   * DELETE /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteApplicationApplicationEndpointMbr()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseApplicationEndpointMbr()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteApplicationApplicationEndpointMbr$Response(params: {
+  deleteEnterprisesEnterpriseApplicationEndpointMbr$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -611,9 +1087,14 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
 
     /**
      * key {endpoint-id}
@@ -621,10 +1102,11 @@ export class ApiService extends BaseService {
     'endpoint-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteApplicationApplicationEndpointMbrPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseApplicationEndpointMbrPath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('application-id', params['application-id'], {});
       rb.path('endpoint-id', params['endpoint-id'], {});
     }
 
@@ -640,16 +1122,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /application/application/{id}/endpoint/{endpoint-id}/mbr.
+   * DELETE /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteApplicationApplicationEndpointMbr$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseApplicationEndpointMbr$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteApplicationApplicationEndpointMbr(params: {
+  deleteEnterprisesEnterpriseApplicationEndpointMbr(params: {
 
     /**
      * target (device in onos-config)
@@ -657,9 +1139,14 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
 
     /**
      * key {endpoint-id}
@@ -667,154 +1154,27 @@ export class ApiService extends BaseService {
     'endpoint-id': any;
   }): Observable<void> {
 
-    return this.deleteApplicationApplicationEndpointMbr$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseApplicationEndpointMbr$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postConnectivityService
+   * Path part for operation postEnterprisesEnterpriseConnectivityService
    */
-  static readonly PostConnectivityServicePath = '/aether/v4.0.0/{target}/connectivity-service';
+  static readonly PostEnterprisesEnterpriseConnectivityServicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/connectivity-service/{connectivity-service}';
 
   /**
-   * POST /connectivity-service.
+   * POST /enterprises/enterprise/{enterprise-id}/connectivity-service.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postConnectivityService()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseConnectivityService()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postConnectivityService$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: ConnectivityService
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostConnectivityServicePath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /connectivity-service.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postConnectivityService$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postConnectivityService(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: ConnectivityService
-  }): Observable<void> {
-
-    return this.postConnectivityService$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteConnectivityService
-   */
-  static readonly DeleteConnectivityServicePath = '/aether/v4.0.0/{target}/connectivity-service';
-
-  /**
-   * DELETE /connectivity-service.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteConnectivityService()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteConnectivityService$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteConnectivityServicePath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /connectivity-service.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteConnectivityService$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteConnectivityService(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<void> {
-
-    return this.deleteConnectivityService$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postConnectivityServiceConnectivityService
-   */
-  static readonly PostConnectivityServiceConnectivityServicePath = '/aether/v4.0.0/{target}/connectivity-service/connectivity-service/{id}';
-
-  /**
-   * POST /connectivity-service/connectivity-service.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postConnectivityServiceConnectivityService()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postConnectivityServiceConnectivityService$Response(params: {
+  postEnterprisesEnterpriseConnectivityService$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -822,1020 +1182,21 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
-    body?: ConnectivityServiceConnectivityService
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostConnectivityServiceConnectivityServicePath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /connectivity-service/connectivity-service.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postConnectivityServiceConnectivityService$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postConnectivityServiceConnectivityService(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: ConnectivityServiceConnectivityService
-  }): Observable<void> {
-
-    return this.postConnectivityServiceConnectivityService$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteConnectivityServiceConnectivityService
-   */
-  static readonly DeleteConnectivityServiceConnectivityServicePath = '/aether/v4.0.0/{target}/connectivity-service/connectivity-service/{id}';
-
-  /**
-   * DELETE /connectivity-service/connectivity-service.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteConnectivityServiceConnectivityService()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteConnectivityServiceConnectivityService$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteConnectivityServiceConnectivityServicePath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /connectivity-service/connectivity-service.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteConnectivityServiceConnectivityService$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteConnectivityServiceConnectivityService(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteConnectivityServiceConnectivityService$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postDeviceGroup
-   */
-  static readonly PostDeviceGroupPath = '/aether/v4.0.0/{target}/device-group';
-
-  /**
-   * POST /device-group.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postDeviceGroup()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceGroup$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: DeviceGroup
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostDeviceGroupPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /device-group.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postDeviceGroup$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceGroup(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: DeviceGroup
-  }): Observable<void> {
-
-    return this.postDeviceGroup$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteDeviceGroup
-   */
-  static readonly DeleteDeviceGroupPath = '/aether/v4.0.0/{target}/device-group';
-
-  /**
-   * DELETE /device-group.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteDeviceGroup()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceGroup$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteDeviceGroupPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /device-group.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteDeviceGroup$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceGroup(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<void> {
-
-    return this.deleteDeviceGroup$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postDeviceGroupDeviceGroup
-   */
-  static readonly PostDeviceGroupDeviceGroupPath = '/aether/v4.0.0/{target}/device-group/device-group/{id}';
-
-  /**
-   * POST /device-group/device-group.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postDeviceGroupDeviceGroup()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceGroupDeviceGroup$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseSiteDeviceGroup
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostDeviceGroupDeviceGroupPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /device-group/device-group.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postDeviceGroupDeviceGroup$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceGroupDeviceGroup(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseSiteDeviceGroup
-  }): Observable<void> {
-
-    return this.postDeviceGroupDeviceGroup$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteDeviceGroupDeviceGroup
-   */
-  static readonly DeleteDeviceGroupDeviceGroupPath = '/aether/v4.0.0/{target}/device-group/device-group/{id}';
-
-  /**
-   * DELETE /device-group/device-group.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteDeviceGroupDeviceGroup()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceGroupDeviceGroup$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteDeviceGroupDeviceGroupPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /device-group/device-group.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteDeviceGroupDeviceGroup$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceGroupDeviceGroup(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteDeviceGroupDeviceGroup$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postDeviceGroupDeviceGroupDevice
-   */
-  static readonly PostDeviceGroupDeviceGroupDevicePath = '/aether/v4.0.0/{target}/device-group/device-group/{id}/device';
-
-  /**
-   * POST /device-group/device-group/{id}/device.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postDeviceGroupDeviceGroupDevice()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceGroupDeviceGroupDevice$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseSiteDeviceGroupDevice
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostDeviceGroupDeviceGroupDevicePath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /device-group/device-group/{id}/device.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postDeviceGroupDeviceGroupDevice$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceGroupDeviceGroupDevice(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseSiteDeviceGroupDevice
-  }): Observable<void> {
-
-    return this.postDeviceGroupDeviceGroupDevice$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteDeviceGroupDeviceGroupDevice
-   */
-  static readonly DeleteDeviceGroupDeviceGroupDevicePath = '/aether/v4.0.0/{target}/device-group/device-group/{id}/device';
-
-  /**
-   * DELETE /device-group/device-group/{id}/device.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteDeviceGroupDeviceGroupDevice()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceGroupDeviceGroupDevice$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteDeviceGroupDeviceGroupDevicePath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /device-group/device-group/{id}/device.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteDeviceGroupDeviceGroupDevice$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceGroupDeviceGroupDevice(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteDeviceGroupDeviceGroupDevice$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postDeviceGroupDeviceGroupDeviceMbr
-   */
-  static readonly PostDeviceGroupDeviceGroupDeviceMbrPath = '/aether/v4.0.0/{target}/device-group/device-group/{id}/device/mbr';
-
-  /**
-   * POST /device-group/device-group/{id}/device/mbr.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postDeviceGroupDeviceGroupDeviceMbr()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceGroupDeviceGroupDeviceMbr$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseSiteDeviceGroupMbr
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostDeviceGroupDeviceGroupDeviceMbrPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /device-group/device-group/{id}/device/mbr.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postDeviceGroupDeviceGroupDeviceMbr$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postDeviceGroupDeviceGroupDeviceMbr(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseSiteDeviceGroupMbr
-  }): Observable<void> {
-
-    return this.postDeviceGroupDeviceGroupDeviceMbr$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteDeviceGroupDeviceGroupDeviceMbr
-   */
-  static readonly DeleteDeviceGroupDeviceGroupDeviceMbrPath = '/aether/v4.0.0/{target}/device-group/device-group/{id}/device/mbr';
-
-  /**
-   * DELETE /device-group/device-group/{id}/device/mbr.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteDeviceGroupDeviceGroupDeviceMbr()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceGroupDeviceGroupDeviceMbr$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteDeviceGroupDeviceGroupDeviceMbrPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /device-group/device-group/{id}/device/mbr.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteDeviceGroupDeviceGroupDeviceMbr$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteDeviceGroupDeviceGroupDeviceMbr(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteDeviceGroupDeviceGroupDeviceMbr$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postEnterprise
-   */
-  static readonly PostEnterprisePath = '/aether/v4.0.0/{target}/enterprise';
-
-  /**
-   * POST /enterprise.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postEnterprise()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postEnterprise$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: Enterprise
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisePath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /enterprise.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postEnterprise$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postEnterprise(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: Enterprise
-  }): Observable<void> {
-
-    return this.postEnterprise$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteEnterprise
-   */
-  static readonly DeleteEnterprisePath = '/aether/v4.0.0/{target}/enterprise';
-
-  /**
-   * DELETE /enterprise.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteEnterprise()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteEnterprise$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisePath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /enterprise.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteEnterprise$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteEnterprise(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<void> {
-
-    return this.deleteEnterprise$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postEnterpriseEnterprise
-   */
-  static readonly PostEnterpriseEnterprisePath = '/aether/v4.0.0/{target}/enterprise/enterprise/{id}';
-
-  /**
-   * POST /enterprise/enterprise.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postEnterpriseEnterprise()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postEnterpriseEnterprise$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterprise
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterpriseEnterprisePath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /enterprise/enterprise.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postEnterpriseEnterprise$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postEnterpriseEnterprise(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterprise
-  }): Observable<void> {
-
-    return this.postEnterpriseEnterprise$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteEnterpriseEnterprise
-   */
-  static readonly DeleteEnterpriseEnterprisePath = '/aether/v4.0.0/{target}/enterprise/enterprise/{id}';
-
-  /**
-   * DELETE /enterprise/enterprise.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteEnterpriseEnterprise()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteEnterpriseEnterprise$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterpriseEnterprisePath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /enterprise/enterprise.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteEnterpriseEnterprise$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteEnterpriseEnterprise(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteEnterpriseEnterprise$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postEnterpriseEnterpriseConnectivityService
-   */
-  static readonly PostEnterpriseEnterpriseConnectivityServicePath = '/aether/v4.0.0/{target}/enterprise/enterprise/{id}/connectivity-service/{connectivity-service}';
-
-  /**
-   * POST /enterprise/enterprise/{id}/connectivity-service.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postEnterpriseEnterpriseConnectivityService()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postEnterpriseEnterpriseConnectivityService$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
+    'enterprise-id': any;
 
     /**
      * key {connectivity-service}
      */
     'connectivity-service': any;
-    body?: EnterpriseConnectivityService
+    body?: EnterprisesEnterpriseConnectivityService
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterpriseEnterpriseConnectivityServicePath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseConnectivityServicePath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
       rb.path('connectivity-service', params['connectivity-service'], {});
       rb.body(params.body, 'application/json');
     }
@@ -1852,16 +1213,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /enterprise/enterprise/{id}/connectivity-service.
+   * POST /enterprises/enterprise/{enterprise-id}/connectivity-service.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postEnterpriseEnterpriseConnectivityService$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseConnectivityService$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postEnterpriseEnterpriseConnectivityService(params: {
+  postEnterprisesEnterpriseConnectivityService(params: {
 
     /**
      * target (device in onos-config)
@@ -1869,38 +1230,38 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
 
     /**
      * key {connectivity-service}
      */
     'connectivity-service': any;
-    body?: EnterpriseConnectivityService
+    body?: EnterprisesEnterpriseConnectivityService
   }): Observable<void> {
 
-    return this.postEnterpriseEnterpriseConnectivityService$Response(params).pipe(
+    return this.postEnterprisesEnterpriseConnectivityService$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteEnterpriseEnterpriseConnectivityService
+   * Path part for operation deleteEnterprisesEnterpriseConnectivityService
    */
-  static readonly DeleteEnterpriseEnterpriseConnectivityServicePath = '/aether/v4.0.0/{target}/enterprise/enterprise/{id}/connectivity-service/{connectivity-service}';
+  static readonly DeleteEnterprisesEnterpriseConnectivityServicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/connectivity-service/{connectivity-service}';
 
   /**
-   * DELETE /enterprise/enterprise/{id}/connectivity-service.
+   * DELETE /enterprises/enterprise/{enterprise-id}/connectivity-service.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteEnterpriseEnterpriseConnectivityService()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseConnectivityService()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteEnterpriseEnterpriseConnectivityService$Response(params: {
+  deleteEnterprisesEnterpriseConnectivityService$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -1908,9 +1269,9 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
 
     /**
      * key {connectivity-service}
@@ -1918,10 +1279,10 @@ export class ApiService extends BaseService {
     'connectivity-service': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterpriseEnterpriseConnectivityServicePath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseConnectivityServicePath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
       rb.path('connectivity-service', params['connectivity-service'], {});
     }
 
@@ -1937,16 +1298,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /enterprise/enterprise/{id}/connectivity-service.
+   * DELETE /enterprises/enterprise/{enterprise-id}/connectivity-service.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteEnterpriseEnterpriseConnectivityService$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseConnectivityService$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteEnterpriseEnterpriseConnectivityService(params: {
+  deleteEnterprisesEnterpriseConnectivityService(params: {
 
     /**
      * target (device in onos-config)
@@ -1954,9 +1315,9 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
 
     /**
      * key {connectivity-service}
@@ -1964,38 +1325,50 @@ export class ApiService extends BaseService {
     'connectivity-service': any;
   }): Observable<void> {
 
-    return this.deleteEnterpriseEnterpriseConnectivityService$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseConnectivityService$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postIpDomain
+   * Path part for operation postEnterprisesEnterpriseSite
    */
-  static readonly PostIpDomainPath = '/aether/v4.0.0/{target}/ip-domain';
+  static readonly PostEnterprisesEnterpriseSitePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}';
 
   /**
-   * POST /ip-domain.
+   * POST /enterprises/enterprise/{enterprise-id}/site.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postIpDomain()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseSite()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postIpDomain$Response(params: {
+  postEnterprisesEnterpriseSite$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-    body?: IpDomain
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+    body?: EnterprisesEnterpriseSite
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostIpDomainPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSitePath, 'post');
     if (params) {
       rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
       rb.body(params.body, 'application/json');
     }
 
@@ -2011,55 +1384,77 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /ip-domain.
+   * POST /enterprises/enterprise/{enterprise-id}/site.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postIpDomain$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSite$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postIpDomain(params: {
+  postEnterprisesEnterpriseSite(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-    body?: IpDomain
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+    body?: EnterprisesEnterpriseSite
   }): Observable<void> {
 
-    return this.postIpDomain$Response(params).pipe(
+    return this.postEnterprisesEnterpriseSite$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteIpDomain
+   * Path part for operation deleteEnterprisesEnterpriseSite
    */
-  static readonly DeleteIpDomainPath = '/aether/v4.0.0/{target}/ip-domain';
+  static readonly DeleteEnterprisesEnterpriseSitePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}';
 
   /**
-   * DELETE /ip-domain.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteIpDomain()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSite()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteIpDomain$Response(params: {
+  deleteEnterprisesEnterpriseSite$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteIpDomainPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSitePath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -2074,44 +1469,54 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /ip-domain.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteIpDomain$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSite$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteIpDomain(params: {
+  deleteEnterprisesEnterpriseSite(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
   }): Observable<void> {
 
-    return this.deleteIpDomain$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseSite$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postIpDomainIpDomain
+   * Path part for operation postEnterprisesEnterpriseSiteDeviceGroup
    */
-  static readonly PostIpDomainIpDomainPath = '/aether/v4.0.0/{target}/ip-domain/ip-domain/{id}';
+  static readonly PostEnterprisesEnterpriseSiteDeviceGroupPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}';
 
   /**
-   * POST /ip-domain/ip-domain.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postIpDomainIpDomain()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteDeviceGroup()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postIpDomainIpDomain$Response(params: {
+  postEnterprisesEnterpriseSiteDeviceGroup$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -2119,16 +1524,28 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseSiteIpDomain
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-group-id}
+     */
+    'device-group-id': any;
+    body?: EnterprisesEnterpriseSiteDeviceGroup
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostIpDomainIpDomainPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteDeviceGroupPath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('device-group-id', params['device-group-id'], {});
       rb.body(params.body, 'application/json');
     }
 
@@ -2144,16 +1561,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /ip-domain/ip-domain.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postIpDomainIpDomain$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteDeviceGroup$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postIpDomainIpDomain(params: {
+  postEnterprisesEnterpriseSiteDeviceGroup(params: {
 
     /**
      * target (device in onos-config)
@@ -2161,33 +1578,43 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseSiteIpDomain
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-group-id}
+     */
+    'device-group-id': any;
+    body?: EnterprisesEnterpriseSiteDeviceGroup
   }): Observable<void> {
 
-    return this.postIpDomainIpDomain$Response(params).pipe(
+    return this.postEnterprisesEnterpriseSiteDeviceGroup$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteIpDomainIpDomain
+   * Path part for operation deleteEnterprisesEnterpriseSiteDeviceGroup
    */
-  static readonly DeleteIpDomainIpDomainPath = '/aether/v4.0.0/{target}/ip-domain/ip-domain/{id}';
+  static readonly DeleteEnterprisesEnterpriseSiteDeviceGroupPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}';
 
   /**
-   * DELETE /ip-domain/ip-domain.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteIpDomainIpDomain()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteDeviceGroup()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteIpDomainIpDomain$Response(params: {
+  deleteEnterprisesEnterpriseSiteDeviceGroup$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -2195,15 +1622,27 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-group-id}
+     */
+    'device-group-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteIpDomainIpDomainPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteDeviceGroupPath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('device-group-id', params['device-group-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -2218,16 +1657,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /ip-domain/ip-domain.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteIpDomainIpDomain$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteDeviceGroup$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteIpDomainIpDomain(params: {
+  deleteEnterprisesEnterpriseSiteDeviceGroup(params: {
 
     /**
      * target (device in onos-config)
@@ -2235,43 +1674,77 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-group-id}
+     */
+    'device-group-id': any;
   }): Observable<void> {
 
-    return this.deleteIpDomainIpDomain$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseSiteDeviceGroup$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postSite
+   * Path part for operation postEnterprisesEnterpriseSiteDeviceGroupDevice
    */
-  static readonly PostSitePath = '/aether/v4.0.0/{target}/site';
+  static readonly PostEnterprisesEnterpriseSiteDeviceGroupDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/device/{device-id}';
 
   /**
-   * POST /site.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/device.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postSite()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteDeviceGroupDevice()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSite$Response(params: {
+  postEnterprisesEnterpriseSiteDeviceGroupDevice$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-    body?: Site
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-group-id}
+     */
+    'device-group-id': any;
+
+    /**
+     * key {device-id}
+     */
+    'device-id': any;
+    body?: EnterprisesEnterpriseSiteDeviceGroupDevice
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostSitePath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteDeviceGroupDevicePath, 'post');
     if (params) {
       rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('device-group-id', params['device-group-id'], {});
+      rb.path('device-id', params['device-id'], {});
       rb.body(params.body, 'application/json');
     }
 
@@ -2287,55 +1760,99 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /site.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/device.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postSite$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteDeviceGroupDevice$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSite(params: {
+  postEnterprisesEnterpriseSiteDeviceGroupDevice(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-    body?: Site
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-group-id}
+     */
+    'device-group-id': any;
+
+    /**
+     * key {device-id}
+     */
+    'device-id': any;
+    body?: EnterprisesEnterpriseSiteDeviceGroupDevice
   }): Observable<void> {
 
-    return this.postSite$Response(params).pipe(
+    return this.postEnterprisesEnterpriseSiteDeviceGroupDevice$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteSite
+   * Path part for operation deleteEnterprisesEnterpriseSiteDeviceGroupDevice
    */
-  static readonly DeleteSitePath = '/aether/v4.0.0/{target}/site';
+  static readonly DeleteEnterprisesEnterpriseSiteDeviceGroupDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/device/{device-id}';
 
   /**
-   * DELETE /site.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/device.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSite()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteDeviceGroupDevice()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSite$Response(params: {
+  deleteEnterprisesEnterpriseSiteDeviceGroupDevice$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-group-id}
+     */
+    'device-group-id': any;
+
+    /**
+     * key {device-id}
+     */
+    'device-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSitePath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteDeviceGroupDevicePath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('device-group-id', params['device-group-id'], {});
+      rb.path('device-id', params['device-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -2350,44 +1867,64 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /site.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/device.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteSite$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteDeviceGroupDevice$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSite(params: {
+  deleteEnterprisesEnterpriseSiteDeviceGroupDevice(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-group-id}
+     */
+    'device-group-id': any;
+
+    /**
+     * key {device-id}
+     */
+    'device-id': any;
   }): Observable<void> {
 
-    return this.deleteSite$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseSiteDeviceGroupDevice$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postSiteSite
+   * Path part for operation postEnterprisesEnterpriseSiteDeviceGroupMbr
    */
-  static readonly PostSiteSitePath = '/aether/v4.0.0/{target}/site/site/{id}';
+  static readonly PostEnterprisesEnterpriseSiteDeviceGroupMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr';
 
   /**
-   * POST /site/site.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postSiteSite()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteDeviceGroupMbr()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSiteSite$Response(params: {
+  postEnterprisesEnterpriseSiteDeviceGroupMbr$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -2395,16 +1932,28 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseSite
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-group-id}
+     */
+    'device-group-id': any;
+    body?: EnterprisesEnterpriseSiteDeviceGroupMbr
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostSiteSitePath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteDeviceGroupMbrPath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('device-group-id', params['device-group-id'], {});
       rb.body(params.body, 'application/json');
     }
 
@@ -2420,16 +1969,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /site/site.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postSiteSite$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteDeviceGroupMbr$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSiteSite(params: {
+  postEnterprisesEnterpriseSiteDeviceGroupMbr(params: {
 
     /**
      * target (device in onos-config)
@@ -2437,33 +1986,43 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseSite
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-group-id}
+     */
+    'device-group-id': any;
+    body?: EnterprisesEnterpriseSiteDeviceGroupMbr
   }): Observable<void> {
 
-    return this.postSiteSite$Response(params).pipe(
+    return this.postEnterprisesEnterpriseSiteDeviceGroupMbr$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteSiteSite
+   * Path part for operation deleteEnterprisesEnterpriseSiteDeviceGroupMbr
    */
-  static readonly DeleteSiteSitePath = '/aether/v4.0.0/{target}/site/site/{id}';
+  static readonly DeleteEnterprisesEnterpriseSiteDeviceGroupMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr';
 
   /**
-   * DELETE /site/site.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSiteSite()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteDeviceGroupMbr()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSiteSite$Response(params: {
+  deleteEnterprisesEnterpriseSiteDeviceGroupMbr$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -2471,15 +2030,27 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-group-id}
+     */
+    'device-group-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSiteSitePath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteDeviceGroupMbrPath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('device-group-id', params['device-group-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -2494,16 +2065,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /site/site.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteSiteSite$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteDeviceGroupMbr$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSiteSite(params: {
+  deleteEnterprisesEnterpriseSiteDeviceGroupMbr(params: {
 
     /**
      * target (device in onos-config)
@@ -2511,32 +2082,42 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-group-id}
+     */
+    'device-group-id': any;
   }): Observable<void> {
 
-    return this.deleteSiteSite$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseSiteDeviceGroupMbr$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postSiteSiteImsiDefinition
+   * Path part for operation postEnterprisesEnterpriseSiteDevice
    */
-  static readonly PostSiteSiteImsiDefinitionPath = '/aether/v4.0.0/{target}/site/site/{id}/imsi-definition';
+  static readonly PostEnterprisesEnterpriseSiteDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device/{device-id}';
 
   /**
-   * POST /site/site/{id}/imsi-definition.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/device.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postSiteSiteImsiDefinition()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteDevice()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSiteSiteImsiDefinition$Response(params: {
+  postEnterprisesEnterpriseSiteDevice$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -2544,16 +2125,28 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseSiteImsiDefinition
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-id}
+     */
+    'device-id': any;
+    body?: EnterprisesEnterpriseSiteDevice
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostSiteSiteImsiDefinitionPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteDevicePath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('device-id', params['device-id'], {});
       rb.body(params.body, 'application/json');
     }
 
@@ -2569,16 +2162,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /site/site/{id}/imsi-definition.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/device.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postSiteSiteImsiDefinition$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteDevice$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSiteSiteImsiDefinition(params: {
+  postEnterprisesEnterpriseSiteDevice(params: {
 
     /**
      * target (device in onos-config)
@@ -2586,33 +2179,43 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseSiteImsiDefinition
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-id}
+     */
+    'device-id': any;
+    body?: EnterprisesEnterpriseSiteDevice
   }): Observable<void> {
 
-    return this.postSiteSiteImsiDefinition$Response(params).pipe(
+    return this.postEnterprisesEnterpriseSiteDevice$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteSiteSiteImsiDefinition
+   * Path part for operation deleteEnterprisesEnterpriseSiteDevice
    */
-  static readonly DeleteSiteSiteImsiDefinitionPath = '/aether/v4.0.0/{target}/site/site/{id}/imsi-definition';
+  static readonly DeleteEnterprisesEnterpriseSiteDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device/{device-id}';
 
   /**
-   * DELETE /site/site/{id}/imsi-definition.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/device.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSiteSiteImsiDefinition()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteDevice()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSiteSiteImsiDefinition$Response(params: {
+  deleteEnterprisesEnterpriseSiteDevice$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -2620,15 +2223,27 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-id}
+     */
+    'device-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSiteSiteImsiDefinitionPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteDevicePath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('device-id', params['device-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -2643,16 +2258,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /site/site/{id}/imsi-definition.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/device.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteSiteSiteImsiDefinition$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteDevice$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSiteSiteImsiDefinition(params: {
+  deleteEnterprisesEnterpriseSiteDevice(params: {
 
     /**
      * target (device in onos-config)
@@ -2660,32 +2275,42 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {device-id}
+     */
+    'device-id': any;
   }): Observable<void> {
 
-    return this.deleteSiteSiteImsiDefinition$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseSiteDevice$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postSiteSiteMonitoring
+   * Path part for operation postEnterprisesEnterpriseSiteImsiDefinition
    */
-  static readonly PostSiteSiteMonitoringPath = '/aether/v4.0.0/{target}/site/site/{id}/monitoring';
+  static readonly PostEnterprisesEnterpriseSiteImsiDefinitionPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition';
 
   /**
-   * POST /site/site/{id}/monitoring.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postSiteSiteMonitoring()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteImsiDefinition()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSiteSiteMonitoring$Response(params: {
+  postEnterprisesEnterpriseSiteImsiDefinition$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -2693,16 +2318,22 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseSiteMonitoring
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+    body?: EnterprisesEnterpriseSiteImsiDefinition
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostSiteSiteMonitoringPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteImsiDefinitionPath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
       rb.body(params.body, 'application/json');
     }
 
@@ -2718,16 +2349,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /site/site/{id}/monitoring.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postSiteSiteMonitoring$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteImsiDefinition$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSiteSiteMonitoring(params: {
+  postEnterprisesEnterpriseSiteImsiDefinition(params: {
 
     /**
      * target (device in onos-config)
@@ -2735,33 +2366,38 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseSiteMonitoring
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+    body?: EnterprisesEnterpriseSiteImsiDefinition
   }): Observable<void> {
 
-    return this.postSiteSiteMonitoring$Response(params).pipe(
+    return this.postEnterprisesEnterpriseSiteImsiDefinition$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteSiteSiteMonitoring
+   * Path part for operation deleteEnterprisesEnterpriseSiteImsiDefinition
    */
-  static readonly DeleteSiteSiteMonitoringPath = '/aether/v4.0.0/{target}/site/site/{id}/monitoring';
+  static readonly DeleteEnterprisesEnterpriseSiteImsiDefinitionPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition';
 
   /**
-   * DELETE /site/site/{id}/monitoring.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSiteSiteMonitoring()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteImsiDefinition()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSiteSiteMonitoring$Response(params: {
+  deleteEnterprisesEnterpriseSiteImsiDefinition$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -2769,15 +2405,21 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSiteSiteMonitoringPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteImsiDefinitionPath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -2792,16 +2434,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /site/site/{id}/monitoring.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteSiteSiteMonitoring$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteImsiDefinition$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSiteSiteMonitoring(params: {
+  deleteEnterprisesEnterpriseSiteImsiDefinition(params: {
 
     /**
      * target (device in onos-config)
@@ -2809,32 +2451,37 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
   }): Observable<void> {
 
-    return this.deleteSiteSiteMonitoring$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseSiteImsiDefinition$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postSiteSiteMonitoringEdgeDevice
+   * Path part for operation postEnterprisesEnterpriseSiteIpDomain
    */
-  static readonly PostSiteSiteMonitoringEdgeDevicePath = '/aether/v4.0.0/{target}/site/site/{id}/monitoring/edge-device/{edge-device-id}';
+  static readonly PostEnterprisesEnterpriseSiteIpDomainPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/ip-domain/{ip-domain-id}';
 
   /**
-   * POST /site/site/{id}/monitoring/edge-device.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/ip-domain.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postSiteSiteMonitoringEdgeDevice()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteIpDomain()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSiteSiteMonitoringEdgeDevice$Response(params: {
+  postEnterprisesEnterpriseSiteIpDomain$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -2842,21 +2489,391 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {ip-domain-id}
+     */
+    'ip-domain-id': any;
+    body?: EnterprisesEnterpriseSiteIpDomain
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteIpDomainPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('ip-domain-id', params['ip-domain-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/ip-domain.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteIpDomain$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseSiteIpDomain(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {ip-domain-id}
+     */
+    'ip-domain-id': any;
+    body?: EnterprisesEnterpriseSiteIpDomain
+  }): Observable<void> {
+
+    return this.postEnterprisesEnterpriseSiteIpDomain$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteEnterprisesEnterpriseSiteIpDomain
+   */
+  static readonly DeleteEnterprisesEnterpriseSiteIpDomainPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/ip-domain/{ip-domain-id}';
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/ip-domain.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteIpDomain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseSiteIpDomain$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {ip-domain-id}
+     */
+    'ip-domain-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteIpDomainPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('ip-domain-id', params['ip-domain-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/ip-domain.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteIpDomain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseSiteIpDomain(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {ip-domain-id}
+     */
+    'ip-domain-id': any;
+  }): Observable<void> {
+
+    return this.deleteEnterprisesEnterpriseSiteIpDomain$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postEnterprisesEnterpriseSiteMonitoring
+   */
+  static readonly PostEnterprisesEnterpriseSiteMonitoringPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring';
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteMonitoring()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseSiteMonitoring$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+    body?: EnterprisesEnterpriseSiteMonitoring
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteMonitoringPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteMonitoring$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseSiteMonitoring(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+    body?: EnterprisesEnterpriseSiteMonitoring
+  }): Observable<void> {
+
+    return this.postEnterprisesEnterpriseSiteMonitoring$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteEnterprisesEnterpriseSiteMonitoring
+   */
+  static readonly DeleteEnterprisesEnterpriseSiteMonitoringPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring';
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteMonitoring()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseSiteMonitoring$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteMonitoringPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteMonitoring$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseSiteMonitoring(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<void> {
+
+    return this.deleteEnterprisesEnterpriseSiteMonitoring$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postEnterprisesEnterpriseSiteMonitoringEdgeDevice
+   */
+  static readonly PostEnterprisesEnterpriseSiteMonitoringEdgeDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device/{edge-device-id}';
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteMonitoringEdgeDevice()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseSiteMonitoringEdgeDevice$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
 
     /**
      * key {edge-device-id}
      */
     'edge-device-id': any;
-    body?: EnterpriseEnterpriseSiteMonitoringEdgeDevice
+    body?: EnterprisesEnterpriseSiteMonitoringEdgeDevice
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostSiteSiteMonitoringEdgeDevicePath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteMonitoringEdgeDevicePath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
       rb.path('edge-device-id', params['edge-device-id'], {});
       rb.body(params.body, 'application/json');
     }
@@ -2873,16 +2890,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /site/site/{id}/monitoring/edge-device.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postSiteSiteMonitoringEdgeDevice$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteMonitoringEdgeDevice$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSiteSiteMonitoringEdgeDevice(params: {
+  postEnterprisesEnterpriseSiteMonitoringEdgeDevice(params: {
 
     /**
      * target (device in onos-config)
@@ -2890,38 +2907,43 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
 
     /**
      * key {edge-device-id}
      */
     'edge-device-id': any;
-    body?: EnterpriseEnterpriseSiteMonitoringEdgeDevice
+    body?: EnterprisesEnterpriseSiteMonitoringEdgeDevice
   }): Observable<void> {
 
-    return this.postSiteSiteMonitoringEdgeDevice$Response(params).pipe(
+    return this.postEnterprisesEnterpriseSiteMonitoringEdgeDevice$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteSiteSiteMonitoringEdgeDevice
+   * Path part for operation deleteEnterprisesEnterpriseSiteMonitoringEdgeDevice
    */
-  static readonly DeleteSiteSiteMonitoringEdgeDevicePath = '/aether/v4.0.0/{target}/site/site/{id}/monitoring/edge-device/{edge-device-id}';
+  static readonly DeleteEnterprisesEnterpriseSiteMonitoringEdgeDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device/{edge-device-id}';
 
   /**
-   * DELETE /site/site/{id}/monitoring/edge-device.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSiteSiteMonitoringEdgeDevice()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteMonitoringEdgeDevice()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSiteSiteMonitoringEdgeDevice$Response(params: {
+  deleteEnterprisesEnterpriseSiteMonitoringEdgeDevice$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -2929,9 +2951,14 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
 
     /**
      * key {edge-device-id}
@@ -2939,10 +2966,11 @@ export class ApiService extends BaseService {
     'edge-device-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSiteSiteMonitoringEdgeDevicePath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteMonitoringEdgeDevicePath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
       rb.path('edge-device-id', params['edge-device-id'], {});
     }
 
@@ -2958,16 +2986,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /site/site/{id}/monitoring/edge-device.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteSiteSiteMonitoringEdgeDevice$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteMonitoringEdgeDevice$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSiteSiteMonitoringEdgeDevice(params: {
+  deleteEnterprisesEnterpriseSiteMonitoringEdgeDevice(params: {
 
     /**
      * target (device in onos-config)
@@ -2975,9 +3003,14 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
 
     /**
      * key {edge-device-id}
@@ -2985,27 +3018,27 @@ export class ApiService extends BaseService {
     'edge-device-id': any;
   }): Observable<void> {
 
-    return this.deleteSiteSiteMonitoringEdgeDevice$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseSiteMonitoringEdgeDevice$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postSiteSiteSmallCell
+   * Path part for operation postEnterprisesEnterpriseSiteSimCard
    */
-  static readonly PostSiteSiteSmallCellPath = '/aether/v4.0.0/{target}/site/site/{id}/small-cell/{small-cell-id}';
+  static readonly PostEnterprisesEnterpriseSiteSimCardPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/sim-card/{sim-id}';
 
   /**
-   * POST /site/site/{id}/small-cell.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/sim-card.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postSiteSiteSmallCell()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteSimCard()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSiteSiteSmallCell$Response(params: {
+  postEnterprisesEnterpriseSiteSimCard$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -3013,22 +3046,28 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
 
     /**
-     * key {small-cell-id}
+     * key {site-id}
      */
-    'small-cell-id': any;
-    body?: EnterpriseEnterpriseSiteSmallCell
+    'site-id': any;
+
+    /**
+     * key {sim-id}
+     */
+    'sim-id': any;
+    body?: EnterprisesEnterpriseSiteSimCard
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostSiteSiteSmallCellPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteSimCardPath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.path('small-cell-id', params['small-cell-id'], {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('sim-id', params['sim-id'], {});
       rb.body(params.body, 'application/json');
     }
 
@@ -3044,16 +3083,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /site/site/{id}/small-cell.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/sim-card.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postSiteSiteSmallCell$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteSimCard$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSiteSiteSmallCell(params: {
+  postEnterprisesEnterpriseSiteSimCard(params: {
 
     /**
      * target (device in onos-config)
@@ -3061,38 +3100,43 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
 
     /**
-     * key {small-cell-id}
+     * key {site-id}
      */
-    'small-cell-id': any;
-    body?: EnterpriseEnterpriseSiteSmallCell
+    'site-id': any;
+
+    /**
+     * key {sim-id}
+     */
+    'sim-id': any;
+    body?: EnterprisesEnterpriseSiteSimCard
   }): Observable<void> {
 
-    return this.postSiteSiteSmallCell$Response(params).pipe(
+    return this.postEnterprisesEnterpriseSiteSimCard$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteSiteSiteSmallCell
+   * Path part for operation deleteEnterprisesEnterpriseSiteSimCard
    */
-  static readonly DeleteSiteSiteSmallCellPath = '/aether/v4.0.0/{target}/site/site/{id}/small-cell/{small-cell-id}';
+  static readonly DeleteEnterprisesEnterpriseSiteSimCardPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/sim-card/{sim-id}';
 
   /**
-   * DELETE /site/site/{id}/small-cell.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/sim-card.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSiteSiteSmallCell()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteSimCard()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSiteSiteSmallCell$Response(params: {
+  deleteEnterprisesEnterpriseSiteSimCard$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -3100,21 +3144,27 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
 
     /**
-     * key {small-cell-id}
+     * key {site-id}
      */
-    'small-cell-id': any;
+    'site-id': any;
+
+    /**
+     * key {sim-id}
+     */
+    'sim-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSiteSiteSmallCellPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteSimCardPath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.path('small-cell-id', params['small-cell-id'], {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('sim-id', params['sim-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -3129,16 +3179,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /site/site/{id}/small-cell.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/sim-card.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteSiteSiteSmallCell$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteSimCard$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSiteSiteSmallCell(params: {
+  deleteEnterprisesEnterpriseSiteSimCard(params: {
 
     /**
      * target (device in onos-config)
@@ -3146,48 +3196,71 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
 
     /**
-     * key {small-cell-id}
+     * key {site-id}
      */
-    'small-cell-id': any;
+    'site-id': any;
+
+    /**
+     * key {sim-id}
+     */
+    'sim-id': any;
   }): Observable<void> {
 
-    return this.deleteSiteSiteSmallCell$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseSiteSimCard$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postTemplate
+   * Path part for operation postEnterprisesEnterpriseSiteSlice
    */
-  static readonly PostTemplatePath = '/aether/v4.0.0/{target}/template';
+  static readonly PostEnterprisesEnterpriseSiteSlicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}';
 
   /**
-   * POST /template.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postTemplate()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteSlice()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postTemplate$Response(params: {
+  postEnterprisesEnterpriseSiteSlice$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-    body?: Template
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+    body?: EnterprisesEnterpriseSiteSlice
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostTemplatePath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteSlicePath, 'post');
     if (params) {
       rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
       rb.body(params.body, 'application/json');
     }
 
@@ -3203,55 +3276,88 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /template.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postTemplate$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteSlice$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postTemplate(params: {
+  postEnterprisesEnterpriseSiteSlice(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-    body?: Template
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+    body?: EnterprisesEnterpriseSiteSlice
   }): Observable<void> {
 
-    return this.postTemplate$Response(params).pipe(
+    return this.postEnterprisesEnterpriseSiteSlice$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteTemplate
+   * Path part for operation deleteEnterprisesEnterpriseSiteSlice
    */
-  static readonly DeleteTemplatePath = '/aether/v4.0.0/{target}/template';
+  static readonly DeleteEnterprisesEnterpriseSiteSlicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}';
 
   /**
-   * DELETE /template.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteTemplate()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteSlice()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteTemplate$Response(params: {
+  deleteEnterprisesEnterpriseSiteSlice$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteTemplatePath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteSlicePath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -3266,44 +3372,59 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /template.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteTemplate$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteSlice$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteTemplate(params: {
+  deleteEnterprisesEnterpriseSiteSlice(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
   }): Observable<void> {
 
-    return this.deleteTemplate$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseSiteSlice$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postTemplateTemplate
+   * Path part for operation postEnterprisesEnterpriseSiteSliceDeviceGroup
    */
-  static readonly PostTemplateTemplatePath = '/aether/v4.0.0/{target}/template/template/{id}';
+  static readonly PostEnterprisesEnterpriseSiteSliceDeviceGroupPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group/{device-group}';
 
   /**
-   * POST /template/template.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postTemplateTemplate()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteSliceDeviceGroup()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postTemplateTemplate$Response(params: {
+  postEnterprisesEnterpriseSiteSliceDeviceGroup$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -3311,1296 +3432,33 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseTemplate
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostTemplateTemplatePath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /template/template.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postTemplateTemplate$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postTemplateTemplate(params: {
+    'enterprise-id': any;
 
     /**
-     * target (device in onos-config)
+     * key {site-id}
      */
-    target: any;
+    'site-id': any;
 
     /**
-     * key {id}
+     * key {slice-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseTemplate
-  }): Observable<void> {
-
-    return this.postTemplateTemplate$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteTemplateTemplate
-   */
-  static readonly DeleteTemplateTemplatePath = '/aether/v4.0.0/{target}/template/template/{id}';
-
-  /**
-   * DELETE /template/template.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteTemplateTemplate()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteTemplateTemplate$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteTemplateTemplatePath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /template/template.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteTemplateTemplate$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteTemplateTemplate(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteTemplateTemplate$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postTemplateTemplateSlice
-   */
-  // static readonly PostTemplateTemplateSlicePath = '/aether/v4.0.0/{target}/template/template/{id}/slice';
-
-  /**
-   * POST /template/template/{id}/slice.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postTemplateTemplateSlice()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  // postTemplateTemplateSlice$Response(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  //
-  //   /**
-  //    * key {id}
-  //    */
-  //   id: any;
-  //   body?: EnterpriseEnterpriseTemplateSlice
-  // }): Observable<StrictHttpResponse<void>> {
-  //
-  //   const rb = new RequestBuilder(this.rootUrl, ApiService.PostTemplateTemplateSlicePath, 'post');
-  //   if (params) {
-  //     rb.path('target', params.target, {});
-  //     rb.path('id', params.id, {});
-  //     rb.body(params.body, 'application/json');
-  //   }
-  //
-  //   return this.http.request(rb.build({
-  //     responseType: 'text',
-  //     accept: '*/*'
-  //   })).pipe(
-  //     filter((r: any) => r instanceof HttpResponse),
-  //     map((r: HttpResponse<any>) => {
-  //       return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-  //     })
-  //   );
-  // }
-
-  /**
-   * POST /template/template/{id}/slice.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postTemplateTemplateSlice$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  // postTemplateTemplateSlice(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  //
-  //   /**
-  //    * key {id}
-  //    */
-  //   id: any;
-  //   body?:EnterpriseEnterpriseTemplateSlice
-  // }): Observable<void> {
-  //
-  //   return this.postTemplateTemplateSlice$Response(params).pipe(
-  //     map((r: StrictHttpResponse<void>) => r.body as void)
-  //   );
-  // }
-
-  /**
-   * Path part for operation deleteTemplateTemplateSlice
-   */
-  static readonly DeleteTemplateTemplateSlicePath = '/aether/v4.0.0/{target}/template/template/{id}/slice';
-
-  /**
-   * DELETE /template/template/{id}/slice.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteTemplateTemplateSlice()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteTemplateTemplateSlice$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteTemplateTemplateSlicePath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /template/template/{id}/slice.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteTemplateTemplateSlice$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteTemplateTemplateSlice(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteTemplateTemplateSlice$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postTemplateTemplateSliceMbr
-   */
-  static readonly PostTemplateTemplateSliceMbrPath = '/aether/v4.0.0/{target}/template/template/{id}/slice/mbr';
-
-  /**
-   * POST /template/template/{id}/slice/mbr.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postTemplateTemplateSliceMbr()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postTemplateTemplateSliceMbr$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseTemplateSliceMbr
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostTemplateTemplateSliceMbrPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /template/template/{id}/slice/mbr.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postTemplateTemplateSliceMbr$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postTemplateTemplateSliceMbr(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseTemplateSliceMbr
-  }): Observable<void> {
-
-    return this.postTemplateTemplateSliceMbr$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteTemplateTemplateSliceMbr
-   */
-  static readonly DeleteTemplateTemplateSliceMbrPath = '/aether/v4.0.0/{target}/template/template/{id}/slice/mbr';
-
-  /**
-   * DELETE /template/template/{id}/slice/mbr.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteTemplateTemplateSliceMbr()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteTemplateTemplateSliceMbr$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteTemplateTemplateSliceMbrPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /template/template/{id}/slice/mbr.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteTemplateTemplateSliceMbr$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteTemplateTemplateSliceMbr(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteTemplateTemplateSliceMbr$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postTrafficClass
-   */
-  static readonly PostTrafficClassPath = '/aether/v4.0.0/{target}/traffic-class';
-
-  /**
-   * POST /traffic-class.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postTrafficClass()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postTrafficClass$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: TrafficClass
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostTrafficClassPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /traffic-class.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postTrafficClass$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postTrafficClass(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: TrafficClass
-  }): Observable<void> {
-
-    return this.postTrafficClass$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteTrafficClass
-   */
-  static readonly DeleteTrafficClassPath = '/aether/v4.0.0/{target}/traffic-class';
-
-  /**
-   * DELETE /traffic-class.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteTrafficClass()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteTrafficClass$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteTrafficClassPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /traffic-class.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteTrafficClass$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteTrafficClass(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<void> {
-
-    return this.deleteTrafficClass$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postTrafficClassTrafficClass
-   */
-  static readonly PostTrafficClassTrafficClassPath = '/aether/v4.0.0/{target}/traffic-class/traffic-class/{id}';
-
-  /**
-   * POST /traffic-class/traffic-class.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postTrafficClassTrafficClass()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postTrafficClassTrafficClass$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseTrafficClass
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostTrafficClassTrafficClassPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /traffic-class/traffic-class.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postTrafficClassTrafficClass$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postTrafficClassTrafficClass(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseTrafficClass
-  }): Observable<void> {
-
-    return this.postTrafficClassTrafficClass$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteTrafficClassTrafficClass
-   */
-  static readonly DeleteTrafficClassTrafficClassPath = '/aether/v4.0.0/{target}/traffic-class/traffic-class/{id}';
-
-  /**
-   * DELETE /traffic-class/traffic-class.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteTrafficClassTrafficClass()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteTrafficClassTrafficClass$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteTrafficClassTrafficClassPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /traffic-class/traffic-class.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteTrafficClassTrafficClass$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteTrafficClassTrafficClass(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteTrafficClassTrafficClass$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postUpf
-   */
-  static readonly PostUpfPath = '/aether/v4.0.0/{target}/upf';
-
-  /**
-   * POST /upf.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postUpf()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postUpf$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: Upf
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostUpfPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /upf.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postUpf$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postUpf(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: Upf
-  }): Observable<void> {
-
-    return this.postUpf$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteUpf
-   */
-  static readonly DeleteUpfPath = '/aether/v4.0.0/{target}/upf';
-
-  /**
-   * DELETE /upf.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteUpf()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteUpf$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteUpfPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /upf.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteUpf$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteUpf(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<void> {
-
-    return this.deleteUpf$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postUpfUpf
-   */
-  static readonly PostUpfUpfPath = '/aether/v4.0.0/{target}/upf/upf/{id}';
-
-  /**
-   * POST /upf/upf.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postUpfUpf()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postUpfUpf$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseSiteUpf
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostUpfUpfPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /upf/upf.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postUpfUpf$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postUpfUpf(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseSiteUpf
-  }): Observable<void> {
-
-    return this.postUpfUpf$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteUpfUpf
-   */
-  static readonly DeleteUpfUpfPath = '/aether/v4.0.0/{target}/upf/upf/{id}';
-
-  /**
-   * DELETE /upf/upf.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteUpfUpf()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteUpfUpf$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteUpfUpfPath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /upf/upf.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteUpfUpf$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteUpfUpf(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteUpfUpf$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postSlice
-   */
-  static readonly PostSlicePath = '/aether/v4.0.0/{target}/slice';
-
-  /**
-   * POST /slice.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postSlice()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postSlice$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: Slice
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostSlicePath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.body(params.body, 'application/json');
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * POST /slice.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postSlice$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postSlice(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-    body?: Slice
-  }): Observable<void> {
-
-    return this.postSlice$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation deleteSlice
-   */
-  static readonly DeleteSlicePath = '/aether/v4.0.0/{target}/slice';
-
-  /**
-   * DELETE /slice.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSlice()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteSlice$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSlicePath, 'delete');
-    if (params) {
-      rb.path('target', params.target, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /slice.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteSlice$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteSlice(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<void> {
-
-    return this.deleteSlice$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postSlice
-   */
-  // static readonly PostSlicePath = '/aether/v4.0.0/{target}/slice/slice/{id}';
-
-  /**
-   * POST /slice/slice.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postSlice()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  // postSlice$Response(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  //
-  //   /**
-  //    * key {id}
-  //    */
-  //   id: any;
-  //   body?: EnterpriseEnterpriseSiteSlice
-  // }): Observable<StrictHttpResponse<void>> {
-  //
-  //   const rb = new RequestBuilder(this.rootUrl, ApiService.PostSlicePath, 'post');
-  //   if (params) {
-  //     rb.path('target', params.target, {});
-  //     rb.path('id', params.id, {});
-  //     rb.body(params.body, 'application/json');
-  //   }
-  //
-  //   return this.http.request(rb.build({
-  //     responseType: 'text',
-  //     accept: '*/*'
-  //   })).pipe(
-  //     filter((r: any) => r instanceof HttpResponse),
-  //     map((r: HttpResponse<any>) => {
-  //       return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-  //     })
-  //   );
-  // }
-
-  /**
-   * POST /slice/slice.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postSlice$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  // postSlice(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  //
-  //   /**
-  //    * key {id}
-  //    */
-  //   id: any;
-  //   body?: EnterpriseEnterpriseSiteSlice
-  // }): Observable<void> {
-  //
-  //   return this.postSlice$Response(params).pipe(
-  //     map((r: StrictHttpResponse<void>) => r.body as void)
-  //   );
-  // }
-
-  /**
-   * Path part for operation deleteSlice
-   */
-  // static readonly DeleteSlicePath = '/aether/v4.0.0/{target}/slice/slice/{id}';
-
-  /**
-   * DELETE /slice/slice.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSlice()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  // deleteSlice$Response(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  //
-  //   /**
-  //    * key {id}
-  //    */
-  //   id: any;
-  // }): Observable<StrictHttpResponse<void>> {
-  //
-  //   const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSlicePath, 'delete');
-  //   if (params) {
-  //     rb.path('target', params.target, {});
-  //     rb.path('id', params.id, {});
-  //   }
-  //
-  //   return this.http.request(rb.build({
-  //     responseType: 'text',
-  //     accept: '*/*'
-  //   })).pipe(
-  //     filter((r: any) => r instanceof HttpResponse),
-  //     map((r: HttpResponse<any>) => {
-  //       return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-  //     })
-  //   );
-  // }
-
-  /**
-   * DELETE /slice/slice.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteSlice$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  // deleteSlice(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  //
-  //   /**
-  //    * key {id}
-  //    */
-  //   id: any;
-  // }): Observable<void> {
-  //
-  //   return this.deleteSlice$Response(params).pipe(
-  //     map((r: StrictHttpResponse<void>) => r.body as void)
-  //   );
-  // }
-
-  /**
-   * Path part for operation postSliceDeviceGroup
-   */
-  static readonly PostSliceDeviceGroupPath = '/aether/v4.0.0/{target}/slice/slice/{id}/device-group/{device-group}';
-
-  /**
-   * POST /slice/slice/{id}/device-group.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postSliceDeviceGroup()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postSliceDeviceGroup$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
+    'slice-id': any;
 
     /**
      * key {device-group}
      */
     'device-group': any;
-    body?: EnterpriseEnterpriseSiteSliceDeviceGroup
+    body?: EnterprisesEnterpriseSiteSliceDeviceGroup
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostSliceDeviceGroupPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteSliceDeviceGroupPath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
       rb.path('device-group', params['device-group'], {});
       rb.body(params.body, 'application/json');
     }
@@ -4617,16 +3475,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /slice/slice/{id}/device-group.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postSliceDeviceGroup$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteSliceDeviceGroup$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSliceDeviceGroup(params: {
+  postEnterprisesEnterpriseSiteSliceDeviceGroup(params: {
 
     /**
      * target (device in onos-config)
@@ -4634,38 +3492,48 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
 
     /**
      * key {device-group}
      */
     'device-group': any;
-    body?: EnterpriseEnterpriseSiteSliceDeviceGroup
+    body?: EnterprisesEnterpriseSiteSliceDeviceGroup
   }): Observable<void> {
 
-    return this.postSliceDeviceGroup$Response(params).pipe(
+    return this.postEnterprisesEnterpriseSiteSliceDeviceGroup$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteSliceDeviceGroup
+   * Path part for operation deleteEnterprisesEnterpriseSiteSliceDeviceGroup
    */
-  static readonly DeleteSliceDeviceGroupPath = '/aether/v4.0.0/{target}/slice/slice/{id}/device-group/{device-group}';
+  static readonly DeleteEnterprisesEnterpriseSiteSliceDeviceGroupPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group/{device-group}';
 
   /**
-   * DELETE /slice/slice/{id}/device-group.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSliceDeviceGroup()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteSliceDeviceGroup()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSliceDeviceGroup$Response(params: {
+  deleteEnterprisesEnterpriseSiteSliceDeviceGroup$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -4673,9 +3541,19 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
 
     /**
      * key {device-group}
@@ -4683,10 +3561,12 @@ export class ApiService extends BaseService {
     'device-group': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSliceDeviceGroupPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteSliceDeviceGroupPath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
       rb.path('device-group', params['device-group'], {});
     }
 
@@ -4702,16 +3582,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /slice/slice/{id}/device-group.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteSliceDeviceGroup$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteSliceDeviceGroup$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSliceDeviceGroup(params: {
+  deleteEnterprisesEnterpriseSiteSliceDeviceGroup(params: {
 
     /**
      * target (device in onos-config)
@@ -4719,9 +3599,19 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
 
     /**
      * key {device-group}
@@ -4729,27 +3619,27 @@ export class ApiService extends BaseService {
     'device-group': any;
   }): Observable<void> {
 
-    return this.deleteSliceDeviceGroup$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseSiteSliceDeviceGroup$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postSliceFilter
+   * Path part for operation postEnterprisesEnterpriseSiteSliceFilter
    */
-  static readonly PostSliceFilterPath = '/aether/v4.0.0/{target}/slice/slice/{id}/filter/{application}';
+  static readonly PostEnterprisesEnterpriseSiteSliceFilterPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter/{application}';
 
   /**
-   * POST /slice/slice/{id}/filter.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postSliceFilter()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteSliceFilter()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSliceFilter$Response(params: {
+  postEnterprisesEnterpriseSiteSliceFilter$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -4757,21 +3647,33 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
 
     /**
      * key {application}
      */
     application: any;
-    body?: EnterpriseEnterpriseSiteSliceFilter
+    body?: EnterprisesEnterpriseSiteSliceFilter
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostSliceFilterPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteSliceFilterPath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
       rb.path('application', params.application, {});
       rb.body(params.body, 'application/json');
     }
@@ -4788,16 +3690,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /slice/slice/{id}/filter.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postSliceFilter$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteSliceFilter$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSliceFilter(params: {
+  postEnterprisesEnterpriseSiteSliceFilter(params: {
 
     /**
      * target (device in onos-config)
@@ -4805,38 +3707,48 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
 
     /**
      * key {application}
      */
     application: any;
-    body?: EnterpriseEnterpriseSiteSliceFilter
+    body?: EnterprisesEnterpriseSiteSliceFilter
   }): Observable<void> {
 
-    return this.postSliceFilter$Response(params).pipe(
+    return this.postEnterprisesEnterpriseSiteSliceFilter$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteSliceFilter
+   * Path part for operation deleteEnterprisesEnterpriseSiteSliceFilter
    */
-  static readonly DeleteSliceFilterPath = '/aether/v4.0.0/{target}/slice/slice/{id}/filter/{application}';
+  static readonly DeleteEnterprisesEnterpriseSiteSliceFilterPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter/{application}';
 
   /**
-   * DELETE /slice/slice/{id}/filter.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSliceFilter()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteSliceFilter()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSliceFilter$Response(params: {
+  deleteEnterprisesEnterpriseSiteSliceFilter$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -4844,9 +3756,19 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
 
     /**
      * key {application}
@@ -4854,10 +3776,12 @@ export class ApiService extends BaseService {
     application: any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSliceFilterPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteSliceFilterPath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
       rb.path('application', params.application, {});
     }
 
@@ -4873,16 +3797,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /slice/slice/{id}/filter.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteSliceFilter$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteSliceFilter$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSliceFilter(params: {
+  deleteEnterprisesEnterpriseSiteSliceFilter(params: {
 
     /**
      * target (device in onos-config)
@@ -4890,9 +3814,19 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
 
     /**
      * key {application}
@@ -4900,103 +3834,27 @@ export class ApiService extends BaseService {
     application: any;
   }): Observable<void> {
 
-    return this.deleteSliceFilter$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseSiteSliceFilter$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation postSliceSlice
+   * Path part for operation postEnterprisesEnterpriseSiteSliceMbr
    */
-  // static readonly PostSliceSlicePath = '/aether/v4.0.0/{target}/slice/slice/{id}/slice';
+  static readonly PostEnterprisesEnterpriseSiteSliceMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/mbr';
 
   /**
-   * POST /slice/slice/{id}/slice.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/mbr.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postSliceSlice()` instead.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteSliceMbr()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  // postSliceSlice$Response(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  //
-  //   /**
-  //    * key {id}
-  //    */
-  //   id: any;
-  //   body?: EnterpriseEnterpriseSiteSliceSlice
-  // }): Observable<StrictHttpResponse<void>> {
-  //
-  //   const rb = new RequestBuilder(this.rootUrl, ApiService.PostSliceSlicePath, 'post');
-  //   if (params) {
-  //     rb.path('target', params.target, {});
-  //     rb.path('id', params.id, {});
-  //     rb.body(params.body, 'application/json');
-  //   }
-  //
-  //   return this.http.request(rb.build({
-  //     responseType: 'text',
-  //     accept: '*/*'
-  //   })).pipe(
-  //     filter((r: any) => r instanceof HttpResponse),
-  //     map((r: HttpResponse<any>) => {
-  //       return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-  //     })
-  //   );
-  // }
-
-  /**
-   * POST /slice/slice/{id}/slice.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postSliceSlice$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  // postSliceSlice(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  //
-  //   /**
-  //    * key {id}
-  //    */
-  //   id: any;
-  //   body?: EnterpriseEnterpriseSiteSliceSlice
-  // }): Observable<void> {
-  //
-  //   return this.postSliceSlice$Response(params).pipe(
-  //     map((r: StrictHttpResponse<void>) => r.body as void)
-  //   );
-  // }
-
-  /**
-   * Path part for operation deleteSliceSlice
-   */
-  static readonly DeleteSliceSlicePath = '/aether/v4.0.0/{target}/slice/slice/{id}/slice';
-
-  /**
-   * DELETE /slice/slice/{id}/slice.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSliceSlice()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteSliceSlice$Response(params: {
+  postEnterprisesEnterpriseSiteSliceMbr$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -5004,89 +3862,28 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+    body?: EnterprisesEnterpriseSiteSliceMbr
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSliceSlicePath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteSliceMbrPath, 'post');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
-      })
-    );
-  }
-
-  /**
-   * DELETE /slice/slice/{id}/slice.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteSliceSlice$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  deleteSliceSlice(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-  }): Observable<void> {
-
-    return this.deleteSliceSlice$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
-    );
-  }
-
-  /**
-   * Path part for operation postSliceSliceMbr
-   */
-  static readonly PostSliceSliceMbrPath = '/aether/v4.0.0/{target}/slice/slice/{id}/slice/mbr';
-
-  /**
-   * POST /slice/slice/{id}/slice/mbr.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postSliceSliceMbr()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  postSliceSliceMbr$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {id}
-     */
-    id: any;
-    body?: EnterpriseEnterpriseSiteSliceMbr
-  }): Observable<StrictHttpResponse<void>> {
-
-    const rb = new RequestBuilder(this.rootUrl, ApiService.PostSliceSliceMbrPath, 'post');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
       rb.body(params.body, 'application/json');
     }
 
@@ -5102,16 +3899,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * POST /slice/slice/{id}/slice/mbr.
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/mbr.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `postSliceSliceMbr$Response()` instead.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteSliceMbr$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postSliceSliceMbr(params: {
+  postEnterprisesEnterpriseSiteSliceMbr(params: {
 
     /**
      * target (device in onos-config)
@@ -5119,33 +3916,43 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
-    body?: EnterpriseEnterpriseSiteSliceMbr
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+    body?: EnterprisesEnterpriseSiteSliceMbr
   }): Observable<void> {
 
-    return this.postSliceSliceMbr$Response(params).pipe(
+    return this.postEnterprisesEnterpriseSiteSliceMbr$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation deleteSliceSliceMbr
+   * Path part for operation deleteEnterprisesEnterpriseSiteSliceMbr
    */
-  static readonly DeleteSliceSliceMbrPath = '/aether/v4.0.0/{target}/slice/slice/{id}/slice/mbr';
+  static readonly DeleteEnterprisesEnterpriseSiteSliceMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/mbr';
 
   /**
-   * DELETE /slice/slice/{id}/slice/mbr.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/mbr.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSliceSliceMbr()` instead.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteSliceMbr()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSliceSliceMbr$Response(params: {
+  deleteEnterprisesEnterpriseSiteSliceMbr$Response(params: {
 
     /**
      * target (device in onos-config)
@@ -5153,15 +3960,27 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSliceSliceMbrPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteSliceMbrPath, 'delete');
     if (params) {
       rb.path('target', params.target, {});
-      rb.path('id', params.id, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -5176,16 +3995,16 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * DELETE /slice/slice/{id}/slice/mbr.
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/mbr.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `deleteSliceSliceMbr$Response()` instead.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteSliceMbr$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteSliceSliceMbr(params: {
+  deleteEnterprisesEnterpriseSiteSliceMbr(params: {
 
     /**
      * target (device in onos-config)
@@ -5193,12 +4012,1136 @@ export class ApiService extends BaseService {
     target: any;
 
     /**
-     * key {id}
+     * key {enterprise-id}
      */
-    id: any;
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
   }): Observable<void> {
 
-    return this.deleteSliceSliceMbr$Response(params).pipe(
+    return this.deleteEnterprisesEnterpriseSiteSliceMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postEnterprisesEnterpriseSiteSlicePriorityTrafficRule
+   */
+  static readonly PostEnterprisesEnterpriseSiteSlicePriorityTrafficRulePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}';
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteSlicePriorityTrafficRule()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseSiteSlicePriorityTrafficRule$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+    body?: EnterprisesEnterpriseSiteSlicePriorityTrafficRule
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteSlicePriorityTrafficRulePath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+      rb.path('priority-traffic-rule-id', params['priority-traffic-rule-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteSlicePriorityTrafficRule$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseSiteSlicePriorityTrafficRule(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+    body?: EnterprisesEnterpriseSiteSlicePriorityTrafficRule
+  }): Observable<void> {
+
+    return this.postEnterprisesEnterpriseSiteSlicePriorityTrafficRule$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteEnterprisesEnterpriseSiteSlicePriorityTrafficRule
+   */
+  static readonly DeleteEnterprisesEnterpriseSiteSlicePriorityTrafficRulePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}';
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteSlicePriorityTrafficRule()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseSiteSlicePriorityTrafficRule$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteSlicePriorityTrafficRulePath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+      rb.path('priority-traffic-rule-id', params['priority-traffic-rule-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteSlicePriorityTrafficRule$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseSiteSlicePriorityTrafficRule(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+  }): Observable<void> {
+
+    return this.deleteEnterprisesEnterpriseSiteSlicePriorityTrafficRule$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postEnterprisesEnterpriseSiteSmallCell
+   */
+  static readonly PostEnterprisesEnterpriseSiteSmallCellPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell/{small-cell-id}';
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteSmallCell()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseSiteSmallCell$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {small-cell-id}
+     */
+    'small-cell-id': any;
+    body?: EnterprisesEnterpriseSiteSmallCell
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteSmallCellPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('small-cell-id', params['small-cell-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteSmallCell$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseSiteSmallCell(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {small-cell-id}
+     */
+    'small-cell-id': any;
+    body?: EnterprisesEnterpriseSiteSmallCell
+  }): Observable<void> {
+
+    return this.postEnterprisesEnterpriseSiteSmallCell$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteEnterprisesEnterpriseSiteSmallCell
+   */
+  static readonly DeleteEnterprisesEnterpriseSiteSmallCellPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell/{small-cell-id}';
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteSmallCell()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseSiteSmallCell$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {small-cell-id}
+     */
+    'small-cell-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteSmallCellPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('small-cell-id', params['small-cell-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteSmallCell$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseSiteSmallCell(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {small-cell-id}
+     */
+    'small-cell-id': any;
+  }): Observable<void> {
+
+    return this.deleteEnterprisesEnterpriseSiteSmallCell$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postEnterprisesEnterpriseSiteUpf
+   */
+  static readonly PostEnterprisesEnterpriseSiteUpfPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/upf/{upf-id}';
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/upf.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postEnterprisesEnterpriseSiteUpf()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseSiteUpf$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {upf-id}
+     */
+    'upf-id': any;
+    body?: EnterprisesEnterpriseSiteUpf
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseSiteUpfPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('upf-id', params['upf-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/upf.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseSiteUpf$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseSiteUpf(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {upf-id}
+     */
+    'upf-id': any;
+    body?: EnterprisesEnterpriseSiteUpf
+  }): Observable<void> {
+
+    return this.postEnterprisesEnterpriseSiteUpf$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteEnterprisesEnterpriseSiteUpf
+   */
+  static readonly DeleteEnterprisesEnterpriseSiteUpfPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/upf/{upf-id}';
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/upf.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteEnterprisesEnterpriseSiteUpf()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseSiteUpf$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {upf-id}
+     */
+    'upf-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseSiteUpfPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('upf-id', params['upf-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/upf.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseSiteUpf$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseSiteUpf(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {upf-id}
+     */
+    'upf-id': any;
+  }): Observable<void> {
+
+    return this.deleteEnterprisesEnterpriseSiteUpf$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postEnterprisesEnterpriseTemplate
+   */
+  static readonly PostEnterprisesEnterpriseTemplatePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/template/{template-id}';
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/template.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postEnterprisesEnterpriseTemplate()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseTemplate$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+    body?: EnterprisesEnterpriseTemplate
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseTemplatePath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('template-id', params['template-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/template.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseTemplate$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseTemplate(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+    body?: EnterprisesEnterpriseTemplate
+  }): Observable<void> {
+
+    return this.postEnterprisesEnterpriseTemplate$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteEnterprisesEnterpriseTemplate
+   */
+  static readonly DeleteEnterprisesEnterpriseTemplatePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/template/{template-id}';
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/template.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteEnterprisesEnterpriseTemplate()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseTemplate$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseTemplatePath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('template-id', params['template-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/template.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseTemplate$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseTemplate(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+  }): Observable<void> {
+
+    return this.deleteEnterprisesEnterpriseTemplate$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postEnterprisesEnterpriseTemplateMbr
+   */
+  static readonly PostEnterprisesEnterpriseTemplateMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/template/{template-id}/mbr';
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/template/{template-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postEnterprisesEnterpriseTemplateMbr()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseTemplateMbr$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+    body?: EnterprisesEnterpriseTemplateMbr
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseTemplateMbrPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('template-id', params['template-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/template/{template-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseTemplateMbr$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseTemplateMbr(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+    body?: EnterprisesEnterpriseTemplateMbr
+  }): Observable<void> {
+
+    return this.postEnterprisesEnterpriseTemplateMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteEnterprisesEnterpriseTemplateMbr
+   */
+  static readonly DeleteEnterprisesEnterpriseTemplateMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/template/{template-id}/mbr';
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/template/{template-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteEnterprisesEnterpriseTemplateMbr()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseTemplateMbr$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseTemplateMbrPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('template-id', params['template-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/template/{template-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseTemplateMbr$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseTemplateMbr(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+  }): Observable<void> {
+
+    return this.deleteEnterprisesEnterpriseTemplateMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation postEnterprisesEnterpriseTrafficClass
+   */
+  static readonly PostEnterprisesEnterpriseTrafficClassPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/traffic-class/{traffic-class-id}';
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/traffic-class.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postEnterprisesEnterpriseTrafficClass()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseTrafficClass$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {traffic-class-id}
+     */
+    'traffic-class-id': any;
+    body?: EnterprisesEnterpriseTrafficClass
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.PostEnterprisesEnterpriseTrafficClassPath, 'post');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('traffic-class-id', params['traffic-class-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /enterprises/enterprise/{enterprise-id}/traffic-class.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postEnterprisesEnterpriseTrafficClass$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postEnterprisesEnterpriseTrafficClass(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {traffic-class-id}
+     */
+    'traffic-class-id': any;
+    body?: EnterprisesEnterpriseTrafficClass
+  }): Observable<void> {
+
+    return this.postEnterprisesEnterpriseTrafficClass$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteEnterprisesEnterpriseTrafficClass
+   */
+  static readonly DeleteEnterprisesEnterpriseTrafficClassPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/traffic-class/{traffic-class-id}';
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/traffic-class.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteEnterprisesEnterpriseTrafficClass()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseTrafficClass$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {traffic-class-id}
+     */
+    'traffic-class-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteEnterprisesEnterpriseTrafficClassPath, 'delete');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('traffic-class-id', params['traffic-class-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /enterprises/enterprise/{enterprise-id}/traffic-class.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteEnterprisesEnterpriseTrafficClass$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteEnterprisesEnterpriseTrafficClass(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {traffic-class-id}
+     */
+    'traffic-class-id': any;
+  }): Observable<void> {
+
+    return this.deleteEnterprisesEnterpriseTrafficClass$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

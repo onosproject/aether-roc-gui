@@ -159,7 +159,7 @@
                     *ngIf="checkForUsage(row['traffic-class-id'])"
                     mat-icon-button
                     id="usageButton"
-                    (click)="showUsage(row['traffic-class-id'])"
+                    (click)="showUsage(row['traffic-class-id'], row['enterprise-id'], undefined)"
                     color="accent"
                 >
                     <mat-icon class="table_icon">assignment</mat-icon>
@@ -185,10 +185,11 @@
     >
     </mat-paginator>
 </div>
-<aether-show-vcs-usage
+<aether-show-usage
     *ngIf="showUsageCard"
-    id="showVcsUsageComponent"
-    [trafficClassID]="id"
+    id="showUsageComponent"
+    [trafficClassID]="selected.id"
+    [enterpriseID]="selected.enterprise"
     (closeShowParentCardEvent)="closeShowParentCard()"
 >
-</aether-show-vcs-usage>
+</aether-show-usage>

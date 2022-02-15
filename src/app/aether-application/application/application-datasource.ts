@@ -8,13 +8,17 @@ import { Service as AetherService } from '../../../openapi3/aether/2.0.0/service
 import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 import {
-    Application,
-    EnterpriseEnterpriseApplication,
+    Enterprises,
+    EnterprisesEnterprise,
+    EnterprisesEnterpriseApplication,
+    EnterprisesEnterpriseTemplate,
 } from '../../../openapi3/aether/2.0.0/models';
+import { from, Observable } from 'rxjs';
+import { map, mergeMap, skipWhile } from 'rxjs/operators';
 
 export class ApplicationDatasource extends RocDataSource<
-    EnterpriseEnterpriseApplication,
-    Application
+    EnterprisesEnterpriseApplication,
+    any
 > {
     constructor(
         protected aetherService: AetherService,
@@ -24,9 +28,62 @@ export class ApplicationDatasource extends RocDataSource<
         super(aetherService, bs, target, '/application-2.0.0', 'application');
     }
 
+    loadData(
+        dataSourceObservable: Observable<Enterprises>,
+        onDataLoaded: (
+            dataSourceThisScope: RocDataSource<
+                EnterprisesEnterpriseApplication,
+                any
+            >
+        ) => void
+    ): void {
+        dataSourceObservable
+            .pipe(
+                map((x: Enterprises) => x?.enterprise),
+                skipWhile((x) => x === undefined),
+                mergeMap((items: EnterprisesEnterprise[]) => from(items))
+            )
+            .subscribe(
+                (value: EnterprisesEnterprise) => {
+                    value.application.forEach((app) => {
+                        if (
+                            !this.bs.containsDeleteEntry(
+                                '/enterprises/enterprise[' +
+                                    value['enterprise-id'] +
+                                    '/application[application-id=' +
+                                    app['application-id'] +
+                                    ']'
+                            )
+                        ) {
+                            app['enterprise-id'] = value['enterprise-id'];
+                            this.data.push(app);
+                        } else {
+                            console.log(
+                                'application-id is already in basket',
+                                app['application-id']
+                            );
+                        }
+                    });
+                },
+                (error) => {
+                    console.warn(
+                        'Error getting data from ',
+                        this.target,
+                        error
+                    );
+                },
+                () => {
+                    // table.refreshRows() does not seem to work - using this trick instead
+                    // const basketPreview = this.bs.buildPatchBody().Updates;
+                    onDataLoaded(this);
+                    this.paginator._changePageSize(this.paginator.pageSize);
+                }
+            );
+    }
+
     getSortedData(
-        data: EnterpriseEnterpriseApplication[]
-    ): EnterpriseEnterpriseApplication[] {
+        data: EnterprisesEnterpriseApplication[]
+    ): EnterprisesEnterpriseApplication[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

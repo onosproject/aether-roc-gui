@@ -3,6 +3,10 @@
 /* eslint-disable */
 import { EnterpriseEnterpriseConnectivityService } from './enterprise-enterprise-connectivity-service';
 export interface EnterpriseEnterprise {
+
+  /**
+   * The list for connectivity-service
+   */
   'connectivity-service'?: Array<EnterpriseEnterpriseConnectivityService>;
 
   /**

@@ -5,9 +5,9 @@
  */
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-    SiteSite,
-    SiteSiteImsiDefinition,
-} from '../openapi3/aether/3.0.0/models';
+    EnterprisesEnterpriseSite,
+    EnterprisesEnterpriseSiteImsiDefinition,
+} from '../openapi3/aether/2.0.0/models';
 
 export abstract class RocMonitorBase {
     id: string;
@@ -48,8 +48,10 @@ export abstract class RocMonitorBase {
     }
 
     // We expect the Site to have a format specified like CCCNNNEEESSSSSS
-    public fullImsi(site: SiteSite, imsiId: number): string {
-        const imsiDef = site['imsi-definition'] as SiteSiteImsiDefinition;
+    public fullImsi(site: EnterprisesEnterpriseSite, imsiId: number): string {
+        const imsiDef = site[
+            'imsi-definition'
+        ] as EnterprisesEnterpriseSiteImsiDefinition;
         const lenMcc = imsiDef.format.lastIndexOf('C') + 1;
         const lenMnc = imsiDef.format.lastIndexOf('N') + 1 - lenMcc;
         const lenEnt = imsiDef.format.lastIndexOf('E') + 1 - lenMnc - lenMcc;

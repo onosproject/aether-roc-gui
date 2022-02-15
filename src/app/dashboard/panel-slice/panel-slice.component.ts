@@ -14,17 +14,14 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import {
-    EnterpriseEnterpriseSiteSlice,
-    Slice,
-} from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models';
 import { RocListBase } from '../../roc-list-base';
 import {
-    AETHER_TARGETS,
+    AETHER_TARGET,
     PERFORMANCE_METRICS_ENABLED,
 } from '../../../environments/environment';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { PanelSliceDatasource } from './panel-Slice-datasource';
 import { VcsPromDataSource } from '../../utils/vcs-prom-data-source';
@@ -53,7 +50,7 @@ export class PanelSliceComponent
     @Input() height: number;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteSlice>;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteSlice>;
     loginTokenTimer;
     panelUrl: string;
     grafanaOrgId = 1;
@@ -84,7 +81,7 @@ export class PanelSliceComponent
             new PanelSliceDatasource(
                 aetherService,
                 basketService,
-                AETHER_TARGETS[0]
+                AETHER_TARGET
             ),
             'Enterprises-2.0.0',
             'slice'
@@ -94,12 +91,14 @@ export class PanelSliceComponent
     }
 
     onDataLoaded(
-        ScopeOfDataSource: RocDataSource<EnterpriseEnterpriseSiteSlice, Slice>
+        ScopeOfDataSource: RocDataSource<EnterprisesEnterpriseSiteSlice, any>
     ): void {
-        ScopeOfDataSource.data.forEach((vcs: EnterpriseEnterpriseSiteSlice) => {
-            // Add the tag on to VCS. the data is filled in below
-            vcsPromTags.forEach((tag: string) => (vcs[tag] = {}));
-        });
+        ScopeOfDataSource.data.forEach(
+            (vcs: EnterprisesEnterpriseSiteSlice) => {
+                // Add the tag on to VCS. the data is filled in below
+                vcsPromTags.forEach((tag: string) => (vcs[tag] = {}));
+            }
+        );
         console.log('VCS Data Loaded');
     }
 
@@ -126,8 +125,8 @@ export class PanelSliceComponent
         }, 10);
 
         this.dataSource.loadData(
-            this.aetherService.getSlice({
-                target: AETHER_TARGETS[0],
+            this.aetherService.getEnterprises({
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );

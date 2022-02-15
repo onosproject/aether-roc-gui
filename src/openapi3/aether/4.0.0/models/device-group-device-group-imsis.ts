@@ -12,6 +12,14 @@ export interface DeviceGroupDeviceGroupImsis {
    * Id of this imsi-range
    */
   'imsi-id': string;
+
+  /**
+   * value of imsi-range-from
+   */
   'imsi-range-from'?: number;
+
+  /**
+   * value of imsi-range-to
+   */
   'imsi-range-to'?: number;
 }

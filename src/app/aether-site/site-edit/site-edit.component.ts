@@ -19,12 +19,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EdgeDeviceParam } from '../edge-device/edge-device.component';
 import {
-    EnterpriseEnterprise,
-    EnterpriseEnterpriseSite,
+    EnterprisesEnterprise,
+    EnterprisesEnterpriseSite,
 } from 'src/openapi3/aether/2.0.0/models';
 import { SmallCellParam } from '../small-cell-select/small-cell-select.component';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
-import { SiteSiteService } from '../../../openapi3/aether/2.0.0/services/site-site.service';
+import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({
     selector: 'aether-site-edit',
@@ -32,8 +33,8 @@ import { SiteSiteService } from '../../../openapi3/aether/2.0.0/services/site-si
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class SiteEditComponent extends RocEditBase implements OnInit {
-    enterprises: Array<EnterpriseEnterprise>;
-    data: EnterpriseEnterpriseSite;
+    enterprises: Array<EnterprisesEnterprise>;
+    data: EnterprisesEnterpriseSite;
     pathRoot = ('Enterprises-2.0.0/enterprise' +
         '[enterprise-id=' +
         this.route.snapshot.params['enterprise-id'] +
@@ -105,7 +106,7 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
     siteId: string;
 
     constructor(
-        private siteSiteService: SiteSiteService,
+        private siteSiteService: EnterprisesEnterpriseSiteService,
         private aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -135,10 +136,10 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
 
     loadSiteSite(target: string, id: string): void {
         this.siteSiteService
-            .getSiteSite({
-                target,
-                id,
-                ent_id: this.route.snapshot.params['enterprise-id'],
+            .getEnterprisesEnterpriseSite({
+                target: AETHER_TARGET,
+                'site-id': id,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {
@@ -148,7 +149,7 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
                 },
                 (error) => {
                     console.warn(
-                        'Error getting SiteSite(s) for ',
+                        'Error getting EnterprisesEnterpriseSite(s) for ',
                         target,
                         error
                     );
@@ -181,7 +182,11 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
                             }
                         );
                     }
-                    console.log('Finished loading SiteSite(s)', target, id);
+                    console.log(
+                        'Finished loading EnterprisesEnterpriseSite(s)',
+                        target,
+                        id
+                    );
                 }
             );
     }
@@ -194,7 +199,7 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
         return this.siteForm.get(['monitoring']) as FormGroup;
     }
 
-    private populateFormData(value: EnterpriseEnterpriseSite): void {
+    private populateFormData(value: EnterprisesEnterpriseSite): void {
         if (value['site-id']) {
             this.siteForm.get('site-id').setValue(value['site-id']);
             this.siteForm.get('site-id')[ORIGINAL] = value['site-id'];
@@ -218,7 +223,7 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
                             '/basket-delete/Site-2.0.0/site[id=' +
-                                value.id +
+                                value['site-id'] +
                                 ']/small-cell[small-cell-id='
                         )
                     )
@@ -300,7 +305,7 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
                         .filter((checkerKey) =>
                             checkerKey.startsWith(
                                 '/basket-delete/Site-2.0.0/site[id=' +
-                                    value.id +
+                                    value['site-id'] +
                                     ']/monitoring/edge-device[edge-device-id='
                             )
                         )

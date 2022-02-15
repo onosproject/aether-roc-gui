@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Service } from '../../../openapi3/aether/4.0.0/services';
+import { Service } from '../../../openapi3/aether/2.0.0/services';
 import {
     AbstractControl,
     FormBuilder,
@@ -13,7 +13,7 @@ import {
     ValidatorFn,
     Validators,
 } from '@angular/forms';
-import { TrafficClassTrafficClass } from '../../../openapi3/aether/4.0.0/models/traffic-class-traffic-class';
+import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
 import { Observable } from 'rxjs';
 import { Bandwidths } from '../../aether-template/template-edit/template-edit.component';
 import { map, startWith } from 'rxjs/operators';
@@ -58,7 +58,7 @@ export class EndpointSelectComponent {
     bandwidthOptions: Observable<Bandwidths[]>;
 
     @Input() alreadySelected: string[] = [];
-    @Input() trafficClassOptions: Array<TrafficClassTrafficClass>;
+    @Input() trafficClassOptions: Array<EnterprisesEnterpriseTrafficClass>;
     @Output() closeEvent = new EventEmitter<EndPointParam>();
 
     endpointForm = this.fb.group(

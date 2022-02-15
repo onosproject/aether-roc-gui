@@ -111,7 +111,7 @@
                     *ngIf="checkForUsage(row['connectivity-service-id'])"
                     mat-icon-button
                     id="usageButton"
-                    (click)="showUsage(row['connectivity-service-id'])"
+                    (click)="showUsage(row['connectivity-service-id'], undefined, undefined)"
                     color="accent"
                 >
                     <mat-icon class="table_icon">assignment</mat-icon>
@@ -140,7 +140,7 @@
 <aether-show-enterprise-usage
     *ngIf="showUsageCard"
     id="showParentModulesComponent"
-    [connectivityServiceID]="id"
+    [connectivityServiceID]="selected.id"
     (closeShowParentCardEvent)="closeShowParentCard()"
 >
 </aether-show-enterprise-usage>

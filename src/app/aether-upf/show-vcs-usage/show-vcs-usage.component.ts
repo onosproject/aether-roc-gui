@@ -12,12 +12,13 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
+import { ActivatedRoute } from '@angular/router';
 
 export interface displayedColumns {
     id;
@@ -33,6 +34,8 @@ export class ShowVcsUsageComponent implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<displayedColumns>;
+    @Input() enterpriseID: string;
+    @Input() siteID: string;
     @Input() upfID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
@@ -41,22 +44,24 @@ export class ShowVcsUsageComponent implements OnChanges {
 
     constructor(
         protected fb: FormBuilder,
-        private basketService: BasketService,
-        private aetherService: AetherService
+        protected route: ActivatedRoute,
+        protected siteService: EnterprisesEnterpriseSiteService
     ) {}
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
-        this.aetherService
-            .getVcs({
-                target: AETHER_TARGETS[0],
+        this.siteService
+            .getEnterprisesEnterpriseSite({
+                target: AETHER_TARGET,
+                'site-id': this.siteID,
+                'enterprise-id': this.enterpriseID,
             })
             .subscribe((displayData) => {
-                displayData.vcs.forEach((vcsElement) => {
-                    if (vcsElement.upf === this.upfID) {
+                displayData.slice.forEach((sliceElement) => {
+                    if (sliceElement.upf === this.upfID) {
                         const displayParentModules = {
-                            id: vcsElement.id,
-                            'display-name': vcsElement['display-name'],
+                            id: sliceElement.upf,
+                            'display-name': sliceElement['display-name'],
                         };
                         this.parentModulesArray.push(displayParentModules);
                     }

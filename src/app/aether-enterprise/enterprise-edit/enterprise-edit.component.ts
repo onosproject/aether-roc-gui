@@ -6,7 +6,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
-import { EnterpriseEnterprise } from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models';
 import {
     BasketService,
     IDATTRIBS,
@@ -19,7 +19,8 @@ import { MatSort } from '@angular/material/sort';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { EnterpriseEnterpriseService } from '../../../openapi3/aether/2.0.0/services/enterprise-enterprise.service';
+import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 interface ConnectivityServiceRow {
     id: string;
@@ -36,7 +37,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
     showConnectDisplay = false;
-    data: EnterpriseEnterprise;
+    data: EnterprisesEnterprise;
     entpriseid: string;
 
     displayedColumns = ['connectivity-service', 'enabled'];
@@ -68,7 +69,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
     });
 
     constructor(
-        private enterpriseEnterpriseService: EnterpriseEnterpriseService,
+        private enterpriseEnterpriseService: EnterprisesEnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
         private fb: FormBuilder,
@@ -78,7 +79,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
     ) {
         super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'enterprise');
         super.form = this.entForm;
-        super.loadFunc = this.loadEnterpriseEnterprises;
+        super.loadFunc = this.loadEnterprisesEnterprises;
         this.entForm.get('connectivity-service')[IDATTRIBS] = [
             'connectivity-service',
         ];
@@ -123,7 +124,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
         super.init();
     }
 
-    private populateFormData(value: EnterpriseEnterprise, id: string): void {
+    private populateFormData(value: EnterprisesEnterprise, id: string): void {
         if (value['enterprise-id']) {
             this.entForm.get('enterprise-id').setValue(value['enterprise-id']);
             this.entForm.get('enterprise-id')[ORIGINAL] =
@@ -214,11 +215,11 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
         }
     }
 
-    loadEnterpriseEnterprises(target: string, id: string): void {
+    loadEnterprisesEnterprises(target: string, id: string): void {
         this.enterpriseEnterpriseService
-            .getEnterpriseEnterprise({
-                target,
-                id,
+            .getEnterprisesEnterprise({
+                target: AETHER_TARGET,
+                'enterprise-id': id,
             })
             .subscribe(
                 (value) => {

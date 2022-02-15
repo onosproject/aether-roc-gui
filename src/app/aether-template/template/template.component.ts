@@ -9,12 +9,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { TemplateDatasource } from './template-datasource';
 import { HexPipe } from '../../utils/hex.pipe';
-import { EnterpriseEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-template';
+import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
@@ -28,7 +28,7 @@ export class TemplateComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseTemplate>;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseTemplate>;
     sdAsInt = HexPipe.hexAsInt;
 
     displayedColumns = [
@@ -51,11 +51,7 @@ export class TemplateComponent
     ) {
         super(
             basketService,
-            new TemplateDatasource(
-                aetherService,
-                basketService,
-                AETHER_TARGETS[0]
-            ),
+            new TemplateDatasource(aetherService, basketService, AETHER_TARGET),
             'Enterprises-2.0.0',
             'template'
         );
@@ -85,8 +81,8 @@ export class TemplateComponent
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
-            this.aetherService.getTemplate({
-                target: AETHER_TARGETS[0],
+            this.aetherService.getEnterprises({
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );

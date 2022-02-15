@@ -26,10 +26,10 @@ export class VcsVcsFilterService extends BaseService {
   /**
    * Path part for operation getVcsVcsFilter
    */
-  static readonly GetVcsVcsFilterPath = '/aether/v4.0.0/{target}/slice/slice/{id}/filter/{application}';
+  static readonly GetVcsVcsFilterPath = '/aether/v4.0.0/{target}/vcs/vcs/{id}/filter/{application}';
 
   /**
-   * GET /slice/slice/{id}/filter.
+   * GET /vcs/vcs/{id}/filter.
    *
    *
    *
@@ -75,7 +75,7 @@ export class VcsVcsFilterService extends BaseService {
   }
 
   /**
-   * GET /slice/slice/{id}/filter.
+   * GET /vcs/vcs/{id}/filter.
    *
    *
    *

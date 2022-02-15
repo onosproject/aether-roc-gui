@@ -5,7 +5,7 @@
  */
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Service } from '../../../openapi3/aether/4.0.0/services/service';
+import { Service } from '../../../openapi3/aether/2.0.0/services/service';
 
 export interface SmallCellParam {
     'small-cell-id': string;

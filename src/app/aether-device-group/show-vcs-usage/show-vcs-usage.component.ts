@@ -12,11 +12,15 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGETS } from '../../../environments/environment';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
+import { AETHER_TARGET } from '../../../environments/environment';
+import {
+    EnterprisesEnterpriseSiteService,
+    Service as AetherService,
+} from '../../../openapi3/aether/2.0.0/services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 
 export interface displayedColumns {
     id;
@@ -31,6 +35,8 @@ export class ShowVcsUsageComponent implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<displayedColumns>;
+    @Input() enterpriseID: string;
+    @Input() siteID: string;
     @Input() deviceGroupID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
@@ -39,27 +45,29 @@ export class ShowVcsUsageComponent implements OnChanges {
 
     constructor(
         protected fb: FormBuilder,
-        private aetherService: AetherService
+        protected route: ActivatedRoute,
+        private siteService: EnterprisesEnterpriseSiteService
     ) {}
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
-        this.aetherService
-            .getVcs({
-                target: AETHER_TARGETS[0],
+        this.siteService
+            .getEnterprisesEnterpriseSite({
+                target: AETHER_TARGET,
+                'enterprise-id': this.enterpriseID,
+                'site-id': this.siteID,
             })
             .subscribe((displayData) => {
-                displayData.vcs.forEach((vcsElement) => {
-                    if (
-                        vcsElement['device-group']?.[0]?.['device-group'] ===
-                        this.deviceGroupID
-                    ) {
-                        const displayParentModules = {
-                            id: vcsElement.id,
-                            'display-name': vcsElement['display-name'],
-                        };
-                        this.parentModulesArray.push(displayParentModules);
-                    }
+                displayData.slice.forEach((sliceElement) => {
+                    sliceElement['device-group'].forEach((dg) => {
+                        if (dg['device-group'] === this.deviceGroupID) {
+                            const displayParentModules = {
+                                id: sliceElement['slice-id'],
+                                'display-name': sliceElement['display-name'],
+                            };
+                            this.parentModulesArray.push(displayParentModules);
+                        }
+                    });
                 });
                 this.table.dataSource = this.parentModulesArray;
             });

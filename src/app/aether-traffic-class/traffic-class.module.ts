@@ -30,13 +30,13 @@ import { TrafficClassEditComponent } from './traffic-class-edit/traffic-class-ed
 import { AuthInterceptor } from '../auth-interceptor';
 import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
 import { UtilsModule } from '../utils/utils.module';
-import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
+import { ShowUsageComponent } from './show-usage/show-usage.component';
 
 @NgModule({
     declarations: [
         TrafficClassComponent,
         TrafficClassEditComponent,
-        ShowVcsUsageComponent,
+        ShowUsageComponent,
     ],
     imports: [
         CommonModule,

@@ -9,12 +9,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { SiteDatasource } from './site-datasource';
 import * as _ from 'lodash';
-import { EnterpriseEnterpriseSite } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site';
+import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
@@ -28,7 +28,7 @@ export class SiteComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSite>;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSite>;
 
     displayedColumns = [
         'id',
@@ -40,7 +40,7 @@ export class SiteComponent
         'enterpriseID',
         'format',
         'edit',
-        'Usage/delete',
+        'delete',
         'monitor',
     ];
 
@@ -51,7 +51,7 @@ export class SiteComponent
     ) {
         super(
             basketService,
-            new SiteDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            new SiteDatasource(aetherService, basketService, AETHER_TARGET),
             'Enterprises-2.0.0',
             'site'
         );
@@ -64,7 +64,7 @@ export class SiteComponent
         /* Needs work*/
         // this.aetherService
         //     .getDeviceGroup({
-        //         target: AETHER_TARGETS[0],
+        //         target: AETHER_TARGET,
         //     })
         //     .subscribe((displayData) => {
         //         this.usageArray = this.usageArray.concat(
@@ -81,7 +81,7 @@ export class SiteComponent
         //         );
         //         this.aetherService
         //             .getVcs({
-        //                 target: AETHER_TARGETS[0],
+        //                 target: AETHER_TARGET,
         //             })
         //             .subscribe((displayData) => {
         //                 this.usageArray = this.usageArray.concat(
@@ -101,7 +101,7 @@ export class SiteComponent
         //                 );
         //                 this.aetherService
         //                     .getUpf({
-        //                         target: AETHER_TARGETS[0],
+        //                         target: AETHER_TARGET,
         //                     })
         //                     .subscribe((displayData) => {
         //                         this.usageArray = this.usageArray.concat(
@@ -145,8 +145,8 @@ export class SiteComponent
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
-            this.aetherService.getSite({
-                target: AETHER_TARGETS[0],
+            this.aetherService.getEnterprises({
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );

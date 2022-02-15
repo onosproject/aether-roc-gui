@@ -23,9 +23,10 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HexPipe } from '../../utils/hex.pipe';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
-import { EnterpriseEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-template';
-import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-traffic-class';
-import { TemplateTemplateService } from '../../../openapi3/aether/2.0.0/services/template-template.service';
+import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseTemplateService } from '../../../openapi3/aether/2.0.0/services';
+import { AETHER_TARGET } from '../../../environments/environment';
 
 export interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -52,7 +53,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
         this.route.snapshot.params['enterprise-id'] +
         ']') as RocElement;
     pathListAttr = 'template';
-    trafficClass: Array<EnterpriseEnterpriseTrafficClass>;
+    trafficClass: Array<EnterprisesEnterpriseTrafficClass>;
     templateID: string;
     defaultBehaviorOpitons = ['DENY-ALL', 'ALLOW-ALL'];
     options: Bandwidths[] = [
@@ -78,7 +79,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
     ];
 
     bandwidthOptions: Observable<Bandwidths[]>;
-    data: EnterpriseEnterpriseTemplate;
+    data: EnterprisesEnterpriseTemplate;
     tempForm = this.fb.group({
         'template-id': [
             undefined,
@@ -151,7 +152,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
     });
 
     constructor(
-        private templateTemplateService: TemplateTemplateService,
+        private templateTemplateService: EnterprisesEnterpriseTemplateService,
         private aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -198,10 +199,10 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
 
     loadTemplateTemplate(target: string, id: string): void {
         this.templateTemplateService
-            .getTemplateTemplate({
-                target,
-                id,
-                ent_id: this.route.snapshot.params['enterprise-id'],
+            .getEnterprisesEnterpriseTemplate({
+                target: AETHER_TARGET,
+                'template-id': id,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
             .subscribe(
                 (value) => {
@@ -254,7 +255,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    private populateFormData(value: EnterpriseEnterpriseTemplate): void {
+    private populateFormData(value: EnterprisesEnterpriseTemplate): void {
         if (value['template-id']) {
             this.tempForm.get('template-id').setValue(value['template-id']);
             this.tempForm.get('template-id')[ORIGINAL] = value['template-id'];

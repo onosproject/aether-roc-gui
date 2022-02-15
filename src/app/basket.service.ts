@@ -5,7 +5,7 @@
  */
 import { Injectable, Input } from '@angular/core';
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
-import { AETHER_TARGETS } from '../environments/environment';
+import { AETHER_TARGET } from '../environments/environment';
 import { PatchBody } from '../openapi3/top/level/models';
 
 export const TYPE = 'type';
@@ -31,7 +31,7 @@ export interface BasketValue {
     providedIn: 'root',
 })
 export class BasketService {
-    @Input() target: string = AETHER_TARGETS[0];
+    @Input() target: string = AETHER_TARGET;
     apiKeyDisplay = false;
     totalChanges = this.totalNumChanges();
     idMap = new Map();

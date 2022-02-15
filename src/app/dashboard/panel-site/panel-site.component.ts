@@ -15,15 +15,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { RocListBase } from '../../roc-list-base';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { PanelSiteDatasource } from './panel-site-datasource';
 import { SitePromDataSource } from '../../utils/site-prom-data-source';
 import { HttpClient } from '@angular/common/http';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { EnterpriseEnterpriseSite } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site';
+import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
 
 const sitePromTags = [
     'agentsSum',
@@ -50,7 +50,7 @@ export class PanelSiteComponent
     @Input() height: number;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSite>;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSite>;
     prometheusTimer: ReturnType<typeof setTimeout>;
 
     promData: SitePromDataSource;
@@ -70,7 +70,7 @@ export class PanelSiteComponent
             new PanelSiteDatasource(
                 aetherService,
                 basketService,
-                AETHER_TARGETS[0]
+                AETHER_TARGET
             ),
             'Enterprises-2.0.0',
             'site'
@@ -88,8 +88,8 @@ export class PanelSiteComponent
         this.table.dataSource = this.dataSource;
 
         this.dataSource.loadData(
-            this.aetherService.getSite({
-                target: AETHER_TARGETS[0],
+            this.aetherService.getEnterprises({
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );
@@ -115,7 +115,7 @@ export class PanelSiteComponent
                         },
                         (err) =>
                             console.log(
-                                site.id,
+                                site['site-id'],
                                 'has error polling metrics',
                                 err
                             )

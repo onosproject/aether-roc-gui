@@ -12,9 +12,8 @@ import { MatTable } from '@angular/material/table';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { AETHER_TARGETS } from '../../../environments/environment';
-import * as _ from 'lodash';
-import { EnterpriseEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-traffic-class';
+import { AETHER_TARGET } from '../../../environments/environment';
+import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
@@ -28,7 +27,7 @@ export class TrafficClassComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseTrafficClass>;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseTrafficClass>;
 
     displayedColumns = [
         'id',
@@ -52,7 +51,7 @@ export class TrafficClassComponent
             new TrafficClassDatasource(
                 aetherService,
                 basketService,
-                AETHER_TARGETS[0]
+                AETHER_TARGET
             ),
             'Enterprises-2.0.0',
             'traffic-class'
@@ -65,7 +64,7 @@ export class TrafficClassComponent
         /* Needs work*/
         // this.aetherService
         //     .getDeviceGroup({
-        //         target: AETHER_TARGETS[0],
+        //         target: AETHER_TARGET,
         //     })
         //     .subscribe((displayData) => {
         //         this.usageArray = this.usageArray.concat(
@@ -83,7 +82,7 @@ export class TrafficClassComponent
         //     });
         // this.aetherService
         //     .getApplication({
-        //         target: AETHER_TARGETS[0],
+        //         target: AETHER_TARGET,
         //     })
         //     .subscribe((displayData) => {
         //         this.usageArray = this.usageArray.concat(
@@ -122,8 +121,8 @@ export class TrafficClassComponent
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
-            this.aetherService.getTrafficClass({
-                target: AETHER_TARGETS[0],
+            this.aetherService.getEnterprises({
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );

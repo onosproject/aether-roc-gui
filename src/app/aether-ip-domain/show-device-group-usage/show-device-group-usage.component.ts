@@ -12,11 +12,15 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGETS } from '../../../environments/environment';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
+import { AETHER_TARGET } from '../../../environments/environment';
+import {
+    EnterprisesEnterpriseSiteService,
+    Service as AetherService,
+} from '../../../openapi3/aether/2.0.0/services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 
 export interface displayedColumns {
     id;
@@ -32,6 +36,8 @@ export class ShowDeviceGroupUsageComponent implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<displayedColumns>;
+    @Input() enterpriseID: string;
+    @Input() siteID: string;
     @Input() ipDomainID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
@@ -40,21 +46,24 @@ export class ShowDeviceGroupUsageComponent implements OnChanges {
 
     constructor(
         protected fb: FormBuilder,
-        private aetherService: AetherService
+        protected route: ActivatedRoute,
+        private siteService: EnterprisesEnterpriseSiteService
     ) {}
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
-        this.aetherService
-            .getDeviceGroup({
-                target: AETHER_TARGETS[0],
+        this.siteService
+            .getEnterprisesEnterpriseSite({
+                target: AETHER_TARGET,
+                'enterprise-id': this.enterpriseID,
+                'site-id': this.siteID,
             })
             .subscribe((displayData) => {
-                displayData['device-group'].forEach((deviceGroupElement) => {
-                    if (deviceGroupElement['ip-domain'] === this.ipDomainID) {
+                displayData['device-group'].forEach((dg) => {
+                    if (dg['ip-domain'] === this.ipDomainID) {
                         const displayParentModules = {
-                            id: deviceGroupElement.id,
-                            'display-name': deviceGroupElement['display-name'],
+                            id: dg['device-group-id'],
+                            'display-name': dg['display-name'],
                         };
                         this.parentModulesArray.push(displayParentModules);
                     }

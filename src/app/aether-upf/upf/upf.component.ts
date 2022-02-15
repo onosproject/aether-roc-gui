@@ -9,12 +9,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { UpfDatasource } from './upf-datasource';
 import * as _ from 'lodash';
-import { EnterpriseEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-upf';
+import { EnterprisesEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
@@ -28,7 +28,7 @@ export class UpfComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteUpf>;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteUpf>;
 
     displayedColumns = [
         'id',
@@ -50,7 +50,7 @@ export class UpfComponent
     ) {
         super(
             basketService,
-            new UpfDatasource(aetherService, basketService, AETHER_TARGETS[0]),
+            new UpfDatasource(aetherService, basketService, AETHER_TARGET),
             'Enterprises-2.0.0',
             'upf'
         );
@@ -63,7 +63,7 @@ export class UpfComponent
         /* Needs work*/
         // this.aetherService
         //     .getVcs({
-        //         target: AETHER_TARGETS[0],
+        //         target: AETHER_TARGET,
         //     })
         //     .subscribe((displayData) => {
         //         this.usageArray = this.usageArray.concat(
@@ -102,8 +102,8 @@ export class UpfComponent
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
-            this.aetherService.getUpf({
-                target: AETHER_TARGETS[0],
+            this.aetherService.getEnterprises({
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );

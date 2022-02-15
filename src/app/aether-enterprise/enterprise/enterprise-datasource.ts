@@ -5,16 +5,16 @@
  */
 
 import {
-    Enterprise,
-    EnterpriseEnterprise,
+    Enterprises,
+    EnterprisesEnterprise,
 } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { RocDataSource } from '../../roc-data-source';
 
 export class EnterpriseDatasource extends RocDataSource<
-    EnterpriseEnterprise,
-    Enterprise
+    EnterprisesEnterprise,
+    Enterprises
 > {
     constructor(
         protected aetherService: AetherService,

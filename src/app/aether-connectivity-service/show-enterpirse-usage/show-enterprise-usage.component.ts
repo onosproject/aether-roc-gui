@@ -12,8 +12,8 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGETS } from '../../../environments/environment';
-import { Service as AetherService } from '../../../openapi3/aether/4.0.0/services/service';
+import { AETHER_TARGET } from '../../../environments/environment';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
@@ -46,29 +46,23 @@ export class ShowEnterpriseUsageComponent implements OnChanges {
     ngOnChanges(): void {
         this.parentModulesArray = [];
         this.aetherService
-            .getEnterprise({
-                target: AETHER_TARGETS[0],
+            .getEnterprises({
+                target: AETHER_TARGET,
             })
             .subscribe((displayData) => {
-                displayData.enterprise.forEach((enterpirseElement) => {
-                    for (
-                        let i = 0;
-                        i < enterpirseElement['connectivity-service'].length;
-                        i++
-                    ) {
+                displayData.enterprise.forEach((e) => {
+                    e['connectivity-service'].forEach((cs) => {
                         if (
-                            enterpirseElement['connectivity-service']?.[i]?.[
-                                'connectivity-service'
-                            ] === this.connectivityServiceID
+                            cs['connectivity-service'] ===
+                            this.connectivityServiceID
                         ) {
                             const displayParentModules = {
-                                id: enterpirseElement.id,
-                                'display-name':
-                                    enterpirseElement['display-name'],
+                                id: e['enterprise-id'],
+                                'display-name': e['display-name'],
                             };
                             this.parentModulesArray.push(displayParentModules);
                         }
-                    }
+                    });
                 });
                 this.table.dataSource = this.parentModulesArray;
             });

@@ -10,16 +10,8 @@ import { RequestBuilder } from '../request-builder';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { Application } from '../models/application';
-import { ConnectivityService } from '../models/connectivity-service';
-import { DeviceGroup } from '../models/device-group';
-import { Enterprise } from '../models/enterprise';
-import { IpDomain } from '../models/ip-domain';
-import { Site } from '../models/site';
-import { Template } from '../models/template';
-import { TrafficClass } from '../models/traffic-class';
-import { Upf } from '../models/upf';
-import { Slice } from '../models/slice';
+import { ConnectivityServices } from '../models/connectivity-services';
+import { Enterprises } from '../models/enterprises';
 
 @Injectable({
   providedIn: 'root',
@@ -33,105 +25,29 @@ export class Service extends BaseService {
   }
 
   /**
-   * Path part for operation getApplication
+   * Path part for operation getConnectivityServices
    */
-  // static readonly GetApplicationPath = '/aether/v2.0.0/{target}/enterprises/enterprise/';
+  static readonly GetConnectivityServicesPath = '/aether/v2.0.0/{target}/connectivity-services';
 
   /**
-   * GET /application.
+   * GET /connectivity-services.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getApplication()` instead.
+   * To access only the response body, use `getConnectivityServices()` instead.
    *
    * This method doesn't expect any request body.
    */
-  // getApplication$Response(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  // }): Observable<StrictHttpResponse<Application>> {
-  //   const rb = new RequestBuilder(this.rootUrl, Service.GetApplicationPath, 'get');
-  //   if (params) {
-  //     rb.path('target', params.target, {});
-  //   }
-  //
-  //   return this.http.request(rb.build({
-  //     responseType: 'json',
-  //     accept: 'application/json'
-  //   })).pipe(
-  //     filter((r: any) => r instanceof HttpResponse),
-  //     map((r: HttpResponse<any>) => {
-  //       return r as StrictHttpResponse<Application>;
-  //     })
-  //   );
-  // }
-
-  /**
-   * GET /application.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getApplication$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getApplication(params: {
+  getConnectivityServices$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  }): Observable<Application> {
-    return this.getEnterprise$Response(params).pipe(
-      map((r: StrictHttpResponse<Enterprise>) => {
-        let ApplicationsDataObject :Application = {application:[]};
-          let EnterpriseApplicationArray = [];
-          let VCSArray = [];
-        r.body.enterprise.forEach(enterprise => {
-            enterprise.application.forEach(application=>{
-                application['enterprise-id']=enterprise["enterprise-id"];
-            })
-            enterprise.site.forEach(site=>{
-                VCSArray = [...VCSArray,...site.slice];
-            })
-            EnterpriseApplicationArray = [...EnterpriseApplicationArray,...enterprise.application];
-         })
-          ApplicationsDataObject.application = EnterpriseApplicationArray;
-          ApplicationsDataObject.slice = VCSArray;
-        return ApplicationsDataObject as Application
-      })
-    );
-  }
+  }): Observable<StrictHttpResponse<ConnectivityServices>> {
 
-  /**
-   * Path part for operation getConnectivityService
-   */
-  static readonly GetConnectivityServicePath = '/aether/v2.0.0/{target}/connectivity-services';
-
-  /**
-   * GET /connectivity-service.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getConnectivityService()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getConnectivityService$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<ConnectivityService>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetConnectivityServicePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, Service.GetConnectivityServicesPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
     }
@@ -142,133 +58,58 @@ export class Service extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<ConnectivityService>;
+        return r as StrictHttpResponse<ConnectivityServices>;
       })
     );
   }
 
   /**
-   * GET /connectivity-service.
+   * GET /connectivity-services.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getConnectivityService$Response()` instead.
+   * To access the full response (for headers, for example), `getConnectivityServices$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getConnectivityService(params: {
+  getConnectivityServices(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  }): Observable<ConnectivityService> {
+  }): Observable<ConnectivityServices> {
 
-    return this.getConnectivityService$Response(params).pipe(
-      map((r: StrictHttpResponse<ConnectivityService>) => r.body as ConnectivityService)
+    return this.getConnectivityServices$Response(params).pipe(
+      map((r: StrictHttpResponse<ConnectivityServices>) => r.body as ConnectivityServices)
     );
   }
 
   /**
-   * Path part for operation getDeviceGroup
+   * Path part for operation getEnterprises
    */
-  static readonly GetDeviceGroupPath = '/aether/v2.0.0/{target}/device-group';
+  static readonly GetEnterprisesPath = '/aether/v2.0.0/{target}/enterprises';
 
   /**
-   * GET /device-group.
+   * GET /enterprises.
    *
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getDeviceGroup()` instead.
+   * To access only the response body, use `getEnterprises()` instead.
    *
    * This method doesn't expect any request body.
    */
-  // getDeviceGroup$Response(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  // }): Observable<StrictHttpResponse<DeviceGroup>> {
-  //
-  //   const rb = new RequestBuilder(this.rootUrl, Service.GetDeviceGroupPath, 'get');
-  //   if (params) {
-  //     rb.path('target', params.target, {});
-  //   }
-  //
-  //   return this.http.request(rb.build({
-  //     responseType: 'json',
-  //     accept: 'application/json'
-  //   })).pipe(
-  //     filter((r: any) => r instanceof HttpResponse),
-  //     map((r: HttpResponse<any>) => {
-  //       return r as StrictHttpResponse<DeviceGroup>;
-  //     })
-  //   );
-  // }
-
-  /**
-   * GET /device-group.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getDeviceGroup$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getDeviceGroup(params: {
+  getEnterprises$Response(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  }): Observable<DeviceGroup> {
+  }): Observable<StrictHttpResponse<Enterprises>> {
 
-      return this.getEnterprise$Response(params).pipe(
-          map((r: StrictHttpResponse<Enterprise>) => {
-              let DeviceGroupDataObject :DeviceGroup = {'device-group':[]};
-              let EnterpriseSiteDeviceGroupArray = [];
-              r.body.enterprise.forEach(enterprise => {
-                  enterprise.site.forEach(site=>{
-                      site["device-group"].forEach(devicegroup=> {
-                          devicegroup['site-id'] = site['site-id'];
-                          devicegroup['enterprise-id'] = enterprise['enterprise-id']})
-                      EnterpriseSiteDeviceGroupArray = [...EnterpriseSiteDeviceGroupArray,...site['device-group']];
-                  })
-              })
-              DeviceGroupDataObject["device-group"] = EnterpriseSiteDeviceGroupArray;
-              return DeviceGroupDataObject as DeviceGroup
-          })
-      );
-  }
-
-  /**
-   * Path part for operation getEnterprise
-   */
-  static readonly GetEnterprisePath = '/aether/v2.0.0/{target}/enterprises';
-
-  /**
-   * GET /enterprise.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getEnterprise()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getEnterprise$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<StrictHttpResponse<Enterprise>> {
-
-    const rb = new RequestBuilder(this.rootUrl, Service.GetEnterprisePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, Service.GetEnterprisesPath, 'get');
     if (params) {
       rb.path('target', params.target, {});
     }
@@ -279,478 +120,32 @@ export class Service extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Enterprise>;
+        return r as StrictHttpResponse<Enterprises>;
       })
     );
   }
 
   /**
-   * GET /enterprise.
+   * GET /enterprises.
    *
    *
    *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getEnterprise$Response()` instead.
+   * To access the full response (for headers, for example), `getEnterprises$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getEnterprise(params: {
+  getEnterprises(params: {
 
     /**
      * target (device in onos-config)
      */
     target: any;
-  }): Observable<Enterprise> {
-    return this.getEnterprise$Response(params).pipe(
-      map((r: StrictHttpResponse<Enterprise>) =>
-          r.body as Enterprise)
+  }): Observable<Enterprises> {
+
+    return this.getEnterprises$Response(params).pipe(
+      map((r: StrictHttpResponse<Enterprises>) => r.body as Enterprises)
     );
-  }
-
-  /**
-   * Path part for operation getIpDomain
-   */
-  static readonly GetIpDomainPath = '/aether/v2.0.0/{target}/ip-domain';
-
-  /**
-   * GET /ip-domain.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getIpDomain()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  // getIpDomain$Response(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  // }): Observable<StrictHttpResponse<IpDomain>> {
-  //
-  //   const rb = new RequestBuilder(this.rootUrl, Service.GetIpDomainPath, 'get');
-  //   if (params) {
-  //     rb.path('target', params.target, {});
-  //   }
-  //
-  //   return this.http.request(rb.build({
-  //     responseType: 'json',
-  //     accept: 'application/json'
-  //   })).pipe(
-  //     filter((r: any) => r instanceof HttpResponse),
-  //     map((r: HttpResponse<any>) => {
-  //       return r as StrictHttpResponse<IpDomain>;
-  //     })
-  //   );
-  // }
-
-  /**
-   * GET /ip-domain.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getIpDomain$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getIpDomain(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<IpDomain> {
-      return this.getEnterprise$Response(params).pipe(
-          map((r: StrictHttpResponse<Enterprise>) => {
-              let IpDomainDataObject :IpDomain = {'ip-domain':[]};
-              let EnterpriseSiteIpDomainArray = [];
-              r.body.enterprise.forEach(enterprise => {
-                  enterprise.site.forEach(site=>{
-                      site["ip-domain"].forEach(IpDoamin=> {
-                          IpDoamin['site-id'] = site['site-id'];
-                          IpDoamin['enterprise-id'] = enterprise['enterprise-id']})
-                      EnterpriseSiteIpDomainArray = [...EnterpriseSiteIpDomainArray,...site["ip-domain"]];
-                  })
-              })
-              IpDomainDataObject["ip-domain"] = EnterpriseSiteIpDomainArray;
-              return IpDomainDataObject as IpDomain
-          })
-      );
-  }
-
-  /**
-   * Path part for operation getSite
-   */
-  static readonly GetSitePath = '/aether/v2.0.0/{target}/site';
-
-  /**
-   * GET /site.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getSite()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  // getSite$Response(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  // }): Observable<StrictHttpResponse<Site>> {
-  //
-  //   const rb = new RequestBuilder(this.rootUrl, Service.GetSitePath, 'get');
-  //   if (params) {
-  //     rb.path('target', params.target, {});
-  //   }
-  //
-  //   return this.http.request(rb.build({
-  //     responseType: 'json',
-  //     accept: 'application/json'
-  //   })).pipe(
-  //     filter((r: any) => r instanceof HttpResponse),
-  //     map((r: HttpResponse<any>) => {
-  //       return r as StrictHttpResponse<Site>;
-  //     })
-  //   );
-  // }
-
-  /**
-   * GET /site.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getSite$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getSite(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<Site> {
-
-      return this.getEnterprise$Response(params).pipe(
-          map((r: StrictHttpResponse<Enterprise>) => {
-              let SiteDataObject :Site = { site:[], 'enterprise-id':null};
-              let EnterpriseSiteArray = [];
-              r.body.enterprise.forEach(enterprise => {
-                  enterprise.site.forEach(site=>{
-                      site['enterprise-id'] = enterprise["enterprise-id"];
-                  })
-                  EnterpriseSiteArray = [...EnterpriseSiteArray,...enterprise.site];
-
-              })
-              SiteDataObject.site = EnterpriseSiteArray;
-              return SiteDataObject as Site
-          })
-      );
-  }
-
-  /**
-   * Path part for operation getTemplate
-   */
-  static readonly GetTemplatePath = '/aether/v2.0.0/{target}/template';
-
-  /**
-   * GET /template.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getTemplate()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  // getTemplate$Response(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  // }): Observable<StrictHttpResponse<Template>> {
-  //
-  //   const rb = new RequestBuilder(this.rootUrl, Service.GetTemplatePath, 'get');
-  //   if (params) {
-  //     rb.path('target', params.target, {});
-  //   }
-  //
-  //   return this.http.request(rb.build({
-  //     responseType: 'json',
-  //     accept: 'application/json'
-  //   })).pipe(
-  //     filter((r: any) => r instanceof HttpResponse),
-  //     map((r: HttpResponse<any>) => {
-  //       return r as StrictHttpResponse<Template>;
-  //     })
-  //   );
-  // }
-
-  /**
-   * GET /template.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getTemplate$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getTemplate(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<Template> {
-
-      return this.getEnterprise$Response(params).pipe(
-          map((r: StrictHttpResponse<Enterprise>) => {
-              let TemplateDataObject :Template = { template:[], 'enterprise-id':null};
-              let EnterpriseTemplateArray = [];
-              r.body.enterprise.forEach(enterprise => {
-                  enterprise.template.forEach(template=>{
-                      template['enterprise-id'] = enterprise["enterprise-id"];
-                  })
-                  EnterpriseTemplateArray = [...EnterpriseTemplateArray,...enterprise.template];
-
-              })
-              TemplateDataObject.template = EnterpriseTemplateArray;
-              return TemplateDataObject as Template
-          })
-      );
-  }
-
-  /**
-   * Path part for operation getTrafficClass
-   */
-  // static readonly GetTrafficClassPath = '/aether/v2.0.0/{target}/traffic-class';
-
-  /**
-   * GET /traffic-class.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getTrafficClass()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  // getTrafficClass$Response(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  // }): Observable<StrictHttpResponse<TrafficClass>> {
-  //
-  //   const rb = new RequestBuilder(this.rootUrl, Service.GetTrafficClassPath, 'get');
-  //   if (params) {
-  //     rb.path('target', params.target, {});
-  //   }
-  //
-  //   return this.http.request(rb.build({
-  //     responseType: 'json',
-  //     accept: 'application/json'
-  //   })).pipe(
-  //     filter((r: any) => r instanceof HttpResponse),
-  //     map((r: HttpResponse<any>) => {
-  //       return r as StrictHttpResponse<TrafficClass>;
-  //     })
-  //   );
-  // }
-
-  /**
-   * GET /traffic-class.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getTrafficClass$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getTrafficClass(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<TrafficClass> {
-
-      return this.getEnterprise$Response(params).pipe(
-          map((r: StrictHttpResponse<Enterprise>) => {
-              let TrafficClassDataObject :TrafficClass = {'traffic-class':[], 'enterprise-id':null};
-              let EnterpriseTrafficClassArray = [];
-              r.body.enterprise.forEach(enterprise => {
-                  enterprise['traffic-class'].forEach(trafficClassObject=>{
-                      trafficClassObject['enterprise-id'] = enterprise["enterprise-id"];
-                  })
-                  EnterpriseTrafficClassArray = [...EnterpriseTrafficClassArray,...enterprise['traffic-class']];
-
-              })
-              TrafficClassDataObject['traffic-class'] = EnterpriseTrafficClassArray;
-              return TrafficClassDataObject as TrafficClass
-          })
-      );
-  }
-
-  /**
-   * Path part for operation getUpf
-   */
-  static readonly GetUpfPath = '/aether/v2.0.0/{target}/upf';
-
-  /**
-   * GET /upf.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getUpf()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  // getUpf$Response(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  // }): Observable<StrictHttpResponse<Upf>> {
-  //
-  //   const rb = new RequestBuilder(this.rootUrl, Service.GetUpfPath, 'get');
-  //   if (params) {
-  //     rb.path('target', params.target, {});
-  //   }
-  //
-  //   return this.http.request(rb.build({
-  //     responseType: 'json',
-  //     accept: 'application/json'
-  //   })).pipe(
-  //     filter((r: any) => r instanceof HttpResponse),
-  //     map((r: HttpResponse<any>) => {
-  //       return r as StrictHttpResponse<Upf>;
-  //     })
-  //   );
-  // }
-
-  /**
-   * GET /upf.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getUpf$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getUpf(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<Upf> {
-      return this.getEnterprise$Response(params).pipe(
-          map((r: StrictHttpResponse<Enterprise>) => {
-              let UpfataObject :Upf = {upf:[]};
-              let EnterpriseSiteUpfArray = [];
-              r.body.enterprise.forEach(enterprise => {
-                  enterprise.site.forEach(site=>{
-                      site.upf.forEach(UPF=> {
-                          UPF['site-id'] = site['site-id'];
-                          UPF['enterprise-id'] = enterprise['enterprise-id']})
-                      EnterpriseSiteUpfArray = [...EnterpriseSiteUpfArray,...site.upf];
-                  })
-              })
-              UpfataObject.upf = EnterpriseSiteUpfArray;
-              return UpfataObject as Upf
-          })
-      );
-  }
-
-  /**
-   * Path part for operation getSlice
-   */
-  static readonly GetSlicePath = '/aether/v2.0.0/{target}/slice';
-
-  /**
-   * GET /slice.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getSlice()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  // getSlice$Response(params: {
-  //
-  //   /**
-  //    * target (device in onos-config)
-  //    */
-  //   target: any;
-  // }): Observable<StrictHttpResponse<Slice>> {
-  //
-  //   const rb = new RequestBuilder(this.rootUrl, Service.GetSlicePath, 'get');
-  //   if (params) {
-  //     rb.path('target', params.target, {});
-  //   }
-  //
-  //   return this.http.request(rb.build({
-  //     responseType: 'json',
-  //     accept: 'application/json'
-  //   })).pipe(
-  //     filter((r: any) => r instanceof HttpResponse),
-  //     map((r: HttpResponse<any>) => {
-  //       return r as StrictHttpResponse<Slice>;
-  //     })
-  //   );
-  // }
-
-  /**
-   * GET /slice.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getSlice$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getSlice(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-  }): Observable<Slice> {
-
-      return this.getEnterprise$Response(params).pipe(
-          map((r: StrictHttpResponse<Enterprise>) => {
-              let SliceDataObject: Slice = {slice: []};
-              let EnterpriseSiteSliceArray = [];
-              r.body.enterprise.forEach(enterprise => {
-                  enterprise.site.forEach(site => {
-                      site.slice.forEach(slice => {
-                          slice['site-id'] = site['site-id'];
-                          slice['enterprise-id'] = enterprise['enterprise-id']
-                      })
-                      EnterpriseSiteSliceArray = [...EnterpriseSiteSliceArray, ...site.slice];
-                  })
-              })
-              SliceDataObject.slice = EnterpriseSiteSliceArray;
-              return SliceDataObject as Slice
-          })
-      );
   }
 
 }

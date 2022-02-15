@@ -10,11 +10,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { BasketService } from '../../basket.service';
-import { AETHER_TARGETS } from '../../../environments/environment';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { DeviceGroupDatasource } from './device-group-datasource';
 import * as _ from 'lodash';
-import { EnterpriseEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models/enterprise-enterprise-site-device-group';
+import { EnterprisesEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
@@ -28,11 +28,12 @@ export class DeviceGroupComponent
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterpriseEnterpriseSiteDeviceGroup>;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteDeviceGroup>;
 
     displayedColumns = [
         'id',
         'description',
+        'enterprise',
         'site',
         'ip-domain',
         'device',
@@ -51,7 +52,7 @@ export class DeviceGroupComponent
             new DeviceGroupDatasource(
                 aetherService,
                 basketService,
-                AETHER_TARGETS[0]
+                AETHER_TARGET
             ),
             'Enterprises-2.0.0',
             'device-group'
@@ -65,7 +66,7 @@ export class DeviceGroupComponent
         /* Needs work*/
         // this.aetherService
         //     .getVcs({
-        //         target: AETHER_TARGETS[0],
+        //         target: AETHER_TARGET,
         //     })
         //     .subscribe((displayData) => {
         //         this.usageArray = this.usageArray.concat(
@@ -114,8 +115,8 @@ export class DeviceGroupComponent
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
-            this.aetherService.getDeviceGroup({
-                target: AETHER_TARGETS[0],
+            this.aetherService.getEnterprises({
+                target: AETHER_TARGET,
             }),
             this.onDataLoaded.bind(this)
         );

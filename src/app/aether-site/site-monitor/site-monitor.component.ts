@@ -15,13 +15,13 @@ import { RocMonitorBase } from '../../roc-monitor-base';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     Service as AetherService,
-    SiteSiteService,
-} from '../../../openapi3/aether/4.0.0/services';
+    EnterprisesEnterpriseSiteService,
+} from '../../../openapi3/aether/2.0.0/services';
 import {
-    AETHER_TARGETS,
+    AETHER_TARGET,
     PERFORMANCE_METRICS_ENABLED,
 } from '../../../environments/environment';
-import { SiteSite } from '../../../openapi3/aether/4.0.0/models';
+import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
 import { IdTokClaims } from '../../idtoken';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { SitePromDataSource } from '../../utils/site-prom-data-source';
@@ -39,7 +39,7 @@ export class SiteMonitorComponent
 {
     performancePanels: string[] = [];
     ueConnectivityPanels: string[] = [];
-    thisSite: SiteSite;
+    thisSite: EnterprisesEnterpriseSite;
 
     clusterAvailabilityPanelUrl: string;
     agentAvailabilityPanelUrl: string;
@@ -58,7 +58,7 @@ export class SiteMonitorComponent
 
     constructor(
         protected aetherService: AetherService,
-        protected siteService: SiteSiteService,
+        protected siteService: EnterprisesEnterpriseSiteService,
         protected route: ActivatedRoute,
         protected router: Router,
         private httpClient: HttpClient,
@@ -76,7 +76,7 @@ export class SiteMonitorComponent
             // TODO: enhance this - it takes the last group, having all lower case as the Grafana Org.
             this.getSite().subscribe(
                 (site) => {
-                    console.log('Found Site', site.id);
+                    console.log('Found Site', site['site-id']);
                     this.thisSite = site;
 
                     this.grafanaOrgName = claims.groups.find(
@@ -104,10 +104,11 @@ export class SiteMonitorComponent
         clearInterval(this.prometheusTimer);
     }
 
-    private getSite(): Observable<SiteSite> {
-        return this.siteService.getSiteSite({
-            target: AETHER_TARGETS[0],
-            id: this.id,
+    private getSite(): Observable<EnterprisesEnterpriseSite> {
+        return this.siteService.getEnterprisesEnterpriseSite({
+            target: AETHER_TARGET,
+            'enterprise-id': this.route.snapshot.params['enterprise-id'],
+            'site-id': this.id,
         });
     }
 
@@ -116,7 +117,7 @@ export class SiteMonitorComponent
         let baseUrl = `${this.grafanaUrl}/d-solo/site-availability/cluster-health?orgId=${orgId}&theme=light&panelId=1`;
 
         // Filter from ACE datasource
-        baseUrl += `&var-ds=datasource-${this.thisSite.id}`;
+        baseUrl += `&var-ds=datasource-${this.thisSite['site-id']}`;
 
         return baseUrl;
     }
