@@ -1,23 +1,20 @@
 /*
- * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ * SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-    Enterprises,
-    EnterprisesEnterprise,
-    EnterprisesEnterpriseSiteIpDomain,
-    EnterprisesEnterpriseSiteUpf,
-} from '../../../openapi3/aether/2.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
+import { BasketService } from '../../basket.service';
+import { Enterprises } from '../../../openapi3/aether/2.0.0/models/enterprises';
 import { from, Observable } from 'rxjs';
+import { EnterprisesEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-device';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
+import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise';
 
-export class UpfDatasource extends RocDataSource<
-    EnterprisesEnterpriseSiteUpf,
+export class DeviceDatasource extends RocDataSource<
+    EnterprisesEnterpriseSiteDevice,
     Enterprises
 > {
     constructor(
@@ -25,14 +22,21 @@ export class UpfDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/upf-2.0.0', 'upf');
+        super(
+            aetherService,
+            bs,
+            target,
+            '/Enterprises-2.0.0/enterprise',
+            'enterprise',
+            'enterprise-id'
+        );
     }
 
     loadData(
         dataSourceObservable: Observable<Enterprises>,
         onDataLoaded: (
             dataSourceThisScope: RocDataSource<
-                EnterprisesEnterpriseSiteUpf,
+                EnterprisesEnterpriseSiteDevice,
                 Enterprises
             >
         ) => void
@@ -46,15 +50,15 @@ export class UpfDatasource extends RocDataSource<
             .subscribe(
                 (value: EnterprisesEnterprise) => {
                     value.site.forEach((s) => {
-                        s.upf.forEach((u) => {
+                        s.device.forEach((u) => {
                             if (
                                 !this.bs.containsDeleteEntry(
                                     '/Enterprises-2.0.0/enterprise[' +
                                         value['enterprise-id'] +
                                         ']/site[site-id=' +
                                         s['site-id'] +
-                                        ']/upf[upf-id=' +
-                                        u['upf-id'] +
+                                        ']/device[device-id=' +
+                                        u['device-id'] +
                                         ']'
                                 )
                             ) {
@@ -63,8 +67,8 @@ export class UpfDatasource extends RocDataSource<
                                 this.data.push(u);
                             } else {
                                 console.log(
-                                    'upf-id is already in basket',
-                                    u['upf-id']
+                                    'device-id is already in basket',
+                                    u['device-id']
                                 );
                             }
                         });
@@ -87,8 +91,8 @@ export class UpfDatasource extends RocDataSource<
     }
 
     getSortedData(
-        data: EnterprisesEnterpriseSiteUpf[]
-    ): EnterprisesEnterpriseSiteUpf[] {
+        data: EnterprisesEnterpriseSiteDevice[]
+    ): EnterprisesEnterpriseSiteDevice[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -100,10 +104,10 @@ export class UpfDatasource extends RocDataSource<
         return data.sort((a, b) => {
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
-                case 'address':
-                    return compare(a.address, b.address, isAsc);
-                case 'port':
-                    return compare(a.port, b.port, isAsc);
+                case 'device-id':
+                    return compare(a['device-id'], b['device-id'], isAsc);
+                case 'imei':
+                    return compare(a.imei, b.imei, isAsc);
                 default:
                     return 0;
             }

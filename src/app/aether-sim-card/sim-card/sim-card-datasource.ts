@@ -1,23 +1,20 @@
 /*
- * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ * SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-    Enterprises,
-    EnterprisesEnterprise,
-    EnterprisesEnterpriseSiteIpDomain,
-    EnterprisesEnterpriseSiteUpf,
-} from '../../../openapi3/aether/2.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
+import { Enterprises } from '../../../openapi3/aether/2.0.0/models/enterprises';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
+import { BasketService } from '../../basket.service';
+import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-sim-card';
 import { from, Observable } from 'rxjs';
-import { map, mergeMap, skipWhile } from 'rxjs/operators';
+import { map, mergeMap, skipWhile, tap } from 'rxjs/operators';
+import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise';
 
-export class UpfDatasource extends RocDataSource<
-    EnterprisesEnterpriseSiteUpf,
+export class SimCardDatasource extends RocDataSource<
+    EnterprisesEnterpriseSiteSimCard,
     Enterprises
 > {
     constructor(
@@ -25,14 +22,14 @@ export class UpfDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/upf-2.0.0', 'upf');
+        super(aetherService, bs, target, '/sim-card-2.0.0', 'sim-card');
     }
 
     loadData(
         dataSourceObservable: Observable<Enterprises>,
         onDataLoaded: (
             dataSourceThisScope: RocDataSource<
-                EnterprisesEnterpriseSiteUpf,
+                EnterprisesEnterpriseSiteSimCard,
                 Enterprises
             >
         ) => void
@@ -46,25 +43,25 @@ export class UpfDatasource extends RocDataSource<
             .subscribe(
                 (value: EnterprisesEnterprise) => {
                     value.site.forEach((s) => {
-                        s.upf.forEach((u) => {
+                        s['sim-card'].forEach((sc) => {
                             if (
                                 !this.bs.containsDeleteEntry(
                                     '/Enterprises-2.0.0/enterprise[' +
                                         value['enterprise-id'] +
                                         ']/site[site-id=' +
                                         s['site-id'] +
-                                        ']/upf[upf-id=' +
-                                        u['upf-id'] +
+                                        ']/sim-card[sim-id=' +
+                                        sc['sim-id'] +
                                         ']'
                                 )
                             ) {
-                                u['enterprise-id'] = value['enterprise-id'];
-                                u['site-id'] = s['site-id'];
-                                this.data.push(u);
+                                sc['enterprise-id'] = value['enterprise-id'];
+                                sc['site-id'] = s['site-id'];
+                                this.data.push(sc);
                             } else {
                                 console.log(
-                                    'upf-id is already in basket',
-                                    u['upf-id']
+                                    'sim-id is already in basket',
+                                    sc['sim-id']
                                 );
                             }
                         });
@@ -87,8 +84,8 @@ export class UpfDatasource extends RocDataSource<
     }
 
     getSortedData(
-        data: EnterprisesEnterpriseSiteUpf[]
-    ): EnterprisesEnterpriseSiteUpf[] {
+        data: EnterprisesEnterpriseSiteSimCard[]
+    ): EnterprisesEnterpriseSiteSimCard[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -100,10 +97,10 @@ export class UpfDatasource extends RocDataSource<
         return data.sort((a, b) => {
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
-                case 'address':
-                    return compare(a.address, b.address, isAsc);
-                case 'port':
-                    return compare(a.port, b.port, isAsc);
+                case 'iccid':
+                    return compare(a.iccid, b.iccid, isAsc);
+                case 'imsi':
+                    return compare(a.imsi, b.imsi, isAsc);
                 default:
                     return 0;
             }

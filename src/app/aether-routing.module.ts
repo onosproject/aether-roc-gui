@@ -73,6 +73,20 @@ const aetherRoutes: Routes = [
             ),
     },
     {
+        path: 'device',
+        loadChildren: () =>
+            import('./aether-device/aether-device.module').then(
+                (m) => m.AetherDeviceModule
+            ),
+    },
+    {
+        path: 'sim-card',
+        loadChildren: () =>
+            import('./aether-sim-card/aether-sim-card.module').then(
+                (m) => m.AetherSimCardModule
+            ),
+    },
+    {
         path: 'slice',
         loadChildren: () =>
             import('./aether-slice/aether-slice.module').then(

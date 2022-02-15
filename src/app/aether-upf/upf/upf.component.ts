@@ -54,7 +54,7 @@ export class UpfComponent
             'Enterprises-2.0.0',
             'upf'
         );
-        super.reqdAttr = ['enterprise', 'port', 'address', 'site'];
+        super.reqdAttr = ['port', 'address'];
     }
 
     onDataLoaded(ScopeOfDataSource: UpfDatasource): void {
