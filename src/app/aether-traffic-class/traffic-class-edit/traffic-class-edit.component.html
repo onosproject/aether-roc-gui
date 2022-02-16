@@ -31,6 +31,29 @@
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
+            <div
+                class="half-width field-margin"
+                id="enterpriseRowSelect"
+                *ngIf="isNew"
+            >
+                <mat-label *ngIf="enterprises.length === 0"
+                    >No Enterprise available
+                </mat-label>
+                <mat-select
+                    class="row-pad"
+                    id="selectEnterprise"
+                    [(value)]="newEnterpriseId"
+                    placeholder="Please select an Enterprise"
+                >
+                    <mat-option
+                        *ngFor="let eachEnterprise of enterprises"
+                        [value]="eachEnterprise.enterpriseId"
+                        >{{ eachEnterprise.enterpriseId }}
+                        {{ eachEnterprise.displayName }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint><small>Enterprise</small></mat-hint>
+            </div>
             <div class="row" id="enterpriseRowReadOnly" *ngIf="!isNew">
                 <p class="field-margin half-width">
                     <br /><mat-hint>Enterprise</mat-hint>:&nbsp;{{

@@ -33,12 +33,7 @@ import { AETHER_TARGET } from '../../../environments/environment';
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class SiteEditComponent extends RocEditBase implements OnInit {
-    enterprises: Array<EnterprisesEnterprise>;
     data: EnterprisesEnterpriseSite;
-    pathRoot = ('Enterprises-2.0.0/enterprise' +
-        '[enterprise-id=' +
-        this.route.snapshot.params['enterprise-id'] +
-        ']') as RocElement;
     pathListAttr = 'site';
     showConnectDisplay = false;
     showEdgeDeviceDisplay = false;
@@ -107,7 +102,7 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
 
     constructor(
         private siteSiteService: EnterprisesEnterpriseSiteService,
-        private aetherService: AetherService,
+        protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -122,7 +117,8 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
             router,
             'Enterprises-2.0.0',
             'site',
-            'site-id'
+            'site-id',
+            aetherService
         );
         super.form = this.siteForm;
         super.loadFunc = this.loadSiteSite;
@@ -131,6 +127,7 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
             'mcc',
             'mnc',
             'format',
+            'enterprise',
         ];
         this.siteForm.get(['small-cell'])[IDATTRIBS] = ['small-cell-id'];
         this.siteForm.get(['monitoring', 'edge-device'])[IDATTRIBS] = [

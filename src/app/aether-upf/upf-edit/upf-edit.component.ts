@@ -16,8 +16,10 @@ import {
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
-import { EnterprisesEnterpriseSiteUpfService } from '../../../openapi3/aether/2.0.0/services';
+import {
+    EnterprisesEnterpriseSiteUpfService,
+    Service as AetherService,
+} from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({
@@ -27,13 +29,6 @@ import { AETHER_TARGET } from '../../../environments/environment';
 })
 export class UpfEditComponent extends RocEditBase implements OnInit {
     data: EnterprisesEnterpriseSiteUpf;
-    pathRoot = ('Enterprises-2.0.0/enterprise' +
-        '[enterprise-id=' +
-        this.route.snapshot.params['enterprise-id'] +
-        ']/site' +
-        '[site-id=' +
-        this.route.snapshot.params['site-id'] +
-        ']') as RocElement;
     pathListAttr = 'upf';
     SiteImisLength: number;
     ImsiRangeLimit: number;
@@ -83,6 +78,7 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
 
     constructor(
         private upfUpfService: EnterprisesEnterpriseSiteUpfService,
+        protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -97,7 +93,8 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
             router,
             'Enterprises-2.0.0',
             'upf',
-            'upf-id'
+            'upf-id',
+            aetherService
         );
         super.form = this.upfForm;
         super.loadFunc = this.loadUpfUpf;

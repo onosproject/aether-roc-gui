@@ -9,7 +9,10 @@ import { RocEditBase } from '../../roc-edit-base';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
+import {
+    EnterprisesEnterpriseService,
+    Service as AetherService,
+} from '../../../openapi3/aether/2.0.0/services';
 import {
     BasketService,
     ORIGINAL,
@@ -24,7 +27,6 @@ import { EnterprisesEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2
 import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseSiteDeviceGroupService } from '../../../openapi3/aether/2.0.0/services';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({
@@ -33,12 +35,6 @@ import { AETHER_TARGET } from '../../../environments/environment';
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
-    pathRoot = ('Enterprises-2.0.0/enterprise' +
-        '[enterprise-id=' +
-        this.route.snapshot.params['enterprise-id'] +
-        ']/site[site-id=' +
-        this.route.snapshot.params['site-id'] +
-        ']') as RocElement;
     data: EnterprisesEnterpriseSiteDeviceGroup;
     ipdomain: Array<EnterprisesEnterpriseSiteIpDomain>;
     showParentDisplay = false;
@@ -102,6 +98,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     constructor(
         private deviceGroupDeviceGroupService: EnterprisesEnterpriseSiteDeviceGroupService,
         protected entService: EnterprisesEnterpriseService,
+        protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         private fb: FormBuilder,
@@ -116,7 +113,8 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
             router,
             'Enterprises-2.0.0',
             'device-group',
-            'device-group-id'
+            'device-group-id',
+            aetherService
         );
         super.form = this.deviceGroupForm;
         super.loadFunc = this.loadDeviceGroupDeviceGroup;

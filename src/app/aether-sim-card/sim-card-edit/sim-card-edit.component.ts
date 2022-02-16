@@ -6,14 +6,16 @@
 
 import { Component, OnInit } from '@angular/core';
 import { RocEditBase } from '../../roc-edit-base';
-import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-sim-card';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
+import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BasketService, ORIGINAL, TYPE } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { EnterprisesEnterpriseSiteSimCardService } from '../../../openapi3/aether/2.0.0/services/enterprises-enterprise-site-sim-card.service';
+import {
+    EnterprisesEnterpriseSiteSimCardService,
+    Service as AetherService,
+} from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({
@@ -23,13 +25,6 @@ import { AETHER_TARGET } from '../../../environments/environment';
 })
 export class SimCardEditComponent extends RocEditBase implements OnInit {
     data: EnterprisesEnterpriseSiteSimCard;
-    pathRoot = ('Enterprises-2.0.0/enterprise' +
-        '[enterprise-id=' +
-        this.route.snapshot.params['enterprise-id'] +
-        ']/site' +
-        '[site-id=' +
-        this.route.snapshot.params['site-id'] +
-        ']') as RocElement;
     pathListAttr = 'sim-card';
     simCardId: string;
     showParentDisplay = false;
@@ -70,6 +65,7 @@ export class SimCardEditComponent extends RocEditBase implements OnInit {
 
     constructor(
         private simCardService: EnterprisesEnterpriseSiteSimCardService,
+        protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -84,7 +80,8 @@ export class SimCardEditComponent extends RocEditBase implements OnInit {
             router,
             'Enterprises-2.0.0',
             'sim-card',
-            'sim-id'
+            'sim-id',
+            aetherService
         );
         super.form = this.simCardForm;
         super.loadFunc = this.loadSimCard;

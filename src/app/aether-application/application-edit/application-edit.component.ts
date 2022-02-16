@@ -14,9 +14,12 @@ import {
     ValidatorFn,
     Validators,
 } from '@angular/forms';
-import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
+
 import {
-    EnterprisesEnterprise,
+    EnterprisesEnterpriseService,
+    Service as AetherService,
+} from '../../../openapi3/aether/2.0.0/services';
+import {
     EnterprisesEnterpriseApplication,
     EnterprisesEnterpriseTrafficClass,
 } from '../../../openapi3/aether/2.0.0/models';
@@ -65,12 +68,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     showEndpointAddButton = true;
     showParentDisplay = false;
     readonly endpointLimit: number = 5;
-    enterprises: Array<EnterprisesEnterprise>;
     trafficClassOptions: Array<EnterprisesEnterpriseTrafficClass>;
-    pathRoot = ('Enterprises-2.0.0/enterprise' +
-        '[enterprise-id=' +
-        this.route.snapshot.params['enterprise-id'] +
-        ']') as RocElement;
     pathListAttr = 'application';
     applicationId: string;
     data: EnterprisesEnterpriseApplication;
@@ -124,6 +122,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     constructor(
         private applicationApplicationService: EnterprisesEnterpriseApplicationService,
         private enterpriseService: EnterprisesEnterpriseService,
+        protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -149,7 +148,6 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     ngOnInit(): void {
         super.init();
         this.loadTrafficClass(this.target);
-        // this.loadEnterprises(this.target);
         this.bandwidthOptions = this.appForm.valueChanges.pipe(
             startWith(''),
             map((value) =>

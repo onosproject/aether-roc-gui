@@ -48,10 +48,6 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
 
     sdAsInt = HexPipe.hexAsInt;
 
-    pathRoot = ('Enterprises-2.0.0/enterprise' +
-        '[enterprise-id=' +
-        this.route.snapshot.params['enterprise-id'] +
-        ']') as RocElement;
     pathListAttr = 'template';
     trafficClass: Array<EnterprisesEnterpriseTrafficClass>;
     templateID: string;
@@ -153,7 +149,7 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
 
     constructor(
         private templateTemplateService: EnterprisesEnterpriseTemplateService,
-        private aetherService: AetherService,
+        protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -168,7 +164,8 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
             router,
             'Enterprises-2.0.0',
             'template',
-            'template-id'
+            'template-id',
+            aetherService
         );
         super.form = this.tempForm;
         super.loadFunc = this.loadTemplateTemplate;

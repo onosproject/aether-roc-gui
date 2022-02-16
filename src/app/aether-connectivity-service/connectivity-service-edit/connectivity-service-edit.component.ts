@@ -79,10 +79,15 @@ export class ConnectivityServiceEditComponent
         );
         super.form = this.csForm;
         super.loadFunc = this.loadConnectivityServicesConnectivityService;
+        super.initFunc = this.initialize;
     }
 
     ngOnInit(): void {
         super.init();
+    }
+
+    protected initialize(): string {
+        return '';
     }
 
     private populateFormData(

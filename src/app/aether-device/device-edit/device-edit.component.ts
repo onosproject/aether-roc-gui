@@ -6,17 +6,21 @@
 
 import { Component, OnInit } from '@angular/core';
 import { RocEditBase } from '../../roc-edit-base';
-import { EnterprisesEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-device';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
+import {
+    EnterprisesEnterpriseSiteDevice,
+    EnterprisesEnterpriseSiteSimCard,
+} from '../../../openapi3/aether/2.0.0/models';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BasketService, ORIGINAL } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { EnterprisesEnterpriseSiteDeviceService } from '../../../openapi3/aether/2.0.0/services/enterprises-enterprise-site-device.service';
+import {
+    EnterprisesEnterpriseSiteDeviceService,
+    EnterprisesEnterpriseSiteService,
+    Service as AetherService,
+} from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
-import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services/enterprises-enterprise-site.service';
-import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-sim-card';
 
 @Component({
     selector: 'aether-device-edit',
@@ -25,13 +29,6 @@ import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0
 })
 export class DeviceEditComponent extends RocEditBase implements OnInit {
     data: EnterprisesEnterpriseSiteDevice;
-    pathRoot = ('Enterprises-2.0.0/enterprise' +
-        '[enterprise-id=' +
-        this.route.snapshot.params['enterprise-id'] +
-        ']/site' +
-        '[site-id=' +
-        this.route.snapshot.params['site-id'] +
-        ']') as RocElement;
     pathListAttr = 'device';
     deviceId: string;
     showParentDisplay = false;
@@ -81,6 +78,7 @@ export class DeviceEditComponent extends RocEditBase implements OnInit {
     constructor(
         private deviceService: EnterprisesEnterpriseSiteDeviceService,
         private siteService: EnterprisesEnterpriseSiteService,
+        protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -95,7 +93,8 @@ export class DeviceEditComponent extends RocEditBase implements OnInit {
             router,
             'Enterprises-2.0.0',
             'device',
-            'device-id'
+            'device-id',
+            aetherService
         );
         super.form = this.deviceForm;
         super.loadFunc = this.loadDevice;

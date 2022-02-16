@@ -32,6 +32,29 @@
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
+            <div
+                class="half-width field-margin"
+                id="enterpriseRowSelect"
+                *ngIf="isNew"
+            >
+                <mat-label *ngIf="enterprises.length === 0"
+                    >No Enterprise available
+                </mat-label>
+                <mat-select
+                    class="row-pad"
+                    id="selectEnterprise"
+                    [(value)]="newEnterpriseId"
+                    placeholder="Please select an Enterprise"
+                >
+                    <mat-option
+                        *ngFor="let eachEnterprise of enterprises"
+                        [value]="eachEnterprise.enterpriseId"
+                        >{{ eachEnterprise.enterpriseId }}
+                        {{ eachEnterprise.displayName }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint><small>Enterprise</small></mat-hint>
+            </div>
             <div class="row" id="enterpriseRowReadOnly" *ngIf="!isNew">
                 <p class="field-margin half-width">
                     <br /><mat-hint>Enterprise</mat-hint>:&nbsp;{{
@@ -229,6 +252,7 @@
                     <input
                         matInput
                         formControlName="mcc"
+                        placeholder="Please specify MCC"
                         id="inputMCC"
                         required
                     />
@@ -238,10 +262,21 @@
                     <input
                         matInput
                         formControlName="mnc"
+                        placeholder="Please specify MNC"
                         id="inputMNC"
                         required
                     />
                     <mat-hint>MNC</mat-hint>
+                </mat-form-field>
+                <mat-form-field class="field-margin">
+                    <input
+                        matInput
+                        formControlName="enterprise"
+                        placeholder="Please specify ENT"
+                        id="inputEnterprise"
+                        required
+                    />
+                    <mat-hint>Ent</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="field-margin">
                     <input
