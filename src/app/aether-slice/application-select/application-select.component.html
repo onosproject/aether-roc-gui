@@ -18,10 +18,10 @@
                     id="selectNewApplicationApplication"
                 >
                     <mat-option
-                        *ngFor="let item of this.ApplicationOptions"
-                        [value]="item['app-id']"
+                        *ngFor="let item of this.displayList"
+                        [value]="item['application-id']"
                     >
-                        {{ item["app-id"] }}
+                        {{ item["application-id"] }}
                         <span *ngIf="item['display-name']">
                             ({{ item["display-name"] }})</span
                         >
@@ -41,7 +41,7 @@
                 color="accent"
                 class="subscriber-pointer"
                 matTooltip="Application with {{
-                    this.SliceApplicationEndpointLimit
+                    this.endpointsAllowed
                 }} or less endpoints appear in dropdown"
                 id="infoIcon"
                 >info

@@ -35,6 +35,13 @@
                     <mat-hint>Name (ID)</mat-hint>
                 </mat-form-field>
             </div>
+            <div class="row" id="enterpriseRowReadOnly" *ngIf="!isNew">
+                <p class="field-margin half-width">
+                    <br /><mat-hint>Enterprise</mat-hint>:&nbsp;{{
+                        route.snapshot.params["enterprise-id"]
+                    }}
+                </p>
+            </div>
             <div class="row" id="displayNameRow">
                 <mat-form-field class="field-margin half-width">
                     <input
@@ -211,7 +218,7 @@
                                 color="accent"
                                 [disabled]="
                                     !opaService.canWrite(
-                                        '/application/application[id={{id}}]'
+                                        '/application/application[application-id={{id}}]'
                                     )
                                 "
                                 (click)="

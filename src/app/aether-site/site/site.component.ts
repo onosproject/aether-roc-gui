@@ -53,9 +53,9 @@ export class SiteComponent
             basketService,
             new SiteDatasource(aetherService, basketService, AETHER_TARGET),
             'Enterprises-2.0.0',
-            'site'
+            'site',
+            'site-id'
         );
-        super.reqdAttr = ['enterprise'];
     }
 
     onDataLoaded(ScopeOfDataSource: SiteDatasource): void {

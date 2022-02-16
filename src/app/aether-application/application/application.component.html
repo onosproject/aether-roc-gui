@@ -140,7 +140,13 @@
                     *ngIf="checkForUsage(row['application-id'])"
                     mat-icon-button
                     id="usageButton"
-                    (click)="showUsage(row['application-id'], row['enterprise-id'], undefined)"
+                    (click)="
+                        showUsage(
+                            row['application-id'],
+                            row['enterprise-id'],
+                            undefined
+                        )
+                    "
                     color="accent"
                 >
                     <mat-icon class="table_icon">assignment</mat-icon>
@@ -150,7 +156,7 @@
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
-                            '/application/application[id=' +
+                            '/application/application[application-id=' +
                                 row['application-id'] +
                                 ']'
                         )

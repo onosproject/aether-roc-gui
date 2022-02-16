@@ -159,12 +159,10 @@ export abstract class RocDataSource<
                                 id +
                                 ']/' +
                                 this.indexAttr
-                        ) ||
-                        (this.pathRoot === '/slice-2.0.0' &&
-                            this.pathListAttr === this.pathListAttr)
+                        )
                     ) {
                         this.data.push(value);
-                        console.log('Got ' + id);
+                        console.log('Got ', id, '(', this.indexAttr, ')');
                     } else {
                         console.log('Ignoring ' + id + ' (is on delete list)');
                     }

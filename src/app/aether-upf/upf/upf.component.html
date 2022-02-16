@@ -184,7 +184,13 @@
                     *ngIf="checkForUsage(row['upf-id'])"
                     mat-icon-button
                     id="usageButton"
-                    (click)="showUsage(row['upf-id'], row['enterprise-id'], row['site-id'])"
+                    (click)="
+                        showUsage(
+                            row['upf-id'],
+                            row['enterprise-id'],
+                            row['site-id']
+                        )
+                    "
                     color="accent"
                 >
                     <mat-icon class="table_icon">assignment</mat-icon>

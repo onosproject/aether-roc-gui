@@ -14,7 +14,9 @@
             aria-label="Add enterprise"
             id="addNewEnterpriseButton"
             [disabled]="
-                !opaService.canWrite('/enterprise/enterprise[id=newinstance]')
+                !opaService.canWrite(
+                    '/enterprises/enterprise[enterprise-id=newinstance]'
+                )
             "
             routerLink="/enterprise/enterprise-edit/newinstance"
         >
@@ -108,7 +110,9 @@
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
-                            '/enterprise/enterprise[id=' + row.id + ']'
+                            '/enterprises/enterprise[enterprise-id=' +
+                                row.id +
+                                ']'
                         )
                     "
                     (click)="delete(row['enterprise-id'])"

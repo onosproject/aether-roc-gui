@@ -54,7 +54,8 @@ export class TrafficClassComponent
                 AETHER_TARGET
             ),
             'Enterprises-2.0.0',
-            'traffic-class'
+            'traffic-class',
+            'traffic-class-id'
         );
     }
 

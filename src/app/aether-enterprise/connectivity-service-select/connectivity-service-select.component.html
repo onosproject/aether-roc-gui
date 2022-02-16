@@ -19,9 +19,9 @@
                 >
                     <mat-option
                         *ngFor="let item of this.displayList"
-                        (click)="closeCard(item.id)"
+                        (click)="closeCard(item['connectivity-service-id'])"
                     >
-                        {{ item.id }}
+                        {{ item["connectivity-service-id"] }}
                         <span *ngIf="item['display-name']">
                             ({{ item["display-name"] }})</span
                         >

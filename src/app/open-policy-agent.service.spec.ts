@@ -20,7 +20,7 @@ describe('OpenPolicyAgentService', () => {
     });
 
     it('should validate canwrite function', () => {
-        service.canWrite('/application/application[id=testID]');
+        service.canWrite('/application/application[application-id=testID]');
         expect(service).toBeTruthy();
     });
 

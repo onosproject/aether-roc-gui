@@ -83,7 +83,7 @@
                                 mat-icon-button
                                 [disabled]="
                                     !opaService.canWrite(
-                                        '/enterprise/enterprise[id=' +
+                                        '/enterprises/enterprise[enterprise-id=' +
                                             entpriseid +
                                             ']/connectivity-service'
                                     )
@@ -125,7 +125,7 @@
                         !(
                             entForm.valid &&
                             entForm.touched &&
-                            opaService.canWrite('/enterprise/enterprise')
+                            opaService.canWrite('/enterprises/enterprise')
                         )
                     "
                     id="submitButton"
@@ -140,7 +140,9 @@
     *ngIf="
         showConnectDisplay &&
         opaService.canWrite(
-            '/enterprise/enterprise[id=' + id + ']/connectivity-service'
+            '/enterprises/enterprise[enterprise-id=' +
+                id +
+                ']/connectivity-service'
         )
     "
     id="connectivityServiceSelectComponent"

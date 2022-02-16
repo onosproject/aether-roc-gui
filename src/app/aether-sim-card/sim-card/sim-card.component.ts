@@ -1,47 +1,38 @@
-/*
- * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { OpenPolicyAgentService } from 'src/app/open-policy-agent.service';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { RocListBase } from '../../roc-list-base';
+import { SimCardDatasource } from './sim-card-datasource';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
+import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-sim-card';
+import { OpenPolicyAgentService } from '../../open-policy-agent.service';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
 import { BasketService } from '../../basket.service';
-import { RocListBase } from '../../roc-list-base';
-import { TemplateDatasource } from './template-datasource';
-import { HexPipe } from '../../utils/hex.pipe';
-import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
-    selector: 'aether-template',
-    templateUrl: './template.component.html',
+    selector: 'aether-sim-card',
+    templateUrl: './sim-card.component.html',
     styleUrls: ['../../common-profiles.component.scss'],
 })
-export class TemplateComponent
-    extends RocListBase<TemplateDatasource>
+export class SimCardComponent
+    extends RocListBase<SimCardDatasource>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseTemplate>;
-    sdAsInt = HexPipe.hexAsInt;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteSimCard>;
 
     displayedColumns = [
         'id',
         'description',
         'enterprise',
-        'sd',
-        'sst',
-        'default-behavior',
-        'mbr',
-        'burst',
+        'site',
+        'iccid',
+        'imsi',
         'edit',
-        'delete',
+        'usage/delete',
     ];
 
     constructor(
@@ -51,28 +42,30 @@ export class TemplateComponent
     ) {
         super(
             basketService,
-            new TemplateDatasource(aetherService, basketService, AETHER_TARGET),
+            new SimCardDatasource(aetherService, basketService, AETHER_TARGET),
             'Enterprises-2.0.0',
-            'template',
-            'template-id'
+            'sim-card'
         );
-        super.reqdAttr = ['default-behavior'];
     }
 
-    onDataLoaded(ScopeOfDataSource: TemplateDatasource): void {
+    onDataLoaded(ScopeOfDataSource: SimCardDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+
         if (
             this.pathRoot in basketPreview &&
-            'template' in basketPreview[this.pathRoot]
+            'sim-card' in basketPreview[this.pathRoot]
         ) {
-            ScopeOfDataSource.merge(basketPreview['Template-2.0.0'].template);
+            ScopeOfDataSource.merge(basketPreview['SimCard-2.0.0']['sim-card']);
         }
     }
 
-    deleteTemplate(id: string, enterpriseID: string): void {
+    deleteSimCard(id: string, enterpriseID: string, siteID: string): void {
         this.pathRoot = ('Enterprises-2.0.0/enterprise' +
             '[enterprise-id=' +
             enterpriseID +
+            '[site-id=' +
+            siteID +
             ']') as RocElement;
         this.delete(id);
     }

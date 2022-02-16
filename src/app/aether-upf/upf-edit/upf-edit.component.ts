@@ -89,7 +89,7 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
         super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'upf');
         super.form = this.upfForm;
         super.loadFunc = this.loadUpfUpf;
-        this.upfForm[REQDATTRIBS] = ['enterprise', 'port', 'address', 'site'];
+        this.upfForm[REQDATTRIBS] = ['port', 'address'];
     }
 
     ngOnInit(): void {

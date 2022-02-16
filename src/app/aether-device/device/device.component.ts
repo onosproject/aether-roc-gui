@@ -1,47 +1,45 @@
 /*
- * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ * SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { OpenPolicyAgentService } from 'src/app/open-policy-agent.service';
+
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { RocListBase } from '../../roc-list-base';
+import { DeviceDatasource } from './device-datasource';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
+import { OpenPolicyAgentService } from '../../open-policy-agent.service';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
 import { BasketService } from '../../basket.service';
-import { RocListBase } from '../../roc-list-base';
-import { TemplateDatasource } from './template-datasource';
-import { HexPipe } from '../../utils/hex.pipe';
-import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
+import { AETHER_TARGET } from '../../../environments/environment';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
+import { EnterprisesEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-device';
 
 @Component({
-    selector: 'aether-template',
-    templateUrl: './template.component.html',
+    selector: 'aether-device',
+    templateUrl: './device.component.html',
     styleUrls: ['../../common-profiles.component.scss'],
 })
-export class TemplateComponent
-    extends RocListBase<TemplateDatasource>
-    implements AfterViewInit
+export class DeviceComponent
+    extends RocListBase<DeviceDatasource>
+    implements OnInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseTemplate>;
-    sdAsInt = HexPipe.hexAsInt;
+    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteDevice>;
 
     displayedColumns = [
         'id',
         'description',
         'enterprise',
-        'sd',
-        'sst',
-        'default-behavior',
-        'mbr',
-        'burst',
+        'site',
+        'imei',
+        'sim-card',
         'edit',
-        'delete',
+        'usage/delete',
+        'monitor',
     ];
 
     constructor(
@@ -51,28 +49,32 @@ export class TemplateComponent
     ) {
         super(
             basketService,
-            new TemplateDatasource(aetherService, basketService, AETHER_TARGET),
+            new DeviceDatasource(aetherService, basketService, AETHER_TARGET),
             'Enterprises-2.0.0',
-            'template',
-            'template-id'
+            'device-id'
         );
-        super.reqdAttr = ['default-behavior'];
     }
 
-    onDataLoaded(ScopeOfDataSource: TemplateDatasource): void {
+    ngOnInit(): void {}
+
+    onDataLoaded(ScopeOfDataSource: DeviceDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        this.usageArray = [];
+
         if (
             this.pathRoot in basketPreview &&
-            'template' in basketPreview[this.pathRoot]
+            'device' in basketPreview[this.pathRoot]
         ) {
-            ScopeOfDataSource.merge(basketPreview['Template-2.0.0'].template);
+            ScopeOfDataSource.merge(basketPreview['Device-2.0.0'].device);
         }
     }
 
-    deleteTemplate(id: string, enterpriseID: string): void {
+    deleteDevice(id: string, enterpriseID: string, siteID: string): void {
         this.pathRoot = ('Enterprises-2.0.0/enterprise' +
             '[enterprise-id=' +
             enterpriseID +
+            '[site-id=' +
+            siteID +
             ']') as RocElement;
         this.delete(id);
     }

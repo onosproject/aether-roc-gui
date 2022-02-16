@@ -14,7 +14,6 @@ import { map, mergeMap, skipWhile, startWith } from 'rxjs/operators';
 import {
     EnterprisesEnterpriseService,
     EnterprisesEnterpriseSiteService,
-    Service as AetherService,
 } from 'src/openapi3/aether/2.0.0/services';
 import {
     BasketService,
@@ -28,8 +27,6 @@ import { HexPipe } from '../../utils/hex.pipe';
 import { SelectAppParam } from '../application-select/application-select.component';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 import {
-    EnterprisesEnterpriseSiteDeviceGroup,
-    EnterprisesEnterpriseApplication,
     EnterprisesEnterpriseTemplate,
     EnterprisesEnterpriseSiteUpf,
     EnterprisesEnterpriseSiteSlice,
@@ -46,6 +43,8 @@ interface BurstRate {
     label: string;
 }
 
+const ENDPOINTLIMIT = 5;
+
 @Component({
     selector: 'aether-slice-edit',
     templateUrl: './slice-edit.component.html',
@@ -54,15 +53,8 @@ interface BurstRate {
 export class SliceEditComponent extends RocEditBase implements OnInit {
     showApplicationDisplay = false;
     showDeviceGroupDisplay = false;
-    showAddFilterButton = true;
-    EndpointLeft = 5;
     sliceID: string;
-    enterpriseID: string;
-    siteID: string;
-    deviceGroups: Array<EnterprisesEnterpriseSiteDeviceGroup>;
-    applications: Array<EnterprisesEnterpriseApplication>;
     templates: Array<EnterprisesEnterpriseTemplate>;
-    selectedSite: string;
     upfs: Array<EnterprisesEnterpriseSiteUpf> = [];
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
@@ -187,15 +179,8 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     ) {
         super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'slice');
         super.form = this.sliceForm;
-        this.loadApplication(this.target);
         super.loadFunc = this.loadSliceSlice;
-        this.sliceForm[REQDATTRIBS] = [
-            'sd',
-            'sst',
-            'enterprise',
-            'site',
-            'default-behavior',
-        ];
+        this.sliceForm[REQDATTRIBS] = ['sd', 'sst', 'default-behavior'];
         this.sliceForm.get(['mbr', 'uplink'])[TYPE] = 'number';
         this.sliceForm.get(['mbr', 'downlink'])[TYPE] = 'number';
         this.sliceForm.get(['sst'])[TYPE] = 'number';
@@ -205,8 +190,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     }
 
     ngOnInit(): void {
-        this.enterpriseID = this.route.snapshot.params['enterprise-id'];
-        this.siteID = this.route.snapshot.params['site-id'];
         super.init();
         if (this.isNewInstance) {
             this.sliceForm
@@ -217,7 +200,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             this.sliceForm.get('sst').disable();
             this.sliceForm.get('sd').disable();
         }
-        this.loadDeviceGoup(this.target);
         this.bandwidthOptions = this.sliceForm.valueChanges.pipe(
             startWith(''),
             map((value) =>
@@ -279,7 +261,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         });
         (this.sliceForm.get('filter') as FormArray).push(appGroupControl);
         this.sliceForm.get('filter').markAsTouched();
-        this.setShowAddFilterButton();
         console.log('Adding new Value', selected);
     }
 
@@ -374,8 +355,8 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             .getEnterprisesEnterpriseSiteSlice({
                 target: AETHER_TARGET,
                 'slice-id': id,
-                'enterprise-id': this.enterpriseID,
-                'site-id': this.siteID,
+                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'site-id': this.route.snapshot.params['site-id'],
             })
             .subscribe(
                 (value) => {
@@ -400,7 +381,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                             (enterpriseBasketItems) => {
                                 if (
                                     enterpriseBasketItems['enterprise-id'] ===
-                                    this.enterpriseID
+                                    this.route.snapshot.params['enterprise-id']
                                 ) {
                                     enterpriseBasketItems.site.forEach(
                                         (SitebasketItems) => {
@@ -437,14 +418,16 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
 
     deleteApplicationFromSelect(app: string): void {
         this.bs.deleteIndexedEntry(
-            '/slice-2.0.0/slice[id=' +
+            '/' +
+                this.pathRoot +
+                '/slice[slice-id=' +
                 this.id +
                 ']/filter[application=' +
                 app +
                 ']',
             'application',
             app,
-            this.ucmap
+            this.ucmap()
         );
         const index = (
             this.sliceForm.get('filter') as FormArray
@@ -455,19 +438,20 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             undefined,
             { duration: 2000 }
         );
-        this.setShowAddFilterButton();
     }
 
     deleteDeviceGroupFromSelect(dg: string): void {
         this.bs.deleteIndexedEntry(
-            '/slice-2.0.0/slice[id=' +
+            '/' +
+                this.pathRoot +
+                '/slice[slice-id=' +
                 this.id +
                 ']/device-group[device-group=' +
                 dg +
                 ']',
             'device-group',
             dg,
-            this.ucmap
+            this.ucmap()
         );
         const index = (
             this.sliceForm.get('device-group') as FormArray
@@ -478,13 +462,14 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         });
     }
 
-    private get ucmap(): Map<string, string> {
-        const sliceId = '/slice-2.0.0/slice[id=' + this.id + ']';
+    private ucmap(): Map<string, string> {
+        const ucMap = new Map<string, string>();
+        const sliceId =
+            '/' + this.pathRoot + '/slice[slice-id=' + this.id + ']';
         let parentUc = localStorage.getItem(sliceId);
         if (parentUc === null) {
             parentUc = this.sliceForm[REQDATTRIBS];
         }
-        const ucMap = new Map<string, string>();
         ucMap.set(sliceId, parentUc);
         return ucMap;
     }
@@ -538,7 +523,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                 }
                 isDeleted = false;
             }
-            this.setShowAddFilterButton();
         } else if (value.filter && this.sliceForm.value.filter.length !== 0) {
             this.sliceForm.value.filter.forEach(
                 (eachValueApp, eachValueAppPosition) => {
@@ -570,7 +554,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                     }
                 }
             );
-            this.setShowAddFilterButton();
         }
         if (value.mbr) {
             this.sliceForm.get(['mbr', 'uplink']).setValue(value.mbr.uplink);
@@ -688,33 +671,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         }
     }
 
-    loadDeviceGoup(target: string): void {
-        this.siteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
-                'site-id': this.route.snapshot.params['site-id'],
-            })
-            .pipe(skipWhile((dgContainer) => dgContainer === null))
-            .subscribe(
-                (value) => {
-                    this.deviceGroups = value['device-group'];
-                    console.log(
-                        'Got',
-                        value['device-group'].length,
-                        'Device Group'
-                    );
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting Device Groups for ',
-                        target,
-                        error
-                    );
-                }
-            );
-    }
-
     get mbrControls(): FormGroup {
         return this.sliceForm.get(['mbr']) as FormGroup;
     }
@@ -730,7 +686,10 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             .subscribe(
                 (value) => {
                     value.upf.forEach((eachUPF) => {
-                        if (eachUPF.site === this.selectedSite) {
+                        if (
+                            eachUPF.site ===
+                            this.route.snapshot.params['enterprise-id']
+                        ) {
                             this.upfs.push(eachUPF);
                         }
                     });
@@ -785,38 +744,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    setShowAddFilterButton(): void {
-        this.EndpointLeft = this.applications
-            ?.filter((eachApplication) =>
-                this.selectedApplications().includes(
-                    eachApplication['application-id']
-                )
-            )
-            .reduce((total, application) => {
-                return total - application.endpoint.length;
-            }, 5);
-        if (this.EndpointLeft <= 0) {
-            this.showAddFilterButton = false;
-        }
-    }
-
-    loadApplication(target: string): void {
-        this.enterpriseService
-            .getEnterprisesEnterprise({
-                target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
-            })
-            .subscribe(
-                (value) => {
-                    this.applications = value.application;
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting Application for ',
-                        target,
-                        error
-                    );
-                }
-            );
+    public get EndpointLimit(): number {
+        return ENDPOINTLIMIT;
     }
 }

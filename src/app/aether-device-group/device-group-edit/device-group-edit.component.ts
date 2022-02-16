@@ -36,8 +36,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     pathRoot = ('Enterprises-2.0.0/enterprise' +
         '[enterprise-id=' +
         this.route.snapshot.params['enterprise-id'] +
-        ']/site' +
-        '[site-id=' +
+        ']/site[site-id=' +
         this.route.snapshot.params['site-id'] +
         ']') as RocElement;
     data: EnterprisesEnterpriseSiteDeviceGroup;

@@ -3,63 +3,61 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-
 <div>
     <mat-toolbar class="profile-toolbar" color="primary">
-        <p>IP DOMAIN</p>
+        <p>SIM CARDS</p>
         <span class="toolbar-spacer"></span>
         <button
             mat-raised-button
             color="accent"
             type="submit"
-            aria-label="Add IP Domain"
-            id="addNewIPDomainButton"
+            aria-label="Add sim-card"
+            id="addNewSimCardButton"
             [disabled]="
                 !opaService.canWrite(
-                    '/ip-domain/ip-domain/[enterprise-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
+                    '/sim-card/sim-card/[enterprise-id=unknownent]/[site-id=unknownsite]/[id=newinstance]'
                 )
             "
-            routerLink="/ipdomain/ipdomain-edit/unknownent/unknownsite/newinstance"
+            routerLink="/sim-card/sim-card-edit/unknownent/unknownsite/newinstance"
         >
             Add
         </button>
     </mat-toolbar>
-
     <table
         mat-table
         class="full-width-table"
         matSort
         aria-label="Elements"
-        id="ipDomTable"
+        id="simCardTable"
     >
-        <!--        ID Column-->
-        <ng-container matColumnDef="id" id="idColumn">
+        <!-- Id/Name Column -->
+        <ng-container matColumnDef="id" id="nameColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
             <td mat-cell *matCellDef="let row">
                 <span
                     *ngIf="row['display-name'] !== undefined"
-                    [title]="row['ip-domain-id']"
+                    [title]="row['sim-id']"
                     >{{ row["display-name"] }} <br /><small
-                        >({{ row["ip-domain-id"] }})</small
+                        >({{ row["sim-id"] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
-                    row["ip-domain-id"]
+                    row["sim-id"]
                 }}</span>
             </td>
         </ng-container>
 
-        <!--Description Column-->
+        <!-- Description Column -->
         <ng-container matColumnDef="description" id="descColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Description
             </th>
             <td mat-cell *matCellDef="let row" [title]="row.description">
-                {{ row.description | truncateText: 40 }}
+                {{ row.description | truncateText: 35 }}
             </td>
         </ng-container>
 
-        <!-- Enterprise Column-->
+        <!-- Enterprise Column -->
         <ng-container matColumnDef="enterprise" id="enterpriseColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Enterprise
@@ -74,11 +72,28 @@
                     routerLink="/enterprise/enterprise-edit/{{
                         row['enterprise-id']
                     }}"
-                    >launch
-                </mat-icon>
+                    >launch</mat-icon
+                >
             </td>
         </ng-container>
-        <!-- Site Column-->
+
+        <!-- ICCID Column -->
+        <ng-container matColumnDef="iccid" id="iccidColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ICCID</th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.iccid }}
+            </td>
+        </ng-container>
+
+        <!-- IMSI Column -->
+        <ng-container matColumnDef="imsi" id="imsiColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>IMSI</th>
+            <td mat-cell *matCellDef="let row">
+                {{ row.imsi }}
+            </td>
+        </ng-container>
+
+        <!-- Site Name Column -->
         <ng-container matColumnDef="site" id="siteColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Site</th>
             <td mat-cell *matCellDef="let row">
@@ -87,7 +102,8 @@
                     class="table_icon small_icon"
                     color="primary"
                     aria-hidden="false"
-                    aria-label="Enterprise"
+                    aria-label="Site"
+                    id="pointerSite"
                     routerLink="/site/site-edit/{{ row['enterprise-id'] }}/{{
                         row['site-id']
                     }}"
@@ -96,45 +112,7 @@
             </td>
         </ng-container>
 
-        <!-- DNS Column -->
-        <ng-container matColumnDef="dns" id="dnsColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                DNS
-            </th>
-            <td mat-cell *matCellDef="let row">
-                <p>Pri: {{ row["dns-primary"] }}</p>
-                <p>Sec: {{ row["dns-secondary"] }}</p>
-            </td>
-        </ng-container>
-
-        <!-- Subnet Column -->
-        <ng-container matColumnDef="subnet" id="subnetColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Subnet</th>
-            <td mat-cell *matCellDef="let row">{{ row.subnet }}</td>
-        </ng-container>
-
-        <!-- Admin Status Column -->
-        <ng-container matColumnDef="admin-status" id="adminStatusColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                Admin Status
-            </th>
-            <td mat-cell *matCellDef="let row">{{ row["admin-status"] }}</td>
-        </ng-container>
-
-        <!-- MTU Column -->
-        <ng-container matColumnDef="mtu" id="mtuColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>MTU</th>
-            <td mat-cell *matCellDef="let row">{{ row.mtu }}</td>
-        </ng-container>
-
-        <!-- DNN Column -->
-        <ng-container matColumnDef="dnn" id="dnnColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>DNN</th>
-            <td mat-cell *matCellDef="let row">{{ row.dnn }}</td>
-        </ng-container>
-
         <!-- Edit Column -->
-        <!-- TODO: Connect it up -->
         <ng-container matColumnDef="edit" id="editColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
                 Edit
@@ -142,48 +120,65 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/ipdomain/ipdomain-edit/{{
+                routerLink="/sim-card/sim-card-edit/{{
                     row['enterprise-id']
-                }}/{{ row['site-id'] }}/{{ row['ip-domain-id'] }}"
-                id="editButton"
+                }}/{{ row['site-id'] }}/{{ row['sim-id'] }}"
+                id="editSimCardButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
             </td>
         </ng-container>
 
-        <!-- Delete Column -->
-        <ng-container matColumnDef="Usage/delete" id="deleteColumn">
+        <!-- Monitor Column -->
+        <ng-container matColumnDef="monitor" id="monitorColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                Usage/delete
+                Monitor
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let row"
+                routerLink="/sim-card/sim-card-monitor/{{ row['sim-id'] }}"
+                id="monitorSimCardButton"
+            >
+                <mat-icon class="table_icon small_icon" color="accent"
+                    >insights</mat-icon
+                >
+            </td>
+        </ng-container>
+
+        <!-- Delete Column -->
+        <ng-container matColumnDef="usage/delete" id="deleteColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
+                Usage/Delete
             </th>
             <td mat-cell *matCellDef="let row">
                 <button
-                    *ngIf="!checkForUsage(row['ip-domain-id'])"
+                    *ngIf="!checkForUsage(row['sim-id'])"
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
-                            '/ipdomain/ipdomain[id=' + row.id + ']'
+                            '/sim-card/sim-card[id=' + row['sim-id'] + ']'
                         )
                     "
                     (click)="
-                        deleteIpDoamin(
-                            row['ip-domain-id'],
+                        deleteSimCard(
+                            row['sim-id'],
                             row['enterprise-id'],
                             row['site-id']
                         )
                     "
                     color="accent"
-                    id="deleteButton"
+                    id="deleteSimCardButton"
                 >
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
                 <button
-                    *ngIf="checkForUsage(row['ip-domain-id'])"
+                    *ngIf="checkForUsage(row['sim-id'])"
                     mat-icon-button
                     id="usageButton"
                     (click)="
                         showUsage(
-                            row['ip-domain-id'],
+                            row['sim-id'],
                             row['enterprise-id'],
                             row['site-id']
                         )
@@ -195,14 +190,6 @@
             </td>
         </ng-container>
 
-        <!-- Usage Column -->
-        <ng-container matColumnDef="usage" id="usageColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                Usage
-            </th>
-            <td mat-cell *matCellDef="let row"></td>
-        </ng-container>
-
         <tr
             mat-header-row
             class="profile-header"
@@ -212,7 +199,7 @@
     </table>
     <mat-paginator
         #paginator
-        id="ipDomPaginator"
+        id="simCardPaginator"
         [length]="dataSource?.data?.length"
         [pageIndex]="0"
         [pageSize]="10"
@@ -220,12 +207,12 @@
     >
     </mat-paginator>
 </div>
-<aether-show-device-group-usage
-    *ngIf="showUsageCard"
-    id="showParentModulesComponent"
-    [enterpriseID]="selected.enterprise"
-    [siteID]="selected.site"
-    [ipDomainID]="selected.id"
-    (closeShowParentCardEvent)="closeShowParentCard()"
->
-</aether-show-device-group-usage>
+<!--<aether-show-vcs-usage-->
+<!--    *ngIf="showUsageCard"-->
+<!--    id="showVcsUsageComponent"-->
+<!--    [enterpriseID]="selected.enterprise"-->
+<!--    [siteID]="selected.site"-->
+<!--    [upfID]="selected.id"-->
+<!--    (closeShowParentCardEvent)="closeShowParentCard()"-->
+<!--&gt;-->
+<!--</aether-show-vcs-usage>-->

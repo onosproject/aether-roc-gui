@@ -336,7 +336,7 @@
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
-                            '/slice/slice[id=' + row['slice-id'] + ']'
+                            '/slice/slice[slice-id=' + row['slice-id'] + ']'
                         )
                     "
                     (click)="

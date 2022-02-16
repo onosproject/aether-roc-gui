@@ -9,8 +9,6 @@ import { mergeMap, pluck } from 'rxjs/operators';
 import { from, Observable } from 'rxjs';
 import { EventEmitter } from '@angular/core';
 
-const IDATTR = 'id';
-
 export abstract class RocSelectBase<T, U> {
     abstract alreadySelected: string[] = [];
     abstract closeEvent = new EventEmitter<string>();
@@ -20,21 +18,24 @@ export abstract class RocSelectBase<T, U> {
         'select-item': [''],
     });
 
-    protected constructor(protected fb: FormBuilder) {}
+    protected constructor(
+        protected fb: FormBuilder,
+        protected idAttrib?: string
+    ) {}
 
     protected getData(obs: Observable<U>, pluckName: string): void {
         obs.pipe(
             pluck(pluckName),
             mergeMap((items: T[]) => from(items))
         ).subscribe((value) => {
-            const exists = this.alreadySelected.indexOf(value[IDATTR]);
+            const exists = this.alreadySelected.indexOf(value[this.idAttrib]);
             if (exists === -1) {
                 this.displayList.push(value);
             }
         });
     }
 
-    closeCard(selected: string): void {
+    public closeCard(selected: string): void {
         this.closeEvent.emit(selected);
     }
 }

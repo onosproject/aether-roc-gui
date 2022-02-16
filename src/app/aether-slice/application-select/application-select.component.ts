@@ -3,18 +3,38 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Service } from 'src/openapi3/aether/2.0.0/services';
-import { EnterprisesEnterpriseApplication } from '../../../openapi3/aether/2.0.0/models';
+import {
+    EnterprisesEnterpriseService,
+    EnterprisesEnterpriseSiteService,
+    Service,
+} from 'src/openapi3/aether/2.0.0/services';
+import {
+    EnterprisesEnterprise,
+    EnterprisesEnterpriseApplication,
+} from '../../../openapi3/aether/2.0.0/models';
 import { RocSelectBase } from '../../roc-select-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { EnterprisesEnterpriseApplicationService } from '../../../openapi3/aether/2.0.0/services';
+import { AETHER_TARGET } from '../../../environments/environment';
+import { from, Observable } from 'rxjs';
+import { mergeMap, pluck } from 'rxjs/operators';
 
 export interface SelectAppParam {
     application: string;
     priority: number;
+    endpointsRemaining: number;
 }
+
+const ENDPOINTSALLOWEDLIMIT = 5;
 
 @Component({
     selector: 'aether-application-select',
@@ -22,11 +42,13 @@ export interface SelectAppParam {
     styleUrls: ['../../common-panel.component.scss'],
 })
 export class ApplicationSelectComponent
-    extends RocSelectBase<EnterprisesEnterpriseApplicationService, any>
+    extends RocSelectBase<
+        EnterprisesEnterpriseApplication,
+        EnterprisesEnterprise
+    >
     implements OnInit
 {
     closeEvent: EventEmitter<string>;
-    SliceApplicationEndpointLimit = 5;
     ApplicationOptions: Array<EnterprisesEnterpriseApplication> = [];
     selectForm = this.fb.group({
         'select-item': [
@@ -46,44 +68,54 @@ export class ApplicationSelectComponent
         ],
     });
     @Input() alreadySelected: string[] = [];
-    @Input() applicationList: Array<EnterprisesEnterpriseApplication> = ([] =
-        []);
+    @Input() selectedEnterprise: string;
     @Output() appcloseEvent = new EventEmitter<SelectAppParam>();
 
+    public endpointsAllowed: number = ENDPOINTSALLOWEDLIMIT;
+
     constructor(
-        protected service: Service,
+        protected enterpriseService: EnterprisesEnterpriseService,
         protected fb: FormBuilder,
         protected snackBar: MatSnackBar
     ) {
-        super(fb);
+        super(fb, 'application-id');
     }
 
     ngOnInit(): void {
-        if (this.alreadySelected.length !== 0) {
-            const alreadySelectedAppArray = this.applicationList?.filter(
-                (eachApplication) =>
-                    this.alreadySelected.includes(
-                        eachApplication['application-id']
-                    )
+        // Not using the base class getData, as this is more complex
+        console.log('Already selected', this.alreadySelected);
+        const candidates = new Array<EnterprisesEnterpriseApplication>();
+        this.enterpriseService
+            .getEnterprisesEnterprise({
+                target: AETHER_TARGET,
+                'enterprise-id': this.selectedEnterprise,
+            })
+            .pipe(
+                pluck('application'),
+                mergeMap((items: EnterprisesEnterpriseApplication[]) =>
+                    from(items)
+                )
+            )
+            .subscribe(
+                (value) => {
+                    const exists = this.alreadySelected.includes(
+                        value['application-id']
+                    );
+                    if (exists) {
+                        this.endpointsAllowed -= value.endpoint.length;
+                    } else {
+                        candidates.push(value);
+                    }
+                },
+                (error) => console.warn('Error getting applications', error),
+                () => {
+                    candidates.forEach((c) => {
+                        if (c.endpoint.length <= this.endpointsAllowed) {
+                            this.displayList.push(c);
+                        }
+                    });
+                }
             );
-            alreadySelectedAppArray?.forEach((application) => {
-                this.SliceApplicationEndpointLimit =
-                    this.SliceApplicationEndpointLimit -
-                    application.endpoint.length;
-            });
-        }
-        this.applicationList?.forEach((eachApplication) => {
-            const exists = this.alreadySelected.indexOf(
-                eachApplication['application-id']
-            );
-            if (
-                exists === -1 &&
-                eachApplication.endpoint.length <=
-                    this.SliceApplicationEndpointLimit
-            ) {
-                this.ApplicationOptions.push(eachApplication);
-            }
-        });
     }
 
     close(cancelled: boolean): void {
@@ -93,6 +125,7 @@ export class ApplicationSelectComponent
             this.appcloseEvent.emit({
                 application: this.selectForm.get('select-item').value,
                 priority: this.selectForm.get('priority').value,
+                endpointsRemaining: this.endpointsAllowed,
             } as SelectAppParam);
         }
     }

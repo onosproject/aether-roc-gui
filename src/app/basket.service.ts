@@ -143,7 +143,7 @@ export class BasketService {
             });
             return ChangeResult.NONE;
         } else {
-            console.log('leaf attribute', path, abstractControl.value);
+            // console.log('leaf attribute', path, abstractControl.value);
             if (
                 abstractControl.pristine === false &&
                 abstractControl.touched === true
@@ -200,14 +200,14 @@ export class BasketService {
                 }
             } else {
                 const fullPath = path;
-                console.log(
-                    'Unchanged PATH: ',
-                    fullPath,
-                    'Value',
-                    abstractControl.value,
-                    'Original',
-                    abstractControl[ORIGINAL]
-                );
+                // console.log(
+                //     'Unchanged PATH: ',
+                //     fullPath,
+                //     'Value',
+                //     abstractControl.value,
+                //     'Original',
+                //     abstractControl[ORIGINAL]
+                // );
                 return ChangeResult.NONE;
             }
         }
@@ -319,12 +319,12 @@ export class BasketService {
 
                     object[container].forEach((child) => {
                         if (child[keyName] === keyValue) {
-                            console.log(
-                                'Found existing child',
-                                keyName,
-                                '=',
-                                keyValue
-                            );
+                            // console.log(
+                            //     'Found existing child',
+                            //     keyName,
+                            //     '=',
+                            //     keyValue
+                            // );
                             childObj = child;
                         }
                     });
