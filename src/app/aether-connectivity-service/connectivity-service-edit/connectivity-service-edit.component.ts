@@ -74,7 +74,8 @@ export class ConnectivityServiceEditComponent
             route,
             router,
             'Connectivity-services-2.0.0',
-            'connectivity-service'
+            'connectivity-service',
+            'connectivity-service-id'
         );
         super.form = this.csForm;
         super.loadFunc = this.loadConnectivityServicesConnectivityService;

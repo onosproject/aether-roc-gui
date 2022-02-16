@@ -32,19 +32,20 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UtilsModule } from '../utils/utils.module';
 import { AuthInterceptor } from '../auth-interceptor';
 import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
+import { SimCardEditComponent } from './sim-card-edit/sim-card-edit.component';
 
 @NgModule({
-    declarations: [SimCardComponent],
+    declarations: [SimCardComponent, SimCardEditComponent],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([
             { path: 'sim-card', component: SimCardComponent },
-            // {
-            //     path: 'sim-card-edit/:enterprise-id/:site-id/:id',
-            //     component: SimCardEditComponent,
-            // },
+            {
+                path: 'sim-card-edit/:enterprise-id/:site-id/:id',
+                component: SimCardEditComponent,
+            },
             { path: '', component: SimCardComponent, pathMatch: 'full' },
         ]),
         MatToolbarModule,

@@ -131,7 +131,15 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'application');
+        super(
+            snackBar,
+            bs,
+            route,
+            router,
+            'Enterprises-2.0.0',
+            'application',
+            'application-id'
+        );
         super.form = this.appForm;
         super.loadFunc = this.loadApplicationApplication;
         this.appForm[REQDATTRIBS] = ['address'];

@@ -3,20 +3,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-    OnChanges,
-    Component,
-    EventEmitter,
-    Input,
-    OnInit,
-    Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import {
-    EnterprisesEnterpriseSiteDeviceGroupService,
-    EnterprisesEnterpriseSiteService,
-    Service,
-} from 'src/openapi3/aether/2.0.0/services';
+import { EnterprisesEnterpriseSiteService } from 'src/openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
 import { RocSelectBase } from '../../roc-select-base';
 import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site';

@@ -177,7 +177,15 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'slice');
+        super(
+            snackBar,
+            bs,
+            route,
+            router,
+            'Enterprises-2.0.0',
+            'slice',
+            'slice-id'
+        );
         super.form = this.sliceForm;
         super.loadFunc = this.loadSliceSlice;
         this.sliceForm[REQDATTRIBS] = ['sd', 'sst', 'default-behavior'];
@@ -209,6 +217,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                 megabyte ? this._filter() : this.options.slice()
             )
         );
+        this.loadUpf();
     }
 
     get filter(): FormArray {
@@ -675,7 +684,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         return this.sliceForm.get(['mbr']) as FormGroup;
     }
 
-    loadUpf(target: string): void {
+    loadUpf(): void {
         let origLen = 0;
         this.siteService
             .getEnterprisesEnterpriseSite({
@@ -686,17 +695,16 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             .subscribe(
                 (value) => {
                     value.upf.forEach((eachUPF) => {
-                        if (
-                            eachUPF.site ===
-                            this.route.snapshot.params['enterprise-id']
-                        ) {
-                            this.upfs.push(eachUPF);
-                        }
+                        this.upfs.push(eachUPF);
                     });
                     origLen = this.upfs.length;
                 },
                 (error) => {
-                    console.warn('Error getting UPF for ', target, error);
+                    console.warn(
+                        'Error getting UPF for ',
+                        AETHER_TARGET,
+                        error
+                    );
                 },
                 () => {
                     // eliminate already used UPFs

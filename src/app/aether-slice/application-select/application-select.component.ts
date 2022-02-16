@@ -3,29 +3,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-    Component,
-    EventEmitter,
-    Input,
-    OnInit,
-    Output,
-    SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import {
-    EnterprisesEnterpriseService,
-    EnterprisesEnterpriseSiteService,
-    Service,
-} from 'src/openapi3/aether/2.0.0/services';
+import { EnterprisesEnterpriseService } from 'src/openapi3/aether/2.0.0/services';
 import {
     EnterprisesEnterprise,
     EnterprisesEnterpriseApplication,
 } from '../../../openapi3/aether/2.0.0/models';
 import { RocSelectBase } from '../../roc-select-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EnterprisesEnterpriseApplicationService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
-import { from, Observable } from 'rxjs';
+import { from } from 'rxjs';
 import { mergeMap, pluck } from 'rxjs/operators';
 
 export interface SelectAppParam {

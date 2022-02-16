@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { RocListBase } from '../../roc-list-base';
 import { DeviceDatasource } from './device-datasource';
 import { MatPaginator } from '@angular/material/paginator';
@@ -24,7 +24,7 @@ import { EnterprisesEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/
 })
 export class DeviceComponent
     extends RocListBase<DeviceDatasource>
-    implements OnInit
+    implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -54,8 +54,6 @@ export class DeviceComponent
             'device-id'
         );
     }
-
-    ngOnInit(): void {}
 
     onDataLoaded(ScopeOfDataSource: DeviceDatasource): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;

@@ -1,0 +1,114 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
+<form [formGroup]="simCardForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title
+                >Sim Card:
+                {{ this.simCardForm.get("sim-id").value }}</mat-card-title
+            >
+            <mat-icon
+                *ngIf="!isNew"
+                (click)="showParentDisplay = true; $event.preventDefault()"
+                class="subscriber-pointer"
+                id="showParentInformation"
+                color="accent"
+            >
+                assignment
+            </mat-icon>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row" *ngIf="isNew">
+                <mat-form-field class="half-width field-margin">
+                    <input
+                        matInput
+                        formControlName="sim-id"
+                        placeholder="Please specify an ID"
+                        id="inputID"
+                    />
+                    <mat-hint>ID</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="enterpriseRowReadOnly" *ngIf="!isNew">
+                <p class="field-margin half-width">
+                    <br /><mat-hint>Enterprise</mat-hint>:&nbsp;{{
+                        route.snapshot.params["enterprise-id"]
+                    }}
+                </p>
+            </div>
+            <div class="row" id="siteRowReadOnly" *ngIf="!isNew">
+                <p class="field-margin half-width">
+                    <br /><mat-hint>Site</mat-hint>:&nbsp;{{
+                        route.snapshot.params["site-id"]
+                    }}
+                </p>
+            </div>
+            <div class="row" id="displayNameRow">
+                <mat-form-field class="field-margin half-width">
+                    <input
+                        matInput
+                        formControlName="display-name"
+                        id="inputDisplayName"
+                    />
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="descriptionRow">
+                <mat-form-field class="field-margin half-width">
+                    <textarea
+                        matInput
+                        formControlName="description"
+                        id="inputDescription"
+                    ></textarea>
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="iccidRow">
+                <mat-form-field class="field-margin half-width">
+                    <input matInput formControlName="iccid" id="inputIccid" />
+                    <mat-hint
+                        >ICCID (19-22 digits, last can be
+                        alphanumeric)</mat-hint
+                    >
+                </mat-form-field>
+            </div>
+            <div class="row" id="imsiRow">
+                <mat-form-field class="field-margin half-width">
+                    <input
+                        matInput
+                        formControlName="imsi"
+                        type="number"
+                        id="inputImsi"
+                    />
+                    <mat-hint>IMSI</mat-hint>
+                </mat-form-field>
+            </div>
+            <button
+                mat-raised-button
+                color="accent"
+                type="submit"
+                [disabled]="
+                    !(
+                        simCardForm.valid &&
+                        simCardForm.touched &&
+                        opaService.canWrite('/sim-card/sim-card')
+                    )
+                "
+                id="submitButton"
+            >
+                Update
+            </button>
+        </mat-card-content>
+    </mat-card>
+</form>
+
+<!--<aether-show-vcs-usage-->
+<!--    *ngIf="showParentDisplay"-->
+<!--    id="showParentModulesComponent"-->
+<!--    [deviceID]="deviceId"-->
+<!--    (closeShowParentCardEvent)="closeShowParentCard($event)"-->
+<!--&gt;-->
+<!--</aether-show-vcs-usage>-->

@@ -85,7 +85,8 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
             route,
             router,
             'Enterprises-2.0.0',
-            'traffic-class'
+            'traffic-class',
+            'traffic-class-id'
         );
         super.form = this.tcForm;
         super.loadFunc = this.loadTrafficClassTrafficClass;

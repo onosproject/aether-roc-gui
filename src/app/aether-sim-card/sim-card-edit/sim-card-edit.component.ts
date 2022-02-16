@@ -1,32 +1,28 @@
 /*
- * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ * SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
-import { EnterprisesEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models';
-import {
-    BasketService,
-    ORIGINAL,
-    REQDATTRIBS,
-    TYPE,
-} from '../../basket.service';
 import { RocEditBase } from '../../roc-edit-base';
+import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-sim-card';
+import { RocElement } from '../../../openapi3/top/level/models/elements';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BasketService, ORIGINAL, TYPE } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
-import { EnterprisesEnterpriseSiteUpfService } from '../../../openapi3/aether/2.0.0/services';
+import { EnterprisesEnterpriseSiteSimCardService } from '../../../openapi3/aether/2.0.0/services/enterprises-enterprise-site-sim-card.service';
 import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({
-    selector: 'aether-upf-edit',
-    templateUrl: './upf-edit.component.html',
+    selector: 'aether-sim-card-edit',
+    templateUrl: './sim-card-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class UpfEditComponent extends RocEditBase implements OnInit {
-    data: EnterprisesEnterpriseSiteUpf;
+export class SimCardEditComponent extends RocEditBase implements OnInit {
+    data: EnterprisesEnterpriseSiteSimCard;
     pathRoot = ('Enterprises-2.0.0/enterprise' +
         '[enterprise-id=' +
         this.route.snapshot.params['enterprise-id'] +
@@ -34,18 +30,17 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
         '[site-id=' +
         this.route.snapshot.params['site-id'] +
         ']') as RocElement;
-    pathListAttr = 'upf';
-    SiteImisLength: number;
-    ImsiRangeLimit: number;
-    upfId: string;
+    pathListAttr = 'sim-card';
+    simCardId: string;
     showParentDisplay = false;
-    upfForm = this.fb.group({
-        'upf-id': [
+
+    simCardForm = this.fb.group({
+        'sim-id': [
             undefined,
             Validators.compose([
                 Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
                 Validators.minLength(1),
-                Validators.maxLength(31),
+                Validators.maxLength(32),
             ]),
         ],
         'display-name': [
@@ -62,27 +57,19 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                 Validators.maxLength(1024),
             ]),
         ],
-        'config-endpoint': [undefined],
-        address: [
+        iccid: [
             undefined,
             Validators.compose([
-                Validators.required,
-                Validators.minLength(1),
-                Validators.maxLength(80),
+                Validators.pattern('([0-9]{18,21}[0-9A-F])'),
+                Validators.minLength(19),
+                Validators.maxLength(22),
             ]),
         ],
-        port: [
-            undefined,
-            Validators.compose([
-                Validators.required,
-                Validators.min(0),
-                Validators.max(65535),
-            ]),
-        ],
+        imsi: [undefined],
     });
 
     constructor(
-        private upfUpfService: EnterprisesEnterpriseSiteUpfService,
+        private simCardService: EnterprisesEnterpriseSiteSimCardService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -96,40 +83,39 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
             route,
             router,
             'Enterprises-2.0.0',
-            'upf',
-            'upf-id'
+            'sim-card',
+            'sim-id'
         );
-        super.form = this.upfForm;
-        super.loadFunc = this.loadUpfUpf;
-        this.upfForm[REQDATTRIBS] = ['port', 'address'];
-        this.upfForm.get('port')[TYPE] = 'number';
+        super.form = this.simCardForm;
+        super.loadFunc = this.loadSimCard;
     }
 
     ngOnInit(): void {
         super.init();
+        this.simCardForm.get('imsi')[TYPE] = 'number';
     }
 
     closeShowParentCard(): void {
         this.showParentDisplay = false;
     }
 
-    loadUpfUpf(target: string, upfId: string): void {
-        this.upfUpfService
-            .getEnterprisesEnterpriseSiteUpf({
+    loadSimCard(target: string, simCardId: string): void {
+        this.simCardService
+            .getEnterprisesEnterpriseSiteSimCard({
                 target: AETHER_TARGET,
-                'upf-id': upfId,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
+                'sim-id': simCardId,
             })
             .subscribe(
                 (value) => {
                     this.data = value;
-                    this.upfId = value['upf-id'];
+                    this.simCardId = value['sim-id'];
                     this.populateFormData(value);
                 },
                 (error) => {
                     console.warn(
-                        'Error getting EnterprisesEnterpriseSiteUpf(s) for ',
+                        'Error getting EnterprisesEnterpriseSiteSimCard(s) for ',
                         target,
                         error
                     );
@@ -138,7 +124,7 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                     const basketPreview = this.bs.buildPatchBody().Updates;
                     if (
                         this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Upf-2.0.0']
+                        this.pathListAttr in basketPreview['SimCard-2.0.0']
                     ) {
                         basketPreview['Enterprises-2.0.0'].enterprise.forEach(
                             (enterpriseBasketItems) => {
@@ -154,19 +140,19 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                                                     'site-id'
                                                 ]
                                             ) {
-                                                SitebasketItems['upf'].forEach(
-                                                    (basketItems) => {
-                                                        if (
-                                                            basketItems[
-                                                                'upf-id'
-                                                            ] === upfId
-                                                        ) {
-                                                            this.populateFormData(
-                                                                basketItems
-                                                            );
-                                                        }
+                                                SitebasketItems[
+                                                    'sim-card'
+                                                ].forEach((basketItems) => {
+                                                    if (
+                                                        basketItems[
+                                                            'sim-id'
+                                                        ] === simCardId
+                                                    ) {
+                                                        this.populateFormData(
+                                                            basketItems
+                                                        );
                                                     }
-                                                );
+                                                });
                                             }
                                         }
                                     );
@@ -175,41 +161,37 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                         );
                     }
                     console.log(
-                        'Finished loading EnterprisesEnterpriseSiteUpf(s)',
+                        'Finished loading EnterprisesEnterpriseSiteSimCard(s)',
                         target,
-                        upfId
+                        simCardId
                     );
                 }
             );
     }
 
-    private populateFormData(value: EnterprisesEnterpriseSiteUpf): void {
-        if (value['upf-id']) {
-            this.upfForm.get('upf-id').setValue(value['upf-id']);
-            this.upfForm.get('upf-id')[ORIGINAL] = value['upf-id'];
+    private populateFormData(value: EnterprisesEnterpriseSiteSimCard): void {
+        if (value['sim-id']) {
+            this.simCardForm.get('sim-id').setValue(value['sim-id']);
+            this.simCardForm.get('sim-id')[ORIGINAL] = value['sim-id'];
         }
         if (value['display-name']) {
-            this.upfForm.get('display-name').setValue(value['display-name']);
-            this.upfForm.get('display-name')[ORIGINAL] = value['display-name'];
+            this.simCardForm
+                .get('display-name')
+                .setValue(value['display-name']);
+            this.simCardForm.get('display-name')[ORIGINAL] =
+                value['display-name'];
         }
         if (value.description) {
-            this.upfForm.get('description').setValue(value.description);
-            this.upfForm.get('description')[ORIGINAL] = value.description;
+            this.simCardForm.get('description').setValue(value.description);
+            this.simCardForm.get('description')[ORIGINAL] = value.description;
         }
-        if (value['config-endpoint'] != null) {
-            this.upfForm
-                .get('config-endpoint')
-                .setValue(value['config-endpoint']);
-            this.upfForm.get('config-endpoint')[ORIGINAL] =
-                value['config-endpoint'];
+        if (value.iccid != null) {
+            this.simCardForm.get('iccid').setValue(value['iccid']);
+            this.simCardForm.get('iccid')[ORIGINAL] = value['iccid'];
         }
-        if (value.address) {
-            this.upfForm.get('address').setValue(value.address);
-            this.upfForm.get('address')[ORIGINAL] = value.address;
-        }
-        if (value.port) {
-            this.upfForm.get('port').setValue(value.port);
-            this.upfForm.get('port')[ORIGINAL] = value.port;
+        if (value.imsi) {
+            this.simCardForm.get('imsi').setValue(value.imsi);
+            this.simCardForm.get('imsi')[ORIGINAL] = value.imsi;
         }
     }
 }

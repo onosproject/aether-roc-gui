@@ -14,7 +14,10 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { EnterprisesEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models';
+import {
+    Enterprises,
+    EnterprisesEnterpriseSiteSlice,
+} from '../../../openapi3/aether/2.0.0/models';
 import { RocListBase } from '../../roc-list-base';
 import {
     AETHER_TARGET,
@@ -23,7 +26,7 @@ import {
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
-import { PanelSliceDatasource } from './panel-Slice-datasource';
+import { PanelSliceDatasource } from './panel-slice-datasource';
 import { VcsPromDataSource } from '../../utils/vcs-prom-data-source';
 import { HttpClient } from '@angular/common/http';
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -91,7 +94,10 @@ export class PanelSliceComponent
     }
 
     onDataLoaded(
-        ScopeOfDataSource: RocDataSource<EnterprisesEnterpriseSiteSlice, any>
+        ScopeOfDataSource: RocDataSource<
+            EnterprisesEnterpriseSiteSlice,
+            Enterprises
+        >
     ): void {
         ScopeOfDataSource.data.forEach(
             (vcs: EnterprisesEnterpriseSiteSlice) => {

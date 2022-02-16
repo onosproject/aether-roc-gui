@@ -10,7 +10,7 @@ import { Service as AetherService } from '../../../openapi3/aether/2.0.0/service
 import { BasketService } from '../../basket.service';
 import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-sim-card';
 import { from, Observable } from 'rxjs';
-import { map, mergeMap, skipWhile, tap } from 'rxjs/operators';
+import { map, mergeMap, skipWhile } from 'rxjs/operators';
 import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise';
 
 export class SimCardDatasource extends RocDataSource<

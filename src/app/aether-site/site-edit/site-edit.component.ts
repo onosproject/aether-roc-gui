@@ -115,7 +115,15 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'site');
+        super(
+            snackBar,
+            bs,
+            route,
+            router,
+            'Enterprises-2.0.0',
+            'site',
+            'site-id'
+        );
         super.form = this.siteForm;
         super.loadFunc = this.loadSiteSite;
         this.siteForm.get(['imsi-definition', 'enterprise'])[TYPE] = 'number';

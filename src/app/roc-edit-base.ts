@@ -49,6 +49,7 @@ export abstract class RocEditBase {
 
     onSubmit(): void {
         console.log('Submitted!', this.form.getRawValue());
+        // TODO: check that this 'submitId` is needed at all
         let submitId = this.id;
         // needs work on enterprise-id and site-id
         if (this.id === undefined) {
@@ -62,11 +63,9 @@ export abstract class RocEditBase {
                     '/' +
                     this.pathListAttr +
                     '[' +
-                    this.pathListAttr +
-                    '-' +
                     this.idAttr +
                     '=' +
-                    submitId +
+                    this.id +
                     ']'
             );
             this.snackBar.open('Added to basket', undefined, {

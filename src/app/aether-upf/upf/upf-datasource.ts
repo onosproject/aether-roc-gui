@@ -7,7 +7,6 @@
 import {
     Enterprises,
     EnterprisesEnterprise,
-    EnterprisesEnterpriseSiteIpDomain,
     EnterprisesEnterpriseSiteUpf,
 } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';

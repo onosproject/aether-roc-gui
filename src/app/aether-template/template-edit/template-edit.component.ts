@@ -161,7 +161,15 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'template');
+        super(
+            snackBar,
+            bs,
+            route,
+            router,
+            'Enterprises-2.0.0',
+            'template',
+            'template-id'
+        );
         super.form = this.tempForm;
         super.loadFunc = this.loadTemplateTemplate;
         this.tempForm[REQDATTRIBS] = ['default-behavior'];

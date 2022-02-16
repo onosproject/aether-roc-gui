@@ -8,7 +8,6 @@ import { compare, RocDataSource } from '../../roc-data-source';
 import {
     Enterprises,
     EnterprisesEnterprise,
-    EnterprisesEnterpriseSiteIpDomain,
     EnterprisesEnterpriseTrafficClass,
 } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
@@ -18,7 +17,7 @@ import { map, mergeMap, skipWhile } from 'rxjs/operators';
 
 export class TrafficClassDatasource extends RocDataSource<
     EnterprisesEnterpriseTrafficClass,
-    any
+    Enterprises
 > {
     constructor(
         protected aetherService: AetherService,
@@ -43,7 +42,7 @@ export class TrafficClassDatasource extends RocDataSource<
         onDataLoaded: (
             dataSourceThisScope: RocDataSource<
                 EnterprisesEnterpriseTrafficClass,
-                any
+                Enterprises
             >
         ) => void
     ): void {
