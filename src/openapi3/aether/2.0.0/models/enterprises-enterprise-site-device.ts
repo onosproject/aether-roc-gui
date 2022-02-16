@@ -21,7 +21,7 @@ export interface EnterprisesEnterpriseSiteDevice {
   /**
    * IMEI for this device
    */
-  imei?: number;
+  imei?: string;
 
   /**
    * Link to simcard

@@ -52,7 +52,8 @@ export class ConnectivityServiceComponent
                 AETHER_TARGET
             ),
             'Connectivity-services-2.0.0',
-            'connectivity-service'
+            'connectivity-service',
+            'connectivity-service-id'
         );
     }
 
@@ -91,7 +92,7 @@ export class ConnectivityServiceComponent
             'connectivity-service' in basketPreview[this.pathRoot]
         ) {
             ScopeOfDataSource.merge(
-                basketPreview['Connectivity-service-2.0.0'][
+                basketPreview['Connectivity-services-2.0.0'][
                     'connectivity-service'
                 ]
             );

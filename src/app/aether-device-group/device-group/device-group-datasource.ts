@@ -11,7 +11,6 @@ import {
     Enterprises,
     EnterprisesEnterprise,
     EnterprisesEnterpriseSiteDeviceGroup,
-    EnterprisesEnterpriseSiteIpDomain,
 } from '../../../openapi3/aether/2.0.0/models';
 import { from, Observable } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
@@ -19,7 +18,7 @@ import { AETHER_TARGET } from '../../../environments/environment';
 
 export class DeviceGroupDatasource extends RocDataSource<
     EnterprisesEnterpriseSiteDeviceGroup,
-    any
+    Enterprises
 > {
     constructor(
         protected aetherService: AetherService,
@@ -34,7 +33,7 @@ export class DeviceGroupDatasource extends RocDataSource<
         onDataLoaded: (
             dataSourceThisScope: RocDataSource<
                 EnterprisesEnterpriseSiteDeviceGroup,
-                any
+                Enterprises
             >
         ) => void
     ): void {

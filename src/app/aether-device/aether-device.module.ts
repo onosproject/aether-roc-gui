@@ -31,19 +31,20 @@ import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.0.0/api.mo
 import { AETHER_ROC_API_URL } from '../../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { UtilsModule } from '../utils/utils.module';
+import { DeviceEditComponent } from './device-edit/device-edit.component';
 
 @NgModule({
-    declarations: [DeviceComponent],
+    declarations: [DeviceComponent, DeviceEditComponent],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([
             { path: 'device', component: DeviceComponent },
-            // {
-            //     path: 'device-edit/:enterprise-id/:site-id/:id',
-            //     component: UpfEditComponent,
-            // },
+            {
+                path: 'device-edit/:enterprise-id/:site-id/:id',
+                component: DeviceEditComponent,
+            },
             { path: '', component: DeviceComponent, pathMatch: 'full' },
         ]),
         MatToolbarModule,

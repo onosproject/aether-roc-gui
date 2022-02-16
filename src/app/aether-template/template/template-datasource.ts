@@ -7,7 +7,6 @@
 import {
     Enterprises,
     EnterprisesEnterprise,
-    EnterprisesEnterpriseSiteIpDomain,
     EnterprisesEnterpriseTemplate,
 } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
@@ -18,7 +17,7 @@ import { map, mergeMap, skipWhile } from 'rxjs/operators';
 
 export class TemplateDatasource extends RocDataSource<
     EnterprisesEnterpriseTemplate,
-    any
+    Enterprises
 > {
     constructor(
         protected aetherService: AetherService,
@@ -33,7 +32,7 @@ export class TemplateDatasource extends RocDataSource<
         onDataLoaded: (
             dataSourceThisScope: RocDataSource<
                 EnterprisesEnterpriseTemplate,
-                any
+                Enterprises
             >
         ) => void
     ): void {

@@ -17,7 +17,7 @@ import { map, mergeMap, skipWhile } from 'rxjs/operators';
 
 export class ApplicationDatasource extends RocDataSource<
     EnterprisesEnterpriseApplication,
-    any
+    Enterprises
 > {
     constructor(
         protected aetherService: AetherService,
@@ -32,7 +32,7 @@ export class ApplicationDatasource extends RocDataSource<
         onDataLoaded: (
             dataSourceThisScope: RocDataSource<
                 EnterprisesEnterpriseApplication,
-                any
+                Enterprises
             >
         ) => void
     ): void {

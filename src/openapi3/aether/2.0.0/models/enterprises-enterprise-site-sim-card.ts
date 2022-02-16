@@ -16,7 +16,7 @@ export interface EnterprisesEnterpriseSiteSimCard {
   /**
    * ICCID for this sim card
    */
-  iccid?: number;
+  iccid?: string;
 
   /**
    * IMSI for this sim card

@@ -10,9 +10,11 @@ import { BasketService, ORIGINAL } from '../../basket.service';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseTrafficClassService } from '../../../openapi3/aether/2.0.0/services';
+import {
+    EnterprisesEnterpriseTrafficClassService,
+    Service as AetherService,
+} from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({
@@ -21,10 +23,6 @@ import { AETHER_TARGET } from '../../../environments/environment';
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class TrafficClassEditComponent extends RocEditBase implements OnInit {
-    pathRoot = ('Enterprises-2.0.0/enterprise' +
-        '[enterprise-id=' +
-        this.route.snapshot.params['enterprise-id'] +
-        ']') as RocElement;
     pathListAttr = 'traffic-class';
     data: EnterprisesEnterpriseTrafficClass;
     showParentDisplay = false;
@@ -72,6 +70,7 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
 
     constructor(
         private trafficClassTrafficClassService: EnterprisesEnterpriseTrafficClassService,
+        protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -85,7 +84,9 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
             route,
             router,
             'Enterprises-2.0.0',
-            'traffic-class'
+            'traffic-class',
+            'traffic-class-id',
+            aetherService
         );
         super.form = this.tcForm;
         super.loadFunc = this.loadTrafficClassTrafficClass;

@@ -13,7 +13,6 @@ import { Service as AetherService } from '../../../openapi3/aether/2.0.0/service
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGET } from '../../../environments/environment';
-import * as _ from 'lodash';
 import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
 

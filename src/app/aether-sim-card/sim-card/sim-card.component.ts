@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+/*
+ * SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { RocListBase } from '../../roc-list-base';
 import { SimCardDatasource } from './sim-card-datasource';
 import { MatPaginator } from '@angular/material/paginator';

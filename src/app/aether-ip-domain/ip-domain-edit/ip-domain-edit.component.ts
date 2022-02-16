@@ -16,10 +16,8 @@ import {
 } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseSiteIpDomainService } from '../../../openapi3/aether/2.0.0/services';
 import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 import { AETHER_TARGET } from '../../../environments/environment';
 
 export const UPDATED = 'updated';
@@ -30,13 +28,6 @@ export const UPDATED = 'updated';
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class IpDomainEditComponent extends RocEditBase implements OnInit {
-    pathRoot = ('Enterprises-2.0.0/enterprise' +
-        '[enterprise-id=' +
-        this.route.snapshot.params['enterprise-id'] +
-        ']/site' +
-        '[site-id=' +
-        this.route.snapshot.params['site-id'] +
-        ']') as RocElement;
     ip: string;
     option: string;
     primCardDisplay = false;
@@ -44,7 +35,6 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
     subCardDisplay = false;
     showParentDisplay = false;
     data: EnterprisesEnterpriseSiteIpDomain;
-    enterprises: Array<EnterprisesEnterprise>;
 
     displayOption: string;
 
@@ -107,7 +97,7 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
 
     constructor(
         private ipDomainIpDomainService: EnterprisesEnterpriseSiteIpDomainService,
-        private aetherService: AetherService,
+        protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         private fb: FormBuilder,
@@ -115,7 +105,16 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'ip-domain');
+        super(
+            snackBar,
+            bs,
+            route,
+            router,
+            'Enterprises-2.0.0',
+            'ip-domain',
+            'ip-domain-id',
+            aetherService
+        );
         super.form = this.ipForm;
         super.loadFunc = this.loadIpDomainIpDomain;
         this.ipForm[REQDATTRIBS] = ['subnet', 'dnn'];

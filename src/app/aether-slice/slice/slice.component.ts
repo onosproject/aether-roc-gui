@@ -13,7 +13,10 @@ import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { SliceDatasource } from './slice-datasource';
-import { EnterprisesEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models';
+import {
+    Enterprises,
+    EnterprisesEnterpriseSiteSlice,
+} from '../../../openapi3/aether/2.0.0/models';
 import { HexPipe } from '../../utils/hex.pipe';
 import { RocDataSource } from '../../roc-data-source';
 import { RocElement } from '../../../openapi3/top/level/models/elements';
@@ -71,7 +74,10 @@ export class SliceComponent
     }
 
     onDataLoaded(
-        ScopeOfDataSource: RocDataSource<EnterprisesEnterpriseSiteSlice, any>
+        ScopeOfDataSource: RocDataSource<
+            EnterprisesEnterpriseSiteSlice,
+            Enterprises
+        >
     ): void {
         const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
         if (

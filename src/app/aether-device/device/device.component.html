@@ -90,6 +90,16 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SIM Card</th>
             <td mat-cell *matCellDef="let row">
                 {{ row["sim-card"] }}
+                <mat-icon
+                    class="table_icon small_icon"
+                    color="primary"
+                    aria-hidden="false"
+                    aria-label="SimCard"
+                    routerLink="/sim-card/sim-card-edit/{{
+                        row['enterprise-id']
+                    }}/{{ row['site-id'] }}/{{ row['sim-card'] }}"
+                    >launch</mat-icon
+                >
             </td>
         </ng-container>
 
@@ -140,9 +150,7 @@
                 routerLink="/device/device-monitor/{{ row['device-id'] }}"
                 id="monitorDeviceButton"
             >
-                <mat-icon class="table_icon small_icon" color="accent"
-                    >insights</mat-icon
-                >
+                <mat-icon class="table_icon" color="accent">insights</mat-icon>
             </td>
         </ng-container>
 

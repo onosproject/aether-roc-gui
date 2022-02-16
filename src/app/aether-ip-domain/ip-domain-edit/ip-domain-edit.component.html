@@ -18,7 +18,7 @@
             </mat-icon>
         </mat-card-header>
         <mat-card-content>
-            <div class="row" *ngIf="isNew">
+            <div class="row" id="newIpDomainId" *ngIf="isNew">
                 <mat-form-field class="half-width field-margin">
                     <input
                         matInput
@@ -31,18 +31,66 @@
                     <mat-hint>ID</mat-hint>
                 </mat-form-field>
             </div>
+            <div
+                class="half-width field-margin"
+                id="enterpriseRowSelect"
+                *ngIf="isNew"
+            >
+                <mat-label *ngIf="enterprises.length === 0"
+                    >No Enterprise available
+                </mat-label>
+                <mat-select
+                    class="row-pad"
+                    id="selectEnterprise"
+                    [(value)]="newEnterpriseId"
+                    placeholder="Please select an Enterprise"
+                >
+                    <mat-option
+                        *ngFor="let eachEnterprise of enterprises"
+                        [value]="eachEnterprise.enterpriseId"
+                        >{{ eachEnterprise.enterpriseId }}
+                        {{ eachEnterprise.displayName }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint><small>Enterprise</small></mat-hint>
+            </div>
+            <div
+                class="half-width field-margin"
+                id="siteRowSelect"
+                *ngIf="isNew"
+            >
+                <mat-label *ngIf="enterprises.length === 0"
+                    >No Site available
+                </mat-label>
+                <mat-select
+                    class="row-pad"
+                    id="selectSite"
+                    [(value)]="newSiteId"
+                    placeholder="Please select a Site"
+                >
+                    <mat-option
+                        *ngFor="
+                            let eachSite of sitesOfEnterprise(newEnterpriseId)
+                        "
+                        [value]="eachSite.siteID"
+                        >{{ eachSite.siteID }}
+                        {{ eachSite.displayName }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint><small>Site</small></mat-hint>
+            </div>
             <div class="row" id="enterpriseRowReadOnly" *ngIf="!isNew">
                 <p class="field-margin half-width">
-                    <br /><mat-hint>Enterprise</mat-hint>:&nbsp;{{
-                        route.snapshot.params["enterprise-id"]
-                    }}
+                    <br />
+                    <mat-hint>Enterprise</mat-hint>
+                    :&nbsp;{{ route.snapshot.params["enterprise-id"] }}
                 </p>
             </div>
             <div class="row" id="siteRowReadOnly" *ngIf="!isNew">
                 <p class="field-margin half-width">
-                    <br /><mat-hint>Site</mat-hint>:&nbsp;{{
-                        route.snapshot.params["site-id"]
-                    }}
+                    <br />
+                    <mat-hint>Site</mat-hint>
+                    :&nbsp;{{ route.snapshot.params["site-id"] }}
                 </p>
             </div>
             <div class="row">
@@ -182,9 +230,8 @@
                         required
                     />
                     <mat-hint
-                        >Subnet Format:
-                        (&lt;ipaddress&gt;/&lt;subnet&gt;)</mat-hint
-                    >
+                        >Subnet Format: (&lt;ipaddress&gt;/&lt;subnet&gt;)
+                    </mat-hint>
                 </mat-form-field>
             </div>
             <div class="row">
@@ -224,7 +271,8 @@
                         opaService.canWrite(
                             '/ip-domain/ip-domain[id=' + id + ']'
                         )
-                    )
+                    ) ||
+                    (isNew && (!newEnterpriseId || !newSiteId))
                 "
             >
                 Update

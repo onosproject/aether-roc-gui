@@ -13,11 +13,11 @@ import {
     EnterprisesEnterpriseSiteIpDomain,
 } from '../../../openapi3/aether/2.0.0/models';
 import { from, Observable } from 'rxjs';
-import { map, mergeMap, pluck, skipWhile, tap } from 'rxjs/operators';
+import { map, mergeMap, skipWhile } from 'rxjs/operators';
 
 export class IpDomainDatasource extends RocDataSource<
     EnterprisesEnterpriseSiteIpDomain,
-    any
+    Enterprises
 > {
     constructor(
         protected aetherService: AetherService,
@@ -32,7 +32,7 @@ export class IpDomainDatasource extends RocDataSource<
         onDataLoaded: (
             dataSourceThisScope: RocDataSource<
                 EnterprisesEnterpriseSiteIpDomain,
-                any
+                Enterprises
             >
         ) => void
     ): void {

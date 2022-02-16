@@ -10,7 +10,7 @@ import { MatSort } from '@angular/material/sort';
 import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
 import { ADDITIONALPROPS, BasketService } from './basket.service';
 import { from, merge, Observable, of as observableOf } from 'rxjs';
-import { tap, map, mergeMap, skipWhile } from 'rxjs/operators';
+import { map, mergeMap, skipWhile } from 'rxjs/operators';
 
 /** Simple sort comparator for example ID/Name columns (for client-side sorting). */
 export function compare(

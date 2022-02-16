@@ -1,14 +1,14 @@
 <!--
-~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~ SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-<form [formGroup]="upfForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="simCardForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
             <mat-card-title
-                >User Plane Function ID:
-                {{ this.upfForm.get("upf-id").value }}</mat-card-title
+                >Sim Card:
+                {{ this.simCardForm.get("sim-id").value }}</mat-card-title
             >
             <mat-icon
                 *ngIf="!isNew"
@@ -25,7 +25,7 @@
                 <mat-form-field class="half-width field-margin">
                     <input
                         matInput
-                        formControlName="upf-id"
+                        formControlName="sim-id"
                         placeholder="Please specify an ID"
                         id="inputID"
                     />
@@ -114,41 +114,24 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row" id="configEndpointRow">
+            <div class="row" id="iccidRow">
                 <mat-form-field class="field-margin half-width">
-                    <input
-                        matInput
-                        formControlName="config-endpoint"
-                        id="inputConfigEndpoint"
-                    />
-                    <mat-hint>Config-Endpoint</mat-hint>
+                    <input matInput formControlName="iccid" id="inputIccid" />
+                    <mat-hint
+                        >ICCID (19-22 digits, last can be
+                        alphanumeric)</mat-hint
+                    >
                 </mat-form-field>
             </div>
-            <div class="row" id="addressRow">
+            <div class="row" id="imsiRow">
                 <mat-form-field class="field-margin half-width">
                     <input
                         matInput
-                        formControlName="address"
-                        title="This field is mandatory."
-                        placeholder="Please specify an Address"
-                        id="inputAddress"
-                        required
-                    />
-                    <mat-hint>Address</mat-hint>
-                </mat-form-field>
-            </div>
-            <div class="row" id="portRow">
-                <mat-form-field class="field-margin half-width">
-                    <input
-                        matInput
+                        formControlName="imsi"
                         type="number"
-                        formControlName="port"
-                        title="This field is mandatory."
-                        placeholder="Please specify a Port"
-                        id="inputPort"
-                        required
+                        id="inputImsi"
                     />
-                    <mat-hint>Port</mat-hint>
+                    <mat-hint>IMSI</mat-hint>
                 </mat-form-field>
             </div>
             <button
@@ -157,9 +140,9 @@
                 type="submit"
                 [disabled]="
                     !(
-                        upfForm.valid &&
-                        upfForm.touched &&
-                        opaService.canWrite('/upf/upf')
+                        simCardForm.valid &&
+                        simCardForm.touched &&
+                        opaService.canWrite('/sim-card/sim-card')
                     )
                 "
                 id="submitButton"
@@ -170,10 +153,10 @@
     </mat-card>
 </form>
 
-<aether-show-vcs-usage
-    *ngIf="showParentDisplay"
-    id="showParentModulesComponent"
-    [upfID]="upfId"
-    (closeShowParentCardEvent)="closeShowParentCard($event)"
->
-</aether-show-vcs-usage>
+<!--<aether-show-vcs-usage-->
+<!--    *ngIf="showParentDisplay"-->
+<!--    id="showParentModulesComponent"-->
+<!--    [deviceID]="deviceId"-->
+<!--    (closeShowParentCardEvent)="closeShowParentCard($event)"-->
+<!--&gt;-->
+<!--</aether-show-vcs-usage>-->

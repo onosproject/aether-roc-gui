@@ -77,7 +77,15 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
-        super(snackBar, bs, route, router, 'Enterprises-2.0.0', 'enterprise');
+        super(
+            snackBar,
+            bs,
+            route,
+            router,
+            'Enterprises-2.0.0',
+            'enterprise',
+            'enterprise-id'
+        );
         super.form = this.entForm;
         super.loadFunc = this.loadEnterprisesEnterprises;
         this.entForm.get('connectivity-service')[IDATTRIBS] = [

@@ -1,14 +1,14 @@
 <!--
-~ SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+~ SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-<form [formGroup]="upfForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="deviceForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
             <mat-card-title
-                >User Plane Function ID:
-                {{ this.upfForm.get("upf-id").value }}</mat-card-title
+                >Device:
+                {{ this.deviceForm.get("device-id").value }}</mat-card-title
             >
             <mat-icon
                 *ngIf="!isNew"
@@ -25,7 +25,7 @@
                 <mat-form-field class="half-width field-margin">
                     <input
                         matInput
-                        formControlName="upf-id"
+                        formControlName="device-id"
                         placeholder="Please specify an ID"
                         id="inputID"
                     />
@@ -114,41 +114,27 @@
                     <mat-hint>Description</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row" id="configEndpointRow">
+            <div class="row" id="imeiRow">
                 <mat-form-field class="field-margin half-width">
-                    <input
-                        matInput
-                        formControlName="config-endpoint"
-                        id="inputConfigEndpoint"
-                    />
-                    <mat-hint>Config-Endpoint</mat-hint>
+                    <input matInput formControlName="imei" id="inputImei" />
+                    <mat-hint>IMEI (14-16 digits)</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row" id="addressRow">
+            <!--SimCard dropdown-->
+            <div class="row">
                 <mat-form-field class="field-margin half-width">
-                    <input
-                        matInput
-                        formControlName="address"
-                        title="This field is mandatory."
-                        placeholder="Please specify an Address"
-                        id="inputAddress"
-                        required
-                    />
-                    <mat-hint>Address</mat-hint>
-                </mat-form-field>
-            </div>
-            <div class="row" id="portRow">
-                <mat-form-field class="field-margin half-width">
-                    <input
-                        matInput
-                        type="number"
-                        formControlName="port"
-                        title="This field is mandatory."
-                        placeholder="Please specify a Port"
-                        id="inputPort"
-                        required
-                    />
-                    <mat-hint>Port</mat-hint>
+                    <mat-label *ngIf="simCards.length === 0"
+                        >No SimCards available</mat-label
+                    >
+                    <mat-select formControlName="sim-card" id="selectSimCard">
+                        <mat-option
+                            *ngFor="let eachSimCard of simCards"
+                            [value]="eachSimCard['sim-id']"
+                            >{{ eachSimCard["sim-id"] }}
+                            {{ eachSimCard["display-name"] }}</mat-option
+                        >
+                    </mat-select>
+                    <mat-hint>Sim Card</mat-hint>
                 </mat-form-field>
             </div>
             <button
@@ -157,9 +143,9 @@
                 type="submit"
                 [disabled]="
                     !(
-                        upfForm.valid &&
-                        upfForm.touched &&
-                        opaService.canWrite('/upf/upf')
+                        deviceForm.valid &&
+                        deviceForm.touched &&
+                        opaService.canWrite('/device/device')
                     )
                 "
                 id="submitButton"
@@ -170,10 +156,10 @@
     </mat-card>
 </form>
 
-<aether-show-vcs-usage
-    *ngIf="showParentDisplay"
-    id="showParentModulesComponent"
-    [upfID]="upfId"
-    (closeShowParentCardEvent)="closeShowParentCard($event)"
->
-</aether-show-vcs-usage>
+<!--<aether-show-vcs-usage-->
+<!--    *ngIf="showParentDisplay"-->
+<!--    id="showParentModulesComponent"-->
+<!--    [deviceID]="deviceId"-->
+<!--    (closeShowParentCardEvent)="closeShowParentCard($event)"-->
+<!--&gt;-->
+<!--</aether-show-vcs-usage>-->
