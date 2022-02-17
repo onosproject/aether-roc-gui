@@ -15,6 +15,7 @@ import {
 } from '../../../openapi3/aether/2.0.0/services';
 import {
     BasketService,
+    IDATTRIBS,
     ORIGINAL,
     REQDATTRIBS,
     TYPE,
@@ -38,6 +39,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     data: EnterprisesEnterpriseSiteDeviceGroup;
     ipdomain: Array<EnterprisesEnterpriseSiteIpDomain>;
     showParentDisplay = false;
+    showDeviceDisplay: boolean;
     trafficClass: Array<EnterprisesEnterpriseTrafficClass>;
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
@@ -55,9 +57,9 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
         'device-group-id': [
             undefined,
             Validators.compose([
-                Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
+                Validators.pattern('[a-z]([a-z0-9-]?[a-z0-9])*'),
                 Validators.minLength(1),
-                Validators.maxLength(31),
+                Validators.maxLength(63),
             ]),
         ],
         description: [
@@ -90,8 +92,9 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
                     Validators.max(4294967295),
                 ]),
             ],
-            'traffic-class': [undefined],
         }),
+        'traffic-class': [undefined],
+        device: this.fb.array([]),
     });
     deviceGroupId: string;
 
@@ -119,15 +122,16 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
         super.form = this.deviceGroupForm;
         super.loadFunc = this.loadDeviceGroupDeviceGroup;
         this.deviceGroupForm.get(['mbr'])[REQDATTRIBS] = ['uplink', 'downlink'];
+        this.deviceGroupForm[REQDATTRIBS] = ['traffic-class'];
+        this.deviceGroupForm.get('device')[IDATTRIBS] = ['device-id'];
     }
 
     ngOnInit(): void {
-        this.loadIpDomains(this.target);
         this.loadTrafficClass(this.target);
         super.init();
         this.deviceGroupForm.get(['mbr', 'uplink'])[TYPE] = 'number';
         this.deviceGroupForm.get(['mbr', 'downlink'])[TYPE] = 'number';
-        this.deviceGroupForm.get(['mbr', 'traffic-class'])[TYPE] = 'string';
+        this.deviceGroupForm.get(['traffic-class'])[TYPE] = 'string';
         this.bandwidthOptions = this.deviceGroupForm.valueChanges.pipe(
             startWith(''),
             map((value) =>
@@ -147,23 +151,55 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
         return this.deviceGroupForm.get(['mbr']) as FormGroup;
     }
 
-    deleteFromSelect(im: string): void {
+    get deviceControls(): FormArray {
+        return this.deviceGroupForm.get('device') as FormArray;
+    }
+
+    get deviceExists(): string[] {
+        const existingList: string[] = [];
+        (this.deviceGroupForm.get(['device']) as FormArray).controls.forEach(
+            (devCtl) => {
+                existingList.push(devCtl.get('device-id').value);
+            }
+        );
+        return existingList;
+    }
+
+    deviceSelected(selected: string): void {
+        // Push into form
+        if (selected !== undefined && selected !== '') {
+            const deviceIdFormControl = this.fb.control(selected);
+            deviceIdFormControl.markAsTouched();
+            deviceIdFormControl.markAsDirty();
+            const enabledControl = this.fb.control(true); // Default as true
+            enabledControl.markAsTouched();
+            enabledControl.markAsDirty();
+            enabledControl[TYPE] = 'boolean';
+            (this.deviceGroupForm.get('device') as FormArray).push(
+                this.fb.group({
+                    'device-id': deviceIdFormControl,
+                    enable: enabledControl,
+                })
+            );
+            this.deviceGroupForm.get('device').markAsTouched();
+            console.log('Adding new Value', selected);
+        }
+        this.showDeviceDisplay = false;
+    }
+
+    deleteFromSelect(devid: string): void {
         this.bs.deleteIndexedEntry(
-            '/Device-group-2.0.0/device-group[id=' +
-                this.id +
-                ']/imsis[imsi-id=' +
-                im +
-                ']',
-            'imsi-id',
-            im,
+            '/' + this.fullPath + '/device[device-id=' + devid + ']',
+            'device-id',
+            devid,
             this.ucmap()
         );
         const index = (
-            this.deviceGroupForm.get(['imsis']) as FormArray
-        ).controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === im);
-        (this.deviceGroupForm.get(['imsis']) as FormArray).removeAt(index);
+            this.deviceGroupForm.get(['device']) as FormArray
+        ).controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === devid);
+        (this.deviceGroupForm.get(['device']) as FormArray).removeAt(index);
         this.snackBar.open(
-            'Deletion of ' + im + ' added to basket',
+            'Deletion of ' + devid + ' added to basket',
             undefined,
             { duration: 2000 }
         );
@@ -208,11 +244,11 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
             this.deviceGroupForm.get('description')[ORIGINAL] =
                 value.description;
         }
-        if (value.mbr && value.mbr['traffic-class']) {
+        if (value['traffic-class']) {
             this.deviceGroupForm
-                .get(['mbr', 'traffic-class'])
-                .setValue(value.mbr['traffic-class']);
-            this.deviceGroupForm.get(['mbr', 'traffic-class'])[ORIGINAL] =
+                .get(['traffic-class'])
+                .setValue(value['traffic-class']);
+            this.deviceGroupForm.get(['traffic-class'])[ORIGINAL] =
                 value.mbr['traffic-class'];
         }
         if (value.mbr) {
@@ -226,6 +262,39 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
                 value.mbr.uplink;
             this.deviceGroupForm.get(['mbr', 'downlink'])[ORIGINAL] =
                 value.mbr.downlink;
+        }
+        if (value['device'] && this.deviceGroupForm.value.device.length === 0) {
+            for (const dev of value.device) {
+                let isDeleted = false;
+                Object.keys(localStorage)
+                    .filter((checkerKey) =>
+                        checkerKey.startsWith(
+                            '/basket-delete/device-group-2.0.0/device-group[device-group-id=' +
+                                this.id +
+                                ']/device[device='
+                        )
+                    )
+                    .forEach((checkerKey) => {
+                        if (checkerKey.includes(dev['device-id'])) {
+                            isDeleted = true;
+                        }
+                    });
+                if (!isDeleted) {
+                    const deviceIdFormControl = this.fb.control(
+                        dev['device-id']
+                    );
+                    deviceIdFormControl[ORIGINAL] = dev['device-id'];
+                    const enabledControl = this.fb.control(dev.enable);
+                    enabledControl[ORIGINAL] = dev.enable;
+                    enabledControl[TYPE] = 'boolean';
+                    (this.deviceGroupForm.get('device') as FormArray).push(
+                        this.fb.group({
+                            'device-id': deviceIdFormControl,
+                            enable: enabledControl,
+                        })
+                    );
+                }
+            }
         }
     }
 
@@ -303,26 +372,6 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    loadIpDomains(target: string): void {
-        this.entService
-            .getEnterprisesEnterprise({
-                target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
-            })
-            .subscribe(
-                (value) => {
-                    this.ipdomain = value['ip-domain'];
-                    console.log('Got Ip Domain', value['ip-domain'].length);
-                },
-                (error) => {
-                    console.warn('Error getting Ip Domain for ', target, error);
-                },
-                () => {
-                    console.log('Finished loading Ip Domains', target);
-                }
-            );
-    }
-
     loadTrafficClass(target: string): void {
         this.entService
             .getEnterprisesEnterprise({
@@ -332,11 +381,15 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
             .subscribe(
                 (value) => {
                     this.trafficClass = value['traffic-class'];
-                    console.log(
-                        'Got',
-                        value['traffic-class'].length,
-                        'Traffic Class'
+                    // might as well load the IP Domains while we're here
+                    const thisSite = value.site.find(
+                        (s) =>
+                            s['site-id'] ===
+                            this.route.snapshot.params['site-id']
                     );
+                    if (thisSite !== undefined) {
+                        this.ipdomain = thisSite['ip-domain'];
+                    }
                 },
                 (error) => {
                     console.warn(

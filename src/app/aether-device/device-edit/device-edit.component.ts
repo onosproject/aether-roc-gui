@@ -38,9 +38,9 @@ export class DeviceEditComponent extends RocEditBase implements OnInit {
         'device-id': [
             undefined,
             Validators.compose([
-                Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
+                Validators.pattern('[a-z]([a-z0-9-]?[a-z0-9])*'),
                 Validators.minLength(1),
-                Validators.maxLength(32),
+                Validators.maxLength(63),
             ]),
         ],
         'display-name': [
@@ -68,9 +68,9 @@ export class DeviceEditComponent extends RocEditBase implements OnInit {
         'sim-card': [
             undefined,
             Validators.compose([
-                Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
+                Validators.pattern('[a-z]([a-z0-9-]?[a-z0-9])*'),
                 Validators.minLength(1),
-                Validators.maxLength(32),
+                Validators.maxLength(63),
             ]),
         ],
     });

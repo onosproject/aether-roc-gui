@@ -121,9 +121,12 @@
                 Device
             </th>
             <td mat-cell *matCellDef="let row">
-                <p>Device ID: {{ row.device["device-id"] }}</p>
-                <p>Enabled : {{ row.device.enabled }}</p>
-                <p>Traffic-class: {{ row.mbr["traffic-class"] }}</p>
+                <p
+                    *ngFor="let dev of row.device"
+                    [classList]="dev.enable ? '' : 'semitransparent'"
+                >
+                    Device ID: {{ dev["device-id"] }}
+                </p>
             </td>
         </ng-container>
 

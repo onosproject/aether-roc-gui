@@ -31,9 +31,9 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
         'traffic-class-id': [
             undefined,
             Validators.compose([
-                Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
+                Validators.pattern('[a-z]([a-z0-9-]?[a-z0-9])*'),
                 Validators.minLength(1),
-                Validators.maxLength(31),
+                Validators.maxLength(63),
             ]),
         ],
         'display-name': [

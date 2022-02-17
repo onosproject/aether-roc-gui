@@ -38,6 +38,7 @@ import { UeMonitorComponent } from './ue-monitor/ue-monitor.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
+import { DeviceSelectComponent } from './device-select/device-select.component';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         DeviceGroupMonitorComponent,
         UeMonitorComponent,
         ShowVcsUsageComponent,
+        DeviceSelectComponent,
     ],
     imports: [
         CommonModule,
