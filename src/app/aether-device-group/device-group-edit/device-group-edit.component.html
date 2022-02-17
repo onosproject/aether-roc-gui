@@ -151,7 +151,9 @@
             </div>
 
             <div id="mbrRow">
-                <mat-hint>Maximum bitrate</mat-hint>
+                <mat-hint class="field-margin row-pad"
+                    >Maximum bitrate</mat-hint
+                >
                 <div [formGroup]="mbrControls">
                     <div class="row float-left" id="uplinkRow">
                         <mat-form-field class="field-margin">
@@ -200,8 +202,8 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div [formGroup]="mbrControls" class="row" id="trafficClassRow">
-                    <mat-form-field class="half-width subscriber-section">
+                <div class="row" id="trafficClassRow">
+                    <mat-form-field class="field-margin half-width">
                         <mat-select
                             formControlName="traffic-class"
                             id="selectTrafficClass"
@@ -215,6 +217,77 @@
                         </mat-select>
                         <mat-hint>Traffic Class</mat-hint>
                     </mat-form-field>
+                </div>
+                <div
+                    formArrayName="device"
+                    class="subscriber-section field-margin"
+                >
+                    <mat-hint>Device</mat-hint>
+                    <mat-icon
+                        (click)="showDeviceDisplay = true"
+                        color="accent"
+                        class="subscriber-pointer"
+                        id="addADevice"
+                    >
+                        add
+                    </mat-icon>
+                    <!--device-->
+                    <div
+                        *ngFor="
+                            let deviceForm of deviceControls.controls;
+                            index as i
+                        "
+                    >
+                        <div
+                            [formGroup]="deviceForm"
+                            [id]="deviceForm.value['device-id']"
+                        >
+                            <mat-form-field class="field-margin half-width">
+                                <input
+                                    matInput
+                                    formControlName="device-id"
+                                    readonly
+                                    id="inputDgDevId"
+                                />
+                                <mat-slide-toggle formControlName="enable"
+                                    >Enable</mat-slide-toggle
+                                >
+                                <mat-icon
+                                    color="primary"
+                                    class="subscriber-pointer"
+                                    aria-hidden="false"
+                                    aria-label="device-group"
+                                    routerLink="/device/device-edit/{{
+                                        route.snapshot.params['enterprise-id']
+                                    }}/{{ route.snapshot.params['site-id'] }}/{{
+                                        deviceForm.value['device-id']
+                                    }}"
+                                    id="pointerDevice"
+                                    >launch
+                                </mat-icon>
+                            </mat-form-field>
+
+                            <button
+                                mat-icon-button
+                                id="deleteDeviceGroup"
+                                color="accent"
+                                [disabled]="
+                                    !opaService.canWrite(
+                                        '/device-group/device-group[device-group-id={{devID}}]/application'
+                                    )
+                                "
+                                (click)="
+                                    deleteFromSelect(
+                                        deviceForm.value['device-id']
+                                    )
+                                "
+                            >
+                                <mat-icon class="pad-left subscriber-pointer"
+                                    >delete</mat-icon
+                                >
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <mat-card-actions>
@@ -238,6 +311,20 @@
         </mat-card-content>
     </mat-card>
 </form>
+<aether-device-select
+    *ngIf="
+        showDeviceDisplay &&
+        opaService.canWrite(
+            '/device-group/device-group[device-group-id=' + id + ']/device'
+        )
+    "
+    id="deviceSelectComponent"
+    [selectedEnterprise]="route.snapshot.params['enterprise-id']"
+    [selectedSite]="route.snapshot.params['site-id']"
+    [alreadySelected]="deviceExists"
+    (closeEvent)="deviceSelected($event)"
+>
+</aether-device-select>
 <aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"

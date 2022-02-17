@@ -89,9 +89,9 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         'slice-id': [
             undefined,
             Validators.compose([
-                Validators.pattern('([A-Za-z0-9\\-\\_\\.]+)'),
+                Validators.pattern('[a-z]([a-z0-9-]?[a-z0-9])*'),
                 Validators.minLength(1),
-                Validators.maxLength(31),
+                Validators.maxLength(63),
             ]),
         ],
         'display-name': [
@@ -446,13 +446,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
 
     deleteDeviceGroupFromSelect(dg: string): void {
         this.bs.deleteIndexedEntry(
-            '/' +
-                this.pathRoot +
-                '/slice[slice-id=' +
-                this.id +
-                ']/device-group[device-group=' +
-                dg +
-                ']',
+            '/' + this.fullPath + '/device-group[device-group=' + dg + ']',
             'device-group',
             dg,
             this.ucmap()
@@ -588,9 +582,9 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/slice-2.0.0/slice[id=' +
+                            '/basket-delete/slice-2.0.0/slice[slice-id=' +
                                 this.id +
-                                ']/device-group[device-group='
+                                ']/device-group[device-group-id='
                         )
                     )
                     .forEach((checkerKey) => {
