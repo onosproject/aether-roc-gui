@@ -17,6 +17,7 @@ import { ApiModule } from '../../../openapi3/aether/2.0.0/api.module';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { SiteComponent } from './site.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 describe('SiteComponent', () => {
     let component: SiteComponent;
@@ -35,6 +36,7 @@ describe('SiteComponent', () => {
                 MatSnackBarModule,
                 MatToolbarModule,
                 MatIconModule,
+                MatExpansionModule,
                 ApiModule,
             ],
             providers: [

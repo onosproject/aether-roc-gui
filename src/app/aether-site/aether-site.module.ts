@@ -35,6 +35,7 @@ import { UtilsModule } from '../utils/utils.module';
 import { SmallCellSelectComponent } from './small-cell-select/small-cell-select.component';
 import { EdgeDeviceComponent } from './edge-device/edge-device.component';
 import { SiteMonitorComponent } from './site-monitor/site-monitor.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
     declarations: [
@@ -76,6 +77,7 @@ import { SiteMonitorComponent } from './site-monitor/site-monitor.component';
         CdkTableModule,
         MatCheckboxModule,
         UtilsModule,
+        MatExpansionModule,
     ],
     providers: [
         {
