@@ -58,17 +58,46 @@
         </ng-container>
 
         <!-- Small Cell Column -->
-        <ng-container matColumnDef="small-cell" id="smallCellColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                Small Cell
+        <ng-container matColumnDef="small-cells" id="smallCellColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Small Cells
             </th>
             <td mat-cell *matCellDef="let row">
-                <p
-                    *ngFor="let sc of row['small-cell']"
-                    [classList]="sc.enable ? '' : 'semitransparent'"
-                >
-                    {{ sc["small-cell-id"] }}
-                </p>
+                <mat-expansion-panel togglePosition="before">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title
+                            >{{ row["small-cell"].length }} Small Cell(s)
+                            <mat-icon
+                                color="primary"
+                                class="table_icon small_icon"
+                                aria-hidden="false"
+                                aria-label="Small Cells"
+                                id="pointerSmallCells"
+                                routerLink="/small-cell"
+                                >launch</mat-icon
+                            ></mat-panel-title
+                        >
+                    </mat-expansion-panel-header>
+                    <p
+                        *ngFor="let smallCell of row['small-cell']"
+                        [class]="smallCell.enable ? '' : 'semitransparent'"
+                    >
+                        {{ smallCell["small-cell-id"] }}
+                        <mat-icon
+                            color="primary"
+                            class="table_icon small_icon"
+                            aria-hidden="false"
+                            aria-label="Small Cell"
+                            id="pointerSmallCell"
+                            routerLink="/small-cell/small-cell-edit/{{
+                                row['enterprise-id']
+                            }}/{{ row['site-id'] }}/{{
+                                smallCell['small-cell-id']
+                            }}"
+                            >launch</mat-icon
+                        >
+                    </p>
+                </mat-expansion-panel>
             </td>
         </ng-container>
 

@@ -37,7 +37,6 @@ import { EndPointParam } from '../endpoint-select/endpoint-select.component';
 import { Observable } from 'rxjs';
 import { Bandwidths } from '../../aether-template/template-edit/template-edit.component';
 import { map, startWith } from 'rxjs/operators';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 import { EnterprisesEnterpriseApplicationService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
 

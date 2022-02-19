@@ -26,7 +26,6 @@ import {
 } from 'src/app/basket.service';
 import { HexPipe } from '../../utils/hex.pipe';
 import { SelectAppParam } from '../application-select/application-select.component';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 import {
     EnterprisesEnterpriseTemplate,
     EnterprisesEnterpriseSiteUpf,

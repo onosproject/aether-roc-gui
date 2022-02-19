@@ -18,12 +18,7 @@ import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EdgeDeviceParam } from '../edge-device/edge-device.component';
-import {
-    EnterprisesEnterprise,
-    EnterprisesEnterpriseSite,
-} from 'src/openapi3/aether/2.0.0/models';
-import { SmallCellParam } from '../small-cell-select/small-cell-select.component';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
+import { EnterprisesEnterpriseSite } from 'src/openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
 
@@ -61,7 +56,6 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
                 Validators.maxLength(1024),
             ]),
         ],
-        'small-cell': this.fb.array([]),
         monitoring: this.fb.group({
             'edge-cluster-prometheus-url': [undefined],
             'edge-monitoring-prometheus-url': [undefined],
@@ -129,7 +123,6 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
             'format',
             'enterprise',
         ];
-        this.siteForm.get(['small-cell'])[IDATTRIBS] = ['small-cell-id'];
         this.siteForm.get(['monitoring', 'edge-device'])[IDATTRIBS] = [
             'edge-device-id',
         ];
@@ -216,77 +209,6 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
         if (value.description) {
             this.siteForm.get(['description']).setValue(value.description);
             this.siteForm.get('description')[ORIGINAL] = value.description;
-        }
-
-        if (
-            value['small-cell'] &&
-            this.siteForm.value['small-cell'].length === 0
-        ) {
-            for (const sm of value['small-cell']) {
-                let isDeleted = false;
-                Object.keys(localStorage)
-                    .filter((checkerKey) =>
-                        checkerKey.startsWith(
-                            '/basket-delete/Enterprises-2.0.0/enterprise[enterprise-id=' +
-                                this.route.snapshot.params['enterprise-id'] +
-                                ']/site[site-id=' +
-                                value['site-id'] +
-                                ']/small-cell[small-cell-id='
-                        )
-                    )
-                    .forEach((checkerKey) => {
-                        if (checkerKey.includes(sm['small-cell-id'])) {
-                            isDeleted = true;
-                        }
-                    });
-                if (!isDeleted) {
-                    const scIDControl = this.fb.control(sm['small-cell-id']);
-                    scIDControl[ORIGINAL] = sm['small-cell-id'];
-                    const scNameControl = this.fb.control(sm['display-name']);
-                    scNameControl[ORIGINAL] = sm['display-name'];
-                    const scAddressControl = this.fb.control(sm.address);
-                    scAddressControl[ORIGINAL] = sm.address;
-                    const scTacControl = this.fb.control(
-                        sm.tac,
-                        Validators.compose([
-                            Validators.minLength(4),
-                            Validators.maxLength(8),
-                        ])
-                    );
-                    scTacControl[ORIGINAL] = sm.tac;
-                    const scEnablecontrol = this.fb.control(sm.enable);
-                    scEnablecontrol[ORIGINAL] = sm.enable;
-
-                    const scGroupControl = this.fb.group({
-                        'small-cell-id': scIDControl,
-                        'display-name': scNameControl,
-                        address: scAddressControl,
-                        tac: scTacControl,
-                        enable: scEnablecontrol,
-                    });
-                    scGroupControl[REQDATTRIBS] = ['tac'];
-
-                    (this.siteForm.get('small-cell') as FormArray).push(
-                        scGroupControl
-                    );
-                }
-                isDeleted = false;
-            }
-        } else if (
-            value['small-cell'] &&
-            this.siteForm.value['small-cell'].length !== 0
-        ) {
-            for (const eachValueSM of value['small-cell']) {
-                (this.siteForm.get('small-cell') as FormArray).push(
-                    this.fb.group({
-                        'small-cell-id': eachValueSM['small-cell-id'],
-                        'display-name': eachValueSM['display-name'],
-                        address: eachValueSM.address,
-                        tac: eachValueSM.tac,
-                        enable: eachValueSM.enable,
-                    })
-                );
-            }
         }
 
         if (value.monitoring) {
@@ -394,52 +316,6 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
         }
     }
 
-    smallCellSelected(selected: SmallCellParam): void {
-        this.showConnectDisplay = false;
-
-        if (selected === undefined) {
-            return;
-        }
-        const scIDControl = this.fb.control(selected['small-cell-id']);
-        scIDControl.markAsTouched();
-        scIDControl.markAsDirty();
-
-        const scNameControl = this.fb.control(selected['display-name']);
-        scNameControl.markAsTouched();
-        scNameControl.markAsDirty();
-
-        const scAddressControl = this.fb.control(selected.address);
-        scAddressControl.markAsTouched();
-        scAddressControl.markAsDirty();
-
-        const scTacControl = this.fb.control(
-            selected.tac,
-            Validators.compose([
-                Validators.minLength(4),
-                Validators.maxLength(8),
-            ])
-        );
-        scTacControl.markAsTouched();
-        scTacControl.markAsDirty();
-
-        const scEnablecontrol = this.fb.control(true);
-        scEnablecontrol.markAsTouched();
-        scEnablecontrol.markAsDirty();
-
-        const scGroupControl = this.fb.group({
-            'small-cell-id': scIDControl,
-            'display-name': scNameControl,
-            address: scAddressControl,
-            tac: scTacControl,
-            enable: scEnablecontrol,
-        });
-        scGroupControl[REQDATTRIBS] = ['tac'];
-
-        (this.siteForm.get('small-cell') as FormArray).push(scGroupControl);
-        console.log('Adding new Value', selected);
-        this.siteForm.markAllAsTouched();
-    }
-
     closeEdgeDeviceCard(selected: EdgeDeviceParam): void {
         this.showEdgeDeviceDisplay = false;
 
@@ -470,31 +346,6 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
         this.siteForm.markAllAsTouched();
     }
 
-    deleteFromSelect(sc: string): void {
-        this.bs.deleteIndexedEntry(
-            '/Enterprises-2.0.0/enterprise[enterprise-id=' +
-                this.route.snapshot.params['enterprise-id'] +
-                ']/site[site-id=' +
-                this.siteId +
-                ']/small-cell[small-cell-id=' +
-                sc +
-                ']',
-            'small-cell-id',
-            sc,
-            this.ucmap(sc)
-        );
-        const index = (
-            this.siteForm.get('small-cell') as FormArray
-        ).controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === sc);
-        (this.siteForm.get('small-cell') as FormArray).removeAt(index);
-        this.showSmallCellAddButton = true;
-        this.snackBar.open(
-            'Deletion of ' + sc + ' added to basket',
-            undefined,
-            { duration: 2000 }
-        );
-    }
-
     deleteEDFromSelect(ed: string): void {
         this.bs.deleteIndexedEntry(
             '/Enterprises-2.0.0/enterprise[enterprise-id=' +
@@ -519,33 +370,6 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
             undefined,
             { duration: 2000 }
         );
-    }
-
-    private ucmap(sc: string): Map<string, string> {
-        const ucMap = new Map<string, string>();
-        const siteId =
-            '/Enterprises-2.0.0/enterprise[enterprise-id=' +
-            this.route.snapshot.params['enterprise-id'] +
-            ']/site[site-id=' +
-            this.siteId +
-            ']';
-
-        const epId = siteId + '/small-cell[small-cell-id=' + sc + ']';
-        let epUc = localStorage.getItem(epId);
-        if (epUc === null) {
-            const epFormArray = this.siteForm.get(['small-cell']) as FormArray;
-            const epCtl = epFormArray.controls.findIndex(
-                (c) => c.value[Object.keys(c.value)[0]] === sc
-            );
-            console.log('Getting', epCtl, 'for', epId);
-            epUc = epFormArray.controls[epCtl][REQDATTRIBS];
-        }
-        ucMap.set(epId, epUc);
-        return ucMap;
-    }
-
-    get smallCellControls(): FormArray {
-        return this.siteForm.get(['small-cell']) as FormArray;
     }
 
     get edgeDeviceControls(): FormArray {

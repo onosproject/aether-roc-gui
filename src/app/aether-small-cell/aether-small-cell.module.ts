@@ -1,23 +1,23 @@
 /*
- * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ * SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SmallCellEditComponent } from './small-cell-edit/small-cell-edit.component';
+import { SmallCellComponent } from './small-cell/small-cell.component';
 import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.0.0/api.module';
+import { AETHER_ROC_API_URL } from '../../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { AETHER_ROC_API_URL } from '../../environments/environment';
-import { AuthInterceptor } from '../auth-interceptor';
-import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
-import { SiteComponent } from './site/site.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import {
@@ -30,33 +30,27 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { SiteEditComponent } from './site-edit/site-edit.component';
-import { UtilsModule } from '../utils/utils.module';
-import { EdgeDeviceComponent } from './edge-device/edge-device.component';
-import { SiteMonitorComponent } from './site-monitor/site-monitor.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { UtilsModule } from '../utils/utils.module';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { AuthInterceptor } from '../auth-interceptor';
+import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
 
 @NgModule({
-    declarations: [
-        SiteComponent,
-        SiteEditComponent,
-        EdgeDeviceComponent,
-        SiteMonitorComponent,
-    ],
+    declarations: [SmallCellComponent, SmallCellEditComponent],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([
-            { path: 'site', component: SiteComponent },
+            { path: 'small-cell', component: SmallCellComponent },
             {
-                path: 'site-edit/:enterprise-id/:id',
-                component: SiteEditComponent,
+                path: 'small-cell-edit/:enterprise-id/:site-id/:id',
+                component: SmallCellEditComponent,
             },
-            { path: 'site-monitor/:id', component: SiteMonitorComponent },
-            { path: '', component: SiteComponent, pathMatch: 'full' },
+            { path: '', component: SmallCellComponent, pathMatch: 'full' },
         ]),
-        MatToolbarModule,
         FormsModule,
         ReactiveFormsModule,
         MatTableModule,
@@ -74,8 +68,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
         MatSlideToggleModule,
         CdkTableModule,
         MatCheckboxModule,
-        UtilsModule,
         MatExpansionModule,
+        UtilsModule,
+        MatAutocompleteModule,
+        MatTooltipModule,
     ],
     providers: [
         {
@@ -86,4 +82,4 @@ import { MatExpansionModule } from '@angular/material/expansion';
         API_INTERCEPTOR_PROVIDER,
     ],
 })
-export class AetherSiteModule {}
+export class AetherSmallCellModule {}

@@ -57,7 +57,6 @@ export class DeviceGroupComponent
             'Enterprises-2.0.0',
             'device-group'
         );
-        super.reqdAttr = ['site'];
     }
 
     onDataLoaded(ScopeOfDataSource: DeviceGroupDatasource): void {
