@@ -58,10 +58,6 @@
             <mat-icon>recent_actors</mat-icon>
             <span>UPF</span>
         </button>
-        <button mat-menu-item routerLink="/site" id="siteButton">
-            <mat-icon>gps_fixed</mat-icon>
-            <span>Site</span>
-        </button>
         <button mat-menu-item routerLink="/application" id="applicationButton">
             <mat-icon>layers</mat-icon>
             <span>Application</span>
@@ -108,6 +104,10 @@
         </button>
     </mat-menu>
     <mat-menu #config="matMenu">
+        <button mat-menu-item routerLink="/site" id="siteButton">
+            <mat-icon>gps_fixed</mat-icon>
+            <span>Site</span>
+        </button>
         <button mat-menu-item routerLink="/template" id="templateButton">
             <mat-icon>topic</mat-icon>
             <span>Template</span>

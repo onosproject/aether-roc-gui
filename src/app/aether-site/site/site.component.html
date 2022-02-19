@@ -57,7 +57,7 @@
             </td>
         </ng-container>
 
-        <!-- End-Points Column -->
+        <!-- Small Cell Column -->
         <ng-container matColumnDef="small-cell" id="smallCellColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
                 Small Cell
@@ -68,10 +68,237 @@
                     [classList]="sc.enable ? '' : 'semitransparent'"
                 >
                     {{ sc["small-cell-id"] }}
-                    {{ sc["display-name"] }}
-                    {{ sc.address }}
-                    {{ sc.tac }}
                 </p>
+            </td>
+        </ng-container>
+
+        <!-- Slices Column -->
+        <ng-container matColumnDef="slices" id="slicesColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Slices</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-expansion-panel togglePosition="before">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title
+                            >{{ row["slice"].length }} Slice(s)
+                            <mat-icon
+                                color="primary"
+                                class="table_icon small_icon"
+                                aria-hidden="false"
+                                aria-label="Slices"
+                                id="pointerSlices"
+                                routerLink="/slice"
+                                >launch</mat-icon
+                            ></mat-panel-title
+                        >
+                    </mat-expansion-panel-header>
+                    <p *ngFor="let slice of row['slice']">
+                        {{ slice["slice-id"] }}
+                        <mat-icon
+                            color="primary"
+                            class="table_icon small_icon"
+                            aria-hidden="false"
+                            aria-label="Slice"
+                            id="pointerSlice"
+                            routerLink="/slice/slice-edit/{{
+                                row['enterprise-id']
+                            }}/{{ row['site-id'] }}/{{ slice['slice-id'] }}"
+                            >launch</mat-icon
+                        >
+                    </p>
+                </mat-expansion-panel>
+            </td>
+        </ng-container>
+
+        <!-- Device Groups Column -->
+        <ng-container matColumnDef="device-groups" id="deviceGroupsColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Device Groups
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-expansion-panel togglePosition="before">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title
+                            >{{ row["device-group"].length }} Device Group(s)
+                            <mat-icon
+                                color="primary"
+                                class="table_icon small_icon"
+                                aria-hidden="false"
+                                aria-label="Device Groups"
+                                id="pointerDeviceGroups"
+                                routerLink="/devicegroups"
+                                >launch</mat-icon
+                            ></mat-panel-title
+                        >
+                    </mat-expansion-panel-header>
+                    <p *ngFor="let devicegroup of row['device-group']">
+                        {{ devicegroup["device-group-id"] }}
+                        <mat-icon
+                            color="primary"
+                            class="table_icon small_icon"
+                            aria-hidden="false"
+                            aria-label="Device Group"
+                            id="pointerDeviceGroup"
+                            routerLink="/devicegroups/devicegroups-edit/{{
+                                row['enterprise-id']
+                            }}/{{ row['site-id'] }}/{{
+                                devicegroup['device-group-id']
+                            }}"
+                            >launch</mat-icon
+                        >
+                    </p>
+                </mat-expansion-panel>
+            </td>
+        </ng-container>
+
+        <!-- IP Domains Column -->
+        <ng-container matColumnDef="ip-domains" id="ipDomainsColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                IP Domains
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-expansion-panel togglePosition="before">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title
+                            >{{ row["ip-domain"].length }} IP Domains(s)
+                            <mat-icon
+                                color="primary"
+                                class="table_icon small_icon"
+                                aria-hidden="false"
+                                aria-label="IP Domains"
+                                id="pointerIpDomains"
+                                routerLink="/ipdomain"
+                                >launch</mat-icon
+                            ></mat-panel-title
+                        >
+                    </mat-expansion-panel-header>
+                    <p *ngFor="let ipdomain of row['ip-domain']">
+                        {{ ipdomain["ip-domain-id"] }}
+                        <mat-icon
+                            color="primary"
+                            class="table_icon small_icon"
+                            aria-hidden="false"
+                            aria-label="IpDomain"
+                            id="pointerIpDomain"
+                            routerLink="/ipdomain/ipdomain-edit/{{
+                                row['enterprise-id']
+                            }}/{{ row['site-id'] }}/{{
+                                ipdomain['ip-domain-id']
+                            }}"
+                            >launch</mat-icon
+                        >
+                    </p>
+                </mat-expansion-panel>
+            </td>
+        </ng-container>
+
+        <!-- Upfs Column -->
+        <ng-container matColumnDef="upfs" id="upfsColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>UPFs</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-expansion-panel togglePosition="before">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title
+                            >{{ row["upf"].length }} UPF(s)
+                            <mat-icon
+                                color="primary"
+                                class="table_icon small_icon"
+                                aria-hidden="false"
+                                aria-label="UPFs"
+                                id="pointerUpfs"
+                                routerLink="/upf"
+                                >launch</mat-icon
+                            ></mat-panel-title
+                        >
+                    </mat-expansion-panel-header>
+                    <p *ngFor="let upf of row['upf']">
+                        {{ upf["upf-id"] }}
+                        <mat-icon
+                            color="primary"
+                            class="table_icon small_icon"
+                            aria-hidden="false"
+                            aria-label="UPF"
+                            id="pointerUPF"
+                            routerLink="/upf/upf-edit/{{
+                                row['enterprise-id']
+                            }}/{{ row['site-id'] }}/{{ upf['upf-id'] }}"
+                            >launch</mat-icon
+                        >
+                    </p>
+                </mat-expansion-panel>
+            </td>
+        </ng-container>
+
+        <!-- SIM Cards Column -->
+        <ng-container matColumnDef="sim-cards" id="simCardsColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>SIM Cards</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-expansion-panel togglePosition="before">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title
+                            >{{ row["sim-card"].length }} SIM Card(s)
+                            <mat-icon
+                                color="primary"
+                                class="table_icon small_icon"
+                                aria-hidden="false"
+                                aria-label="SIM Cards"
+                                id="pointerSIMCards"
+                                routerLink="/sim-card"
+                                >launch</mat-icon
+                            ></mat-panel-title
+                        >
+                    </mat-expansion-panel-header>
+                    <p *ngFor="let simcard of row['sim-card']">
+                        {{ simcard["sim-id"] }}
+                        <mat-icon
+                            color="primary"
+                            class="table_icon small_icon"
+                            aria-hidden="false"
+                            aria-label="SIM Card"
+                            id="pointerSIMCard"
+                            routerLink="/sim-card/sim-card-edit/{{
+                                row['enterprise-id']
+                            }}/{{ row['site-id'] }}/{{ simcard['sim-id'] }}"
+                            >launch</mat-icon
+                        >
+                    </p>
+                </mat-expansion-panel>
+            </td>
+        </ng-container>
+
+        <!-- Devices Column -->
+        <ng-container matColumnDef="devices" id="devicesColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Devices</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-expansion-panel togglePosition="before">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title
+                            >{{ row["device"].length }} Device(s)
+                            <mat-icon
+                                color="primary"
+                                class="table_icon small_icon"
+                                aria-hidden="false"
+                                aria-label="Devices"
+                                id="pointerDevices"
+                                routerLink="/device"
+                                >launch</mat-icon
+                            ></mat-panel-title
+                        >
+                    </mat-expansion-panel-header>
+                    <p *ngFor="let device of row['device']">
+                        {{ device["device-id"] }}
+                        <mat-icon
+                            color="primary"
+                            class="table_icon small_icon"
+                            aria-hidden="false"
+                            aria-label="Device"
+                            id="pointerDevice"
+                            routerLink="/device/device-edit/{{
+                                row['enterprise-id']
+                            }}/{{ row['site-id'] }}/{{ device['device-id'] }}"
+                            >launch</mat-icon
+                        >
+                    </p>
+                </mat-expansion-panel>
             </td>
         </ng-container>
 
@@ -93,38 +320,6 @@
                     }}"
                     >launch
                 </mat-icon>
-            </td>
-        </ng-container>
-
-        <!--MCC Column-->
-        <ng-container matColumnDef="mcc" id="MccColumn">
-            <th mat-header-cell *matHeaderCellDef>MCC</th>
-            <td mat-cell *matCellDef="let row">
-                {{ row["imsi-definition"].mcc }}
-            </td>
-        </ng-container>
-
-        <!--MNC Column-->
-        <ng-container matColumnDef="mnc" id="MncColumn">
-            <th mat-header-cell *matHeaderCellDef>MNC</th>
-            <td mat-cell *matCellDef="let row">
-                {{ row["imsi-definition"].mnc }}
-            </td>
-        </ng-container>
-
-        <!--enterprise ID Column-->
-        <ng-container matColumnDef="enterpriseID" id="EnterpriseIDColumn">
-            <th mat-header-cell *matHeaderCellDef>Enterprise ID</th>
-            <td mat-cell *matCellDef="let row">
-                {{ row["imsi-definition"].enterprise }}
-            </td>
-        </ng-container>
-
-        <!--Format Column-->
-        <ng-container matColumnDef="format" id="FormatColumn">
-            <th mat-header-cell *matHeaderCellDef>Format</th>
-            <td mat-cell *matCellDef="let row">
-                {{ row["imsi-definition"].format }}
             </td>
         </ng-container>
 

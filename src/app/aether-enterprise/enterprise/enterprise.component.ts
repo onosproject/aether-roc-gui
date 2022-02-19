@@ -29,7 +29,17 @@ export class EnterpriseComponent
     @ViewChild(MatTable) table: MatTable<EnterprisesEnterprise>;
 
     /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-    displayedColumns = ['id', 'description', 'connectivity', 'edit', 'delete'];
+    displayedColumns = [
+        'id',
+        'description',
+        'sites',
+        'applications',
+        'trafficclasses',
+        'templates',
+        'connectivity',
+        'edit',
+        'delete',
+    ];
 
     constructor(
         private aetherService: AetherService,

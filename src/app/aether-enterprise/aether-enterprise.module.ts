@@ -33,6 +33,7 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ConnectivityServiceSelectComponent } from './connectivity-service-select/connectivity-service-select.component';
 import { UtilsModule } from '../utils/utils.module';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
     declarations: [
@@ -68,6 +69,7 @@ import { UtilsModule } from '../utils/utils.module';
         CdkTableModule,
         MatCheckboxModule,
         UtilsModule,
+        MatExpansionModule,
     ],
     providers: [
         {

@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ApiModule } from '../../../openapi3/aether/2.0.0/api.module';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 describe('EnterpriseProfilesComponent', () => {
     let component: EnterpriseComponent;
@@ -35,6 +36,7 @@ describe('EnterpriseProfilesComponent', () => {
                 MatSnackBarModule,
                 MatToolbarModule,
                 MatIconModule,
+                MatExpansionModule,
                 ApiModule,
             ],
             providers: [

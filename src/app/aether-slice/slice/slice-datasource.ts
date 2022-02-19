@@ -27,6 +27,7 @@ export class SliceDatasource extends RocDataSource<
         super(aetherService, bs, target, '/slice-2.0.0', 'slice');
     }
 
+    // TODO - move this back in to the roc-data-source base class
     loadData(
         dataSourceObservable: Observable<Enterprises>,
         onDataLoaded: (
