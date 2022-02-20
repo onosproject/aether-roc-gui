@@ -59,6 +59,13 @@ const aetherRoutes: Routes = [
             ),
     },
     {
+        path: 'small-cell',
+        loadChildren: () =>
+            import('./aether-small-cell/aether-small-cell.module').then(
+                (m) => m.AetherSmallCellModule
+            ),
+    },
+    {
         path: 'template',
         loadChildren: () =>
             import('./aether-template/aether-template.module').then(

@@ -1,0 +1,164 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
+<form [formGroup]="smallCellForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title
+                >Small Cell ID:
+                {{
+                    this.smallCellForm.get("small-cell-id").value
+                }}</mat-card-title
+            >
+            <mat-icon
+                *ngIf="!isNew"
+                (click)="showParentDisplay = true; $event.preventDefault()"
+                class="subscriber-pointer"
+                id="showParentInformation"
+                color="accent"
+            >
+                assignment
+            </mat-icon>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row" *ngIf="isNew">
+                <mat-form-field class="half-width field-margin">
+                    <input
+                        matInput
+                        formControlName="small-cell-id"
+                        placeholder="Please specify an ID"
+                        id="inputID"
+                    />
+                    <mat-hint>ID</mat-hint>
+                </mat-form-field>
+            </div>
+            <div
+                class="half-width field-margin"
+                id="enterpriseRowSelect"
+                *ngIf="isNew"
+            >
+                <mat-label *ngIf="enterprises.length === 0"
+                    >No Enterprise available
+                </mat-label>
+                <mat-select
+                    class="row-pad"
+                    id="selectEnterprise"
+                    [(value)]="newEnterpriseId"
+                    placeholder="Please select an Enterprise"
+                >
+                    <mat-option
+                        *ngFor="let eachEnterprise of enterprises"
+                        [value]="eachEnterprise.enterpriseId"
+                        >{{ eachEnterprise.enterpriseId }}
+                        {{ eachEnterprise.displayName }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint><small>Enterprise</small></mat-hint>
+            </div>
+            <div
+                class="half-width field-margin"
+                id="siteRowSelect"
+                *ngIf="isNew"
+            >
+                <mat-label *ngIf="enterprises.length === 0"
+                    >No Site available
+                </mat-label>
+                <mat-select
+                    class="row-pad"
+                    id="selectSite"
+                    [(value)]="newSiteId"
+                    placeholder="Please select a Site"
+                >
+                    <mat-option
+                        *ngFor="
+                            let eachSite of sitesOfEnterprise(newEnterpriseId)
+                        "
+                        [value]="eachSite.siteID"
+                        >{{ eachSite.siteID }}
+                        {{ eachSite.displayName }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint><small>Site</small></mat-hint>
+            </div>
+            <div class="row" id="enterpriseRowReadOnly" *ngIf="!isNew">
+                <p class="field-margin half-width">
+                    <br /><mat-hint>Enterprise</mat-hint>:&nbsp;{{
+                        route.snapshot.params["enterprise-id"]
+                    }}
+                </p>
+            </div>
+            <div class="row" id="siteRowReadOnly" *ngIf="!isNew">
+                <p class="field-margin half-width">
+                    <br /><mat-hint>Site</mat-hint>:&nbsp;{{
+                        route.snapshot.params["site-id"]
+                    }}
+                </p>
+            </div>
+            <div class="row" id="displayNameRow">
+                <mat-form-field class="field-margin half-width">
+                    <input
+                        matInput
+                        formControlName="display-name"
+                        id="inputDisplayName"
+                    />
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="descriptionRow">
+                <mat-form-field class="field-margin half-width">
+                    <textarea
+                        matInput
+                        formControlName="description"
+                        id="inputDescription"
+                    ></textarea>
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="addressRow">
+                <mat-form-field class="field-margin half-width">
+                    <input
+                        matInput
+                        formControlName="address"
+                        id="inputAddress"
+                    />
+                    <mat-hint>Address</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="tacRow">
+                <mat-form-field class="field-margin half-width">
+                    <input
+                        matInput
+                        formControlName="tac"
+                        title="This field is mandatory."
+                        placeholder="Please specify an TAC"
+                        id="inputTac"
+                        required
+                    />
+                    <mat-hint>TAC (4-8 hex string</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="enabledRow">
+                <mat-slide-toggle formControlName="enable"
+                    >Enable</mat-slide-toggle
+                >
+            </div>
+            <button
+                mat-raised-button
+                color="accent"
+                type="submit"
+                [disabled]="
+                    !(
+                        smallCellForm.valid &&
+                        smallCellForm.touched &&
+                        opaService.canWrite('/small-cell/small-cell')
+                    )
+                "
+                id="submitButton"
+            >
+                Update
+            </button>
+        </mat-card-content>
+    </mat-card>
+</form>

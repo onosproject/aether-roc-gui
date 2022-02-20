@@ -34,7 +34,7 @@ export class SiteComponent
         'id',
         'description',
         'enterprise',
-        'small-cell',
+        'small-cells',
         'slices',
         'device-groups',
         'ip-domains',

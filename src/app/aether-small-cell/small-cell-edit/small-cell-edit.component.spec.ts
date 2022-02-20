@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ * SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SmallCellSelectComponent } from './small-cell-select.component';
+import { SmallCellEditComponent } from './small-cell-edit.component';
 import {
     MAT_FORM_FIELD_DEFAULT_OPTIONS,
     MatFormFieldModule,
@@ -22,14 +23,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
-describe('SmallCellSelectComponent', () => {
-    let component: SmallCellSelectComponent;
-    let fixture: ComponentFixture<SmallCellSelectComponent>;
+describe('SmallCellEditComponent', () => {
+    let component: SmallCellEditComponent;
+    let fixture: ComponentFixture<SmallCellEditComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [SmallCellSelectComponent],
+            declarations: [SmallCellEditComponent],
             providers: [
                 {
                     provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -51,12 +53,13 @@ describe('SmallCellSelectComponent', () => {
                 MatDividerModule,
                 MatSnackBarModule,
                 MatSelectModule,
+                MatSlideToggleModule,
             ],
         }).compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(SmallCellSelectComponent);
+        fixture = TestBed.createComponent(SmallCellEditComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

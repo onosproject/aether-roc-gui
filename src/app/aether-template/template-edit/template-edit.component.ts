@@ -22,7 +22,6 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HexPipe } from '../../utils/hex.pipe';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseTemplateService } from '../../../openapi3/aether/2.0.0/services';
