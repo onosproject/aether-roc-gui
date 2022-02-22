@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { BasketService } from './basket.service';
+import { BasketService, FORDELETE, STRIKETHROUGH } from './basket.service';
 import { RocElement } from '../openapi3/top/level/models/elements';
 import {
     GenericRocDataSource,
@@ -19,7 +19,11 @@ interface Selected {
 }
 
 export abstract class RocListBase<
-    T extends GenericRocDataSource<RocGenericModelType, RocGenericContainerType>
+    T extends GenericRocDataSource<
+        RocGenericModelType,
+        RocGenericContainerType
+    >,
+    U extends RocGenericModelType
 > {
     public dataSource: T;
     protected reqdAttr: string[] = [];
@@ -27,47 +31,29 @@ export abstract class RocListBase<
     public usageArray = [];
     public showUsageCard = false;
 
-    protected constructor(
-        protected bs: BasketService,
-        datasource: T,
-        public pathRoot: RocElement,
-        protected pathListAttr: string,
-        protected indexAttr: string = 'id'
-    ) {
+    protected constructor(protected bs: BasketService, datasource: T) {
         this.dataSource = datasource;
     }
 
-    delete(id: string): void {
+    delete(entity: U): void {
+        const idAttrNames = this.dataSource['indexAttr'] as string[];
+        const args = [] as string[];
+        for (let i = 0; i < idAttrNames.length; i++) {
+            args[i] = entity[idAttrNames[i]] as string;
+        }
+        const fullPath = this.dataSource.fullPath(...args);
+        console.log('Full path', fullPath, ...args);
         const ucMap = new Map<string, string>();
         if (this.reqdAttr.length > 0) {
-            ucMap.set(
-                '/' +
-                    this.pathRoot +
-                    '/' +
-                    this.pathListAttr +
-                    '[' +
-                    this.indexAttr +
-                    '=' +
-                    id +
-                    ']',
-                this.reqdAttr.join(',')
-            );
+            ucMap.set(`/${fullPath}`, this.reqdAttr.join(','));
         }
         this.bs.deleteIndexedEntry(
-            '/' +
-                this.pathRoot +
-                '/' +
-                this.pathListAttr +
-                '[' +
-                this.indexAttr +
-                '=' +
-                id +
-                ']',
-            this.indexAttr,
-            id,
+            `/${fullPath}`,
+            idAttrNames[idAttrNames.length - 1],
+            args[args.length - 1], // last one
             ucMap
         );
-        this.dataSource.delete(id);
+        entity[FORDELETE] = STRIKETHROUGH;
     }
 
     showUsage(id: string, enterprise?: string, site?: string): void {

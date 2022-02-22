@@ -21,7 +21,7 @@ import { RocListBase } from '../../roc-list-base';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class EnterpriseComponent
-    extends RocListBase<EnterpriseDatasource>
+    extends RocListBase<EnterpriseDatasource, EnterprisesEnterprise>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -52,29 +52,27 @@ export class EnterpriseComponent
                 aetherService,
                 basketService,
                 AETHER_TARGET
-            ),
-            'Enterprises-2.0.0',
-            'enterprise',
-            'enterprise-id'
+            )
         );
     }
 
     onDataLoaded(ScopeOfDataSource: EnterpriseDatasource): void {
-        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if (
-            this.pathRoot in basketPreview &&
-            'enterprise' in basketPreview[this.pathRoot]
-        ) {
-            ScopeOfDataSource.merge(
-                basketPreview['Enterprises-2.0.0'].enterprise,
-                [
-                    {
-                        fieldName: 'connectivity-service',
-                        idAttr: 'connectivity-service',
-                    },
-                ]
-            );
-        }
+        /* TODO: Needs work*/
+        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // if (
+        //     this.pathRoot in basketPreview &&
+        //     'enterprise' in basketPreview[this.pathRoot]
+        // ) {
+        //     ScopeOfDataSource.merge(
+        //         basketPreview['Enterprises-2.0.0'].enterprise,
+        //         [
+        //             {
+        //                 fieldName: 'connectivity-service',
+        //                 idAttr: 'connectivity-service',
+        //             },
+        //         ]
+        //     );
+        // }
     }
 
     ngAfterViewInit(): void {

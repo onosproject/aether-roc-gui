@@ -10,7 +10,7 @@ import {
     EnterprisesEnterpriseSiteUpf,
 } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService } from '../../basket.service';
+import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 import { from, Observable } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
@@ -24,7 +24,14 @@ export class UpfDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/upf-2.0.0', 'upf');
+        super(
+            aetherService,
+            bs,
+            target,
+            'Enterprises-2.0.0',
+            ['enterprise', 'site', 'upf'],
+            ['enterprise-id', 'site-id', 'upf-id']
+        );
     }
 
     loadData(
@@ -46,26 +53,17 @@ export class UpfDatasource extends RocDataSource<
                 (value: EnterprisesEnterprise) => {
                     value.site.forEach((s) => {
                         s.upf.forEach((u) => {
-                            if (
-                                !this.bs.containsDeleteEntry(
-                                    '/Enterprises-2.0.0/enterprise[' +
-                                        value['enterprise-id'] +
-                                        ']/site[site-id=' +
-                                        s['site-id'] +
-                                        ']/upf[upf-id=' +
-                                        u['upf-id'] +
-                                        ']'
-                                )
-                            ) {
-                                u['enterprise-id'] = value['enterprise-id'];
-                                u['site-id'] = s['site-id'];
-                                this.data.push(u);
-                            } else {
-                                console.log(
-                                    'upf-id is already in basket',
-                                    u['upf-id']
-                                );
+                            u['enterprise-id'] = value['enterprise-id'];
+                            u['site-id'] = s['site-id'];
+                            const fullPath = this.deletePath(
+                                value['enterprise-id'],
+                                s['site-id'],
+                                u['upf-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                u[FORDELETE] = STRIKETHROUGH;
                             }
+                            this.data.push(u);
                         });
                     });
                 },

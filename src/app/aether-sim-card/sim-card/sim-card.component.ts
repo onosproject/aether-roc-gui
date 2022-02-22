@@ -10,12 +10,11 @@ import { SimCardDatasource } from './sim-card-datasource';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-sim-card';
+import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { AETHER_TARGET } from '../../../environments/environment';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-sim-card',
@@ -23,7 +22,7 @@ import { RocElement } from '../../../openapi3/top/level/models/elements';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class SimCardComponent
-    extends RocListBase<SimCardDatasource>
+    extends RocListBase<SimCardDatasource, EnterprisesEnterpriseSiteSimCard>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -48,32 +47,21 @@ export class SimCardComponent
     ) {
         super(
             basketService,
-            new SimCardDatasource(aetherService, basketService, AETHER_TARGET),
-            'Enterprises-2.0.0',
-            'sim-card'
+            new SimCardDatasource(aetherService, basketService, AETHER_TARGET)
         );
     }
 
     onDataLoaded(ScopeOfDataSource: SimCardDatasource): void {
-        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        this.usageArray = [];
-
-        if (
-            this.pathRoot in basketPreview &&
-            'sim-card' in basketPreview[this.pathRoot]
-        ) {
-            ScopeOfDataSource.merge(basketPreview['SimCard-2.0.0']['sim-card']);
-        }
-    }
-
-    deleteSimCard(id: string, enterpriseID: string, siteID: string): void {
-        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
-            '[enterprise-id=' +
-            enterpriseID +
-            '[site-id=' +
-            siteID +
-            ']') as RocElement;
-        this.delete(id);
+        /* TODO: Needs work*/
+        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // this.usageArray = [];
+        //
+        // if (
+        //     this.pathRoot in basketPreview &&
+        //     'sim-card' in basketPreview[this.pathRoot]
+        // ) {
+        //     ScopeOfDataSource.merge(basketPreview['SimCard-2.0.0']['sim-card']);
+        // }
     }
 
     ngAfterViewInit(): void {

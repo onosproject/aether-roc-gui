@@ -6,7 +6,7 @@
 <div>
     <mat-toolbar class="profile-toolbar" color="primary">
         <p>
-            Virtual Cellular Service
+            Slice
             <span
                 *ngIf="thisVcs && thisVcs['display-name'] !== undefined"
                 [title]="id"
@@ -112,7 +112,7 @@
                                 aria-hidden="false"
                                 aria-label="DeviceGroup"
                                 color="accent"
-                                routerLink="/devicegroups/devicegroups-monitor/{{
+                                routerLink="/device-group/device-group-monitor/{{
                                     dg.key['id']
                                 }}"
                                 >insights
@@ -139,7 +139,7 @@
                             aria-label="DeviceGroup"
                             color="accent"
                             title="Edit Device Group {{ dg.key['id'] }}"
-                            routerLink="/devicegroups/devicegroups-edit/{{
+                            routerLink="/device-group/device-group-edit/{{
                                 dg.key['id']
                             }}"
                             >edit

@@ -10,7 +10,7 @@ import {
     EnterprisesEnterpriseSiteSlice,
 } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService } from '../../basket.service';
+import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 import { from, Observable } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
@@ -24,7 +24,14 @@ export class SliceDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/slice-2.0.0', 'slice');
+        super(
+            aetherService,
+            bs,
+            target,
+            'Enterprises-2.0.0',
+            ['enterprise', 'site', 'slice'],
+            ['enterprise-id', 'site-id', 'slice-id']
+        );
     }
 
     // TODO - move this back in to the roc-data-source base class
@@ -47,26 +54,17 @@ export class SliceDatasource extends RocDataSource<
                 (value: EnterprisesEnterprise) => {
                     value.site.forEach((s) => {
                         s.slice.forEach((i) => {
-                            if (
-                                !this.bs.containsDeleteEntry(
-                                    '/enterprises/enterprise[' +
-                                        value['enterprise-id'] +
-                                        '/site[site-id=' +
-                                        s['site-id'] +
-                                        '/slice[slice-id=' +
-                                        i['slice-id'] +
-                                        ']'
-                                )
-                            ) {
-                                i['enterprise-id'] = value['enterprise-id'];
-                                i['site-id'] = s['site-id'];
-                                this.data.push(i);
-                            } else {
-                                console.log(
-                                    'slice-id is already in basket',
-                                    i['slice-id']
-                                );
+                            i['enterprise-id'] = value['enterprise-id'];
+                            i['site-id'] = s['site-id'];
+                            const fullPath = this.deletePath(
+                                value['enterprise-id'],
+                                s['site-id'],
+                                i['slice-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                i[FORDELETE] = STRIKETHROUGH;
                             }
+                            this.data.push(i);
                         });
                     });
                 },

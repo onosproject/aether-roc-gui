@@ -10,7 +10,7 @@ import {
     EnterprisesEnterpriseTemplate,
 } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService } from '../../basket.service';
+import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 import { from, Observable } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
@@ -24,7 +24,14 @@ export class TemplateDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/template-2.0.0', 'template');
+        super(
+            aetherService,
+            bs,
+            target,
+            'Enterprises-2.0.0',
+            ['enterprise', 'template'],
+            ['enterprise-id', 'template-id']
+        );
     }
 
     loadData(
@@ -45,23 +52,15 @@ export class TemplateDatasource extends RocDataSource<
             .subscribe(
                 (value: EnterprisesEnterprise) => {
                     value.template.forEach((tp) => {
-                        if (
-                            !this.bs.containsDeleteEntry(
-                                '/enterprises/enterprise[' +
-                                    value['enterprise-id'] +
-                                    '/template[template-id=' +
-                                    tp['template-id'] +
-                                    ']'
-                            )
-                        ) {
-                            tp['enterprise-id'] = value['enterprise-id'];
-                            this.data.push(tp);
-                        } else {
-                            console.log(
-                                'template-id is already in basket',
-                                tp['template-id']
-                            );
+                        tp['enterprise-id'] = value['enterprise-id'];
+                        const fullPath = this.deletePath(
+                            value['enterprise-id'],
+                            tp['template-id']
+                        );
+                        if (this.bs.containsDeleteEntry(fullPath)) {
+                            tp[FORDELETE] = STRIKETHROUGH;
                         }
+                        this.data.push(tp);
                     });
                 },
                 (error) => {

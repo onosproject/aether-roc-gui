@@ -5,9 +5,9 @@
  */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RocSelectBase } from '../../roc-select-base';
-import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site';
-import { EnterprisesEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-device';
-import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services/enterprises-enterprise-site.service';
+import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
 import { FormBuilder } from '@angular/forms';
 import { AETHER_TARGET } from '../../../environments/environment';
 

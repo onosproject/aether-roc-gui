@@ -5,13 +5,13 @@
  */
 
 import { compare, RocDataSource } from '../../roc-data-source';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
-import { BasketService } from '../../basket.service';
-import { Enterprises } from '../../../openapi3/aether/2.0.0/models/enterprises';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
+import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
+import { Enterprises } from '../../../openapi3/aether/2.0.0/models';
 import { from, Observable } from 'rxjs';
-import { EnterprisesEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-device';
+import { EnterprisesEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/models';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
-import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise';
+import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models';
 
 export class DeviceDatasource extends RocDataSource<
     EnterprisesEnterpriseSiteDevice,
@@ -26,9 +26,9 @@ export class DeviceDatasource extends RocDataSource<
             aetherService,
             bs,
             target,
-            '/Enterprises-2.0.0/enterprise',
-            'enterprise',
-            'enterprise-id'
+            'Enterprises-2.0.0',
+            ['enterprise', 'site', 'device'],
+            ['enterprise-id', 'site-id', 'device-id']
         );
     }
 
@@ -50,27 +50,18 @@ export class DeviceDatasource extends RocDataSource<
             .subscribe(
                 (value: EnterprisesEnterprise) => {
                     value.site.forEach((s) => {
-                        s.device.forEach((u) => {
-                            if (
-                                !this.bs.containsDeleteEntry(
-                                    '/Enterprises-2.0.0/enterprise[' +
-                                        value['enterprise-id'] +
-                                        ']/site[site-id=' +
-                                        s['site-id'] +
-                                        ']/device[device-id=' +
-                                        u['device-id'] +
-                                        ']'
-                                )
-                            ) {
-                                u['enterprise-id'] = value['enterprise-id'];
-                                u['site-id'] = s['site-id'];
-                                this.data.push(u);
-                            } else {
-                                console.log(
-                                    'device-id is already in basket',
-                                    u['device-id']
-                                );
+                        s.device.forEach((d) => {
+                            d['enterprise-id'] = value['enterprise-id'];
+                            d['site-id'] = s['site-id'];
+                            const fullPath = this.deletePath(
+                                value['enterprise-id'],
+                                s['site-id'],
+                                d['slice-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                d[FORDELETE] = STRIKETHROUGH;
                             }
+                            this.data.push(d);
                         });
                     });
                 },

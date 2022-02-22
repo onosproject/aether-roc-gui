@@ -15,7 +15,6 @@ import { RocListBase } from '../../roc-list-base';
 import { DeviceGroupDatasource } from './device-group-datasource';
 import * as _ from 'lodash';
 import { EnterprisesEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-device-group',
@@ -23,7 +22,10 @@ import { RocElement } from '../../../openapi3/top/level/models/elements';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class DeviceGroupComponent
-    extends RocListBase<DeviceGroupDatasource>
+    extends RocListBase<
+        DeviceGroupDatasource,
+        EnterprisesEnterpriseSiteDeviceGroup
+    >
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -53,16 +55,14 @@ export class DeviceGroupComponent
                 aetherService,
                 basketService,
                 AETHER_TARGET
-            ),
-            'Enterprises-2.0.0',
-            'device-group'
+            )
         );
     }
 
     onDataLoaded(ScopeOfDataSource: DeviceGroupDatasource): void {
-        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        this.usageArray = [];
-        /* Needs work*/
+        /* TODO: Needs work*/
+        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // this.usageArray = [];
         // this.aetherService
         //     .getVcs({
         //         target: AETHER_TARGET,
@@ -88,25 +88,15 @@ export class DeviceGroupComponent
         //             )
         //         );
         //     });
-        if (
-            this.pathRoot in basketPreview &&
-            'device-group' in basketPreview[this.pathRoot]
-        ) {
-            ScopeOfDataSource.merge(
-                basketPreview['Enterprises-2.0.0'].site['device-group'],
-                [{ fieldName: 'imsis', idAttr: 'imsi-id' }]
-            );
-        }
-    }
-
-    deleteDeviceGroup(id: string, enterpriseID: string, siteID: string): void {
-        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
-            '[enterprise-id=' +
-            enterpriseID +
-            '[site-id=' +
-            siteID +
-            ']') as RocElement;
-        this.delete(id);
+        // if (
+        //     this.pathRoot in basketPreview &&
+        //     'device-group' in basketPreview[this.pathRoot]
+        // ) {
+        //     ScopeOfDataSource.merge(
+        //         basketPreview['Enterprises-2.0.0'].site['device-group'],
+        //         [{ fieldName: 'imsis', idAttr: 'imsi-id' }]
+        //     );
+        // }
     }
 
     ngAfterViewInit(): void {

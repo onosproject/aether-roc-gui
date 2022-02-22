@@ -21,7 +21,7 @@ import {
 } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { EnterprisesEnterpriseSiteSmallCellService } from '../../../openapi3/aether/2.0.0/services/enterprises-enterprise-site-small-cell.service';
+import { EnterprisesEnterpriseSiteSmallCellService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
 
 @Component({

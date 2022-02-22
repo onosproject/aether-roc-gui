@@ -15,7 +15,6 @@ import { RocListBase } from '../../roc-list-base';
 import { UpfDatasource } from './upf-datasource';
 import * as _ from 'lodash';
 import { EnterprisesEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-upf',
@@ -23,7 +22,7 @@ import { RocElement } from '../../../openapi3/top/level/models/elements';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class UpfComponent
-    extends RocListBase<UpfDatasource>
+    extends RocListBase<UpfDatasource, EnterprisesEnterpriseSiteUpf>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -50,17 +49,15 @@ export class UpfComponent
     ) {
         super(
             basketService,
-            new UpfDatasource(aetherService, basketService, AETHER_TARGET),
-            'Enterprises-2.0.0',
-            'upf'
+            new UpfDatasource(aetherService, basketService, AETHER_TARGET)
         );
         super.reqdAttr = ['port', 'address'];
     }
 
     onDataLoaded(ScopeOfDataSource: UpfDatasource): void {
-        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        this.usageArray = [];
-        /* Needs work*/
+        /* TODO: Needs work*/
+        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // this.usageArray = [];
         // this.aetherService
         //     .getVcs({
         //         target: AETHER_TARGET,
@@ -79,22 +76,12 @@ export class UpfComponent
         //             )
         //         );
         //     });
-        if (
-            this.pathRoot in basketPreview &&
-            'upf' in basketPreview[this.pathRoot]
-        ) {
-            ScopeOfDataSource.merge(basketPreview['Upf-2.0.0'].upf);
-        }
-    }
-
-    deleteUpf(id: string, enterpriseID: string, siteID: string): void {
-        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
-            '[enterprise-id=' +
-            enterpriseID +
-            '[site-id=' +
-            siteID +
-            ']') as RocElement;
-        this.delete(id);
+        // if (
+        //     this.pathRoot in basketPreview &&
+        //     'upf' in basketPreview[this.pathRoot]
+        // ) {
+        //     ScopeOfDataSource.merge(basketPreview['Upf-2.0.0'].upf);
+        // }
     }
 
     ngAfterViewInit(): void {

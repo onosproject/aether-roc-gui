@@ -5,13 +5,13 @@
  */
 
 import { compare, RocDataSource } from '../../roc-data-source';
-import { Enterprises } from '../../../openapi3/aether/2.0.0/models/enterprises';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
-import { BasketService } from '../../basket.service';
-import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise-site-sim-card';
+import { Enterprises } from '../../../openapi3/aether/2.0.0/models';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
+import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
+import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models';
 import { from, Observable } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
-import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models/enterprises-enterprise';
+import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models';
 
 export class SimCardDatasource extends RocDataSource<
     EnterprisesEnterpriseSiteSimCard,
@@ -22,7 +22,14 @@ export class SimCardDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/sim-card-2.0.0', 'sim-card');
+        super(
+            aetherService,
+            bs,
+            target,
+            'Enterprises-2.0.0',
+            ['enterprise', 'site', 'sim-card'],
+            ['enterprise-id', 'site-id', 'sim-card-id']
+        );
     }
 
     loadData(
@@ -44,26 +51,17 @@ export class SimCardDatasource extends RocDataSource<
                 (value: EnterprisesEnterprise) => {
                     value.site.forEach((s) => {
                         s['sim-card'].forEach((sc) => {
-                            if (
-                                !this.bs.containsDeleteEntry(
-                                    '/Enterprises-2.0.0/enterprise[' +
-                                        value['enterprise-id'] +
-                                        ']/site[site-id=' +
-                                        s['site-id'] +
-                                        ']/sim-card[sim-id=' +
-                                        sc['sim-id'] +
-                                        ']'
-                                )
-                            ) {
-                                sc['enterprise-id'] = value['enterprise-id'];
-                                sc['site-id'] = s['site-id'];
-                                this.data.push(sc);
-                            } else {
-                                console.log(
-                                    'sim-id is already in basket',
-                                    sc['sim-id']
-                                );
+                            sc['enterprise-id'] = value['enterprise-id'];
+                            sc['site-id'] = s['site-id'];
+                            const fullPath = this.deletePath(
+                                value['enterprise-id'],
+                                s['site-id'],
+                                sc['sim-card-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                sc[FORDELETE] = STRIKETHROUGH;
                             }
+                            this.data.push(sc);
                         });
                     });
                 },

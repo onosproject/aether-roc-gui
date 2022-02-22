@@ -41,7 +41,7 @@ const sitePromTags = [
     ],
 })
 export class PanelSiteComponent
-    extends RocListBase<PanelSiteDatasource>
+    extends RocListBase<PanelSiteDatasource, EnterprisesEnterpriseSite>
     implements AfterViewInit, OnDestroy
 {
     @Input() top: number;
@@ -67,13 +67,7 @@ export class PanelSiteComponent
     ) {
         super(
             basketService,
-            new PanelSiteDatasource(
-                aetherService,
-                basketService,
-                AETHER_TARGET
-            ),
-            'Enterprises-2.0.0',
-            'site'
+            new PanelSiteDatasource(aetherService, basketService, AETHER_TARGET)
         );
         this.promData = new SitePromDataSource(httpClient);
     }

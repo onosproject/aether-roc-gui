@@ -11,7 +11,7 @@ import {
     EnterprisesEnterpriseTrafficClass,
 } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService } from '../../basket.service';
+import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
 import { from, Observable } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
 
@@ -32,8 +32,9 @@ export class TrafficClassDatasource extends RocDataSource<
             aetherService,
             bs,
             target,
-            '/traffic-class-2.0.0',
-            'traffic-class'
+            'Enterprises-2.0.0',
+            ['enterprise', 'traffic-class'],
+            ['enterprise-id', 'traffic-class-id']
         );
     }
 
@@ -55,23 +56,15 @@ export class TrafficClassDatasource extends RocDataSource<
             .subscribe(
                 (value: EnterprisesEnterprise) => {
                     value['traffic-class'].forEach((tc) => {
-                        if (
-                            !this.bs.containsDeleteEntry(
-                                '/enterprises/enterprise[' +
-                                    value['enterprise-id'] +
-                                    '/traffic-class[traffic-class-id=' +
-                                    tc['traffic-class-id'] +
-                                    ']'
-                            )
-                        ) {
-                            tc['enterprise-id'] = value['enterprise-id'];
-                            this.data.push(tc);
-                        } else {
-                            console.log(
-                                'traffic-class-id is already in basket',
-                                tc['traffic-class-id']
-                            );
+                        tc['enterprise-id'] = value['enterprise-id'];
+                        const fullPath = this.deletePath(
+                            value['enterprise-id'],
+                            tc['traffic-class-id']
+                        );
+                        if (this.bs.containsDeleteEntry(fullPath)) {
+                            tc[FORDELETE] = STRIKETHROUGH;
                         }
+                        this.data.push(tc);
                     });
                 },
                 (error) => {

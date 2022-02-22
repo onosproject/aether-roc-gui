@@ -44,7 +44,7 @@ const vcsPromTags = ['vcs_active', 'vcs_inactive', 'vcs_idle'];
     ],
 })
 export class PanelSliceComponent
-    extends RocListBase<PanelSliceDatasource>
+    extends RocListBase<PanelSliceDatasource, EnterprisesEnterpriseSiteSlice>
     implements AfterViewInit, OnDestroy
 {
     @Input() top: number;
@@ -85,9 +85,7 @@ export class PanelSliceComponent
                 aetherService,
                 basketService,
                 AETHER_TARGET
-            ),
-            'Enterprises-2.0.0',
-            'slice'
+            )
         );
         super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise'];
         this.promData = new VcsPromDataSource(httpClient);

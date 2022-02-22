@@ -5,7 +5,7 @@
  */
 
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService } from '../../basket.service';
+import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 import {
     Enterprises,
@@ -24,7 +24,14 @@ export class ApplicationDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/application-2.0.0', 'application');
+        super(
+            aetherService,
+            bs,
+            target,
+            'Enterprises-2.0.0',
+            ['enterprise', 'application'],
+            ['enterprise-id', 'application-id']
+        );
     }
 
     loadData(
@@ -45,23 +52,15 @@ export class ApplicationDatasource extends RocDataSource<
             .subscribe(
                 (value: EnterprisesEnterprise) => {
                     value.application.forEach((app) => {
-                        if (
-                            !this.bs.containsDeleteEntry(
-                                '/enterprises/enterprise[' +
-                                    value['enterprise-id'] +
-                                    '/application[application-id=' +
-                                    app['application-id'] +
-                                    ']'
-                            )
-                        ) {
-                            app['enterprise-id'] = value['enterprise-id'];
-                            this.data.push(app);
-                        } else {
-                            console.log(
-                                'application-id is already in basket',
-                                app['application-id']
-                            );
+                        app['enterprise-id'] = value['enterprise-id'];
+                        const fullPath = this.deletePath(
+                            value['enterprise-id'],
+                            app['application-id']
+                        );
+                        if (this.bs.containsDeleteEntry(fullPath)) {
+                            app[FORDELETE] = STRIKETHROUGH;
                         }
+                        this.data.push(app);
                     });
                 },
                 (error) => {

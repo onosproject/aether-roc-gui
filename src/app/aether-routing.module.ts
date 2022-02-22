@@ -45,7 +45,7 @@ const aetherRoutes: Routes = [
             import('./basket/basket.module').then((m) => m.BasketModule),
     },
     {
-        path: 'devicegroups',
+        path: 'device-group',
         loadChildren: () =>
             import('./aether-device-group/aether-device-group.module').then(
                 (m) => m.AetherDeviceGroupModule

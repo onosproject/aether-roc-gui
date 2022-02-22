@@ -22,7 +22,10 @@ import * as _ from 'lodash';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class ConnectivityServiceComponent
-    extends RocListBase<ConnectivityServiceDatasource>
+    extends RocListBase<
+        ConnectivityServiceDatasource,
+        ConnectivityServicesConnectivityService
+    >
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -50,17 +53,14 @@ export class ConnectivityServiceComponent
                 aetherService,
                 basketService,
                 AETHER_TARGET
-            ),
-            'Connectivity-services-2.0.0',
-            'connectivity-service',
-            'connectivity-service-id'
+            )
         );
     }
 
     onDataLoaded(ScopeOfDataSource: ConnectivityServiceDatasource): void {
-        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        this.usageArray = [];
-        /* Needs work*/
+        /* TODO: Needs work*/
+        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // this.usageArray = [];
         // this.aetherService
         //     .getEnterprise({
         //         target: AETHER_TARGET,
@@ -86,17 +86,16 @@ export class ConnectivityServiceComponent
         //             )
         //         );
         //     });
-
-        if (
-            this.pathRoot in basketPreview &&
-            'connectivity-service' in basketPreview[this.pathRoot]
-        ) {
-            ScopeOfDataSource.merge(
-                basketPreview['Connectivity-services-2.0.0'][
-                    'connectivity-service'
-                ]
-            );
-        }
+        // if (
+        //     this.pathRoot in basketPreview &&
+        //     'connectivity-service' in basketPreview[this.pathRoot]
+        // ) {
+        //     ScopeOfDataSource.merge(
+        //         basketPreview['Connectivity-services-2.0.0'][
+        //             'connectivity-service'
+        //         ]
+        //     );
+        // }
     }
 
     ngAfterViewInit(): void {

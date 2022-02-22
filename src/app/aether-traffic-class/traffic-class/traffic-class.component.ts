@@ -14,7 +14,6 @@ import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGET } from '../../../environments/environment';
 import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-traffic-class',
@@ -22,7 +21,10 @@ import { RocElement } from '../../../openapi3/top/level/models/elements';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class TrafficClassComponent
-    extends RocListBase<TrafficClassDatasource>
+    extends RocListBase<
+        TrafficClassDatasource,
+        EnterprisesEnterpriseTrafficClass
+    >
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -52,16 +54,14 @@ export class TrafficClassComponent
                 aetherService,
                 basketService,
                 AETHER_TARGET
-            ),
-            'Enterprises-2.0.0',
-            'traffic-class',
-            'traffic-class-id'
+            )
         );
     }
 
     onDataLoaded(ScopeOfDataSource: TrafficClassDatasource): void {
-        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        this.usageArray = [];
+        /* TODO: Needs work*/
+        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // this.usageArray = [];
         /* Needs work*/
         // this.aetherService
         //     .getDeviceGroup({
@@ -99,22 +99,14 @@ export class TrafficClassComponent
         //             )
         //         );
         //     });
-        if (
-            this.pathRoot in basketPreview &&
-            'traffic-class' in basketPreview[this.pathRoot]
-        ) {
-            ScopeOfDataSource.merge(
-                basketPreview['Traffic-class-2.0.0']['traffic-class']
-            );
-        }
-    }
-
-    deleteTrafficClass(id: string, enterpriseID: string): void {
-        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
-            '[enterprise-id=' +
-            enterpriseID +
-            ']') as RocElement;
-        this.delete(id);
+        // if (
+        //     this.pathRoot in basketPreview &&
+        //     'traffic-class' in basketPreview[this.pathRoot]
+        // ) {
+        //     ScopeOfDataSource.merge(
+        //         basketPreview['Traffic-class-2.0.0']['traffic-class']
+        //     );
+        // }
     }
 
     ngAfterViewInit(): void {
