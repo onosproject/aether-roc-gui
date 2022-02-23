@@ -7,7 +7,7 @@
     <mat-card>
         <mat-card-header>
             <mat-card-title
-                >Virtual Cellular Service ID:
+                >Slice ID:
                 {{ this.sliceForm.get("slice-id").value }}</mat-card-title
             >
             <mat-icon
@@ -283,7 +283,7 @@
                                 class="subscriber-pointer"
                                 aria-hidden="false"
                                 aria-label="device-group"
-                                routerLink="/devicegroups/devicegroups-edit/{{
+                                routerLink="/device-group/device-group-edit/{{
                                     route.snapshot.params['enterprise-id']
                                 }}/{{ route.snapshot.params['site-id'] }}/{{
                                     dgForm.value['device-group']

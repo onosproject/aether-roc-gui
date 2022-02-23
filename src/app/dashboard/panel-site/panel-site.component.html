@@ -36,7 +36,12 @@
                 mat-sort-header
                 class="spacing"
             ></th>
-            <td mat-cell *matCellDef="let row" class="spacing">
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+                class="spacing"
+            >
                 <span
                     *ngIf="row['display-name'] !== undefined"
                     [title]="row['site-id']"
@@ -58,6 +63,7 @@
                 class="spacing"
             ></th>
             <td
+                [style]="row['for-delete-style']"
                 mat-cell
                 class="spacing"
                 *matCellDef="let row"

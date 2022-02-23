@@ -19,7 +19,6 @@ import {
 } from '../../../openapi3/aether/2.0.0/models';
 import { HexPipe } from '../../utils/hex.pipe';
 import { RocDataSource } from '../../roc-data-source';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-slice',
@@ -27,14 +26,13 @@ import { RocElement } from '../../../openapi3/top/level/models/elements';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class SliceComponent
-    extends RocListBase<SliceDatasource>
+    extends RocListBase<SliceDatasource, EnterprisesEnterpriseSiteSlice>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteSlice>;
     sdAsInt = HexPipe.hexAsInt;
-    deletedSliceArray = [];
 
     displayedColumns = [
         'id',
@@ -60,17 +58,9 @@ export class SliceComponent
     ) {
         super(
             basketService,
-            new SliceDatasource(aetherService, basketService, AETHER_TARGET),
-            'Enterprises-2.0.0',
-            'slice'
+            new SliceDatasource(aetherService, basketService, AETHER_TARGET)
         );
-        super.reqdAttr = [
-            'sd',
-            'sst',
-            'enterprise',
-            'site',
-            'default-behavior',
-        ];
+        super.reqdAttr = ['sd', 'sst', 'default-behavior'];
     }
 
     onDataLoaded(
@@ -79,77 +69,22 @@ export class SliceComponent
             Enterprises
         >
     ): void {
-        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if (
-            this.pathRoot in basketPreview &&
-            'slice' in basketPreview[this.pathRoot]
-        ) {
-            ScopeOfDataSource.merge(basketPreview['Slice-2.0.0'].slice, [
-                { fieldName: 'filter', idAttr: 'application' },
-                { fieldName: 'device-group', idAttr: 'device-group' },
-            ]);
-        }
-    }
-    checkForDeletedSlice(): void {
-        const DeletesBasketPreview =
-            this.basketService.buildPatchBody().Deletes;
-        if (
-            'slice-2.0.0' in DeletesBasketPreview &&
-            'slice' in DeletesBasketPreview['slice-2.0.0']
-        ) {
-            this.deletedSliceArray = DeletesBasketPreview[
-                'slice-2.0.0'
-            ].slice.map((DeletedSliceID) => DeletedSliceID['slice-id']);
-        }
-    }
-
-    deleteSlice(id: string, enterpriseID: string, siteID: string): void {
-        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
-            '[enterprise-id=' +
-            enterpriseID +
-            '[site-id=' +
-            siteID +
-            ']') as RocElement;
-        const ucMap = new Map<string, string>();
-        if (this.reqdAttr.length > 0) {
-            ucMap.set(
-                '/' +
-                    this.pathRoot +
-                    '/' +
-                    this.pathListAttr +
-                    '[' +
-                    this.pathListAttr +
-                    '-' +
-                    this.indexAttr +
-                    '=' +
-                    id +
-                    ']',
-                this.reqdAttr.join(',')
-            );
-        }
-        this.bs.deleteIndexedEntry(
-            '/' +
-                this.pathRoot +
-                '/' +
-                this.pathListAttr +
-                '[' +
-                this.pathListAttr +
-                '-' +
-                this.indexAttr +
-                '=' +
-                id +
-                ']',
-            this.indexAttr,
-            id,
-            ucMap
-        );
-        this.checkForDeletedSlice();
+        /* TODO: Needs work*/
+        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // if (
+        //     this.pathRoot in basketPreview &&
+        //     'slice' in basketPreview[this.pathRoot]
+        // ) {
+        //     ScopeOfDataSource.merge(basketPreview['Slice-2.0.0'].slice, [
+        //         { fieldName: 'filter', idAttr: 'application' },
+        //         { fieldName: 'device-group', idAttr: 'device-group' },
+        //     ]);
+        // }
     }
 
     ngAfterViewInit(): void {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        this.checkForDeletedSlice();
         this.table.dataSource = this.dataSource;
         this.dataSource.loadData(
             this.aetherService.getEnterprises({

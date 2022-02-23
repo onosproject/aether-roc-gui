@@ -54,13 +54,13 @@ import { DeviceSelectComponent } from './device-select/device-select.component';
         ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([
-            { path: 'devicegroups', component: DeviceGroupComponent },
+            { path: 'device-group', component: DeviceGroupComponent },
             {
-                path: 'devicegroups-edit/:enterprise-id/:site-id/:id',
+                path: 'device-group-edit/:enterprise-id/:site-id/:id',
                 component: DeviceGroupEditComponent,
             },
             {
-                path: 'devicegroups-monitor/:id',
+                path: 'device-group-monitor/:id',
                 component: DeviceGroupMonitorComponent,
             },
             { path: '', component: DeviceGroupComponent, pathMatch: 'full' },

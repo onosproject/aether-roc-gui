@@ -14,7 +14,6 @@ import { AETHER_TARGET } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { ApplicationDatasource } from './application-datasource';
 import { EnterprisesEnterpriseApplication } from '../../../openapi3/aether/2.0.0/models';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-application',
@@ -22,7 +21,7 @@ import { RocElement } from '../../../openapi3/top/level/models/elements';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class ApplicationComponent
-    extends RocListBase<ApplicationDatasource>
+    extends RocListBase<ApplicationDatasource, EnterprisesEnterpriseApplication>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -49,18 +48,15 @@ export class ApplicationComponent
                 aetherService,
                 basketService,
                 AETHER_TARGET
-            ),
-            'Enterprises-2.0.0',
-            'application',
-            'application-id'
+            )
         );
         super.reqdAttr = ['address'];
     }
 
     onDataLoaded(ScopeOfDataSource): void {
-        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        this.usageArray = [];
-        /* Needs work*/
+        /* TODO: Needs work*/
+        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // this.usageArray = [];
         // this.aetherService
         //     .getVcs({
         //         target: AETHER_TARGET,
@@ -86,23 +82,15 @@ export class ApplicationComponent
         //             )
         //         );
         //     });
-        if (
-            this.pathRoot in basketPreview &&
-            'application' in basketPreview[this.pathRoot]
-        ) {
-            ScopeOfDataSource.merge(
-                basketPreview['Enterprises-2.0.0'].application,
-                [{ fieldName: 'endpoint', idAttr: 'endpoint-id' }]
-            );
-        }
-    }
-
-    deleteApplication(id: string, enterpriseID: string): void {
-        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
-            '[enterprise-id=' +
-            enterpriseID +
-            ']') as RocElement;
-        this.delete(id);
+        // if (
+        //     this.pathRoot in basketPreview &&
+        //     'application' in basketPreview[this.pathRoot]
+        // ) {
+        //     ScopeOfDataSource.merge(
+        //         basketPreview['Enterprises-2.0.0'].application,
+        //         [{ fieldName: 'endpoint', idAttr: 'endpoint-id' }]
+        //     );
+        // }
     }
 
     ngAfterViewInit(): void {

@@ -5,7 +5,7 @@
 -->
 <div>
     <mat-toolbar class="profile-toolbar" color="primary">
-        <p>Virtual Cellular Service</p>
+        <p>Slice</p>
         <span class="toolbar-spacer"></span>
         <button
             mat-raised-button
@@ -34,11 +34,7 @@
         <ng-container matColumnDef="id" id="nameColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
             <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
+                [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
             >
@@ -62,11 +58,7 @@
             </th>
             <td
                 mat-cell
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
+                [style]="row['for-delete-style']"
                 *matCellDef="let row"
                 [title]="row.description"
             >
@@ -80,11 +72,7 @@
                 Default Behavior
             </th>
             <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
+                [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
                 [title]="row['default-behavior']"
@@ -99,11 +87,7 @@
                 Filter
             </th>
             <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
+                [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
             >
@@ -123,11 +107,7 @@
                 MBR
             </th>
             <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
+                [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
             >
@@ -148,11 +128,7 @@
                 Enterprise
             </th>
             <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
+                [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
             >
@@ -175,11 +151,7 @@
         <ng-container matColumnDef="site" id="siteColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Site</th>
             <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
+                [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
             >
@@ -204,11 +176,7 @@
                 Device Group
             </th>
             <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
+                [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
             >
@@ -224,7 +192,7 @@
                         aria-label="DeviceGroup"
                         color="primary"
                         id="pointerDeviceGroup"
-                        routerLink="/devicegroups/devicegroups-edit/{{
+                        routerLink="/device-group/device-group-edit/{{
                             row['enterprise-id']
                         }}/{{ row['site-id'] }}/{{ dg['device-group'] }}"
                         >launch</mat-icon
@@ -237,11 +205,7 @@
         <ng-container matColumnDef="sd" id="sdColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SD</th>
             <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
+                [style]="row['for-delete-style']"
                 mat-cell
                 class="small-spacing"
                 *matCellDef="let row"
@@ -255,11 +219,7 @@
         <ng-container matColumnDef="sst" id="sstColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>SST</th>
             <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
+                [style]="row['for-delete-style']"
                 mat-cell
                 class="small-spacing"
                 *matCellDef="let row"
@@ -272,11 +232,7 @@
         <ng-container matColumnDef="upf" id="upfColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>UPF</th>
             <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
+                [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
             >
@@ -302,11 +258,6 @@
                 Edit
             </th>
             <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
                 mat-cell
                 *matCellDef="let row"
                 routerLink="/slice/slice-edit/{{ row['enterprise-id'] }}/{{
@@ -323,29 +274,15 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
                 Delete
             </th>
-            <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
-                mat-cell
-                *matCellDef="let row"
-            >
+            <td mat-cell *matCellDef="let row">
                 <button
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
                             '/slice/slice[slice-id=' + row['slice-id'] + ']'
-                        )
+                        ) || row['for-delete-style']
                     "
-                    (click)="
-                        deleteSlice(
-                            row['slice-id'],
-                            row['enterprise-id'],
-                            row['site-id']
-                        )
-                    "
+                    (click)="delete(row)"
                     color="accent"
                     id="deleteSliceButton"
                 >
@@ -360,11 +297,6 @@
                 Monitor
             </th>
             <td
-                [style]="
-                    deletedSliceArray.includes(row['slice-id'])
-                        ? 'text-decoration: line-through'
-                        : ''
-                "
                 mat-cell
                 *matCellDef="let row"
                 routerLink="/slice/slice-monitor/{{ row['slice-id'] }}"

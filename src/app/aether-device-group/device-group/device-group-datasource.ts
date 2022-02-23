@@ -5,7 +5,7 @@
  */
 
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService } from '../../basket.service';
+import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 import {
     Enterprises,
@@ -25,7 +25,14 @@ export class DeviceGroupDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/device-group-2.0.0', 'device-group');
+        super(
+            aetherService,
+            bs,
+            target,
+            'Enterprises-2.0.0',
+            ['enterprise', 'site', 'device-group'],
+            ['enterprise-id', 'site-id', 'device-group-id']
+        );
     }
 
     loadData(
@@ -47,26 +54,17 @@ export class DeviceGroupDatasource extends RocDataSource<
                 (value: EnterprisesEnterprise) => {
                     value.site.forEach((s) => {
                         s['device-group'].forEach((dg) => {
-                            if (
-                                !this.bs.containsDeleteEntry(
-                                    '/enterprises/enterprise[' +
-                                        value['enterprise-id'] +
-                                        '/site[site-id=' +
-                                        s['site-id'] +
-                                        '/device-group[device-group-id=' +
-                                        dg['device-group-id'] +
-                                        ']'
-                                )
-                            ) {
-                                dg['enterprise-id'] = value['enterprise-id'];
-                                dg['site-id'] = s['site-id'];
-                                this.data.push(dg);
-                            } else {
-                                console.log(
-                                    'device-group-id is already in basket',
-                                    dg['device-group-id']
-                                );
+                            dg['enterprise-id'] = value['enterprise-id'];
+                            dg['site-id'] = s['site-id'];
+                            const fullPath = this.deletePath(
+                                value['enterprise-id'],
+                                s['site-id'],
+                                dg['device-group-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                dg[FORDELETE] = STRIKETHROUGH;
                             }
+                            this.data.push(dg);
                         });
                     });
                 },

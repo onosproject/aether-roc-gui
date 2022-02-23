@@ -5,7 +5,7 @@
  */
 
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService } from '../../basket.service';
+import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 import {
     Enterprises,
@@ -24,7 +24,14 @@ export class IpDomainDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/ip-domain-2.0.0', 'ip-domain');
+        super(
+            aetherService,
+            bs,
+            target,
+            'Enterprises-2.0.0',
+            ['enterprise', 'site', 'ip-domain'],
+            ['enterprise-id', 'site-id', 'ip-domain-id']
+        );
     }
 
     loadData(
@@ -46,26 +53,17 @@ export class IpDomainDatasource extends RocDataSource<
                 (value: EnterprisesEnterprise) => {
                     value.site.forEach((s) => {
                         s['ip-domain'].forEach((i) => {
-                            if (
-                                !this.bs.containsDeleteEntry(
-                                    '/enterprises/enterprise[' +
-                                        value['enterprise-id'] +
-                                        '/site[site-id=' +
-                                        s['site-id'] +
-                                        '/ip-domain[ip-domain-id=' +
-                                        i['ip-domain-id'] +
-                                        ']'
-                                )
-                            ) {
-                                i['enterprise-id'] = value['enterprise-id'];
-                                i['site-id'] = s['site-id'];
-                                this.data.push(i);
-                            } else {
-                                console.log(
-                                    'ip-domain-id is already in basket',
-                                    i['ip-domain-id']
-                                );
+                            i['enterprise-id'] = value['enterprise-id'];
+                            i['site-id'] = s['site-id'];
+                            const fullPath = this.deletePath(
+                                value['enterprise-id'],
+                                s['site-id'],
+                                i['ip-domain-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                i[FORDELETE] = STRIKETHROUGH;
                             }
+                            this.data.push(i);
                         });
                     });
                 },

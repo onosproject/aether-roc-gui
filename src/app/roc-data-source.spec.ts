@@ -14,6 +14,8 @@ import {
     Enterprises,
     EnterprisesEnterpriseSiteSlice,
 } from '../openapi3/aether/2.0.0/models';
+import { SiteDatasource } from './aether-site/site/site-datasource';
+import { EnterpriseDatasource } from './aether-enterprise/enterprise/enterprise-datasource';
 
 describe('ROC Data Source', () => {
     let component: RocDataSource<EnterprisesEnterpriseSiteSlice, Enterprises>;
@@ -80,6 +82,52 @@ describe('ROC Data Source', () => {
             new BasketService(),
             AETHER_TARGET
         );
+    });
+
+    describe('the fullPath method', function () {
+        it('should create a full path from slice', () => {
+            const fp = component.fullPath('ent1', 'site1', 'slice1');
+            expect(fp).toEqual(
+                'Enterprises-2.0.0/enterprise[enterprise-id=ent1]/site[site-id=site1]/slice[slice-id=slice1]'
+            );
+        });
+
+        it('should create a delete path from slice', () => {
+            const fp = component.deletePath('ent1', 'site1', 'slice1');
+            expect(fp).toEqual(
+                '/Enterprises-2.0.0/enterprise[enterprise-id=ent1]/site[site-id=site1]/slice[slice-id=slice1]/slice-id'
+            );
+        });
+
+        it('should create a path from Site', () => {
+            const siteComponent = new SiteDatasource(
+                new Service(
+                    new ApiConfiguration(),
+                    jasmine.createSpyObj('HttpClient', ['post', 'get'])
+                ),
+                new BasketService(),
+                AETHER_TARGET
+            );
+            const fp = siteComponent.fullPath('ent1', 'site1');
+            expect(fp).toEqual(
+                'Enterprises-2.0.0/enterprise[enterprise-id=ent1]/site[site-id=site1]'
+            );
+        });
+
+        it('should create a path from Enterprise', () => {
+            const entComponent = new EnterpriseDatasource(
+                new Service(
+                    new ApiConfiguration(),
+                    jasmine.createSpyObj('HttpClient', ['post', 'get'])
+                ),
+                new BasketService(),
+                AETHER_TARGET
+            );
+            const fp = entComponent.fullPath('ent1');
+            expect(fp).toEqual(
+                'Enterprises-2.0.0/enterprise[enterprise-id=ent1]'
+            );
+        });
     });
 
     describe('the merge method', function () {

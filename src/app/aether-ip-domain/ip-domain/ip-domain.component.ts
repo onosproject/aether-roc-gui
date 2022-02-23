@@ -14,7 +14,6 @@ import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGET } from '../../../environments/environment';
 import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-ip-domain',
@@ -22,7 +21,7 @@ import { RocElement } from '../../../openapi3/top/level/models/elements';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class IpDomainComponent
-    extends RocListBase<IpDomainDatasource>
+    extends RocListBase<IpDomainDatasource, EnterprisesEnterpriseSiteIpDomain>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -50,17 +49,15 @@ export class IpDomainComponent
     ) {
         super(
             basketService,
-            new IpDomainDatasource(aetherService, basketService, AETHER_TARGET),
-            'Enterprises-2.0.0',
-            'ip-domain'
+            new IpDomainDatasource(aetherService, basketService, AETHER_TARGET)
         );
         super.reqdAttr = ['enterprise', 'subnet', 'dnn'];
     }
 
     onDataLoaded(ScopeOfDataSource: IpDomainDatasource): void {
-        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        this.usageArray = [];
-        /* Needs work*/
+        /* TODO: Needs work*/
+        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // this.usageArray = [];
         // this.aetherService
         //     .getDeviceGroup({
         //         target: AETHER_TARGET,
@@ -79,24 +76,14 @@ export class IpDomainComponent
         //             )
         //         );
         //     });
-        if (
-            this.pathRoot in basketPreview &&
-            'ip-domain' in basketPreview[this.pathRoot]
-        ) {
-            ScopeOfDataSource.merge(
-                basketPreview['Ip-domain-2.0.0']['ip-domain']
-            );
-        }
-    }
-
-    deleteIpDoamin(id: string, enterpriseID: string, siteID: string): void {
-        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
-            '[enterprise-id=' +
-            enterpriseID +
-            '[site-id=' +
-            siteID +
-            ']') as RocElement;
-        this.delete(id);
+        // if (
+        //     this.pathRoot in basketPreview &&
+        //     'ip-domain' in basketPreview[this.pathRoot]
+        // ) {
+        //     ScopeOfDataSource.merge(
+        //         basketPreview['Ip-domain-2.0.0']['ip-domain']
+        //     );
+        // }
     }
 
     ngAfterViewInit(): void {

@@ -5,13 +5,13 @@
  */
 
 import { compare, RocDataSource } from '../../roc-data-source';
-import { Enterprises } from '../../../openapi3/aether/2.0.0/models/enterprises';
+import { Enterprises } from '../../../openapi3/aether/2.0.0/models';
 import {
     EnterprisesEnterpriseSiteSmallCell,
     EnterprisesEnterprise,
 } from '../../../openapi3/aether/2.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services/service';
-import { BasketService } from '../../basket.service';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
+import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
 import { from, Observable } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
 import { AETHER_TARGET } from '../../../environments/environment';
@@ -25,7 +25,14 @@ export class SmallCellDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/small-cell-2.0.0', 'small-cell');
+        super(
+            aetherService,
+            bs,
+            target,
+            'Enterprises-2.0.0',
+            ['enterprise', 'site', 'small-cell'],
+            ['enterprise-id', 'site-id', 'small-cell-id']
+        );
     }
 
     loadData(
@@ -47,26 +54,17 @@ export class SmallCellDatasource extends RocDataSource<
                 (value: EnterprisesEnterprise) => {
                     value.site.forEach((s) => {
                         s['small-cell'].forEach((sc) => {
-                            if (
-                                !this.bs.containsDeleteEntry(
-                                    '/enterprises/enterprise[' +
-                                        value['enterprise-id'] +
-                                        '/site[site-id=' +
-                                        s['site-id'] +
-                                        '/small-cell[small-cell-id=' +
-                                        sc['small-cell-id'] +
-                                        ']'
-                                )
-                            ) {
-                                sc['enterprise-id'] = value['enterprise-id'];
-                                sc['site-id'] = s['site-id'];
-                                this.data.push(sc);
-                            } else {
-                                console.log(
-                                    'small-cell-id is already in basket',
-                                    sc['small-cell-id']
-                                );
+                            sc['enterprise-id'] = value['enterprise-id'];
+                            sc['site-id'] = s['site-id'];
+                            const fullPath = this.deletePath(
+                                value['enterprise-id'],
+                                s['site-id'],
+                                sc['small-cell-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                sc[FORDELETE] = STRIKETHROUGH;
                             }
+                            this.data.push(sc);
                         });
                     });
                 },

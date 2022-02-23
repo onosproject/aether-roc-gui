@@ -8,7 +8,12 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
-import { ADDITIONALPROPS, BasketService } from './basket.service';
+import {
+    ADDITIONALPROPS,
+    BasketService,
+    FORDELETE,
+    STRIKETHROUGH,
+} from './basket.service';
 import { from, merge, Observable, of as observableOf } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
 
@@ -48,6 +53,10 @@ export interface GenericRocDataSource<
     ): void;
 
     delete(id: string): void;
+
+    fullPath(...ids: string[]): string;
+
+    deletePath(...ids: string[]): string;
 }
 
 // RocDataSource is an abstract class that extends data source
@@ -69,8 +78,8 @@ export abstract class RocDataSource<
         public bs: BasketService,
         protected target: string,
         protected pathRoot: string,
-        protected pathListAttr: string,
-        protected indexAttr: string = 'id',
+        protected pathListAttr: string[],
+        public indexAttr: string[],
         protected nameAttr: string = 'display-name',
         protected descAttr: string = 'description'
     ) {
@@ -141,31 +150,17 @@ export abstract class RocDataSource<
         console.log('loading data for', this.pathListAttr);
         dataSourceObservable
             .pipe(
-                map((x) => x?.[this.pathListAttr]),
+                map((x) => x?.[this.pathListAttr[0]]),
                 skipWhile((x) => x === undefined),
                 mergeMap((items: T[]) => from(items))
             )
             .subscribe(
                 (value) => {
-                    const id = value[this.indexAttr];
-                    if (
-                        !this.bs.containsDeleteEntry(
-                            this.pathRoot +
-                                '/' +
-                                this.pathListAttr +
-                                '[' +
-                                this.indexAttr +
-                                '=' +
-                                id +
-                                ']/' +
-                                this.indexAttr
-                        )
-                    ) {
-                        this.data.push(value);
-                        console.log('Got ', id, '(', this.indexAttr, ')');
-                    } else {
-                        console.log('Ignoring ' + id + ' (is on delete list)');
+                    const fullPath = this.deletePath(value['enterprise-id']);
+                    if (this.bs.containsDeleteEntry(fullPath)) {
+                        value[FORDELETE] = STRIKETHROUGH;
                     }
+                    this.data.push(value);
                 },
                 (error) => {
                     console.warn(
@@ -185,7 +180,7 @@ export abstract class RocDataSource<
 
     delete(id: string): void {
         const deletedIndex = this.data.findIndex(
-            (p) => p[this.indexAttr] === id
+            (p) => p[this.indexAttr[0]] === id
         );
         this.data.splice(deletedIndex, 1);
         this.paginator._changePageSize(this.paginator.pageSize);
@@ -253,5 +248,21 @@ export abstract class RocDataSource<
                 existing[k] = updated[k];
             });
         });
+    }
+
+    fullPath(...ids: string[]): string {
+        let fullPath = `${this.pathRoot}`;
+        for (let i = 0; i < this.pathListAttr.length; i++) {
+            fullPath =
+                fullPath += `/${this.pathListAttr[i]}[${this.indexAttr[i]}=${ids[i]}]`;
+        }
+
+        return fullPath;
+    }
+
+    deletePath(...ids: string[]): string {
+        return `/${this.fullPath(...ids)}/${
+            this.indexAttr[this.indexAttr.length - 1]
+        }`;
     }
 }

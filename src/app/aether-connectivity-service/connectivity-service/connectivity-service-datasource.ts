@@ -26,8 +26,9 @@ export class ConnectivityServiceDatasource extends RocDataSource<
             aetherService,
             bs,
             target,
-            '/connectivity-service-2.0.0',
-            'connectivity-service'
+            'Connectivity-services-2.0.0',
+            ['connectivity-service'],
+            ['connectivity-service-id']
         );
     }
     getSortedData(

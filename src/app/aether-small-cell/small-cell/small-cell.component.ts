@@ -14,7 +14,6 @@ import { Service as AetherService } from '../../../openapi3/aether/2.0.0/service
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGET } from '../../../environments/environment';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-small-cell',
@@ -22,7 +21,7 @@ import { RocElement } from '../../../openapi3/top/level/models/elements';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class SmallCellComponent
-    extends RocListBase<SmallCellDatasource>
+    extends RocListBase<SmallCellDatasource, EnterprisesEnterpriseSiteSmallCell>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -47,38 +46,23 @@ export class SmallCellComponent
     ) {
         super(
             basketService,
-            new SmallCellDatasource(
-                aetherService,
-                basketService,
-                AETHER_TARGET
-            ),
-            'Enterprises-2.0.0',
-            'small-cell'
+            new SmallCellDatasource(aetherService, basketService, AETHER_TARGET)
         );
     }
 
     onDataLoaded(ScopeOfDataSource: SmallCellDatasource): void {
-        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-
-        if (
-            this.pathRoot in basketPreview &&
-            'small-cell' in basketPreview[this.pathRoot]
-        ) {
-            ScopeOfDataSource.merge(
-                basketPreview['Enterprises-2.0.0'].site['small-cell'],
-                [{ fieldName: 'imsis', idAttr: 'imsi-id' }]
-            );
-        }
-    }
-
-    deleteSmallCell(id: string, enterpriseID: string, siteID: string): void {
-        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
-            '[enterprise-id=' +
-            enterpriseID +
-            '[site-id=' +
-            siteID +
-            ']') as RocElement;
-        this.delete(id);
+        /* TODO: Needs work*/
+        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        //
+        // if (
+        //     this.pathRoot in basketPreview &&
+        //     'small-cell' in basketPreview[this.pathRoot]
+        // ) {
+        //     ScopeOfDataSource.merge(
+        //         basketPreview['Enterprises-2.0.0'].site['small-cell'],
+        //         [{ fieldName: 'imsis', idAttr: 'imsi-id' }]
+        //     );
+        // }
     }
 
     ngAfterViewInit(): void {

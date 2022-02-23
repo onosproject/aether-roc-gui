@@ -12,6 +12,8 @@ export const TYPE = 'type';
 export const HEX2NUM = 'hex2num';
 export const IDATTRIBS = 'idAttribs';
 export const REQDATTRIBS = 'reqdAttribs';
+export const FORDELETE = 'for-delete-style';
+export const STRIKETHROUGH = 'text-decoration: line-through';
 export const ADDITIONALPROPS = 'additionalProperties';
 export const ORIGINAL = 'original';
 

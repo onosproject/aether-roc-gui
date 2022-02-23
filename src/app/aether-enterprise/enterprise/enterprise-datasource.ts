@@ -21,6 +21,13 @@ export class EnterpriseDatasource extends RocDataSource<
         public bs: BasketService,
         protected target: string
     ) {
-        super(aetherService, bs, target, '/enterprise-2.0.0', 'enterprise');
+        super(
+            aetherService,
+            bs,
+            target,
+            'Enterprises-2.0.0',
+            ['enterprise'],
+            ['enterprise-id']
+        );
     }
 }

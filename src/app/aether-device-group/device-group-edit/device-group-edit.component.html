@@ -16,7 +16,7 @@
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/devicegroups/devicegroups-monitor/{{
+                routerLink="/device-group/device-group-monitor/{{
                     deviceGroupId
                 }}"
                 id="monitorDgButton"
@@ -300,7 +300,7 @@
                             deviceGroupForm.valid &&
                             deviceGroupForm.errors?.isRangeNotValid === null &&
                             deviceGroupForm.touched &&
-                            opaService.canWrite('/devicegroups/devicegroups')
+                            opaService.canWrite('/device-group/device-group')
                         )
                     "
                     id="submitButton"

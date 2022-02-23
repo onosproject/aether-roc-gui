@@ -15,7 +15,6 @@ import { RocListBase } from '../../roc-list-base';
 import { TemplateDatasource } from './template-datasource';
 import { HexPipe } from '../../utils/hex.pipe';
 import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
-import { RocElement } from '../../../openapi3/top/level/models/elements';
 
 @Component({
     selector: 'aether-template',
@@ -23,7 +22,7 @@ import { RocElement } from '../../../openapi3/top/level/models/elements';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class TemplateComponent
-    extends RocListBase<TemplateDatasource>
+    extends RocListBase<TemplateDatasource, EnterprisesEnterpriseTemplate>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -51,30 +50,20 @@ export class TemplateComponent
     ) {
         super(
             basketService,
-            new TemplateDatasource(aetherService, basketService, AETHER_TARGET),
-            'Enterprises-2.0.0',
-            'template',
-            'template-id'
+            new TemplateDatasource(aetherService, basketService, AETHER_TARGET)
         );
         super.reqdAttr = ['default-behavior'];
     }
 
     onDataLoaded(ScopeOfDataSource: TemplateDatasource): void {
-        const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        if (
-            this.pathRoot in basketPreview &&
-            'template' in basketPreview[this.pathRoot]
-        ) {
-            ScopeOfDataSource.merge(basketPreview['Template-2.0.0'].template);
-        }
-    }
-
-    deleteTemplate(id: string, enterpriseID: string): void {
-        this.pathRoot = ('Enterprises-2.0.0/enterprise' +
-            '[enterprise-id=' +
-            enterpriseID +
-            ']') as RocElement;
-        this.delete(id);
+        /* TODO: Needs work*/
+        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // if (
+        //     this.pathRoot in basketPreview &&
+        //     'template' in basketPreview[this.pathRoot]
+        // ) {
+        //     ScopeOfDataSource.merge(basketPreview['Template-2.0.0'].template);
+        // }
     }
 
     ngAfterViewInit(): void {

@@ -33,7 +33,11 @@
         <!-- Id/Name Column -->
         <ng-container matColumnDef="id" id="nameColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
-            <td mat-cell *matCellDef="let row">
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
                 <span
                     *ngIf="row['display-name'] !== undefined"
                     [title]="row['enterprise-id']"
@@ -52,7 +56,12 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Description
             </th>
-            <td mat-cell *matCellDef="let row" [title]="row.description">
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+                [title]="row.description"
+            >
                 {{ row.description | truncateText: 40 }}
             </td>
         </ng-container>
@@ -60,7 +69,11 @@
         <!-- Sites Column -->
         <ng-container matColumnDef="sites" id="sitesColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Sites</th>
-            <td mat-cell *matCellDef="let row">
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
                 <mat-expansion-panel togglePosition="before">
                     <mat-expansion-panel-header>
                         <mat-panel-title
@@ -99,7 +112,11 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Applications
             </th>
-            <td mat-cell *matCellDef="let row">
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
                 <mat-expansion-panel togglePosition="before">
                     <mat-expansion-panel-header>
                         <mat-panel-title
@@ -138,7 +155,11 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Traffic Classes
             </th>
-            <td mat-cell *matCellDef="let row">
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
                 <mat-expansion-panel togglePosition="before">
                     <mat-expansion-panel-header>
                         <mat-panel-title
@@ -175,7 +196,11 @@
         <!-- Templates Column -->
         <ng-container matColumnDef="templates" id="templatesColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Templates</th>
-            <td mat-cell *matCellDef="let row">
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
                 <mat-expansion-panel togglePosition="before">
                     <mat-expansion-panel-header>
                         <mat-panel-title
@@ -265,9 +290,9 @@
                             '/enterprises/enterprise[enterprise-id=' +
                                 row.id +
                                 ']'
-                        )
+                        ) || row['for-delete-style']
                     "
-                    (click)="delete(row['enterprise-id'])"
+                    (click)="delete(row)"
                     color="accent"
                     id="deleteEnterpriseButton"
                 >
