@@ -99,11 +99,11 @@ export class PanelSliceComponent
     ): void {
         ScopeOfDataSource.data.forEach(
             (vcs: EnterprisesEnterpriseSiteSlice) => {
-                // Add the tag on to VCS. the data is filled in below
+                // Add the tag on to Slice. the data is filled in below
                 vcsPromTags.forEach((tag: string) => (vcs[tag] = {}));
             }
         );
-        console.log('VCS Data Loaded');
+        console.log('Slice Data Loaded');
     }
 
     ngAfterViewInit(): void {

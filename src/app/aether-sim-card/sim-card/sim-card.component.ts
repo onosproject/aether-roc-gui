@@ -52,15 +52,14 @@ export class SimCardComponent
     }
 
     onDataLoaded(ScopeOfDataSource: SimCardDatasource): void {
-        /* TODO: Needs work*/
-        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        // this.usageArray = [];
-        //
+        // TODO: merge basket with loaded data
         // if (
         //     this.pathRoot in basketPreview &&
-        //     'sim-card' in basketPreview[this.pathRoot]
+        //     'site' in basketPreview[this.pathRoot]
         // ) {
-        //     ScopeOfDataSource.merge(basketPreview['SimCard-2.0.0']['sim-card']);
+        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
+        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
+        //     ]);
         // }
     }
 

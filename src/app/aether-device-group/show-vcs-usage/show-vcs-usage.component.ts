@@ -18,33 +18,33 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
+import { RocUsageBase, UsageColumns } from '../../roc-usage-base';
 
-export interface displayedColumns {
-    id;
-    'display-name';
-}
 @Component({
     selector: 'aether-show-vcs-usage',
     templateUrl: './show-vcs-usage.component.html',
     styleUrls: ['../../common-panel.component.scss'],
 })
-export class ShowVcsUsageComponent implements OnChanges {
+export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<displayedColumns>;
+    @ViewChild(MatTable) table: MatTable<UsageColumns>;
     @Input() enterpriseID: string;
     @Input() siteID: string;
     @Input() deviceGroupID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
-    parentModulesArray: Array<displayedColumns> = [];
-    displayColumns = ['id', 'display-name'];
-
     constructor(
         protected fb: FormBuilder,
         protected route: ActivatedRoute,
         private siteService: EnterprisesEnterpriseSiteService
-    ) {}
+    ) {
+        super(
+            'Enterprises-2.0.0',
+            ['enterprise', 'site', 'device-group'],
+            ['enterprise-id', 'site-id', 'device-group-id']
+        );
+    }
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
@@ -59,18 +59,25 @@ export class ShowVcsUsageComponent implements OnChanges {
                     sliceElement['device-group'].forEach((dg) => {
                         if (dg['device-group'] === this.deviceGroupID) {
                             const displayParentModules = {
-                                id: sliceElement['slice-id'],
+                                type: 'Slice',
+                                'attr-names': [
+                                    'enterprise-id',
+                                    'site-id',
+                                    'slice-id',
+                                ],
+                                ids: [
+                                    this.enterpriseID,
+                                    this.siteID,
+                                    sliceElement['slice-id'],
+                                ],
                                 'display-name': sliceElement['display-name'],
-                            };
+                                route: '/slice/slice-edit',
+                            } as UsageColumns;
                             this.parentModulesArray.push(displayParentModules);
                         }
                     });
                 });
                 this.table.dataSource = this.parentModulesArray;
             });
-    }
-
-    keepCardOpen(cancelled: boolean): void {
-        this.closeShowParentCardEvent.emit(cancelled);
     }
 }

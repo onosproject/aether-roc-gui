@@ -11,7 +11,12 @@ import {
     EnterprisesEnterpriseTrafficClass,
 } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
+import {
+    BasketService,
+    FORDELETE,
+    ISINUSE,
+    STRIKETHROUGH,
+} from '../../basket.service';
 import { from, Observable } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
 
@@ -64,6 +69,41 @@ export class TrafficClassDatasource extends RocDataSource<
                         if (this.bs.containsDeleteEntry(fullPath)) {
                             tc[FORDELETE] = STRIKETHROUGH;
                         }
+                        // Check for usages in applications
+                        value.application.forEach((app) => {
+                            app['endpoint'].forEach((appep) => {
+                                if (
+                                    appep['traffic-class'] ===
+                                    tc['traffic-class-id']
+                                ) {
+                                    tc[ISINUSE] = 'true'; // Any match will set it
+                                }
+                            });
+                        });
+                        // Check for usages in device-groups
+                        value.site.forEach((site) => {
+                            site['device-group'].forEach((dg) => {
+                                if (
+                                    dg['traffic-class'] ===
+                                    tc['traffic-class-id']
+                                ) {
+                                    tc[ISINUSE] = 'true'; // Any match will set it
+                                }
+                            });
+                            // Check for usages in slices
+                            site.slice.forEach((slice) => {
+                                slice['priority-traffic-rule'].forEach(
+                                    (ptr) => {
+                                        if (
+                                            ptr['traffic-class'] ===
+                                            tc['traffic-class-id']
+                                        ) {
+                                            tc[ISINUSE] = 'true'; // Any match will set it
+                                        }
+                                    }
+                                );
+                            });
+                        });
                         this.data.push(tc);
                     });
                 },

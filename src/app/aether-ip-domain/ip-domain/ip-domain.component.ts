@@ -55,34 +55,14 @@ export class IpDomainComponent
     }
 
     onDataLoaded(ScopeOfDataSource: IpDomainDatasource): void {
-        /* TODO: Needs work*/
-        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        // this.usageArray = [];
-        // this.aetherService
-        //     .getDeviceGroup({
-        //         target: AETHER_TARGET,
-        //     })
-        //     .subscribe((displayData) => {
-        //         this.usageArray = this.usageArray.concat(
-        //             _.differenceWith(
-        //                 ScopeOfDataSource.data,
-        //                 displayData['device-group'],
-        //                 function (ScopeOfDataSourceObject, displayDataObject) {
-        //                     return (
-        //                         ScopeOfDataSourceObject.id ===
-        //                         displayDataObject['ip-domain']
-        //                     );
-        //                 }
-        //             )
-        //         );
-        //     });
+        // TODO: merge basket with loaded data
         // if (
         //     this.pathRoot in basketPreview &&
-        //     'ip-domain' in basketPreview[this.pathRoot]
+        //     'site' in basketPreview[this.pathRoot]
         // ) {
-        //     ScopeOfDataSource.merge(
-        //         basketPreview['Ip-domain-2.0.0']['ip-domain']
-        //     );
+        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
+        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
+        //     ]);
         // }
     }
 

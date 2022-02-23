@@ -59,53 +59,14 @@ export class TrafficClassComponent
     }
 
     onDataLoaded(ScopeOfDataSource: TrafficClassDatasource): void {
-        /* TODO: Needs work*/
-        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        // this.usageArray = [];
-        /* Needs work*/
-        // this.aetherService
-        //     .getDeviceGroup({
-        //         target: AETHER_TARGET,
-        //     })
-        //     .subscribe((displayData) => {
-        //         this.usageArray = this.usageArray.concat(
-        //             _.differenceWith(
-        //                 ScopeOfDataSource.data,
-        //                 displayData['device-group'],
-        //                 function (ScopeOfDataSourceObject, displayDataObject) {
-        //                     return (
-        //                         ScopeOfDataSourceObject.id ===
-        //                         displayDataObject.device['traffic-class']
-        //                     );
-        //                 }
-        //             )
-        //         );
-        //     });
-        // this.aetherService
-        //     .getApplication({
-        //         target: AETHER_TARGET,
-        //     })
-        //     .subscribe((displayData) => {
-        //         this.usageArray = this.usageArray.concat(
-        //             _.differenceWith(
-        //                 this.usageArray,
-        //                 displayData.application,
-        //                 function (ScopeOfDataSourceObject, displayDataObject) {
-        //                     return (
-        //                         ScopeOfDataSourceObject.id ===
-        //                         displayDataObject['traffic-class']
-        //                     );
-        //                 }
-        //             )
-        //         );
-        //     });
+        // TODO: merge basket with loaded data
         // if (
         //     this.pathRoot in basketPreview &&
-        //     'traffic-class' in basketPreview[this.pathRoot]
+        //     'site' in basketPreview[this.pathRoot]
         // ) {
-        //     ScopeOfDataSource.merge(
-        //         basketPreview['Traffic-class-2.0.0']['traffic-class']
-        //     );
+        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
+        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
+        //     ]);
         // }
     }
 

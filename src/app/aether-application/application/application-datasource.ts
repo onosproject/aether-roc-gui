@@ -5,7 +5,12 @@
  */
 
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
+import {
+    BasketService,
+    FORDELETE,
+    ISINUSE,
+    STRIKETHROUGH,
+} from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 import {
     Enterprises,
@@ -60,6 +65,20 @@ export class ApplicationDatasource extends RocDataSource<
                         if (this.bs.containsDeleteEntry(fullPath)) {
                             app[FORDELETE] = STRIKETHROUGH;
                         }
+                        // Check for usages in slices
+                        value.site.forEach((site) => {
+                            site.slice.forEach((slice) => {
+                                slice.filter.forEach((filter) => {
+                                    if (
+                                        filter.application ===
+                                        app['application-id']
+                                    ) {
+                                        app[ISINUSE] = 'true'; // Any match will set it
+                                    }
+                                });
+                            });
+                        });
+
                         this.data.push(app);
                     });
                 },

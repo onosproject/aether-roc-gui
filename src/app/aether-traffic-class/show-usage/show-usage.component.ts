@@ -19,6 +19,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
 import { ActivatedRoute } from '@angular/router';
+import { RocUsageBase, UsageColumns } from '../../roc-usage-base';
 
 export interface displayedColumns {
     'parent-module': string;
@@ -31,23 +32,26 @@ export interface displayedColumns {
     templateUrl: './show-usage.component.html',
     styleUrls: ['../../common-panel.component.scss'],
 })
-export class ShowUsageComponent implements OnChanges {
+export class ShowUsageComponent extends RocUsageBase implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<displayedColumns>;
+    @ViewChild(MatTable) table: MatTable<UsageColumns>;
     @Input() trafficClassID: string;
     @Input() enterpriseID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
-
-    parentModulesArray: Array<displayedColumns> = [];
-    displayColumns = ['parent-module', 'id', 'display-name'];
 
     constructor(
         protected fb: FormBuilder,
         private basketService: BasketService,
         protected route: ActivatedRoute,
         private siteService: EnterprisesEnterpriseService
-    ) {}
+    ) {
+        super(
+            'Enterprises-2.0.0',
+            ['enterprise', 'traffic-class'],
+            ['enterprise-id', 'traffic-class-id']
+        );
+    }
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
@@ -61,10 +65,20 @@ export class ShowUsageComponent implements OnChanges {
                     s['device-group'].forEach((dg) => {
                         if (dg['traffic-class'] === this.trafficClassID) {
                             const displayParentModules = {
-                                id: dg['device-group-id'],
+                                type: 'Device Group',
+                                'attr-names': [
+                                    'enterprise-id',
+                                    'site-id',
+                                    'device-group-id',
+                                ],
+                                ids: [
+                                    this.enterpriseID,
+                                    s['site-id'],
+                                    dg['device-group-id'],
+                                ],
                                 'display-name': dg['display-name'],
-                                'parent-module': 'Device Group',
-                            };
+                                route: '/device-group/device-group-edit',
+                            } as UsageColumns;
                             this.parentModulesArray.push(displayParentModules);
                         }
                     });
@@ -72,10 +86,20 @@ export class ShowUsageComponent implements OnChanges {
                         sl['priority-traffic-rule'].forEach((ptr) => {
                             if (ptr['traffic-class'] === this.trafficClassID) {
                                 const displayParentModules = {
-                                    id: ptr['priority-traffic-rule-id'],
-                                    'display-name': ptr['display-name'],
-                                    'parent-module': 'Priority Traffic Rule',
-                                };
+                                    type: 'Slice',
+                                    'attr-names': [
+                                        'enterprise-id',
+                                        'site-id',
+                                        'slice-id',
+                                    ],
+                                    ids: [
+                                        this.enterpriseID,
+                                        s['site-id'],
+                                        sl['slice-id'],
+                                    ],
+                                    'display-name': sl['display-name'],
+                                    route: '/slice/slice-edit',
+                                } as UsageColumns;
                                 this.parentModulesArray.push(
                                     displayParentModules
                                 );
@@ -90,19 +114,23 @@ export class ShowUsageComponent implements OnChanges {
                             this.trafficClassID
                         ) {
                             const displayParentModules = {
-                                id: appElement['application-id'],
+                                type: 'Application',
+                                'attr-names': [
+                                    'enterprise-id',
+                                    'application-id',
+                                ],
+                                ids: [
+                                    this.enterpriseID,
+                                    appElement['application-id'],
+                                ],
                                 'display-name': appElement['display-name'],
-                                'parent-module': 'Application Endpoint',
-                            };
+                                route: '/application/application-edit',
+                            } as UsageColumns;
                             this.parentModulesArray.push(displayParentModules);
                         }
                     });
                 });
                 this.table.dataSource = this.parentModulesArray;
             });
-    }
-
-    keepCardOpen(cancelled: boolean): void {
-        this.closeShowParentCardEvent.emit(cancelled);
     }
 }

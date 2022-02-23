@@ -14,6 +14,7 @@ export const IDATTRIBS = 'idAttribs';
 export const REQDATTRIBS = 'reqdAttribs';
 export const FORDELETE = 'for-delete-style';
 export const STRIKETHROUGH = 'text-decoration: line-through';
+export const ISINUSE = 'is-in-use';
 export const ADDITIONALPROPS = 'additionalProperties';
 export const ORIGINAL = 'original';
 

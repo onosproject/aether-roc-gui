@@ -185,7 +185,7 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
             .subscribe(
                 (value) => {
                     this.data = value;
-                    this.ipDomainId = value['ip-domain-id'];
+                    this.ipDomainId = id;
                     this.populateFormData(value);
                 },
                 (error) => {

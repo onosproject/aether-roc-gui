@@ -5,7 +5,6 @@
  */
 
 import { BasketService, FORDELETE, STRIKETHROUGH } from './basket.service';
-import { RocElement } from '../openapi3/top/level/models/elements';
 import {
     GenericRocDataSource,
     RocGenericContainerType,
@@ -63,11 +62,5 @@ export abstract class RocListBase<
 
     closeShowParentCard(): void {
         this.showUsageCard = false;
-    }
-
-    checkForUsage(ID: string): boolean {
-        return !this.usageArray?.some(
-            (applicationElement) => applicationElement.id === ID
-        );
     }
 }

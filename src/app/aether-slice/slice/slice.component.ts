@@ -69,15 +69,13 @@ export class SliceComponent
             Enterprises
         >
     ): void {
-        /* TODO: Needs work*/
-        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // TODO: merge basket with loaded data
         // if (
         //     this.pathRoot in basketPreview &&
-        //     'slice' in basketPreview[this.pathRoot]
+        //     'site' in basketPreview[this.pathRoot]
         // ) {
-        //     ScopeOfDataSource.merge(basketPreview['Slice-2.0.0'].slice, [
-        //         { fieldName: 'filter', idAttr: 'application' },
-        //         { fieldName: 'device-group', idAttr: 'device-group' },
+        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
+        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
         //     ]);
         // }
     }

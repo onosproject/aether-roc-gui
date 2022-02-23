@@ -81,7 +81,7 @@ describe('SliceEditComponent', () => {
                         enable: true,
                     },
                 ],
-                'display-name': 'Chicago Robots VCS',
+                'display-name': 'Chicago Robots Slice',
                 filter: [
                     {
                         allow: false,

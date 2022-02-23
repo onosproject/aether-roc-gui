@@ -56,13 +56,14 @@ export class TemplateComponent
     }
 
     onDataLoaded(ScopeOfDataSource: TemplateDatasource): void {
-        /* TODO: Needs work*/
-        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // TODO: merge basket with loaded data
         // if (
         //     this.pathRoot in basketPreview &&
-        //     'template' in basketPreview[this.pathRoot]
+        //     'site' in basketPreview[this.pathRoot]
         // ) {
-        //     ScopeOfDataSource.merge(basketPreview['Template-2.0.0'].template);
+        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
+        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
+        //     ]);
         // }
     }
 

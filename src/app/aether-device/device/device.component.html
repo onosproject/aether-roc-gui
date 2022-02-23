@@ -165,7 +165,7 @@
             </th>
             <td mat-cell *matCellDef="let row">
                 <button
-                    *ngIf="!checkForUsage(row['device-id'])"
+                    *ngIf="!row['is-in-use']"
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
@@ -179,7 +179,7 @@
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
                 <button
-                    *ngIf="checkForUsage(row['device-id'])"
+                    *ngIf="row['is-in-use']"
                     mat-icon-button
                     id="usageButton"
                     (click)="

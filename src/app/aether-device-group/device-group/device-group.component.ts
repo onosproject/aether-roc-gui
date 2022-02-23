@@ -13,7 +13,6 @@ import { BasketService } from '../../basket.service';
 import { AETHER_TARGET } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { DeviceGroupDatasource } from './device-group-datasource';
-import * as _ from 'lodash';
 import { EnterprisesEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models';
 
 @Component({
@@ -60,42 +59,14 @@ export class DeviceGroupComponent
     }
 
     onDataLoaded(ScopeOfDataSource: DeviceGroupDatasource): void {
-        /* TODO: Needs work*/
-        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        // this.usageArray = [];
-        // this.aetherService
-        //     .getVcs({
-        //         target: AETHER_TARGET,
-        //     })
-        //     .subscribe((displayData) => {
-        //         this.usageArray = this.usageArray.concat(
-        //             _.differenceWith(
-        //                 ScopeOfDataSource.data,
-        //                 displayData.slice,
-        //                 function (ScopeOfDataSourceObject, displayDataObject) {
-        //                     return _.findIndex(
-        //                         displayDataObject['device-group'],
-        //                         (filterElement) => {
-        //                             return (
-        //                                 filterElement['device-group'] ==
-        //                                 ScopeOfDataSourceObject.id
-        //                             );
-        //                         }
-        //                     ) !== -1
-        //                         ? true
-        //                         : false;
-        //                 }
-        //             )
-        //         );
-        //     });
+        // TODO: merge basket with loaded data
         // if (
         //     this.pathRoot in basketPreview &&
-        //     'device-group' in basketPreview[this.pathRoot]
+        //     'site' in basketPreview[this.pathRoot]
         // ) {
-        //     ScopeOfDataSource.merge(
-        //         basketPreview['Enterprises-2.0.0'].site['device-group'],
-        //         [{ fieldName: 'imsis', idAttr: 'imsi-id' }]
-        //     );
+        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
+        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
+        //     ]);
         // }
     }
 

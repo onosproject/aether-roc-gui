@@ -14,7 +14,6 @@ import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import * as _ from 'lodash';
 
 @Component({
     selector: 'aether-connectivity-service',
@@ -39,7 +38,7 @@ export class ConnectivityServiceComponent
         'description',
         'core-5g-endpoint',
         'edit',
-        'Usage/delete',
+        'delete',
     ];
 
     constructor(
@@ -58,43 +57,14 @@ export class ConnectivityServiceComponent
     }
 
     onDataLoaded(ScopeOfDataSource: ConnectivityServiceDatasource): void {
-        /* TODO: Needs work*/
-        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        // this.usageArray = [];
-        // this.aetherService
-        //     .getEnterprise({
-        //         target: AETHER_TARGET,
-        //     })
-        //     .subscribe((displayData) => {
-        //         this.usageArray = this.usageArray.concat(
-        //             _.differenceWith(
-        //                 ScopeOfDataSource.data,
-        //                 displayData.enterprise,
-        //                 function (ScopeOfDataSourceObject, displayDataObject) {
-        //                     return _.findIndex(
-        //                         displayDataObject['connectivity-service'],
-        //                         (filterElement) => {
-        //                             return (
-        //                                 filterElement['connectivity-service'] ==
-        //                                 ScopeOfDataSourceObject.id
-        //                             );
-        //                         }
-        //                     ) !== -1
-        //                         ? true
-        //                         : false;
-        //                 }
-        //             )
-        //         );
-        //     });
+        // TODO: merge basket with loaded data
         // if (
         //     this.pathRoot in basketPreview &&
-        //     'connectivity-service' in basketPreview[this.pathRoot]
+        //     'site' in basketPreview[this.pathRoot]
         // ) {
-        //     ScopeOfDataSource.merge(
-        //         basketPreview['Connectivity-services-2.0.0'][
-        //             'connectivity-service'
-        //         ]
-        //     );
+        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
+        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
+        //     ]);
         // }
     }
 

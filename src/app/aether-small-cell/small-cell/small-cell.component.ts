@@ -51,17 +51,14 @@ export class SmallCellComponent
     }
 
     onDataLoaded(ScopeOfDataSource: SmallCellDatasource): void {
-        /* TODO: Needs work*/
-        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        //
+        // TODO: merge basket with loaded data
         // if (
         //     this.pathRoot in basketPreview &&
-        //     'small-cell' in basketPreview[this.pathRoot]
+        //     'site' in basketPreview[this.pathRoot]
         // ) {
-        //     ScopeOfDataSource.merge(
-        //         basketPreview['Enterprises-2.0.0'].site['small-cell'],
-        //         [{ fieldName: 'imsis', idAttr: 'imsi-id' }]
-        //     );
+        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
+        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
+        //     ]);
         // }
     }
 
