@@ -38,7 +38,6 @@ export class DeviceComponent
         'sim-card',
         'edit',
         'usage/delete',
-        'monitor',
     ];
 
     constructor(

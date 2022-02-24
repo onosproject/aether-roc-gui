@@ -12,12 +12,11 @@
             >
             <mat-icon
                 *ngIf="!isNew"
-                (click)="showParentDisplay = true; $event.preventDefault()"
                 class="subscriber-pointer"
-                id="showParentInformation"
                 color="accent"
-            >
-                assignment
+                routerLink="/site/site-monitor/{{ siteId }}"
+                id="monitorSiteButton"
+                >insights
             </mat-icon>
         </mat-card-header>
         <mat-card-content>
@@ -235,22 +234,9 @@
         </mat-card-content>
     </mat-card>
 </form>
-<aether-small-cell-select
-    *ngIf="showConnectDisplay"
-    id="endpointSelectComponent"
-    (closeEvent)="smallCellSelected($event)"
->
-</aether-small-cell-select>
 <aether-edge-device
     *ngIf="showEdgeDeviceDisplay"
     id="showEdgeDeviceComponent"
     (closeEdgeDeviceEvent)="closeEdgeDeviceCard($event)"
 >
 </aether-edge-device>
-<aether-show-dg-usage
-    *ngIf="showParentDisplay"
-    id="showParentModulesComponent"
-    [siteID]="siteId"
-    (closeShowParentCardEvent)="closeShowParentCard($event)"
->
-</aether-show-dg-usage>

@@ -12,15 +12,6 @@
                     this.smallCellForm.get("small-cell-id").value
                 }}</mat-card-title
             >
-            <mat-icon
-                *ngIf="!isNew"
-                (click)="showParentDisplay = true; $event.preventDefault()"
-                class="subscriber-pointer"
-                id="showParentInformation"
-                color="accent"
-            >
-                assignment
-            </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">

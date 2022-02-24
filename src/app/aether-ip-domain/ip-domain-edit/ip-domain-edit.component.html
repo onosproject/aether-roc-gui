@@ -283,6 +283,8 @@
 <aether-show-device-group-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
+    [enterpriseID]="route.snapshot.params['enterprise-id']"
+    [siteID]="route.snapshot.params['site-id']"
     [ipDomainID]="ipDomainId"
     (closeShowParentCardEvent)="closeShowParentCard($event)"
 >
