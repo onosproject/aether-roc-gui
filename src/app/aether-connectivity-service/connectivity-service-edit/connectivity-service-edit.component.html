@@ -10,15 +10,6 @@
                 >Connectivity Service. ID:
                 {{ connectivityServiceId }}</mat-card-title
             >
-            <mat-icon
-                *ngIf="!isNew"
-                (click)="showParentDisplay = true; $event.preventDefault()"
-                class="subscriber-pointer"
-                id="showParentInformation"
-                color="accent"
-            >
-                assignment
-            </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
@@ -88,10 +79,3 @@
         </mat-card-actions>
     </mat-card>
 </form>
-<aether-show-enterprise-usage
-    *ngIf="showParentDisplay"
-    id="showParentModulesComponent"
-    [connectivityServiceID]="connectivityServiceId"
-    (closeShowParentCardEvent)="closeShowParentCard($event)"
->
-</aether-show-enterprise-usage>

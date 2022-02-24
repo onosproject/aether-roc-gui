@@ -54,42 +54,14 @@ export class ApplicationComponent
     }
 
     onDataLoaded(ScopeOfDataSource): void {
-        /* TODO: Needs work*/
-        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        // this.usageArray = [];
-        // this.aetherService
-        //     .getVcs({
-        //         target: AETHER_TARGET,
-        //     })
-        //     .subscribe((displayData) => {
-        //         this.usageArray = this.usageArray.concat(
-        //             _.differenceWith(
-        //                 ScopeOfDataSource.data,
-        //                 displayData.slice,
-        //                 function (ScopeOfDataSourceObject, displayDataObject) {
-        //                     return _.findIndex(
-        //                         displayDataObject.filter,
-        //                         (filterElement) => {
-        //                             return (
-        //                                 filterElement.application ==
-        //                                 ScopeOfDataSourceObject.id
-        //                             );
-        //                         }
-        //                     ) !== -1
-        //                         ? true
-        //                         : false;
-        //                 }
-        //             )
-        //         );
-        //     });
+        // TODO: merge basket with loaded data
         // if (
         //     this.pathRoot in basketPreview &&
-        //     'application' in basketPreview[this.pathRoot]
+        //     'site' in basketPreview[this.pathRoot]
         // ) {
-        //     ScopeOfDataSource.merge(
-        //         basketPreview['Enterprises-2.0.0'].application,
-        //         [{ fieldName: 'endpoint', idAttr: 'endpoint-id' }]
-        //     );
+        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
+        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
+        //     ]);
         // }
     }
 

@@ -28,13 +28,11 @@ import {
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { UtilsModule } from '../utils/utils.module';
-import { ShowEnterpriseUsageComponent } from './show-enterpirse-usage/show-enterprise-usage.component';
 
 @NgModule({
     declarations: [
         ConnectivityServiceComponent,
         ConnectivityServiceEditComponent,
-        ShowEnterpriseUsageComponent,
     ],
     imports: [
         CommonModule,

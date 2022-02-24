@@ -99,13 +99,12 @@
         </ng-container>
 
         <!-- Delete Column -->
-        <ng-container matColumnDef="Usage/delete" id="usageDeleteColumn">
+        <ng-container matColumnDef="delete" id="deleteColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                Usage/Delete
+                Delete
             </th>
             <td mat-cell *matCellDef="let row">
                 <button
-                    *ngIf="!checkForUsage(row['connectivity-service-id'])"
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
@@ -119,21 +118,6 @@
                     id="deleteColumnButton"
                 >
                     <mat-icon class="table_icon">delete</mat-icon>
-                </button>
-                <button
-                    *ngIf="checkForUsage(row['connectivity-service-id'])"
-                    mat-icon-button
-                    id="usageButton"
-                    (click)="
-                        showUsage(
-                            row['connectivity-service-id'],
-                            undefined,
-                            undefined
-                        )
-                    "
-                    color="accent"
-                >
-                    <mat-icon class="table_icon">assignment</mat-icon>
                 </button>
             </td>
         </ng-container>
@@ -156,10 +140,3 @@
     >
     </mat-paginator>
 </div>
-<aether-show-enterprise-usage
-    *ngIf="showUsageCard"
-    id="showParentModulesComponent"
-    [connectivityServiceID]="selected.id"
-    (closeShowParentCardEvent)="closeShowParentCard()"
->
-</aether-show-enterprise-usage>

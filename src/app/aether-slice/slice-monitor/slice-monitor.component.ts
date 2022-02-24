@@ -150,7 +150,7 @@ export class SliceMonitorComponent
             .subscribe(
                 (vcs) => {
                     console.log(
-                        'Found VCS',
+                        'Found Slice',
                         vcs.id,
                         'Has device Groups',
                         vcs['device-group'],
@@ -170,7 +170,7 @@ export class SliceMonitorComponent
                     this.getApplicationDetails(allowedApp);
                     this.getUpf(vcs.upf);
                 },
-                (err) => console.warn('VCS', this.id, 'not found.', err)
+                (err) => console.warn('Slice', this.id, 'not found.', err)
             );
     }
 

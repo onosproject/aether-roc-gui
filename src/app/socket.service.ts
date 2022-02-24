@@ -28,7 +28,7 @@ export class SocketService {
 
     // With Chrome connect() has been called before the panel-slice calls on subscribe
     // With Firefox connect() has not called yet at that stage, so we want to callback
-    // the panel VCS when it is
+    // the panel Slice when it is
     private onConnected(observer: Observer<boolean>): void {
         if (!this.webSocketSubject || this.webSocketSubject.closed) {
             observer.next(false); // For firefox

@@ -57,21 +57,14 @@ export class EnterpriseComponent
     }
 
     onDataLoaded(ScopeOfDataSource: EnterpriseDatasource): void {
-        /* TODO: Needs work*/
-        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
+        // TODO: merge basket with loaded data
         // if (
         //     this.pathRoot in basketPreview &&
-        //     'enterprise' in basketPreview[this.pathRoot]
+        //     'site' in basketPreview[this.pathRoot]
         // ) {
-        //     ScopeOfDataSource.merge(
-        //         basketPreview['Enterprises-2.0.0'].enterprise,
-        //         [
-        //             {
-        //                 fieldName: 'connectivity-service',
-        //                 idAttr: 'connectivity-service',
-        //             },
-        //         ]
-        //     );
+        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
+        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
+        //     ]);
         // }
     }
 

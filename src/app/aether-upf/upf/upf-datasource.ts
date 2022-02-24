@@ -10,7 +10,12 @@ import {
     EnterprisesEnterpriseSiteUpf,
 } from '../../../openapi3/aether/2.0.0/models';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
+import {
+    BasketService,
+    FORDELETE,
+    ISINUSE,
+    STRIKETHROUGH,
+} from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 import { from, Observable } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
@@ -63,6 +68,12 @@ export class UpfDatasource extends RocDataSource<
                             if (this.bs.containsDeleteEntry(fullPath)) {
                                 u[FORDELETE] = STRIKETHROUGH;
                             }
+                            // Check for usages in slices
+                            s.slice.forEach((slice) => {
+                                if (slice['upf'] === u['upf-id']) {
+                                    u[ISINUSE] = 'true'; // Any match will set it
+                                }
+                            });
                             this.data.push(u);
                         });
                     });

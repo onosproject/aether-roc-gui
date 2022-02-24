@@ -13,7 +13,6 @@ import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { UpfDatasource } from './upf-datasource';
-import * as _ from 'lodash';
 import { EnterprisesEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models';
 
 @Component({
@@ -55,32 +54,14 @@ export class UpfComponent
     }
 
     onDataLoaded(ScopeOfDataSource: UpfDatasource): void {
-        /* TODO: Needs work*/
-        // const basketPreview = ScopeOfDataSource.bs.buildPatchBody().Updates;
-        // this.usageArray = [];
-        // this.aetherService
-        //     .getVcs({
-        //         target: AETHER_TARGET,
-        //     })
-        //     .subscribe((displayData) => {
-        //         this.usageArray = this.usageArray.concat(
-        //             _.differenceWith(
-        //                 ScopeOfDataSource.data,
-        //                 displayData.slice,
-        //                 function (ScopeOfDataSourceObject, displayDataObject) {
-        //                     return (
-        //                         ScopeOfDataSourceObject.id ===
-        //                         displayDataObject.upf
-        //                     );
-        //                 }
-        //             )
-        //         );
-        //     });
+        // TODO: merge basket with loaded data
         // if (
         //     this.pathRoot in basketPreview &&
-        //     'upf' in basketPreview[this.pathRoot]
+        //     'site' in basketPreview[this.pathRoot]
         // ) {
-        //     ScopeOfDataSource.merge(basketPreview['Upf-2.0.0'].upf);
+        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
+        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
+        //     ]);
         // }
     }
 

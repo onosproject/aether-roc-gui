@@ -5,7 +5,12 @@
  */
 
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
+import {
+    BasketService,
+    FORDELETE,
+    ISINUSE,
+    STRIKETHROUGH,
+} from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 import {
     Enterprises,
@@ -63,6 +68,12 @@ export class IpDomainDatasource extends RocDataSource<
                             if (this.bs.containsDeleteEntry(fullPath)) {
                                 i[FORDELETE] = STRIKETHROUGH;
                             }
+                            // Check for usages in device-groups
+                            s['device-group'].forEach((dg) => {
+                                if (dg['ip-domain'] === i['ip-domain-id']) {
+                                    i[ISINUSE] = 'true'; // Any match will set it
+                                }
+                            });
                             this.data.push(i);
                         });
                     });

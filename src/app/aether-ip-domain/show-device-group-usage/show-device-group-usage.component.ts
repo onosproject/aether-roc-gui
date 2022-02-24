@@ -18,6 +18,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
+import { RocUsageBase, UsageColumns } from '../../roc-usage-base';
 
 export interface displayedColumns {
     id;
@@ -29,23 +30,29 @@ export interface displayedColumns {
     templateUrl: './show-device-group-usage.component.html',
     styleUrls: ['../../common-panel.component.scss'],
 })
-export class ShowDeviceGroupUsageComponent implements OnChanges {
+export class ShowDeviceGroupUsageComponent
+    extends RocUsageBase
+    implements OnChanges
+{
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<displayedColumns>;
+    @ViewChild(MatTable) table: MatTable<UsageColumns>;
     @Input() enterpriseID: string;
     @Input() siteID: string;
     @Input() ipDomainID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
-    parentModulesArray: Array<displayedColumns> = [];
-    displayColumns = ['id', 'display-name'];
-
     constructor(
         protected fb: FormBuilder,
         protected route: ActivatedRoute,
         private siteService: EnterprisesEnterpriseSiteService
-    ) {}
+    ) {
+        super(
+            'Enterprises-2.0.0',
+            ['enterprise', 'site', 'ip-domain'],
+            ['enterprise-id', 'site-id', 'ip-domain-id']
+        );
+    }
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
@@ -59,17 +66,24 @@ export class ShowDeviceGroupUsageComponent implements OnChanges {
                 displayData['device-group'].forEach((dg) => {
                     if (dg['ip-domain'] === this.ipDomainID) {
                         const displayParentModules = {
-                            id: dg['device-group-id'],
+                            type: 'Device-Group',
+                            'attr-names': [
+                                'enterprise-id',
+                                'site-id',
+                                'device-group-id',
+                            ],
+                            ids: [
+                                this.enterpriseID,
+                                this.siteID,
+                                dg['device-group-id'],
+                            ],
                             'display-name': dg['display-name'],
-                        };
+                            route: '/device-group/device-group-edit',
+                        } as UsageColumns;
                         this.parentModulesArray.push(displayParentModules);
                     }
                 });
                 this.table.dataSource = this.parentModulesArray;
             });
-    }
-
-    keepCardOpen(cancelled: boolean): void {
-        this.closeShowParentCardEvent.emit(cancelled);
     }
 }
