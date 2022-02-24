@@ -13,8 +13,7 @@ import { PERFORMANCE_METRICS_ENABLED } from '../../../environments/environment';
     styleUrls: ['../../common-panel.component.scss'],
 })
 export class UeMonitorComponent {
-    @Input() ueId: number;
-    @Input() fullImsi: string;
+    @Input() ueId: string;
     @Input() grafanaOrgId = 1;
     @Input() grafanaOrgName: string;
 
@@ -31,7 +30,7 @@ export class UeMonitorComponent {
     generateConnectivityPanelUrl(
         orgId: number,
         orgName: string,
-        ueId: number,
+        ueId: string,
         panel: number
     ): string {
         let baseUrl = `${this.grafanaUrl}/d-solo/ue-conn/ue-connectivity?orgId=${orgId}&theme=light&panelId=${panel}`;

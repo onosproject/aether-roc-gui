@@ -1,0 +1,89 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
+<div>
+    <mat-toolbar class="profile-toolbar" color="primary">
+        <p>
+            Upf
+            <span
+                *ngIf="thisUpf && thisUpf['display-name'] !== undefined"
+                [title]="id"
+                >{{ thisUpf["display-name"] }}&nbsp;<small
+                    >({{ id }} )</small
+                ></span
+            >
+            <span *ngIf="!thisUpf || thisUpf['display-name'] === undefined">{{
+                id
+            }}</span>
+        </p>
+    </mat-toolbar>
+
+    <table id="upfTable">
+        <!-- Latency -->
+        <tr>
+            <td>
+                <iframe
+                    *ngIf="upfLatencyPanelUrl"
+                    [src]="upfLatencyPanelUrl | safe"
+                    width="600"
+                    height="300"
+                    frameborder="0"
+                ></iframe>
+                <p *ngIf="!upfLatencyPanelUrl">
+                    <mat-icon color="primary">auto_graph</mat-icon>
+                    UPF Latency chart not found
+                </p>
+            </td>
+        </tr>
+        <!-- Jitter -->
+        <tr>
+            <td>
+                <iframe
+                    *ngIf="upfJitterPanelUrl"
+                    [src]="upfJitterPanelUrl | safe"
+                    width="600"
+                    height="300"
+                    frameborder="0"
+                ></iframe>
+                <p *ngIf="!upfJitterPanelUrl">
+                    <mat-icon color="primary">auto_graph</mat-icon>
+                    UPF Jitter chart not found
+                </p>
+            </td>
+        </tr>
+        <!-- Throughput -->
+        <tr>
+            <td>
+                <iframe
+                    *ngIf="upfThroughputPanelUrl"
+                    [src]="upfThroughputPanelUrl | safe"
+                    width="600"
+                    height="300"
+                    frameborder="0"
+                ></iframe>
+                <p *ngIf="!upfThroughputPanelUrl">
+                    <mat-icon color="primary">auto_graph</mat-icon>
+                    UPF Throughput chart not found
+                </p>
+            </td>
+        </tr>
+        <!-- Drops -->
+        <tr>
+            <td>
+                <iframe
+                    *ngIf="upfDropsPanelUrl"
+                    [src]="upfDropsPanelUrl | safe"
+                    width="600"
+                    height="300"
+                    frameborder="0"
+                ></iframe>
+                <p *ngIf="!upfDropsPanelUrl">
+                    <mat-icon color="primary">auto_graph</mat-icon>
+                    UPF Drops chart not found
+                </p>
+            </td>
+        </tr>
+    </table>
+</div>

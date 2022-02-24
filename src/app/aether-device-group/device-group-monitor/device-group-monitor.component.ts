@@ -36,7 +36,7 @@ export class DeviceGroupMonitorComponent
     thisDg: EnterprisesEnterpriseSiteDeviceGroup;
     site: EnterprisesEnterpriseSite;
     ipDomain: EnterprisesEnterpriseSiteIpDomain;
-    selectedUeId: number;
+    selectedUeId: string;
 
     constructor(
         protected dgService: EnterprisesEnterpriseSiteDeviceGroupService,
