@@ -173,6 +173,8 @@
 <aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
+    [enterpriseID]="route.snapshot.params['enterprise-id']"
+    [siteID]="route.snapshot.params['site-id']"
     [upfID]="upfId"
     (closeShowParentCardEvent)="closeShowParentCard($event)"
 >

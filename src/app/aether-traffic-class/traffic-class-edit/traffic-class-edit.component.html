@@ -152,10 +152,11 @@
         </mat-card-actions>
     </mat-card>
 </form>
-<aether-show-vcs-usage
+<aether-show-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
+    [enterpriseID]="route.snapshot.params['enterprise-id']"
     [trafficClassID]="trafficClassId"
     (closeShowParentCardEvent)="closeShowParentCard()"
 >
-</aether-show-vcs-usage>
+</aether-show-usage>

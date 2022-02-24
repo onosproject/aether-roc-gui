@@ -10,15 +10,6 @@
                 >Device:
                 {{ this.deviceForm.get("device-id").value }}</mat-card-title
             >
-            <mat-icon
-                *ngIf="!isNew"
-                (click)="showParentDisplay = true; $event.preventDefault()"
-                class="subscriber-pointer"
-                id="showParentInformation"
-                color="accent"
-            >
-                assignment
-            </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
@@ -155,11 +146,3 @@
         </mat-card-content>
     </mat-card>
 </form>
-
-<!--<aether-show-vcs-usage-->
-<!--    *ngIf="showParentDisplay"-->
-<!--    id="showParentModulesComponent"-->
-<!--    [deviceID]="deviceId"-->
-<!--    (closeShowParentCardEvent)="closeShowParentCard($event)"-->
-<!--&gt;-->
-<!--</aether-show-vcs-usage>-->
