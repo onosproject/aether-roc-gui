@@ -14,7 +14,9 @@
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/slice/slice-monitor/{{ sliceID }}"
+                routerLink="/slice/slice-monitor/{{
+                    route.snapshot.params['enterprise-id']
+                }}/{{ route.snapshot.params['site-id'] }}/{{ sliceID }}"
                 id="monitorVcsButton"
                 >insights
             </mat-icon>

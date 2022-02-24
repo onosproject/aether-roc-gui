@@ -57,7 +57,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
                 path: 'slice-edit/:enterprise-id/:site-id/:id',
                 component: SliceEditComponent,
             },
-            { path: 'slice-monitor/:id', component: SliceMonitorComponent },
+            {
+                path: 'slice-monitor/:enterprise-id/:site-id/:id',
+                component: SliceMonitorComponent,
+            },
             { path: '', component: SliceComponent, pathMatch: 'full' },
         ]),
         MatToolbarModule,

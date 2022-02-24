@@ -113,6 +113,8 @@
                                 aria-label="DeviceGroup"
                                 color="accent"
                                 routerLink="/device-group/device-group-monitor/{{
+                                    route.snapshot.params['enterprise-id']
+                                }}/{{ route.snapshot.params['site-id'] }}//{{
                                     dg.key['id']
                                 }}"
                                 >insights

@@ -242,8 +242,8 @@
                 mat-cell
                 *matCellDef="let row"
                 routerLink="/device-group/device-group-monitor/{{
-                    row['device-group-id']
-                }}"
+                    row['enterprise-id']
+                }}/{{ row['site-id'] }}/{{ row['device-group-id'] }}"
                 id="monitorDgButton"
             >
                 <mat-icon class="table_icon" color="accent">insights</mat-icon>

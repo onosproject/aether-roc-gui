@@ -53,7 +53,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
                 path: 'site-edit/:enterprise-id/:id',
                 component: SiteEditComponent,
             },
-            { path: 'site-monitor/:id', component: SiteMonitorComponent },
+            {
+                path: 'site-monitor/:enterprise-id/:id',
+                component: SiteMonitorComponent,
+            },
             { path: '', component: SiteComponent, pathMatch: 'full' },
         ]),
         MatToolbarModule,
