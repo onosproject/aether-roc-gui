@@ -147,7 +147,7 @@ export class ApiService extends BaseService {
   sdcorePushConfigTopLevel$Response(params: {
 
     /**
-     * sdcore service name e.g. sdcore-adapter-v4
+     * sdcore service name e.g. sdcore-adapter-v2
      */
     service: any;
   }): Observable<StrictHttpResponse<void>> {
@@ -181,7 +181,7 @@ export class ApiService extends BaseService {
   sdcorePushConfigTopLevel(params: {
 
     /**
-     * sdcore service name e.g. sdcore-adapter-v4
+     * sdcore service name e.g. sdcore-adapter-v2
      */
     service: any;
   }): Observable<void> {
