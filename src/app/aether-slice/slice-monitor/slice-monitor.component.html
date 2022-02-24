@@ -80,7 +80,9 @@
                             aria-label="Slice"
                             color="accent"
                             title="Edit Slice {{ id }}"
-                            routerLink="/slice/slice-edit/{{ id }}"
+                            routerLink="/slice/slice-edit/{{
+                                route.snapshot.params['enterprise-id']
+                            }}/{{ route.snapshot.params['site-id'] }}/{{ id }}"
                             >edit
                         </mat-icon>
                     </h3>
@@ -106,14 +108,17 @@
                             &nbsp;{{ dg.key["display-name"] }}
                         </mat-panel-title>
                         <mat-panel-description>
-                            <small>({{ dg.key["id"] }})</small>&nbsp;
+                            <small>({{ dg.key["device-group-id"] }})</small
+                            >&nbsp;
                             <mat-icon
                                 class="table_icon small_icon"
                                 aria-hidden="false"
                                 aria-label="DeviceGroup"
                                 color="accent"
                                 routerLink="/device-group/device-group-monitor/{{
-                                    dg.key['id']
+                                    route.snapshot.params['enterprise-id']
+                                }}/{{ route.snapshot.params['site-id'] }}/{{
+                                    dg.key['device-group-id']
                                 }}"
                                 >insights
                             </mat-icon>
@@ -127,27 +132,34 @@
                             aria-label="Slice"
                             color="accent"
                             title="Edit Slice {{ id }}"
-                            routerLink="/slice/slice-edit/{{ id }}"
+                            routerLink="/slice/slice-edit/{{
+                                route.snapshot.params['enterprise-id']
+                            }}/{{ route.snapshot.params['site-id'] }}/{{ id }}"
                             >edit
                         </mat-icon>
                     </p>
                     <h3>
-                        Imsi Range
+                        Device Groups
                         <mat-icon
                             class="table_icon small_icon"
                             aria-hidden="false"
                             aria-label="DeviceGroup"
                             color="accent"
-                            title="Edit Device Group {{ dg.key['id'] }}"
+                            title="Edit Device Group {{
+                                dg.key['device-group-id']
+                            }}"
                             routerLink="/device-group/device-group-edit/{{
-                                dg.key['id']
+                                route.snapshot.params['enterprise-id']
+                            }}/{{ route.snapshot.params['site-id'] }}/{{
+                                dg.key['device-group-id']
                             }}"
                             >edit
                         </mat-icon>
                     </h3>
-                    <div *ngFor="let imsiRange of dg.key['imsis']">
-                        {{ imsiRange["imsi-range-from"] || "0" }} -
-                        {{ imsiRange["imsi-range-to"] }}
+                    <div *ngFor="let device of dg.key['device']">
+                        {{ device["device-id"] }}&nbsp; ({{
+                            device.enable ? "Enabled" : "Disabled"
+                        }})
                     </div>
                 </mat-expansion-panel>
                 <mat-expansion-panel
@@ -162,21 +174,9 @@
                             }}
                         </mat-panel-title>
                         <mat-panel-description>
-                            <small>({{ app.key["id"] }})</small>
+                            <small>({{ app.key["application-id"] }})</small>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
-                    <p *ngIf="!app.value" class="highlight">
-                        Disabled
-                        <mat-icon
-                            class="table_icon small_icon"
-                            aria-hidden="false"
-                            aria-label="Slice"
-                            color="accent"
-                            title="Edit Slice {{ id }}"
-                            routerLink="/slice/slice-edit/{{ id }}"
-                            >edit
-                        </mat-icon>
-                    </p>
                     <h3>
                         EndPoint
                         <mat-icon
@@ -184,17 +184,21 @@
                             aria-hidden="false"
                             aria-label="Application"
                             color="accent"
-                            title="Edit Application {{ app.key['id'] }}"
-                            routerLink="/application/application-edit/{{
-                                app.key['id']
+                            title="Edit Application {{
+                                app.key['application-id']
                             }}"
+                            routerLink="/application/application-edit/{{
+                                route.snapshot.params['enterprise-id']
+                            }}/{{ app.key['application-id'] }}"
                             >edit
                         </mat-icon>
                     </h3>
                     <div *ngFor="let ep of app.key['endpoint']">
                         <p>
-                            {{ ep.name }}: {{ ep.address }} {{ ep.protocol }}
-                            {{ ep["port-start"] }}-{{ ep["port-end"] }}
+                            {{ ep["display-name"] }}: {{ ep["traffic-class"] }}
+                            {{ ep.protocol }} {{ ep["port-start"] }}-{{
+                                ep["port-end"]
+                            }}
                         </p>
                     </div>
                 </mat-expansion-panel>
@@ -206,13 +210,17 @@
                             }}</mat-panel-title
                         >
                         <mat-panel-description>
-                            <small>({{ upf.id }})</small>
+                            <small>({{ upf["upf-id"] }})</small>
                             <mat-icon
                                 class="table_icon small_icon"
                                 aria-hidden="false"
                                 aria-label="UPF"
                                 color="accent"
-                                routerLink="/upf/upf-monitor/{{ upf.id }}"
+                                routerLink="/upf/upf-monitor/{{
+                                    route.snapshot.params['enterprise-id']
+                                }}/{{ route.snapshot.params['site-id'] }}/{{
+                                    upf['upf-id']
+                                }}"
                                 >insights
                             </mat-icon>
                         </mat-panel-description>
@@ -224,7 +232,11 @@
                             aria-hidden="false"
                             aria-label="UPF"
                             color="accent"
-                            routerLink="/upf/upf-edit/{{ upf.id }}"
+                            routerLink="/upf/upf-edit/{{
+                                route.snapshot.params['enterprise-id']
+                            }}/{{ route.snapshot.params['site-id'] }}/{{
+                                upf['upf-id']
+                            }}"
                             >edit
                         </mat-icon>
                     </h3>
@@ -240,7 +252,9 @@
                             }}
                         </mat-panel-title>
                         <mat-panel-description>
-                            <small>({{ trafficClass.id }})</small>
+                            <small
+                                >({{ trafficClass["traffic-class-id"] }})</small
+                            >
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <h3>
@@ -251,8 +265,8 @@
                             aria-label="Traffic Class"
                             color="accent"
                             routerLink="/traffic-class/traffic-class-edit/{{
-                                trafficClass.id
-                            }}"
+                                route.snapshot.params['enterprise-id']
+                            }}/{{ trafficClass['traffic-class-id'] }}"
                             >edit
                         </mat-icon>
                     </h3>

@@ -17,8 +17,8 @@
                 class="subscriber-pointer"
                 color="accent"
                 routerLink="/device-group/device-group-monitor/{{
-                    deviceGroupId
-                }}"
+                    route.snapshot.params['enterprise-id']
+                }}/{{ route.snapshot.params['site-id'] }}/{{ deviceGroupId }}"
                 id="monitorDgButton"
                 >insights
             </mat-icon>

@@ -60,7 +60,7 @@ import { DeviceSelectComponent } from './device-select/device-select.component';
                 component: DeviceGroupEditComponent,
             },
             {
-                path: 'device-group-monitor/:id',
+                path: 'device-group-monitor/:enterprise-id/:site-id/:id',
                 component: DeviceGroupMonitorComponent,
             },
             { path: '', component: DeviceGroupComponent, pathMatch: 'full' },

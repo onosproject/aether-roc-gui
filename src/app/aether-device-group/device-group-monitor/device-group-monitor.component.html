@@ -23,32 +23,22 @@
         <tr>
             <td class="third-width" *ngIf="thisDg">
                 <mat-expansion-panel
-                    *ngFor="let imsi of thisDg.imsis"
+                    *ngFor="let device of thisDg.device"
                     expanded="true"
                 >
                     <mat-expansion-panel-header>
                         <mat-panel-title
-                            ><small>IMSIs</small>&nbsp;<strong>{{
-                                imsi.name
+                            ><small>Device</small>&nbsp;<strong>{{
+                                device["device-id"]
                             }}</strong></mat-panel-title
                         >
                     </mat-expansion-panel-header>
                     <div
-                        *ngFor="
-                            let imsiNum of imsiList(
-                                imsi['imsi-range-from'],
-                                imsi['imsi-range-to']
-                            )
-                        "
+                        (click)="selectedUeId = device['device-id']"
+                        class="table_icon"
                     >
-                        <div
-                            *ngIf="site"
-                            (click)="selectedUeId = imsiNum"
-                            class="table_icon"
-                        >
-                            {{ imsiNum }} ({{ fullImsi(site, imsiNum) }})&nbsp;
-                            <mat-icon color="accent">insights</mat-icon>
-                        </div>
+                        {{ device["device-id"] }}&nbsp;
+                        <mat-icon color="accent">insights</mat-icon>
                     </div>
                 </mat-expansion-panel>
                 <mat-expansion-panel *ngIf="ipDomain">
@@ -68,7 +58,9 @@
                             color="accent"
                             title="Edit IP Domain {{ ipDomain.id }}"
                             routerLink="/ipdomain/ipdomain-edit/{{
-                                ipDomain.id
+                                route.snapshot.params['enterprise-id']
+                            }}/{{ route.snapshot.params['site-id'] }}/{{
+                                ipDomain['ip-domain-id']
                             }}"
                             >edit
                         </mat-icon>
@@ -94,7 +86,7 @@
                             }}</mat-panel-title
                         >
                         <mat-panel-description>
-                            <small>({{ site.id }})</small>
+                            <small>({{ site["site-id"] }})</small>
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <h3>
@@ -104,8 +96,10 @@
                             aria-hidden="false"
                             aria-label="IP Domain"
                             color="accent"
-                            title="Edit Site {{ site.id }}"
-                            routerLink="/site/site-edit/{{ site.id }}"
+                            title="Edit Site {{ site['site-id'] }}"
+                            routerLink="/site/site-edit/{{
+                                route.snapshot.params['enterprise-id']
+                            }}/{{ site['site-id'] }}"
                             >edit
                         </mat-icon>
                     </h3>
@@ -127,7 +121,6 @@
     <aether-ue-monitor
         *ngIf="selectedUeId !== undefined"
         [ueId]="selectedUeId"
-        [fullImsi]="fullImsi(site, selectedUeId)"
         [grafanaOrgId]="grafanaOrgId"
         [grafanaOrgName]="grafanaOrgName"
         (closeEvent)="selectedUeId = undefined"

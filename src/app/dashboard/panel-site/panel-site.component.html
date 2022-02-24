@@ -118,7 +118,9 @@
                 mat-cell
                 class="icon-pointer"
                 *matCellDef="let row"
-                routerLink="/site/site-monitor/{{ row['site-id'] }}"
+                routerLink="/site/site-monitor/{{ row['enterprise-id'] }}/{{
+                    row['site-id']
+                }}"
                 id="monitorSiteButton"
             >
                 <mat-icon class="table_icon" color="accent">insights</mat-icon>

@@ -14,7 +14,9 @@
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/site/site-monitor/{{ siteId }}"
+                routerLink="/site/site-monitor/{{
+                    route.snapshot.params['enterprise-id']
+                }}/{{ siteId }}"
                 id="monitorSiteButton"
                 >insights
             </mat-icon>

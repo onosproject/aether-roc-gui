@@ -11,6 +11,7 @@ import {
     EnterprisesEnterpriseTrafficClassService,
     EnterprisesEnterpriseSiteUpfService,
     EnterprisesEnterpriseSiteSliceService,
+    EnterprisesEnterpriseService,
 } from '../../../openapi3/aether/2.0.0/services';
 import {
     AETHER_TARGET,
@@ -68,6 +69,7 @@ export class SliceMonitorComponent
         protected upfService: EnterprisesEnterpriseSiteUpfService,
         protected tcService: EnterprisesEnterpriseTrafficClassService,
         protected siteService: EnterprisesEnterpriseSiteService,
+        protected enterpriseService: EnterprisesEnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
         private httpClient: HttpClient,
@@ -151,11 +153,11 @@ export class SliceMonitorComponent
                 (vcs) => {
                     console.log(
                         'Found Slice',
-                        vcs.id,
+                        vcs['slice-id'],
                         'Has device Groups',
                         vcs['device-group'],
                         'applications',
-                        vcs.application
+                        vcs.filter
                     );
                     this.thisVcs = vcs;
                     const enabledDg = new Map<string, boolean>();
@@ -216,11 +218,10 @@ export class SliceMonitorComponent
     }
 
     private getApplicationDetails(application: Map<string, boolean>): void {
-        this.siteService
-            .getEnterprisesEnterpriseSite({
+        this.enterpriseService
+            .getEnterprisesEnterprise({
                 target: AETHER_TARGET,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
-                'site-id': this.route.snapshot.params['site-id'],
             })
             .pipe(
                 pluck('application'),
