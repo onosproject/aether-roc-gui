@@ -205,18 +205,6 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
         );
     }
 
-    private ucmap(): Map<string, string> {
-        const ucMap = new Map<string, string>();
-        const dgId = '/Device-group-2.0.0/device-group[id=' + this.id + ']';
-        let parentUc = localStorage.getItem(dgId);
-        if (parentUc === null) {
-            parentUc = this.deviceGroupForm[REQDATTRIBS];
-        }
-        ucMap.set(dgId, parentUc);
-
-        return ucMap;
-    }
-
     private populateFormData(
         value: EnterprisesEnterpriseSiteDeviceGroup
     ): void {

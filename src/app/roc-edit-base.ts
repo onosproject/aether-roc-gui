@@ -6,7 +6,7 @@
 
 import { FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BasketService } from './basket.service';
+import { BasketService, REQDATTRIBS } from './basket.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AETHER_TARGET } from '../environments/environment';
 import { RocElement } from '../openapi3/top/level/models/elements';
@@ -161,5 +161,16 @@ export abstract class RocEditBase {
         if (this.enterprises.length && entID !== undefined) {
             return this.enterprises.find((e) => e.enterpriseId === entID).sites;
         }
+    }
+
+    protected ucmap(): Map<string, string> {
+        const ucMap = new Map<string, string>();
+        const sliceId = '/' + this.fullPath;
+        let parentUc = localStorage.getItem(sliceId);
+        if (parentUc === null) {
+            parentUc = this.form[REQDATTRIBS];
+        }
+        ucMap.set(sliceId, parentUc);
+        return ucMap;
     }
 }

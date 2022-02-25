@@ -56,6 +56,7 @@ export class DeviceGroupComponent
                 AETHER_TARGET
             )
         );
+        super.reqdAttr = ['traffic-class'];
     }
 
     onDataLoaded(ScopeOfDataSource: DeviceGroupDatasource): void {

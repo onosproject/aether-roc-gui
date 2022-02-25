@@ -273,7 +273,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
                 ']',
             'connectivity-service',
             cs,
-            this.ucmap
+            this.ucmap()
         );
         const index = (
             this.entForm.get('connectivity-service') as FormArray
@@ -284,17 +284,5 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
             undefined,
             { duration: 2000 }
         );
-    }
-
-    private get ucmap(): Map<string, string> {
-        const vcsId =
-            '/Enterprises-2.0.0/enterprise[enterprise-id=' + this.id + ']';
-        let parentUc = localStorage.getItem(vcsId);
-        if (parentUc === null) {
-            parentUc = this.entForm[REQDATTRIBS];
-        }
-        const ucMap = new Map<string, string>();
-        ucMap.set(vcsId, parentUc);
-        return ucMap;
     }
 }

@@ -160,13 +160,7 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
 
     deleteFromSelect(ep: string): void {
         this.bs.deleteIndexedEntry(
-            '/' +
-                this.pathRoot +
-                '/application[application-id=' +
-                this.id +
-                ']/endpoint[endpoint-id=' +
-                ep +
-                ']',
+            '/' + this.fullPath + '/endpoint[endpoint-id=' + ep + ']',
             'endpoint-id',
             ep,
             this.ucmap()
@@ -181,23 +175,6 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
             undefined,
             { duration: 2000 }
         );
-    }
-
-    private ucmap(): Map<string, string> {
-        const ucMap = new Map<string, string>();
-        const appId =
-            '/' +
-            this.pathRoot +
-            '/application[application-id=' +
-            this.id +
-            ']';
-        let parentUc = localStorage.getItem(appId);
-        if (parentUc === null) {
-            parentUc = this.appForm[REQDATTRIBS];
-        }
-        ucMap.set(appId, parentUc);
-
-        return ucMap;
     }
 
     loadApplicationApplication(target: string, id: string): void {
