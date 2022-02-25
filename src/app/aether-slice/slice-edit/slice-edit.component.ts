@@ -459,18 +459,6 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         });
     }
 
-    private ucmap(): Map<string, string> {
-        const ucMap = new Map<string, string>();
-        const sliceId =
-            '/' + this.pathRoot + '/slice[slice-id=' + this.id + ']';
-        let parentUc = localStorage.getItem(sliceId);
-        if (parentUc === null) {
-            parentUc = this.sliceForm[REQDATTRIBS];
-        }
-        ucMap.set(sliceId, parentUc);
-        return ucMap;
-    }
-
     public populateFormData(value: EnterprisesEnterpriseSiteSlice): void {
         if (value['slice-id']) {
             this.sliceForm.get('slice-id').setValue(value['slice-id']);

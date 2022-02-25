@@ -51,7 +51,7 @@ export class IpDomainComponent
             basketService,
             new IpDomainDatasource(aetherService, basketService, AETHER_TARGET)
         );
-        super.reqdAttr = ['enterprise', 'subnet', 'dnn'];
+        super.reqdAttr = ['subnet', 'dnn'];
     }
 
     onDataLoaded(ScopeOfDataSource: IpDomainDatasource): void {
