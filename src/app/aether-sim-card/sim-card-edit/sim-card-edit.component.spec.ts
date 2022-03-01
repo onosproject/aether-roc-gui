@@ -65,4 +65,49 @@ describe('SimCardEditComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    describe('when creating or updating a SimCard object', () => {
+        beforeEach(() => {
+            component.simCardForm.get('sim-id').setValue('testSimId');
+            component.simCardForm
+                .get('display-name')
+                .setValue('test-display-name');
+            component.simCardForm
+                .get('description')
+                .setValue('test-description');
+            component.simCardForm.get('iccid').setValue('890000000000000000F');
+            component.simCardForm.get('imsi').setValue(1234011);
+            fixture.detectChanges();
+        });
+
+        it('should add the object to the basket', () => {
+            component.newSiteId = 'test-site';
+            component.newEnterpriseId = 'test-enterprise';
+
+            spyOn(component.bs, 'logKeyValuePairs');
+            component.onSubmit();
+            expect(component.bs.logKeyValuePairs).toHaveBeenCalled();
+        });
+
+        it('enterprise id should always be set', () => {
+            spyOn(component.snackBar, 'open');
+            component.onSubmit();
+            expect(component.snackBar.open).toHaveBeenCalledOnceWith(
+                'Enterprise must be set',
+                undefined,
+                { duration: 5000, politeness: 'assertive' }
+            );
+        });
+
+        it('site id should always be set', () => {
+            component.newEnterpriseId = 'test-enterprise';
+            spyOn(component.snackBar, 'open');
+            component.onSubmit();
+            expect(component.snackBar.open).toHaveBeenCalledOnceWith(
+                'Site must be set',
+                undefined,
+                { duration: 5000, politeness: 'assertive' }
+            );
+        });
+    });
 });
