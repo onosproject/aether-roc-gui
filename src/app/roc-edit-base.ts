@@ -61,6 +61,20 @@ export abstract class RocEditBase {
     }
 
     onSubmit(): void {
+        if (this.newEnterpriseId == undefined || !this.newEnterpriseId) {
+            this.snackBar.open('Enterprise must be set', undefined, {
+                duration: 5000,
+                politeness: 'assertive',
+            });
+            return;
+        }
+        if (this.newSiteId == undefined || !this.newSiteId) {
+            this.snackBar.open('Site must be set', undefined, {
+                duration: 5000,
+                politeness: 'assertive',
+            });
+            return;
+        }
         console.log('Submitted!', this.form.getRawValue());
         const submitId = this.form.get(this.idAttr).value as unknown as string;
         console.log(this.fullPath, this.newEnterpriseId, this.newSiteId);

@@ -28,6 +28,7 @@ export class SimCardEditComponent extends RocEditBase implements OnInit {
     pathListAttr = 'sim-card';
     simCardId: string;
     showParentDisplay = false;
+    idAttr = 'sim-id';
 
     simCardForm = this.fb.group({
         'sim-id': [
@@ -69,8 +70,8 @@ export class SimCardEditComponent extends RocEditBase implements OnInit {
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
-        protected bs: BasketService,
-        protected snackBar: MatSnackBar,
+        public bs: BasketService,
+        public snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
     ) {
         super(
