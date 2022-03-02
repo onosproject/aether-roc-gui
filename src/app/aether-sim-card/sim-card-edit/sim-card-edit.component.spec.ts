@@ -118,26 +118,5 @@ describe('SimCardEditComponent', () => {
             component.onSubmit();
             expect(component.bs.logKeyValuePairs).toHaveBeenCalled();
         });
-
-        it('enterprise id should always be set', () => {
-            spyOn(component.snackBar, 'open');
-            component.onSubmit();
-            expect(component.snackBar.open).toHaveBeenCalledOnceWith(
-                'Enterprise must be set',
-                undefined,
-                { duration: 5000, politeness: 'assertive' }
-            );
-        });
-
-        it('site id should always be set', () => {
-            component.enterpriseId = 'test-enterprise';
-            spyOn(component.snackBar, 'open');
-            component.onSubmit();
-            expect(component.snackBar.open).toHaveBeenCalledOnceWith(
-                'Site must be set',
-                undefined,
-                { duration: 5000, politeness: 'assertive' }
-            );
-        });
     });
 });
