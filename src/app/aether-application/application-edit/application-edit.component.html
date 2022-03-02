@@ -46,7 +46,7 @@
                 <mat-select
                     class="row-pad"
                     id="selectEnterprise"
-                    [(value)]="newEnterpriseId"
+                    [(value)]="enterpriseId"
                     placeholder="Please select an Enterprise"
                 >
                     <mat-option
@@ -270,7 +270,8 @@
                             appForm.valid &&
                             appForm.errors?.isEndpointNotValid === null &&
                             appForm.touched &&
-                            opaService.canWrite('/application/application')
+                            opaService.canWrite('/application/application') &&
+                            enterpriseId !== unknownEnterprise
                         )
                     "
                     id="submitButton"

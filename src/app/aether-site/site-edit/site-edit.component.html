@@ -44,7 +44,7 @@
                 <mat-select
                     class="row-pad"
                     id="selectEnterprise"
-                    [(value)]="newEnterpriseId"
+                    [(value)]="enterpriseId"
                     placeholder="Please select an Enterprise"
                 >
                     <mat-option
@@ -58,9 +58,9 @@
             </div>
             <div class="row" id="enterpriseRowReadOnly" *ngIf="!isNew">
                 <p class="field-margin half-width">
-                    <br /><mat-hint>Enterprise</mat-hint>:&nbsp;{{
-                        route.snapshot.params["enterprise-id"]
-                    }}
+                    <br />
+                    <mat-hint>Enterprise</mat-hint>
+                    :&nbsp;{{ route.snapshot.params["enterprise-id"] }}
                 </p>
             </div>
             <div class="row" id="displayNameRow">
@@ -162,8 +162,8 @@
                                 id="deleteEdgeDevice"
                             >
                                 <mat-icon class="pad-left subscriber-pointer"
-                                    >delete</mat-icon
-                                >
+                                    >delete
+                                </mat-icon>
                             </button>
                         </div>
                     </div>
@@ -225,7 +225,8 @@
                         !(
                             siteForm.valid &&
                             siteForm.touched &&
-                            opaService.canWrite('/site/site')
+                            opaService.canWrite('/site/site') &&
+                            enterpriseId !== unknownEnterprise
                         )
                     "
                     id="submitButton"

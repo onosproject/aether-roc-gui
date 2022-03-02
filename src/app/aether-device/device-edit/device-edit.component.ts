@@ -109,6 +109,13 @@ export class DeviceEditComponent extends RocEditBase implements OnInit {
     }
 
     loadDevice(target: string, deviceId: string): void {
+        if (
+            this.enterpriseId == this.unknownEnterprise ||
+            this.siteId == this.unknownSite
+        ) {
+            return;
+        }
+
         this.deviceService
             .getEnterprisesEnterpriseSiteDevice({
                 target: AETHER_TARGET,

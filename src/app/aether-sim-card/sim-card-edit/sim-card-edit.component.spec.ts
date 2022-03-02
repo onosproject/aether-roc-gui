@@ -66,6 +66,36 @@ describe('SimCardEditComponent', () => {
         expect(component).toBeTruthy();
     });
 
+    it('should disable the submit button unless site and enterprise id are set', () => {
+        Object.defineProperty(component.simCardForm, 'valid', { value: true });
+        Object.defineProperty(component.simCardForm, 'touched', {
+            value: true,
+        });
+        spyOn(component.opaService, 'canWrite').and.returnValue(true);
+        component.siteId = component.unknownSite;
+        component.enterpriseId = component.unknownEnterprise;
+
+        fixture.detectChanges();
+        const button = fixture.nativeElement.querySelector('#submitButton');
+
+        expect(button.disabled).toBeTruthy();
+    });
+
+    it('should enable the submit button if site and enterprise id are set', () => {
+        Object.defineProperty(component.simCardForm, 'valid', { value: true });
+        Object.defineProperty(component.simCardForm, 'touched', {
+            value: true,
+        });
+        spyOn(component.opaService, 'canWrite').and.returnValue(true);
+        component.siteId = 'site-id';
+        component.enterpriseId = 'ent-id';
+
+        fixture.detectChanges();
+        const button = fixture.nativeElement.querySelector('#submitButton');
+
+        expect(button.disabled).toBeFalsy();
+    });
+
     describe('when creating or updating a SimCard object', () => {
         beforeEach(() => {
             component.simCardForm.get('sim-id').setValue('testSimId');
@@ -81,8 +111,8 @@ describe('SimCardEditComponent', () => {
         });
 
         it('should add the object to the basket', () => {
-            component.newSiteId = 'test-site';
-            component.newEnterpriseId = 'test-enterprise';
+            component.siteId = 'test-site';
+            component.enterpriseId = 'test-enterprise';
 
             spyOn(component.bs, 'logKeyValuePairs');
             component.onSubmit();
@@ -100,7 +130,7 @@ describe('SimCardEditComponent', () => {
         });
 
         it('site id should always be set', () => {
-            component.newEnterpriseId = 'test-enterprise';
+            component.enterpriseId = 'test-enterprise';
             spyOn(component.snackBar, 'open');
             component.onSubmit();
             expect(component.snackBar.open).toHaveBeenCalledOnceWith(

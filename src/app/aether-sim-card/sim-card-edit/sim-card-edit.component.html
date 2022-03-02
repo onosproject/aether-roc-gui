@@ -34,7 +34,7 @@
                 <mat-select
                     class="row-pad"
                     id="selectEnterprise"
-                    [(value)]="newEnterpriseId"
+                    [(value)]="enterpriseId"
                     placeholder="Please select an Enterprise"
                 >
                     <mat-option
@@ -57,13 +57,11 @@
                 <mat-select
                     class="row-pad"
                     id="selectSite"
-                    [(value)]="newSiteId"
+                    [(value)]="siteId"
                     placeholder="Please select a Site"
                 >
                     <mat-option
-                        *ngFor="
-                            let eachSite of sitesOfEnterprise(newEnterpriseId)
-                        "
+                        *ngFor="let eachSite of sitesOfEnterprise(enterpriseId)"
                         [value]="eachSite.siteID"
                         >{{ eachSite.siteID }}
                         {{ eachSite.displayName }}
@@ -133,7 +131,9 @@
                     !(
                         simCardForm.valid &&
                         simCardForm.touched &&
-                        opaService.canWrite('/sim-card/sim-card')
+                        opaService.canWrite('/sim-card/sim-card') &&
+                        siteId !== unknownSite &&
+                        enterpriseId !== unknownEnterprise
                     )
                 "
                 id="submitButton"

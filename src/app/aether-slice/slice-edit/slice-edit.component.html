@@ -45,8 +45,9 @@
                 <mat-select
                     class="row-pad"
                     id="selectEnterprise"
-                    [(value)]="newEnterpriseId"
+                    [(value)]="enterpriseId"
                     placeholder="Please select an Enterprise"
+                    (selectionChange)="loadTemplate(AETHER_TARGET)"
                 >
                     <mat-option
                         *ngFor="let eachEnterprise of enterprises"
@@ -68,13 +69,11 @@
                 <mat-select
                     class="row-pad"
                     id="selectSite"
-                    [(value)]="newSiteId"
+                    [(value)]="siteId"
                     placeholder="Please select a Site"
                 >
                     <mat-option
-                        *ngFor="
-                            let eachSite of sitesOfEnterprise(newEnterpriseId)
-                        "
+                        *ngFor="let eachSite of sitesOfEnterprise(enterpriseId)"
                         [value]="eachSite.siteID"
                         >{{ eachSite.siteID }}
                         {{ eachSite.displayName }}
@@ -125,7 +124,7 @@
                         <mat-option
                             *ngFor="let eachTemp of templates"
                             [value]="eachTemp"
-                            >{{ eachTemp.id }}
+                            >{{ eachTemp["template-id"] }}
                             {{ eachTemp["template"] }}</mat-option
                         >
                     </mat-select>
@@ -437,7 +436,9 @@
                             sliceForm.touched &&
                             opaService.canWrite(
                                 '/slice/slice[slice-id={{sliceID}}]'
-                            )
+                            ) &&
+                            siteId !== unknownSite &&
+                            enterpriseId !== unknownEnterprise
                         )
                     "
                 >
