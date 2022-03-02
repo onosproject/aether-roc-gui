@@ -127,8 +127,8 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loadTrafficClass(this.target);
         super.init();
+        this.loadTrafficClass(this.target);
         this.deviceGroupForm.get(['mbr', 'uplink'])[TYPE] = 'number';
         this.deviceGroupForm.get(['mbr', 'downlink'])[TYPE] = 'number';
         this.deviceGroupForm.get(['traffic-class'])[TYPE] = 'string';
@@ -287,6 +287,13 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     }
 
     loadDeviceGroupDeviceGroup(target: string, id: string): void {
+        if (
+            this.enterpriseId == this.unknownEnterprise ||
+            this.siteId == this.unknownSite
+        ) {
+            return;
+        }
+
         this.deviceGroupDeviceGroupService
             .getEnterprisesEnterpriseSiteDeviceGroup({
                 target: AETHER_TARGET,
@@ -361,6 +368,9 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
     }
 
     loadTrafficClass(target: string): void {
+        if (this.enterpriseId == this.unknownEnterprise) {
+            return;
+        }
         this.entService
             .getEnterprisesEnterprise({
                 target: AETHER_TARGET,

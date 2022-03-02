@@ -11,6 +11,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AETHER_TARGET } from '../environments/environment';
 import { RocElement } from '../openapi3/top/level/models/elements';
 import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
+import * as _ from 'lodash';
 
 export interface EnterpriseID {
     enterpriseId: string;
@@ -31,8 +32,10 @@ export abstract class RocEditBase {
     public showParentDisplay = false;
     protected fullPath: string;
     public enterprises = new Array<EnterpriseID>();
-    public newEnterpriseId: string;
-    public newSiteId: string;
+    public enterpriseId: string;
+    public siteId: string;
+    public unknownEnterprise = 'unknownent';
+    public unknownSite = 'unknownsite';
 
     protected constructor(
         protected snackBar: MatSnackBar,
@@ -47,8 +50,8 @@ export abstract class RocEditBase {
 
     init(): void {
         this.route.paramMap.subscribe((value) => {
-            this.fullPath = this.calcFullPath(value);
             console.log('Full path', this.fullPath);
+            this.loadIds(value);
             if (value.get('id') === 'newinstance') {
                 this.isNewInstance = true;
                 if (value.keys.length > 1) {
@@ -57,18 +60,30 @@ export abstract class RocEditBase {
             } else {
                 this.loadFunc(this.target, value.get('id'));
             }
+            this.fullPath = this.calcFullPath(value);
         });
     }
 
+    loadIds(params: ParamMap): void {
+        this.siteId = params.get('site-id');
+        this.enterpriseId = params.get('enterprise-id');
+        console.log(
+            `Populated component with {enterpriseId: ${this.enterpriseId}, siteId: ${this.siteId}}`
+        );
+    }
+
     onSubmit(): void {
-        if (this.newEnterpriseId == undefined || !this.newEnterpriseId) {
+        if (
+            this.enterpriseId == this.unknownEnterprise ||
+            _.isNil(this.enterpriseId)
+        ) {
             this.snackBar.open('Enterprise must be set', undefined, {
                 duration: 5000,
                 politeness: 'assertive',
             });
             return;
         }
-        if (this.newSiteId == undefined || !this.newSiteId) {
+        if (this.siteId == this.unknownSite || _.isNil(this.siteId)) {
             this.snackBar.open('Site must be set', undefined, {
                 duration: 5000,
                 politeness: 'assertive',
@@ -77,17 +92,17 @@ export abstract class RocEditBase {
         }
         console.log('Submitted!', this.form.getRawValue());
         const submitId = this.form.get(this.idAttr).value as unknown as string;
-        console.log(this.fullPath, this.newEnterpriseId, this.newSiteId);
-        if (this.fullPath.includes('unknownent')) {
+        console.log(this.fullPath, this.enterpriseId, this.siteId);
+        if (this.fullPath.includes(this.unknownEnterprise)) {
             this.fullPath = this.fullPath.replace(
-                'unknownent',
-                this.newEnterpriseId
+                this.unknownEnterprise,
+                this.enterpriseId
             );
         }
-        if (this.fullPath.includes('unknownsite')) {
+        if (this.fullPath.includes(this.unknownSite)) {
             this.fullPath = this.fullPath.replace(
-                'unknownsite',
-                this.newSiteId
+                this.unknownSite,
+                this.siteId
             );
         }
         if (this.fullPath.includes('newinstance')) {
@@ -172,7 +187,10 @@ export abstract class RocEditBase {
     }
 
     public sitesOfEnterprise(entID: string): SiteID[] {
-        if (this.enterprises.length && entID !== undefined) {
+        if (entID == this.unknownEnterprise) {
+            return [];
+        }
+        if (this.enterprises.length && entID !== this.unknownEnterprise) {
             return this.enterprises.find((e) => e.enterpriseId === entID).sites;
         }
     }

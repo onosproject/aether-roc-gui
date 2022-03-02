@@ -294,10 +294,14 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     }
 
     loadTemplate(target: string): void {
+        if (this.enterpriseId == this.unknownEnterprise) {
+            return;
+        }
+
         this.enterpriseService
             .getEnterprisesEnterprise({
                 target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'enterprise-id': this.enterpriseId,
             })
             .subscribe(
                 (value) => {
@@ -661,6 +665,13 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
     }
 
     loadUpf(): void {
+        if (
+            this.enterpriseId == this.unknownEnterprise ||
+            this.siteId == this.unknownSite
+        ) {
+            return;
+        }
+
         let origLen = 0;
         this.siteService
             .getEnterprisesEnterpriseSite({

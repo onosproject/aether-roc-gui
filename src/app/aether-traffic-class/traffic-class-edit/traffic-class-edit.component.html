@@ -42,7 +42,7 @@
                 <mat-select
                     class="row-pad"
                     id="selectEnterprise"
-                    [(value)]="newEnterpriseId"
+                    [(value)]="enterpriseId"
                     placeholder="Please select an Enterprise"
                 >
                     <mat-option
@@ -143,7 +143,8 @@
                         tcForm.touched &&
                         opaService.canWrite(
                             '/traffic-class/traffic-class[id=' + id + ']'
-                        )
+                        ) &&
+                        enterpriseId !== unknownEnterprise
                     )
                 "
             >

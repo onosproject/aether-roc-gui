@@ -515,6 +515,10 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
     }
 
     loadTrafficClass(target: string): void {
+        if (this.enterpriseId == this.unknownEnterprise) {
+            return;
+        }
+
         this.enterpriseService
             .getEnterprisesEnterprise({
                 target: AETHER_TARGET,
