@@ -30,7 +30,7 @@ export abstract class RocListBase<
     public usageArray = [];
     public showUsageCard = false;
 
-    protected constructor(protected bs: BasketService, datasource: T) {
+    protected constructor(public bs: BasketService, datasource: T) {
         this.dataSource = datasource;
     }
 
