@@ -93,7 +93,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
                 ]),
             ],
         }),
-        'traffic-class': [undefined],
+        'traffic-class': [{ value: '', disabled: true }],
         device: this.fb.array([]),
     });
     deviceGroupId: string;
@@ -128,7 +128,7 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
 
     ngOnInit(): void {
         super.init();
-        this.loadTrafficClass(this.target);
+        this.loadTrafficClass();
         this.deviceGroupForm.get(['mbr', 'uplink'])[TYPE] = 'number';
         this.deviceGroupForm.get(['mbr', 'downlink'])[TYPE] = 'number';
         this.deviceGroupForm.get(['traffic-class'])[TYPE] = 'string';
@@ -367,14 +367,14 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
             );
     }
 
-    loadTrafficClass(target: string): void {
+    loadTrafficClass(): void {
         if (this.enterpriseId == this.unknownEnterprise) {
             return;
         }
         this.entService
             .getEnterprisesEnterprise({
                 target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'enterprise-id': this.enterpriseId,
             })
             .subscribe(
                 (value) => {
@@ -388,12 +388,11 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
                     if (thisSite !== undefined) {
                         this.ipdomain = thisSite['ip-domain'];
                     }
+                    this.form.get('traffic-class').enable();
                 },
                 (error) => {
                     console.warn(
-                        'Error getting Traffic Class for ',
-                        target,
-                        error
+                        `Error getting Traffic Class for ${AETHER_TARGET}: ${error}`
                     );
                 }
             );

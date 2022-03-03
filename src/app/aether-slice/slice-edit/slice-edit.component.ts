@@ -30,9 +30,11 @@ import {
     EnterprisesEnterpriseTemplate,
     EnterprisesEnterpriseSiteUpf,
     EnterprisesEnterpriseSiteSlice,
+    EnterprisesEnterpriseSite,
 } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseSiteSliceService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
+import * as _ from 'lodash';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -155,13 +157,13 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             undefined,
             Validators.compose([Validators.min(1), Validators.max(255)]),
         ],
-        upf: [undefined],
+        upf: [{ value: '', disabled: true }],
     });
 
     constructor(
         protected sliceService: EnterprisesEnterpriseSiteSliceService,
         protected enterpriseService: EnterprisesEnterpriseService,
-        protected siteService: EnterprisesEnterpriseSiteService,
+        public siteService: EnterprisesEnterpriseSiteService,
         protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -672,19 +674,30 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             return;
         }
 
-        let origLen = 0;
         this.siteService
             .getEnterprisesEnterpriseSite({
                 target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
-                'site-id': this.route.snapshot.params['site-id'],
+                'enterprise-id': this.enterpriseId,
+                'site-id': this.siteId,
             })
             .subscribe(
-                (value) => {
-                    value.upf.forEach((eachUPF) => {
-                        this.upfs.push(eachUPF);
+                (site) => {
+                    // only keep
+                    // - the currently selected UPF
+                    // - and the unused ones
+                    const selectedUpf = _.find(site.upf, {
+                        'upf-id': this.sliceForm.get('upf').value,
                     });
-                    origLen = this.upfs.length;
+
+                    this.upfs = _.isNil(selectedUpf)
+                        ? this.filterUpf(site)
+                        : [selectedUpf, ...this.filterUpf(site)];
+
+                    this.upfs = [...this.filterUpf(site)];
+                    this.form.get('upf').enable();
+                    console.log(
+                        `Showing ${this.upfs.length} unused UPFs. Total ${site.upf.length}`
+                    );
                 },
                 (error) => {
                     console.warn(
@@ -692,51 +705,19 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                         AETHER_TARGET,
                         error
                     );
-                },
-                () => {
-                    // eliminate already used UPFs
-                    this.siteService
-                        .getEnterprisesEnterpriseSite({
-                            target: AETHER_TARGET,
-                            'enterprise-id':
-                                this.route.snapshot.params['enterprise-id'],
-                            'site-id': this.route.snapshot.params['site-id'],
-                        })
-                        .pipe(
-                            map((sliceContainer) => sliceContainer?.slice),
-                            skipWhile((sliceList) => sliceList === undefined),
-                            mergeMap(
-                                (sliceItem: EnterprisesEnterpriseSiteSlice[]) =>
-                                    from(sliceItem)
-                            ),
-                            map(
-                                (sliceItem: EnterprisesEnterpriseSiteSlice) =>
-                                    sliceItem.upf
-                            )
-                        )
-                        .subscribe(
-                            (sliceUpf) => {
-                                const idx = this.upfs.findIndex(
-                                    (upf: EnterprisesEnterpriseSiteUpf) =>
-                                        upf.id === sliceUpf &&
-                                        this.sliceForm.get('upf').value !==
-                                            sliceUpf
-                                );
-                                if (idx > -1) {
-                                    this.upfs.splice(idx, 1);
-                                }
-                            },
-                            (err) => console.warn('Error getting Slice', err),
-                            () =>
-                                console.log(
-                                    'Showing',
-                                    this.upfs.length,
-                                    'unused UPFs. Total',
-                                    origLen
-                                )
-                        );
                 }
             );
+    }
+
+    // returns a list of UPFs IDs that are not used in other Slices in the same site
+    filterUpf(site: EnterprisesEnterpriseSite): EnterprisesEnterpriseSiteUpf[] {
+        const usedUpfs = site.slice.map((s) => s.upf);
+        return site.upf.reduce((list, item) => {
+            if (_.indexOf(usedUpfs, item['upf-id']) == -1) {
+                return [item, ...list];
+            }
+            return list;
+        }, [] as EnterprisesEnterpriseSiteUpf[]);
     }
 
     public get EndpointLimit(): number {

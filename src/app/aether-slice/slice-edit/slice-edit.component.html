@@ -71,6 +71,7 @@
                     id="selectSite"
                     [(value)]="siteId"
                     placeholder="Please select a Site"
+                    (selectionChange)="loadUpf()"
                 >
                     <mat-option
                         *ngFor="let eachSite of sitesOfEnterprise(enterpriseId)"
@@ -119,6 +120,7 @@
                 <mat-form-field class="field-margin half-width">
                     <mat-select
                         (selectionChange)="templateSelected($event)"
+                        [disabled]="enterpriseId === unknownEnterprise"
                         id="selectTemplate"
                     >
                         <mat-option

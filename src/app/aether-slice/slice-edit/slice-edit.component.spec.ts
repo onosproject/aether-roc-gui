@@ -23,8 +23,41 @@ import { SliceEditComponent } from './slice-edit.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
-import { EnterprisesEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models';
+import {
+    EnterprisesEnterpriseSite,
+    EnterprisesEnterpriseSiteSlice,
+} from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
+import { from, Observable } from 'rxjs';
+
+const site: EnterprisesEnterpriseSite = {
+    'site-id': 'acme-chicago',
+    slice: [
+        {
+            'default-behavior': 'DENY-ALL',
+            sd: 2973238,
+            'slice-id': 'acme-chicago-robots',
+            sst: 79,
+            upf: 'acme-chicago-pool-entry1',
+        },
+    ],
+    upf: [
+        {
+            address: 'entry1.upfpool.chicago.acme.com',
+            description: 'Chicago UPF Pool - Entry 1',
+            'display-name': 'Chicago Pool 1',
+            port: 6161,
+            'upf-id': 'acme-chicago-pool-entry1',
+        },
+        {
+            address: 'entry2.upfpool.chicago.acme.com',
+            description: 'Chicago UPF Pool - Entry 2',
+            'display-name': 'Chicago Pool 2',
+            port: 6161,
+            'upf-id': 'acme-chicago-pool-entry2',
+        },
+    ],
+};
 
 describe('SliceEditComponent', () => {
     let component: SliceEditComponent;
@@ -68,6 +101,69 @@ describe('SliceEditComponent', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should filter UPFs to return only the unused ones', () => {
+        const res = component.filterUpf(site);
+        expect(res.length).toBe(1);
+    });
+
+    describe('when creating a Slice', () => {
+        beforeEach(() => {
+            component.isNewInstance = true;
+            component.enterpriseId = component.unknownEnterprise;
+            component.siteId = component.unknownSite;
+            fixture.detectChanges();
+        });
+
+        it('should load the templates once the enterprise is selected', () => {
+            // on page load the select is disabled
+            let templateField =
+                fixture.nativeElement.querySelector('#selectTemplate');
+            expect(templateField.getAttribute('aria-disabled')).toEqual('true');
+
+            // simulate the enterprise selection
+            component.enterpriseId = 'test-enterprise';
+            component.templates = [
+                {
+                    'template-id': 'template 1',
+                    'default-behavior': 'foo',
+                },
+            ];
+            fixture.detectChanges();
+
+            // check that is now visible
+            templateField =
+                fixture.nativeElement.querySelector('#selectTemplate');
+            expect(templateField.getAttribute('aria-disabled')).toEqual(
+                'false'
+            );
+        });
+
+        it('should load the UPF once the site is selected', (done) => {
+            component.enterpriseId = 'test-enterprise';
+
+            // on page load the select is disabled
+            let upfField = fixture.nativeElement.querySelector('#selectUpf');
+            expect(upfField.getAttribute('aria-disabled')).toEqual('true');
+
+            // simulate the enterprise site selection
+            component.siteId = 'test-site';
+            const siteResponse = from([site]);
+            spyOn(
+                component.siteService,
+                'getEnterprisesEnterpriseSite'
+            ).and.returnValue(siteResponse);
+            component.loadUpf();
+            fixture.detectChanges();
+
+            setTimeout(() => {
+                // check that is now visible
+                upfField = fixture.nativeElement.querySelector('#selectUpf');
+                expect(upfField.getAttribute('aria-disabled')).toEqual('false');
+                done();
+            }, 100);
+        });
     });
 
     describe('when loading data from the backend', () => {

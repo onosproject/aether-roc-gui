@@ -59,6 +59,7 @@
                     id="selectSite"
                     [(value)]="siteId"
                     placeholder="Please select a Site"
+                    (selectionChange)="loadSimCards()"
                 >
                     <mat-option
                         *ngFor="let eachSite of sitesOfEnterprise(enterpriseId)"
