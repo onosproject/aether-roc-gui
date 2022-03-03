@@ -22,11 +22,16 @@ import {
 interface TestData {
     'test-data-id': string;
     description?: string;
+    'enterprise-id': string;
     field: string;
 }
 
-const TestDataSource = jasmine.createSpyObj('TestDataSource', ['fullPath']);
-TestDataSource.indexAttr = 'test-data-id';
+const TestDataSource = jasmine.createSpyObj('TestDataSource', {
+    fullPath: jasmine.createSpy('fullPath').and.returnValue('full-path')(),
+});
+TestDataSource.pathRoot = 'Enterprises-2.0.0';
+TestDataSource.pathListAttr = ['enterprise', 'test-data'];
+TestDataSource.indexAttr = ['enterprise-id', 'test-data-id'];
 
 @Component({
     selector: 'aether-list-base-spec',
@@ -42,7 +47,6 @@ class RocListBaseSpecComponent extends RocListBase<
         public opaService: OpenPolicyAgentService
     ) {
         super(basketService, TestDataSource);
-        super.reqdAttr = ['address'];
     }
 }
 
@@ -74,12 +78,14 @@ describe('The Roc List Base class', () => {
                 'test-data-id': 'test-1',
                 description: 'foo',
                 field: 'bar',
+                'enterprise-id': 'test-enterprise',
             };
             component.delete(m);
             expect(component.bs.deleteIndexedEntry).toHaveBeenCalledOnceWith(
-                '',
-                '',
-                ''
+                '/full-path',
+                'test-data-id',
+                'test-1',
+                new Map()
             );
         });
     });

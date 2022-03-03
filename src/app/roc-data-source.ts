@@ -16,6 +16,7 @@ import {
 } from './basket.service';
 import { from, merge, Observable, of as observableOf } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
+import * as _ from 'lodash';
 
 /** Simple sort comparator for example ID/Name columns (for client-side sorting). */
 export function compare(
@@ -84,6 +85,12 @@ export abstract class RocDataSource<
         protected descAttr: string = 'description'
     ) {
         super();
+
+        if (_.isNil(indexAttr) || indexAttr.length == 0) {
+            throw Error(
+                'you must specify indexAttr when instantiating RocDataSource'
+            );
+        }
     }
 
     /**
