@@ -13,7 +13,7 @@
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
-                <mat-form-field class="half-width field-margin">
+                <mat-form-field class="full-width field-margin">
                     <input
                         matInput
                         formControlName="enterprise-id"
@@ -26,7 +26,7 @@
                 </mat-form-field>
             </div>
             <div class="row" id="displayNameRow">
-                <mat-form-field class="field-margin half-width">
+                <mat-form-field class="field-margin full-width">
                     <input
                         matInput
                         formControlName="display-name"
@@ -37,7 +37,7 @@
             </div>
 
             <div class="row" id="descriptionRow">
-                <mat-form-field class="field-margin half-width">
+                <mat-form-field class="field-margin full-width">
                     <textarea
                         matInput
                         formControlName="description"
@@ -69,7 +69,7 @@
                         [formGroup]="csForm"
                         [id]="csForm.value['connectivity-service']"
                     >
-                        <mat-form-field class="field-margin half-width">
+                        <mat-form-field class="field-margin full-width">
                             <input
                                 matInput
                                 formControlName="connectivity-service"

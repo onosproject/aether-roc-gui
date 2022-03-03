@@ -13,7 +13,7 @@
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
-                <mat-form-field class="half-width field-margin">
+                <mat-form-field class="full-width field-margin">
                     <input
                         matInput
                         formControlName="template-id"
@@ -24,7 +24,7 @@
                 </mat-form-field>
             </div>
             <div
-                class="half-width field-margin"
+                class="full-width field-margin"
                 id="enterpriseRowSelect"
                 *ngIf="isNew"
             >
@@ -47,14 +47,14 @@
                 <mat-hint><small>Enterprise</small></mat-hint>
             </div>
             <div class="row" id="enterpriseRowReadOnly" *ngIf="!isNew">
-                <p class="field-margin half-width">
+                <p class="field-margin full-width">
                     <br /><mat-hint>Enterprise</mat-hint>:&nbsp;{{
                         route.snapshot.params["enterprise-id"]
                     }}
                 </p>
             </div>
             <div class="row" id="displayNameRow">
-                <mat-form-field class="field-margin half-width">
+                <mat-form-field class="field-margin full-width">
                     <input
                         matInput
                         formControlName="display-name"
@@ -64,7 +64,7 @@
                 </mat-form-field>
             </div>
             <div class="row" id="descriptionRow">
-                <mat-form-field class="field-margin half-width">
+                <mat-form-field class="field-margin full-width">
                     <textarea
                         matInput
                         formControlName="description"
@@ -74,7 +74,7 @@
                 </mat-form-field>
             </div>
             <div class="row" id="defaultBehaviorRow">
-                <mat-form-field class="field-margin half-width">
+                <mat-form-field class="field-margin full-width">
                     <input
                         matInput
                         [matAutocomplete]="auto"
@@ -93,7 +93,7 @@
                 </mat-form-field>
             </div>
             <div class="row" id="sdRow">
-                <mat-form-field class="field-margin half-width">
+                <mat-form-field class="field-margin full-width">
                     <input
                         matInput
                         formControlName="sd"
@@ -106,7 +106,7 @@
                 </mat-form-field>
             </div>
             <div class="row" id="sstRow">
-                <mat-form-field class="field-margin half-width">
+                <mat-form-field class="field-margin full-width">
                     <input
                         matInput
                         type="number"
