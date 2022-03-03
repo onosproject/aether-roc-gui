@@ -108,6 +108,14 @@ describe('SliceEditComponent', () => {
         expect(res.length).toBe(1);
     });
 
+    it('should set a default value for default-behavior', () => {
+        const control = component.sliceForm.get('default-behavior');
+        expect(control.value).toEqual(component.defaultBehaviorOptions[0]);
+        // we need to artificially set these attributes or the basket won't read the default values
+        expect(control.touched).toBeTruthy();
+        expect(control.pristine).toBeFalsy();
+    });
+
     describe('when creating a Slice', () => {
         beforeEach(() => {
             component.isNewInstance = true;

@@ -141,7 +141,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             ],
         }),
         'default-behavior': [
-            undefined,
+            this.defaultBehaviorOptions[0],
             Validators.compose([Validators.required]),
         ],
         'device-group': this.fb.array([]),
@@ -151,11 +151,16 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                 Validators.minLength(6),
                 Validators.maxLength(6),
                 Validators.pattern('^[A-F0-9]{6}'),
+                Validators.required,
             ]),
         ],
         sst: [
             undefined,
-            Validators.compose([Validators.min(1), Validators.max(255)]),
+            Validators.compose([
+                Validators.min(1),
+                Validators.max(255),
+                Validators.required,
+            ]),
         ],
         upf: [{ value: '', disabled: true }],
     });
@@ -191,6 +196,10 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         this.sliceForm.get(['sd'])[TYPE] = HEX2NUM;
         this.sliceForm.get(['filter'])[IDATTRIBS] = ['application'];
         this.sliceForm.get(['device-group'])[IDATTRIBS] = ['device-group'];
+
+        // need to set this to touched/dirty so that the basket will read the default value
+        this.sliceForm.get('default-behavior').markAsTouched();
+        this.sliceForm.get('default-behavior').markAsDirty();
     }
 
     ngOnInit(): void {

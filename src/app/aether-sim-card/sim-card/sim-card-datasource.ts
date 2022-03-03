@@ -28,7 +28,7 @@ export class SimCardDatasource extends RocDataSource<
             target,
             'Enterprises-2.0.0',
             ['enterprise', 'site', 'sim-card'],
-            ['enterprise-id', 'site-id', 'sim-card-id']
+            ['enterprise-id', 'site-id', 'sim-id']
         );
     }
 

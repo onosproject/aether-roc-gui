@@ -23,7 +23,7 @@
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
-                <mat-form-field class="half-width field-margin">
+                <mat-form-field class="full-width field-margin">
                     <input
                         matInput
                         formControlName="slice-id"
@@ -35,7 +35,7 @@
                 </mat-form-field>
             </div>
             <div
-                class="half-width field-margin"
+                class="full-width field-margin"
                 id="enterpriseRowSelect"
                 *ngIf="isNew"
             >
@@ -59,7 +59,7 @@
                 <mat-hint><small>Enterprise</small></mat-hint>
             </div>
             <div
-                class="half-width field-margin"
+                class="full-width field-margin"
                 id="siteRowSelect"
                 *ngIf="isNew"
             >
@@ -83,21 +83,21 @@
                 <mat-hint><small>Site</small></mat-hint>
             </div>
             <div class="row" id="enterpriseRowReadOnly" *ngIf="!isNew">
-                <p class="field-margin half-width">
+                <p class="field-margin full-width">
                     <br /><mat-hint>Enterprise</mat-hint>:&nbsp;{{
                         route.snapshot.params["enterprise-id"]
                     }}
                 </p>
             </div>
             <div class="row" id="siteRowReadOnly" *ngIf="!isNew">
-                <p class="field-margin half-width">
+                <p class="field-margin full-width">
                     <br /><mat-hint>Site</mat-hint>:&nbsp;{{
                         route.snapshot.params["site-id"]
                     }}
                 </p>
             </div>
             <div class="row">
-                <mat-form-field class="field-margin half-width">
+                <mat-form-field class="field-margin full-width">
                     <input
                         matInput
                         formControlName="display-name"
@@ -107,7 +107,7 @@
                 </mat-form-field>
             </div>
             <div class="row">
-                <mat-form-field class="field-margin half-width">
+                <mat-form-field class="field-margin full-width">
                     <textarea
                         matInput
                         formControlName="description"
@@ -117,7 +117,7 @@
                 </mat-form-field>
             </div>
             <div class="row" *ngIf="isNew">
-                <mat-form-field class="field-margin half-width">
+                <mat-form-field class="field-margin full-width">
                     <mat-select
                         (selectionChange)="templateSelected($event)"
                         [disabled]="enterpriseId === unknownEnterprise"
@@ -135,7 +135,7 @@
             </div>
 
             <div class="row">
-                <mat-form-field class="field-margin half-width">
+                <mat-form-field class="field-margin full-width">
                     <mat-select
                         formControlName="default-behavior"
                         id="selectBehavior"
@@ -151,7 +151,7 @@
             </div>
 
             <!--Sd field-->
-            <mat-form-field class="field-margin half-width">
+            <mat-form-field class="field-margin full-width">
                 <input
                     matInput
                     placeholder="Please specify an SD"
@@ -164,7 +164,7 @@
                 >
             </mat-form-field>
             <!--SST field-->
-            <mat-form-field class="field-margin half-width">
+            <mat-form-field class="field-margin full-width">
                 <input
                     matInput
                     type="number"
@@ -271,7 +271,7 @@
                         [formGroup]="dgForm"
                         [id]="dgForm.value['device-group']"
                     >
-                        <mat-form-field class="field-margin half-width">
+                        <mat-form-field class="field-margin full-width">
                             <input
                                 matInput
                                 formControlName="device-group"
@@ -411,7 +411,7 @@
 
             <!--UPF dropdown-->
             <div class="row">
-                <mat-form-field class="field-margin half-width">
+                <mat-form-field class="field-margin full-width">
                     <mat-label *ngIf="upfs.length === 0"
                         >No UPF available</mat-label
                     >
