@@ -59,6 +59,7 @@
                     id="selectEnterprise"
                     [(value)]="enterpriseId"
                     placeholder="Please select an Enterprise"
+                    (selectionChange)="loadTrafficClass()"
                 >
                     <mat-option
                         *ngFor="let eachEnterprise of enterprises"
