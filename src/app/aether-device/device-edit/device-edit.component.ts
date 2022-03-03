@@ -21,6 +21,7 @@ import {
     Service as AetherService,
 } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
+import * as _ from 'lodash';
 
 @Component({
     selector: 'aether-device-edit',
@@ -66,7 +67,7 @@ export class DeviceEditComponent extends RocEditBase implements OnInit {
             ]),
         ],
         'sim-card': [
-            undefined,
+            { value: '', disabled: true },
             Validators.compose([
                 Validators.pattern('[a-z]([a-z0-9-]?[a-z0-9])*'),
                 Validators.minLength(1),
@@ -211,25 +212,35 @@ export class DeviceEditComponent extends RocEditBase implements OnInit {
     }
 
     loadSimCards(): void {
+        if (
+            this.enterpriseId == this.unknownEnterprise ||
+            this.siteId == this.unknownSite
+        ) {
+            return;
+        }
         this.siteService
             .getEnterprisesEnterpriseSite({
                 target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
-                'site-id': this.route.snapshot.params['site-id'],
+                'enterprise-id': this.enterpriseId,
+                'site-id': this.siteId,
             })
             .subscribe(
                 (value) => {
-                    value['sim-card'].forEach((eachSimCard) => {
+                    const simCardControl = this.deviceForm.get('sim-card');
+                    const usedSims = value.device.map((d) => d['sim-card']);
+                    this.simCards = value['sim-card'].reduce((list, item) => {
                         if (
-                            // Only offer the currently selected sim-card and those unassigned
-                            value.device.findIndex(
-                                (d) => d['sim-card'] === eachSimCard['sim-id']
-                            ) === -1 ||
-                            eachSimCard['sim-id'] === this.data['sim-card']
+                            _.indexOf(usedSims, item['sim-id']) == -1 ||
+                            item['sim-id'] === simCardControl.value
                         ) {
-                            this.simCards.push(eachSimCard);
+                            return [item, ...list];
                         }
-                    });
+                        return list;
+                    }, [] as EnterprisesEnterpriseSiteSimCard[]);
+                    console.log(
+                        `Showing ${this.simCards.length} unused Sim Cards. Total ${value['sim-card'].length}`
+                    );
+                    simCardControl.enable();
                 },
                 (error) => {
                     console.warn(
