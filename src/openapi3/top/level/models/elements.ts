@@ -24,7 +24,7 @@ export interface Elements {
     'Ip-domain-4.0.0'?: IpDomain400;
     'Site-4.0.0'?: Site400;
     'Template-4.0.0'?: Template400;
-    'Traffic-class-4.0.0': TrafficClass400;
+    'Traffic-class-4.0.0'?: TrafficClass400;
     'Upf-4.0.0'?: Upf400;
     'Vcs-4.0.0'?: Vcs400;
     'Connectivity-services-2.0.0'?: ConnectivityServices200;

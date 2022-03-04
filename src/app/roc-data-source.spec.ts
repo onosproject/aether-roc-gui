@@ -12,66 +12,17 @@ import { BasketService } from './basket.service';
 import { AETHER_TARGET } from '../environments/environment';
 import {
     Enterprises,
+    EnterprisesEnterpriseApplication,
     EnterprisesEnterpriseSiteSlice,
 } from '../openapi3/aether/2.0.0/models';
 import { SiteDatasource } from './aether-site/site/site-datasource';
 import { EnterpriseDatasource } from './aether-enterprise/enterprise/enterprise-datasource';
+import { Elements } from '../openapi3/top/level/models/elements';
+import { Element } from '@angular/compiler';
+import { slice } from 'lodash';
 
 describe('ROC Data Source', () => {
     let component: RocDataSource<EnterprisesEnterpriseSiteSlice, Enterprises>;
-
-    // this represents the existing data
-    const existingItems: EnterprisesEnterpriseSiteSlice[] = [
-        {
-            'slice-id': 'slice1',
-            'default-behavior': 'DENY',
-            enterprise: 'onf',
-            sd: 1,
-            site: 'menlo',
-            sst: 1,
-            mbr: {
-                'uplink-burst-size': 30,
-                'downlink-burst-size': 40,
-                uplink: 20,
-            },
-            'device-group': [
-                {
-                    'device-group': 'acme-chicago-default', // this is the ID, must match with below
-                    enable: false,
-                },
-            ],
-        },
-    ];
-
-    // this represents the updated data in the basket (id must match)
-    const basketItems: EnterprisesEnterpriseSiteSlice[] = [
-        {
-            'slice-id': 'slice1',
-            'default-behavior': 'DENY-updated',
-            enterprise: 'onf-updated',
-            sd: 2,
-            site: 'menlo-updated',
-            sst: 2,
-
-            // optional data
-            description: 'updated-descr',
-            mbr: {
-                'uplink-burst-size': 30,
-                'downlink-burst-size': 40,
-                uplink: 20,
-            },
-            'device-group': [
-                {
-                    'device-group': 'acme-chicago-default',
-                    enable: true,
-                },
-                {
-                    'device-group': 'a-new-group',
-                    enable: true,
-                },
-            ],
-        },
-    ];
 
     beforeEach(() => {
         component = new SliceDatasource(
@@ -130,15 +81,153 @@ describe('ROC Data Source', () => {
         });
     });
 
+    describe('the hasUpdates method', () => {
+        // this test uses the Application Model as an example,
+        // it doesn't really matter which model we are using since
+        // hasUpdates is a pure function
+        let existingModels: EnterprisesEnterpriseApplication[] = [];
+        const applicationModelPath: string[] = [
+            'Enterprises-2.0.0',
+            'enterprise',
+            'application',
+            'application-id',
+        ];
+        beforeEach(() => {
+            existingModels = [
+                {
+                    'application-id': 'app-1',
+                    'enterprise-id': 'test-enterprise',
+                    address: 'app-1-address',
+                },
+                {
+                    'application-id': 'app-2',
+                    'enterprise-id': 'test-enterprise',
+                    address: 'app-2-address',
+                },
+            ];
+        });
+        const basket: Elements = {
+            'Enterprises-2.0.0': {
+                enterprise: [
+                    {
+                        'enterprise-id': 'test-enterprise',
+                        application: [
+                            {
+                                'application-id': 'app-1',
+                                address: 'app-1-address-updated',
+                            },
+                        ],
+                    },
+                ],
+            },
+        };
+        it('should return true if a model has updates in the basked', () => {
+            // put some updates for app1 in the basket
+
+            const [hasUpdates, updatedModel] = component.hasUpdates(
+                basket,
+                applicationModelPath,
+                existingModels[0]
+            );
+            expect(hasUpdates).toBeTruthy();
+            const updatedApplication =
+                updatedModel as EnterprisesEnterpriseApplication;
+            expect(updatedApplication).toEqual({
+                'application-id': 'app-1',
+                address: 'app-1-address-updated',
+            });
+        });
+    });
+
     describe('the merge method', function () {
+        // this represents the existing data
+        const existingItems: EnterprisesEnterpriseSiteSlice[] = [
+            {
+                'slice-id': 'slice1',
+                'default-behavior': 'DENY',
+                enterprise: 'onf',
+                sd: 1,
+                site: 'menlo',
+                sst: 1,
+                mbr: {
+                    'uplink-burst-size': 10,
+                    'downlink-burst-size': 10,
+                    uplink: 10,
+                },
+                'device-group': [
+                    {
+                        'device-group': 'acme-chicago-default', // this is the ID, must match with below
+                        enable: false,
+                    },
+                    {
+                        'device-group': 'acme-chicago-not-updated',
+                        enable: true,
+                    },
+                ],
+            },
+        ];
+
+        // this represents the updated data in the basket (id must match)
+        const basketItems: Elements = {
+            'Enterprises-2.0.0': {
+                enterprise: [
+                    {
+                        'enterprise-id': 'test-enterprise',
+                        site: [
+                            {
+                                'site-id': 'test-site',
+                                slice: [
+                                    {
+                                        'slice-id': 'slice1',
+                                        'default-behavior': 'ALLOW-ALL',
+                                        sd: 22,
+                                        sst: 12,
+                                        enterprise: 'onf-updated',
+                                        site: 'menlo-updated',
+
+                                        // optional data
+                                        description: 'updated-descr',
+                                        mbr: {
+                                            'uplink-burst-size': 30,
+                                            downlink: 30,
+                                        },
+                                        'device-group': [
+                                            {
+                                                'device-group':
+                                                    'acme-chicago-default',
+                                                enable: true,
+                                            },
+                                            {
+                                                'device-group': 'a-new-group',
+                                                enable: true,
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            },
+        };
+
+        const sliceModelPath = [
+            'Enterprises-2.0.0',
+            'enterprise',
+            'site',
+            'slice',
+            'slice-id',
+        ];
+
         it('should combine basic fields from the basket with basic fields in the datasource', () => {
             component.data = existingItems;
-            component.merge(basketItems, [
+            component.merge(basketItems, component.data, sliceModelPath, [
                 { fieldName: 'filter', idAttr: 'application' },
                 { fieldName: 'device-group', idAttr: 'device-group' },
             ]);
             const updatedSlice = component.data[0];
-            const basketSlice = basketItems[0];
+            const basketSlice =
+                basketItems['Enterprises-2.0.0'].enterprise[0].site[0].slice[0];
             expect(updatedSlice['default-behavior']).toEqual(
                 basketSlice['default-behavior']
             );
@@ -150,33 +239,30 @@ describe('ROC Data Source', () => {
 
         it('should combine nested fields from the basked with nested fields in the datasource', () => {
             component.data = existingItems;
-            component.merge(basketItems, [
+            component.merge(basketItems, component.data, sliceModelPath, [
                 { fieldName: 'filter', idAttr: 'application' },
                 { fieldName: 'device-group', idAttr: 'device-group' },
             ]);
             const updatedSlice = component.data[0];
-            const basketSlice = basketItems[0];
-            expect(updatedSlice.mbr).toEqual(basketSlice.mbr);
+            const basketSlice =
+                basketItems['Enterprises-2.0.0'].enterprise[0].site[0].slice[0];
+            expect(updatedSlice.mbr.uplink).toEqual(10); // this field was not updated
+            expect(updatedSlice.mbr['downlink-burst-size']).toEqual(10); // this field was not updated
+            expect(updatedSlice.mbr['uplink-burst-size']).toEqual(30); // this field was updated
+            expect(updatedSlice.mbr.downlink).toEqual(30); // this field was added
         });
 
         it('should combine nested list from the basket with nested lists in the datasource', () => {
             component.data = existingItems;
-            component.merge(basketItems, [
+            component.merge(basketItems, component.data, sliceModelPath, [
                 { fieldName: 'filter', idAttr: 'application' },
                 { fieldName: 'device-group', idAttr: 'device-group' },
             ]);
             const updatedSlice = component.data[0];
-            const basketSlice = basketItems[0];
-            expect(updatedSlice.mbr.downlink).toEqual(basketSlice.mbr.downlink);
-            expect(updatedSlice.mbr.uplink).toEqual(basketSlice.mbr.uplink);
-            expect(updatedSlice.mbr['downlink-burst-size']).toEqual(
-                basketSlice.mbr['downlink-burst-size']
-            );
-            expect(updatedSlice.mbr['uplink-burst-size']).toEqual(
-                basketSlice.mbr['uplink-burst-size']
-            );
+            const basketSlice =
+                basketItems['Enterprises-2.0.0'].enterprise[0].site[0].slice[0];
 
-            expect(updatedSlice['device-group'].length).toBe(2);
+            expect(updatedSlice['device-group'].length).toBe(3);
             expect(updatedSlice['device-group'][0].enable).toBeTrue();
         });
     });

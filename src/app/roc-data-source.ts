@@ -17,6 +17,7 @@ import {
 import { from, merge, Observable, of as observableOf } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
 import * as _ from 'lodash';
+import { Elements } from '../openapi3/top/level/models/elements';
 
 /** Simple sort comparator for example ID/Name columns (for client-side sorting). */
 export function compare(
@@ -195,66 +196,159 @@ export abstract class RocDataSource<
 
     /**
      * Iterates over items updated in the basket and merge them with the existing data
-     * @param basketData: a list of items of type T contained in the basket to be merged with the data coming from the API
+     * @param basket: the entire content of the basket
      * @param nestedLists: a list of object that specify the nested attributes of a model with their IDs, see Vcs component for an example
      */
     merge(
-        basketData: T[],
+        basketData: Elements,
+        models: T[],
+        modelPath: string[],
         nestedLists: { fieldName: string; idAttr: string }[] = []
     ): void {
-        const nestedListFields = nestedLists.map((i) => i.fieldName);
+        if (_.isNil(modelPath) || modelPath.length === 0) {
+            console.error(
+                `Configuration for modelPath is missing for models: `,
+                models
+            );
+            throw new Error(`Configuration for modelPath is missing`);
+        }
 
-        basketData.forEach((updated) => {
-            const existing: T = this.data.filter(
-                (e) => e['enterprise-id'] === updated['enterprise-id']
-            )[0];
-            if (!existing) {
-                console.warn(
-                    `Item with ID ${updated['enterprise-id']} does not exist in datasource ${this.pathRoot}`
+        this.data = models.map((m) => {
+            const [hasUpdates, updatedModel] = this.hasUpdates(
+                basketData,
+                modelPath,
+                m
+            );
+            if (hasUpdates) {
+                console.log(
+                    `Model ${
+                        m[modelPath[modelPath.length - 1]]
+                    } has updates, will update`
                 );
-                return;
-            }
 
-            // iterate over the keys for each updated item and update the corresponding existing item
-            Object.keys(updated).forEach((k) => {
-                if (k === ADDITIONALPROPS || k === 'id') {
-                    // nothing to update here
-                    return;
-                }
+                // iterate over the model fields and update them
+                Object.keys(updatedModel).forEach((k) => {
+                    if (_.isArray(updatedModel[k])) {
+                        // if it's an array then use the nestedField list
+                        // to identify the primary key and update or add the item
 
-                // if it is a nested list then it deserve a particular treatment
-                if (nestedListFields.indexOf(k) > -1) {
-                    // get the nested object definition
-                    const field = nestedLists.filter(
-                        (f) => f.fieldName === k
-                    )[0];
-
-                    // for each updated element in the nested list
-                    updated[k].forEach((_updated) => {
-                        // find the existing one
-                        const _existing = existing[field.fieldName].filter(
-                            (e) => e[field.idAttr] === _updated[field.idAttr]
+                        // get the nested object definition
+                        const field = nestedLists.filter(
+                            (f) => f.fieldName === k
                         )[0];
 
-                        if (!_existing) {
-                            // if it does not exist, then it's a new item that was added
-                            existing[field.fieldName].push(_updated);
-                        } else {
-                            // update all the keys except the ID
-                            Object.keys(_updated).forEach((_k) => {
-                                if (_k !== field.idAttr) {
-                                    _existing[_k] = _updated[_k];
-                                }
-                            });
+                        if (_.isNil(field)) {
+                            console.error(
+                                `Configuration for nested list is missing for model: `,
+                                m
+                            );
+                            throw new Error(
+                                `Configuration for nested list is missing`
+                            );
                         }
-                    });
-                    return;
-                }
 
-                // update the value in the existing model with the updated value from the basket
-                existing[k] = updated[k];
-            });
+                        // for each updated element in the nested list
+                        updatedModel[k].forEach((_updated) => {
+                            // find the existing one
+                            const _existing = m[field.fieldName].filter(
+                                (e) =>
+                                    e[field.idAttr] === _updated[field.idAttr]
+                            )[0];
+
+                            if (!_existing) {
+                                // if it does not exist, then it's a new item that was added
+                                m[field.fieldName].push(_updated);
+                            } else {
+                                // update all the keys except the ID
+                                Object.keys(_updated).forEach((_k) => {
+                                    if (_k !== field.idAttr) {
+                                        _existing[_k] = _updated[_k];
+                                    }
+                                });
+                            }
+                        });
+                    } else if (_.isObject(updatedModel[k])) {
+                        // if it's an object, merge the original values with the udpated values
+                        // as keys might be added or left unchanged but not specified
+                        m[k] = {
+                            ...m[k],
+                            ...updatedModel[k],
+                        };
+                    } else {
+                        // if it's a plain value, just update it
+                        m[k] = updatedModel[k];
+                    }
+                });
+
+                // m = {
+                //     ...m,
+                //     ...updatedModel,
+                // }
+            }
+            return m;
         });
+    }
+
+    private getElementInBasket(
+        tree: Elements | RocGenericModelType[],
+        keys: string[],
+        model: RocGenericModelType,
+        level: number = 0
+    ): RocGenericModelType {
+        let foundModel = null;
+        if (_.isArray(tree)) {
+            // if the content of this level of the tree is a list
+            // then iterate over the elements till you find a matching ID
+            tree.forEach((m) => {
+                if (m[keys[level]]) {
+                    if (keys.length - 1 == level) {
+                        // we are the end of our search,
+                        // match the key with the modelId and return
+                        if (m[keys[level]] == model[keys[level]]) {
+                            foundModel = m;
+                            return;
+                        }
+                    } else {
+                        // we are in the correct place,
+                        // keep descending
+                        foundModel = this.getElementInBasket(
+                            m[keys[level]],
+                            keys,
+                            model,
+                            level + 1
+                        );
+                    }
+                }
+            });
+        } else {
+            // else iterate over the keys
+            Object.keys(tree).forEach((k) => {
+                if (k == keys[level]) {
+                    // we are in the correct place,
+                    // keep descending
+                    foundModel = this.getElementInBasket(
+                        tree[k],
+                        keys,
+                        model,
+                        level + 1
+                    );
+                }
+            });
+        }
+        return foundModel;
+    }
+
+    // given a path to a model and a model instance
+    // checks if there are updates in the basket
+    // returns [hasUpdates, updatedModel]
+    hasUpdates(
+        basketData: Elements,
+        modelPath: string[],
+        model: RocGenericModelType
+    ): [boolean, RocGenericModelType] {
+        // descent into the basket tree till you find the model you are looking for
+        const el = this.getElementInBasket(basketData, modelPath, model);
+        return [!_.isNil(el), el];
     }
 
     fullPath(...ids: string[]): string {
