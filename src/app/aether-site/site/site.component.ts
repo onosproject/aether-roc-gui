@@ -44,6 +44,8 @@ export class SiteComponent
         'monitor',
     ];
 
+    modelPath = ['Enterprises-2.0.0', 'enterprise', 'site', 'site-id'];
+
     constructor(
         public opaService: OpenPolicyAgentService,
         private aetherService: AetherService,
@@ -56,15 +58,20 @@ export class SiteComponent
     }
 
     onDataLoaded(ScopeOfDataSource: SiteDatasource): void {
-        // TODO: merge basket with loaded data
-        // if (
-        //     this.pathRoot in basketPreview &&
-        //     'site' in basketPreview[this.pathRoot]
-        // ) {
-        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
-        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
-        //     ]);
-        // }
+        this.dataSource.merge(
+            this.bs.buildPatchBody().Updates,
+            this.dataSource.data,
+            this.modelPath,
+            [
+                { fieldName: 'device-group', idAttr: 'device-group-id' },
+                { fieldName: 'device', idAttr: 'device-id' },
+                { fieldName: 'ip-domain', idAttr: 'ip-domain-id' },
+                { fieldName: 'sim-card', idAttr: 'sim-id' },
+                { fieldName: 'slice', idAttr: 'slice-id' },
+                { fieldName: 'small-cell', idAttr: 'small-cell-id' },
+                { fieldName: 'upf', idAttr: 'upf-id' },
+            ]
+        );
     }
 
     ngAfterViewInit(): void {

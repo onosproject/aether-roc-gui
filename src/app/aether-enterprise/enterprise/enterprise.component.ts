@@ -41,6 +41,8 @@ export class EnterpriseComponent
         'delete',
     ];
 
+    modelPath = ['Enterprises-2.0.0', 'enterprise', 'enterprise-id'];
+
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
@@ -56,16 +58,23 @@ export class EnterpriseComponent
         );
     }
 
-    onDataLoaded(ScopeOfDataSource: EnterpriseDatasource): void {
-        // TODO: merge basket with loaded data
-        // if (
-        //     this.pathRoot in basketPreview &&
-        //     'site' in basketPreview[this.pathRoot]
-        // ) {
-        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
-        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
-        //     ]);
-        // }
+    onDataLoaded(): void {
+        console.log(this.bs.buildPatchBody().Updates);
+        this.dataSource.merge(
+            this.bs.buildPatchBody().Updates,
+            this.dataSource.data,
+            this.modelPath,
+            [
+                { fieldName: 'site', idAttr: 'site-id' },
+                { fieldName: 'traffic-class', idAttr: 'traffic-class-id' },
+                { fieldName: 'template', idAttr: 'template-id' },
+                {
+                    fieldName: 'connectivity-service',
+                    idAttr: 'connectivity-service',
+                },
+                { fieldName: 'application', idAttr: 'application-id' },
+            ]
+        );
     }
 
     ngAfterViewInit(): void {

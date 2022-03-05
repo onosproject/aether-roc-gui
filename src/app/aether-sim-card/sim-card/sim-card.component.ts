@@ -40,6 +40,14 @@ export class SimCardComponent
         'usage/delete',
     ];
 
+    modelPath = [
+        'Enterprises-2.0.0',
+        'enterprise',
+        'site',
+        'sim-card',
+        'sim-id',
+    ];
+
     constructor(
         public opaService: OpenPolicyAgentService,
         private aetherService: AetherService,
@@ -51,16 +59,12 @@ export class SimCardComponent
         );
     }
 
-    onDataLoaded(ScopeOfDataSource: SimCardDatasource): void {
-        // TODO: merge basket with loaded data
-        // if (
-        //     this.pathRoot in basketPreview &&
-        //     'site' in basketPreview[this.pathRoot]
-        // ) {
-        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
-        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
-        //     ]);
-        // }
+    onDataLoaded(): void {
+        this.dataSource.merge(
+            this.bs.buildPatchBody().Updates,
+            this.dataSource.data,
+            this.modelPath
+        );
     }
 
     ngAfterViewInit(): void {

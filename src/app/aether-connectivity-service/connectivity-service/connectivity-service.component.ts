@@ -41,6 +41,12 @@ export class ConnectivityServiceComponent
         'delete',
     ];
 
+    modelPath = [
+        'Connectivity-services-2.0.0',
+        'connectivity-service',
+        'connectivity-service-id',
+    ];
+
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
@@ -57,15 +63,11 @@ export class ConnectivityServiceComponent
     }
 
     onDataLoaded(ScopeOfDataSource: ConnectivityServiceDatasource): void {
-        // TODO: merge basket with loaded data
-        // if (
-        //     this.pathRoot in basketPreview &&
-        //     'site' in basketPreview[this.pathRoot]
-        // ) {
-        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
-        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
-        //     ]);
-        // }
+        this.dataSource.merge(
+            this.bs.buildPatchBody().Updates,
+            this.dataSource.data,
+            this.modelPath
+        );
     }
 
     ngAfterViewInit(): void {

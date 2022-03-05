@@ -51,6 +51,14 @@ export class SliceComponent
         'monitor',
     ];
 
+    modelPath = [
+        'Enterprises-2.0.0',
+        'enterprise',
+        'site',
+        'slice',
+        'slice-id',
+    ];
+
     constructor(
         public opaService: OpenPolicyAgentService,
         private aetherService: AetherService,
@@ -69,15 +77,15 @@ export class SliceComponent
             Enterprises
         >
     ): void {
-        // TODO: merge basket with loaded data
-        // if (
-        //     this.pathRoot in basketPreview &&
-        //     'site' in basketPreview[this.pathRoot]
-        // ) {
-        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
-        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
-        //     ]);
-        // }
+        this.dataSource.merge(
+            this.bs.buildPatchBody().Updates,
+            this.dataSource.data,
+            this.modelPath,
+            [
+                { fieldName: 'device-group', idAttr: 'device-group' },
+                { fieldName: 'filter', idAttr: 'application' },
+            ]
+        );
     }
 
     ngAfterViewInit(): void {

@@ -30,6 +30,9 @@ export abstract class RocListBase<
     public usageArray = [];
     public showUsageCard = false;
 
+    // identifies the location of the model in the gNMI tree
+    public modelPath = [];
+
     protected constructor(public bs: BasketService, datasource: T) {
         this.dataSource = datasource;
     }
