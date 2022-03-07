@@ -15,6 +15,7 @@ import { RocListBase } from '../../roc-list-base';
 import { TemplateDatasource } from './template-datasource';
 import { HexPipe } from '../../utils/hex.pipe';
 import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
+import { templateModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-template',
@@ -43,8 +44,6 @@ export class TemplateComponent
         'delete',
     ];
 
-    modelPath = ['Enterprises-2.0.0', 'enterprise', 'template', 'template-id'];
-
     constructor(
         public opaService: OpenPolicyAgentService,
         private aetherService: AetherService,
@@ -57,11 +56,11 @@ export class TemplateComponent
         super.reqdAttr = ['default-behavior'];
     }
 
-    onDataLoaded(ScopeOfDataSource: TemplateDatasource): void {
+    onDataLoaded(): void {
         this.dataSource.merge(
             this.bs.buildPatchBody().Updates,
             this.dataSource.data,
-            this.modelPath
+            templateModelPath
         );
     }
 

@@ -19,6 +19,8 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EnterprisesEnterpriseSiteIpDomainService } from '../../../openapi3/aether/2.0.0/services';
 import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { IpDomainDatasource } from '../ip-domain/ip-domain-datasource';
+import { ipDomainModelPath } from '../../models-info';
 
 export const UPDATED = 'updated';
 
@@ -27,7 +29,10 @@ export const UPDATED = 'updated';
     templateUrl: './ip-domain-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class IpDomainEditComponent extends RocEditBase implements OnInit {
+export class IpDomainEditComponent
+    extends RocEditBase<IpDomainDatasource>
+    implements OnInit
+{
     ip: string;
     option: string;
     primCardDisplay = false;
@@ -113,6 +118,8 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
             'Enterprises-2.0.0',
             'ip-domain',
             'ip-domain-id',
+            new IpDomainDatasource(aetherService, bs, AETHER_TARGET),
+            ipDomainModelPath,
             aetherService
         );
         super.form = this.ipForm;
@@ -197,42 +204,14 @@ export class IpDomainEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Ip-domain-2.0.0']
-                    ) {
-                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
-                            (enterpriseBasketItems) => {
-                                if (
-                                    enterpriseBasketItems['enterprise-id'] ===
-                                    this.route.snapshot.params['enterprise-id']
-                                ) {
-                                    enterpriseBasketItems.site.forEach(
-                                        (SitebasketItems) => {
-                                            if (
-                                                SitebasketItems['site-id'] ===
-                                                this.route.snapshot.params[
-                                                    'site-id'
-                                                ]
-                                            ) {
-                                                SitebasketItems[
-                                                    'ip-domain'
-                                                ].forEach((basketItems) => {
-                                                    if (
-                                                        basketItems[
-                                                            'ip-domain-id'
-                                                        ] === id
-                                                    ) {
-                                                        this.populateFormData(
-                                                            basketItems
-                                                        );
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    );
-                                }
-                            }
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        ipDomainModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as EnterprisesEnterpriseSiteIpDomain
                         );
                     }
                     console.log(

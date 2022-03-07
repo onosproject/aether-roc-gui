@@ -16,13 +16,18 @@ import {
     Service as AetherService,
 } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { TrafficClassDatasource } from '../traffic-class/traffic-class-datasource';
+import { trafficClassModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-traffic-class-edit',
     templateUrl: './traffic-class-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class TrafficClassEditComponent extends RocEditBase implements OnInit {
+export class TrafficClassEditComponent
+    extends RocEditBase<TrafficClassDatasource>
+    implements OnInit
+{
     pathListAttr = 'traffic-class';
     data: EnterprisesEnterpriseTrafficClass;
     showParentDisplay = false;
@@ -86,6 +91,8 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
             'Enterprises-2.0.0',
             'traffic-class',
             'traffic-class-id',
+            new TrafficClassDatasource(aetherService, bs, AETHER_TARGET),
+            trafficClassModelPath,
             aetherService
         );
         super.form = this.tcForm;
@@ -118,29 +125,14 @@ export class TrafficClassEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        this.pathRoot in basketPreview &&
-                        this.pathListAttr in
-                            basketPreview['Traffic-class-2.0.0']
-                    ) {
-                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
-                            (enterpriseBasketItems) => {
-                                if (
-                                    enterpriseBasketItems['enterprise-id'] ===
-                                    this.route.snapshot.params['enterprise-id']
-                                ) {
-                                    enterpriseBasketItems[
-                                        'traffic-class'
-                                    ].forEach((basketItems) => {
-                                        if (
-                                            basketItems['traffic-class-id'] ===
-                                            id
-                                        ) {
-                                            this.populateFormData(basketItems);
-                                        }
-                                    });
-                                }
-                            }
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        trafficClassModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as EnterprisesEnterpriseTrafficClass
                         );
                     }
                     console.log(

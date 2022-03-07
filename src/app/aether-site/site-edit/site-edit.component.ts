@@ -21,13 +21,18 @@ import { EdgeDeviceParam } from '../edge-device/edge-device.component';
 import { EnterprisesEnterpriseSite } from 'src/openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { SiteDatasource } from '../site/site-datasource';
+import { siteModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-site-edit',
     templateUrl: './site-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class SiteEditComponent extends RocEditBase implements OnInit {
+export class SiteEditComponent
+    extends RocEditBase<SiteDatasource>
+    implements OnInit
+{
     data: EnterprisesEnterpriseSite;
     pathListAttr = 'site';
     showConnectDisplay = false;
@@ -112,6 +117,8 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
             'Enterprises-2.0.0',
             'site',
             'site-id',
+            new SiteDatasource(aetherService, bs, AETHER_TARGET),
+            siteModelPath,
             aetherService
         );
         super.form = this.siteForm;
@@ -154,30 +161,14 @@ export class SiteEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Enterprises-2.0.0']
-                    ) {
-                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
-                            (enterpriseBasketItems) => {
-                                if (
-                                    enterpriseBasketItems['enterprise-id'] ===
-                                    this.route.snapshot.params['enterprise-id']
-                                ) {
-                                    enterpriseBasketItems.site.forEach(
-                                        (SitebasketItems) => {
-                                            if (
-                                                SitebasketItems['site-id'] ===
-                                                id
-                                            ) {
-                                                this.populateFormData(
-                                                    SitebasketItems
-                                                );
-                                            }
-                                        }
-                                    );
-                                }
-                            }
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        siteModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as EnterprisesEnterpriseSite
                         );
                     }
                     console.log(

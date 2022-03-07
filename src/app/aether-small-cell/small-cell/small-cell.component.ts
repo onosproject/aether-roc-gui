@@ -14,6 +14,7 @@ import { Service as AetherService } from '../../../openapi3/aether/2.0.0/service
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { smallCellModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-small-cell',
@@ -39,14 +40,6 @@ export class SmallCellComponent
         'delete',
     ];
 
-    modelPath = [
-        'Enterprises-2.0.0',
-        'enterprise',
-        'site',
-        'small-cell',
-        'small-cell-id',
-    ];
-
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
@@ -58,11 +51,11 @@ export class SmallCellComponent
         );
     }
 
-    onDataLoaded(ScopeOfDataSource: SmallCellDatasource): void {
+    onDataLoaded(): void {
         this.dataSource.merge(
             this.bs.buildPatchBody().Updates,
             this.dataSource.data,
-            this.modelPath
+            smallCellModelPath
         );
     }
 

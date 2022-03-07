@@ -202,7 +202,6 @@ export class BasketService {
                     }
                 }
             } else {
-                const fullPath = path;
                 // console.log(
                 //     'Unchanged PATH: ',
                 //     fullPath,

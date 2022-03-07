@@ -14,6 +14,7 @@ import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { RocListBase } from '../../roc-list-base';
+import { enterpriseModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-enterprise-profiles',
@@ -41,8 +42,6 @@ export class EnterpriseComponent
         'delete',
     ];
 
-    modelPath = ['Enterprises-2.0.0', 'enterprise', 'enterprise-id'];
-
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
@@ -63,7 +62,7 @@ export class EnterpriseComponent
         this.dataSource.merge(
             this.bs.buildPatchBody().Updates,
             this.dataSource.data,
-            this.modelPath,
+            enterpriseModelPath,
             [
                 { fieldName: 'site', idAttr: 'site-id' },
                 { fieldName: 'traffic-class', idAttr: 'traffic-class-id' },

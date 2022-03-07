@@ -14,6 +14,7 @@ import { AETHER_TARGET } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { ApplicationDatasource } from './application-datasource';
 import { EnterprisesEnterpriseApplication } from '../../../openapi3/aether/2.0.0/models';
+import { applicationModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-application',
@@ -37,13 +38,6 @@ export class ApplicationComponent
         'Usage/delete',
     ];
 
-    modelPath = [
-        'Enterprises-2.0.0',
-        'enterprise',
-        'application',
-        'application-id',
-    ];
-
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
@@ -64,7 +58,7 @@ export class ApplicationComponent
         this.dataSource.merge(
             this.bs.buildPatchBody().Updates,
             this.dataSource.data,
-            this.modelPath,
+            applicationModelPath,
             [{ fieldName: 'endpoint', idAttr: 'endpoint-id' }]
         );
     }

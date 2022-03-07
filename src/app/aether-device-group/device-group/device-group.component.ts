@@ -14,6 +14,7 @@ import { AETHER_TARGET } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { DeviceGroupDatasource } from './device-group-datasource';
 import { EnterprisesEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models';
+import { deviceGroupModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-device-group',
@@ -43,14 +44,6 @@ export class DeviceGroupComponent
         'monitor',
     ];
 
-    modelPath = [
-        'Enterprises-2.0.0',
-        'enterprise',
-        'site',
-        'device-group',
-        'device-group-id',
-    ];
-
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
@@ -71,7 +64,7 @@ export class DeviceGroupComponent
         this.dataSource.merge(
             this.bs.buildPatchBody().Updates,
             this.dataSource.data,
-            this.modelPath,
+            deviceGroupModelPath,
             [{ fieldName: 'device', idAttr: 'device-id' }]
         );
     }

@@ -15,6 +15,7 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { simCardModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-sim-card',
@@ -40,14 +41,6 @@ export class SimCardComponent
         'usage/delete',
     ];
 
-    modelPath = [
-        'Enterprises-2.0.0',
-        'enterprise',
-        'site',
-        'sim-card',
-        'sim-id',
-    ];
-
     constructor(
         public opaService: OpenPolicyAgentService,
         private aetherService: AetherService,
@@ -63,7 +56,7 @@ export class SimCardComponent
         this.dataSource.merge(
             this.bs.buildPatchBody().Updates,
             this.dataSource.data,
-            this.modelPath
+            simCardModelPath
         );
     }
 

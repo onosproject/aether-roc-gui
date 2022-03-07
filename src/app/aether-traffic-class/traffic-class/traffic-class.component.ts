@@ -14,6 +14,7 @@ import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGET } from '../../../environments/environment';
 import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
+import { trafficClassModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-traffic-class',
@@ -43,13 +44,6 @@ export class TrafficClassComponent
         'Usage/delete',
     ];
 
-    modelPath = [
-        'Enterprises-2.0.0',
-        'enterprise',
-        'traffic-class',
-        'traffic-class-id',
-    ];
-
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
@@ -65,11 +59,11 @@ export class TrafficClassComponent
         );
     }
 
-    onDataLoaded(ScopeOfDataSource: TrafficClassDatasource): void {
+    onDataLoaded(): void {
         this.dataSource.merge(
             this.bs.buildPatchBody().Updates,
             this.dataSource.data,
-            this.modelPath
+            trafficClassModelPath
         );
     }
 

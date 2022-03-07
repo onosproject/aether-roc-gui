@@ -5,6 +5,7 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { ConnectivityServicesConnectivityService } from '../../../openapi3/aether/2.0.0/models';
+import { Service as AetherService } from 'src/openapi3/aether/2.0.0/services';
 import { RocEditBase } from '../../roc-edit-base';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +14,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { ConnectivityServicesConnectivityServiceService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { ConnectivityServiceDatasource } from '../connectivity-service/connectivity-service-datasource';
+import { connectivityServiceModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-connectivity-service-edit',
@@ -20,7 +23,7 @@ import { AETHER_TARGET } from '../../../environments/environment';
     styleUrls: ['../../common-edit.component.scss'],
 })
 export class ConnectivityServiceEditComponent
-    extends RocEditBase
+    extends RocEditBase<ConnectivityServiceDatasource>
     implements OnInit
 {
     data: ConnectivityServicesConnectivityService;
@@ -61,6 +64,7 @@ export class ConnectivityServiceEditComponent
 
     constructor(
         private connectivityServiceConnectivityServiceService: ConnectivityServicesConnectivityServiceService,
+        protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         private fb: FormBuilder,
@@ -75,7 +79,10 @@ export class ConnectivityServiceEditComponent
             router,
             'Connectivity-services-2.0.0',
             'connectivity-service',
-            'connectivity-service-id'
+            'connectivity-service-id',
+            new ConnectivityServiceDatasource(aetherService, bs, AETHER_TARGET),
+            connectivityServiceModelPath,
+            aetherService
         );
         super.form = this.csForm;
         super.loadFunc = this.loadConnectivityServicesConnectivityService;
@@ -142,18 +149,15 @@ export class ConnectivityServiceEditComponent
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        this.pathRoot in basketPreview &&
-                        this.pathListAttr in
-                            basketPreview['Connectivity-services-2.0.0']
-                    ) {
-                        basketPreview['Connectivity-services-2.0.0'][
-                            'connectivity-service'
-                        ].forEach((basketItems) => {
-                            if (basketItems['connectivity-service-id'] === id) {
-                                this.populateFormData(basketItems);
-                            }
-                        });
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        connectivityServiceModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as ConnectivityServicesConnectivityService
+                        );
                     }
                     console.log(
                         'Finished loading ConnectivityServicesConnectivityService(s)',

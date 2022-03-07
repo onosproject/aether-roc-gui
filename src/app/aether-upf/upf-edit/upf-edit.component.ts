@@ -21,13 +21,18 @@ import {
     Service as AetherService,
 } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { UpfDatasource } from '../upf/upf-datasource';
+import { upfModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-upf-edit',
     templateUrl: './upf-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class UpfEditComponent extends RocEditBase implements OnInit {
+export class UpfEditComponent
+    extends RocEditBase<UpfDatasource>
+    implements OnInit
+{
     data: EnterprisesEnterpriseSiteUpf;
     pathListAttr = 'upf';
     SiteImisLength: number;
@@ -94,6 +99,8 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
             'Enterprises-2.0.0',
             'upf',
             'upf-id',
+            new UpfDatasource(aetherService, bs, AETHER_TARGET),
+            upfModelPath,
             aetherService
         );
         super.form = this.upfForm;
@@ -133,42 +140,14 @@ export class UpfEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Upf-2.0.0']
-                    ) {
-                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
-                            (enterpriseBasketItems) => {
-                                if (
-                                    enterpriseBasketItems['enterprise-id'] ===
-                                    this.route.snapshot.params['enterprise-id']
-                                ) {
-                                    enterpriseBasketItems.site.forEach(
-                                        (SitebasketItems) => {
-                                            if (
-                                                SitebasketItems['site-id'] ===
-                                                this.route.snapshot.params[
-                                                    'site-id'
-                                                ]
-                                            ) {
-                                                SitebasketItems['upf'].forEach(
-                                                    (basketItems) => {
-                                                        if (
-                                                            basketItems[
-                                                                'upf-id'
-                                                            ] === upfId
-                                                        ) {
-                                                            this.populateFormData(
-                                                                basketItems
-                                                            );
-                                                        }
-                                                    }
-                                                );
-                                            }
-                                        }
-                                    );
-                                }
-                            }
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        upfModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as EnterprisesEnterpriseSiteUpf
                         );
                     }
                     console.log(

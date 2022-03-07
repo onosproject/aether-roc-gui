@@ -17,13 +17,18 @@ import {
     Service as AetherService,
 } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { SimCardDatasource } from '../sim-card/sim-card-datasource';
+import { simCardModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-sim-card-edit',
     templateUrl: './sim-card-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class SimCardEditComponent extends RocEditBase implements OnInit {
+export class SimCardEditComponent
+    extends RocEditBase<SimCardDatasource>
+    implements OnInit
+{
     data: EnterprisesEnterpriseSiteSimCard;
     pathListAttr = 'sim-card';
     simCardId: string;
@@ -82,6 +87,8 @@ export class SimCardEditComponent extends RocEditBase implements OnInit {
             'Enterprises-2.0.0',
             'sim-card',
             'sim-id',
+            new SimCardDatasource(aetherService, bs, AETHER_TARGET),
+            simCardModelPath,
             aetherService
         );
         super.form = this.simCardForm;
@@ -120,42 +127,14 @@ export class SimCardEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['SimCard-2.0.0']
-                    ) {
-                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
-                            (enterpriseBasketItems) => {
-                                if (
-                                    enterpriseBasketItems['enterprise-id'] ===
-                                    this.route.snapshot.params['enterprise-id']
-                                ) {
-                                    enterpriseBasketItems.site.forEach(
-                                        (SitebasketItems) => {
-                                            if (
-                                                SitebasketItems['site-id'] ===
-                                                this.route.snapshot.params[
-                                                    'site-id'
-                                                ]
-                                            ) {
-                                                SitebasketItems[
-                                                    'sim-card'
-                                                ].forEach((basketItems) => {
-                                                    if (
-                                                        basketItems[
-                                                            'sim-id'
-                                                        ] === simCardId
-                                                    ) {
-                                                        this.populateFormData(
-                                                            basketItems
-                                                        );
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    );
-                                }
-                            }
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        simCardModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as EnterprisesEnterpriseSiteSimCard
                         );
                     }
                     console.log(

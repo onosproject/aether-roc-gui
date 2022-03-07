@@ -29,13 +29,18 @@ import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.
 import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseSiteDeviceGroupService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { DeviceGroupDatasource } from '../device-group/device-group-datasource';
+import { deviceGroupModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-device-group-edit',
     templateUrl: './device-group-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
+export class DeviceGroupEditComponent
+    extends RocEditBase<DeviceGroupDatasource>
+    implements OnInit
+{
     data: EnterprisesEnterpriseSiteDeviceGroup;
     ipdomain: Array<EnterprisesEnterpriseSiteIpDomain>;
     showParentDisplay = false;
@@ -117,6 +122,8 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
             'Enterprises-2.0.0',
             'device-group',
             'device-group-id',
+            new DeviceGroupDatasource(aetherService, bs, AETHER_TARGET),
+            deviceGroupModelPath,
             aetherService
         );
         super.form = this.deviceGroupForm;
@@ -316,46 +323,14 @@ export class DeviceGroupEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        'Enterprises-2.0.0' in basketPreview &&
-                        'enterprise' in basketPreview['Enterprises-2.0.0'] &&
-                        'site' in
-                            basketPreview['Enterprises-2.0.0'].enterprise &&
-                        this.pathListAttr in
-                            basketPreview['Enterprises-2.0.0'].site
-                    ) {
-                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
-                            (enterpriseBasketItems) => {
-                                if (
-                                    enterpriseBasketItems['enterprise-id'] ===
-                                    this.route.snapshot.params['enterprise-id']
-                                ) {
-                                    enterpriseBasketItems.site.forEach(
-                                        (SitebasketItems) => {
-                                            if (
-                                                SitebasketItems['site-id'] ===
-                                                this.route.snapshot.params[
-                                                    'site-id'
-                                                ]
-                                            ) {
-                                                SitebasketItems[
-                                                    'device-group'
-                                                ].forEach((basketItems) => {
-                                                    if (
-                                                        basketItems[
-                                                            'device-group-id'
-                                                        ] === id
-                                                    ) {
-                                                        this.populateFormData(
-                                                            basketItems
-                                                        );
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    );
-                                }
-                            }
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        deviceGroupModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as EnterprisesEnterpriseSiteDeviceGroup
                         );
                     }
                     console.log(

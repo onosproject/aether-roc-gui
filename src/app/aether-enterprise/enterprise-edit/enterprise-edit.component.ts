@@ -6,14 +6,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models';
-import {
-    BasketService,
-    IDATTRIBS,
-    ORIGINAL,
-    REQDATTRIBS,
-    TYPE,
-} from '../../basket.service';
+import { BasketService, IDATTRIBS, ORIGINAL, TYPE } from '../../basket.service';
 import { MatHeaderRow, MatTable } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { RocEditBase } from '../../roc-edit-base';
@@ -21,6 +16,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { EnterpriseDatasource } from '../enterprise/enterprise-datasource';
+import { enterpriseModelPath } from '../../models-info';
 
 interface ConnectivityServiceRow {
     id: string;
@@ -32,7 +29,10 @@ interface ConnectivityServiceRow {
     templateUrl: './enterprise-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class EnterpriseEditComponent extends RocEditBase implements OnInit {
+export class EnterpriseEditComponent
+    extends RocEditBase<EnterpriseDatasource>
+    implements OnInit
+{
     @ViewChild(MatTable) table: MatTable<Array<ConnectivityServiceRow>>;
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
@@ -70,6 +70,7 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
 
     constructor(
         private enterpriseEnterpriseService: EnterprisesEnterpriseService,
+        protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         private fb: FormBuilder,
@@ -84,7 +85,10 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
             router,
             'Enterprises-2.0.0',
             'enterprise',
-            'enterprise-id'
+            'enterprise-id',
+            new EnterpriseDatasource(aetherService, bs, AETHER_TARGET),
+            enterpriseModelPath,
+            aetherService
         );
         super.form = this.entForm;
         super.loadFunc = this.loadEnterprisesEnterprises;
@@ -247,16 +251,15 @@ export class EnterpriseEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Enterprises-2.0.0']
-                    ) {
-                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
-                            (basketItems) => {
-                                if (basketItems['enterprise-id'] === id) {
-                                    this.populateFormData(basketItems, id);
-                                }
-                            }
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        enterpriseModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as EnterprisesEnterprise,
+                            this.enterpriseId
                         );
                     }
                     console.log('Finished loading Enterprise Profiles', target);

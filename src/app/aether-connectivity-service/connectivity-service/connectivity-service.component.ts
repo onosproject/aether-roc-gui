@@ -14,6 +14,7 @@ import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
+import { connectivityServiceModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-connectivity-service',
@@ -41,12 +42,6 @@ export class ConnectivityServiceComponent
         'delete',
     ];
 
-    modelPath = [
-        'Connectivity-services-2.0.0',
-        'connectivity-service',
-        'connectivity-service-id',
-    ];
-
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
@@ -62,11 +57,11 @@ export class ConnectivityServiceComponent
         );
     }
 
-    onDataLoaded(ScopeOfDataSource: ConnectivityServiceDatasource): void {
+    onDataLoaded(): void {
         this.dataSource.merge(
             this.bs.buildPatchBody().Updates,
             this.dataSource.data,
-            this.modelPath
+            connectivityServiceModelPath
         );
     }
 

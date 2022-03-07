@@ -14,6 +14,7 @@ import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { UpfDatasource } from './upf-datasource';
 import { EnterprisesEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models';
+import { upfModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-upf',
@@ -53,16 +54,12 @@ export class UpfComponent
         super.reqdAttr = ['port', 'address'];
     }
 
-    onDataLoaded(ScopeOfDataSource: UpfDatasource): void {
-        // TODO: merge basket with loaded data
-        // if (
-        //     this.pathRoot in basketPreview &&
-        //     'site' in basketPreview[this.pathRoot]
-        // ) {
-        //     ScopeOfDataSource.merge(basketPreview['Site-2.0.0'].site, [
-        //         { fieldName: 'small-cell', idAttr: 'small-cell-id' },
-        //     ]);
-        // }
+    onDataLoaded(): void {
+        this.dataSource.merge(
+            this.bs.buildPatchBody().Updates,
+            this.dataSource.data,
+            upfModelPath
+        );
     }
 
     ngAfterViewInit(): void {
