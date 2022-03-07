@@ -18,7 +18,7 @@ import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models
 @Component({
     selector: 'aether-site',
     templateUrl: './site.component.html',
-    styleUrls: ['../../common-profiles.component.scss'],
+    styleUrls: ['../../common-profiles.component.scss', 'site.component.scss'],
 })
 export class SiteComponent
     extends RocListBase<SiteDatasource, EnterprisesEnterpriseSite>
