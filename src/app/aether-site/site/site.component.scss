@@ -1,0 +1,145 @@
+/*
+ * SPDX-FileCopyrightText: 2022-present Open Networking Foundation <info@opennetworking.org>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+// UPF column should simplify first
+.upf-col-simple {
+    display: none;
+}
+.upf-col-wide {
+    display: unset;
+}
+
+@media screen and (max-width: 100rem) {
+    .upf-col-simple {
+        display: unset;
+    }
+    .upf-col-wide {
+        display: none;
+    }
+}
+
+// Then IP Domain column
+.ip-domain-col-simple {
+    display: none;
+}
+.ip-domain-col-wide {
+    display: unset;
+}
+
+@media screen and (max-width: 90rem) {
+    .ip-domain-col-simple {
+        display: unset;
+    }
+    .ip-domain-col-wide {
+        display: none;
+    }
+}
+
+// Then device-group column
+.device-group-col-simple {
+    display: none;
+}
+.device-group-col-wide {
+    display: unset;
+}
+
+@media screen and (max-width: 81rem) {
+    .device-group-col-simple {
+        display: unset;
+    }
+    .device-group-col-wide {
+        display: none;
+    }
+}
+
+// Then sim-cards
+.sim-card-col-simple {
+    display: none;
+}
+.sim-card-col-wide {
+    display: unset;
+}
+
+@media screen and (max-width: 73rem) {
+    .sim-card-col-simple {
+        display: unset;
+    }
+    .sim-card-col-wide {
+        display: none;
+    }
+}
+
+// Then devices
+.device-col-simple {
+    display: none;
+}
+.device-col-wide {
+    display: unset;
+}
+
+@media screen and (max-width: 67rem) {
+    .device-col-simple {
+        display: unset;
+    }
+    .device-col-wide {
+        display: none;
+    }
+}
+
+// Then small-cells
+.small-cell-col-simple {
+    display: none;
+}
+.small-cell-col-wide {
+    display: unset;
+}
+
+@media screen and (max-width: 59rem) {
+    .small-cell-col-simple {
+        display: unset;
+    }
+    .small-cell-col-wide {
+        display: none;
+    }
+}
+
+// Then slice
+.slice-col-simple {
+    display: none;
+}
+.slice-col-wide {
+    display: unset;
+}
+
+@media screen and (max-width: 53rem) {
+    .slice-col-simple {
+        display: unset;
+    }
+    .slice-col-wide {
+        display: none;
+    }
+}
+
+// Then description disappears
+.description-col-wide {
+    display: unset;
+}
+
+@media screen and (max-width: 45rem) {
+    .description-col-wide {
+        display: none;
+    }
+}
+
+// Then enterprise disappears
+.enterprise-col-wide {
+    display: unset;
+}
+
+@media screen and (max-width: 40rem) {
+    .enterprise-col-wide {
+        display: none;
+    }
+}

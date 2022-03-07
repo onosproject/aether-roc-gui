@@ -53,11 +53,17 @@
 
         <!-- Description Column -->
         <ng-container matColumnDef="description" id="descColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="description-col-wide"
+            >
                 Description
             </th>
             <td
                 [style]="row['for-delete-style']"
+                class="description-col-wide"
                 mat-cell
                 *matCellDef="let row"
                 [title]="row.description"
@@ -76,7 +82,13 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <mat-expansion-panel togglePosition="before">
+                <p class="small-cell-col-simple">
+                    {{ row["small-cell"].length }}
+                </p>
+                <mat-expansion-panel
+                    togglePosition="before"
+                    class="small-cell-col-wide"
+                >
                     <mat-expansion-panel-header>
                         <mat-panel-title
                             >{{ row["small-cell"].length }} Small Cell(s)
@@ -122,7 +134,11 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <mat-expansion-panel togglePosition="before">
+                <p class="slice-col-simple">{{ row["slice"].length }}</p>
+                <mat-expansion-panel
+                    togglePosition="before"
+                    class="slice-col-wide"
+                >
                     <mat-expansion-panel-header>
                         <mat-panel-title
                             >{{ row["slice"].length }} Slice(s)
@@ -165,7 +181,13 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <mat-expansion-panel togglePosition="before">
+                <p class="device-group-col-simple">
+                    {{ row["device-group"].length }}
+                </p>
+                <mat-expansion-panel
+                    togglePosition="before"
+                    class="device-group-col-wide"
+                >
                     <mat-expansion-panel-header>
                         <mat-panel-title
                             >{{ row["device-group"].length }} Device Group(s)
@@ -210,7 +232,13 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <mat-expansion-panel togglePosition="before">
+                <p class="ip-domain-col-simple">
+                    {{ row["ip-domain"].length }}
+                </p>
+                <mat-expansion-panel
+                    togglePosition="before"
+                    class="ip-domain-col-wide"
+                >
                     <mat-expansion-panel-header>
                         <mat-panel-title
                             >{{ row["ip-domain"].length }} IP Domains(s)
@@ -253,7 +281,11 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <mat-expansion-panel togglePosition="before">
+                <p class="upf-col-simple">{{ row["upf"].length }}</p>
+                <mat-expansion-panel
+                    togglePosition="before"
+                    class="upf-col-wide"
+                >
                     <mat-expansion-panel-header>
                         <mat-panel-title
                             >{{ row["upf"].length }} UPF(s)
@@ -294,7 +326,11 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <mat-expansion-panel togglePosition="before">
+                <p class="sim-card-col-simple">{{ row["sim-card"].length }}</p>
+                <mat-expansion-panel
+                    togglePosition="before"
+                    class="sim-card-col-wide"
+                >
                     <mat-expansion-panel-header>
                         <mat-panel-title
                             >{{ row["sim-card"].length }} SIM Card(s)
@@ -335,7 +371,11 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <mat-expansion-panel togglePosition="before">
+                <p class="device-col-simple">{{ row["device"].length }}</p>
+                <mat-expansion-panel
+                    togglePosition="before"
+                    class="device-col-wide"
+                >
                     <mat-expansion-panel-header>
                         <mat-panel-title
                             >{{ row["device"].length }} Device(s)
@@ -370,13 +410,19 @@
 
         <!-- Enterprise Column -->
         <ng-container matColumnDef="enterprise" id="EnterpriseColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="enterprise-col-wide"
+            >
                 Enterprise
             </th>
             <td
                 [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
+                class="enterprise-col-wide"
             >
                 {{ row["enterprise-id"] }}
                 <mat-icon
