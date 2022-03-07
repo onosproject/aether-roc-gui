@@ -42,6 +42,12 @@ export class ConnectivityServiceComponent
         'delete',
     ];
 
+    modelPath = [
+        'Connectivity-services-2.0.0',
+        'connectivity-service',
+        'connectivity-service-id',
+    ];
+
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,

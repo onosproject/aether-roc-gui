@@ -40,6 +40,14 @@ export class SmallCellComponent
         'delete',
     ];
 
+    modelPath = [
+        'Enterprises-2.0.0',
+        'enterprise',
+        'site',
+        'small-cell',
+        'small-cell-id',
+    ];
+
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,

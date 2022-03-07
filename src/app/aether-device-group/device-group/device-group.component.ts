@@ -44,6 +44,14 @@ export class DeviceGroupComponent
         'monitor',
     ];
 
+    modelPath = [
+        'Enterprises-2.0.0',
+        'enterprise',
+        'site',
+        'device-group',
+        'device-group-id',
+    ];
+
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,

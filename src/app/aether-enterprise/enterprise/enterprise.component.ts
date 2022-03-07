@@ -42,6 +42,8 @@ export class EnterpriseComponent
         'delete',
     ];
 
+    modelPath = ['Enterprises-2.0.0', 'enterprise', 'enterprise-id'];
+
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,

@@ -41,6 +41,14 @@ export class SimCardComponent
         'usage/delete',
     ];
 
+    modelPath = [
+        'Enterprises-2.0.0',
+        'enterprise',
+        'site',
+        'sim-card',
+        'sim-id',
+    ];
+
     constructor(
         public opaService: OpenPolicyAgentService,
         private aetherService: AetherService,

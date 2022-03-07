@@ -19,7 +19,7 @@ import { siteModelPath } from '../../models-info';
 @Component({
     selector: 'aether-site',
     templateUrl: './site.component.html',
-    styleUrls: ['../../common-profiles.component.scss'],
+    styleUrls: ['../../common-profiles.component.scss', 'site.component.scss'],
 })
 export class SiteComponent
     extends RocListBase<SiteDatasource, EnterprisesEnterpriseSite>
@@ -44,6 +44,8 @@ export class SiteComponent
         'delete',
         'monitor',
     ];
+
+    modelPath = ['Enterprises-2.0.0', 'enterprise', 'site', 'site-id'];
 
     constructor(
         public opaService: OpenPolicyAgentService,

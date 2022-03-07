@@ -43,6 +43,14 @@ export class IpDomainComponent
         'Usage/delete',
     ];
 
+    modelPath = [
+        'Enterprises-2.0.0',
+        'enterprise',
+        'site',
+        'ip-domain',
+        'ip-domain-id',
+    ];
+
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,

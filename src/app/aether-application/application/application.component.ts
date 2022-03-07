@@ -38,6 +38,13 @@ export class ApplicationComponent
         'Usage/delete',
     ];
 
+    modelPath = [
+        'Enterprises-2.0.0',
+        'enterprise',
+        'application',
+        'application-id',
+    ];
+
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,

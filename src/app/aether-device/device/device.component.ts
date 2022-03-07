@@ -41,6 +41,14 @@ export class DeviceComponent
         'usage/delete',
     ];
 
+    modelPath = [
+        'Enterprises-2.0.0',
+        'enterprise',
+        'site',
+        'device',
+        'device-id',
+    ];
+
     constructor(
         public opaService: OpenPolicyAgentService,
         private aetherService: AetherService,

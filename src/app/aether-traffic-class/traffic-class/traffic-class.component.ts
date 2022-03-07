@@ -44,6 +44,13 @@ export class TrafficClassComponent
         'Usage/delete',
     ];
 
+    modelPath = [
+        'Enterprises-2.0.0',
+        'enterprise',
+        'traffic-class',
+        'traffic-class-id',
+    ];
+
     constructor(
         private aetherService: AetherService,
         private basketService: BasketService,
