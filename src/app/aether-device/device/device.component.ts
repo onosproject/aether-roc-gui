@@ -15,6 +15,7 @@ import { Service as AetherService } from '../../../openapi3/aether/2.0.0/service
 import { BasketService } from '../../basket.service';
 import { AETHER_TARGET } from '../../../environments/environment';
 import { EnterprisesEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/models';
+import { deviceModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-device',
@@ -59,11 +60,11 @@ export class DeviceComponent
         );
     }
 
-    onDataLoaded(ScopeOfDataSource: DeviceDatasource): void {
+    onDataLoaded(): void {
         this.dataSource.merge(
             this.bs.buildPatchBody().Updates,
             this.dataSource.data,
-            this.modelPath
+            deviceModelPath
         );
     }
 

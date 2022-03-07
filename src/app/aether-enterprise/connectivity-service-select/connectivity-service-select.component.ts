@@ -6,7 +6,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
     ConnectivityServicesConnectivityServiceService,
-    Service,
+    Service as AetherService,
 } from '../../../openapi3/aether/2.0.0/services';
 import { FormBuilder } from '@angular/forms';
 import { AETHER_TARGET } from '../../../environments/environment';
@@ -28,7 +28,7 @@ export class ConnectivityServiceSelectComponent
     @Input() alreadySelected: string[] = [];
     @Output() closeEvent = new EventEmitter<string>();
 
-    constructor(protected service: Service, protected fb: FormBuilder) {
+    constructor(protected service: AetherService, protected fb: FormBuilder) {
         super(fb);
     }
 

@@ -14,6 +14,7 @@ import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { AETHER_TARGET } from '../../../environments/environment';
 import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
+import { ipDomainModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-ip-domain',
@@ -62,11 +63,11 @@ export class IpDomainComponent
         super.reqdAttr = ['subnet', 'dnn'];
     }
 
-    onDataLoaded(ScopeOfDataSource: IpDomainDatasource): void {
+    onDataLoaded(): void {
         this.dataSource.merge(
             this.bs.buildPatchBody().Updates,
             this.dataSource.data,
-            this.modelPath
+            ipDomainModelPath
         );
     }
 

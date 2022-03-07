@@ -5,7 +5,7 @@
  */
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Service } from '../../../openapi3/aether/2.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 
 export interface EdgeDeviceParam {
     'edge-device-id': string;
@@ -39,7 +39,7 @@ export class EdgeDeviceComponent {
         description: [undefined],
     });
 
-    constructor(protected service: Service, protected fb: FormBuilder) {}
+    constructor(protected service: AetherService, protected fb: FormBuilder) {}
 
     closeCard(cancelled: boolean): void {
         if (cancelled) {

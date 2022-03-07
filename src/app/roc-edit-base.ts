@@ -11,7 +11,11 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AETHER_TARGET } from '../environments/environment';
 import { RocElement } from '../openapi3/top/level/models/elements';
 import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
-import * as _ from 'lodash';
+import {
+    GenericRocDataSource,
+    RocGenericContainerType,
+    RocGenericModelType,
+} from './roc-data-source';
 
 export interface EnterpriseID {
     enterpriseId: string;
@@ -24,7 +28,9 @@ export interface SiteID {
     displayName: string;
 }
 
-export abstract class RocEditBase {
+export abstract class RocEditBase<
+    T extends GenericRocDataSource<RocGenericModelType, RocGenericContainerType>
+> {
     protected form: FormGroup;
     public isNewInstance: boolean; // For tests
     protected loadFunc: (target: string, id: string) => void;
@@ -36,6 +42,7 @@ export abstract class RocEditBase {
     public siteId: string;
     public unknownEnterprise = 'unknownent';
     public unknownSite = 'unknownsite';
+    public datasource: T;
 
     protected constructor(
         protected snackBar: MatSnackBar,
@@ -45,8 +52,12 @@ export abstract class RocEditBase {
         protected pathRoot: RocElement,
         protected pathListAttr: string,
         protected idAttr: string = 'id',
+        public ds: T,
+        protected modelPath: string[],
         protected aetherService?: AetherService
-    ) {}
+    ) {
+        this.datasource = ds;
+    }
 
     init(): void {
         this.route.paramMap.subscribe((value) => {
@@ -125,8 +136,10 @@ export abstract class RocEditBase {
         this.showParentDisplay = false;
     }
 
+    // TODO this needs to be built out of modelPath, don't base it on the URL params,
+    // just read them
     private calcFullPath(paramMap: ParamMap): string {
-        let fullPath = this.pathRoot;
+        let fullPath = this.modelPath[0];
         if (paramMap.has('enterprise-id')) {
             fullPath +=
                 '/enterprise[enterprise-id=' +

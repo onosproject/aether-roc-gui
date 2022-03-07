@@ -8,9 +8,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { from, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { map, mergeMap, skipWhile, startWith } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import {
     EnterprisesEnterpriseService,
     EnterprisesEnterpriseSiteService,
@@ -35,6 +35,8 @@ import {
 import { EnterprisesEnterpriseSiteSliceService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
 import * as _ from 'lodash';
+import { SliceDatasource } from '../slice/slice-datasource';
+import { sliceModelPath } from '../../models-info';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -52,7 +54,10 @@ const ENDPOINTLIMIT = 5;
     templateUrl: './slice-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class SliceEditComponent extends RocEditBase implements OnInit {
+export class SliceEditComponent
+    extends RocEditBase<SliceDatasource>
+    implements OnInit
+{
     showApplicationDisplay = false;
     showDeviceGroupDisplay = false;
     sliceID: string;
@@ -80,7 +85,7 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
         { label: '1 MB', value: 1000000 },
     ];
 
-    defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL'];
+    defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL', 'ALLOW-PUBLIC'];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: EnterprisesEnterpriseSiteSlice;
     pathListAttr = 'slice';
@@ -182,9 +187,11 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
             bs,
             route,
             router,
-            'Enterprises-2.0.0',
-            'slice',
-            'slice-id',
+            'Enterprises-2.0.0', // TODO is this used? remove
+            'slice', // remove
+            'slice-id', // remove
+            new SliceDatasource(aetherService, bs, AETHER_TARGET),
+            sliceModelPath,
             aetherService
         );
         super.form = this.sliceForm;
@@ -391,42 +398,14 @@ export class SliceEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview[this.pathRoot]
-                    ) {
-                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
-                            (enterpriseBasketItems) => {
-                                if (
-                                    enterpriseBasketItems['enterprise-id'] ===
-                                    this.route.snapshot.params['enterprise-id']
-                                ) {
-                                    enterpriseBasketItems.site.forEach(
-                                        (SitebasketItems) => {
-                                            if (
-                                                SitebasketItems['site-id'] ===
-                                                this.route.snapshot.params[
-                                                    'site-id'
-                                                ]
-                                            ) {
-                                                SitebasketItems[
-                                                    'slice'
-                                                ].forEach((basketItems) => {
-                                                    if (
-                                                        basketItems[
-                                                            'slice-id'
-                                                        ] === id
-                                                    ) {
-                                                        this.populateFormData(
-                                                            basketItems
-                                                        );
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    );
-                                }
-                            }
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        sliceModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as EnterprisesEnterpriseSiteSlice
                         );
                     }
                     console.log('Finished loading SliceSlice(s)', target, id);

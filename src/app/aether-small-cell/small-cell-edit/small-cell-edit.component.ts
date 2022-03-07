@@ -23,13 +23,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EnterprisesEnterpriseSiteSmallCellService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { SmallCellDatasource } from '../small-cell/small-cell-datasource';
+import { smallCellModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-small-cell-edit',
     templateUrl: './small-cell-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class SmallCellEditComponent extends RocEditBase implements OnInit {
+export class SmallCellEditComponent
+    extends RocEditBase<SmallCellDatasource>
+    implements OnInit
+{
     data: EnterprisesEnterpriseSiteSmallCell;
 
     smallCellForm = this.fb.group({
@@ -95,6 +100,8 @@ export class SmallCellEditComponent extends RocEditBase implements OnInit {
             'Enterprises-2.0.0',
             'small-cell',
             'small-cell-id',
+            new SmallCellDatasource(aetherService, bs, AETHER_TARGET),
+            smallCellModelPath,
             aetherService
         );
         super.form = this.smallCellForm;
@@ -163,46 +170,14 @@ export class SmallCellEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        'Enterprises-2.0.0' in basketPreview &&
-                        'enterprise' in basketPreview['Enterprises-2.0.0'] &&
-                        'site' in
-                            basketPreview['Enterprises-2.0.0'].enterprise &&
-                        this.pathListAttr in
-                            basketPreview['Enterprises-2.0.0'].site
-                    ) {
-                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
-                            (enterpriseBasketItems) => {
-                                if (
-                                    enterpriseBasketItems['enterprise-id'] ===
-                                    this.route.snapshot.params['enterprise-id']
-                                ) {
-                                    enterpriseBasketItems.site.forEach(
-                                        (SitebasketItems) => {
-                                            if (
-                                                SitebasketItems['site-id'] ===
-                                                this.route.snapshot.params[
-                                                    'site-id'
-                                                ]
-                                            ) {
-                                                SitebasketItems[
-                                                    'small-cell'
-                                                ].forEach((basketItems) => {
-                                                    if (
-                                                        basketItems[
-                                                            'small-cell-id'
-                                                        ] === id
-                                                    ) {
-                                                        this.populateFormData(
-                                                            basketItems
-                                                        );
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    );
-                                }
-                            }
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        smallCellModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as EnterprisesEnterpriseSiteSmallCell
                         );
                     }
                     console.log(

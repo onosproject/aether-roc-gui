@@ -39,6 +39,8 @@ import { Bandwidths } from '../../aether-template/template-edit/template-edit.co
 import { map, startWith } from 'rxjs/operators';
 import { EnterprisesEnterpriseApplicationService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { ApplicationDatasource } from '../application/application-datasource';
+import { applicationModelPath } from '../../models-info';
 
 const ValidatePortRange: ValidatorFn = (
     control: AbstractControl
@@ -61,7 +63,10 @@ const ValidatePortRange: ValidatorFn = (
     templateUrl: './application-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class ApplicationEditComponent extends RocEditBase implements OnInit {
+export class ApplicationEditComponent
+    extends RocEditBase<ApplicationDatasource>
+    implements OnInit
+{
     protocolOptions = [{ name: 'UDP' }, { name: 'TCP' }];
     shownEndpointDisplay = false;
     showEndpointAddButton = true;
@@ -136,7 +141,10 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
             router,
             'Enterprises-2.0.0',
             'application',
-            'application-id'
+            'application-id',
+            new ApplicationDatasource(aetherService, bs, AETHER_TARGET),
+            applicationModelPath,
+            aetherService
         );
         super.form = this.appForm;
         super.loadFunc = this.loadApplicationApplication;
@@ -199,32 +207,14 @@ export class ApplicationEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        this.pathRoot in basketPreview &&
-                        'enterprise' in basketPreview['Enterprises-2.0.0'] &&
-                        this.pathListAttr in basketPreview['Enterprises-2.0.0']
-                    ) {
-                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
-                            (enterpriseBasketItems) => {
-                                if (
-                                    enterpriseBasketItems['enterprise-id'] ===
-                                    this.route.snapshot.params['enterprise-id']
-                                ) {
-                                    enterpriseBasketItems.application.forEach(
-                                        (basketItems) => {
-                                            if (
-                                                basketItems[
-                                                    'application-id'
-                                                ] === id
-                                            ) {
-                                                this.populateFormData(
-                                                    basketItems
-                                                );
-                                            }
-                                        }
-                                    );
-                                }
-                            }
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        applicationModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as EnterprisesEnterpriseApplication
                         );
                     }
                     console.log(

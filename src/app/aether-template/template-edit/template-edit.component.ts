@@ -26,6 +26,8 @@ import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/mo
 import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseTemplateService } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
+import { TemplateDatasource } from '../template/template-datasource';
+import { templateModelPath } from '../../models-info';
 
 export interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -41,7 +43,10 @@ interface BurstRate {
     templateUrl: './template-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class TemplateEditComponent extends RocEditBase implements OnInit {
+export class TemplateEditComponent
+    extends RocEditBase<TemplateDatasource>
+    implements OnInit
+{
     @ViewChild(MatHeaderRow) row: MatHeaderRow;
     @ViewChild(MatSort) sort: MatSort;
 
@@ -164,6 +169,8 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
             'Enterprises-2.0.0',
             'template',
             'template-id',
+            new TemplateDatasource(aetherService, bs, AETHER_TARGET),
+            templateModelPath,
             aetherService
         );
         super.form = this.tempForm;
@@ -223,30 +230,14 @@ export class TemplateEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Template-2.0.0']
-                    ) {
-                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
-                            (enterpriseBasketItems) => {
-                                if (
-                                    enterpriseBasketItems['enterprise-id'] ===
-                                    this.route.snapshot.params['enterprise-id']
-                                ) {
-                                    enterpriseBasketItems.template.forEach(
-                                        (basketItems) => {
-                                            if (
-                                                basketItems['template-id'] ===
-                                                id
-                                            ) {
-                                                this.populateFormData(
-                                                    basketItems
-                                                );
-                                            }
-                                        }
-                                    );
-                                }
-                            }
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        templateModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as EnterprisesEnterpriseTemplate
                         );
                     }
 

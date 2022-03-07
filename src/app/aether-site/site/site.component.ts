@@ -14,6 +14,7 @@ import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { SiteDatasource } from './site-datasource';
 import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
+import { siteModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-site',
@@ -57,11 +58,11 @@ export class SiteComponent
         );
     }
 
-    onDataLoaded(ScopeOfDataSource: SiteDatasource): void {
+    onDataLoaded(): void {
         this.dataSource.merge(
             this.bs.buildPatchBody().Updates,
             this.dataSource.data,
-            this.modelPath,
+            siteModelPath,
             [
                 { fieldName: 'device-group', idAttr: 'device-group-id' },
                 { fieldName: 'device', idAttr: 'device-id' },

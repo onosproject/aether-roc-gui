@@ -28,7 +28,7 @@ import {
     EnterprisesEnterpriseSiteSlice,
 } from '../../../openapi3/aether/2.0.0/models';
 import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
-import { from, Observable } from 'rxjs';
+import { from } from 'rxjs';
 
 const site: EnterprisesEnterpriseSite = {
     'site-id': 'acme-chicago',

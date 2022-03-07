@@ -6,7 +6,7 @@
 
 import { RocDataSource } from './roc-data-source';
 import { SliceDatasource } from './aether-slice/slice/slice-datasource';
-import { Service } from '../openapi3/aether/2.0.0/services';
+import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
 import { ApiConfiguration } from '../openapi3/aether/2.0.0/api-configuration';
 import { BasketService } from './basket.service';
 import { AETHER_TARGET } from '../environments/environment';
@@ -18,15 +18,13 @@ import {
 import { SiteDatasource } from './aether-site/site/site-datasource';
 import { EnterpriseDatasource } from './aether-enterprise/enterprise/enterprise-datasource';
 import { Elements } from '../openapi3/top/level/models/elements';
-import { Element } from '@angular/compiler';
-import { slice } from 'lodash';
 
 describe('ROC Data Source', () => {
     let component: RocDataSource<EnterprisesEnterpriseSiteSlice, Enterprises>;
 
     beforeEach(() => {
         component = new SliceDatasource(
-            new Service(
+            new AetherService(
                 new ApiConfiguration(),
                 jasmine.createSpyObj('HttpClient', ['post', 'get'])
             ),
@@ -52,7 +50,7 @@ describe('ROC Data Source', () => {
 
         it('should create a path from Site', () => {
             const siteComponent = new SiteDatasource(
-                new Service(
+                new AetherService(
                     new ApiConfiguration(),
                     jasmine.createSpyObj('HttpClient', ['post', 'get'])
                 ),
@@ -67,7 +65,7 @@ describe('ROC Data Source', () => {
 
         it('should create a path from Enterprise', () => {
             const entComponent = new EnterpriseDatasource(
-                new Service(
+                new AetherService(
                     new ApiConfiguration(),
                     jasmine.createSpyObj('HttpClient', ['post', 'get'])
                 ),
@@ -244,8 +242,6 @@ describe('ROC Data Source', () => {
                 { fieldName: 'device-group', idAttr: 'device-group' },
             ]);
             const updatedSlice = component.data[0];
-            const basketSlice =
-                basketItems['Enterprises-2.0.0'].enterprise[0].site[0].slice[0];
             expect(updatedSlice.mbr.uplink).toEqual(10); // this field was not updated
             expect(updatedSlice.mbr['downlink-burst-size']).toEqual(10); // this field was not updated
             expect(updatedSlice.mbr['uplink-burst-size']).toEqual(30); // this field was updated
@@ -259,8 +255,6 @@ describe('ROC Data Source', () => {
                 { fieldName: 'device-group', idAttr: 'device-group' },
             ]);
             const updatedSlice = component.data[0];
-            const basketSlice =
-                basketItems['Enterprises-2.0.0'].enterprise[0].site[0].slice[0];
 
             expect(updatedSlice['device-group'].length).toBe(3);
             expect(updatedSlice['device-group'][0].enable).toBeTrue();

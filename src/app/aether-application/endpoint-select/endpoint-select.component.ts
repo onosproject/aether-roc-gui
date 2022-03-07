@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Service } from '../../../openapi3/aether/2.0.0/services';
+import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
     AbstractControl,
     FormBuilder,
@@ -104,7 +104,7 @@ export class EndpointSelectComponent {
         { validators: ValidatePortRange }
     );
 
-    constructor(protected service: Service, protected fb: FormBuilder) {
+    constructor(protected service: AetherService, protected fb: FormBuilder) {
         this.bandwidthOptions = this.endpointForm.valueChanges.pipe(
             startWith(''),
             map((value) =>

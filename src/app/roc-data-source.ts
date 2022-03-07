@@ -8,12 +8,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
-import {
-    ADDITIONALPROPS,
-    BasketService,
-    FORDELETE,
-    STRIKETHROUGH,
-} from './basket.service';
+import { BasketService, FORDELETE, STRIKETHROUGH } from './basket.service';
 import { from, merge, Observable, of as observableOf } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
 import * as _ from 'lodash';
@@ -293,7 +288,7 @@ export abstract class RocDataSource<
         tree: Elements | RocGenericModelType[],
         keys: string[],
         model: RocGenericModelType,
-        level: number = 0
+        level = 0
     ): RocGenericModelType {
         let foundModel = null;
         if (_.isArray(tree)) {

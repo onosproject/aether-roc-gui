@@ -22,13 +22,18 @@ import {
 } from '../../../openapi3/aether/2.0.0/services';
 import { AETHER_TARGET } from '../../../environments/environment';
 import * as _ from 'lodash';
+import { DeviceDatasource } from '../device/device-datasource';
+import { deviceModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-device-edit',
     templateUrl: './device-edit.component.html',
     styleUrls: ['../../common-edit.component.scss'],
 })
-export class DeviceEditComponent extends RocEditBase implements OnInit {
+export class DeviceEditComponent
+    extends RocEditBase<DeviceDatasource>
+    implements OnInit
+{
     data: EnterprisesEnterpriseSiteDevice;
     pathListAttr = 'device';
     deviceId: string;
@@ -95,6 +100,8 @@ export class DeviceEditComponent extends RocEditBase implements OnInit {
             'Enterprises-2.0.0',
             'device',
             'device-id',
+            new DeviceDatasource(aetherService, bs, AETHER_TARGET),
+            deviceModelPath,
             aetherService
         );
         super.form = this.deviceForm;
@@ -139,42 +146,14 @@ export class DeviceEditComponent extends RocEditBase implements OnInit {
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
-                    if (
-                        this.pathRoot in basketPreview &&
-                        this.pathListAttr in basketPreview['Device-2.0.0']
-                    ) {
-                        basketPreview['Enterprises-2.0.0'].enterprise.forEach(
-                            (enterpriseBasketItems) => {
-                                if (
-                                    enterpriseBasketItems['enterprise-id'] ===
-                                    this.route.snapshot.params['enterprise-id']
-                                ) {
-                                    enterpriseBasketItems.site.forEach(
-                                        (SitebasketItems) => {
-                                            if (
-                                                SitebasketItems['site-id'] ===
-                                                this.route.snapshot.params[
-                                                    'site-id'
-                                                ]
-                                            ) {
-                                                SitebasketItems[
-                                                    'device'
-                                                ].forEach((basketItems) => {
-                                                    if (
-                                                        basketItems[
-                                                            'device-id'
-                                                        ] === deviceId
-                                                    ) {
-                                                        this.populateFormData(
-                                                            basketItems
-                                                        );
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    );
-                                }
-                            }
+                    const [hasUpdates, model] = this.datasource.hasUpdates(
+                        basketPreview,
+                        deviceModelPath,
+                        this.data
+                    );
+                    if (hasUpdates) {
+                        this.populateFormData(
+                            model as EnterprisesEnterpriseSiteDevice
                         );
                     }
                     console.log(

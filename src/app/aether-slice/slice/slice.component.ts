@@ -13,12 +13,9 @@ import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { SliceDatasource } from './slice-datasource';
-import {
-    Enterprises,
-    EnterprisesEnterpriseSiteSlice,
-} from '../../../openapi3/aether/2.0.0/models';
+import { EnterprisesEnterpriseSiteSlice } from '../../../openapi3/aether/2.0.0/models';
 import { HexPipe } from '../../utils/hex.pipe';
-import { RocDataSource } from '../../roc-data-source';
+import { sliceModelPath } from '../../models-info';
 
 @Component({
     selector: 'aether-slice',
@@ -71,16 +68,11 @@ export class SliceComponent
         super.reqdAttr = ['sd', 'sst', 'default-behavior'];
     }
 
-    onDataLoaded(
-        ScopeOfDataSource: RocDataSource<
-            EnterprisesEnterpriseSiteSlice,
-            Enterprises
-        >
-    ): void {
+    onDataLoaded(): void {
         this.dataSource.merge(
             this.bs.buildPatchBody().Updates,
             this.dataSource.data,
-            this.modelPath,
+            sliceModelPath,
             [
                 { fieldName: 'device-group', idAttr: 'device-group' },
                 { fieldName: 'filter', idAttr: 'application' },
