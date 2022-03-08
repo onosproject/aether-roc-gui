@@ -3,7 +3,7 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-<form [formGroup]="sliceForm" (ngSubmit)="onSubmit()">
+<form class="roc-edit-form" [formGroup]="sliceForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
             <mat-card-title
@@ -450,6 +450,9 @@
         </mat-card-content>
     </mat-card>
 </form>
+<div>
+    <button routerLink="/slice" mat-raised-button color="primary">Back</button>
+</div>
 <aether-application-select
     *ngIf="
         showApplicationDisplay &&

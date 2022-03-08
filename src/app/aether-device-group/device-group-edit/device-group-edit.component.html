@@ -3,7 +3,11 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-<form [formGroup]="deviceGroupForm" (ngSubmit)="onSubmit()">
+<form
+    class="roc-edit-form"
+    [formGroup]="deviceGroupForm"
+    (ngSubmit)="onSubmit()"
+>
     <mat-card>
         <mat-card-header>
             <mat-card-title
@@ -312,6 +316,13 @@
         </mat-card-content>
     </mat-card>
 </form>
+
+<div>
+    <button routerLink="/device-group" mat-raised-button color="primary">
+        Back
+    </button>
+</div>
+
 <aether-device-select
     *ngIf="
         showDeviceDisplay &&

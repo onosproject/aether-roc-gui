@@ -3,7 +3,7 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-<form [formGroup]="entForm" (ngSubmit)="onSubmit()">
+<form class="roc-edit-form" [formGroup]="entForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
             <mat-card-title
@@ -136,6 +136,13 @@
         </mat-card-content>
     </mat-card>
 </form>
+
+<div>
+    <button routerLink="/enterprise" mat-raised-button color="primary">
+        Back
+    </button>
+</div>
+
 <aether-connectivity-service-select
     *ngIf="
         showConnectDisplay &&

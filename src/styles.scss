@@ -13,3 +13,10 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.roc-edit-form + div {
+    button {
+        float: right;
+    }
+    padding: 10px;
+}

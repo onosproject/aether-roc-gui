@@ -3,7 +3,7 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-<form [formGroup]="upfForm" (ngSubmit)="onSubmit()">
+<form class="roc-edit-form" [formGroup]="upfForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
             <mat-card-title
@@ -179,6 +179,10 @@
         </mat-card-content>
     </mat-card>
 </form>
+
+<div>
+    <button routerLink="/upf" mat-raised-button color="primary">Back</button>
+</div>
 
 <aether-show-vcs-usage
     *ngIf="showParentDisplay"

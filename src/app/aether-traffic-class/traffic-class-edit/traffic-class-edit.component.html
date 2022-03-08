@@ -3,7 +3,7 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-<form [formGroup]="tcForm" (ngSubmit)="onSubmit()">
+<form class="roc-edit-form" [formGroup]="tcForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
             <mat-card-title
@@ -153,6 +153,11 @@
         </mat-card-actions>
     </mat-card>
 </form>
+<div>
+    <button routerLink="/traffic-class" mat-raised-button color="primary">
+        Back
+    </button>
+</div>
 <aether-show-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
