@@ -96,7 +96,6 @@ export class SmallCellEditComponent
             snackBar,
             bs,
             route,
-            router,
             new SmallCellDatasource(aetherService, bs, AETHER_TARGET),
             smallCellModelPath,
             aetherService

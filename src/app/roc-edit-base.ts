@@ -45,16 +45,17 @@ export abstract class RocEditBase<
     public datasource: T;
 
     /**
-     * @param snackBar
-     * @param bs
-     * @param route
-     * @param router
+     * @param snackBar The MatSnackBar service
+     * @param bs The BasketService
+     * @param route The current route
+     * @param ds A class that extends RocDataSource
+     * @param modelPath The path for this model in the Yang tree
+     * @param aetherService The aetherService, used to load enterprises
      */
     protected constructor(
         protected snackBar: MatSnackBar,
         protected bs: BasketService,
         protected route: ActivatedRoute,
-        protected router: Router,
         public ds: T,
         public modelPath: string[],
         protected aetherService?: AetherService
@@ -147,20 +148,18 @@ export abstract class RocEditBase<
         let fullPath = this.modelPath[0];
 
         if (paramMap.has('enterprise-id')) {
-            fullPath +=
-                '/enterprise[enterprise-id=' +
-                paramMap.get('enterprise-id') +
-                ']';
+            fullPath += `/enterprise[enterprise-id=${paramMap.get(
+                'enterprise-id'
+            )}]`;
         }
         if (paramMap.has('site-id')) {
-            fullPath += '/site[site-id=' + paramMap.get('site-id') + ']';
+            fullPath += `/site[site-id=${paramMap.get('site-id')}]`;
         }
 
         const idAttr = this.modelPath[this.modelPath.length - 1];
         const modelName = this.modelPath[this.modelPath.length - 2];
 
-        fullPath +=
-            '/' + modelName + '[' + idAttr + '=' + paramMap.get('id') + ']';
+        fullPath += `/${modelName}[${idAttr}=${paramMap.get('id')}]`;
         return fullPath;
     }
 

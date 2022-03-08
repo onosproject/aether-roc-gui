@@ -63,16 +63,11 @@ const router = jasmine.createSpyObj('router', {
 class RocEditBaseSpecComponent extends RocEditBase<
     GenericRocDataSource<RocGenericModelType, RocGenericContainerType>
 > {
-    constructor(
-        public aetherService: AetherService,
-        private basketService: BasketService,
-        public opaService: OpenPolicyAgentService
-    ) {
+    constructor(public aetherService: AetherService) {
         super(
             snackBar,
             bs,
             route,
-            router,
             TestDataSource,
             enterpriseModelPath,
             aetherService

@@ -165,7 +165,6 @@ export class TemplateEditComponent
             snackBar,
             bs,
             route,
-            router,
             new TemplateDatasource(aetherService, bs, AETHER_TARGET),
             templateModelPath,
             aetherService

@@ -96,7 +96,6 @@ export class DeviceEditComponent
             snackBar,
             bs,
             route,
-            router,
             new DeviceDatasource(aetherService, bs, AETHER_TARGET),
             deviceModelPath,
             aetherService

@@ -76,7 +76,6 @@ export class ConnectivityServiceEditComponent
             snackBar,
             bs,
             route,
-            router,
             new ConnectivityServiceDatasource(aetherService, bs, AETHER_TARGET),
             connectivityServiceModelPath,
             aetherService

@@ -118,7 +118,6 @@ export class DeviceGroupEditComponent
             snackBar,
             bs,
             route,
-            router,
             new DeviceGroupDatasource(aetherService, bs, AETHER_TARGET),
             deviceGroupModelPath,
             aetherService

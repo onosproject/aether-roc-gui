@@ -95,7 +95,6 @@ export class UpfEditComponent
             snackBar,
             bs,
             route,
-            router,
             new UpfDatasource(aetherService, bs, AETHER_TARGET),
             upfModelPath,
             aetherService

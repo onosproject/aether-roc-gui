@@ -49,8 +49,6 @@ export interface GenericRocDataSource<
         ) => void
     ): void;
 
-    delete(id: string): void;
-
     fullPath(...ids: string[]): string;
 
     deletePath(...ids: string[]): string;
@@ -74,8 +72,11 @@ export abstract class RocDataSource<
         protected aetherService: AetherService,
         public bs: BasketService,
         protected target: string,
+        /** @deprecated */
         protected pathRoot: string, // TODO remove use modelPath
+        /** @deprecated */
         protected pathListAttr: string[], // TODO remove use modelPath
+        /** @deprecated */
         public indexAttr: string[], // TODO remove use modelPath
         protected nameAttr: string = 'display-name',
         protected descAttr: string = 'description'
@@ -179,14 +180,6 @@ export abstract class RocDataSource<
                     this.paginator._changePageSize(this.paginator.pageSize);
                 }
             );
-    }
-
-    delete(id: string): void {
-        const deletedIndex = this.data.findIndex(
-            (p) => p[this.indexAttr[0]] === id
-        );
-        this.data.splice(deletedIndex, 1);
-        this.paginator._changePageSize(this.paginator.pageSize);
     }
 
     /**

@@ -186,7 +186,6 @@ export class SliceEditComponent
             snackBar,
             bs,
             route,
-            router,
             new SliceDatasource(aetherService, bs, AETHER_TARGET),
             sliceModelPath,
             aetherService
