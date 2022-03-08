@@ -97,9 +97,6 @@ export class SmallCellEditComponent
             bs,
             route,
             router,
-            'Enterprises-2.0.0',
-            'small-cell',
-            'small-cell-id',
             new SmallCellDatasource(aetherService, bs, AETHER_TARGET),
             smallCellModelPath,
             aetherService

@@ -74,9 +74,9 @@ export abstract class RocDataSource<
         protected aetherService: AetherService,
         public bs: BasketService,
         protected target: string,
-        protected pathRoot: string,
-        protected pathListAttr: string[],
-        public indexAttr: string[],
+        protected pathRoot: string, // TODO remove use modelPath
+        protected pathListAttr: string[], // TODO remove use modelPath
+        public indexAttr: string[], // TODO remove use modelPath
         protected nameAttr: string = 'display-name',
         protected descAttr: string = 'description'
     ) {

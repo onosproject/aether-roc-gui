@@ -77,9 +77,6 @@ export class ConnectivityServiceEditComponent
             bs,
             route,
             router,
-            'Connectivity-services-2.0.0',
-            'connectivity-service',
-            'connectivity-service-id',
             new ConnectivityServiceDatasource(aetherService, bs, AETHER_TARGET),
             connectivityServiceModelPath,
             aetherService

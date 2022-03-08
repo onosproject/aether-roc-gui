@@ -119,9 +119,6 @@ export class DeviceGroupEditComponent
             bs,
             route,
             router,
-            'Enterprises-2.0.0',
-            'device-group',
-            'device-group-id',
             new DeviceGroupDatasource(aetherService, bs, AETHER_TARGET),
             deviceGroupModelPath,
             aetherService

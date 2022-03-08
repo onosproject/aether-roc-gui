@@ -97,9 +97,6 @@ export class DeviceEditComponent
             bs,
             route,
             router,
-            'Enterprises-2.0.0',
-            'device',
-            'device-id',
             new DeviceDatasource(aetherService, bs, AETHER_TARGET),
             deviceModelPath,
             aetherService
