@@ -113,10 +113,6 @@ export class SiteEditComponent
             snackBar,
             bs,
             route,
-            router,
-            'Enterprises-2.0.0',
-            'site',
-            'site-id',
             new SiteDatasource(aetherService, bs, AETHER_TARGET),
             siteModelPath,
             aetherService

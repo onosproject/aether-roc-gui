@@ -82,10 +82,6 @@ export class EnterpriseEditComponent
             snackBar,
             bs,
             route,
-            router,
-            'Enterprises-2.0.0',
-            'enterprise',
-            'enterprise-id',
             new EnterpriseDatasource(aetherService, bs, AETHER_TARGET),
             enterpriseModelPath,
             aetherService

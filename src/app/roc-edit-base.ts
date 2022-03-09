@@ -44,16 +44,20 @@ export abstract class RocEditBase<
     public unknownSite = 'unknownsite';
     public datasource: T;
 
+    /**
+     * @param snackBar The MatSnackBar service
+     * @param bs The BasketService
+     * @param route The current route
+     * @param ds A class that extends RocDataSource
+     * @param modelPath The path for this model in the Yang tree
+     * @param aetherService The aetherService, used to load enterprises
+     */
     protected constructor(
         protected snackBar: MatSnackBar,
         protected bs: BasketService,
         protected route: ActivatedRoute,
-        protected router: Router,
-        protected pathRoot: RocElement,
-        protected pathListAttr: string,
-        protected idAttr: string = 'id',
         public ds: T,
-        protected modelPath: string[],
+        public modelPath: string[],
         protected aetherService?: AetherService
     ) {
         this.datasource = ds;
@@ -61,7 +65,6 @@ export abstract class RocEditBase<
 
     init(): void {
         this.route.paramMap.subscribe((value) => {
-            console.log('Full path', this.fullPath);
             this.loadIds(value);
             if (value.get('id') === 'newinstance') {
                 this.isNewInstance = true;
@@ -72,6 +75,7 @@ export abstract class RocEditBase<
                 this.loadFunc(this.target, value.get('id'));
             }
             this.fullPath = this.calcFullPath(value);
+            console.log('Full path', this.fullPath);
         });
     }
 
@@ -85,7 +89,8 @@ export abstract class RocEditBase<
 
     onSubmit(): void {
         console.log('Submitted!', this.form.getRawValue());
-        const submitId = this.form.get(this.idAttr).value as unknown as string;
+        const idAttr = this.modelPath[this.modelPath.length - 1];
+        const submitId = this.form.get(idAttr).value as unknown as string;
         console.log(this.fullPath, this.enterpriseId, this.siteId);
         if (this.fullPath.includes(this.unknownEnterprise)) {
             this.fullPath = this.fullPath.replace(
@@ -102,7 +107,7 @@ export abstract class RocEditBase<
         if (this.fullPath.includes('newinstance')) {
             this.fullPath = this.fullPath.replace(
                 'newinstance',
-                this.form.get(this.idAttr).value
+                this.form.get(idAttr).value
             );
         }
         console.log('Updated', this.fullPath);
@@ -138,25 +143,23 @@ export abstract class RocEditBase<
 
     // TODO this needs to be built out of modelPath, don't base it on the URL params,
     // just read them
-    private calcFullPath(paramMap: ParamMap): string {
+    public calcFullPath(paramMap: ParamMap): string {
+        // set the base for the full path
         let fullPath = this.modelPath[0];
+
         if (paramMap.has('enterprise-id')) {
-            fullPath +=
-                '/enterprise[enterprise-id=' +
-                paramMap.get('enterprise-id') +
-                ']';
+            fullPath += `/enterprise[enterprise-id=${paramMap.get(
+                'enterprise-id'
+            )}]`;
         }
         if (paramMap.has('site-id')) {
-            fullPath += '/site[site-id=' + paramMap.get('site-id') + ']';
+            fullPath += `/site[site-id=${paramMap.get('site-id')}]`;
         }
-        fullPath +=
-            '/' +
-            this.pathListAttr +
-            '[' +
-            this.idAttr +
-            '=' +
-            paramMap.get('id') +
-            ']';
+
+        const idAttr = this.modelPath[this.modelPath.length - 1];
+        const modelName = this.modelPath[this.modelPath.length - 2];
+
+        fullPath += `/${modelName}[${idAttr}=${paramMap.get('id')}]`;
         return fullPath;
     }
 

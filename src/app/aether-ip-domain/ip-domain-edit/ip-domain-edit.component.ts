@@ -114,10 +114,6 @@ export class IpDomainEditComponent
             snackBar,
             bs,
             route,
-            router,
-            'Enterprises-2.0.0',
-            'ip-domain',
-            'ip-domain-id',
             new IpDomainDatasource(aetherService, bs, AETHER_TARGET),
             ipDomainModelPath,
             aetherService

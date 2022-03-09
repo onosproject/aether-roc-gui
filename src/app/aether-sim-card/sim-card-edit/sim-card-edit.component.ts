@@ -83,10 +83,6 @@ export class SimCardEditComponent
             snackBar,
             bs,
             route,
-            router,
-            'Enterprises-2.0.0',
-            'sim-card',
-            'sim-id',
             new SimCardDatasource(aetherService, bs, AETHER_TARGET),
             simCardModelPath,
             aetherService

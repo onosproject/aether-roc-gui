@@ -87,10 +87,6 @@ export class TrafficClassEditComponent
             snackBar,
             bs,
             route,
-            router,
-            'Enterprises-2.0.0',
-            'traffic-class',
-            'traffic-class-id',
             new TrafficClassDatasource(aetherService, bs, AETHER_TARGET),
             trafficClassModelPath,
             aetherService

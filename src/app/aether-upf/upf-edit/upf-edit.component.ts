@@ -95,10 +95,6 @@ export class UpfEditComponent
             snackBar,
             bs,
             route,
-            router,
-            'Enterprises-2.0.0',
-            'upf',
-            'upf-id',
             new UpfDatasource(aetherService, bs, AETHER_TARGET),
             upfModelPath,
             aetherService

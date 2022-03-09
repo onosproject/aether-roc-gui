@@ -186,10 +186,6 @@ export class SliceEditComponent
             snackBar,
             bs,
             route,
-            router,
-            'Enterprises-2.0.0', // TODO is this used? remove
-            'slice', // remove
-            'slice-id', // remove
             new SliceDatasource(aetherService, bs, AETHER_TARGET),
             sliceModelPath,
             aetherService
@@ -416,7 +412,7 @@ export class SliceEditComponent
     deleteApplicationFromSelect(app: string): void {
         this.bs.deleteIndexedEntry(
             '/' +
-                this.pathRoot +
+                this.modelPath[0] +
                 '/slice[slice-id=' +
                 this.id +
                 ']/filter[application=' +

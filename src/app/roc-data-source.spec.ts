@@ -22,18 +22,23 @@ import { Elements } from '../openapi3/top/level/models/elements';
 describe('ROC Data Source', () => {
     let component: RocDataSource<EnterprisesEnterpriseSiteSlice, Enterprises>;
 
+    const aetherService = new AetherService(
+        new ApiConfiguration(),
+        jasmine.createSpyObj('HttpClient', ['post', 'get'])
+    );
+
+    const basketService = jasmine.createSpyObj('mockBasketService', [
+        'containsDeleteEntry',
+    ]);
     beforeEach(() => {
         component = new SliceDatasource(
-            new AetherService(
-                new ApiConfiguration(),
-                jasmine.createSpyObj('HttpClient', ['post', 'get'])
-            ),
-            new BasketService(),
+            aetherService,
+            basketService,
             AETHER_TARGET
         );
     });
 
-    describe('the fullPath method', function () {
+    describe('the fullPath method', () => {
         it('should create a full path from slice', () => {
             const fp = component.fullPath('ent1', 'site1', 'slice1');
             expect(fp).toEqual(
@@ -50,11 +55,8 @@ describe('ROC Data Source', () => {
 
         it('should create a path from Site', () => {
             const siteComponent = new SiteDatasource(
-                new AetherService(
-                    new ApiConfiguration(),
-                    jasmine.createSpyObj('HttpClient', ['post', 'get'])
-                ),
-                new BasketService(),
+                aetherService,
+                basketService,
                 AETHER_TARGET
             );
             const fp = siteComponent.fullPath('ent1', 'site1');
@@ -65,11 +67,8 @@ describe('ROC Data Source', () => {
 
         it('should create a path from Enterprise', () => {
             const entComponent = new EnterpriseDatasource(
-                new AetherService(
-                    new ApiConfiguration(),
-                    jasmine.createSpyObj('HttpClient', ['post', 'get'])
-                ),
-                new BasketService(),
+                aetherService,
+                basketService,
                 AETHER_TARGET
             );
             const fp = entComponent.fullPath('ent1');
@@ -137,7 +136,7 @@ describe('ROC Data Source', () => {
         });
     });
 
-    describe('the merge method', function () {
+    describe('the merge method', () => {
         // this represents the existing data
         const existingItems: EnterprisesEnterpriseSiteSlice[] = [
             {

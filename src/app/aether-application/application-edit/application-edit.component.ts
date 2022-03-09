@@ -138,10 +138,6 @@ export class ApplicationEditComponent
             snackBar,
             bs,
             route,
-            router,
-            'Enterprises-2.0.0',
-            'application',
-            'application-id',
             new ApplicationDatasource(aetherService, bs, AETHER_TARGET),
             applicationModelPath,
             aetherService
