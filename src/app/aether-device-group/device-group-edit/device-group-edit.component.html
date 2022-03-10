@@ -17,8 +17,8 @@
                 class="subscriber-pointer"
                 color="accent"
                 routerLink="/device-group/device-group-monitor/{{
-                    route.snapshot.params['enterprise-id']
-                }}/{{ route.snapshot.params['site-id'] }}/{{ deviceGroupId }}"
+                    enterpriseId
+                }}/{{ siteId }}/{{ deviceGroupId }}"
                 id="monitorDgButton"
                 >insights
             </mat-icon>
@@ -257,8 +257,8 @@
                                     aria-hidden="false"
                                     aria-label="device-group"
                                     routerLink="/device/device-edit/{{
-                                        route.snapshot.params['enterprise-id']
-                                    }}/{{ route.snapshot.params['site-id'] }}/{{
+                                        enterpriseId
+                                    }}/{{ siteId }}/{{
                                         deviceForm.value['device-id']
                                     }}"
                                     id="pointerDevice"

@@ -15,8 +15,8 @@
                 class="subscriber-pointer"
                 color="accent"
                 routerLink="/slice/slice-monitor/{{
-                    route.snapshot.params['enterprise-id']
-                }}/{{ route.snapshot.params['site-id'] }}/{{ sliceID }}"
+                    enterpriseId
+                }}/{{ siteId }}/{{ sliceID }}"
                 id="monitorVcsButton"
                 >insights
             </mat-icon>
@@ -224,7 +224,7 @@
                                 aria-hidden="false"
                                 aria-label="Application"
                                 routerLink="/application/application-edit/{{
-                                    route.snapshot.params['enterprise-id']
+                                    enterpriseId
                                 }}/{{ appForm.value.application }}"
                                 id="pointerApplication"
                                 >launch
@@ -287,8 +287,8 @@
                                 aria-hidden="false"
                                 aria-label="device-group"
                                 routerLink="/device-group/device-group-edit/{{
-                                    route.snapshot.params['enterprise-id']
-                                }}/{{ route.snapshot.params['site-id'] }}/{{
+                                    enterpriseId
+                                }}/{{ siteId }}/{{
                                     dgForm.value['device-group']
                                 }}"
                                 id="pointerDeviceGroup"
