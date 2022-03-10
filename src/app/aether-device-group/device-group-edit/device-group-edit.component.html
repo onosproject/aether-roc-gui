@@ -320,8 +320,8 @@
         )
     "
     id="deviceSelectComponent"
-    [selectedEnterprise]="route.snapshot.params['enterprise-id']"
-    [selectedSite]="route.snapshot.params['site-id']"
+    [selectedEnterprise]="enterpriseId"
+    [selectedSite]="siteId"
     [alreadySelected]="deviceExists"
     (closeEvent)="deviceSelected($event)"
 >
@@ -329,8 +329,8 @@
 <aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
-    [enterpriseID]="route.snapshot.params['enterprise-id']"
-    [siteID]="route.snapshot.params['site-id']"
+    [enterpriseID]="enterpriseId"
+    [siteID]="siteId"
     [deviceGroupID]="deviceGroupId"
     (closeShowParentCardEvent)="closeShowParentCard()"
 >
