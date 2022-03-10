@@ -35,6 +35,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { EndpointSelectComponent } from './endpoint-select/endpoint-select.component';
 import { UtilsModule } from '../utils/utils.module';
 import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
+import { MatChipsModule } from "@angular/material/chips";
 
 @NgModule({
     declarations: [
@@ -43,38 +44,39 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         EndpointSelectComponent,
         ShowVcsUsageComponent,
     ],
-    imports: [
-        CommonModule,
-        ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
-        HttpClientModule,
-        RouterModule.forChild([
-            { path: 'application', component: ApplicationComponent },
-            {
-                path: 'application-edit/:enterprise-id/:id',
-                component: ApplicationEditComponent,
-            },
-            { path: '', component: ApplicationComponent, pathMatch: 'full' },
-        ]),
-        FormsModule,
-        ReactiveFormsModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatPaginatorModule,
-        MatSnackBarModule,
-        MatToolbarModule,
-        MatIconModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatInputModule,
-        MatButtonModule,
-        MatSlideToggleModule,
-        CdkTableModule,
-        MatCheckboxModule,
-        MatAutocompleteModule,
-        UtilsModule,
-    ],
+  imports: [
+    CommonModule,
+    ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
+    HttpClientModule,
+    RouterModule.forChild([
+      { path: "application", component: ApplicationComponent },
+      {
+        path: "application-edit/:enterprise-id/:id",
+        component: ApplicationEditComponent
+      },
+      { path: "", component: ApplicationComponent, pathMatch: "full" }
+    ]),
+    FormsModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatSnackBarModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    CdkTableModule,
+    MatCheckboxModule,
+    MatAutocompleteModule,
+    UtilsModule,
+    MatChipsModule
+  ],
     providers: [
         {
             provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

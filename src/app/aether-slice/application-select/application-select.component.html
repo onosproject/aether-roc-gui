@@ -11,7 +11,15 @@
             >
         </mat-card-header>
         <mat-card-content class="content">
-            <mat-form-field>
+            <mat-chip-list
+                class="mat-chip-list-stacked"
+                aria-label="Color selection"
+            >
+                <mat-chip color="warn" *ngIf="selectedEnterprise === 'unknownent'">
+                    Please select an Enterprise in the main form.
+                </mat-chip>
+            </mat-chip-list>
+            <mat-form-field *ngIf="selectedEnterprise !== 'unknownent'">
                 <mat-label>Application</mat-label>
                 <mat-select
                     formControlName="select-item"
@@ -28,7 +36,7 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="field-margin">
+            <mat-form-field class="field-margin" *ngIf="selectedEnterprise !== 'unknownent'">
                 <input
                     matInput
                     type="number"
@@ -38,6 +46,7 @@
                 <mat-hint>Priority</mat-hint>
             </mat-form-field>
             <mat-icon
+                *ngIf="selectedEnterprise !== 'unknownent'"
                 color="accent"
                 class="subscriber-pointer"
                 matTooltip="Application with {{
