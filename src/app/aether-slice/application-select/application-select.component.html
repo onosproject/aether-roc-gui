@@ -15,7 +15,10 @@
                 class="mat-chip-list-stacked"
                 aria-label="Color selection"
             >
-                <mat-chip color="warn" *ngIf="selectedEnterprise === 'unknownent'">
+                <mat-chip
+                    color="warn"
+                    *ngIf="selectedEnterprise === 'unknownent'"
+                >
                     Please select an Enterprise in the main form.
                 </mat-chip>
             </mat-chip-list>
@@ -36,7 +39,10 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="field-margin" *ngIf="selectedEnterprise !== 'unknownent'">
+            <mat-form-field
+                class="field-margin"
+                *ngIf="selectedEnterprise !== 'unknownent'"
+            >
                 <input
                     matInput
                     type="number"

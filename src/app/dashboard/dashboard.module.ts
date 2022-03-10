@@ -31,38 +31,36 @@ import { MatCardModule } from '@angular/material/card';
 import { PanelSiteComponent } from './panel-site/panel-site.component';
 
 @NgModule({
-  declarations: [
-    DashboardComponent,
-    PanelSliceComponent,
-    PanelSiteComponent,
-    PanelAlertsComponent,
-    AlertDetailComponent
-  ],
-  imports: [
-    CommonModule,
-    ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
-    HttpClientModule,
-    RouterModule.forChild([
-      { path: "dashboard", component: DashboardComponent },
-      { path: "", component: DashboardComponent, pathMatch: "full" }
-    ]),
-    MatToolbarModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatIconModule,
-    UtilsModule,
-    MatExpansionModule,
-    MatCardModule
-  ],
-  providers: [
-    AuthInterceptor,
-    API_INTERCEPTOR_PROVIDER,
-    ResizeService,
-    { provide: "grafana_api_proxy", useValue: GRAFANA_PROXY }
-  ],
-  exports: [
-    PanelAlertsComponent
-  ]
+    declarations: [
+        DashboardComponent,
+        PanelSliceComponent,
+        PanelSiteComponent,
+        PanelAlertsComponent,
+        AlertDetailComponent,
+    ],
+    imports: [
+        CommonModule,
+        ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
+        HttpClientModule,
+        RouterModule.forChild([
+            { path: 'dashboard', component: DashboardComponent },
+            { path: '', component: DashboardComponent, pathMatch: 'full' },
+        ]),
+        MatToolbarModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatIconModule,
+        UtilsModule,
+        MatExpansionModule,
+        MatCardModule,
+    ],
+    providers: [
+        AuthInterceptor,
+        API_INTERCEPTOR_PROVIDER,
+        ResizeService,
+        { provide: 'grafana_api_proxy', useValue: GRAFANA_PROXY },
+    ],
+    exports: [PanelAlertsComponent],
 })
 export class DashboardModule {}

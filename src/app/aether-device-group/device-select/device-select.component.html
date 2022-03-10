@@ -15,14 +15,22 @@
                 class="mat-chip-list-stacked"
                 aria-label="Color selection"
             >
-                <mat-chip color="warn" *ngIf="selectedEnterprise === 'unknownent'">
+                <mat-chip
+                    color="warn"
+                    *ngIf="selectedEnterprise === 'unknownent'"
+                >
                     Please select an Enterprise in the main form.
                 </mat-chip>
                 <mat-chip color="warn" *ngIf="selectedSite === 'unknownsite'">
                     Please select a Site in the main form.
                 </mat-chip>
             </mat-chip-list>
-            <mat-form-field *ngIf="selectedEnterprise !== 'unknownent' && selectedSite !== 'unknownsite'">
+            <mat-form-field
+                *ngIf="
+                    selectedEnterprise !== 'unknownent' &&
+                    selectedSite !== 'unknownsite'
+                "
+            >
                 <mat-label>Device</mat-label>
                 <mat-select formControlName="select-item" id="selectNewDevice">
                     <mat-option

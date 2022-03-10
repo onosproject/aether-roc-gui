@@ -39,7 +39,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
 import { DeviceSelectComponent } from './device-select/device-select.component';
-import { MatChipsModule } from "@angular/material/chips";
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
     declarations: [
@@ -50,45 +50,45 @@ import { MatChipsModule } from "@angular/material/chips";
         ShowVcsUsageComponent,
         DeviceSelectComponent,
     ],
-  imports: [
-    CommonModule,
-    ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
-    HttpClientModule,
-    RouterModule.forChild([
-      { path: "device-group", component: DeviceGroupComponent },
-      {
-        path: "device-group-edit/:enterprise-id/:site-id/:id",
-        component: DeviceGroupEditComponent
-      },
-      {
-        path: "device-group-monitor/:enterprise-id/:site-id/:id",
-        component: DeviceGroupMonitorComponent
-      },
-      { path: "", component: DeviceGroupComponent, pathMatch: "full" }
-    ]),
-    FormsModule,
-    ReactiveFormsModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatSnackBarModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    CdkTableModule,
-    MatCheckboxModule,
-    MatExpansionModule,
-    UtilsModule,
-    MatAutocompleteModule,
-    MatTooltipModule,
-    MatChipsModule
-  ],
+    imports: [
+        CommonModule,
+        ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
+        HttpClientModule,
+        RouterModule.forChild([
+            { path: 'device-group', component: DeviceGroupComponent },
+            {
+                path: 'device-group-edit/:enterprise-id/:site-id/:id',
+                component: DeviceGroupEditComponent,
+            },
+            {
+                path: 'device-group-monitor/:enterprise-id/:site-id/:id',
+                component: DeviceGroupMonitorComponent,
+            },
+            { path: '', component: DeviceGroupComponent, pathMatch: 'full' },
+        ]),
+        FormsModule,
+        ReactiveFormsModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatSnackBarModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatSlideToggleModule,
+        CdkTableModule,
+        MatCheckboxModule,
+        MatExpansionModule,
+        UtilsModule,
+        MatAutocompleteModule,
+        MatTooltipModule,
+        MatChipsModule,
+    ],
     providers: [
         {
             provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

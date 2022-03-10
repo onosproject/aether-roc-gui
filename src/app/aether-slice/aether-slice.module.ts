@@ -38,7 +38,7 @@ import { SliceMonitorComponent } from './slice-monitor/slice-monitor.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UtilsModule } from '../utils/utils.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatChipsModule } from "@angular/material/chips";
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
     declarations: [
@@ -48,44 +48,44 @@ import { MatChipsModule } from "@angular/material/chips";
         DeviceGroupSelectComponent,
         SliceMonitorComponent,
     ],
-  imports: [
-    CommonModule,
-    ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
-    HttpClientModule,
-    RouterModule.forChild([
-      { path: "slice", component: SliceComponent },
-      {
-        path: "slice-edit/:enterprise-id/:site-id/:id",
-        component: SliceEditComponent
-      },
-      {
-        path: "slice-monitor/:enterprise-id/:site-id/:id",
-        component: SliceMonitorComponent
-      },
-      { path: "", component: SliceComponent, pathMatch: "full" }
-    ]),
-    MatToolbarModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatSnackBarModule,
-    MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    CdkTableModule,
-    MatCheckboxModule,
-    MatAutocompleteModule,
-    MatExpansionModule,
-    UtilsModule,
-    MatTooltipModule,
-    MatChipsModule
-  ],
+    imports: [
+        CommonModule,
+        ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
+        HttpClientModule,
+        RouterModule.forChild([
+            { path: 'slice', component: SliceComponent },
+            {
+                path: 'slice-edit/:enterprise-id/:site-id/:id',
+                component: SliceEditComponent,
+            },
+            {
+                path: 'slice-monitor/:enterprise-id/:site-id/:id',
+                component: SliceMonitorComponent,
+            },
+            { path: '', component: SliceComponent, pathMatch: 'full' },
+        ]),
+        MatToolbarModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatSnackBarModule,
+        MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatSlideToggleModule,
+        CdkTableModule,
+        MatCheckboxModule,
+        MatAutocompleteModule,
+        MatExpansionModule,
+        UtilsModule,
+        MatTooltipModule,
+        MatChipsModule,
+    ],
     providers: [
         {
             provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
