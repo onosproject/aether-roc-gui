@@ -61,5 +61,6 @@ import { PanelSiteComponent } from './panel-site/panel-site.component';
         ResizeService,
         { provide: 'grafana_api_proxy', useValue: GRAFANA_PROXY },
     ],
+    exports: [PanelAlertsComponent],
 })
 export class DashboardModule {}

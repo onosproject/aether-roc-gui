@@ -58,7 +58,7 @@ export class EndpointSelectComponent {
     bandwidthOptions: Observable<Bandwidths[]>;
 
     @Input() alreadySelected: string[] = [];
-    @Input() trafficClassOptions: Array<EnterprisesEnterpriseTrafficClass>;
+    @Input() trafficClassOptions: Array<EnterprisesEnterpriseTrafficClass> = [];
     @Output() closeEvent = new EventEmitter<EndPointParam>();
 
     endpointForm = this.fb.group(

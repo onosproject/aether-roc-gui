@@ -23,9 +23,9 @@
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/upf/upf-monitor/{{
-                    route.snapshot.params['enterprise-id']
-                }}/{{ route.snapshot.params['site-id'] }}/{{ upfId }}"
+                routerLink="/upf/upf-monitor/{{ enterpriseId }}/{{ siteId }}/{{
+                    upfId
+                }}"
                 id="monitorUpfButton"
                 >insights
             </mat-icon>
@@ -183,8 +183,8 @@
 <aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
-    [enterpriseID]="route.snapshot.params['enterprise-id']"
-    [siteID]="route.snapshot.params['site-id']"
+    [enterpriseID]="enterpriseId"
+    [siteID]="siteId"
     [upfID]="upfId"
     (closeShowParentCardEvent)="closeShowParentCard($event)"
 >
