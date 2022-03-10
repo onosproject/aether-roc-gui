@@ -3,8 +3,7 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-
-<form [formGroup]="appForm" (ngSubmit)="onSubmit()">
+<form class="roc-edit-form" [formGroup]="appForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
             <mat-card-title
@@ -283,6 +282,13 @@
         </mat-card-content>
     </mat-card>
 </form>
+
+<div>
+    <button routerLink="/application" mat-raised-button color="primary">
+        Back
+    </button>
+</div>
+
 <aether-endpoint-select
     *ngIf="shownEndpointDisplay"
     id="endpointSelectComponent"

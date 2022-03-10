@@ -3,7 +3,7 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-<form [formGroup]="simCardForm" (ngSubmit)="onSubmit()">
+<form class="roc-edit-form" [formGroup]="simCardForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
             <mat-card-title
@@ -143,3 +143,8 @@
         </mat-card-content>
     </mat-card>
 </form>
+<div>
+    <button routerLink="/sim-card" mat-raised-button color="primary">
+        Back
+    </button>
+</div>

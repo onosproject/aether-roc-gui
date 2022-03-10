@@ -3,7 +3,7 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-<form [formGroup]="ipForm" (ngSubmit)="onSubmit()">
+<form class="roc-edit-form" [formGroup]="ipForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
             <mat-card-title>IP DOMAIN. ID: {{ ipDomainId }}</mat-card-title>
@@ -279,6 +279,13 @@
         </mat-card-actions>
     </mat-card>
 </form>
+
+<div>
+    <button routerLink="/ipdomain" mat-raised-button color="primary">
+        Back
+    </button>
+</div>
+
 <aether-show-device-group-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"

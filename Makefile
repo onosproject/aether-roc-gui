@@ -103,10 +103,13 @@ endif
 endif
 	docker push ${DOCKER_IMAGENAME}
 
+kind-only:
+	$(eval CLUSTER_NAME := $(shell kind get clusters))
+	@if [ "$(CLUSTER_NAME)" = '' ]; then echo "no kind cluster found" && exit 1; fi
+	kind load --name=$(CLUSTER_NAME) docker-image ${DOCKER_IMAGENAME}
+
 kind: # @HELP build Docker images and add them to the currently configured kind cluster
-kind: images
-	@if [ `kind get clusters` = '' ]; then echo "no kind cluster found" && exit 1; fi
-	kind load docker-image onosproject/aether-roc-gui:${AETHER_ROC_GUI_VERSION}
+kind: images kind-only
 
 all: images
 

@@ -3,7 +3,7 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-<form [formGroup]="csForm" (ngSubmit)="onSubmit()">
+<form class="roc-edit-form" [formGroup]="csForm" (ngSubmit)="onSubmit()">
     <mat-card>
         <mat-card-header>
             <mat-card-title
@@ -79,3 +79,9 @@
         </mat-card-actions>
     </mat-card>
 </form>
+
+<div>
+    <button routerLink="/connectivity" mat-raised-button color="primary">
+        Back
+    </button>
+</div>
