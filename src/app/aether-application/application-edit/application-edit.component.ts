@@ -150,7 +150,7 @@ export class ApplicationEditComponent
 
     ngOnInit(): void {
         super.init();
-        this.loadTrafficClass(this.target);
+        this.loadTrafficClass();
         this.bandwidthOptions = this.appForm.valueChanges.pipe(
             startWith(''),
             map((value) =>
@@ -500,7 +500,7 @@ export class ApplicationEditComponent
         return this.appForm.get(['endpoint', index, 'mbr']) as FormGroup;
     }
 
-    loadTrafficClass(target: string): void {
+    loadTrafficClass(): void {
         if (this.enterpriseId == this.unknownEnterprise) {
             return;
         }
@@ -508,7 +508,7 @@ export class ApplicationEditComponent
         this.enterpriseService
             .getEnterprisesEnterprise({
                 target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'enterprise-id': this.enterpriseId,
             })
             .subscribe(
                 (value) => {
@@ -522,7 +522,7 @@ export class ApplicationEditComponent
                 (error) => {
                     console.warn(
                         'Error getting Traffic Class for ',
-                        target,
+                        AETHER_TARGET,
                         error
                     );
                 }
