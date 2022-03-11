@@ -411,13 +411,7 @@ export class SliceEditComponent
 
     deleteApplicationFromSelect(app: string): void {
         this.bs.deleteIndexedEntry(
-            '/' +
-                this.modelPath[0] +
-                '/slice[slice-id=' +
-                this.id +
-                ']/filter[application=' +
-                app +
-                ']',
+            '/' + this.fullPath + '/filter[application=' + app + ']',
             'application',
             app,
             this.ucmap()
