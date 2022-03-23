@@ -41,7 +41,7 @@ export class ApplicationSelectComponent
     ApplicationOptions: Array<EnterprisesEnterpriseApplication> = [];
     selectForm = this.fb.group({
         'select-item': [
-            { value: '', disabled: true },
+            { value: undefined, disabled: true },
             Validators.compose([
                 Validators.pattern('[a-z]([a-z0-9-]?[a-z0-9])*'),
                 Validators.minLength(1),
@@ -49,7 +49,7 @@ export class ApplicationSelectComponent
             ]),
         ],
         priority: [
-            { value: '', disabled: true },
+            { value: undefined, disabled: true },
             Validators.compose([
                 Validators.minLength(1),
                 Validators.maxLength(255),

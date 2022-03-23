@@ -82,7 +82,7 @@ export class DeviceGroupEditComponent
                 Validators.maxLength(80),
             ]),
         ],
-        'ip-domain': [{ value: '', disabled: true }],
+        'ip-domain': [{ value: undefined, disabled: true }],
         mbr: this.fb.group({
             uplink: [
                 undefined,
@@ -134,6 +134,7 @@ export class DeviceGroupEditComponent
     ngOnInit(): void {
         super.init();
         this.loadTrafficClass();
+        this.loadIpDomain();
         this.deviceGroupForm.get(['mbr', 'uplink'])[TYPE] = 'number';
         this.deviceGroupForm.get(['mbr', 'downlink'])[TYPE] = 'number';
         this.deviceGroupForm.get(['traffic-class'])[TYPE] = 'string';
