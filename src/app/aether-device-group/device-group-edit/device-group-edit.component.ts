@@ -11,6 +11,7 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     EnterprisesEnterpriseService,
+    EnterprisesEnterpriseSiteService,
     Service as AetherService,
 } from '../../../openapi3/aether/2.0.0/services';
 import {
@@ -81,7 +82,7 @@ export class DeviceGroupEditComponent
                 Validators.maxLength(80),
             ]),
         ],
-        'ip-domain': [undefined],
+        'ip-domain': [{ value: '', disabled: true }],
         mbr: this.fb.group({
             uplink: [
                 undefined,
@@ -107,6 +108,7 @@ export class DeviceGroupEditComponent
         private deviceGroupDeviceGroupService: EnterprisesEnterpriseSiteDeviceGroupService,
         protected entService: EnterprisesEnterpriseService,
         protected aetherService: AetherService,
+        protected siteService: EnterprisesEnterpriseSiteService,
         protected route: ActivatedRoute,
         protected router: Router,
         private fb: FormBuilder,
@@ -350,15 +352,6 @@ export class DeviceGroupEditComponent
             .subscribe(
                 (value) => {
                     this.trafficClass = value['traffic-class'];
-                    // might as well load the IP Domains while we're here
-                    const thisSite = value.site.find(
-                        (s) =>
-                            s['site-id'] ===
-                            this.route.snapshot.params['site-id']
-                    );
-                    if (thisSite !== undefined) {
-                        this.ipdomain = thisSite['ip-domain'];
-                    }
                     this.form.get('traffic-class').enable();
                 },
                 (error) => {
@@ -367,5 +360,25 @@ export class DeviceGroupEditComponent
                     );
                 }
             );
+    }
+
+    loadIpDomain(): void {
+        if (
+            this.enterpriseId == this.unknownEnterprise ||
+            this.siteId == this.unknownSite
+        ) {
+            return;
+        }
+
+        this.siteService
+            .getEnterprisesEnterpriseSite({
+                target: AETHER_TARGET,
+                'enterprise-id': this.enterpriseId,
+                'site-id': this.siteId,
+            })
+            .subscribe((site) => {
+                this.ipdomain = site['ip-domain'];
+                this.form.get('ip-domain').enable();
+            }, error => console.warn(`Error getting Ip Domand: ${error}`));
     }
 }
