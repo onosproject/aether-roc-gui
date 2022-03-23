@@ -34,7 +34,7 @@ export class DeviceGroupDatasource extends RocDataSource<
             aetherService,
             bs,
             target,
-            'Enterprises-2.0.0',
+            'enterprises-2.0.0',
             ['enterprise', 'site', 'device-group'],
             ['enterprise-id', 'site-id', 'device-group-id']
         );

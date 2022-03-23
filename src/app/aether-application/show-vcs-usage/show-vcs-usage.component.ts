@@ -39,7 +39,7 @@ export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
         protected siteService: EnterprisesEnterpriseService
     ) {
         super(
-            'Enterprises-2.0.0',
+            'enterprises-2.0.0',
             ['enterprise', 'application'],
             ['enterprise-id', 'application-id']
         );

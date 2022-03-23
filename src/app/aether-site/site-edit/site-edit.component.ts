@@ -335,7 +335,7 @@ export class SiteEditComponent
 
     deleteEDFromSelect(ed: string): void {
         this.bs.deleteIndexedEntry(
-            '/Enterprises-2.0.0/enterprise[enterprise-id=' +
+            '/enterprises-2.0.0/enterprise[enterprise-id=' +
                 this.route.snapshot.params['enterprise-id'] +
                 ']/site[site-id=' +
                 this.siteId +

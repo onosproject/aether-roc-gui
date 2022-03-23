@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { EnterprisesEnterpriseTemplate } from '../models/enterprises-enterprise-template';
+import { EnterprisesEnterpriseTemplateList } from '../models/enterprises-enterprise-template-list';
 import { EnterprisesEnterpriseTemplateMbr } from '../models/enterprises-enterprise-template-mbr';
 
 @Injectable({
@@ -105,6 +106,79 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
 
     return this.getEnterprisesEnterpriseTemplate$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseTemplate>) => r.body as EnterprisesEnterpriseTemplate)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseTemplateList
+   */
+  static readonly GetEnterprisesEnterpriseTemplateListPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/template';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/template.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseTemplateList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseTemplateList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseTemplateList>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseTemplateService.GetEnterprisesEnterpriseTemplateListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<EnterprisesEnterpriseTemplateList>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/template.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseTemplateList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseTemplateList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<EnterprisesEnterpriseTemplateList> {
+
+    return this.getEnterprisesEnterpriseTemplateList$Response(params).pipe(
+      map((r: StrictHttpResponse<EnterprisesEnterpriseTemplateList>) => r.body as EnterprisesEnterpriseTemplateList)
     );
   }
 

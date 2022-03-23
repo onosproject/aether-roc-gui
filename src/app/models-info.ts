@@ -5,7 +5,7 @@
  */
 
 export const applicationModelPath = [
-    'Enterprises-2.0.0',
+    'enterprises-2.0.0',
     'enterprise',
     'application',
     'application-id',
@@ -18,7 +18,7 @@ export const connectivityServiceModelPath = [
 ];
 
 export const deviceModelPath = [
-    'Enterprises-2.0.0',
+    'enterprises-2.0.0',
     'enterprise',
     'site',
     'device',
@@ -26,7 +26,7 @@ export const deviceModelPath = [
 ];
 
 export const deviceGroupModelPath = [
-    'Enterprises-2.0.0',
+    'enterprises-2.0.0',
     'enterprise',
     'site',
     'device-group',
@@ -34,13 +34,13 @@ export const deviceGroupModelPath = [
 ];
 
 export const enterpriseModelPath = [
-    'Enterprises-2.0.0',
+    'enterprises-2.0.0',
     'enterprise',
     'enterprise-id',
 ];
 
 export const ipDomainModelPath = [
-    'Enterprises-2.0.0',
+    'enterprises-2.0.0',
     'enterprise',
     'site',
     'ip-domain',
@@ -48,7 +48,7 @@ export const ipDomainModelPath = [
 ];
 
 export const simCardModelPath = [
-    'Enterprises-2.0.0',
+    'enterprises-2.0.0',
     'enterprise',
     'site',
     'sim-card',
@@ -56,14 +56,14 @@ export const simCardModelPath = [
 ];
 
 export const siteModelPath = [
-    'Enterprises-2.0.0',
+    'enterprises-2.0.0',
     'enterprise',
     'site',
     'site-id',
 ];
 
 export const sliceModelPath = [
-    'Enterprises-2.0.0',
+    'enterprises-2.0.0',
     'enterprise',
     'site',
     'slice',
@@ -71,7 +71,7 @@ export const sliceModelPath = [
 ];
 
 export const smallCellModelPath = [
-    'Enterprises-2.0.0',
+    'enterprises-2.0.0',
     'enterprise',
     'site',
     'small-cell',
@@ -79,21 +79,21 @@ export const smallCellModelPath = [
 ];
 
 export const templateModelPath = [
-    'Enterprises-2.0.0',
+    'enterprises-2.0.0',
     'enterprise',
     'template',
     'template-id',
 ];
 
 export const trafficClassModelPath = [
-    'Enterprises-2.0.0',
+    'enterprises-2.0.0',
     'enterprise',
     'traffic-class',
     'traffic-class-id',
 ];
 
 export const upfModelPath = [
-    'Enterprises-2.0.0',
+    'enterprises-2.0.0',
     'enterprise',
     'site',
     'upf',

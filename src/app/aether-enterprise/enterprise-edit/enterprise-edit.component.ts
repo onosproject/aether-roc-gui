@@ -158,7 +158,7 @@ export class EnterpriseEditComponent
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/Enterprises-2.0.0/enterprise[enterprise-id=' +
+                            '/basket-delete/enterprises-2.0.0/enterprise[enterprise-id=' +
                                 id +
                                 ']/connectivity-service[connectivity-service='
                         )
@@ -265,7 +265,7 @@ export class EnterpriseEditComponent
 
     deleteFromSelect(cs: string): void {
         this.bs.deleteIndexedEntry(
-            '/Enterprises-2.0.0/enterprise[enterprise-id=' +
+            '/enterprises-2.0.0/enterprise[enterprise-id=' +
                 this.data['enterprise-id'] +
                 ']/connectivity-service[connectivity-service=' +
                 cs +

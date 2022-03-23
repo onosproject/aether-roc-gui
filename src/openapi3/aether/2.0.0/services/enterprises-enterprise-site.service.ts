@@ -12,6 +12,7 @@ import { map, filter } from 'rxjs/operators';
 
 import { EnterprisesEnterpriseSite } from '../models/enterprises-enterprise-site';
 import { EnterprisesEnterpriseSiteImsiDefinition } from '../models/enterprises-enterprise-site-imsi-definition';
+import { EnterprisesEnterpriseSiteList } from '../models/enterprises-enterprise-site-list';
 import { EnterprisesEnterpriseSiteMonitoring } from '../models/enterprises-enterprise-site-monitoring';
 
 @Injectable({
@@ -106,6 +107,79 @@ export class EnterprisesEnterpriseSiteService extends BaseService {
 
     return this.getEnterprisesEnterpriseSite$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseSite>) => r.body as EnterprisesEnterpriseSite)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseSiteList
+   */
+  static readonly GetEnterprisesEnterpriseSiteListPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseSiteList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteList>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteService.GetEnterprisesEnterpriseSiteListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteList>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseSiteList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<EnterprisesEnterpriseSiteList> {
+
+    return this.getEnterprisesEnterpriseSiteList$Response(params).pipe(
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteList>) => r.body as EnterprisesEnterpriseSiteList)
     );
   }
 

@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { EnterprisesEnterpriseConnectivityService } from '../models/enterprises-enterprise-connectivity-service';
+import { EnterprisesEnterpriseConnectivityServiceList } from '../models/enterprises-enterprise-connectivity-service-list';
 
 @Injectable({
   providedIn: 'root',
@@ -104,6 +105,79 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
 
     return this.getEnterprisesEnterpriseConnectivityService$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseConnectivityService>) => r.body as EnterprisesEnterpriseConnectivityService)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseConnectivityServiceList
+   */
+  static readonly GetEnterprisesEnterpriseConnectivityServiceListPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/connectivity-service';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/connectivity-service.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseConnectivityServiceList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseConnectivityServiceList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseConnectivityServiceList>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseConnectivityServiceService.GetEnterprisesEnterpriseConnectivityServiceListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<EnterprisesEnterpriseConnectivityServiceList>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/connectivity-service.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseConnectivityServiceList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseConnectivityServiceList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<EnterprisesEnterpriseConnectivityServiceList> {
+
+    return this.getEnterprisesEnterpriseConnectivityServiceList$Response(params).pipe(
+      map((r: StrictHttpResponse<EnterprisesEnterpriseConnectivityServiceList>) => r.body as EnterprisesEnterpriseConnectivityServiceList)
     );
   }
 

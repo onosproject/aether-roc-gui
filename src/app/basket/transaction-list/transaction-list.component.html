@@ -38,22 +38,20 @@
                     [attr.aria-labelledby]="'accordion-header-' + index"
                 >
                     <h4>Updated:</h4>
-                    <p>{{ item.updated }}</p>
-                    <h4>Statue-phase:</h4>
-                    <p>{{ item.status.phase }}</p>
-                    <h4>Statue-state:</h4>
+                    <p>{{ item.meta.updated }}</p>
+                    <h4>Status:</h4>
                     <p>{{ item.status.state }}</p>
                     <h4>Changes :</h4>
                     <div
                         *ngFor="
-                            let change of item.changes[0].values;
+                            let change of item.details.change[0]['path-values'];
                             let lastItem = last
                         "
                     >
                         <mat-list>
                             <mat-list-item
                                 [style]="
-                                    change.removed
+                                    change['path-value'].deleted
                                         ? 'text-decoration: line-through'
                                         : ''
                                 "
@@ -62,7 +60,7 @@
                                 <p>{{ change["path"] }}</p>
                                 <h4>, Value:</h4>
                                 <p>
-                                    {{ change["value"] }}
+                                    {{ change["path-value"].value.value }}
                                 </p>
                             </mat-list-item>
                             <mat-divider *ngIf="!lastItem"></mat-divider>

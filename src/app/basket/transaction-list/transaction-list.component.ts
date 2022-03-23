@@ -3,24 +3,9 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-    Component,
-    EventEmitter,
-    OnInit,
-    Output,
-    ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TransactionListService } from '../../../openapi3/top/level/services';
-import { MatTable } from '@angular/material/table';
 import { Transaction } from '../../../openapi3/top/level/models';
-
-export interface TransactionList {
-    id: string;
-    username: string;
-    changes: string;
-    updated: string;
-    status: string;
-}
 
 @Component({
     selector: 'aether-transaction-list',
@@ -28,8 +13,6 @@ export interface TransactionList {
     styleUrls: ['../../common-panel.component.scss'],
 })
 export class TransactionListComponent implements OnInit {
-    @ViewChild(MatTable)
-    table: MatTable<TransactionList>;
     @Output() closeEvent = new EventEmitter<boolean>();
     displayedColumns = ['id', 'username', 'updated', 'status', 'changes'];
     displayChanges = false;
@@ -39,9 +22,11 @@ export class TransactionListComponent implements OnInit {
     constructor(private topLevelApiService: TransactionListService) {}
 
     ngOnInit(): void {
-        this.topLevelApiService.getTransactions().subscribe((value) => {
-            this.transactionListData = value;
-        });
+        this.topLevelApiService
+            .getTransactions()
+            .subscribe((value: Transaction[]) => {
+                this.transactionListData = value;
+            });
     }
 
     closeCard(): void {

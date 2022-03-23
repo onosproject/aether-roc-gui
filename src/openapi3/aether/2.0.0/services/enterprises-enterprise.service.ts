@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { EnterprisesEnterprise } from '../models/enterprises-enterprise';
+import { EnterprisesEnterpriseList } from '../models/enterprises-enterprise-list';
 
 @Injectable({
   providedIn: 'root',
@@ -93,6 +94,68 @@ export class EnterprisesEnterpriseService extends BaseService {
 
     return this.getEnterprisesEnterprise$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterprise>) => r.body as EnterprisesEnterprise)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseList
+   */
+  static readonly GetEnterprisesEnterpriseListPath = '/aether/v2.0.0/{target}/enterprises/enterprise';
+
+  /**
+   * GET /enterprises/enterprise.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseList>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseService.GetEnterprisesEnterpriseListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<EnterprisesEnterpriseList>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+  }): Observable<EnterprisesEnterpriseList> {
+
+    return this.getEnterprisesEnterpriseList$Response(params).pipe(
+      map((r: StrictHttpResponse<EnterprisesEnterpriseList>) => r.body as EnterprisesEnterpriseList)
     );
   }
 

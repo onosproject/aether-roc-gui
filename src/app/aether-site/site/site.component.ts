@@ -45,7 +45,7 @@ export class SiteComponent
         'monitor',
     ];
 
-    modelPath = ['Enterprises-2.0.0', 'enterprise', 'site', 'site-id'];
+    modelPath = ['enterprises-2.0.0', 'enterprise', 'site', 'site-id'];
 
     constructor(
         public opaService: OpenPolicyAgentService,

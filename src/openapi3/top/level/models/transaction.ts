@@ -1,7 +1,10 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { Change } from './change';
+import { Details } from './details';
+import { Revision } from './revision';
+import { Status } from './status';
+import { Strategy } from './strategy';
 
 /**
  * Transaction refers to a multi-target transactional change. Taken from https://github.com/onosproject/onos-api/tree/master/proto/onos/config/v2
@@ -9,29 +12,9 @@ import { Change } from './change';
 export interface Transaction {
 
   /**
-   * a set of changes to apply to targets
+   * the transaction details
    */
-  changes?: Array<Change>;
-
-  /**
-   * the time at which the transaction was created
-   */
-  created?: string;
-
-  /**
-   * a flag indicating whether this transaction is being deleted by a snapshot
-   */
-  deleted?: boolean;
-
-  /**
-   * a reference to the transaction on which this transaction is dependent
-   */
-  dependency?: string;
-
-  /**
-   * a list of references to transactions that depend on this transaction
-   */
-  dependents?: Array<{ 'id'?: string }>;
+  details?: Details;
 
   /**
    * the unique identifier of the transaction
@@ -44,19 +27,19 @@ export interface Transaction {
   index: number;
 
   /**
-   * the change revision number
+   * the meta of the Transaction
    */
-  revision: number;
+  meta: { 'key'?: string, 'version'?: number, 'revision'?: Revision, 'created'?: string, 'updated'?: string, 'deleted'?: string };
 
   /**
    * the current lifecycle status of the transaction
    */
-  status?: { 'phase': 'TRANSACTION_CHANGE' | 'TRANSACTION_ROLLBACK', 'state': 'TRANSACTION_PENDING' | 'TRANSACTION_COMPLETE' | 'TRANSACTION_FAILED' | 'TRANSACTION_VALIDATING' | 'TRANSACTION_VALIDATED' | 'TRANSACTION_VALIDATION_FAILED' };
+  status?: Status;
 
   /**
-   * the time at which the transaction was last updated
+   * the transaction strategy
    */
-  updated?: string;
+  strategy?: Strategy;
 
   /**
    * the name of the user that made the transaction

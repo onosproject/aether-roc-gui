@@ -28,7 +28,7 @@ export class TemplateDatasource extends RocDataSource<
             aetherService,
             bs,
             target,
-            'Enterprises-2.0.0',
+            'enterprises-2.0.0',
             ['enterprise', 'template'],
             ['enterprise-id', 'template-id']
         );

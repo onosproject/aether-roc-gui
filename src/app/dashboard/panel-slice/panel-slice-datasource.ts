@@ -27,7 +27,7 @@ export class PanelSliceDatasource extends RocDataSource<
             aetherService,
             bs,
             target,
-            'Enterprises-2.0.0',
+            'enterprises-2.0.0',
             ['enterprise', 'site', 'slice'],
             ['enterprise-id', 'site-id', 'slice-id']
         );

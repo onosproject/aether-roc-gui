@@ -37,7 +37,7 @@ export class TrafficClassDatasource extends RocDataSource<
             aetherService,
             bs,
             target,
-            'Enterprises-2.0.0',
+            'enterprises-2.0.0',
             ['enterprise', 'traffic-class'],
             ['enterprise-id', 'traffic-class-id']
         );

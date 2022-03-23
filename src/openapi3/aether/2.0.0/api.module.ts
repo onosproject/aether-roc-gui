@@ -9,6 +9,7 @@ import { Service } from './services/service';
 import { ApiService } from './services/api.service';
 import { ConnectivityServicesConnectivityServiceService } from './services/connectivity-services-connectivity-service.service';
 import { EnterprisesEnterpriseService } from './services/enterprises-enterprise.service';
+import { ListService } from './services/list.service';
 import { EnterprisesEnterpriseApplicationService } from './services/enterprises-enterprise-application.service';
 import { EnterprisesEnterpriseApplicationEndpointService } from './services/enterprises-enterprise-application-endpoint.service';
 import { EnterprisesEnterpriseConnectivityServiceService } from './services/enterprises-enterprise-connectivity-service.service';
@@ -40,6 +41,7 @@ import { EnterprisesEnterpriseTrafficClassService } from './services/enterprises
     ApiService,
     ConnectivityServicesConnectivityServiceService,
     EnterprisesEnterpriseService,
+    ListService,
     EnterprisesEnterpriseApplicationService,
     EnterprisesEnterpriseApplicationEndpointService,
     EnterprisesEnterpriseConnectivityServiceService,

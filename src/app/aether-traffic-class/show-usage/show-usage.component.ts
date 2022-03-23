@@ -47,7 +47,7 @@ export class ShowUsageComponent extends RocUsageBase implements OnChanges {
         private siteService: EnterprisesEnterpriseService
     ) {
         super(
-            'Enterprises-2.0.0',
+            'enterprises-2.0.0',
             ['enterprise', 'traffic-class'],
             ['enterprise-id', 'traffic-class-id']
         );
