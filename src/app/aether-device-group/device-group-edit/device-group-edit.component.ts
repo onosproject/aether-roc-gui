@@ -376,9 +376,12 @@ export class DeviceGroupEditComponent
                 'enterprise-id': this.enterpriseId,
                 'site-id': this.siteId,
             })
-            .subscribe((site) => {
-                this.ipdomain = site['ip-domain'];
-                this.form.get('ip-domain').enable();
-            }, error => console.warn(`Error getting Ip Domand: ${error}`));
+            .subscribe(
+                (site) => {
+                    this.ipdomain = site['ip-domain'];
+                    this.form.get('ip-domain').enable();
+                },
+                (error) => console.warn(`Error getting Ip Domand: ${error}`)
+            );
     }
 }

@@ -3,6 +3,7 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
+
 <form [formGroup]="selectForm" (ngSubmit)="close(false)">
     <mat-card class="card mat-elevation-z8">
         <mat-card-header class="header">
@@ -14,53 +15,87 @@
             <mat-chip-list
                 class="mat-chip-list-stacked"
                 aria-label="Color selection"
+                *ngIf="selectedEnterprise === 'unknownent'"
             >
-                <mat-chip
-                    color="warn"
-                    *ngIf="selectedEnterprise === 'unknownent'"
-                >
+                <mat-chip color="warn">
                     Please select an Enterprise in the main form.
                 </mat-chip>
             </mat-chip-list>
-            <mat-form-field *ngIf="selectedEnterprise !== 'unknownent'">
-                <mat-label>Application</mat-label>
-                <mat-select
-                    formControlName="select-item"
-                    id="selectNewApplicationApplication"
-                >
-                    <mat-option
-                        *ngFor="let item of this.displayList"
-                        [value]="item['application-id']"
-                    >
-                        {{ item["application-id"] }}
-                        <span *ngIf="item['display-name']">
-                            ({{ item["display-name"] }})</span
-                        >
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field
-                class="field-margin"
-                *ngIf="selectedEnterprise !== 'unknownent'"
+            <mat-chip-list
+                class="mat-chip-list-stacked"
+                aria-label="Color selection"
+                *ngIf="errorMessage !== ''"
             >
-                <input
-                    matInput
-                    type="number"
-                    formControlName="priority"
-                    id="inputNewApplicationPriority"
-                />
-                <mat-hint>Priority</mat-hint>
-            </mat-form-field>
-            <mat-icon
-                *ngIf="selectedEnterprise !== 'unknownent'"
-                color="accent"
-                class="subscriber-pointer"
-                matTooltip="Application with {{
-                    this.endpointsAllowed
-                }} or less endpoints appear in dropdown"
-                id="infoIcon"
-                >info
-            </mat-icon>
+                <mat-chip color="warn">
+                    {{ errorMessage }}
+                </mat-chip>
+            </mat-chip-list>
+            <div *ngIf="existingApplications.data.length > 0">
+                <table
+                    class="full-width-table"
+                    mat-table
+                    [dataSource]="existingApplications"
+                >
+                    <ng-container matColumnDef="application">
+                        <th mat-header-cell *matHeaderCellDef>Application</th>
+                        <td mat-cell *matCellDef="let app">
+                            {{ app["display-name"] }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="endpoints">
+                        <th mat-header-cell *matHeaderCellDef>Endpoints</th>
+                        <td mat-cell *matCellDef="let app">
+                            <mat-chip>{{ app.endpoint.length }}</mat-chip>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+                    <tr
+                        mat-row
+                        *matRowDef="let myRowData; columns: columnsToDisplay"
+                    ></tr>
+                </table>
+            </div>
+            <div
+                *ngIf="
+                    selectedEnterprise !== 'unknownent' && errorMessage === ''
+                "
+            >
+                <mat-form-field>
+                    <mat-label>Application</mat-label>
+                    <mat-select
+                        formControlName="select-item"
+                        id="selectNewApplicationApplication"
+                    >
+                        <mat-option
+                            *ngFor="let item of this.displayList"
+                            [value]="item['application-id']"
+                        >
+                            {{ item["application-id"] }}
+                            <span *ngIf="item['display-name']">
+                                ({{ item["display-name"] }})</span
+                            >
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="field-margin">
+                    <input
+                        matInput
+                        type="number"
+                        formControlName="priority"
+                        id="inputNewApplicationPriority"
+                    />
+                    <mat-hint>Priority</mat-hint>
+                </mat-form-field>
+                <mat-icon
+                    color="accent"
+                    class="subscriber-pointer"
+                    matTooltip="Application with {{
+                        this.endpointsAllowed
+                    }} or less endpoints appear in dropdown"
+                    id="infoIcon"
+                    >info
+                </mat-icon>
+            </div>
         </mat-card-content>
         <mat-card-actions class="field-margin">
             <button

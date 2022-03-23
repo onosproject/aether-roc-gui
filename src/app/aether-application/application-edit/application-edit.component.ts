@@ -355,13 +355,17 @@ export class ApplicationEditComponent
                         const epProtocolcontrol = this.fb.control(ep.protocol);
                         epProtocolcontrol[ORIGINAL] = ep.protocol;
                         const epMbrDownlinkcontrol = this.fb.control(
-                            ep.mbr.downlink
+                            ep.mbr ? ep.mbr.downlink : null
                         );
-                        epMbrDownlinkcontrol[ORIGINAL] = ep.mbr.downlink;
                         const epMbrUplinkcontrol = this.fb.control(
-                            ep.mbr.uplink
+                            ep.mbr ? ep.mbr.uplink : null
                         );
-                        epMbrUplinkcontrol[ORIGINAL] = ep.mbr.uplink;
+                        epMbrDownlinkcontrol[ORIGINAL] = ep.mbr
+                            ? ep.mbr.downlink
+                            : null;
+                        epMbrUplinkcontrol[ORIGINAL] = ep.mbr
+                            ? ep.mbr.uplink
+                            : null;
                         const epTrafficClasscontrol = this.fb.control(
                             ep['traffic-class']
                         );

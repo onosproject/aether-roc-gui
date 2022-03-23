@@ -15,6 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AETHER_TARGET } from '../../../environments/environment';
 import { from } from 'rxjs';
 import { mergeMap, pluck } from 'rxjs/operators';
+import { MatTableDataSource } from '@angular/material/table';
 
 export interface SelectAppParam {
     application: string;
@@ -40,7 +41,7 @@ export class ApplicationSelectComponent
     ApplicationOptions: Array<EnterprisesEnterpriseApplication> = [];
     selectForm = this.fb.group({
         'select-item': [
-            undefined,
+            { value: '', disabled: true },
             Validators.compose([
                 Validators.pattern('[a-z]([a-z0-9-]?[a-z0-9])*'),
                 Validators.minLength(1),
@@ -48,7 +49,7 @@ export class ApplicationSelectComponent
             ]),
         ],
         priority: [
-            undefined,
+            { value: '', disabled: true },
             Validators.compose([
                 Validators.minLength(1),
                 Validators.maxLength(255),
@@ -60,6 +61,10 @@ export class ApplicationSelectComponent
     @Output() appcloseEvent = new EventEmitter<SelectAppParam>();
 
     public endpointsAllowed: number = ENDPOINTSALLOWEDLIMIT;
+    public existingApplications: MatTableDataSource<EnterprisesEnterpriseApplication> =
+        new MatTableDataSource([]);
+    public columnsToDisplay = ['application', 'endpoints'];
+    public errorMessage = '';
 
     constructor(
         protected enterpriseService: EnterprisesEnterpriseService,
@@ -97,11 +102,27 @@ export class ApplicationSelectComponent
                 },
                 (error) => console.warn('Error getting applications', error),
                 () => {
+                    // if there are no candidates it means all the Apps for this Enterprise are already
+                    // used in this Slice
+                    if (candidates.length === 0) {
+                        this.errorMessage =
+                            'There are no available Applications in this Enterprise';
+                        return;
+                    }
                     candidates.forEach((c) => {
                         if (c.endpoint.length <= this.endpointsAllowed) {
                             this.displayList.push(c);
                         }
                     });
+                    // if the display list is empty it means all the Apps have more endpoints that allowed
+                    if (this.displayList.length === 0) {
+                        this.errorMessage = `All the applications in this enterprise have more endpoints than the limit allows.
+                        You have ${this.endpointsAllowed} Endpoints available of ${ENDPOINTSALLOWEDLIMIT} allowed.`;
+                        this.existingApplications.data = candidates;
+                        return;
+                    }
+                    this.selectForm.get('select-item').enable();
+                    this.selectForm.get('priority').enable();
                 }
             );
     }
