@@ -5,9 +5,6 @@
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
-import { RocListBase } from './roc-list-base';
-import { BasketService } from './basket.service';
-import { OpenPolicyAgentService } from './open-policy-agent.service';
 import { Component } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import {
@@ -16,23 +13,11 @@ import {
     RocGenericModelType,
 } from './roc-data-source';
 import { RocEditBase } from './roc-edit-base';
-import { ParamMap, Params } from '@angular/router';
-import {
-    applicationModelPath,
-    deviceModelPath,
-    enterpriseModelPath,
-} from './models-info';
+import { deviceModelPath, enterpriseModelPath } from './models-info';
 import * as _ from 'lodash';
 
 // we cannot test an Abstract class directly,
 // so create a class that extends it
-
-interface TestData {
-    'test-data-id': string;
-    description?: string;
-    'enterprise-id': string;
-    field: string;
-}
 
 const TestDataSource = jasmine.createSpyObj('TestDataSource', {
     fullPath: jasmine.createSpy('fullPath').and.returnValue('full-path')(),
@@ -51,9 +36,6 @@ const route = jasmine.createSpyObj('route', {
     snapshot: {
         params: {},
     },
-});
-const router = jasmine.createSpyObj('router', {
-    initialNavigation: jasmine.createSpy(),
 });
 
 @Component({

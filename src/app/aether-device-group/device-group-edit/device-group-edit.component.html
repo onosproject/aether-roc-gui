@@ -87,6 +87,7 @@
                     id="selectSite"
                     [(value)]="siteId"
                     placeholder="Please select a Site"
+                    (selectionChange)="loadIpDomain()"
                 >
                     <mat-option
                         *ngFor="let eachSite of sitesOfEnterprise(enterpriseId)"
