@@ -38,6 +38,9 @@ import { SliceMonitorComponent } from './slice-monitor/slice-monitor.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UtilsModule } from '../utils/utils.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
     declarations: [
@@ -83,6 +86,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatExpansionModule,
         UtilsModule,
         MatTooltipModule,
+        MatChipsModule,
+        MatGridListModule,
+        MatListModule,
     ],
     providers: [
         {

@@ -35,6 +35,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { EndpointSelectComponent } from './endpoint-select/endpoint-select.component';
 import { UtilsModule } from '../utils/utils.module';
 import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
     declarations: [
@@ -74,6 +75,7 @@ import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component
         MatCheckboxModule,
         MatAutocompleteModule,
         UtilsModule,
+        MatChipsModule,
     ],
     providers: [
         {

@@ -72,6 +72,37 @@
             </td>
         </ng-container>
 
+        <!-- Enterprise Column -->
+        <ng-container matColumnDef="enterprise" id="enterpriseColumn">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="enterprise-col-wide"
+            >
+                Enterprise
+            </th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+                class="enterprise-col-wide"
+            >
+                {{ row["enterprise-id"] }}
+                <mat-icon
+                    class="table_icon small_icon"
+                    color="primary"
+                    aria-hidden="false"
+                    aria-label="Enterprise"
+                    id="pointerConnectivityService"
+                    routerLink="/enterprise/enterprise-edit/{{
+                        row['enterprise-id']
+                    }}"
+                    >launch
+                </mat-icon>
+            </td>
+        </ng-container>
+
         <!-- Small Cell Column -->
         <ng-container matColumnDef="small-cells" id="smallCellColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -405,37 +436,6 @@
                         >
                     </p>
                 </mat-expansion-panel>
-            </td>
-        </ng-container>
-
-        <!-- Enterprise Column -->
-        <ng-container matColumnDef="enterprise" id="EnterpriseColumn">
-            <th
-                mat-header-cell
-                *matHeaderCellDef
-                mat-sort-header
-                class="enterprise-col-wide"
-            >
-                Enterprise
-            </th>
-            <td
-                [style]="row['for-delete-style']"
-                mat-cell
-                *matCellDef="let row"
-                class="enterprise-col-wide"
-            >
-                {{ row["enterprise-id"] }}
-                <mat-icon
-                    class="table_icon small_icon"
-                    color="primary"
-                    aria-hidden="false"
-                    aria-label="Enterprise"
-                    id="pointerConnectivityService"
-                    routerLink="/enterprise/enterprise-edit/{{
-                        row['enterprise-id']
-                    }}"
-                    >launch
-                </mat-icon>
             </td>
         </ng-container>
 

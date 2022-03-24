@@ -7,9 +7,8 @@
 import { FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BasketService, REQDATTRIBS } from './basket.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AETHER_TARGET } from '../environments/environment';
-import { RocElement } from '../openapi3/top/level/models/elements';
 import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
 import {
     GenericRocDataSource,

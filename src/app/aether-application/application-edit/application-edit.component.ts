@@ -150,7 +150,7 @@ export class ApplicationEditComponent
 
     ngOnInit(): void {
         super.init();
-        this.loadTrafficClass(this.target);
+        this.loadTrafficClass();
         this.bandwidthOptions = this.appForm.valueChanges.pipe(
             startWith(''),
             map((value) =>
@@ -355,13 +355,17 @@ export class ApplicationEditComponent
                         const epProtocolcontrol = this.fb.control(ep.protocol);
                         epProtocolcontrol[ORIGINAL] = ep.protocol;
                         const epMbrDownlinkcontrol = this.fb.control(
-                            ep.mbr.downlink
+                            ep.mbr ? ep.mbr.downlink : null
                         );
-                        epMbrDownlinkcontrol[ORIGINAL] = ep.mbr.downlink;
                         const epMbrUplinkcontrol = this.fb.control(
-                            ep.mbr.uplink
+                            ep.mbr ? ep.mbr.uplink : null
                         );
-                        epMbrUplinkcontrol[ORIGINAL] = ep.mbr.uplink;
+                        epMbrDownlinkcontrol[ORIGINAL] = ep.mbr
+                            ? ep.mbr.downlink
+                            : null;
+                        epMbrUplinkcontrol[ORIGINAL] = ep.mbr
+                            ? ep.mbr.uplink
+                            : null;
                         const epTrafficClasscontrol = this.fb.control(
                             ep['traffic-class']
                         );
@@ -500,7 +504,7 @@ export class ApplicationEditComponent
         return this.appForm.get(['endpoint', index, 'mbr']) as FormGroup;
     }
 
-    loadTrafficClass(target: string): void {
+    loadTrafficClass(): void {
         if (this.enterpriseId == this.unknownEnterprise) {
             return;
         }
@@ -508,7 +512,7 @@ export class ApplicationEditComponent
         this.enterpriseService
             .getEnterprisesEnterprise({
                 target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
+                'enterprise-id': this.enterpriseId,
             })
             .subscribe(
                 (value) => {
@@ -522,7 +526,7 @@ export class ApplicationEditComponent
                 (error) => {
                     console.warn(
                         'Error getting Traffic Class for ',
-                        target,
+                        AETHER_TARGET,
                         error
                     );
                 }

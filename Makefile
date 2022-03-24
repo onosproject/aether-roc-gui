@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020-present Open Networking Foundation <info@opennetworking.org>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 # set default shell
 SHELL = bash -e -o pipefail
 
@@ -28,43 +32,28 @@ endif
 
 .PHONY: build
 
-help:
-	@grep -E '^.*: *# *@HELP' $(MAKEFILE_LIST) \
-    | sort \
-    | awk ' \
-        BEGIN {FS = ": *# *@HELP"}; \
-        {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}; \
-    '
+build-tools:=$(shell if [ ! -d "./build/build-tools" ]; then cd build && git clone https://github.com/onosproject/build-tools.git; fi)
+include ./build/build-tools/make/onf-common.mk
 
 build: # @HELP build the Web GUI and run all validations (on the host machine)
 build:
 	npm run build:prod
 
 test: # @HELP run the unit tests and source code validation
-test: deps build lint license_check
+test: npmdeps build lint license
 	npm test
 
-jenkins-test: # @HELP target used in Jenkins to run validation (these tests run in a docker container, only use on VM executors)
+jenkins-test: license # @HELP target used in Jenkins to run validation (these tests run in a docker container, only use on VM executors)
 	${NODE} bash -c "cd /app && NG_CLI_ANALYTICS=false npm install --cache /tmp/empty-cache && npm run lint && npm test && npm run build:prod"
 
-jenkins-publish: build-tools docker-build docker-push # @HELP target used in Jenkins to publish docker images
-	../build-tools/release-merge-commit
+jenkins-publish: docker-build docker-push # @HELP target used in Jenkins to publish docker images
+	./build/build-tools/release-merge-commit
 
-build-tools: # @HELP install the build tools if needed
-	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
-
-coverage: # @HELP generate unit test coverage data
-coverage: deps build license_check test
-
-deps: # @HELP ensure that the required dependencies are in place
+npmdeps: # @HELP ensure that the required dependencies are in place
 	NG_CLI_ANALYTICS=false npm install
 
-lint: deps
+lint: npmdeps
 	npm run lint
-
-license_check: # @HELP examine and ensure license headers exist
-	@if [ ! -d "../build-tools" ]; then cd .. && git clone https://github.com/onosproject/build-tools.git; fi
-	./../build-tools/licensing/boilerplate.py -v --rootdir=${CURDIR} --skipped-dir=coverage --boilerplate SPDX-Apache-2.0
 
 # For running make openapi-gen in Mac run the below command and change sed to gsed\
 brew install gsed
@@ -114,7 +103,7 @@ kind: images kind-only
 all: images
 
 publish:
-	./../build-tools/publish-version ${VERSION} onosproject/aether-roc-gui
+	./build/build-tools/publish-version ${VERSION} onosproject/aether-roc-gui
 
-clean: # @HELP remove all the build artifacts
+clean:: # @HELP remove all the build artifacts
 	rm -rf ./dist ./node-modules

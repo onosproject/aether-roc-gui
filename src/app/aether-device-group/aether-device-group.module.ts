@@ -39,6 +39,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ShowVcsUsageComponent } from './show-vcs-usage/show-vcs-usage.component';
 import { DeviceSelectComponent } from './device-select/device-select.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
     declarations: [
@@ -86,6 +87,7 @@ import { DeviceSelectComponent } from './device-select/device-select.component';
         UtilsModule,
         MatAutocompleteModule,
         MatTooltipModule,
+        MatChipsModule,
     ],
     providers: [
         {

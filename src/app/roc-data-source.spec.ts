@@ -8,7 +8,6 @@ import { RocDataSource } from './roc-data-source';
 import { SliceDatasource } from './aether-slice/slice/slice-datasource';
 import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
 import { ApiConfiguration } from '../openapi3/aether/2.0.0/api-configuration';
-import { BasketService } from './basket.service';
 import { AETHER_TARGET } from '../environments/environment';
 import {
     Enterprises,

@@ -14,9 +14,9 @@
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/slice/slice-monitor/{{
-                    route.snapshot.params['enterprise-id']
-                }}/{{ route.snapshot.params['site-id'] }}/{{ sliceID }}"
+                routerLink="/slice/slice-monitor/{{ enterpriseId }}/{{
+                    siteId
+                }}/{{ sliceID }}"
                 id="monitorVcsButton"
                 >insights
             </mat-icon>
@@ -224,7 +224,7 @@
                                 aria-hidden="false"
                                 aria-label="Application"
                                 routerLink="/application/application-edit/{{
-                                    route.snapshot.params['enterprise-id']
+                                    enterpriseId
                                 }}/{{ appForm.value.application }}"
                                 id="pointerApplication"
                                 >launch
@@ -287,8 +287,8 @@
                                 aria-hidden="false"
                                 aria-label="device-group"
                                 routerLink="/device-group/device-group-edit/{{
-                                    route.snapshot.params['enterprise-id']
-                                }}/{{ route.snapshot.params['site-id'] }}/{{
+                                    enterpriseId
+                                }}/{{ siteId }}/{{
                                     dgForm.value['device-group']
                                 }}"
                                 id="pointerDeviceGroup"
@@ -460,7 +460,7 @@
     "
     id="applicationSelectComponent"
     [alreadySelected]="selectedApplications()"
-    [selectedEnterprise]="route.snapshot.params['enterprise-id']"
+    [selectedEnterprise]="enterpriseId"
     (appcloseEvent)="appSelected($event)"
 >
 </aether-application-select>
@@ -470,8 +470,8 @@
         opaService.canWrite('/slice/slice[slice-id=' + id + ']/device-group')
     "
     id="deviceGroupSelectComponent"
-    [selectedEnterprise]="route.snapshot.params['enterprise-id']"
-    [selectedSite]="route.snapshot.params['site-id']"
+    [selectedEnterprise]="enterpriseId"
+    [selectedSite]="siteId"
     [alreadySelected]="deviceGroupExists"
     (closeEvent)="dgSelected($event)"
 >

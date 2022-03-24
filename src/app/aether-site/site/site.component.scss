@@ -124,7 +124,7 @@
 
 // Then description disappears
 .description-col-wide {
-    display: unset;
+    display: table-cell;
 }
 
 @media screen and (max-width: 45rem) {
@@ -135,7 +135,7 @@
 
 // Then enterprise disappears
 .enterprise-col-wide {
-    display: unset;
+    display: table-cell;
 }
 
 @media screen and (max-width: 40rem) {
