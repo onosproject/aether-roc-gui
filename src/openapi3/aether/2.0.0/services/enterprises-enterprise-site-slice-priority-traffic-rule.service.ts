@@ -25,12 +25,107 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
   }
 
   /**
-   * Path part for operation getEnterprisesEnterpriseSiteSlicePriorityTrafficRule
+   * Path part for operation getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList
    */
-  static readonly GetEnterprisesEnterpriseSiteSlicePriorityTrafficRulePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}';
+  static readonly GetEnterprisesEnterpriseSiteSlicePriorityTrafficRuleListPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule List.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService.GetEnterprisesEnterpriseSiteSlicePriorityTrafficRuleListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule List.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+  }): Observable<Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>> {
+
+    return this.getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>>) => r.body as Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseSiteSlicePriorityTrafficRule
+   */
+  static readonly GetEnterprisesEnterpriseSiteSlicePriorityTrafficRulePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule Container.
    *
    *
    *
@@ -88,7 +183,7 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule Container.
    *
    *
    *
@@ -127,101 +222,6 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
 
     return this.getEnterprisesEnterpriseSiteSlicePriorityTrafficRule$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSlicePriorityTrafficRule>) => r.body as EnterprisesEnterpriseSiteSlicePriorityTrafficRule)
-    );
-  }
-
-  /**
-   * Path part for operation getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList
-   */
-  static readonly GetEnterprisesEnterpriseSiteSlicePriorityTrafficRuleListPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule';
-
-  /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {enterprise-id}
-     */
-    'enterprise-id': any;
-
-    /**
-     * key {site-id}
-     */
-    'site-id': any;
-
-    /**
-     * key {slice-id}
-     */
-    'slice-id': any;
-  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>> {
-
-    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService.GetEnterprisesEnterpriseSiteSlicePriorityTrafficRuleListPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('enterprise-id', params['enterprise-id'], {});
-      rb.path('site-id', params['site-id'], {});
-      rb.path('slice-id', params['slice-id'], {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>;
-      })
-    );
-  }
-
-  /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {enterprise-id}
-     */
-    'enterprise-id': any;
-
-    /**
-     * key {site-id}
-     */
-    'site-id': any;
-
-    /**
-     * key {slice-id}
-     */
-    'slice-id': any;
-  }): Observable<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList> {
-
-    return this.getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList$Response(params).pipe(
-      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>) => r.body as EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList)
     );
   }
 

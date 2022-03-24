@@ -25,12 +25,96 @@ export class EnterprisesEnterpriseSiteDeviceService extends BaseService {
   }
 
   /**
-   * Path part for operation getEnterprisesEnterpriseSiteDevice
+   * Path part for operation getEnterprisesEnterpriseSiteDeviceList
    */
-  static readonly GetEnterprisesEnterpriseSiteDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device/{device-id}';
+  static readonly GetEnterprisesEnterpriseSiteDeviceListPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device List.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseSiteDeviceList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteDeviceList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceList>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteDeviceService.GetEnterprisesEnterpriseSiteDeviceListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceList>>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device List.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseSiteDeviceList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteDeviceList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<Array<EnterprisesEnterpriseSiteDeviceList>> {
+
+    return this.getEnterprisesEnterpriseSiteDeviceList$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceList>>) => r.body as Array<EnterprisesEnterpriseSiteDeviceList>)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseSiteDevice
+   */
+  static readonly GetEnterprisesEnterpriseSiteDevicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device/{device-id}';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device Container.
    *
    *
    *
@@ -82,7 +166,7 @@ export class EnterprisesEnterpriseSiteDeviceService extends BaseService {
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device Container.
    *
    *
    *
@@ -116,90 +200,6 @@ export class EnterprisesEnterpriseSiteDeviceService extends BaseService {
 
     return this.getEnterprisesEnterpriseSiteDevice$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseSiteDevice>) => r.body as EnterprisesEnterpriseSiteDevice)
-    );
-  }
-
-  /**
-   * Path part for operation getEnterprisesEnterpriseSiteDeviceList
-   */
-  static readonly GetEnterprisesEnterpriseSiteDeviceListPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device';
-
-  /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getEnterprisesEnterpriseSiteDeviceList()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getEnterprisesEnterpriseSiteDeviceList$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {enterprise-id}
-     */
-    'enterprise-id': any;
-
-    /**
-     * key {site-id}
-     */
-    'site-id': any;
-  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteDeviceList>> {
-
-    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteDeviceService.GetEnterprisesEnterpriseSiteDeviceListPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('enterprise-id', params['enterprise-id'], {});
-      rb.path('site-id', params['site-id'], {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<EnterprisesEnterpriseSiteDeviceList>;
-      })
-    );
-  }
-
-  /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getEnterprisesEnterpriseSiteDeviceList$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getEnterprisesEnterpriseSiteDeviceList(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {enterprise-id}
-     */
-    'enterprise-id': any;
-
-    /**
-     * key {site-id}
-     */
-    'site-id': any;
-  }): Observable<EnterprisesEnterpriseSiteDeviceList> {
-
-    return this.getEnterprisesEnterpriseSiteDeviceList$Response(params).pipe(
-      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteDeviceList>) => r.body as EnterprisesEnterpriseSiteDeviceList)
     );
   }
 

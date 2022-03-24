@@ -27,10 +27,10 @@ export class Service extends BaseService {
   /**
    * Path part for operation getConnectivityServices
    */
-  static readonly GetConnectivityServicesPath = '/aether/v2.0.0/{target}/connectivity-services';
+  static readonly GetConnectivityServicesPath = '/aether/v2.0.x/{target}/connectivity-services';
 
   /**
-   * GET /connectivity-services.
+   * GET /connectivity-services Container.
    *
    *
    *
@@ -64,7 +64,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /connectivity-services.
+   * GET /connectivity-services Container.
    *
    *
    *
@@ -89,10 +89,10 @@ export class Service extends BaseService {
   /**
    * Path part for operation getEnterprises
    */
-  static readonly GetEnterprisesPath = '/aether/v2.0.0/{target}/enterprises';
+  static readonly GetEnterprisesPath = '/aether/v2.0.x/{target}/enterprises';
 
   /**
-   * GET /enterprises.
+   * GET /enterprises Container.
    *
    *
    *
@@ -126,7 +126,7 @@ export class Service extends BaseService {
   }
 
   /**
-   * GET /enterprises.
+   * GET /enterprises Container.
    *
    *
    *

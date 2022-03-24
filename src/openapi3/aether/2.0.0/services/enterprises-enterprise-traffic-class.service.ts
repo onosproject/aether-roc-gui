@@ -25,12 +25,85 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
   }
 
   /**
-   * Path part for operation getEnterprisesEnterpriseTrafficClass
+   * Path part for operation getEnterprisesEnterpriseTrafficClassList
    */
-  static readonly GetEnterprisesEnterpriseTrafficClassPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/traffic-class/{traffic-class-id}';
+  static readonly GetEnterprisesEnterpriseTrafficClassListPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/traffic-class';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/traffic-class.
+   * GET /enterprises/enterprise/{enterprise-id}/traffic-class List.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseTrafficClassList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseTrafficClassList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseTrafficClassList>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseTrafficClassService.GetEnterprisesEnterpriseTrafficClassListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<EnterprisesEnterpriseTrafficClassList>>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/traffic-class List.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseTrafficClassList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseTrafficClassList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<Array<EnterprisesEnterpriseTrafficClassList>> {
+
+    return this.getEnterprisesEnterpriseTrafficClassList$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseTrafficClassList>>) => r.body as Array<EnterprisesEnterpriseTrafficClassList>)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseTrafficClass
+   */
+  static readonly GetEnterprisesEnterpriseTrafficClassPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/traffic-class/{traffic-class-id}';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/traffic-class Container.
    *
    *
    *
@@ -76,7 +149,7 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/traffic-class.
+   * GET /enterprises/enterprise/{enterprise-id}/traffic-class Container.
    *
    *
    *
@@ -105,79 +178,6 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
 
     return this.getEnterprisesEnterpriseTrafficClass$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseTrafficClass>) => r.body as EnterprisesEnterpriseTrafficClass)
-    );
-  }
-
-  /**
-   * Path part for operation getEnterprisesEnterpriseTrafficClassList
-   */
-  static readonly GetEnterprisesEnterpriseTrafficClassListPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/traffic-class';
-
-  /**
-   * GET /enterprises/enterprise/{enterprise-id}/traffic-class.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getEnterprisesEnterpriseTrafficClassList()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getEnterprisesEnterpriseTrafficClassList$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {enterprise-id}
-     */
-    'enterprise-id': any;
-  }): Observable<StrictHttpResponse<EnterprisesEnterpriseTrafficClassList>> {
-
-    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseTrafficClassService.GetEnterprisesEnterpriseTrafficClassListPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('enterprise-id', params['enterprise-id'], {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<EnterprisesEnterpriseTrafficClassList>;
-      })
-    );
-  }
-
-  /**
-   * GET /enterprises/enterprise/{enterprise-id}/traffic-class.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getEnterprisesEnterpriseTrafficClassList$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getEnterprisesEnterpriseTrafficClassList(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {enterprise-id}
-     */
-    'enterprise-id': any;
-  }): Observable<EnterprisesEnterpriseTrafficClassList> {
-
-    return this.getEnterprisesEnterpriseTrafficClassList$Response(params).pipe(
-      map((r: StrictHttpResponse<EnterprisesEnterpriseTrafficClassList>) => r.body as EnterprisesEnterpriseTrafficClassList)
     );
   }
 

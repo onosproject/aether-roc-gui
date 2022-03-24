@@ -53,7 +53,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postConnectivityServices
    */
-  static readonly PostConnectivityServicesPath = '/aether/v2.0.0/{target}/connectivity-services';
+  static readonly PostConnectivityServicesPath = '/aether/v2.0.x/{target}/connectivity-services';
 
   /**
    * POST /connectivity-services.
@@ -118,7 +118,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteConnectivityServices
    */
-  static readonly DeleteConnectivityServicesPath = '/aether/v2.0.0/{target}/connectivity-services';
+  static readonly DeleteConnectivityServicesPath = '/aether/v2.0.x/{target}/connectivity-services';
 
   /**
    * DELETE /connectivity-services.
@@ -180,7 +180,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postConnectivityServicesConnectivityService
    */
-  static readonly PostConnectivityServicesConnectivityServicePath = '/aether/v2.0.0/{target}/connectivity-services/connectivity-service/{connectivity-service-id}';
+  static readonly PostConnectivityServicesConnectivityServicePath = '/aether/v2.0.x/{target}/connectivity-services/connectivity-service/{connectivity-service-id}';
 
   /**
    * POST /connectivity-services/connectivity-service.
@@ -256,7 +256,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteConnectivityServicesConnectivityService
    */
-  static readonly DeleteConnectivityServicesConnectivityServicePath = '/aether/v2.0.0/{target}/connectivity-services/connectivity-service/{connectivity-service-id}';
+  static readonly DeleteConnectivityServicesConnectivityServicePath = '/aether/v2.0.x/{target}/connectivity-services/connectivity-service/{connectivity-service-id}';
 
   /**
    * DELETE /connectivity-services/connectivity-service.
@@ -329,7 +329,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprises
    */
-  static readonly PostEnterprisesPath = '/aether/v2.0.0/{target}/enterprises';
+  static readonly PostEnterprisesPath = '/aether/v2.0.x/{target}/enterprises';
 
   /**
    * POST /enterprises.
@@ -394,7 +394,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprises
    */
-  static readonly DeleteEnterprisesPath = '/aether/v2.0.0/{target}/enterprises';
+  static readonly DeleteEnterprisesPath = '/aether/v2.0.x/{target}/enterprises';
 
   /**
    * DELETE /enterprises.
@@ -456,7 +456,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterprise
    */
-  static readonly PostEnterprisesEnterprisePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}';
+  static readonly PostEnterprisesEnterprisePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}';
 
   /**
    * POST /enterprises/enterprise.
@@ -532,7 +532,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterprise
    */
-  static readonly DeleteEnterprisesEnterprisePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}';
+  static readonly DeleteEnterprisesEnterprisePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}';
 
   /**
    * DELETE /enterprises/enterprise.
@@ -605,7 +605,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseApplication
    */
-  static readonly PostEnterprisesEnterpriseApplicationPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}';
+  static readonly PostEnterprisesEnterpriseApplicationPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/application.
@@ -692,7 +692,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseApplication
    */
-  static readonly DeleteEnterprisesEnterpriseApplicationPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}';
+  static readonly DeleteEnterprisesEnterpriseApplicationPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/application.
@@ -776,7 +776,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseApplicationEndpoint
    */
-  static readonly PostEnterprisesEnterpriseApplicationEndpointPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}';
+  static readonly PostEnterprisesEnterpriseApplicationEndpointPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint.
@@ -874,7 +874,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseApplicationEndpoint
    */
-  static readonly DeleteEnterprisesEnterpriseApplicationEndpointPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}';
+  static readonly DeleteEnterprisesEnterpriseApplicationEndpointPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint.
@@ -969,7 +969,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseApplicationEndpointMbr
    */
-  static readonly PostEnterprisesEnterpriseApplicationEndpointMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr';
+  static readonly PostEnterprisesEnterpriseApplicationEndpointMbrPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr.
@@ -1067,7 +1067,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseApplicationEndpointMbr
    */
-  static readonly DeleteEnterprisesEnterpriseApplicationEndpointMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr';
+  static readonly DeleteEnterprisesEnterpriseApplicationEndpointMbrPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr.
@@ -1162,7 +1162,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseConnectivityService
    */
-  static readonly PostEnterprisesEnterpriseConnectivityServicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/connectivity-service/{connectivity-service}';
+  static readonly PostEnterprisesEnterpriseConnectivityServicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/connectivity-service/{connectivity-service}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/connectivity-service.
@@ -1249,7 +1249,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseConnectivityService
    */
-  static readonly DeleteEnterprisesEnterpriseConnectivityServicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/connectivity-service/{connectivity-service}';
+  static readonly DeleteEnterprisesEnterpriseConnectivityServicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/connectivity-service/{connectivity-service}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/connectivity-service.
@@ -1333,7 +1333,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSite
    */
-  static readonly PostEnterprisesEnterpriseSitePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}';
+  static readonly PostEnterprisesEnterpriseSitePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site.
@@ -1420,7 +1420,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSite
    */
-  static readonly DeleteEnterprisesEnterpriseSitePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}';
+  static readonly DeleteEnterprisesEnterpriseSitePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site.
@@ -1504,7 +1504,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteDeviceGroup
    */
-  static readonly PostEnterprisesEnterpriseSiteDeviceGroupPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}';
+  static readonly PostEnterprisesEnterpriseSiteDeviceGroupPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group.
@@ -1602,7 +1602,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteDeviceGroup
    */
-  static readonly DeleteEnterprisesEnterpriseSiteDeviceGroupPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}';
+  static readonly DeleteEnterprisesEnterpriseSiteDeviceGroupPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group.
@@ -1697,7 +1697,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteDeviceGroupDevice
    */
-  static readonly PostEnterprisesEnterpriseSiteDeviceGroupDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/device/{device-id}';
+  static readonly PostEnterprisesEnterpriseSiteDeviceGroupDevicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/device/{device-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/device.
@@ -1806,7 +1806,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteDeviceGroupDevice
    */
-  static readonly DeleteEnterprisesEnterpriseSiteDeviceGroupDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/device/{device-id}';
+  static readonly DeleteEnterprisesEnterpriseSiteDeviceGroupDevicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/device/{device-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/device.
@@ -1912,7 +1912,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteDeviceGroupMbr
    */
-  static readonly PostEnterprisesEnterpriseSiteDeviceGroupMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr';
+  static readonly PostEnterprisesEnterpriseSiteDeviceGroupMbrPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr.
@@ -2010,7 +2010,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteDeviceGroupMbr
    */
-  static readonly DeleteEnterprisesEnterpriseSiteDeviceGroupMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr';
+  static readonly DeleteEnterprisesEnterpriseSiteDeviceGroupMbrPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr.
@@ -2105,7 +2105,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteDevice
    */
-  static readonly PostEnterprisesEnterpriseSiteDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device/{device-id}';
+  static readonly PostEnterprisesEnterpriseSiteDevicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device/{device-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/device.
@@ -2203,7 +2203,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteDevice
    */
-  static readonly DeleteEnterprisesEnterpriseSiteDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device/{device-id}';
+  static readonly DeleteEnterprisesEnterpriseSiteDevicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device/{device-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/device.
@@ -2298,7 +2298,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteImsiDefinition
    */
-  static readonly PostEnterprisesEnterpriseSiteImsiDefinitionPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition';
+  static readonly PostEnterprisesEnterpriseSiteImsiDefinitionPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition.
@@ -2385,7 +2385,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteImsiDefinition
    */
-  static readonly DeleteEnterprisesEnterpriseSiteImsiDefinitionPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition';
+  static readonly DeleteEnterprisesEnterpriseSiteImsiDefinitionPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition.
@@ -2469,7 +2469,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteIpDomain
    */
-  static readonly PostEnterprisesEnterpriseSiteIpDomainPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/ip-domain/{ip-domain-id}';
+  static readonly PostEnterprisesEnterpriseSiteIpDomainPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/ip-domain/{ip-domain-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/ip-domain.
@@ -2567,7 +2567,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteIpDomain
    */
-  static readonly DeleteEnterprisesEnterpriseSiteIpDomainPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/ip-domain/{ip-domain-id}';
+  static readonly DeleteEnterprisesEnterpriseSiteIpDomainPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/ip-domain/{ip-domain-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/ip-domain.
@@ -2662,7 +2662,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteMonitoring
    */
-  static readonly PostEnterprisesEnterpriseSiteMonitoringPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring';
+  static readonly PostEnterprisesEnterpriseSiteMonitoringPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring.
@@ -2749,7 +2749,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteMonitoring
    */
-  static readonly DeleteEnterprisesEnterpriseSiteMonitoringPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring';
+  static readonly DeleteEnterprisesEnterpriseSiteMonitoringPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring.
@@ -2833,7 +2833,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteMonitoringEdgeDevice
    */
-  static readonly PostEnterprisesEnterpriseSiteMonitoringEdgeDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device/{edge-device-id}';
+  static readonly PostEnterprisesEnterpriseSiteMonitoringEdgeDevicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device/{edge-device-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device.
@@ -2931,7 +2931,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteMonitoringEdgeDevice
    */
-  static readonly DeleteEnterprisesEnterpriseSiteMonitoringEdgeDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device/{edge-device-id}';
+  static readonly DeleteEnterprisesEnterpriseSiteMonitoringEdgeDevicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device/{edge-device-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device.
@@ -3026,7 +3026,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteSimCard
    */
-  static readonly PostEnterprisesEnterpriseSiteSimCardPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/sim-card/{sim-id}';
+  static readonly PostEnterprisesEnterpriseSiteSimCardPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/sim-card/{sim-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/sim-card.
@@ -3124,7 +3124,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteSimCard
    */
-  static readonly DeleteEnterprisesEnterpriseSiteSimCardPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/sim-card/{sim-id}';
+  static readonly DeleteEnterprisesEnterpriseSiteSimCardPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/sim-card/{sim-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/sim-card.
@@ -3219,7 +3219,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteSlice
    */
-  static readonly PostEnterprisesEnterpriseSiteSlicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}';
+  static readonly PostEnterprisesEnterpriseSiteSlicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice.
@@ -3317,7 +3317,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteSlice
    */
-  static readonly DeleteEnterprisesEnterpriseSiteSlicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}';
+  static readonly DeleteEnterprisesEnterpriseSiteSlicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice.
@@ -3412,7 +3412,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteSliceDeviceGroup
    */
-  static readonly PostEnterprisesEnterpriseSiteSliceDeviceGroupPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group/{device-group}';
+  static readonly PostEnterprisesEnterpriseSiteSliceDeviceGroupPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group/{device-group}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group.
@@ -3521,7 +3521,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteSliceDeviceGroup
    */
-  static readonly DeleteEnterprisesEnterpriseSiteSliceDeviceGroupPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group/{device-group}';
+  static readonly DeleteEnterprisesEnterpriseSiteSliceDeviceGroupPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group/{device-group}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group.
@@ -3627,7 +3627,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteSliceFilter
    */
-  static readonly PostEnterprisesEnterpriseSiteSliceFilterPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter/{application}';
+  static readonly PostEnterprisesEnterpriseSiteSliceFilterPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter/{application}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter.
@@ -3736,7 +3736,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteSliceFilter
    */
-  static readonly DeleteEnterprisesEnterpriseSiteSliceFilterPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter/{application}';
+  static readonly DeleteEnterprisesEnterpriseSiteSliceFilterPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter/{application}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter.
@@ -3842,7 +3842,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteSliceMbr
    */
-  static readonly PostEnterprisesEnterpriseSiteSliceMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/mbr';
+  static readonly PostEnterprisesEnterpriseSiteSliceMbrPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/mbr';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/mbr.
@@ -3940,7 +3940,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteSliceMbr
    */
-  static readonly DeleteEnterprisesEnterpriseSiteSliceMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/mbr';
+  static readonly DeleteEnterprisesEnterpriseSiteSliceMbrPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/mbr';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/mbr.
@@ -4035,7 +4035,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteSlicePriorityTrafficRule
    */
-  static readonly PostEnterprisesEnterpriseSiteSlicePriorityTrafficRulePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}';
+  static readonly PostEnterprisesEnterpriseSiteSlicePriorityTrafficRulePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule.
@@ -4144,7 +4144,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteSlicePriorityTrafficRule
    */
-  static readonly DeleteEnterprisesEnterpriseSiteSlicePriorityTrafficRulePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}';
+  static readonly DeleteEnterprisesEnterpriseSiteSlicePriorityTrafficRulePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule.
@@ -4250,7 +4250,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteSmallCell
    */
-  static readonly PostEnterprisesEnterpriseSiteSmallCellPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell/{small-cell-id}';
+  static readonly PostEnterprisesEnterpriseSiteSmallCellPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell/{small-cell-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell.
@@ -4348,7 +4348,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteSmallCell
    */
-  static readonly DeleteEnterprisesEnterpriseSiteSmallCellPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell/{small-cell-id}';
+  static readonly DeleteEnterprisesEnterpriseSiteSmallCellPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell/{small-cell-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell.
@@ -4443,7 +4443,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseSiteUpf
    */
-  static readonly PostEnterprisesEnterpriseSiteUpfPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/upf/{upf-id}';
+  static readonly PostEnterprisesEnterpriseSiteUpfPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/upf/{upf-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/site/{site-id}/upf.
@@ -4541,7 +4541,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseSiteUpf
    */
-  static readonly DeleteEnterprisesEnterpriseSiteUpfPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/upf/{upf-id}';
+  static readonly DeleteEnterprisesEnterpriseSiteUpfPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/upf/{upf-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/site/{site-id}/upf.
@@ -4636,7 +4636,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseTemplate
    */
-  static readonly PostEnterprisesEnterpriseTemplatePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/template/{template-id}';
+  static readonly PostEnterprisesEnterpriseTemplatePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/template/{template-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/template.
@@ -4723,7 +4723,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseTemplate
    */
-  static readonly DeleteEnterprisesEnterpriseTemplatePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/template/{template-id}';
+  static readonly DeleteEnterprisesEnterpriseTemplatePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/template/{template-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/template.
@@ -4807,7 +4807,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseTemplateMbr
    */
-  static readonly PostEnterprisesEnterpriseTemplateMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/template/{template-id}/mbr';
+  static readonly PostEnterprisesEnterpriseTemplateMbrPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/template/{template-id}/mbr';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/template/{template-id}/mbr.
@@ -4894,7 +4894,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseTemplateMbr
    */
-  static readonly DeleteEnterprisesEnterpriseTemplateMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/template/{template-id}/mbr';
+  static readonly DeleteEnterprisesEnterpriseTemplateMbrPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/template/{template-id}/mbr';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/template/{template-id}/mbr.
@@ -4978,7 +4978,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postEnterprisesEnterpriseTrafficClass
    */
-  static readonly PostEnterprisesEnterpriseTrafficClassPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/traffic-class/{traffic-class-id}';
+  static readonly PostEnterprisesEnterpriseTrafficClassPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/traffic-class/{traffic-class-id}';
 
   /**
    * POST /enterprises/enterprise/{enterprise-id}/traffic-class.
@@ -5065,7 +5065,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteEnterprisesEnterpriseTrafficClass
    */
-  static readonly DeleteEnterprisesEnterpriseTrafficClassPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/traffic-class/{traffic-class-id}';
+  static readonly DeleteEnterprisesEnterpriseTrafficClassPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/traffic-class/{traffic-class-id}';
 
   /**
    * DELETE /enterprises/enterprise/{enterprise-id}/traffic-class.

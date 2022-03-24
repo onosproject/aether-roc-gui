@@ -25,12 +25,107 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
   }
 
   /**
-   * Path part for operation getEnterprisesEnterpriseSiteSliceFilter
+   * Path part for operation getEnterprisesEnterpriseSiteSliceFilterList
    */
-  static readonly GetEnterprisesEnterpriseSiteSliceFilterPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter/{application}';
+  static readonly GetEnterprisesEnterpriseSiteSliceFilterListPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter List.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseSiteSliceFilterList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteSliceFilterList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceFilterList>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSliceFilterService.GetEnterprisesEnterpriseSiteSliceFilterListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceFilterList>>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter List.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseSiteSliceFilterList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteSliceFilterList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+  }): Observable<Array<EnterprisesEnterpriseSiteSliceFilterList>> {
+
+    return this.getEnterprisesEnterpriseSiteSliceFilterList$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceFilterList>>) => r.body as Array<EnterprisesEnterpriseSiteSliceFilterList>)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseSiteSliceFilter
+   */
+  static readonly GetEnterprisesEnterpriseSiteSliceFilterPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter/{application}';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter Container.
    *
    *
    *
@@ -88,7 +183,7 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter Container.
    *
    *
    *
@@ -127,101 +222,6 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
 
     return this.getEnterprisesEnterpriseSiteSliceFilter$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSliceFilter>) => r.body as EnterprisesEnterpriseSiteSliceFilter)
-    );
-  }
-
-  /**
-   * Path part for operation getEnterprisesEnterpriseSiteSliceFilterList
-   */
-  static readonly GetEnterprisesEnterpriseSiteSliceFilterListPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter';
-
-  /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getEnterprisesEnterpriseSiteSliceFilterList()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getEnterprisesEnterpriseSiteSliceFilterList$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {enterprise-id}
-     */
-    'enterprise-id': any;
-
-    /**
-     * key {site-id}
-     */
-    'site-id': any;
-
-    /**
-     * key {slice-id}
-     */
-    'slice-id': any;
-  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteSliceFilterList>> {
-
-    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSliceFilterService.GetEnterprisesEnterpriseSiteSliceFilterListPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('enterprise-id', params['enterprise-id'], {});
-      rb.path('site-id', params['site-id'], {});
-      rb.path('slice-id', params['slice-id'], {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<EnterprisesEnterpriseSiteSliceFilterList>;
-      })
-    );
-  }
-
-  /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/filter.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getEnterprisesEnterpriseSiteSliceFilterList$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getEnterprisesEnterpriseSiteSliceFilterList(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {enterprise-id}
-     */
-    'enterprise-id': any;
-
-    /**
-     * key {site-id}
-     */
-    'site-id': any;
-
-    /**
-     * key {slice-id}
-     */
-    'slice-id': any;
-  }): Observable<EnterprisesEnterpriseSiteSliceFilterList> {
-
-    return this.getEnterprisesEnterpriseSiteSliceFilterList$Response(params).pipe(
-      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSliceFilterList>) => r.body as EnterprisesEnterpriseSiteSliceFilterList)
     );
   }
 

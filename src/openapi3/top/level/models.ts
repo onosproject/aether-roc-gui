@@ -13,7 +13,6 @@ export { RollbackTransaction } from './models/rollback-transaction';
 export { Deleted } from './models/deleted';
 export { Path } from './models/path';
 export { TypeOpts } from './models/type-opts';
-export { Bytes } from './models/bytes';
 export { ValueType } from './models/value-type';
 export { TypedValue } from './models/typed-value';
 export { PathValue } from './models/path-value';

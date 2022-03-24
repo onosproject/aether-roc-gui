@@ -26,12 +26,96 @@ export class EnterprisesEnterpriseApplicationEndpointService extends BaseService
   }
 
   /**
-   * Path part for operation getEnterprisesEnterpriseApplicationEndpoint
+   * Path part for operation getEnterprisesEnterpriseApplicationEndpointList
    */
-  static readonly GetEnterprisesEnterpriseApplicationEndpointPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}';
+  static readonly GetEnterprisesEnterpriseApplicationEndpointListPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint.
+   * GET /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint List.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseApplicationEndpointList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseApplicationEndpointList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseApplicationEndpointList>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseApplicationEndpointService.GetEnterprisesEnterpriseApplicationEndpointListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('application-id', params['application-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<EnterprisesEnterpriseApplicationEndpointList>>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint List.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseApplicationEndpointList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseApplicationEndpointList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+  }): Observable<Array<EnterprisesEnterpriseApplicationEndpointList>> {
+
+    return this.getEnterprisesEnterpriseApplicationEndpointList$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseApplicationEndpointList>>) => r.body as Array<EnterprisesEnterpriseApplicationEndpointList>)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseApplicationEndpoint
+   */
+  static readonly GetEnterprisesEnterpriseApplicationEndpointPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint Container.
    *
    *
    *
@@ -83,7 +167,7 @@ export class EnterprisesEnterpriseApplicationEndpointService extends BaseService
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint.
+   * GET /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint Container.
    *
    *
    *
@@ -121,96 +205,12 @@ export class EnterprisesEnterpriseApplicationEndpointService extends BaseService
   }
 
   /**
-   * Path part for operation getEnterprisesEnterpriseApplicationEndpointList
-   */
-  static readonly GetEnterprisesEnterpriseApplicationEndpointListPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint';
-
-  /**
-   * GET /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getEnterprisesEnterpriseApplicationEndpointList()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getEnterprisesEnterpriseApplicationEndpointList$Response(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {enterprise-id}
-     */
-    'enterprise-id': any;
-
-    /**
-     * key {application-id}
-     */
-    'application-id': any;
-  }): Observable<StrictHttpResponse<EnterprisesEnterpriseApplicationEndpointList>> {
-
-    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseApplicationEndpointService.GetEnterprisesEnterpriseApplicationEndpointListPath, 'get');
-    if (params) {
-      rb.path('target', params.target, {});
-      rb.path('enterprise-id', params['enterprise-id'], {});
-      rb.path('application-id', params['application-id'], {});
-    }
-
-    return this.http.request(rb.build({
-      responseType: 'json',
-      accept: 'application/json'
-    })).pipe(
-      filter((r: any) => r instanceof HttpResponse),
-      map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<EnterprisesEnterpriseApplicationEndpointList>;
-      })
-    );
-  }
-
-  /**
-   * GET /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint.
-   *
-   *
-   *
-   * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `getEnterprisesEnterpriseApplicationEndpointList$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getEnterprisesEnterpriseApplicationEndpointList(params: {
-
-    /**
-     * target (device in onos-config)
-     */
-    target: any;
-
-    /**
-     * key {enterprise-id}
-     */
-    'enterprise-id': any;
-
-    /**
-     * key {application-id}
-     */
-    'application-id': any;
-  }): Observable<EnterprisesEnterpriseApplicationEndpointList> {
-
-    return this.getEnterprisesEnterpriseApplicationEndpointList$Response(params).pipe(
-      map((r: StrictHttpResponse<EnterprisesEnterpriseApplicationEndpointList>) => r.body as EnterprisesEnterpriseApplicationEndpointList)
-    );
-  }
-
-  /**
    * Path part for operation getEnterprisesEnterpriseApplicationEndpointMbr
    */
-  static readonly GetEnterprisesEnterpriseApplicationEndpointMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr';
+  static readonly GetEnterprisesEnterpriseApplicationEndpointMbrPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr.
+   * GET /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr Container.
    *
    *
    *
@@ -262,7 +262,7 @@ export class EnterprisesEnterpriseApplicationEndpointService extends BaseService
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr.
+   * GET /enterprises/enterprise/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr Container.
    *
    *
    *
