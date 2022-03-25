@@ -6,6 +6,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TransactionListService } from '../../../openapi3/top/level/services';
 import { Transaction } from '../../../openapi3/top/level/models';
+import { MatTableDataSource } from "@angular/material/table";
+
+type UiTransaction = Transaction & {dataSource: MatTableDataSource<Transaction>}
 
 @Component({
     selector: 'aether-transaction-list',
@@ -14,10 +17,10 @@ import { Transaction } from '../../../openapi3/top/level/models';
 })
 export class TransactionListComponent implements OnInit {
     @Output() closeEvent = new EventEmitter<boolean>();
-    displayedColumns = ['id', 'username', 'updated', 'status', 'changes'];
+    displayedColumns = ['path', 'deleted', 'value'];
     displayChanges = false;
     rowID: string;
-    transactionListData: Transaction[];
+    transactionListData: UiTransaction[];
 
     constructor(private topLevelApiService: TransactionListService) {}
 
@@ -25,7 +28,9 @@ export class TransactionListComponent implements OnInit {
         this.topLevelApiService
             .getTransactions()
             .subscribe((value: Transaction[]) => {
-                this.transactionListData = value;
+                this.transactionListData = value.reduce((list: UiTransaction[], t: Transaction ) => {
+                    return [{...t, dataSource: new MatTableDataSource(t.details.change[0]['path-values'])} as UiTransaction, ...list]
+                }, []);
             });
     }
 

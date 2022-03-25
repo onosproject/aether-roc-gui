@@ -25,7 +25,10 @@
                     class="accordion-item-header"
                     (click)="accordionItem.toggle()"
                 >
-                    Username: {{ item.username }}, ID: {{ item.id }}
+                    <span *ngIf="item.username"
+                        >Username: {{ item.username }} -
+                    </span>
+                    <h4>ID: {{ item.id }}</h4>
                     <span class="accordion-item-description">
                         Click to {{ accordionItem.expanded ? "close" : "open" }}
                     </span>
@@ -37,35 +40,60 @@
                     [attr.id]="'accordion-body-' + index"
                     [attr.aria-labelledby]="'accordion-header-' + index"
                 >
-                    <h4>Updated:</h4>
-                    <p>{{ item.meta.updated }}</p>
-                    <h4>Status:</h4>
-                    <p>{{ item.status.state }}</p>
+<!--                    <code><pre>{{item.dataSource.data|json}}</pre></code>-->
+                    <table class="mat-table cdk-table full-width-table">
+                        <tr class="mat-header-row">
+                            <th class="mat-header-cell">Created</th>
+                            <th class="mat-header-cell">Updated</th>
+                            <th class="mat-header-cell">Version</th>
+                            <th class="mat-header-cell">Revision</th>
+                            <th class="mat-header-cell">Status</th>
+                        </tr>
+                        <tr class="mat-row">
+                            <td class="mat-cell">
+                                {{item.meta.created | date:'medium'}}
+                            </td>
+                            <td class="mat-cell">
+                                {{item.meta.updated | date:'medium'}}
+                            </td>
+                            <td class="mat-cell">
+                                {{item.meta.version}}
+                            </td>
+                            <td class="mat-cell">
+                                {{item.meta.revision}}
+                            </td>
+                            <td class="mat-cell">
+                                {{item.status.state}}
+                            </td>
+                        </tr>
+                    </table>
+
                     <h4>Changes :</h4>
-                    <div
-                        *ngFor="
-                            let change of item.details.change[0]['path-values'];
-                            let lastItem = last
-                        "
-                    >
-                        <mat-list>
-                            <mat-list-item
-                                [style]="
-                                    change['path-value'].deleted
-                                        ? 'text-decoration: line-through'
-                                        : ''
-                                "
-                            >
-                                <h4>Path:</h4>
-                                <p>{{ change["path"] }}</p>
-                                <h4>, Value:</h4>
-                                <p>
-                                    {{ change["path-value"].value.value }}
-                                </p>
-                            </mat-list-item>
-                            <mat-divider *ngIf="!lastItem"></mat-divider>
-                        </mat-list>
-                    </div>
+                    <table mat-table [dataSource]="item.dataSource">
+                        <ng-container matColumnDef="path">
+                            <th mat-header-cell *matHeaderCellDef>Path</th>
+                            <td mat-cell *matCellDef="let t">
+                                {{ t.path }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="deleted">
+                            <th mat-header-cell *matHeaderCellDef>Deleted</th>
+                            <td mat-cell *matCellDef="let t">
+                                {{ t['path-value'].deleted }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="value">
+                            <th mat-header-cell *matHeaderCellDef>Value</th>
+                            <td mat-cell *matCellDef="let t">
+                                {{ t["path-value"].value.value }}
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr
+                        mat-row
+                        *matRowDef="let myRowData; columns: displayedColumns"
+                    ></tr>
+                    </table>
                 </div>
             </cdk-accordion-item>
         </cdk-accordion>
