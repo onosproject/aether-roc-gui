@@ -33,7 +33,7 @@ export class UpfDatasource extends RocDataSource<
             aetherService,
             bs,
             target,
-            'Enterprises-2.0.0',
+            'enterprises-2.0.0',
             ['enterprise', 'site', 'upf'],
             ['enterprise-id', 'site-id', 'upf-id']
         );

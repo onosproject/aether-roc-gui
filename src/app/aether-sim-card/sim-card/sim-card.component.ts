@@ -42,7 +42,7 @@ export class SimCardComponent
     ];
 
     modelPath = [
-        'Enterprises-2.0.0',
+        'enterprises-2.0.0',
         'enterprise',
         'site',
         'sim-card',

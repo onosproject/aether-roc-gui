@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { EnterprisesEnterpriseSiteSliceDeviceGroup } from '../models/enterprises-enterprise-site-slice-device-group';
+import { EnterprisesEnterpriseSiteSliceDeviceGroupList } from '../models/enterprises-enterprise-site-slice-device-group-list';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +25,107 @@ export class EnterprisesEnterpriseSiteSliceDeviceGroupService extends BaseServic
   }
 
   /**
-   * Path part for operation getEnterprisesEnterpriseSiteSliceDeviceGroup
+   * Path part for operation getEnterprisesEnterpriseSiteSliceDeviceGroupList
    */
-  static readonly GetEnterprisesEnterpriseSiteSliceDeviceGroupPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group/{device-group}';
+  static readonly GetEnterprisesEnterpriseSiteSliceDeviceGroupListPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group List.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseSiteSliceDeviceGroupList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteSliceDeviceGroupList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceDeviceGroupList>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSliceDeviceGroupService.GetEnterprisesEnterpriseSiteSliceDeviceGroupListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceDeviceGroupList>>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group List.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseSiteSliceDeviceGroupList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteSliceDeviceGroupList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+  }): Observable<Array<EnterprisesEnterpriseSiteSliceDeviceGroupList>> {
+
+    return this.getEnterprisesEnterpriseSiteSliceDeviceGroupList$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceDeviceGroupList>>) => r.body as Array<EnterprisesEnterpriseSiteSliceDeviceGroupList>)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseSiteSliceDeviceGroup
+   */
+  static readonly GetEnterprisesEnterpriseSiteSliceDeviceGroupPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group/{device-group}';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group Container.
    *
    *
    *
@@ -87,7 +183,7 @@ export class EnterprisesEnterpriseSiteSliceDeviceGroupService extends BaseServic
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group Container.
    *
    *
    *

@@ -44,7 +44,7 @@ export class TemplateComponent
         'delete',
     ];
 
-    modelPath = ['Enterprises-2.0.0', 'enterprise', 'template', 'template-id'];
+    modelPath = ['enterprises-2.0.0', 'enterprise', 'template', 'template-id'];
 
     constructor(
         public opaService: OpenPolicyAgentService,

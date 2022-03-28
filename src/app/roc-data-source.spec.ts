@@ -41,14 +41,14 @@ describe('ROC Data Source', () => {
         it('should create a full path from slice', () => {
             const fp = component.fullPath('ent1', 'site1', 'slice1');
             expect(fp).toEqual(
-                'Enterprises-2.0.0/enterprise[enterprise-id=ent1]/site[site-id=site1]/slice[slice-id=slice1]'
+                'enterprises-2.0.0/enterprise[enterprise-id=ent1]/site[site-id=site1]/slice[slice-id=slice1]'
             );
         });
 
         it('should create a delete path from slice', () => {
             const fp = component.deletePath('ent1', 'site1', 'slice1');
             expect(fp).toEqual(
-                '/Enterprises-2.0.0/enterprise[enterprise-id=ent1]/site[site-id=site1]/slice[slice-id=slice1]/slice-id'
+                '/enterprises-2.0.0/enterprise[enterprise-id=ent1]/site[site-id=site1]/slice[slice-id=slice1]/slice-id'
             );
         });
 
@@ -60,7 +60,7 @@ describe('ROC Data Source', () => {
             );
             const fp = siteComponent.fullPath('ent1', 'site1');
             expect(fp).toEqual(
-                'Enterprises-2.0.0/enterprise[enterprise-id=ent1]/site[site-id=site1]'
+                'enterprises-2.0.0/enterprise[enterprise-id=ent1]/site[site-id=site1]'
             );
         });
 
@@ -72,7 +72,7 @@ describe('ROC Data Source', () => {
             );
             const fp = entComponent.fullPath('ent1');
             expect(fp).toEqual(
-                'Enterprises-2.0.0/enterprise[enterprise-id=ent1]'
+                'enterprises-2.0.0/enterprise[enterprise-id=ent1]'
             );
         });
     });
@@ -83,7 +83,7 @@ describe('ROC Data Source', () => {
         // hasUpdates is a pure function
         let existingModels: EnterprisesEnterpriseApplication[] = [];
         const applicationModelPath: string[] = [
-            'Enterprises-2.0.0',
+            'enterprises-2.0.0',
             'enterprise',
             'application',
             'application-id',
@@ -103,7 +103,7 @@ describe('ROC Data Source', () => {
             ];
         });
         const basket: Elements = {
-            'Enterprises-2.0.0': {
+            'enterprises-2.0.0': {
                 enterprise: [
                     {
                         'enterprise-id': 'test-enterprise',
@@ -165,7 +165,7 @@ describe('ROC Data Source', () => {
 
         // this represents the updated data in the basket (id must match)
         const basketItems: Elements = {
-            'Enterprises-2.0.0': {
+            'enterprises-2.0.0': {
                 enterprise: [
                     {
                         'enterprise-id': 'test-enterprise',
@@ -208,7 +208,7 @@ describe('ROC Data Source', () => {
         };
 
         const sliceModelPath = [
-            'Enterprises-2.0.0',
+            'enterprises-2.0.0',
             'enterprise',
             'site',
             'slice',
@@ -223,7 +223,7 @@ describe('ROC Data Source', () => {
             ]);
             const updatedSlice = component.data[0];
             const basketSlice =
-                basketItems['Enterprises-2.0.0'].enterprise[0].site[0].slice[0];
+                basketItems['enterprises-2.0.0'].enterprise[0].site[0].slice[0];
             expect(updatedSlice['default-behavior']).toEqual(
                 basketSlice['default-behavior']
             );

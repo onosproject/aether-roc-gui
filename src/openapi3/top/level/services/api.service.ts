@@ -147,7 +147,7 @@ export class ApiService extends BaseService {
   sdcorePushConfigTopLevel$Response(params: {
 
     /**
-     * sdcore service name e.g. sdcore-adapter-v2
+     * sdcore service name e.g. sdcore-adapter-v4
      */
     service: any;
   }): Observable<StrictHttpResponse<void>> {
@@ -181,7 +181,7 @@ export class ApiService extends BaseService {
   sdcorePushConfigTopLevel(params: {
 
     /**
-     * sdcore service name e.g. sdcore-adapter-v2
+     * sdcore service name e.g. sdcore-adapter-v4
      */
     service: any;
   }): Observable<void> {
@@ -340,6 +340,57 @@ export class ApiService extends BaseService {
   }): Observable<string> {
 
     return this.specAether400$Response(params).pipe(
+      map((r: StrictHttpResponse<string>) => r.body as string)
+    );
+  }
+
+  /**
+   * Path part for operation specAetherAppGtwy
+   */
+  static readonly SpecAetherAppGtwyPath = '/spec/aether-app-gtwy-openapi3.yaml';
+
+  /**
+   * GET /spec/aether-app-gtwy-openapi3.yaml The Aether Application Gateway spec.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `specAetherAppGtwy()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  specAetherAppGtwy$Response(params?: {
+  }): Observable<StrictHttpResponse<string>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApiService.SpecAetherAppGtwyPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'blob',
+      accept: 'application/yaml'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<string>;
+      })
+    );
+  }
+
+  /**
+   * GET /spec/aether-app-gtwy-openapi3.yaml The Aether Application Gateway spec.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `specAetherAppGtwy$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  specAetherAppGtwy(params?: {
+  }): Observable<string> {
+
+    return this.specAetherAppGtwy$Response(params).pipe(
       map((r: StrictHttpResponse<string>) => r.body as string)
     );
   }

@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { EnterprisesEnterprise } from '../models/enterprises-enterprise';
+import { EnterprisesEnterpriseList } from '../models/enterprises-enterprise-list';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +25,74 @@ export class EnterprisesEnterpriseService extends BaseService {
   }
 
   /**
-   * Path part for operation getEnterprisesEnterprise
+   * Path part for operation getEnterprisesEnterpriseList
    */
-  static readonly GetEnterprisesEnterprisePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}';
+  static readonly GetEnterprisesEnterpriseListPath = '/aether/v2.0.x/{target}/enterprises/enterprise';
 
   /**
-   * GET /enterprises/enterprise.
+   * GET /enterprises/enterprise List.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseList>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseService.GetEnterprisesEnterpriseListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<EnterprisesEnterpriseList>>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise List.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+  }): Observable<Array<EnterprisesEnterpriseList>> {
+
+    return this.getEnterprisesEnterpriseList$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseList>>) => r.body as Array<EnterprisesEnterpriseList>)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterprise
+   */
+  static readonly GetEnterprisesEnterprisePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}';
+
+  /**
+   * GET /enterprises/enterprise Container.
    *
    *
    *
@@ -69,7 +132,7 @@ export class EnterprisesEnterpriseService extends BaseService {
   }
 
   /**
-   * GET /enterprises/enterprise.
+   * GET /enterprises/enterprise Container.
    *
    *
    *

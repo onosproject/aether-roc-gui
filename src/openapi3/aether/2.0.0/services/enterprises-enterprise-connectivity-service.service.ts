@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { EnterprisesEnterpriseConnectivityService } from '../models/enterprises-enterprise-connectivity-service';
+import { EnterprisesEnterpriseConnectivityServiceList } from '../models/enterprises-enterprise-connectivity-service-list';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +25,85 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
   }
 
   /**
-   * Path part for operation getEnterprisesEnterpriseConnectivityService
+   * Path part for operation getEnterprisesEnterpriseConnectivityServiceList
    */
-  static readonly GetEnterprisesEnterpriseConnectivityServicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/connectivity-service/{connectivity-service}';
+  static readonly GetEnterprisesEnterpriseConnectivityServiceListPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/connectivity-service';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/connectivity-service.
+   * GET /enterprises/enterprise/{enterprise-id}/connectivity-service List.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseConnectivityServiceList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseConnectivityServiceList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseConnectivityServiceList>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseConnectivityServiceService.GetEnterprisesEnterpriseConnectivityServiceListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<EnterprisesEnterpriseConnectivityServiceList>>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/connectivity-service List.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseConnectivityServiceList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseConnectivityServiceList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<Array<EnterprisesEnterpriseConnectivityServiceList>> {
+
+    return this.getEnterprisesEnterpriseConnectivityServiceList$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseConnectivityServiceList>>) => r.body as Array<EnterprisesEnterpriseConnectivityServiceList>)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseConnectivityService
+   */
+  static readonly GetEnterprisesEnterpriseConnectivityServicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/connectivity-service/{connectivity-service}';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/connectivity-service Container.
    *
    *
    *
@@ -75,7 +149,7 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/connectivity-service.
+   * GET /enterprises/enterprise/{enterprise-id}/connectivity-service Container.
    *
    *
    *

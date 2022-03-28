@@ -41,7 +41,7 @@ export class SmallCellComponent
     ];
 
     modelPath = [
-        'Enterprises-2.0.0',
+        'enterprises-2.0.0',
         'enterprise',
         'site',
         'small-cell',

@@ -12,6 +12,7 @@ import { map, filter } from 'rxjs/operators';
 
 import { EnterprisesEnterpriseSite } from '../models/enterprises-enterprise-site';
 import { EnterprisesEnterpriseSiteImsiDefinition } from '../models/enterprises-enterprise-site-imsi-definition';
+import { EnterprisesEnterpriseSiteList } from '../models/enterprises-enterprise-site-list';
 import { EnterprisesEnterpriseSiteMonitoring } from '../models/enterprises-enterprise-site-monitoring';
 
 @Injectable({
@@ -26,12 +27,85 @@ export class EnterprisesEnterpriseSiteService extends BaseService {
   }
 
   /**
-   * Path part for operation getEnterprisesEnterpriseSite
+   * Path part for operation getEnterprisesEnterpriseSiteList
    */
-  static readonly GetEnterprisesEnterpriseSitePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}';
+  static readonly GetEnterprisesEnterpriseSiteListPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site.
+   * GET /enterprises/enterprise/{enterprise-id}/site List.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseSiteList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteList>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteService.GetEnterprisesEnterpriseSiteListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteList>>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site List.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseSiteList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+  }): Observable<Array<EnterprisesEnterpriseSiteList>> {
+
+    return this.getEnterprisesEnterpriseSiteList$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteList>>) => r.body as Array<EnterprisesEnterpriseSiteList>)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseSite
+   */
+  static readonly GetEnterprisesEnterpriseSitePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site Container.
    *
    *
    *
@@ -77,7 +151,7 @@ export class EnterprisesEnterpriseSiteService extends BaseService {
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site.
+   * GET /enterprises/enterprise/{enterprise-id}/site Container.
    *
    *
    *
@@ -112,10 +186,10 @@ export class EnterprisesEnterpriseSiteService extends BaseService {
   /**
    * Path part for operation getEnterprisesEnterpriseSiteImsiDefinition
    */
-  static readonly GetEnterprisesEnterpriseSiteImsiDefinitionPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition';
+  static readonly GetEnterprisesEnterpriseSiteImsiDefinitionPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition Container.
    *
    *
    *
@@ -161,7 +235,7 @@ export class EnterprisesEnterpriseSiteService extends BaseService {
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/imsi-definition Container.
    *
    *
    *
@@ -196,10 +270,10 @@ export class EnterprisesEnterpriseSiteService extends BaseService {
   /**
    * Path part for operation getEnterprisesEnterpriseSiteMonitoring
    */
-  static readonly GetEnterprisesEnterpriseSiteMonitoringPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring';
+  static readonly GetEnterprisesEnterpriseSiteMonitoringPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring Container.
    *
    *
    *
@@ -245,7 +319,7 @@ export class EnterprisesEnterpriseSiteService extends BaseService {
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring Container.
    *
    *
    *

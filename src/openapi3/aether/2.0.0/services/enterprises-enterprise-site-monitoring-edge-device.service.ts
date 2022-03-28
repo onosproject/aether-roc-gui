@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { EnterprisesEnterpriseSiteMonitoringEdgeDevice } from '../models/enterprises-enterprise-site-monitoring-edge-device';
+import { EnterprisesEnterpriseSiteMonitoringEdgeDeviceList } from '../models/enterprises-enterprise-site-monitoring-edge-device-list';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +25,96 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
   }
 
   /**
-   * Path part for operation getEnterprisesEnterpriseSiteMonitoringEdgeDevice
+   * Path part for operation getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList
    */
-  static readonly GetEnterprisesEnterpriseSiteMonitoringEdgeDevicePath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device/{edge-device-id}';
+  static readonly GetEnterprisesEnterpriseSiteMonitoringEdgeDeviceListPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device List.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteMonitoringEdgeDeviceService.GetEnterprisesEnterpriseSiteMonitoringEdgeDeviceListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device List.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>> {
+
+    return this.getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>>) => r.body as Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseSiteMonitoringEdgeDevice
+   */
+  static readonly GetEnterprisesEnterpriseSiteMonitoringEdgeDevicePath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device/{edge-device-id}';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device Container.
    *
    *
    *
@@ -81,7 +166,7 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/monitoring/edge-device Container.
    *
    *
    *

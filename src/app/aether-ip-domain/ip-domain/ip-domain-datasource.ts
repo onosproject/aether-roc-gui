@@ -33,7 +33,7 @@ export class IpDomainDatasource extends RocDataSource<
             aetherService,
             bs,
             target,
-            'Enterprises-2.0.0',
+            'enterprises-2.0.0',
             ['enterprise', 'site', 'ip-domain'],
             ['enterprise-id', 'site-id', 'ip-domain-id']
         );

@@ -29,7 +29,7 @@ interface TestData {
 const TestDataSource = jasmine.createSpyObj('TestDataSource', {
     fullPath: jasmine.createSpy('fullPath').and.returnValue('full-path')(),
 });
-TestDataSource.pathRoot = 'Enterprises-2.0.0';
+TestDataSource.pathRoot = 'enterprises-2.0.0';
 TestDataSource.pathListAttr = ['enterprise', 'test-data'];
 TestDataSource.indexAttr = ['enterprise-id', 'test-data-id'];
 

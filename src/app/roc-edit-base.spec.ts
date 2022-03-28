@@ -22,7 +22,7 @@ import * as _ from 'lodash';
 const TestDataSource = jasmine.createSpyObj('TestDataSource', {
     fullPath: jasmine.createSpy('fullPath').and.returnValue('full-path')(),
 });
-TestDataSource.pathRoot = 'Enterprises-2.0.0';
+TestDataSource.pathRoot = 'enterprises-2.0.0';
 TestDataSource.pathListAttr = 'enterprise';
 TestDataSource.indexAttr = 'enterprise-id';
 
@@ -110,7 +110,7 @@ describe('The Roc List Base class', () => {
                 mockParamsMap(enterpriseMockParams)
             );
             expect(enterprisePath).toEqual(
-                'Enterprises-2.0.0/enterprise[enterprise-id=enterprise-1]'
+                'enterprises-2.0.0/enterprise[enterprise-id=enterprise-1]'
             );
 
             component.modelPath = deviceModelPath;
@@ -118,7 +118,7 @@ describe('The Roc List Base class', () => {
                 mockParamsMap(deviceMockParams)
             );
             expect(devicePath).toEqual(
-                'Enterprises-2.0.0/enterprise[enterprise-id=test-enterprise-1]/site[site-id=test-site-1]/device[device-id=device-id-1]'
+                'enterprises-2.0.0/enterprise[enterprise-id=test-enterprise-1]/site[site-id=test-site-1]/device[device-id=device-id-1]'
             );
         });
     });

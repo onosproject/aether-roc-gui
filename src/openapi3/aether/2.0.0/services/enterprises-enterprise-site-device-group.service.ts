@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { EnterprisesEnterpriseSiteDeviceGroup } from '../models/enterprises-enterprise-site-device-group';
+import { EnterprisesEnterpriseSiteDeviceGroupList } from '../models/enterprises-enterprise-site-device-group-list';
 import { EnterprisesEnterpriseSiteDeviceGroupMbr } from '../models/enterprises-enterprise-site-device-group-mbr';
 
 @Injectable({
@@ -25,12 +26,96 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
   }
 
   /**
-   * Path part for operation getEnterprisesEnterpriseSiteDeviceGroup
+   * Path part for operation getEnterprisesEnterpriseSiteDeviceGroupList
    */
-  static readonly GetEnterprisesEnterpriseSiteDeviceGroupPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}';
+  static readonly GetEnterprisesEnterpriseSiteDeviceGroupListPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group List.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseSiteDeviceGroupList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteDeviceGroupList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceGroupList>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteDeviceGroupService.GetEnterprisesEnterpriseSiteDeviceGroupListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceGroupList>>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group List.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseSiteDeviceGroupList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteDeviceGroupList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<Array<EnterprisesEnterpriseSiteDeviceGroupList>> {
+
+    return this.getEnterprisesEnterpriseSiteDeviceGroupList$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceGroupList>>) => r.body as Array<EnterprisesEnterpriseSiteDeviceGroupList>)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseSiteDeviceGroup
+   */
+  static readonly GetEnterprisesEnterpriseSiteDeviceGroupPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group Container.
    *
    *
    *
@@ -82,7 +167,7 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group Container.
    *
    *
    *
@@ -122,10 +207,10 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
   /**
    * Path part for operation getEnterprisesEnterpriseSiteDeviceGroupMbr
    */
-  static readonly GetEnterprisesEnterpriseSiteDeviceGroupMbrPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr';
+  static readonly GetEnterprisesEnterpriseSiteDeviceGroupMbrPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr Container.
    *
    *
    *
@@ -177,7 +262,7 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/device-group/{device-group-id}/mbr Container.
    *
    *
    *

@@ -3,24 +3,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-    Component,
-    EventEmitter,
-    OnInit,
-    Output,
-    ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TransactionListService } from '../../../openapi3/top/level/services';
-import { MatTable } from '@angular/material/table';
 import { Transaction } from '../../../openapi3/top/level/models';
+import { MatTableDataSource } from '@angular/material/table';
+import { PathTarget } from '../../../openapi3/top/level/models/path-target';
 
-export interface TransactionList {
-    id: string;
-    username: string;
-    changes: string;
-    updated: string;
-    status: string;
-}
+type UiTransaction = Transaction & {
+    dataSource: MatTableDataSource<PathTarget>;
+};
 
 @Component({
     selector: 'aether-transaction-list',
@@ -28,35 +19,36 @@ export interface TransactionList {
     styleUrls: ['../../common-panel.component.scss'],
 })
 export class TransactionListComponent implements OnInit {
-    @ViewChild(MatTable)
-    table: MatTable<TransactionList>;
     @Output() closeEvent = new EventEmitter<boolean>();
-    displayedColumns = ['id', 'username', 'updated', 'status', 'changes'];
+    displayedColumns = ['path', 'deleted', 'value'];
     displayChanges = false;
     rowID: string;
-    transactionListData: Transaction[];
+    transactionListData: UiTransaction[];
 
     constructor(private topLevelApiService: TransactionListService) {}
 
     ngOnInit(): void {
-        this.topLevelApiService.getTransactions().subscribe((value) => {
-            this.transactionListData = value;
-        });
+        this.topLevelApiService
+            .getTransactions()
+            .subscribe((value: Transaction[]) => {
+                this.transactionListData = value.reduce(
+                    (list: UiTransaction[], t: Transaction) => {
+                        return [
+                            ...list,
+                            {
+                                ...t,
+                                dataSource: new MatTableDataSource(
+                                    t.details.change[0]['path-values']
+                                ),
+                            } as UiTransaction,
+                        ];
+                    },
+                    []
+                );
+            });
     }
 
     closeCard(): void {
         this.closeEvent.emit(true);
-    }
-    ViewChanges(id: string): void {
-        this.rowID = id;
-        this.displayChanges = !this.displayChanges;
-    }
-
-    showTransactionDetails(id: string): boolean {
-        if (this.displayChanges && this.rowID === id) {
-            return true;
-        } else {
-            false;
-        }
     }
 }

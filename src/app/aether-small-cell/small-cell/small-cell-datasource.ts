@@ -29,7 +29,7 @@ export class SmallCellDatasource extends RocDataSource<
             aetherService,
             bs,
             target,
-            'Enterprises-2.0.0',
+            'enterprises-2.0.0',
             ['enterprise', 'site', 'small-cell'],
             ['enterprise-id', 'site-id', 'small-cell-id']
         );

@@ -12,7 +12,7 @@ export interface PatchBody {
   /**
    * Model type and version of 'target' on first creation [link](https://docs.onosproject.org/onos-config/docs/gnmi_extensions/#use-of-extension-101-device-version-in-setrequest)
    */
-  Extensions?: { 'change-name-100'?: string, 'model-version-101'?: string, 'model-type-102'?: string, 'transaction-info-110'?: { 'id'?: string, 'index'?: number }, 'transaction-strategy-111'?: number };
+  Extensions?: { 'change-name-100'?: string, 'model-version-101'?: string, 'model-type-102'?: string, 'transaction-info-110'?: { 'ID'?: string, 'index'?: number }, 'transaction-strategy-111'?: number };
 
   /**
    * Elements to be updated or replaced

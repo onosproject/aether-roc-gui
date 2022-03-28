@@ -6,16 +6,18 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { Service } from './services/service';
+import { ContainerService } from './services/container.service';
 import { ApiService } from './services/api.service';
 import { ConnectivityServicesConnectivityServiceService } from './services/connectivity-services-connectivity-service.service';
+import { ListService } from './services/list.service';
 import { EnterprisesEnterpriseService } from './services/enterprises-enterprise.service';
 import { EnterprisesEnterpriseApplicationService } from './services/enterprises-enterprise-application.service';
 import { EnterprisesEnterpriseApplicationEndpointService } from './services/enterprises-enterprise-application-endpoint.service';
 import { EnterprisesEnterpriseConnectivityServiceService } from './services/enterprises-enterprise-connectivity-service.service';
 import { EnterprisesEnterpriseSiteService } from './services/enterprises-enterprise-site.service';
+import { EnterprisesEnterpriseSiteDeviceService } from './services/enterprises-enterprise-site-device.service';
 import { EnterprisesEnterpriseSiteDeviceGroupService } from './services/enterprises-enterprise-site-device-group.service';
 import { EnterprisesEnterpriseSiteDeviceGroupDeviceService } from './services/enterprises-enterprise-site-device-group-device.service';
-import { EnterprisesEnterpriseSiteDeviceService } from './services/enterprises-enterprise-site-device.service';
 import { EnterprisesEnterpriseSiteIpDomainService } from './services/enterprises-enterprise-site-ip-domain.service';
 import { EnterprisesEnterpriseSiteMonitoringEdgeDeviceService } from './services/enterprises-enterprise-site-monitoring-edge-device.service';
 import { EnterprisesEnterpriseSiteSimCardService } from './services/enterprises-enterprise-site-sim-card.service';
@@ -37,16 +39,18 @@ import { EnterprisesEnterpriseTrafficClassService } from './services/enterprises
   declarations: [],
   providers: [
     Service,
+    ContainerService,
     ApiService,
     ConnectivityServicesConnectivityServiceService,
+    ListService,
     EnterprisesEnterpriseService,
     EnterprisesEnterpriseApplicationService,
     EnterprisesEnterpriseApplicationEndpointService,
     EnterprisesEnterpriseConnectivityServiceService,
     EnterprisesEnterpriseSiteService,
+    EnterprisesEnterpriseSiteDeviceService,
     EnterprisesEnterpriseSiteDeviceGroupService,
     EnterprisesEnterpriseSiteDeviceGroupDeviceService,
-    EnterprisesEnterpriseSiteDeviceService,
     EnterprisesEnterpriseSiteIpDomainService,
     EnterprisesEnterpriseSiteMonitoringEdgeDeviceService,
     EnterprisesEnterpriseSiteSimCardService,

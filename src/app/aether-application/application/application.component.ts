@@ -39,7 +39,7 @@ export class ApplicationComponent
     ];
 
     modelPath = [
-        'Enterprises-2.0.0',
+        'enterprises-2.0.0',
         'enterprise',
         'application',
         'application-id',

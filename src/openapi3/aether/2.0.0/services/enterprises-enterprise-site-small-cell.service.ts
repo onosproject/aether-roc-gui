@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { EnterprisesEnterpriseSiteSmallCell } from '../models/enterprises-enterprise-site-small-cell';
+import { EnterprisesEnterpriseSiteSmallCellList } from '../models/enterprises-enterprise-site-small-cell-list';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +25,96 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
   }
 
   /**
-   * Path part for operation getEnterprisesEnterpriseSiteSmallCell
+   * Path part for operation getEnterprisesEnterpriseSiteSmallCellList
    */
-  static readonly GetEnterprisesEnterpriseSiteSmallCellPath = '/aether/v2.0.0/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell/{small-cell-id}';
+  static readonly GetEnterprisesEnterpriseSiteSmallCellListPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell';
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell List.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getEnterprisesEnterpriseSiteSmallCellList()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteSmallCellList$Response(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSmallCellList>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSmallCellService.GetEnterprisesEnterpriseSiteSmallCellListPath, 'get');
+    if (params) {
+      rb.path('target', params.target, {});
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSmallCellList>>;
+      })
+    );
+  }
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell List.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getEnterprisesEnterpriseSiteSmallCellList$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getEnterprisesEnterpriseSiteSmallCellList(params: {
+
+    /**
+     * target (device in onos-config)
+     */
+    target: any;
+
+    /**
+     * key {enterprise-id}
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<Array<EnterprisesEnterpriseSiteSmallCellList>> {
+
+    return this.getEnterprisesEnterpriseSiteSmallCellList$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSmallCellList>>) => r.body as Array<EnterprisesEnterpriseSiteSmallCellList>)
+    );
+  }
+
+  /**
+   * Path part for operation getEnterprisesEnterpriseSiteSmallCell
+   */
+  static readonly GetEnterprisesEnterpriseSiteSmallCellPath = '/aether/v2.0.x/{target}/enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell/{small-cell-id}';
+
+  /**
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell Container.
    *
    *
    *
@@ -81,7 +166,7 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
   }
 
   /**
-   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell.
+   * GET /enterprises/enterprise/{enterprise-id}/site/{site-id}/small-cell Container.
    *
    *
    *
