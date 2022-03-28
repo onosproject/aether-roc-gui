@@ -85,7 +85,7 @@ describe('SiteComponent', () => {
         // If no requests or multiple requests matched that URL
         // `expectOne()` would throw.
         const req = httpTestingController.expectOne(
-            '/aether/v2.0.0/connectivity-service-v2/enterprises'
+            '/aether/v2.0.x/connectivity-service-v2/enterprises'
         );
 
         // Assert that the request is a GET.

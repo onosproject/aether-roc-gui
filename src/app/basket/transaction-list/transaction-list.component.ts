@@ -7,9 +7,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TransactionListService } from '../../../openapi3/top/level/services';
 import { Transaction } from '../../../openapi3/top/level/models';
 import { MatTableDataSource } from '@angular/material/table';
+import { PathTarget } from '../../../openapi3/top/level/models/path-target';
 
 type UiTransaction = Transaction & {
-    dataSource: MatTableDataSource<Transaction>;
+    dataSource: MatTableDataSource<PathTarget>;
 };
 
 @Component({
@@ -33,13 +34,13 @@ export class TransactionListComponent implements OnInit {
                 this.transactionListData = value.reduce(
                     (list: UiTransaction[], t: Transaction) => {
                         return [
+                            ...list,
                             {
                                 ...t,
                                 dataSource: new MatTableDataSource(
                                     t.details.change[0]['path-values']
                                 ),
                             } as UiTransaction,
-                            ...list,
                         ];
                     },
                     []
@@ -49,17 +50,5 @@ export class TransactionListComponent implements OnInit {
 
     closeCard(): void {
         this.closeEvent.emit(true);
-    }
-    ViewChanges(id: string): void {
-        this.rowID = id;
-        this.displayChanges = !this.displayChanges;
-    }
-
-    showTransactionDetails(id: string): boolean {
-        if (this.displayChanges && this.rowID === id) {
-            return true;
-        } else {
-            false;
-        }
     }
 }
