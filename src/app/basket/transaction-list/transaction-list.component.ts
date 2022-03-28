@@ -6,9 +6,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TransactionListService } from '../../../openapi3/top/level/services';
 import { Transaction } from '../../../openapi3/top/level/models';
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTableDataSource } from '@angular/material/table';
 
-type UiTransaction = Transaction & {dataSource: MatTableDataSource<Transaction>}
+type UiTransaction = Transaction & {
+    dataSource: MatTableDataSource<Transaction>;
+};
 
 @Component({
     selector: 'aether-transaction-list',
@@ -28,9 +30,20 @@ export class TransactionListComponent implements OnInit {
         this.topLevelApiService
             .getTransactions()
             .subscribe((value: Transaction[]) => {
-                this.transactionListData = value.reduce((list: UiTransaction[], t: Transaction ) => {
-                    return [{...t, dataSource: new MatTableDataSource(t.details.change[0]['path-values'])} as UiTransaction, ...list]
-                }, []);
+                this.transactionListData = value.reduce(
+                    (list: UiTransaction[], t: Transaction) => {
+                        return [
+                            {
+                                ...t,
+                                dataSource: new MatTableDataSource(
+                                    t.details.change[0]['path-values']
+                                ),
+                            } as UiTransaction,
+                            ...list,
+                        ];
+                    },
+                    []
+                );
             });
     }
 
