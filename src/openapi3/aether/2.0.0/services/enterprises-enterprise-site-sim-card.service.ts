@@ -42,7 +42,11 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
   getEnterprisesEnterpriseSiteSimCardList$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -55,7 +59,11 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
+<<<<<<< HEAD
   }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSimCardList>>> {
+=======
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteSimCardList>> {
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSimCardService.GetEnterprisesEnterpriseSiteSimCardListPath, 'get');
     if (params) {
@@ -70,7 +78,11 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
+<<<<<<< HEAD
         return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSimCardList>>;
+=======
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteSimCardList>;
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
       })
     );
   }
@@ -88,7 +100,11 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
   getEnterprisesEnterpriseSiteSimCardList(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -101,10 +117,17 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
+<<<<<<< HEAD
   }): Observable<Array<EnterprisesEnterpriseSiteSimCardList>> {
 
     return this.getEnterprisesEnterpriseSiteSimCardList$Response(params).pipe(
       map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSimCardList>>) => r.body as Array<EnterprisesEnterpriseSiteSimCardList>)
+=======
+  }): Observable<EnterprisesEnterpriseSiteSimCardList> {
+
+    return this.getEnterprisesEnterpriseSiteSimCardList$Response(params).pipe(
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSimCardList>) => r.body as EnterprisesEnterpriseSiteSimCardList)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
     );
   }
 
@@ -126,7 +149,7 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
   getEnterprisesEnterpriseSiteSimCard$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -178,7 +201,7 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
   getEnterprisesEnterpriseSiteSimCard(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

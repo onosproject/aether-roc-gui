@@ -2,6 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 import { EnterprisesEnterpriseApplicationEndpointMbr } from './enterprises-enterprise-application-endpoint-mbr';
+
+/**
+ * list for endpoint (single)
+ */
 export interface EnterprisesEnterpriseApplicationEndpoint {
 
   /**

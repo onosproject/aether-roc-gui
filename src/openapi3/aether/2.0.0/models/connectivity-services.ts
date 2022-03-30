@@ -2,17 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
-import { ConnectivityServicesConnectivityService } from './connectivity-services-connectivity-service';
+import { ConnectivityServicesConnectivityServiceList } from './connectivity-services-connectivity-service-list';
 
 /**
  * The connectivity-services top level container
  */
 export interface ConnectivityServices {
+  'connectivity-service'?: ConnectivityServicesConnectivityServiceList;
 
-  /**
-   * List of connectivity services
-   */
-  'connectivity-service'?: Array<ConnectivityServicesConnectivityService>;
-
-  [key: string]: AdditionalPropertyTarget | Array<ConnectivityServicesConnectivityService> | undefined;
+  [key: string]: AdditionalPropertyTarget | ConnectivityServicesConnectivityServiceList | undefined;
 }

@@ -42,10 +42,17 @@ export class ConnectivityServicesConnectivityServiceService extends BaseService 
   getConnectivityServicesConnectivityServiceList$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
      */
     target: any;
   }): Observable<StrictHttpResponse<Array<ConnectivityServicesConnectivityServiceList>>> {
+=======
+     * target (target in onos-config)
+     */
+    target: any;
+  }): Observable<StrictHttpResponse<ConnectivityServicesConnectivityServiceList>> {
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
 
     const rb = new RequestBuilder(this.rootUrl, ConnectivityServicesConnectivityServiceService.GetConnectivityServicesConnectivityServiceListPath, 'get');
     if (params) {
@@ -58,7 +65,11 @@ export class ConnectivityServicesConnectivityServiceService extends BaseService 
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
+<<<<<<< HEAD
         return r as StrictHttpResponse<Array<ConnectivityServicesConnectivityServiceList>>;
+=======
+        return r as StrictHttpResponse<ConnectivityServicesConnectivityServiceList>;
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
       })
     );
   }
@@ -76,6 +87,7 @@ export class ConnectivityServicesConnectivityServiceService extends BaseService 
   getConnectivityServicesConnectivityServiceList(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
      */
     target: any;
@@ -83,6 +95,15 @@ export class ConnectivityServicesConnectivityServiceService extends BaseService 
 
     return this.getConnectivityServicesConnectivityServiceList$Response(params).pipe(
       map((r: StrictHttpResponse<Array<ConnectivityServicesConnectivityServiceList>>) => r.body as Array<ConnectivityServicesConnectivityServiceList>)
+=======
+     * target (target in onos-config)
+     */
+    target: any;
+  }): Observable<ConnectivityServicesConnectivityServiceList> {
+
+    return this.getConnectivityServicesConnectivityServiceList$Response(params).pipe(
+      map((r: StrictHttpResponse<ConnectivityServicesConnectivityServiceList>) => r.body as ConnectivityServicesConnectivityServiceList)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
     );
   }
 
@@ -104,7 +125,7 @@ export class ConnectivityServicesConnectivityServiceService extends BaseService 
   getConnectivityServicesConnectivityService$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -144,7 +165,7 @@ export class ConnectivityServicesConnectivityServiceService extends BaseService 
   getConnectivityServicesConnectivityService(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

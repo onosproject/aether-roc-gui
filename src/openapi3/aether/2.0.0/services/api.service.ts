@@ -68,7 +68,7 @@ export class ApiService extends BaseService {
   postConnectivityServices$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
     body?: ConnectivityServices
@@ -104,7 +104,7 @@ export class ApiService extends BaseService {
   postConnectivityServices(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
     body?: ConnectivityServices
@@ -133,7 +133,7 @@ export class ApiService extends BaseService {
   deleteConnectivityServices$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
   }): Observable<StrictHttpResponse<void>> {
@@ -167,7 +167,7 @@ export class ApiService extends BaseService {
   deleteConnectivityServices(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
   }): Observable<void> {
@@ -195,7 +195,7 @@ export class ApiService extends BaseService {
   postConnectivityServicesConnectivityService$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -237,7 +237,7 @@ export class ApiService extends BaseService {
   postConnectivityServicesConnectivityService(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -271,7 +271,7 @@ export class ApiService extends BaseService {
   deleteConnectivityServicesConnectivityService$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -311,7 +311,7 @@ export class ApiService extends BaseService {
   deleteConnectivityServicesConnectivityService(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -344,7 +344,7 @@ export class ApiService extends BaseService {
   postEnterprises$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
     body?: Enterprises
@@ -380,7 +380,7 @@ export class ApiService extends BaseService {
   postEnterprises(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
     body?: Enterprises
@@ -409,7 +409,7 @@ export class ApiService extends BaseService {
   deleteEnterprises$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
   }): Observable<StrictHttpResponse<void>> {
@@ -443,7 +443,7 @@ export class ApiService extends BaseService {
   deleteEnterprises(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
   }): Observable<void> {
@@ -471,7 +471,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterprise$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -513,7 +513,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterprise(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -547,7 +547,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterprise$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -587,7 +587,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterprise(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -620,7 +620,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseApplication$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -668,7 +668,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseApplication(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -707,7 +707,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseApplication$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -753,7 +753,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseApplication(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -791,7 +791,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseApplicationEndpoint$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -845,7 +845,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseApplicationEndpoint(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -889,7 +889,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseApplicationEndpoint$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -941,7 +941,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseApplicationEndpoint(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -984,7 +984,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseApplicationEndpointMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1038,7 +1038,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseApplicationEndpointMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1082,7 +1082,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseApplicationEndpointMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1134,7 +1134,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseApplicationEndpointMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1177,7 +1177,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseConnectivityService$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1225,7 +1225,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseConnectivityService(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1264,7 +1264,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseConnectivityService$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1310,7 +1310,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseConnectivityService(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1348,7 +1348,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSite$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1396,7 +1396,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSite(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1435,7 +1435,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSite$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1481,7 +1481,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSite(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1519,7 +1519,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteDeviceGroup$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1573,7 +1573,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteDeviceGroup(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1617,7 +1617,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteDeviceGroup$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1669,7 +1669,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteDeviceGroup(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1712,7 +1712,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteDeviceGroupDevice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1772,7 +1772,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteDeviceGroupDevice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1821,7 +1821,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteDeviceGroupDevice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1879,7 +1879,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteDeviceGroupDevice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1927,7 +1927,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteDeviceGroupMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1981,7 +1981,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteDeviceGroupMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2025,7 +2025,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteDeviceGroupMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2077,7 +2077,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteDeviceGroupMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2120,7 +2120,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteDevice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2174,7 +2174,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteDevice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2218,7 +2218,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteDevice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2270,7 +2270,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteDevice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2313,7 +2313,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteImsiDefinition$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2361,7 +2361,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteImsiDefinition(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2400,7 +2400,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteImsiDefinition$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2446,7 +2446,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteImsiDefinition(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2484,7 +2484,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteIpDomain$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2538,7 +2538,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteIpDomain(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2582,7 +2582,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteIpDomain$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2634,7 +2634,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteIpDomain(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2677,7 +2677,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteMonitoring$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2725,7 +2725,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteMonitoring(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2764,7 +2764,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteMonitoring$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2810,7 +2810,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteMonitoring(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2848,7 +2848,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteMonitoringEdgeDevice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2902,7 +2902,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteMonitoringEdgeDevice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2946,7 +2946,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteMonitoringEdgeDevice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2998,7 +2998,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteMonitoringEdgeDevice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3041,7 +3041,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSimCard$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3095,7 +3095,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSimCard(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3139,7 +3139,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSimCard$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3191,7 +3191,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSimCard(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3234,7 +3234,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSlice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3288,7 +3288,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSlice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3332,7 +3332,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSlice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3384,7 +3384,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSlice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3427,7 +3427,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSliceDeviceGroup$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3487,7 +3487,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSliceDeviceGroup(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3536,7 +3536,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSliceDeviceGroup$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3594,7 +3594,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSliceDeviceGroup(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3642,7 +3642,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSliceFilter$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3702,7 +3702,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSliceFilter(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3751,7 +3751,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSliceFilter$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3809,7 +3809,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSliceFilter(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3857,7 +3857,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSliceMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3911,7 +3911,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSliceMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -3955,7 +3955,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSliceMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4007,7 +4007,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSliceMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4050,7 +4050,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSlicePriorityTrafficRule$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4110,7 +4110,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSlicePriorityTrafficRule(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4159,7 +4159,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSlicePriorityTrafficRule$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4217,7 +4217,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSlicePriorityTrafficRule(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4265,7 +4265,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSmallCell$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4319,7 +4319,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteSmallCell(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4363,7 +4363,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSmallCell$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4415,7 +4415,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteSmallCell(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4458,7 +4458,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteUpf$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4512,7 +4512,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseSiteUpf(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4556,7 +4556,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteUpf$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4608,7 +4608,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseSiteUpf(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4651,7 +4651,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseTemplate$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4699,7 +4699,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseTemplate(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4738,7 +4738,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseTemplate$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4784,7 +4784,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseTemplate(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4822,7 +4822,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseTemplateMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4870,7 +4870,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseTemplateMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4909,7 +4909,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseTemplateMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4955,7 +4955,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseTemplateMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -4993,7 +4993,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseTrafficClass$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -5041,7 +5041,7 @@ export class ApiService extends BaseService {
   postEnterprisesEnterpriseTrafficClass(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -5080,7 +5080,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseTrafficClass$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -5126,7 +5126,7 @@ export class ApiService extends BaseService {
   deleteEnterprisesEnterpriseTrafficClass(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

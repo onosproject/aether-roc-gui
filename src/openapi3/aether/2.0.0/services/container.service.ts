@@ -68,7 +68,11 @@ export class ContainerService extends BaseService {
   getConnectivityServices$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
   }): Observable<StrictHttpResponse<ConnectivityServices>> {
@@ -102,7 +106,11 @@ export class ContainerService extends BaseService {
   getConnectivityServices(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
   }): Observable<ConnectivityServices> {
@@ -130,7 +138,11 @@ export class ContainerService extends BaseService {
   getConnectivityServicesConnectivityService$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -170,7 +182,11 @@ export class ContainerService extends BaseService {
   getConnectivityServicesConnectivityService(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -203,7 +219,11 @@ export class ContainerService extends BaseService {
   getEnterprises$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
   }): Observable<StrictHttpResponse<Enterprises>> {
@@ -237,7 +257,11 @@ export class ContainerService extends BaseService {
   getEnterprises(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
   }): Observable<Enterprises> {
@@ -265,7 +289,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterprise$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -305,7 +333,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterprise(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -338,7 +370,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseApplication$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -384,7 +420,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseApplication(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -422,7 +462,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseApplicationEndpoint$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -474,7 +518,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseApplicationEndpoint(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -517,7 +565,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseApplicationEndpointMbr$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -569,7 +621,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseApplicationEndpointMbr(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -612,7 +668,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseConnectivityService$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -658,7 +718,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseConnectivityService(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -696,7 +760,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSite$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -742,7 +810,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSite(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -780,7 +852,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroup$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -832,7 +908,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroup(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -875,7 +955,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroupDevice$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -933,7 +1017,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroupDevice(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -981,7 +1069,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroupMbr$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1033,7 +1125,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroupMbr(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1076,7 +1172,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDevice$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1128,7 +1228,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDevice(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1171,7 +1275,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteImsiDefinition$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1217,7 +1325,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteImsiDefinition(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1255,7 +1367,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteIpDomain$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1307,7 +1423,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteIpDomain(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1350,7 +1470,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteMonitoring$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1396,7 +1520,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteMonitoring(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1434,7 +1562,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteMonitoringEdgeDevice$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1486,7 +1618,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteMonitoringEdgeDevice(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1529,7 +1665,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSimCard$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1581,7 +1721,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSimCard(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1624,7 +1768,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSlice$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1676,7 +1824,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSlice(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1719,7 +1871,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSliceDeviceGroup$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1777,7 +1933,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSliceDeviceGroup(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1825,7 +1985,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSliceFilter$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1883,7 +2047,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSliceFilter(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1931,7 +2099,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSliceMbr$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -1983,7 +2155,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSliceMbr(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -2026,7 +2202,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSlicePriorityTrafficRule$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -2084,7 +2264,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSlicePriorityTrafficRule(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -2132,7 +2316,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSmallCell$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -2184,7 +2372,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSmallCell(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -2227,7 +2419,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteUpf$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -2279,7 +2475,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteUpf(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -2322,7 +2522,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseTemplate$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -2368,7 +2572,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseTemplate(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -2406,7 +2614,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseTemplateMbr$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -2452,7 +2664,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseTemplateMbr(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -2490,7 +2706,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseTrafficClass$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -2536,7 +2756,11 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseTrafficClass(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 

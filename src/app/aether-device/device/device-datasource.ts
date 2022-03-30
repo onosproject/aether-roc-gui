@@ -49,21 +49,25 @@ export class DeviceDatasource extends RocDataSource<
             )
             .subscribe(
                 (value: EnterprisesEnterprise) => {
-                    value.site.forEach((s) => {
-                        s.device.forEach((d) => {
-                            d['enterprise-id'] = value['enterprise-id'];
-                            d['site-id'] = s['site-id'];
-                            const fullPath = this.deletePath(
-                                value['enterprise-id'],
-                                s['site-id'],
-                                d['slice-id']
-                            );
-                            if (this.bs.containsDeleteEntry(fullPath)) {
-                                d[FORDELETE] = STRIKETHROUGH;
+                    if (value.site) {
+                        value.site.forEach((s) => {
+                            if (s.device) {
+                                s.device.forEach((d) => {
+                                    d['enterprise-id'] = value['enterprise-id'];
+                                    d['site-id'] = s['site-id'];
+                                    const fullPath = this.deletePath(
+                                        value['enterprise-id'],
+                                        s['site-id'],
+                                        d['slice-id']
+                                    );
+                                    if (this.bs.containsDeleteEntry(fullPath)) {
+                                        d[FORDELETE] = STRIKETHROUGH;
+                                    }
+                                    this.data.push(d);
+                                });
                             }
-                            this.data.push(d);
                         });
-                    });
+                    }
                 },
                 (error) => {
                     console.warn(

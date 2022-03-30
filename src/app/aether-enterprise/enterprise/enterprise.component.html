@@ -120,7 +120,7 @@
                 <mat-expansion-panel togglePosition="before">
                     <mat-expansion-panel-header>
                         <mat-panel-title
-                            >{{ row["application"].length }} Application(s)
+                            >{{ row["application"]?.length }} Application(s)
                             <mat-icon
                                 color="primary"
                                 class="table_icon small_icon"
@@ -204,7 +204,7 @@
                 <mat-expansion-panel togglePosition="before">
                     <mat-expansion-panel-header>
                         <mat-panel-title
-                            >{{ row["template"].length }} Template(s)
+                            >{{ row["template"]?.length }} Template(s)
                             <mat-icon
                                 color="primary"
                                 class="table_icon small_icon"

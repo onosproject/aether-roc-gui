@@ -42,10 +42,17 @@ export class EnterprisesEnterpriseService extends BaseService {
   getEnterprisesEnterpriseList$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
      */
     target: any;
   }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseList>>> {
+=======
+     * target (target in onos-config)
+     */
+    target: any;
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseList>> {
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseService.GetEnterprisesEnterpriseListPath, 'get');
     if (params) {
@@ -58,7 +65,11 @@ export class EnterprisesEnterpriseService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
+<<<<<<< HEAD
         return r as StrictHttpResponse<Array<EnterprisesEnterpriseList>>;
+=======
+        return r as StrictHttpResponse<EnterprisesEnterpriseList>;
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
       })
     );
   }
@@ -76,6 +87,7 @@ export class EnterprisesEnterpriseService extends BaseService {
   getEnterprisesEnterpriseList(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
      */
     target: any;
@@ -83,6 +95,15 @@ export class EnterprisesEnterpriseService extends BaseService {
 
     return this.getEnterprisesEnterpriseList$Response(params).pipe(
       map((r: StrictHttpResponse<Array<EnterprisesEnterpriseList>>) => r.body as Array<EnterprisesEnterpriseList>)
+=======
+     * target (target in onos-config)
+     */
+    target: any;
+  }): Observable<EnterprisesEnterpriseList> {
+
+    return this.getEnterprisesEnterpriseList$Response(params).pipe(
+      map((r: StrictHttpResponse<EnterprisesEnterpriseList>) => r.body as EnterprisesEnterpriseList)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
     );
   }
 
@@ -104,7 +125,7 @@ export class EnterprisesEnterpriseService extends BaseService {
   getEnterprisesEnterprise$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -144,7 +165,7 @@ export class EnterprisesEnterpriseService extends BaseService {
   getEnterprisesEnterprise(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

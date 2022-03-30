@@ -1,22 +1,18 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { EnterprisesEnterpriseApplication } from './enterprises-enterprise-application';
-import { EnterprisesEnterpriseConnectivityService } from './enterprises-enterprise-connectivity-service';
-import { EnterprisesEnterpriseSite } from './enterprises-enterprise-site';
-import { EnterprisesEnterpriseTemplate } from './enterprises-enterprise-template';
-import { EnterprisesEnterpriseTrafficClass } from './enterprises-enterprise-traffic-class';
+import { EnterprisesEnterpriseApplicationList } from './enterprises-enterprise-application-list';
+import { EnterprisesEnterpriseConnectivityServiceList } from './enterprises-enterprise-connectivity-service-list';
+import { EnterprisesEnterpriseSiteList } from './enterprises-enterprise-site-list';
+import { EnterprisesEnterpriseTemplateList } from './enterprises-enterprise-template-list';
+import { EnterprisesEnterpriseTrafficClassList } from './enterprises-enterprise-traffic-class-list';
+
+/**
+ * List of enterprises (single)
+ */
 export interface EnterprisesEnterprise {
-
-  /**
-   * List of applications
-   */
-  application?: Array<EnterprisesEnterpriseApplication>;
-
-  /**
-   * The list for connectivity-service
-   */
-  'connectivity-service'?: Array<EnterprisesEnterpriseConnectivityService>;
+  application?: EnterprisesEnterpriseApplicationList;
+  'connectivity-service'?: EnterprisesEnterpriseConnectivityServiceList;
 
   /**
    * long description field
@@ -32,19 +28,7 @@ export interface EnterprisesEnterprise {
    * ID for this enterprise.
    */
   'enterprise-id': string;
-
-  /**
-   * List of site
-   */
-  site?: Array<EnterprisesEnterpriseSite>;
-
-  /**
-   * List of slice templates
-   */
-  template?: Array<EnterprisesEnterpriseTemplate>;
-
-  /**
-   * List of traffic class
-   */
-  'traffic-class'?: Array<EnterprisesEnterpriseTrafficClass>;
+  site?: EnterprisesEnterpriseSiteList;
+  template?: EnterprisesEnterpriseTemplateList;
+  'traffic-class'?: EnterprisesEnterpriseTrafficClassList;
 }

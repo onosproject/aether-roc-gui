@@ -42,7 +42,11 @@ export class EnterprisesEnterpriseSiteDeviceGroupDeviceService extends BaseServi
   getEnterprisesEnterpriseSiteDeviceGroupDeviceList$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -60,7 +64,11 @@ export class EnterprisesEnterpriseSiteDeviceGroupDeviceService extends BaseServi
      * key {device-group-id}
      */
     'device-group-id': any;
+<<<<<<< HEAD
   }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceGroupDeviceList>>> {
+=======
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteDeviceGroupDeviceList>> {
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteDeviceGroupDeviceService.GetEnterprisesEnterpriseSiteDeviceGroupDeviceListPath, 'get');
     if (params) {
@@ -76,7 +84,11 @@ export class EnterprisesEnterpriseSiteDeviceGroupDeviceService extends BaseServi
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
+<<<<<<< HEAD
         return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceGroupDeviceList>>;
+=======
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteDeviceGroupDeviceList>;
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
       })
     );
   }
@@ -94,7 +106,11 @@ export class EnterprisesEnterpriseSiteDeviceGroupDeviceService extends BaseServi
   getEnterprisesEnterpriseSiteDeviceGroupDeviceList(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -112,10 +128,17 @@ export class EnterprisesEnterpriseSiteDeviceGroupDeviceService extends BaseServi
      * key {device-group-id}
      */
     'device-group-id': any;
+<<<<<<< HEAD
   }): Observable<Array<EnterprisesEnterpriseSiteDeviceGroupDeviceList>> {
 
     return this.getEnterprisesEnterpriseSiteDeviceGroupDeviceList$Response(params).pipe(
       map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceGroupDeviceList>>) => r.body as Array<EnterprisesEnterpriseSiteDeviceGroupDeviceList>)
+=======
+  }): Observable<EnterprisesEnterpriseSiteDeviceGroupDeviceList> {
+
+    return this.getEnterprisesEnterpriseSiteDeviceGroupDeviceList$Response(params).pipe(
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteDeviceGroupDeviceList>) => r.body as EnterprisesEnterpriseSiteDeviceGroupDeviceList)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
     );
   }
 
@@ -137,7 +160,7 @@ export class EnterprisesEnterpriseSiteDeviceGroupDeviceService extends BaseServi
   getEnterprisesEnterpriseSiteDeviceGroupDevice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -195,7 +218,7 @@ export class EnterprisesEnterpriseSiteDeviceGroupDeviceService extends BaseServi
   getEnterprisesEnterpriseSiteDeviceGroupDevice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

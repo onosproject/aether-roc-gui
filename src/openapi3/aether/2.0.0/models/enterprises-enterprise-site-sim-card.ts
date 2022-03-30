@@ -1,6 +1,10 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
+
+/**
+ * List of sim cards (single)
+ */
 export interface EnterprisesEnterpriseSiteSimCard {
 
   /**

@@ -51,17 +51,19 @@ export class TemplateDatasource extends RocDataSource<
             )
             .subscribe(
                 (value: EnterprisesEnterprise) => {
-                    value.template.forEach((tp) => {
-                        tp['enterprise-id'] = value['enterprise-id'];
-                        const fullPath = this.deletePath(
-                            value['enterprise-id'],
-                            tp['template-id']
-                        );
-                        if (this.bs.containsDeleteEntry(fullPath)) {
-                            tp[FORDELETE] = STRIKETHROUGH;
-                        }
-                        this.data.push(tp);
-                    });
+                    if (value.template) {
+                        value.template.forEach((tp) => {
+                            tp['enterprise-id'] = value['enterprise-id'];
+                            const fullPath = this.deletePath(
+                                value['enterprise-id'],
+                                tp['template-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                tp[FORDELETE] = STRIKETHROUGH;
+                            }
+                            this.data.push(tp);
+                        });
+                    }
                 },
                 (error) => {
                     console.warn(

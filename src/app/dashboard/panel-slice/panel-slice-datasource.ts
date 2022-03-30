@@ -51,21 +51,25 @@ export class PanelSliceDatasource extends RocDataSource<
             )
             .subscribe(
                 (value: EnterprisesEnterprise) => {
-                    value.site.forEach((s) => {
-                        s.slice.forEach((i) => {
-                            i['enterprise-id'] = value['enterprise-id'];
-                            i['site-id'] = s['site-id'];
-                            const fullPath = this.deletePath(
-                                value['enterprise-id'],
-                                s['site-id'],
-                                i['slice-id']
-                            );
-                            if (this.bs.containsDeleteEntry(fullPath)) {
-                                i[FORDELETE] = STRIKETHROUGH;
+                    if (value.site) {
+                        value.site.forEach((s) => {
+                            if (s.slice) {
+                                s.slice.forEach((i) => {
+                                    i['enterprise-id'] = value['enterprise-id'];
+                                    i['site-id'] = s['site-id'];
+                                    const fullPath = this.deletePath(
+                                        value['enterprise-id'],
+                                        s['site-id'],
+                                        i['slice-id']
+                                    );
+                                    if (this.bs.containsDeleteEntry(fullPath)) {
+                                        i[FORDELETE] = STRIKETHROUGH;
+                                    }
+                                    this.data.push(i);
+                                });
                             }
-                            this.data.push(i);
                         });
-                    });
+                    }
                 },
                 (error) => {
                     console.warn(

@@ -114,7 +114,7 @@
                 *matCellDef="let row"
             >
                 <p class="small-cell-col-simple">
-                    {{ row["small-cell"].length }}
+                    {{ row["small-cell"]?.length }}
                 </p>
                 <mat-expansion-panel
                     togglePosition="before"
@@ -122,7 +122,7 @@
                 >
                     <mat-expansion-panel-header>
                         <mat-panel-title
-                            >{{ row["small-cell"].length }} Small Cell(s)
+                            >{{ row["small-cell"]?.length }} Small Cell(s)
                             <mat-icon
                                 color="primary"
                                 class="table_icon small_icon"
@@ -165,14 +165,14 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <p class="slice-col-simple">{{ row["slice"].length }}</p>
+                <p class="slice-col-simple">{{ row["slice"]?.length }}</p>
                 <mat-expansion-panel
                     togglePosition="before"
                     class="slice-col-wide"
                 >
                     <mat-expansion-panel-header>
                         <mat-panel-title
-                            >{{ row["slice"].length }} Slice(s)
+                            >{{ row["slice"]?.length }} Slice(s)
                             <mat-icon
                                 color="primary"
                                 class="table_icon small_icon"
@@ -213,7 +213,7 @@
                 *matCellDef="let row"
             >
                 <p class="device-group-col-simple">
-                    {{ row["device-group"].length }}
+                    {{ row["device-group"]?.length }}
                 </p>
                 <mat-expansion-panel
                     togglePosition="before"
@@ -221,7 +221,7 @@
                 >
                     <mat-expansion-panel-header>
                         <mat-panel-title
-                            >{{ row["device-group"].length }} Device Group(s)
+                            >{{ row["device-group"]?.length }} Device Group(s)
                             <mat-icon
                                 color="primary"
                                 class="table_icon small_icon"
@@ -264,7 +264,7 @@
                 *matCellDef="let row"
             >
                 <p class="ip-domain-col-simple">
-                    {{ row["ip-domain"].length }}
+                    {{ row["ip-domain"]?.length }}
                 </p>
                 <mat-expansion-panel
                     togglePosition="before"
@@ -272,7 +272,7 @@
                 >
                     <mat-expansion-panel-header>
                         <mat-panel-title
-                            >{{ row["ip-domain"].length }} IP Domains(s)
+                            >{{ row["ip-domain"]?.length }} IP Domains(s)
                             <mat-icon
                                 color="primary"
                                 class="table_icon small_icon"
@@ -312,14 +312,14 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <p class="upf-col-simple">{{ row["upf"].length }}</p>
+                <p class="upf-col-simple">{{ row["upf"]?.length }}</p>
                 <mat-expansion-panel
                     togglePosition="before"
                     class="upf-col-wide"
                 >
                     <mat-expansion-panel-header>
                         <mat-panel-title
-                            >{{ row["upf"].length }} UPF(s)
+                            >{{ row["upf"]?.length }} UPF(s)
                             <mat-icon
                                 color="primary"
                                 class="table_icon small_icon"
@@ -357,14 +357,14 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <p class="sim-card-col-simple">{{ row["sim-card"].length }}</p>
+                <p class="sim-card-col-simple">{{ row["sim-card"]?.length }}</p>
                 <mat-expansion-panel
                     togglePosition="before"
                     class="sim-card-col-wide"
                 >
                     <mat-expansion-panel-header>
                         <mat-panel-title
-                            >{{ row["sim-card"].length }} SIM Card(s)
+                            >{{ row["sim-card"]?.length }} SIM Card(s)
                             <mat-icon
                                 color="primary"
                                 class="table_icon small_icon"
@@ -402,14 +402,14 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                <p class="device-col-simple">{{ row["device"].length }}</p>
+                <p class="device-col-simple">{{ row["device"]?.length }}</p>
                 <mat-expansion-panel
                     togglePosition="before"
                     class="device-col-wide"
                 >
                     <mat-expansion-panel-header>
                         <mat-panel-title
-                            >{{ row["device"].length }} Device(s)
+                            >{{ row["device"]?.length }} Device(s)
                             <mat-icon
                                 color="primary"
                                 class="table_icon small_icon"

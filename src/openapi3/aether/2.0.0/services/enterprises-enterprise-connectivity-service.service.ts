@@ -42,7 +42,11 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
   getEnterprisesEnterpriseConnectivityServiceList$Response(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -50,7 +54,11 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
      * key {enterprise-id}
      */
     'enterprise-id': any;
+<<<<<<< HEAD
   }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseConnectivityServiceList>>> {
+=======
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseConnectivityServiceList>> {
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseConnectivityServiceService.GetEnterprisesEnterpriseConnectivityServiceListPath, 'get');
     if (params) {
@@ -64,7 +72,11 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
+<<<<<<< HEAD
         return r as StrictHttpResponse<Array<EnterprisesEnterpriseConnectivityServiceList>>;
+=======
+        return r as StrictHttpResponse<EnterprisesEnterpriseConnectivityServiceList>;
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
       })
     );
   }
@@ -82,7 +94,11 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
   getEnterprisesEnterpriseConnectivityServiceList(params: {
 
     /**
+<<<<<<< HEAD
      * target (device in onos-config)
+=======
+     * target (target in onos-config)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -90,10 +106,17 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
      * key {enterprise-id}
      */
     'enterprise-id': any;
+<<<<<<< HEAD
   }): Observable<Array<EnterprisesEnterpriseConnectivityServiceList>> {
 
     return this.getEnterprisesEnterpriseConnectivityServiceList$Response(params).pipe(
       map((r: StrictHttpResponse<Array<EnterprisesEnterpriseConnectivityServiceList>>) => r.body as Array<EnterprisesEnterpriseConnectivityServiceList>)
+=======
+  }): Observable<EnterprisesEnterpriseConnectivityServiceList> {
+
+    return this.getEnterprisesEnterpriseConnectivityServiceList$Response(params).pipe(
+      map((r: StrictHttpResponse<EnterprisesEnterpriseConnectivityServiceList>) => r.body as EnterprisesEnterpriseConnectivityServiceList)
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
     );
   }
 
@@ -115,7 +138,7 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
   getEnterprisesEnterpriseConnectivityService$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -161,7 +184,7 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
   getEnterprisesEnterpriseConnectivityService(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

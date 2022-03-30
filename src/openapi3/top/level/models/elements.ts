@@ -1,6 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
+<<<<<<< HEAD
 import {Application as Application400} from "../../../aether/4.0.0/models";
 import {ConnectivityService as ConnectivityService400} from "../../../aether/4.0.0/models";
 import {DeviceGroup as DeviceGroup400} from "../../../aether/4.0.0/models";
@@ -11,6 +12,9 @@ import {Template as Template400} from "../../../aether/4.0.0/models";
 import {TrafficClass as TrafficClass400} from "../../../aether/4.0.0/models";
 import {Upf as Upf400} from "../../../aether/4.0.0/models";
 import {Vcs as Vcs400} from "../../../aether/4.0.0/models";
+=======
+
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
 import {ConnectivityServices as ConnectivityServices200, Enterprises as Enterprises200} from "../../../aether/2.0.0/models";
 export interface Elements {
 
@@ -19,6 +23,7 @@ export interface Elements {
    */
   'application-4.0.0'?: Application400;
 
+<<<<<<< HEAD
   /**
    * The top level container
    */
@@ -73,4 +78,9 @@ export interface Elements {
    * The top level container
    */
   'vcs-4.0.0'?: Vcs400;
+=======
+export interface Elements {
+    'Connectivity-services-2.0.0'?: ConnectivityServices200;
+    'Enterprises-2.0.0'?: Enterprises200;
+>>>>>>> e357b5d... Aether-3394 handle null values in responses
 }

@@ -18,7 +18,7 @@ import {
 } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 import { from, Observable } from 'rxjs';
-import { map, mergeMap, skipWhile } from 'rxjs/operators';
+import { map, mergeMap, skipWhile, tap } from 'rxjs/operators';
 
 export class UpfDatasource extends RocDataSource<
     EnterprisesEnterpriseSiteUpf,
@@ -56,27 +56,33 @@ export class UpfDatasource extends RocDataSource<
             )
             .subscribe(
                 (value: EnterprisesEnterprise) => {
-                    value.site.forEach((s) => {
-                        s.upf.forEach((u) => {
-                            u['enterprise-id'] = value['enterprise-id'];
-                            u['site-id'] = s['site-id'];
-                            const fullPath = this.deletePath(
-                                value['enterprise-id'],
-                                s['site-id'],
-                                u['upf-id']
-                            );
-                            if (this.bs.containsDeleteEntry(fullPath)) {
-                                u[FORDELETE] = STRIKETHROUGH;
+                    if (value.site) {
+                        value.site.forEach((s) => {
+                            if (s.upf) {
+                                s.upf.forEach((u) => {
+                                    u['enterprise-id'] = value['enterprise-id'];
+                                    u['site-id'] = s['site-id'];
+                                    const fullPath = this.deletePath(
+                                        value['enterprise-id'],
+                                        s['site-id'],
+                                        u['upf-id']
+                                    );
+                                    if (this.bs.containsDeleteEntry(fullPath)) {
+                                        u[FORDELETE] = STRIKETHROUGH;
+                                    }
+                                    // Check for usages in slices
+                                    if (s.slice) {
+                                        s.slice.forEach((slice) => {
+                                            if (slice['upf'] === u['upf-id']) {
+                                                u[ISINUSE] = 'true'; // Any match will set it
+                                            }
+                                        });
+                                    }
+                                    this.data.push(u);
+                                });
                             }
-                            // Check for usages in slices
-                            s.slice.forEach((slice) => {
-                                if (slice['upf'] === u['upf-id']) {
-                                    u[ISINUSE] = 'true'; // Any match will set it
-                                }
-                            });
-                            this.data.push(u);
                         });
-                    });
+                    }
                 },
                 (error) => {
                     console.warn(

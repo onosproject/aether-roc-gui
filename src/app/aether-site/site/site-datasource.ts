@@ -53,17 +53,19 @@ export class SiteDatasource extends RocDataSource<
             )
             .subscribe(
                 (value: EnterprisesEnterprise) => {
-                    value.site.forEach((s) => {
-                        s['enterprise-id'] = value['enterprise-id'];
-                        const fullPath = this.deletePath(
-                            value['enterprise-id'],
-                            s['site-id']
-                        );
-                        if (this.bs.containsDeleteEntry(fullPath)) {
-                            s[FORDELETE] = STRIKETHROUGH;
-                        }
-                        this.data.push(s);
-                    });
+                    if (value.site) {
+                        value.site.forEach((s) => {
+                            s['enterprise-id'] = value['enterprise-id'];
+                            const fullPath = this.deletePath(
+                                value['enterprise-id'],
+                                s['site-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                s[FORDELETE] = STRIKETHROUGH;
+                            }
+                            this.data.push(s);
+                        });
+                    }
                 },
                 (error) => {
                     console.warn(

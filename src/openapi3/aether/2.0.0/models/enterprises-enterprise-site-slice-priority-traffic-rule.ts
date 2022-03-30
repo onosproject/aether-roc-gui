@@ -4,6 +4,10 @@
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { EnterprisesEnterpriseSiteSlicePriorityTrafficRuleGbr } from './enterprises-enterprise-site-slice-priority-traffic-rule-gbr';
 import { EnterprisesEnterpriseSiteSlicePriorityTrafficRuleMbr } from './enterprises-enterprise-site-slice-priority-traffic-rule-mbr';
+
+/**
+ * List of priority traffic rules (single)
+ */
 export interface EnterprisesEnterpriseSiteSlicePriorityTrafficRule {
 
   /**
