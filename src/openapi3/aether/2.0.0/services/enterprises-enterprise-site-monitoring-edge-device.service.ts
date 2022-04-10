@@ -42,11 +42,7 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
   getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList$Response(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -59,11 +55,7 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
      * key {site-id}
      */
     'site-id': any;
-<<<<<<< HEAD
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>>> {
-=======
   }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>> {
->>>>>>> e357b5d... Aether-3394 handle null values in responses
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteMonitoringEdgeDeviceService.GetEnterprisesEnterpriseSiteMonitoringEdgeDeviceListPath, 'get');
     if (params) {
@@ -78,11 +70,7 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-<<<<<<< HEAD
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>>;
-=======
         return r as StrictHttpResponse<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>;
->>>>>>> e357b5d... Aether-3394 handle null values in responses
       })
     );
   }
@@ -100,11 +88,7 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
   getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -117,17 +101,10 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
      * key {site-id}
      */
     'site-id': any;
-<<<<<<< HEAD
-  }): Observable<Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>> {
-
-    return this.getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>>) => r.body as Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>)
-=======
   }): Observable<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList> {
 
     return this.getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>) => r.body as EnterprisesEnterpriseSiteMonitoringEdgeDeviceList)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
     );
   }
 

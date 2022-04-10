@@ -42,11 +42,7 @@ export class EnterprisesEnterpriseSiteIpDomainService extends BaseService {
   getEnterprisesEnterpriseSiteIpDomainList$Response(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -59,11 +55,7 @@ export class EnterprisesEnterpriseSiteIpDomainService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-<<<<<<< HEAD
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteIpDomainList>>> {
-=======
   }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteIpDomainList>> {
->>>>>>> e357b5d... Aether-3394 handle null values in responses
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteIpDomainService.GetEnterprisesEnterpriseSiteIpDomainListPath, 'get');
     if (params) {
@@ -78,11 +70,7 @@ export class EnterprisesEnterpriseSiteIpDomainService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-<<<<<<< HEAD
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteIpDomainList>>;
-=======
         return r as StrictHttpResponse<EnterprisesEnterpriseSiteIpDomainList>;
->>>>>>> e357b5d... Aether-3394 handle null values in responses
       })
     );
   }
@@ -100,11 +88,7 @@ export class EnterprisesEnterpriseSiteIpDomainService extends BaseService {
   getEnterprisesEnterpriseSiteIpDomainList(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -117,17 +101,10 @@ export class EnterprisesEnterpriseSiteIpDomainService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-<<<<<<< HEAD
-  }): Observable<Array<EnterprisesEnterpriseSiteIpDomainList>> {
-
-    return this.getEnterprisesEnterpriseSiteIpDomainList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteIpDomainList>>) => r.body as Array<EnterprisesEnterpriseSiteIpDomainList>)
-=======
   }): Observable<EnterprisesEnterpriseSiteIpDomainList> {
 
     return this.getEnterprisesEnterpriseSiteIpDomainList$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseSiteIpDomainList>) => r.body as EnterprisesEnterpriseSiteIpDomainList)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
     );
   }
 

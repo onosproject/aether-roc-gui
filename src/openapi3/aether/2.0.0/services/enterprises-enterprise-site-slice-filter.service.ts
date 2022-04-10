@@ -42,11 +42,7 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
   getEnterprisesEnterpriseSiteSliceFilterList$Response(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -64,11 +60,7 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
      * key {slice-id}
      */
     'slice-id': any;
-<<<<<<< HEAD
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceFilterList>>> {
-=======
   }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteSliceFilterList>> {
->>>>>>> e357b5d... Aether-3394 handle null values in responses
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSliceFilterService.GetEnterprisesEnterpriseSiteSliceFilterListPath, 'get');
     if (params) {
@@ -84,11 +76,7 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-<<<<<<< HEAD
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceFilterList>>;
-=======
         return r as StrictHttpResponse<EnterprisesEnterpriseSiteSliceFilterList>;
->>>>>>> e357b5d... Aether-3394 handle null values in responses
       })
     );
   }
@@ -106,11 +94,7 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
   getEnterprisesEnterpriseSiteSliceFilterList(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -128,17 +112,10 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
      * key {slice-id}
      */
     'slice-id': any;
-<<<<<<< HEAD
-  }): Observable<Array<EnterprisesEnterpriseSiteSliceFilterList>> {
-
-    return this.getEnterprisesEnterpriseSiteSliceFilterList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceFilterList>>) => r.body as Array<EnterprisesEnterpriseSiteSliceFilterList>)
-=======
   }): Observable<EnterprisesEnterpriseSiteSliceFilterList> {
 
     return this.getEnterprisesEnterpriseSiteSliceFilterList$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSliceFilterList>) => r.body as EnterprisesEnterpriseSiteSliceFilterList)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
     );
   }
 

@@ -42,11 +42,7 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
   getEnterprisesEnterpriseTrafficClassList$Response(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -54,11 +50,7 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
      * key {enterprise-id}
      */
     'enterprise-id': any;
-<<<<<<< HEAD
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseTrafficClassList>>> {
-=======
   }): Observable<StrictHttpResponse<EnterprisesEnterpriseTrafficClassList>> {
->>>>>>> e357b5d... Aether-3394 handle null values in responses
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseTrafficClassService.GetEnterprisesEnterpriseTrafficClassListPath, 'get');
     if (params) {
@@ -72,11 +64,7 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-<<<<<<< HEAD
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseTrafficClassList>>;
-=======
         return r as StrictHttpResponse<EnterprisesEnterpriseTrafficClassList>;
->>>>>>> e357b5d... Aether-3394 handle null values in responses
       })
     );
   }
@@ -94,11 +82,7 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
   getEnterprisesEnterpriseTrafficClassList(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -106,17 +90,10 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
      * key {enterprise-id}
      */
     'enterprise-id': any;
-<<<<<<< HEAD
-  }): Observable<Array<EnterprisesEnterpriseTrafficClassList>> {
-
-    return this.getEnterprisesEnterpriseTrafficClassList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseTrafficClassList>>) => r.body as Array<EnterprisesEnterpriseTrafficClassList>)
-=======
   }): Observable<EnterprisesEnterpriseTrafficClassList> {
 
     return this.getEnterprisesEnterpriseTrafficClassList$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseTrafficClassList>) => r.body as EnterprisesEnterpriseTrafficClassList)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
     );
   }
 

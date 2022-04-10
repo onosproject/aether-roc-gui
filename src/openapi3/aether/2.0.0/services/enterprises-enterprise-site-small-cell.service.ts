@@ -42,11 +42,7 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
   getEnterprisesEnterpriseSiteSmallCellList$Response(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -59,11 +55,7 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-<<<<<<< HEAD
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSmallCellList>>> {
-=======
   }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteSmallCellList>> {
->>>>>>> e357b5d... Aether-3394 handle null values in responses
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSmallCellService.GetEnterprisesEnterpriseSiteSmallCellListPath, 'get');
     if (params) {
@@ -78,11 +70,7 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-<<<<<<< HEAD
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSmallCellList>>;
-=======
         return r as StrictHttpResponse<EnterprisesEnterpriseSiteSmallCellList>;
->>>>>>> e357b5d... Aether-3394 handle null values in responses
       })
     );
   }
@@ -100,11 +88,7 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
   getEnterprisesEnterpriseSiteSmallCellList(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -117,17 +101,10 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-<<<<<<< HEAD
-  }): Observable<Array<EnterprisesEnterpriseSiteSmallCellList>> {
-
-    return this.getEnterprisesEnterpriseSiteSmallCellList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSmallCellList>>) => r.body as Array<EnterprisesEnterpriseSiteSmallCellList>)
-=======
   }): Observable<EnterprisesEnterpriseSiteSmallCellList> {
 
     return this.getEnterprisesEnterpriseSiteSmallCellList$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSmallCellList>) => r.body as EnterprisesEnterpriseSiteSmallCellList)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
     );
   }
 

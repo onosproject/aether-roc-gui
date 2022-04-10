@@ -42,11 +42,7 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
   getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList$Response(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -64,11 +60,7 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
      * key {slice-id}
      */
     'slice-id': any;
-<<<<<<< HEAD
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>>> {
-=======
   }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>> {
->>>>>>> e357b5d... Aether-3394 handle null values in responses
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService.GetEnterprisesEnterpriseSiteSlicePriorityTrafficRuleListPath, 'get');
     if (params) {
@@ -84,11 +76,7 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-<<<<<<< HEAD
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>>;
-=======
         return r as StrictHttpResponse<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>;
->>>>>>> e357b5d... Aether-3394 handle null values in responses
       })
     );
   }
@@ -106,11 +94,7 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
   getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -128,17 +112,10 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
      * key {slice-id}
      */
     'slice-id': any;
-<<<<<<< HEAD
-  }): Observable<Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>> {
-
-    return this.getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>>) => r.body as Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>)
-=======
   }): Observable<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList> {
 
     return this.getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>) => r.body as EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
     );
   }
 

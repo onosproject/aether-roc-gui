@@ -43,11 +43,7 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
   getEnterprisesEnterpriseTemplateList$Response(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -55,11 +51,7 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
      * key {enterprise-id}
      */
     'enterprise-id': any;
-<<<<<<< HEAD
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseTemplateList>>> {
-=======
   }): Observable<StrictHttpResponse<EnterprisesEnterpriseTemplateList>> {
->>>>>>> e357b5d... Aether-3394 handle null values in responses
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseTemplateService.GetEnterprisesEnterpriseTemplateListPath, 'get');
     if (params) {
@@ -73,11 +65,7 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-<<<<<<< HEAD
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseTemplateList>>;
-=======
         return r as StrictHttpResponse<EnterprisesEnterpriseTemplateList>;
->>>>>>> e357b5d... Aether-3394 handle null values in responses
       })
     );
   }
@@ -95,11 +83,7 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
   getEnterprisesEnterpriseTemplateList(params: {
 
     /**
-<<<<<<< HEAD
-     * target (device in onos-config)
-=======
      * target (target in onos-config)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
      */
     target: any;
 
@@ -107,17 +91,10 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
      * key {enterprise-id}
      */
     'enterprise-id': any;
-<<<<<<< HEAD
-  }): Observable<Array<EnterprisesEnterpriseTemplateList>> {
-
-    return this.getEnterprisesEnterpriseTemplateList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseTemplateList>>) => r.body as Array<EnterprisesEnterpriseTemplateList>)
-=======
   }): Observable<EnterprisesEnterpriseTemplateList> {
 
     return this.getEnterprisesEnterpriseTemplateList$Response(params).pipe(
       map((r: StrictHttpResponse<EnterprisesEnterpriseTemplateList>) => r.body as EnterprisesEnterpriseTemplateList)
->>>>>>> e357b5d... Aether-3394 handle null values in responses
     );
   }
 
