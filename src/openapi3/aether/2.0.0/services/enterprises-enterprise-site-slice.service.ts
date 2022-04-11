@@ -43,7 +43,7 @@ export class EnterprisesEnterpriseSiteSliceService extends BaseService {
   getEnterprisesEnterpriseSiteSliceList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -56,7 +56,7 @@ export class EnterprisesEnterpriseSiteSliceService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteSliceList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSliceService.GetEnterprisesEnterpriseSiteSliceListPath, 'get');
     if (params) {
@@ -71,7 +71,7 @@ export class EnterprisesEnterpriseSiteSliceService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteSliceList>;
       })
     );
   }
@@ -89,7 +89,7 @@ export class EnterprisesEnterpriseSiteSliceService extends BaseService {
   getEnterprisesEnterpriseSiteSliceList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -102,10 +102,10 @@ export class EnterprisesEnterpriseSiteSliceService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<Array<EnterprisesEnterpriseSiteSliceList>> {
+  }): Observable<EnterprisesEnterpriseSiteSliceList> {
 
     return this.getEnterprisesEnterpriseSiteSliceList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceList>>) => r.body as Array<EnterprisesEnterpriseSiteSliceList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSliceList>) => r.body as EnterprisesEnterpriseSiteSliceList)
     );
   }
 
@@ -127,7 +127,7 @@ export class EnterprisesEnterpriseSiteSliceService extends BaseService {
   getEnterprisesEnterpriseSiteSlice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -179,7 +179,7 @@ export class EnterprisesEnterpriseSiteSliceService extends BaseService {
   getEnterprisesEnterpriseSiteSlice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -222,7 +222,7 @@ export class EnterprisesEnterpriseSiteSliceService extends BaseService {
   getEnterprisesEnterpriseSiteSliceMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -274,7 +274,7 @@ export class EnterprisesEnterpriseSiteSliceService extends BaseService {
   getEnterprisesEnterpriseSiteSliceMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

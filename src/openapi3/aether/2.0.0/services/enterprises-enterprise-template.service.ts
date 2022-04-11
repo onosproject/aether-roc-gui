@@ -43,7 +43,7 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
   getEnterprisesEnterpriseTemplateList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -51,7 +51,7 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
      * key {enterprise-id}
      */
     'enterprise-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseTemplateList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseTemplateList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseTemplateService.GetEnterprisesEnterpriseTemplateListPath, 'get');
     if (params) {
@@ -65,7 +65,7 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseTemplateList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseTemplateList>;
       })
     );
   }
@@ -83,7 +83,7 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
   getEnterprisesEnterpriseTemplateList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -91,10 +91,10 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
      * key {enterprise-id}
      */
     'enterprise-id': any;
-  }): Observable<Array<EnterprisesEnterpriseTemplateList>> {
+  }): Observable<EnterprisesEnterpriseTemplateList> {
 
     return this.getEnterprisesEnterpriseTemplateList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseTemplateList>>) => r.body as Array<EnterprisesEnterpriseTemplateList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseTemplateList>) => r.body as EnterprisesEnterpriseTemplateList)
     );
   }
 
@@ -116,7 +116,7 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
   getEnterprisesEnterpriseTemplate$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -162,7 +162,7 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
   getEnterprisesEnterpriseTemplate(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -200,7 +200,7 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
   getEnterprisesEnterpriseTemplateMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -246,7 +246,7 @@ export class EnterprisesEnterpriseTemplateService extends BaseService {
   getEnterprisesEnterpriseTemplateMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

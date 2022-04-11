@@ -60,52 +60,68 @@ export class TrafficClassDatasource extends RocDataSource<
             )
             .subscribe(
                 (value: EnterprisesEnterprise) => {
-                    value['traffic-class'].forEach((tc) => {
-                        tc['enterprise-id'] = value['enterprise-id'];
-                        const fullPath = this.deletePath(
-                            value['enterprise-id'],
-                            tc['traffic-class-id']
-                        );
-                        if (this.bs.containsDeleteEntry(fullPath)) {
-                            tc[FORDELETE] = STRIKETHROUGH;
-                        }
-                        // Check for usages in applications
-                        value.application.forEach((app) => {
-                            app['endpoint'].forEach((appep) => {
-                                if (
-                                    appep['traffic-class'] ===
-                                    tc['traffic-class-id']
-                                ) {
-                                    tc[ISINUSE] = 'true'; // Any match will set it
-                                }
-                            });
-                        });
-                        // Check for usages in device-groups
-                        value.site.forEach((site) => {
-                            site['device-group'].forEach((dg) => {
-                                if (
-                                    dg['traffic-class'] ===
-                                    tc['traffic-class-id']
-                                ) {
-                                    tc[ISINUSE] = 'true'; // Any match will set it
-                                }
-                            });
-                            // Check for usages in slices
-                            site.slice.forEach((slice) => {
-                                slice['priority-traffic-rule'].forEach(
-                                    (ptr) => {
-                                        if (
-                                            ptr['traffic-class'] ===
-                                            tc['traffic-class-id']
-                                        ) {
-                                            tc[ISINUSE] = 'true'; // Any match will set it
-                                        }
+                    if (value['traffic-class']) {
+                        value['traffic-class'].forEach((tc) => {
+                            tc['enterprise-id'] = value['enterprise-id'];
+                            const fullPath = this.deletePath(
+                                value['enterprise-id'],
+                                tc['traffic-class-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                tc[FORDELETE] = STRIKETHROUGH;
+                            }
+                            // Check for usages in applications
+                            if (value.application) {
+                                value.application.forEach((app) => {
+                                    if (app.endpoint) {
+                                        app['endpoint'].forEach((appep) => {
+                                            if (
+                                                appep['traffic-class'] ===
+                                                tc['traffic-class-id']
+                                            ) {
+                                                tc[ISINUSE] = 'true'; // Any match will set it
+                                            }
+                                        });
                                     }
-                                );
-                            });
+                                });
+                            }
+                            // Check for usages in device-groups
+                            if (value.site) {
+                                value.site.forEach((site) => {
+                                    if (site['device-group']) {
+                                        site['device-group'].forEach((dg) => {
+                                            if (
+                                                dg['traffic-class'] ===
+                                                tc['traffic-class-id']
+                                            ) {
+                                                tc[ISINUSE] = 'true'; // Any match will set it
+                                            }
+                                        });
+                                    }
+                                    // Check for usages in slices
+                                    if (site.slice) {
+                                        site.slice.forEach((slice) => {
+                                            if (
+                                                slice['priority-traffic-rule']
+                                            ) {
+                                                slice[
+                                                    'priority-traffic-rule'
+                                                ].forEach((ptr) => {
+                                                    if (
+                                                        ptr['traffic-class'] ===
+                                                        tc['traffic-class-id']
+                                                    ) {
+                                                        tc[ISINUSE] = 'true'; // Any match will set it
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                                this.data.push(tc);
+                            }
                         });
-                        this.data.push(tc);
-                    });
+                    }
                 },
                 (error) => {
                     console.warn(

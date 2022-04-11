@@ -42,7 +42,7 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
   getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -55,7 +55,7 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteMonitoringEdgeDeviceService.GetEnterprisesEnterpriseSiteMonitoringEdgeDeviceListPath, 'get');
     if (params) {
@@ -70,7 +70,7 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>;
       })
     );
   }
@@ -88,7 +88,7 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
   getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -101,10 +101,10 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>> {
+  }): Observable<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList> {
 
     return this.getEnterprisesEnterpriseSiteMonitoringEdgeDeviceList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>>) => r.body as Array<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteMonitoringEdgeDeviceList>) => r.body as EnterprisesEnterpriseSiteMonitoringEdgeDeviceList)
     );
   }
 
@@ -126,7 +126,7 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
   getEnterprisesEnterpriseSiteMonitoringEdgeDevice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -178,7 +178,7 @@ export class EnterprisesEnterpriseSiteMonitoringEdgeDeviceService extends BaseSe
   getEnterprisesEnterpriseSiteMonitoringEdgeDevice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

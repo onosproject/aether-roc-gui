@@ -56,31 +56,43 @@ export class ApplicationDatasource extends RocDataSource<
             )
             .subscribe(
                 (value: EnterprisesEnterprise) => {
-                    value.application.forEach((app) => {
-                        app['enterprise-id'] = value['enterprise-id'];
-                        const fullPath = this.deletePath(
-                            value['enterprise-id'],
-                            app['application-id']
-                        );
-                        if (this.bs.containsDeleteEntry(fullPath)) {
-                            app[FORDELETE] = STRIKETHROUGH;
-                        }
-                        // Check for usages in slices
-                        value.site.forEach((site) => {
-                            site.slice.forEach((slice) => {
-                                slice.filter.forEach((filter) => {
-                                    if (
-                                        filter.application ===
-                                        app['application-id']
-                                    ) {
-                                        app[ISINUSE] = 'true'; // Any match will set it
+                    if (value.application) {
+                        value.application.forEach((app) => {
+                            app['enterprise-id'] = value['enterprise-id'];
+                            const fullPath = this.deletePath(
+                                value['enterprise-id'],
+                                app['application-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                app[FORDELETE] = STRIKETHROUGH;
+                            }
+                            // Check for usages in slices
+                            if (value.site) {
+                                value.site.forEach((site) => {
+                                    if (site.slice) {
+                                        site.slice.forEach((slice) => {
+                                            if (slice.filter) {
+                                                slice.filter.forEach(
+                                                    (filter) => {
+                                                        if (
+                                                            filter.application ===
+                                                            app[
+                                                                'application-id'
+                                                            ]
+                                                        ) {
+                                                            app[ISINUSE] =
+                                                                'true'; // Any match will set it
+                                                        }
+                                                    }
+                                                );
+                                            }
+                                        });
                                     }
                                 });
-                            });
+                            }
+                            this.data.push(app);
                         });
-
-                        this.data.push(app);
-                    });
+                    }
                 },
                 (error) => {
                     console.warn(

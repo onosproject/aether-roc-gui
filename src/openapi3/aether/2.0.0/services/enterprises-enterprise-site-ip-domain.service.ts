@@ -42,7 +42,7 @@ export class EnterprisesEnterpriseSiteIpDomainService extends BaseService {
   getEnterprisesEnterpriseSiteIpDomainList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -55,7 +55,7 @@ export class EnterprisesEnterpriseSiteIpDomainService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteIpDomainList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteIpDomainList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteIpDomainService.GetEnterprisesEnterpriseSiteIpDomainListPath, 'get');
     if (params) {
@@ -70,7 +70,7 @@ export class EnterprisesEnterpriseSiteIpDomainService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteIpDomainList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteIpDomainList>;
       })
     );
   }
@@ -88,7 +88,7 @@ export class EnterprisesEnterpriseSiteIpDomainService extends BaseService {
   getEnterprisesEnterpriseSiteIpDomainList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -101,10 +101,10 @@ export class EnterprisesEnterpriseSiteIpDomainService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<Array<EnterprisesEnterpriseSiteIpDomainList>> {
+  }): Observable<EnterprisesEnterpriseSiteIpDomainList> {
 
     return this.getEnterprisesEnterpriseSiteIpDomainList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteIpDomainList>>) => r.body as Array<EnterprisesEnterpriseSiteIpDomainList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteIpDomainList>) => r.body as EnterprisesEnterpriseSiteIpDomainList)
     );
   }
 
@@ -126,7 +126,7 @@ export class EnterprisesEnterpriseSiteIpDomainService extends BaseService {
   getEnterprisesEnterpriseSiteIpDomain$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -178,7 +178,7 @@ export class EnterprisesEnterpriseSiteIpDomainService extends BaseService {
   getEnterprisesEnterpriseSiteIpDomain(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

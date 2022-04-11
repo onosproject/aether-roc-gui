@@ -8,7 +8,7 @@
 export interface AdditionalPropertyTarget {
 
   /**
-   * an override of the target (device)
+   * an override of the target (target)
    */
   target?: string;
 }

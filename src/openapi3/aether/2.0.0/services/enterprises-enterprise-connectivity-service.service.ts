@@ -42,7 +42,7 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
   getEnterprisesEnterpriseConnectivityServiceList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -50,7 +50,7 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
      * key {enterprise-id}
      */
     'enterprise-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseConnectivityServiceList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseConnectivityServiceList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseConnectivityServiceService.GetEnterprisesEnterpriseConnectivityServiceListPath, 'get');
     if (params) {
@@ -64,7 +64,7 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseConnectivityServiceList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseConnectivityServiceList>;
       })
     );
   }
@@ -82,7 +82,7 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
   getEnterprisesEnterpriseConnectivityServiceList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -90,10 +90,10 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
      * key {enterprise-id}
      */
     'enterprise-id': any;
-  }): Observable<Array<EnterprisesEnterpriseConnectivityServiceList>> {
+  }): Observable<EnterprisesEnterpriseConnectivityServiceList> {
 
     return this.getEnterprisesEnterpriseConnectivityServiceList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseConnectivityServiceList>>) => r.body as Array<EnterprisesEnterpriseConnectivityServiceList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseConnectivityServiceList>) => r.body as EnterprisesEnterpriseConnectivityServiceList)
     );
   }
 
@@ -115,7 +115,7 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
   getEnterprisesEnterpriseConnectivityService$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -161,7 +161,7 @@ export class EnterprisesEnterpriseConnectivityServiceService extends BaseService
   getEnterprisesEnterpriseConnectivityService(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

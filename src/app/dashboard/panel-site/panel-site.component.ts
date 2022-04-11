@@ -95,8 +95,11 @@ export class PanelSiteComponent
                 return;
             }
 
-            this.dataSource.data.forEach((site) => {
-                if (site.monitoring['edge-device'].length === 0) {
+            this.dataSource.data?.forEach((site) => {
+                if (
+                    site.monitoring === undefined ||
+                    site.monitoring['edge-device'].length === 0
+                ) {
                     return;
                 }
 

@@ -1,7 +1,7 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { EnterprisesEnterpriseSiteMonitoringEdgeDevice } from './enterprises-enterprise-site-monitoring-edge-device';
+import { EnterprisesEnterpriseSiteMonitoringEdgeDeviceList } from './enterprises-enterprise-site-monitoring-edge-device-list';
 
 /**
  * container for monitoring
@@ -12,11 +12,7 @@ export interface EnterprisesEnterpriseSiteMonitoring {
    * URL of edge cluster prometheus
    */
   'edge-cluster-prometheus-url'?: string;
-
-  /**
-   * List of edge monitoring devices
-   */
-  'edge-device'?: Array<EnterprisesEnterpriseSiteMonitoringEdgeDevice>;
+  'edge-device'?: EnterprisesEnterpriseSiteMonitoringEdgeDeviceList;
 
   /**
    * URL of monitoring prometheus

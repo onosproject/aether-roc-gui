@@ -2,6 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
+
+/**
+ * A list of named upfs. (single)
+ */
 export interface EnterprisesEnterpriseSiteUpf {
 
   /**

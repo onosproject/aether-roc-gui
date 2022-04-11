@@ -42,10 +42,10 @@ export class ConnectivityServicesConnectivityServiceService extends BaseService 
   getConnectivityServicesConnectivityServiceList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
-  }): Observable<StrictHttpResponse<Array<ConnectivityServicesConnectivityServiceList>>> {
+  }): Observable<StrictHttpResponse<ConnectivityServicesConnectivityServiceList>> {
 
     const rb = new RequestBuilder(this.rootUrl, ConnectivityServicesConnectivityServiceService.GetConnectivityServicesConnectivityServiceListPath, 'get');
     if (params) {
@@ -58,7 +58,7 @@ export class ConnectivityServicesConnectivityServiceService extends BaseService 
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<ConnectivityServicesConnectivityServiceList>>;
+        return r as StrictHttpResponse<ConnectivityServicesConnectivityServiceList>;
       })
     );
   }
@@ -76,13 +76,13 @@ export class ConnectivityServicesConnectivityServiceService extends BaseService 
   getConnectivityServicesConnectivityServiceList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
-  }): Observable<Array<ConnectivityServicesConnectivityServiceList>> {
+  }): Observable<ConnectivityServicesConnectivityServiceList> {
 
     return this.getConnectivityServicesConnectivityServiceList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<ConnectivityServicesConnectivityServiceList>>) => r.body as Array<ConnectivityServicesConnectivityServiceList>)
+      map((r: StrictHttpResponse<ConnectivityServicesConnectivityServiceList>) => r.body as ConnectivityServicesConnectivityServiceList)
     );
   }
 
@@ -104,7 +104,7 @@ export class ConnectivityServicesConnectivityServiceService extends BaseService 
   getConnectivityServicesConnectivityService$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -144,7 +144,7 @@ export class ConnectivityServicesConnectivityServiceService extends BaseService 
   getConnectivityServicesConnectivityService(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

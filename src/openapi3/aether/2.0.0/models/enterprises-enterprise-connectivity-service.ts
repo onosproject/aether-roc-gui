@@ -1,6 +1,10 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
+
+/**
+ * The list for connectivity-service (single)
+ */
 export interface EnterprisesEnterpriseConnectivityService {
 
   /**

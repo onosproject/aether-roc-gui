@@ -68,7 +68,7 @@ export class ContainerService extends BaseService {
   getConnectivityServices$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
   }): Observable<StrictHttpResponse<ConnectivityServices>> {
@@ -102,7 +102,7 @@ export class ContainerService extends BaseService {
   getConnectivityServices(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
   }): Observable<ConnectivityServices> {
@@ -130,7 +130,7 @@ export class ContainerService extends BaseService {
   getConnectivityServicesConnectivityService$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -170,7 +170,7 @@ export class ContainerService extends BaseService {
   getConnectivityServicesConnectivityService(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -203,7 +203,7 @@ export class ContainerService extends BaseService {
   getEnterprises$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
   }): Observable<StrictHttpResponse<Enterprises>> {
@@ -237,7 +237,7 @@ export class ContainerService extends BaseService {
   getEnterprises(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
   }): Observable<Enterprises> {
@@ -265,7 +265,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterprise$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -305,7 +305,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterprise(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -338,7 +338,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseApplication$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -384,7 +384,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseApplication(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -422,7 +422,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseApplicationEndpoint$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -474,7 +474,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseApplicationEndpoint(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -517,7 +517,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseApplicationEndpointMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -569,7 +569,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseApplicationEndpointMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -612,7 +612,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseConnectivityService$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -658,7 +658,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseConnectivityService(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -696,7 +696,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSite$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -742,7 +742,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSite(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -780,7 +780,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroup$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -832,7 +832,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroup(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -875,7 +875,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroupDevice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -933,7 +933,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroupDevice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -981,7 +981,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroupMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1033,7 +1033,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroupMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1076,7 +1076,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDevice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1128,7 +1128,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteDevice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1171,7 +1171,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteImsiDefinition$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1217,7 +1217,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteImsiDefinition(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1255,7 +1255,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteIpDomain$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1307,7 +1307,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteIpDomain(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1350,7 +1350,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteMonitoring$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1396,7 +1396,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteMonitoring(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1434,7 +1434,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteMonitoringEdgeDevice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1486,7 +1486,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteMonitoringEdgeDevice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1529,7 +1529,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSimCard$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1581,7 +1581,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSimCard(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1624,7 +1624,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSlice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1676,7 +1676,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSlice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1719,7 +1719,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSliceDeviceGroup$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1777,7 +1777,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSliceDeviceGroup(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1825,7 +1825,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSliceFilter$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1883,7 +1883,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSliceFilter(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1931,7 +1931,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSliceMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -1983,7 +1983,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSliceMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2026,7 +2026,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSlicePriorityTrafficRule$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2084,7 +2084,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSlicePriorityTrafficRule(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2132,7 +2132,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSmallCell$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2184,7 +2184,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteSmallCell(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2227,7 +2227,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteUpf$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2279,7 +2279,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseSiteUpf(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2322,7 +2322,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseTemplate$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2368,7 +2368,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseTemplate(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2406,7 +2406,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseTemplateMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2452,7 +2452,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseTemplateMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2490,7 +2490,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseTrafficClass$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -2536,7 +2536,7 @@ export class ContainerService extends BaseService {
   getEnterprisesEnterpriseTrafficClass(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

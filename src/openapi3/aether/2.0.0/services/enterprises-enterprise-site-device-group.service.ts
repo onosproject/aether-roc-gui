@@ -43,7 +43,7 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroupList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -56,7 +56,7 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceGroupList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteDeviceGroupList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteDeviceGroupService.GetEnterprisesEnterpriseSiteDeviceGroupListPath, 'get');
     if (params) {
@@ -71,7 +71,7 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceGroupList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteDeviceGroupList>;
       })
     );
   }
@@ -89,7 +89,7 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroupList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -102,10 +102,10 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<Array<EnterprisesEnterpriseSiteDeviceGroupList>> {
+  }): Observable<EnterprisesEnterpriseSiteDeviceGroupList> {
 
     return this.getEnterprisesEnterpriseSiteDeviceGroupList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceGroupList>>) => r.body as Array<EnterprisesEnterpriseSiteDeviceGroupList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteDeviceGroupList>) => r.body as EnterprisesEnterpriseSiteDeviceGroupList)
     );
   }
 
@@ -127,7 +127,7 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroup$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -179,7 +179,7 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroup(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -222,7 +222,7 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroupMbr$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -274,7 +274,7 @@ export class EnterprisesEnterpriseSiteDeviceGroupService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceGroupMbr(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

@@ -42,7 +42,7 @@ export class Service extends BaseService {
   getConnectivityServices$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
   }): Observable<StrictHttpResponse<ConnectivityServices>> {
@@ -76,7 +76,7 @@ export class Service extends BaseService {
   getConnectivityServices(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
   }): Observable<ConnectivityServices> {
@@ -104,7 +104,7 @@ export class Service extends BaseService {
   getEnterprises$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
   }): Observable<StrictHttpResponse<Enterprises>> {
@@ -138,7 +138,7 @@ export class Service extends BaseService {
   getEnterprises(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
   }): Observable<Enterprises> {

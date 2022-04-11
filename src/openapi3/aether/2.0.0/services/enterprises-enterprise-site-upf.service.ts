@@ -42,7 +42,7 @@ export class EnterprisesEnterpriseSiteUpfService extends BaseService {
   getEnterprisesEnterpriseSiteUpfList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -55,7 +55,7 @@ export class EnterprisesEnterpriseSiteUpfService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteUpfList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteUpfList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteUpfService.GetEnterprisesEnterpriseSiteUpfListPath, 'get');
     if (params) {
@@ -70,7 +70,7 @@ export class EnterprisesEnterpriseSiteUpfService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteUpfList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteUpfList>;
       })
     );
   }
@@ -88,7 +88,7 @@ export class EnterprisesEnterpriseSiteUpfService extends BaseService {
   getEnterprisesEnterpriseSiteUpfList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -101,10 +101,10 @@ export class EnterprisesEnterpriseSiteUpfService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<Array<EnterprisesEnterpriseSiteUpfList>> {
+  }): Observable<EnterprisesEnterpriseSiteUpfList> {
 
     return this.getEnterprisesEnterpriseSiteUpfList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteUpfList>>) => r.body as Array<EnterprisesEnterpriseSiteUpfList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteUpfList>) => r.body as EnterprisesEnterpriseSiteUpfList)
     );
   }
 
@@ -126,7 +126,7 @@ export class EnterprisesEnterpriseSiteUpfService extends BaseService {
   getEnterprisesEnterpriseSiteUpf$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -178,7 +178,7 @@ export class EnterprisesEnterpriseSiteUpfService extends BaseService {
   getEnterprisesEnterpriseSiteUpf(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

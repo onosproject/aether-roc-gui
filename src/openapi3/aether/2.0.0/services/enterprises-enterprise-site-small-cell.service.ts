@@ -42,7 +42,7 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
   getEnterprisesEnterpriseSiteSmallCellList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -55,7 +55,7 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSmallCellList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteSmallCellList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSmallCellService.GetEnterprisesEnterpriseSiteSmallCellListPath, 'get');
     if (params) {
@@ -70,7 +70,7 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSmallCellList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteSmallCellList>;
       })
     );
   }
@@ -88,7 +88,7 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
   getEnterprisesEnterpriseSiteSmallCellList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -101,10 +101,10 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<Array<EnterprisesEnterpriseSiteSmallCellList>> {
+  }): Observable<EnterprisesEnterpriseSiteSmallCellList> {
 
     return this.getEnterprisesEnterpriseSiteSmallCellList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSmallCellList>>) => r.body as Array<EnterprisesEnterpriseSiteSmallCellList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSmallCellList>) => r.body as EnterprisesEnterpriseSiteSmallCellList)
     );
   }
 
@@ -126,7 +126,7 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
   getEnterprisesEnterpriseSiteSmallCell$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -178,7 +178,7 @@ export class EnterprisesEnterpriseSiteSmallCellService extends BaseService {
   getEnterprisesEnterpriseSiteSmallCell(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

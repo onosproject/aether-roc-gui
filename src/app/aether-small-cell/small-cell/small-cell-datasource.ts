@@ -52,21 +52,26 @@ export class SmallCellDatasource extends RocDataSource<
             )
             .subscribe(
                 (value: EnterprisesEnterprise) => {
-                    value.site.forEach((s) => {
-                        s['small-cell'].forEach((sc) => {
-                            sc['enterprise-id'] = value['enterprise-id'];
-                            sc['site-id'] = s['site-id'];
-                            const fullPath = this.deletePath(
-                                value['enterprise-id'],
-                                s['site-id'],
-                                sc['small-cell-id']
-                            );
-                            if (this.bs.containsDeleteEntry(fullPath)) {
-                                sc[FORDELETE] = STRIKETHROUGH;
+                    if (value.site) {
+                        value.site.forEach((s) => {
+                            if (s['small-cell']) {
+                                s['small-cell'].forEach((sc) => {
+                                    sc['enterprise-id'] =
+                                        value['enterprise-id'];
+                                    sc['site-id'] = s['site-id'];
+                                    const fullPath = this.deletePath(
+                                        value['enterprise-id'],
+                                        s['site-id'],
+                                        sc['small-cell-id']
+                                    );
+                                    if (this.bs.containsDeleteEntry(fullPath)) {
+                                        sc[FORDELETE] = STRIKETHROUGH;
+                                    }
+                                    this.data.push(sc);
+                                });
                             }
-                            this.data.push(sc);
                         });
-                    });
+                    }
                 },
                 (error) => {
                     console.warn(

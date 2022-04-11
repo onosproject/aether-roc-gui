@@ -2,4 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import { EnterprisesEnterpriseSiteUpf } from './enterprises-enterprise-site-upf';
+
+/**
+ * A list of named upfs. (list)
+ */
 export type EnterprisesEnterpriseSiteUpfList = Array<EnterprisesEnterpriseSiteUpf>;

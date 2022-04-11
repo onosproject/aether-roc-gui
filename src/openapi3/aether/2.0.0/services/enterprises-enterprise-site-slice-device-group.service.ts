@@ -42,7 +42,7 @@ export class EnterprisesEnterpriseSiteSliceDeviceGroupService extends BaseServic
   getEnterprisesEnterpriseSiteSliceDeviceGroupList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -60,7 +60,7 @@ export class EnterprisesEnterpriseSiteSliceDeviceGroupService extends BaseServic
      * key {slice-id}
      */
     'slice-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceDeviceGroupList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteSliceDeviceGroupList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSliceDeviceGroupService.GetEnterprisesEnterpriseSiteSliceDeviceGroupListPath, 'get');
     if (params) {
@@ -76,7 +76,7 @@ export class EnterprisesEnterpriseSiteSliceDeviceGroupService extends BaseServic
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceDeviceGroupList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteSliceDeviceGroupList>;
       })
     );
   }
@@ -94,7 +94,7 @@ export class EnterprisesEnterpriseSiteSliceDeviceGroupService extends BaseServic
   getEnterprisesEnterpriseSiteSliceDeviceGroupList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -112,10 +112,10 @@ export class EnterprisesEnterpriseSiteSliceDeviceGroupService extends BaseServic
      * key {slice-id}
      */
     'slice-id': any;
-  }): Observable<Array<EnterprisesEnterpriseSiteSliceDeviceGroupList>> {
+  }): Observable<EnterprisesEnterpriseSiteSliceDeviceGroupList> {
 
     return this.getEnterprisesEnterpriseSiteSliceDeviceGroupList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceDeviceGroupList>>) => r.body as Array<EnterprisesEnterpriseSiteSliceDeviceGroupList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSliceDeviceGroupList>) => r.body as EnterprisesEnterpriseSiteSliceDeviceGroupList)
     );
   }
 
@@ -137,7 +137,7 @@ export class EnterprisesEnterpriseSiteSliceDeviceGroupService extends BaseServic
   getEnterprisesEnterpriseSiteSliceDeviceGroup$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -195,7 +195,7 @@ export class EnterprisesEnterpriseSiteSliceDeviceGroupService extends BaseServic
   getEnterprisesEnterpriseSiteSliceDeviceGroup(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

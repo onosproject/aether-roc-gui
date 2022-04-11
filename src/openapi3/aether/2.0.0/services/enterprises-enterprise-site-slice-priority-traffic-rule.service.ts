@@ -42,7 +42,7 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
   getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -60,7 +60,7 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
      * key {slice-id}
      */
     'slice-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService.GetEnterprisesEnterpriseSiteSlicePriorityTrafficRuleListPath, 'get');
     if (params) {
@@ -76,7 +76,7 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>;
       })
     );
   }
@@ -94,7 +94,7 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
   getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -112,10 +112,10 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
      * key {slice-id}
      */
     'slice-id': any;
-  }): Observable<Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>> {
+  }): Observable<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList> {
 
     return this.getEnterprisesEnterpriseSiteSlicePriorityTrafficRuleList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>>) => r.body as Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList>) => r.body as EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList)
     );
   }
 
@@ -137,7 +137,7 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
   getEnterprisesEnterpriseSiteSlicePriorityTrafficRule$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -195,7 +195,7 @@ export class EnterprisesEnterpriseSiteSlicePriorityTrafficRuleService extends Ba
   getEnterprisesEnterpriseSiteSlicePriorityTrafficRule(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

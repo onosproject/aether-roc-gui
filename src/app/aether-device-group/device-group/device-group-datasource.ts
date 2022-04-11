@@ -57,32 +57,43 @@ export class DeviceGroupDatasource extends RocDataSource<
             )
             .subscribe(
                 (value: EnterprisesEnterprise) => {
-                    value.site.forEach((s) => {
-                        s['device-group'].forEach((dg) => {
-                            dg['enterprise-id'] = value['enterprise-id'];
-                            dg['site-id'] = s['site-id'];
-                            const fullPath = this.deletePath(
-                                value['enterprise-id'],
-                                s['site-id'],
-                                dg['device-group-id']
-                            );
-                            if (this.bs.containsDeleteEntry(fullPath)) {
-                                dg[FORDELETE] = STRIKETHROUGH;
-                            }
-                            // Check for usage in slices
-                            s.slice.forEach((slice) => {
-                                slice['device-group'].forEach((slicedg) => {
-                                    if (
-                                        slicedg['device-group'] ===
+                    if (value.site) {
+                        value.site.forEach((s) => {
+                            if (s['device-group']) {
+                                s['device-group'].forEach((dg) => {
+                                    dg['enterprise-id'] =
+                                        value['enterprise-id'];
+                                    dg['site-id'] = s['site-id'];
+                                    const fullPath = this.deletePath(
+                                        value['enterprise-id'],
+                                        s['site-id'],
                                         dg['device-group-id']
-                                    ) {
-                                        dg[ISINUSE] = 'true'; // Any match will set it
+                                    );
+                                    if (this.bs.containsDeleteEntry(fullPath)) {
+                                        dg[FORDELETE] = STRIKETHROUGH;
+                                    }
+                                    // Check for usage in slices
+                                    if (s.slice) {
+                                        s.slice.forEach((slice) => {
+                                            slice['device-group'].forEach(
+                                                (slicedg) => {
+                                                    if (
+                                                        slicedg[
+                                                            'device-group'
+                                                        ] ===
+                                                        dg['device-group-id']
+                                                    ) {
+                                                        dg[ISINUSE] = 'true'; // Any match will set it
+                                                    }
+                                                }
+                                            );
+                                        });
+                                        this.data.push(dg);
                                     }
                                 });
-                            });
-                            this.data.push(dg);
+                            }
                         });
-                    });
+                    }
                 },
                 (error) => {
                     console.warn(

@@ -1,66 +1,42 @@
 // GENERATED CODE -- DO NOT EDIT!
 /* tslint:disable */
 /* eslint-disable */
-import { EnterprisesEnterpriseSiteDevice } from './enterprises-enterprise-site-device';
-import { EnterprisesEnterpriseSiteDeviceGroup } from './enterprises-enterprise-site-device-group';
+import { EnterprisesEnterpriseSiteDeviceGroupList } from './enterprises-enterprise-site-device-group-list';
+import { EnterprisesEnterpriseSiteDeviceList } from './enterprises-enterprise-site-device-list';
 import { EnterprisesEnterpriseSiteImsiDefinition } from './enterprises-enterprise-site-imsi-definition';
-import { EnterprisesEnterpriseSiteIpDomain } from './enterprises-enterprise-site-ip-domain';
+import { EnterprisesEnterpriseSiteIpDomainList } from './enterprises-enterprise-site-ip-domain-list';
 import { EnterprisesEnterpriseSiteMonitoring } from './enterprises-enterprise-site-monitoring';
-import { EnterprisesEnterpriseSiteSimCard } from './enterprises-enterprise-site-sim-card';
-import { EnterprisesEnterpriseSiteSlice } from './enterprises-enterprise-site-slice';
-import { EnterprisesEnterpriseSiteSmallCell } from './enterprises-enterprise-site-small-cell';
-import { EnterprisesEnterpriseSiteUpf } from './enterprises-enterprise-site-upf';
+import { EnterprisesEnterpriseSiteSimCardList } from './enterprises-enterprise-site-sim-card-list';
+import { EnterprisesEnterpriseSiteSliceList } from './enterprises-enterprise-site-slice-list';
+import { EnterprisesEnterpriseSiteSmallCellList } from './enterprises-enterprise-site-small-cell-list';
+import { EnterprisesEnterpriseSiteUpfList } from './enterprises-enterprise-site-upf-list';
+
+/**
+ * List of site (single)
+ */
 export interface EnterprisesEnterpriseSite {
 
   /**
    * long description field
    */
   description?: string;
-
-  /**
-   * List of devices
-   */
-  device?: Array<EnterprisesEnterpriseSiteDevice>;
-
-  /**
-   * List of device groups
-   */
-  'device-group'?: Array<EnterprisesEnterpriseSiteDeviceGroup>;
+  device?: EnterprisesEnterpriseSiteDeviceList;
+  'device-group'?: EnterprisesEnterpriseSiteDeviceGroupList;
 
   /**
    * display name to use in GUI or CLI
    */
   'display-name'?: string;
   'imsi-definition'?: EnterprisesEnterpriseSiteImsiDefinition;
-
-  /**
-   * List of ip domains
-   */
-  'ip-domain'?: Array<EnterprisesEnterpriseSiteIpDomain>;
+  'ip-domain'?: EnterprisesEnterpriseSiteIpDomainList;
   monitoring?: EnterprisesEnterpriseSiteMonitoring;
-
-  /**
-   * List of sim cards
-   */
-  'sim-card'?: Array<EnterprisesEnterpriseSiteSimCard>;
+  'sim-card'?: EnterprisesEnterpriseSiteSimCardList;
 
   /**
    * ID for this site.
    */
   'site-id': string;
-
-  /**
-   * List of Slices
-   */
-  slice?: Array<EnterprisesEnterpriseSiteSlice>;
-
-  /**
-   * List of small cell addresses
-   */
-  'small-cell'?: Array<EnterprisesEnterpriseSiteSmallCell>;
-
-  /**
-   * A list of named upfs.
-   */
-  upf?: Array<EnterprisesEnterpriseSiteUpf>;
+  slice?: EnterprisesEnterpriseSiteSliceList;
+  'small-cell'?: EnterprisesEnterpriseSiteSmallCellList;
+  upf?: EnterprisesEnterpriseSiteUpfList;
 }

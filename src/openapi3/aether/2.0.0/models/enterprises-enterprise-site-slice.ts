@@ -2,10 +2,14 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
-import { EnterprisesEnterpriseSiteSliceDeviceGroup } from './enterprises-enterprise-site-slice-device-group';
-import { EnterprisesEnterpriseSiteSliceFilter } from './enterprises-enterprise-site-slice-filter';
+import { EnterprisesEnterpriseSiteSliceDeviceGroupList } from './enterprises-enterprise-site-slice-device-group-list';
+import { EnterprisesEnterpriseSiteSliceFilterList } from './enterprises-enterprise-site-slice-filter-list';
 import { EnterprisesEnterpriseSiteSliceMbr } from './enterprises-enterprise-site-slice-mbr';
-import { EnterprisesEnterpriseSiteSlicePriorityTrafficRule } from './enterprises-enterprise-site-slice-priority-traffic-rule';
+import { EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList } from './enterprises-enterprise-site-slice-priority-traffic-rule-list';
+
+/**
+ * List of Slices (single)
+ */
 export interface EnterprisesEnterpriseSiteSlice {
 
   /**
@@ -17,30 +21,15 @@ export interface EnterprisesEnterpriseSiteSlice {
    * long description field
    */
   description?: string;
-
-  /**
-   * A list of device groups. Groups will only participate in
-   * the Slice if the enable field is set to True
-   */
-  'device-group'?: Array<EnterprisesEnterpriseSiteSliceDeviceGroup>;
+  'device-group'?: EnterprisesEnterpriseSiteSliceDeviceGroupList;
 
   /**
    * display name to use in GUI or CLI
    */
   'display-name'?: string;
-
-  /**
-   * A list of applications to allow and/or deny. Rules are executed in
-   * priority order. The first rule to match will determine the fate
-   * of the packet.
-   */
-  filter?: Array<EnterprisesEnterpriseSiteSliceFilter>;
+  filter?: EnterprisesEnterpriseSiteSliceFilterList;
   mbr?: EnterprisesEnterpriseSiteSliceMbr;
-
-  /**
-   * List of priority traffic rules
-   */
-  'priority-traffic-rule'?: Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRule>;
+  'priority-traffic-rule'?: EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList;
 
   /**
    * Slice differentiator. Immutable.
@@ -62,5 +51,5 @@ export interface EnterprisesEnterpriseSiteSlice {
    */
   upf?: string;
 
-  [key: string]: AdditionalPropertyUnchanged | Array<EnterprisesEnterpriseSiteSliceDeviceGroup> | Array<EnterprisesEnterpriseSiteSliceFilter> | Array<EnterprisesEnterpriseSiteSlicePriorityTrafficRule> | EnterprisesEnterpriseSiteSliceMbr | number | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | EnterprisesEnterpriseSiteSliceDeviceGroupList | EnterprisesEnterpriseSiteSliceFilterList | EnterprisesEnterpriseSiteSliceMbr | EnterprisesEnterpriseSiteSlicePriorityTrafficRuleList | number | string | undefined;
 }

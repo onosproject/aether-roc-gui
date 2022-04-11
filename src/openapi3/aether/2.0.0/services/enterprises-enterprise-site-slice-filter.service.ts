@@ -42,7 +42,7 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
   getEnterprisesEnterpriseSiteSliceFilterList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -60,7 +60,7 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
      * key {slice-id}
      */
     'slice-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceFilterList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteSliceFilterList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSliceFilterService.GetEnterprisesEnterpriseSiteSliceFilterListPath, 'get');
     if (params) {
@@ -76,7 +76,7 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceFilterList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteSliceFilterList>;
       })
     );
   }
@@ -94,7 +94,7 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
   getEnterprisesEnterpriseSiteSliceFilterList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -112,10 +112,10 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
      * key {slice-id}
      */
     'slice-id': any;
-  }): Observable<Array<EnterprisesEnterpriseSiteSliceFilterList>> {
+  }): Observable<EnterprisesEnterpriseSiteSliceFilterList> {
 
     return this.getEnterprisesEnterpriseSiteSliceFilterList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSliceFilterList>>) => r.body as Array<EnterprisesEnterpriseSiteSliceFilterList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSliceFilterList>) => r.body as EnterprisesEnterpriseSiteSliceFilterList)
     );
   }
 
@@ -137,7 +137,7 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
   getEnterprisesEnterpriseSiteSliceFilter$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -195,7 +195,7 @@ export class EnterprisesEnterpriseSiteSliceFilterService extends BaseService {
   getEnterprisesEnterpriseSiteSliceFilter(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

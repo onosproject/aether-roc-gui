@@ -3,6 +3,10 @@
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
 import { EnterprisesEnterpriseTemplateMbr } from './enterprises-enterprise-template-mbr';
+
+/**
+ * List of slice templates (single)
+ */
 export interface EnterprisesEnterpriseTemplate {
 
   /**

@@ -42,7 +42,7 @@ export class EnterprisesEnterpriseSiteDeviceService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -55,7 +55,7 @@ export class EnterprisesEnterpriseSiteDeviceService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteDeviceList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteDeviceService.GetEnterprisesEnterpriseSiteDeviceListPath, 'get');
     if (params) {
@@ -70,7 +70,7 @@ export class EnterprisesEnterpriseSiteDeviceService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteDeviceList>;
       })
     );
   }
@@ -88,7 +88,7 @@ export class EnterprisesEnterpriseSiteDeviceService extends BaseService {
   getEnterprisesEnterpriseSiteDeviceList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -101,10 +101,10 @@ export class EnterprisesEnterpriseSiteDeviceService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<Array<EnterprisesEnterpriseSiteDeviceList>> {
+  }): Observable<EnterprisesEnterpriseSiteDeviceList> {
 
     return this.getEnterprisesEnterpriseSiteDeviceList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteDeviceList>>) => r.body as Array<EnterprisesEnterpriseSiteDeviceList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteDeviceList>) => r.body as EnterprisesEnterpriseSiteDeviceList)
     );
   }
 
@@ -126,7 +126,7 @@ export class EnterprisesEnterpriseSiteDeviceService extends BaseService {
   getEnterprisesEnterpriseSiteDevice$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -178,7 +178,7 @@ export class EnterprisesEnterpriseSiteDeviceService extends BaseService {
   getEnterprisesEnterpriseSiteDevice(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

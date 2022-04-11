@@ -2,17 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyTarget } from './additional-property-target';
-import { EnterprisesEnterprise } from './enterprises-enterprise';
+import { EnterprisesEnterpriseList } from './enterprises-enterprise-list';
 
 /**
  * The top level enterprises container
  */
 export interface Enterprises {
+  enterprise?: EnterprisesEnterpriseList;
 
-  /**
-   * List of enterprises
-   */
-  enterprise?: Array<EnterprisesEnterprise>;
-
-  [key: string]: AdditionalPropertyTarget | Array<EnterprisesEnterprise> | undefined;
+  [key: string]: AdditionalPropertyTarget | EnterprisesEnterpriseList | undefined;
 }

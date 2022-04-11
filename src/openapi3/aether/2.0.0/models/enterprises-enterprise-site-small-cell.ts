@@ -2,6 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
+
+/**
+ * List of small cell addresses (single)
+ */
 export interface EnterprisesEnterpriseSiteSmallCell {
 
   /**

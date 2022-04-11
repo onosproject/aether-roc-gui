@@ -42,7 +42,7 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
   getEnterprisesEnterpriseTrafficClassList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -50,7 +50,7 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
      * key {enterprise-id}
      */
     'enterprise-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseTrafficClassList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseTrafficClassList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseTrafficClassService.GetEnterprisesEnterpriseTrafficClassListPath, 'get');
     if (params) {
@@ -64,7 +64,7 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseTrafficClassList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseTrafficClassList>;
       })
     );
   }
@@ -82,7 +82,7 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
   getEnterprisesEnterpriseTrafficClassList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -90,10 +90,10 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
      * key {enterprise-id}
      */
     'enterprise-id': any;
-  }): Observable<Array<EnterprisesEnterpriseTrafficClassList>> {
+  }): Observable<EnterprisesEnterpriseTrafficClassList> {
 
     return this.getEnterprisesEnterpriseTrafficClassList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseTrafficClassList>>) => r.body as Array<EnterprisesEnterpriseTrafficClassList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseTrafficClassList>) => r.body as EnterprisesEnterpriseTrafficClassList)
     );
   }
 
@@ -115,7 +115,7 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
   getEnterprisesEnterpriseTrafficClass$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -161,7 +161,7 @@ export class EnterprisesEnterpriseTrafficClassService extends BaseService {
   getEnterprisesEnterpriseTrafficClass(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

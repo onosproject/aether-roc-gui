@@ -42,7 +42,7 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
   getEnterprisesEnterpriseSiteSimCardList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -55,7 +55,7 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseSiteSimCardList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseSiteSimCardList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseSiteSimCardService.GetEnterprisesEnterpriseSiteSimCardListPath, 'get');
     if (params) {
@@ -70,7 +70,7 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseSiteSimCardList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseSiteSimCardList>;
       })
     );
   }
@@ -88,7 +88,7 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
   getEnterprisesEnterpriseSiteSimCardList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -101,10 +101,10 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
      * key {site-id}
      */
     'site-id': any;
-  }): Observable<Array<EnterprisesEnterpriseSiteSimCardList>> {
+  }): Observable<EnterprisesEnterpriseSiteSimCardList> {
 
     return this.getEnterprisesEnterpriseSiteSimCardList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseSiteSimCardList>>) => r.body as Array<EnterprisesEnterpriseSiteSimCardList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseSiteSimCardList>) => r.body as EnterprisesEnterpriseSiteSimCardList)
     );
   }
 
@@ -126,7 +126,7 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
   getEnterprisesEnterpriseSiteSimCard$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -178,7 +178,7 @@ export class EnterprisesEnterpriseSiteSimCardService extends BaseService {
   getEnterprisesEnterpriseSiteSimCard(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

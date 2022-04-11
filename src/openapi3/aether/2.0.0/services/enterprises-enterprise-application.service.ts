@@ -42,7 +42,7 @@ export class EnterprisesEnterpriseApplicationService extends BaseService {
   getEnterprisesEnterpriseApplicationList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -50,7 +50,7 @@ export class EnterprisesEnterpriseApplicationService extends BaseService {
      * key {enterprise-id}
      */
     'enterprise-id': any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseApplicationList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseApplicationList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseApplicationService.GetEnterprisesEnterpriseApplicationListPath, 'get');
     if (params) {
@@ -64,7 +64,7 @@ export class EnterprisesEnterpriseApplicationService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseApplicationList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseApplicationList>;
       })
     );
   }
@@ -82,7 +82,7 @@ export class EnterprisesEnterpriseApplicationService extends BaseService {
   getEnterprisesEnterpriseApplicationList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -90,10 +90,10 @@ export class EnterprisesEnterpriseApplicationService extends BaseService {
      * key {enterprise-id}
      */
     'enterprise-id': any;
-  }): Observable<Array<EnterprisesEnterpriseApplicationList>> {
+  }): Observable<EnterprisesEnterpriseApplicationList> {
 
     return this.getEnterprisesEnterpriseApplicationList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseApplicationList>>) => r.body as Array<EnterprisesEnterpriseApplicationList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseApplicationList>) => r.body as EnterprisesEnterpriseApplicationList)
     );
   }
 
@@ -115,7 +115,7 @@ export class EnterprisesEnterpriseApplicationService extends BaseService {
   getEnterprisesEnterpriseApplication$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -161,7 +161,7 @@ export class EnterprisesEnterpriseApplicationService extends BaseService {
   getEnterprisesEnterpriseApplication(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

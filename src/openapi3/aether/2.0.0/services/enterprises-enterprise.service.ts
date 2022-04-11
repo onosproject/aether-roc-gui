@@ -42,10 +42,10 @@ export class EnterprisesEnterpriseService extends BaseService {
   getEnterprisesEnterpriseList$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
-  }): Observable<StrictHttpResponse<Array<EnterprisesEnterpriseList>>> {
+  }): Observable<StrictHttpResponse<EnterprisesEnterpriseList>> {
 
     const rb = new RequestBuilder(this.rootUrl, EnterprisesEnterpriseService.GetEnterprisesEnterpriseListPath, 'get');
     if (params) {
@@ -58,7 +58,7 @@ export class EnterprisesEnterpriseService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<Array<EnterprisesEnterpriseList>>;
+        return r as StrictHttpResponse<EnterprisesEnterpriseList>;
       })
     );
   }
@@ -76,13 +76,13 @@ export class EnterprisesEnterpriseService extends BaseService {
   getEnterprisesEnterpriseList(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
-  }): Observable<Array<EnterprisesEnterpriseList>> {
+  }): Observable<EnterprisesEnterpriseList> {
 
     return this.getEnterprisesEnterpriseList$Response(params).pipe(
-      map((r: StrictHttpResponse<Array<EnterprisesEnterpriseList>>) => r.body as Array<EnterprisesEnterpriseList>)
+      map((r: StrictHttpResponse<EnterprisesEnterpriseList>) => r.body as EnterprisesEnterpriseList)
     );
   }
 
@@ -104,7 +104,7 @@ export class EnterprisesEnterpriseService extends BaseService {
   getEnterprisesEnterprise$Response(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 
@@ -144,7 +144,7 @@ export class EnterprisesEnterpriseService extends BaseService {
   getEnterprisesEnterprise(params: {
 
     /**
-     * target (device in onos-config)
+     * target (target in onos-config)
      */
     target: any;
 

@@ -2,7 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
-import { EnterprisesEnterpriseApplicationEndpoint } from './enterprises-enterprise-application-endpoint';
+import { EnterprisesEnterpriseApplicationEndpointList } from './enterprises-enterprise-application-endpoint-list';
+
+/**
+ * List of applications (single)
+ */
 export interface EnterprisesEnterpriseApplication {
 
   /**
@@ -24,11 +28,7 @@ export interface EnterprisesEnterpriseApplication {
    * display name to use in GUI or CLI
    */
   'display-name'?: string;
+  endpoint?: EnterprisesEnterpriseApplicationEndpointList;
 
-  /**
-   * list for endpoint
-   */
-  endpoint?: Array<EnterprisesEnterpriseApplicationEndpoint>;
-
-  [key: string]: AdditionalPropertyUnchanged | Array<EnterprisesEnterpriseApplicationEndpoint> | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | EnterprisesEnterpriseApplicationEndpointList | string | undefined;
 }

@@ -2,19 +2,19 @@
 /* tslint:disable */
 /* eslint-disable */
 import { AdditionalPropertyUnchanged } from './additional-property-unchanged';
-import { EnterprisesEnterpriseSiteDeviceGroupDevice } from './enterprises-enterprise-site-device-group-device';
+import { EnterprisesEnterpriseSiteDeviceGroupDeviceList } from './enterprises-enterprise-site-device-group-device-list';
 import { EnterprisesEnterpriseSiteDeviceGroupMbr } from './enterprises-enterprise-site-device-group-mbr';
+
+/**
+ * List of device groups (single)
+ */
 export interface EnterprisesEnterpriseSiteDeviceGroup {
 
   /**
    * long description field
    */
   description?: string;
-
-  /**
-   * list of devices in this device-group
-   */
-  device?: Array<EnterprisesEnterpriseSiteDeviceGroupDevice>;
+  device?: EnterprisesEnterpriseSiteDeviceGroupDeviceList;
 
   /**
    * ID for this device group.
@@ -38,5 +38,5 @@ export interface EnterprisesEnterpriseSiteDeviceGroup {
    */
   'traffic-class': string;
 
-  [key: string]: AdditionalPropertyUnchanged | Array<EnterprisesEnterpriseSiteDeviceGroupDevice> | EnterprisesEnterpriseSiteDeviceGroupMbr | string | undefined;
+  [key: string]: AdditionalPropertyUnchanged | EnterprisesEnterpriseSiteDeviceGroupDeviceList | EnterprisesEnterpriseSiteDeviceGroupMbr | string | undefined;
 }

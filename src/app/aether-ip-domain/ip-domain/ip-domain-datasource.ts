@@ -56,27 +56,36 @@ export class IpDomainDatasource extends RocDataSource<
             )
             .subscribe(
                 (value: EnterprisesEnterprise) => {
-                    value.site.forEach((s) => {
-                        s['ip-domain'].forEach((i) => {
-                            i['enterprise-id'] = value['enterprise-id'];
-                            i['site-id'] = s['site-id'];
-                            const fullPath = this.deletePath(
-                                value['enterprise-id'],
-                                s['site-id'],
-                                i['ip-domain-id']
-                            );
-                            if (this.bs.containsDeleteEntry(fullPath)) {
-                                i[FORDELETE] = STRIKETHROUGH;
+                    if (value.site) {
+                        value.site.forEach((s) => {
+                            if (s['ip-domain']) {
+                                s['ip-domain'].forEach((i) => {
+                                    i['enterprise-id'] = value['enterprise-id'];
+                                    i['site-id'] = s['site-id'];
+                                    const fullPath = this.deletePath(
+                                        value['enterprise-id'],
+                                        s['site-id'],
+                                        i['ip-domain-id']
+                                    );
+                                    if (this.bs.containsDeleteEntry(fullPath)) {
+                                        i[FORDELETE] = STRIKETHROUGH;
+                                    }
+                                    // Check for usages in device-groups
+                                    if (s['device-group']) {
+                                        s['device-group'].forEach((dg) => {
+                                            if (
+                                                dg['ip-domain'] ===
+                                                i['ip-domain-id']
+                                            ) {
+                                                i[ISINUSE] = 'true'; // Any match will set it
+                                            }
+                                        });
+                                    }
+                                    this.data.push(i);
+                                });
                             }
-                            // Check for usages in device-groups
-                            s['device-group'].forEach((dg) => {
-                                if (dg['ip-domain'] === i['ip-domain-id']) {
-                                    i[ISINUSE] = 'true'; // Any match will set it
-                                }
-                            });
-                            this.data.push(i);
                         });
-                    });
+                    }
                 },
                 (error) => {
                     console.warn(
