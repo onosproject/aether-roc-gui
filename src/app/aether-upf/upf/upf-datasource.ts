@@ -5,104 +5,80 @@
  */
 
 import {
-    Enterprises,
-    EnterprisesEnterprise,
-    EnterprisesEnterpriseSiteUpf,
-} from '../../../openapi3/aether/2.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import {
     BasketService,
     FORDELETE,
     ISINUSE,
     STRIKETHROUGH,
 } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
-import { from, Observable } from 'rxjs';
-import { map, mergeMap, skipWhile, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { skipWhile } from 'rxjs/operators';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteUpf, SiteList } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
-export class UpfDatasource extends RocDataSource<
-    EnterprisesEnterpriseSiteUpf,
-    Enterprises
-> {
+export class UpfDatasource extends RocDataSource<SiteUpf, SiteList> {
     constructor(
-        protected aetherService: AetherService,
-        public bs: BasketService,
-        protected target: string
+        protected enterpriseService: EnterpriseService,
+        public bs: BasketService
     ) {
         super(
-            aetherService,
             bs,
-            target,
-            'enterprises-2.0.0',
-            ['enterprise', 'site', 'upf'],
-            ['enterprise-id', 'site-id', 'upf-id']
+            enterpriseService,
+            'site-2.1.0',
+            ['site', 'upf'],
+            ['site-id', 'upf-id']
         );
     }
 
     loadData(
-        dataSourceObservable: Observable<Enterprises>,
+        dataSourceObservable: Observable<SiteList>,
         onDataLoaded: (
-            dataSourceThisScope: RocDataSource<
-                EnterprisesEnterpriseSiteUpf,
-                Enterprises
-            >
-        ) => void
+            dataSourceThisScope: RocDataSource<SiteUpf, SiteList>
+        ) => void,
+        enterpriseId?: TargetName
     ): void {
-        dataSourceObservable
-            .pipe(
-                map((x: Enterprises) => x?.enterprise),
-                skipWhile((x) => x === undefined),
-                mergeMap((items: EnterprisesEnterprise[]) => from(items))
-            )
-            .subscribe(
-                (value: EnterprisesEnterprise) => {
-                    if (value.site) {
-                        value.site.forEach((s) => {
-                            if (s.upf) {
-                                s.upf.forEach((u) => {
-                                    u['enterprise-id'] = value['enterprise-id'];
-                                    u['site-id'] = s['site-id'];
-                                    const fullPath = this.deletePath(
-                                        value['enterprise-id'],
-                                        s['site-id'],
-                                        u['upf-id']
-                                    );
-                                    if (this.bs.containsDeleteEntry(fullPath)) {
-                                        u[FORDELETE] = STRIKETHROUGH;
+        dataSourceObservable.pipe(skipWhile((x) => x === undefined)).subscribe(
+            (value: SiteList) => {
+                value.forEach((s) => {
+                    if (s.upf) {
+                        s.upf.forEach((u) => {
+                            u['enterprise-id'] = enterpriseId.name;
+                            u['site-id'] = s['site-id'];
+                            const fullPath = this.deletePath(
+                                enterpriseId.name,
+                                s['site-id'],
+                                u['upf-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                u[FORDELETE] = STRIKETHROUGH;
+                            }
+                            // Check for usages in slices
+                            if (s.slice) {
+                                s.slice.forEach((slice) => {
+                                    if (slice['upf'] === u['upf-id']) {
+                                        u[ISINUSE] = 'true'; // Any match will set it
                                     }
-                                    // Check for usages in slices
-                                    if (s.slice) {
-                                        s.slice.forEach((slice) => {
-                                            if (slice['upf'] === u['upf-id']) {
-                                                u[ISINUSE] = 'true'; // Any match will set it
-                                            }
-                                        });
-                                    }
-                                    this.data.push(u);
                                 });
                             }
+                            this.data.push(u);
                         });
                     }
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting data from ',
-                        this.target,
-                        error
-                    );
-                },
-                () => {
-                    // table.refreshRows() does not seem to work - using this trick instead
-                    // const basketPreview = this.bs.buildPatchBody().Updates;
-                    onDataLoaded(this);
-                    this.paginator._changePageSize(this.paginator.pageSize);
-                }
-            );
+                });
+            },
+            (error) => {
+                console.warn('Error getting data from ', enterpriseId, error);
+            },
+            () => {
+                // table.refreshRows() does not seem to work - using this trick instead
+                // const basketPreview = this.bs.buildPatchBody().Updates;
+                onDataLoaded(this);
+                this.paginator._changePageSize(this.paginator.pageSize);
+            }
+        );
     }
 
-    getSortedData(
-        data: EnterprisesEnterpriseSiteUpf[]
-    ): EnterprisesEnterpriseSiteUpf[] {
+    getSortedData(data: SiteUpf[]): SiteUpf[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

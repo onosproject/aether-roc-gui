@@ -41,6 +41,7 @@ import { EnterprisesEnterpriseApplicationService } from '../../../openapi3/aethe
 import { AETHER_TARGET } from '../../../environments/environment';
 import { ApplicationDatasource } from '../application/application-datasource';
 import { applicationModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
 
 const ValidatePortRange: ValidatorFn = (
     control: AbstractControl
@@ -127,6 +128,7 @@ export class ApplicationEditComponent
         private applicationApplicationService: EnterprisesEnterpriseApplicationService,
         private enterpriseService: EnterprisesEnterpriseService,
         protected aetherService: AetherService,
+        protected entService: EnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -138,7 +140,7 @@ export class ApplicationEditComponent
             snackBar,
             bs,
             route,
-            new ApplicationDatasource(aetherService, bs, AETHER_TARGET),
+            new ApplicationDatasource(bs, entService),
             applicationModelPath,
             aetherService
         );

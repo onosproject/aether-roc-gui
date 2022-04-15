@@ -18,6 +18,7 @@ import {
 import { AETHER_TARGET } from '../../../environments/environment';
 import { TrafficClassDatasource } from '../traffic-class/traffic-class-datasource';
 import { trafficClassModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
 
 @Component({
     selector: 'aether-traffic-class-edit',
@@ -76,6 +77,7 @@ export class TrafficClassEditComponent
     constructor(
         private trafficClassTrafficClassService: EnterprisesEnterpriseTrafficClassService,
         protected aetherService: AetherService,
+        protected enterpriseService: EnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -87,7 +89,7 @@ export class TrafficClassEditComponent
             snackBar,
             bs,
             route,
-            new TrafficClassDatasource(aetherService, bs, AETHER_TARGET),
+            new TrafficClassDatasource(enterpriseService, bs),
             trafficClassModelPath,
             aetherService
         );

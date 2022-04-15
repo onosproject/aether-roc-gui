@@ -8,13 +8,13 @@ import { OpenPolicyAgentService } from 'src/app/open-policy-agent.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { UpfDatasource } from './upf-datasource';
-import { EnterprisesEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models';
 import { upfModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteUpf } from '../../../openapi3/aether/2.1.0/models';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-upf',
@@ -22,12 +22,12 @@ import { upfModelPath } from '../../models-info';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class UpfComponent
-    extends RocListBase<UpfDatasource, EnterprisesEnterpriseSiteUpf>
+    extends RocListBase<UpfDatasource, SiteUpf>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteUpf>;
+    @ViewChild(MatTable) table: MatTable<SiteUpf>;
 
     displayedColumns = [
         'id',
@@ -44,12 +44,13 @@ export class UpfComponent
 
     constructor(
         public opaService: OpenPolicyAgentService,
-        private aetherService: AetherService,
-        private basketService: BasketService
+        protected enterpriseService: EnterpriseService,
+        private basketService: BasketService,
+        private siteService: SiteService
     ) {
         super(
             basketService,
-            new UpfDatasource(aetherService, basketService, AETHER_TARGET)
+            new UpfDatasource(enterpriseService, basketService)
         );
         super.reqdAttr = ['port', 'address'];
     }
@@ -66,11 +67,14 @@ export class UpfComponent
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadData(
-            this.aetherService.getEnterprises({
-                target: AETHER_TARGET,
-            }),
-            this.onDataLoaded.bind(this)
-        );
+        this.enterpriseService.enterprises.forEach((enterpriseId) => {
+            this.dataSource.loadData(
+                this.siteService.getSiteList({
+                    'enterprise-id': enterpriseId.name,
+                }),
+                this.onDataLoaded.bind(this),
+                enterpriseId
+            );
+        });
     }
 }

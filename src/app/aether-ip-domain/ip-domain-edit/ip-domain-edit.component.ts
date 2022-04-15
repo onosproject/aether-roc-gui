@@ -21,6 +21,7 @@ import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.
 import { AETHER_TARGET } from '../../../environments/environment';
 import { IpDomainDatasource } from '../ip-domain/ip-domain-datasource';
 import { ipDomainModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
 
 export const UPDATED = 'updated';
 
@@ -103,6 +104,8 @@ export class IpDomainEditComponent
     constructor(
         private ipDomainIpDomainService: EnterprisesEnterpriseSiteIpDomainService,
         protected aetherService: AetherService,
+        protected enterpriseService: EnterpriseService,
+
         protected route: ActivatedRoute,
         protected router: Router,
         private fb: FormBuilder,
@@ -114,7 +117,7 @@ export class IpDomainEditComponent
             snackBar,
             bs,
             route,
-            new IpDomainDatasource(aetherService, bs, AETHER_TARGET),
+            new IpDomainDatasource(enterpriseService, bs),
             ipDomainModelPath,
             aetherService
         );

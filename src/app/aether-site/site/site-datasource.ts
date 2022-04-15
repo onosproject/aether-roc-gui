@@ -4,88 +4,58 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-    Enterprises,
-    EnterprisesEnterprise,
-    EnterprisesEnterpriseSite,
-} from '../../../openapi3/aether/2.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
-import { from, Observable } from 'rxjs';
-import { map, mergeMap, skipWhile } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { skipWhile } from 'rxjs/operators';
+import { EnterpriseService } from '../../enterprise.service';
+import { Site, SiteList } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models';
 
-export class SiteDatasource extends RocDataSource<
-    EnterprisesEnterpriseSite,
-    Enterprises
-> {
+export class SiteDatasource extends RocDataSource<Site, SiteList> {
     constructor(
-        protected aetherService: AetherService,
-        public bs: BasketService,
-        protected target: string
+        protected enterpriseService: EnterpriseService,
+        public bs: BasketService
     ) {
-        super(
-            aetherService,
-            bs,
-            target,
-            'enterprises-2.0.0',
-            ['enterprise', 'site'],
-            ['enterprise-id', 'site-id']
-        );
+        super(bs, enterpriseService, 'site-2.1.0', ['site'], ['site-id']);
     }
 
     // TODO - move this back in to the roc-data-source base class
     //  do the same for panel-site-datasource.ts
     loadData(
-        dataSourceObservable: Observable<Enterprises>,
+        dataSourceObservable: Observable<SiteList>,
         onDataLoaded: (
-            dataSourceThisScope: RocDataSource<
-                EnterprisesEnterpriseSite,
-                Enterprises
-            >
-        ) => void
+            dataSourceThisScope: RocDataSource<Site, SiteList>
+        ) => void,
+        enterpriseId?: TargetName
     ): void {
-        dataSourceObservable
-            .pipe(
-                map((x: Enterprises) => x?.enterprise),
-                skipWhile((x) => x === undefined),
-                mergeMap((items: EnterprisesEnterprise[]) => from(items))
-            )
-            .subscribe(
-                (value: EnterprisesEnterprise) => {
-                    if (value.site) {
-                        value.site.forEach((s) => {
-                            s['enterprise-id'] = value['enterprise-id'];
-                            const fullPath = this.deletePath(
-                                value['enterprise-id'],
-                                s['site-id']
-                            );
-                            if (this.bs.containsDeleteEntry(fullPath)) {
-                                s[FORDELETE] = STRIKETHROUGH;
-                            }
-                            this.data.push(s);
-                        });
-                    }
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting data from ',
-                        this.target,
-                        error
+        dataSourceObservable.pipe(skipWhile((x) => x === undefined)).subscribe(
+            (value: SiteList) => {
+                value.forEach((s) => {
+                    s['enterprise-id'] = enterpriseId.name;
+                    const fullPath = this.deletePath(
+                        enterpriseId.name,
+                        s['site-id']
                     );
-                },
-                () => {
-                    // table.refreshRows() does not seem to work - using this trick instead
-                    // const basketPreview = this.bs.buildPatchBody().Updates;
-                    onDataLoaded(this);
-                    this.paginator._changePageSize(this.paginator.pageSize);
-                }
-            );
+                    if (this.bs.containsDeleteEntry(fullPath)) {
+                        s[FORDELETE] = STRIKETHROUGH;
+                    }
+                    this.data.push(s);
+                });
+            },
+            (error) => {
+                console.warn('Error getting data from ', enterpriseId, error);
+            },
+            () => {
+                // table.refreshRows() does not seem to work - using this trick instead
+                // const basketPreview = this.bs.buildPatchBody().Updates;
+                onDataLoaded(this);
+                this.paginator._changePageSize(this.paginator.pageSize);
+            }
+        );
     }
 
-    getSortedData(
-        data: EnterprisesEnterpriseSite[]
-    ): EnterprisesEnterpriseSite[] {
+    getSortedData(data: Site[]): Site[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

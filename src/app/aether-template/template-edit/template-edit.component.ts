@@ -28,6 +28,7 @@ import { EnterprisesEnterpriseTemplateService } from '../../../openapi3/aether/2
 import { AETHER_TARGET } from '../../../environments/environment';
 import { TemplateDatasource } from '../template/template-datasource';
 import { templateModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
 
 export interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -154,6 +155,7 @@ export class TemplateEditComponent
     constructor(
         private templateTemplateService: EnterprisesEnterpriseTemplateService,
         protected aetherService: AetherService,
+        protected enterpriseService: EnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -165,7 +167,7 @@ export class TemplateEditComponent
             snackBar,
             bs,
             route,
-            new TemplateDatasource(aetherService, bs, AETHER_TARGET),
+            new TemplateDatasource(enterpriseService, bs),
             templateModelPath,
             aetherService
         );

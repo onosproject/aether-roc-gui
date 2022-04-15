@@ -32,6 +32,7 @@ import { EnterprisesEnterpriseSiteDeviceGroupService } from '../../../openapi3/a
 import { AETHER_TARGET } from '../../../environments/environment';
 import { DeviceGroupDatasource } from '../device-group/device-group-datasource';
 import { deviceGroupModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
 
 @Component({
     selector: 'aether-device-group-edit',
@@ -107,6 +108,7 @@ export class DeviceGroupEditComponent
     constructor(
         private deviceGroupDeviceGroupService: EnterprisesEnterpriseSiteDeviceGroupService,
         protected entService: EnterprisesEnterpriseService,
+        protected enterpriseService: EnterpriseService,
         protected aetherService: AetherService,
         protected siteService: EnterprisesEnterpriseSiteService,
         protected route: ActivatedRoute,
@@ -120,7 +122,7 @@ export class DeviceGroupEditComponent
             snackBar,
             bs,
             route,
-            new DeviceGroupDatasource(aetherService, bs, AETHER_TARGET),
+            new DeviceGroupDatasource(enterpriseService, bs),
             deviceGroupModelPath,
             aetherService
         );

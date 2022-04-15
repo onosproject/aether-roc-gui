@@ -25,6 +25,7 @@ import { EnterprisesEnterpriseSiteSmallCellService } from '../../../openapi3/aet
 import { AETHER_TARGET } from '../../../environments/environment';
 import { SmallCellDatasource } from '../small-cell/small-cell-datasource';
 import { smallCellModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
 
 @Component({
     selector: 'aether-small-cell-edit',
@@ -84,6 +85,7 @@ export class SmallCellEditComponent
     constructor(
         private smallCellService: EnterprisesEnterpriseSiteSmallCellService,
         protected entService: EnterprisesEnterpriseService,
+        protected enterpriseService: EnterpriseService,
         protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -96,7 +98,7 @@ export class SmallCellEditComponent
             snackBar,
             bs,
             route,
-            new SmallCellDatasource(aetherService, bs, AETHER_TARGET),
+            new SmallCellDatasource(enterpriseService, bs),
             smallCellModelPath,
             aetherService
         );

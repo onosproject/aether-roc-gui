@@ -23,6 +23,7 @@ import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0
 import { AETHER_TARGET } from '../../../environments/environment';
 import { SiteDatasource } from '../site/site-datasource';
 import { siteModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
 
 @Component({
     selector: 'aether-site-edit',
@@ -102,6 +103,8 @@ export class SiteEditComponent
     constructor(
         private siteSiteService: EnterprisesEnterpriseSiteService,
         protected aetherService: AetherService,
+        protected enterpriseService: EnterpriseService,
+
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -113,7 +116,7 @@ export class SiteEditComponent
             snackBar,
             bs,
             route,
-            new SiteDatasource(aetherService, bs, AETHER_TARGET),
+            new SiteDatasource(enterpriseService, bs),
             siteModelPath,
             aetherService
         );

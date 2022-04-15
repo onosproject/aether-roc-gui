@@ -37,6 +37,7 @@ import { AETHER_TARGET } from '../../../environments/environment';
 import * as _ from 'lodash';
 import { SliceDatasource } from '../slice/slice-datasource';
 import { sliceModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -172,7 +173,8 @@ export class SliceEditComponent
 
     constructor(
         protected sliceService: EnterprisesEnterpriseSiteSliceService,
-        protected enterpriseService: EnterprisesEnterpriseService,
+        protected enterpriseService20: EnterprisesEnterpriseService,
+        protected enterpriseService: EnterpriseService,
         public siteService: EnterprisesEnterpriseSiteService,
         protected aetherService: AetherService,
         protected route: ActivatedRoute,
@@ -186,7 +188,7 @@ export class SliceEditComponent
             snackBar,
             bs,
             route,
-            new SliceDatasource(aetherService, bs, AETHER_TARGET),
+            new SliceDatasource(enterpriseService, bs),
             sliceModelPath,
             aetherService
         );
@@ -312,7 +314,7 @@ export class SliceEditComponent
             return;
         }
 
-        this.enterpriseService
+        this.enterpriseService20
             .getEnterprisesEnterprise({
                 target: AETHER_TARGET,
                 'enterprise-id': this.enterpriseId,

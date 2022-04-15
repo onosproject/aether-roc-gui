@@ -7,7 +7,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SimCardComponent } from './sim-card/sim-card.component';
-import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.0.0/api.module';
+import { ApiModule as ApiModuleAether20 } from '../../openapi3/aether/2.0.0/api.module';
+import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.1.0/api.module';
 import { AETHER_ROC_API_URL } from '../../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -38,6 +39,7 @@ import { SimCardEditComponent } from './sim-card-edit/sim-card-edit.component';
     declarations: [SimCardComponent, SimCardEditComponent],
     imports: [
         CommonModule,
+        ApiModuleAether20.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([

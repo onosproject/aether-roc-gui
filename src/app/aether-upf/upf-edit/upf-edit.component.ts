@@ -23,6 +23,7 @@ import {
 import { AETHER_TARGET } from '../../../environments/environment';
 import { UpfDatasource } from '../upf/upf-datasource';
 import { upfModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
 
 @Component({
     selector: 'aether-upf-edit',
@@ -84,6 +85,7 @@ export class UpfEditComponent
     constructor(
         private upfUpfService: EnterprisesEnterpriseSiteUpfService,
         protected aetherService: AetherService,
+        protected enterpriseService: EnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -95,7 +97,7 @@ export class UpfEditComponent
             snackBar,
             bs,
             route,
-            new UpfDatasource(aetherService, bs, AETHER_TARGET),
+            new UpfDatasource(enterpriseService, bs),
             upfModelPath,
             aetherService
         );

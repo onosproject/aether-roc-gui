@@ -19,6 +19,7 @@ import {
 import { AETHER_TARGET } from '../../../environments/environment';
 import { SimCardDatasource } from '../sim-card/sim-card-datasource';
 import { simCardModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
 
 @Component({
     selector: 'aether-sim-card-edit',
@@ -72,6 +73,8 @@ export class SimCardEditComponent
     constructor(
         private simCardService: EnterprisesEnterpriseSiteSimCardService,
         protected aetherService: AetherService,
+        protected enterpriseService: EnterpriseService,
+
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -83,7 +86,7 @@ export class SimCardEditComponent
             snackBar,
             bs,
             route,
-            new SimCardDatasource(aetherService, bs, AETHER_TARGET),
+            new SimCardDatasource(enterpriseService, bs),
             simCardModelPath,
             aetherService
         );

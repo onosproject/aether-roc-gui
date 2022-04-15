@@ -19,6 +19,7 @@ import {
 import { Router } from '@angular/router';
 import { IdTokClaims } from './idtoken';
 import { SocketService } from './socket.service';
+import { EnterpriseService } from './enterprise.service';
 
 export const USERNAME_ATTR = 'name';
 export const GROUPS_ATTR = 'groups';
@@ -43,7 +44,8 @@ export class AetherComponent implements OnInit, OnDestroy {
         private bs: BasketService,
         public opaService: OpenPolicyAgentService,
         private router: Router,
-        private socketService: SocketService
+        private socketService: SocketService,
+        private enterpriseService: EnterpriseService
     ) {}
 
     async ngOnInit(): Promise<boolean> {
@@ -71,6 +73,7 @@ export class AetherComponent implements OnInit, OnDestroy {
                         fulfilled ? 'succeeded' : 'failed',
                         this.idTokClaims
                     );
+                    this.enterpriseService.loadTargets();
                     this.opaService.userGroups = this.idTokClaims.groups;
                     this.router.navigate(['/dashboard']);
                     this.socketService.connect(this.apiKey);

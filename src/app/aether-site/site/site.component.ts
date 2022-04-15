@@ -8,13 +8,13 @@ import { OpenPolicyAgentService } from 'src/app/open-policy-agent.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { BasketService } from '../../basket.service';
 import { RocListBase } from '../../roc-list-base';
 import { SiteDatasource } from './site-datasource';
-import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
 import { siteModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
+import { Site } from '../../../openapi3/aether/2.1.0/models';
 
 @Component({
     selector: 'aether-site',
@@ -22,12 +22,12 @@ import { siteModelPath } from '../../models-info';
     styleUrls: ['../../common-profiles.component.scss', 'site.component.scss'],
 })
 export class SiteComponent
-    extends RocListBase<SiteDatasource, EnterprisesEnterpriseSite>
+    extends RocListBase<SiteDatasource, Site>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSite>;
+    @ViewChild(MatTable) table: MatTable<Site>;
 
     displayedColumns = [
         'id',
@@ -45,16 +45,17 @@ export class SiteComponent
         'monitor',
     ];
 
-    modelPath = ['enterprises-2.0.0', 'enterprise', 'site', 'site-id'];
+    modelPath = ['site-2.1.0', 'site', 'site-id'];
 
     constructor(
         public opaService: OpenPolicyAgentService,
-        private aetherService: AetherService,
-        private basketService: BasketService
+        protected enterpriseService: EnterpriseService,
+        private basketService: BasketService,
+        private siteService: SiteService
     ) {
         super(
             basketService,
-            new SiteDatasource(aetherService, basketService, AETHER_TARGET)
+            new SiteDatasource(enterpriseService, basketService)
         );
     }
 
@@ -79,11 +80,14 @@ export class SiteComponent
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadData(
-            this.aetherService.getEnterprises({
-                target: AETHER_TARGET,
-            }),
-            this.onDataLoaded.bind(this)
-        );
+        this.enterpriseService.enterprises.forEach((enterpriseId) => {
+            this.dataSource.loadData(
+                this.siteService.getSiteList({
+                    'enterprise-id': enterpriseId.name,
+                }),
+                this.onDataLoaded.bind(this),
+                enterpriseId
+            );
+        });
     }
 }

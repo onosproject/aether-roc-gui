@@ -9,12 +9,12 @@ import { TrafficClassDatasource } from './traffic-class-datasource';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { AETHER_TARGET } from '../../../environments/environment';
-import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
 import { trafficClassModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
+import { TrafficClassService } from '../../../openapi3/aether/2.1.0/services';
+import { TrafficClass } from '../../../openapi3/aether/2.1.0/models';
 
 @Component({
     selector: 'aether-traffic-class',
@@ -22,15 +22,12 @@ import { trafficClassModelPath } from '../../models-info';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class TrafficClassComponent
-    extends RocListBase<
-        TrafficClassDatasource,
-        EnterprisesEnterpriseTrafficClass
-    >
+    extends RocListBase<TrafficClassDatasource, TrafficClass>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseTrafficClass>;
+    @ViewChild(MatTable) table: MatTable<TrafficClass>;
 
     displayedColumns = [
         'id',
@@ -44,25 +41,17 @@ export class TrafficClassComponent
         'Usage/delete',
     ];
 
-    modelPath = [
-        'enterprises-2.0.0',
-        'enterprise',
-        'traffic-class',
-        'traffic-class-id',
-    ];
+    modelPath = ['traffic-class-2.1.0', 'traffic-class', 'traffic-class-id'];
 
     constructor(
-        private aetherService: AetherService,
+        protected enterpriseService: EnterpriseService,
         private basketService: BasketService,
-        public opaService: OpenPolicyAgentService
+        public opaService: OpenPolicyAgentService,
+        private trafficClassService: TrafficClassService
     ) {
         super(
             basketService,
-            new TrafficClassDatasource(
-                aetherService,
-                basketService,
-                AETHER_TARGET
-            )
+            new TrafficClassDatasource(enterpriseService, basketService)
         );
     }
 
@@ -78,11 +67,14 @@ export class TrafficClassComponent
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadData(
-            this.aetherService.getEnterprises({
-                target: AETHER_TARGET,
-            }),
-            this.onDataLoaded.bind(this)
-        );
+        this.enterpriseService.enterprises.forEach((enterpriseId) => {
+            this.dataSource.loadData(
+                this.trafficClassService.getTrafficClassList({
+                    'enterprise-id': enterpriseId.name,
+                }),
+                this.onDataLoaded.bind(this),
+                enterpriseId
+            );
+        });
     }
 }

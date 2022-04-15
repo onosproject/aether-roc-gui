@@ -15,15 +15,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { RocListBase } from '../../roc-list-base';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { PanelSiteDatasource } from './panel-site-datasource';
 import { SitePromDataSource } from '../../utils/site-prom-data-source';
 import { HttpClient } from '@angular/common/http';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
+import { EnterpriseService } from '../../enterprise.service';
+import { Site } from '../../../openapi3/aether/2.1.0/models';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 
 const sitePromTags = [
     'agentsSum',
@@ -41,7 +41,7 @@ const sitePromTags = [
     ],
 })
 export class PanelSiteComponent
-    extends RocListBase<PanelSiteDatasource, EnterprisesEnterpriseSite>
+    extends RocListBase<PanelSiteDatasource, Site>
     implements AfterViewInit, OnDestroy
 {
     @Input() top: number;
@@ -50,7 +50,7 @@ export class PanelSiteComponent
     @Input() height: number;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSite>;
+    @ViewChild(MatTable) table: MatTable<Site>;
     prometheusTimer: ReturnType<typeof setTimeout>;
 
     promData: SitePromDataSource;
@@ -59,7 +59,8 @@ export class PanelSiteComponent
 
     constructor(
         public opaService: OpenPolicyAgentService,
-        private aetherService: AetherService,
+        private siteService: SiteService,
+        protected enterpriseService: EnterpriseService,
         private basketService: BasketService,
         private httpClient: HttpClient,
         private oauthService: OAuthService,
@@ -67,7 +68,7 @@ export class PanelSiteComponent
     ) {
         super(
             basketService,
-            new PanelSiteDatasource(aetherService, basketService, AETHER_TARGET)
+            new PanelSiteDatasource(enterpriseService, basketService)
         );
         this.promData = new SitePromDataSource(httpClient);
     }
@@ -81,14 +82,17 @@ export class PanelSiteComponent
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
 
-        this.dataSource.loadData(
-            this.aetherService.getEnterprises({
-                target: AETHER_TARGET,
-            }),
-            this.onDataLoaded.bind(this)
-        );
-
         this.prometheusTimer = setInterval(() => {
+            this.enterpriseService.enterprises.forEach((enterpriseId) => {
+                this.dataSource.loadData(
+                    this.siteService.getSiteList({
+                        'enterprise-id': enterpriseId.name,
+                    }),
+                    this.onDataLoaded.bind(this),
+                    enterpriseId
+                );
+            });
+
             if (this.dataSource.data.length === 0) {
                 clearInterval(this.prometheusTimer);
                 console.log('No Site to monitor');
@@ -119,7 +123,7 @@ export class PanelSiteComponent
                     );
                 });
             });
-        }, 3000);
+        }, 1000);
     }
 
     ngOnDestroy(): void {

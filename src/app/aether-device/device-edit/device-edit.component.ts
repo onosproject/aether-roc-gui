@@ -24,6 +24,7 @@ import { AETHER_TARGET } from '../../../environments/environment';
 import * as _ from 'lodash';
 import { DeviceDatasource } from '../device/device-datasource';
 import { deviceModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
 
 @Component({
     selector: 'aether-device-edit',
@@ -84,6 +85,8 @@ export class DeviceEditComponent
     constructor(
         private deviceService: EnterprisesEnterpriseSiteDeviceService,
         private siteService: EnterprisesEnterpriseSiteService,
+        protected enterpriseService: EnterpriseService,
+
         protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -96,7 +99,7 @@ export class DeviceEditComponent
             snackBar,
             bs,
             route,
-            new DeviceDatasource(aetherService, bs, AETHER_TARGET),
+            new DeviceDatasource(enterpriseService, bs),
             deviceModelPath,
             aetherService
         );

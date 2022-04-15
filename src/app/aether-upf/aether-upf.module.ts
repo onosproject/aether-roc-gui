@@ -5,7 +5,8 @@
  */
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.0.0/api.module';
+import { ApiModule as ApiModuleAether20 } from '../../openapi3/aether/2.0.0/api.module';
+import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.1.0/api.module';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AETHER_ROC_API_URL } from '../../environments/environment';
@@ -44,6 +45,7 @@ import { UpfMonitorComponent } from './upf-monitor/upf-monitor.component';
     ],
     imports: [
         CommonModule,
+        ApiModuleAether20.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([

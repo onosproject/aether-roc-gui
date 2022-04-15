@@ -7,12 +7,13 @@
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
 import { BasketService, FORDELETE, STRIKETHROUGH } from './basket.service';
 import { from, merge, Observable, of as observableOf } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { Elements } from '../openapi3/top/level/models/elements';
+import { TargetName } from '../openapi3/top/level/models/target-name';
+import { EnterpriseService } from './enterprise.service';
 
 /** Simple sort comparator for example ID/Name columns (for client-side sorting). */
 export function compare(
@@ -23,30 +24,14 @@ export function compare(
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
 
-// eg: EnterprisesEnterpriseSiteSlice
-export interface RocGenericModelType {
-    // id: string;
-    description?: string;
-}
-
-// eg: Vcs
-export interface RocGenericContainerType {
-    [key: string]: string | RocGenericModelType[] | unknown;
-}
-
-export interface GenericRocDataSource<
-    T extends RocGenericModelType,
-    U extends RocGenericContainerType
-> {
+export interface GenericRocDataSource<T, U> {
     connect(): Observable<T[]>;
 
     disconnect(): void;
 
     loadData(
         dataSourceObservable: Observable<U>,
-        onDataLoaded: (
-            dataSourceThisScope: RocDataSource<RocGenericModelType, U>
-        ) => void
+        onDataLoaded: (dataSourceThisScope: RocDataSource<T, U>) => void
     ): void;
 
     fullPath(...ids: string[]): string;
@@ -57,10 +42,7 @@ export interface GenericRocDataSource<
 // RocDataSource is an abstract class that extends data source
 // T is the type of list item e.g. ConnectivityServicesConnectivityService
 // U is the type of its parent e.g. ConnectivityService
-export abstract class RocDataSource<
-        T extends RocGenericModelType,
-        U extends RocGenericContainerType
-    >
+export abstract class RocDataSource<T, U>
     extends DataSource<T>
     implements GenericRocDataSource<T, U>
 {
@@ -69,9 +51,8 @@ export abstract class RocDataSource<
     sort: MatSort;
 
     protected constructor(
-        protected aetherService: AetherService,
         public bs: BasketService,
-        protected target: string,
+        protected enterpriseService: EnterpriseService,
         /** @deprecated */
         protected pathRoot: string, // TODO remove use modelPath
         /** @deprecated */
@@ -82,12 +63,6 @@ export abstract class RocDataSource<
         protected descAttr: string = 'description'
     ) {
         super();
-
-        if (_.isNil(indexAttr) || indexAttr.length == 0) {
-            throw Error(
-                'you must specify indexAttr when instantiating RocDataSource'
-            );
-        }
     }
 
     /**
@@ -149,7 +124,8 @@ export abstract class RocDataSource<
 
     loadData(
         dataSourceObservable: Observable<U>,
-        onDataLoaded: (dataSourceThisScope: RocDataSource<T, U>) => void
+        onDataLoaded: (dataSourceThisScope: RocDataSource<T, U>) => void,
+        enterpriseId?: TargetName
     ): void {
         console.log('loading data for', this.pathListAttr);
         dataSourceObservable
@@ -169,7 +145,7 @@ export abstract class RocDataSource<
                 (error) => {
                     console.warn(
                         'Error getting data from ',
-                        this.target,
+                        enterpriseId,
                         error
                     );
                 },
@@ -278,11 +254,11 @@ export abstract class RocDataSource<
     }
 
     private getElementInBasket(
-        tree: Elements | RocGenericModelType[],
+        tree: Elements | [],
         keys: string[],
-        model: RocGenericModelType,
+        model: T,
         level = 0
-    ): RocGenericModelType {
+    ): T {
         let foundModel = null;
         if (_.isArray(tree)) {
             // if the content of this level of the tree is a list
@@ -332,8 +308,8 @@ export abstract class RocDataSource<
     hasUpdates(
         basketData: Elements,
         modelPath: string[],
-        model: RocGenericModelType
-    ): [boolean, RocGenericModelType] {
+        model: T
+    ): [boolean, T] {
         // descent into the basket tree till you find the model you are looking for
         const el = this.getElementInBasket(basketData, modelPath, model);
         return [!_.isNil(el), el];

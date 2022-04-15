@@ -5,89 +5,67 @@
  */
 
 import { compare, RocDataSource } from '../../roc-data-source';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
-import { Enterprises } from '../../../openapi3/aether/2.0.0/models';
-import { from, Observable } from 'rxjs';
-import { EnterprisesEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/models';
-import { map, mergeMap, skipWhile } from 'rxjs/operators';
-import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models';
+import { Observable } from 'rxjs';
+import { skipWhile } from 'rxjs/operators';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteDevice, SiteList } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models';
 
-export class DeviceDatasource extends RocDataSource<
-    EnterprisesEnterpriseSiteDevice,
-    Enterprises
-> {
+export class DeviceDatasource extends RocDataSource<SiteDevice, SiteList> {
     constructor(
-        protected aetherService: AetherService,
-        public bs: BasketService,
-        protected target: string
+        protected enterpriseService: EnterpriseService,
+        public bs: BasketService
     ) {
         super(
-            aetherService,
             bs,
-            target,
-            'enterprises-2.0.0',
-            ['enterprise', 'site', 'device'],
-            ['enterprise-id', 'site-id', 'device-id']
+            enterpriseService,
+            'site-2.1.0',
+            ['site', 'device'],
+            ['site-id', 'device-id']
         );
     }
 
     loadData(
-        dataSourceObservable: Observable<Enterprises>,
+        dataSourceObservable: Observable<SiteList>,
         onDataLoaded: (
-            dataSourceThisScope: RocDataSource<
-                EnterprisesEnterpriseSiteDevice,
-                Enterprises
-            >
-        ) => void
+            dataSourceThisScope: RocDataSource<SiteDevice, SiteList>
+        ) => void,
+        enterpriseId?: TargetName
     ): void {
-        dataSourceObservable
-            .pipe(
-                map((x: Enterprises) => x?.enterprise),
-                skipWhile((x) => x === undefined),
-                mergeMap((items: EnterprisesEnterprise[]) => from(items))
-            )
-            .subscribe(
-                (value: EnterprisesEnterprise) => {
-                    if (value.site) {
-                        value.site.forEach((s) => {
-                            if (s.device) {
-                                s.device.forEach((d) => {
-                                    d['enterprise-id'] = value['enterprise-id'];
-                                    d['site-id'] = s['site-id'];
-                                    const fullPath = this.deletePath(
-                                        value['enterprise-id'],
-                                        s['site-id'],
-                                        d['slice-id']
-                                    );
-                                    if (this.bs.containsDeleteEntry(fullPath)) {
-                                        d[FORDELETE] = STRIKETHROUGH;
-                                    }
-                                    this.data.push(d);
-                                });
+        dataSourceObservable.pipe(skipWhile((x) => x === undefined)).subscribe(
+            (value: SiteList) => {
+                value.forEach((s) => {
+                    if (s.device) {
+                        s.device.forEach((d) => {
+                            d['enterprise-id'] = enterpriseId.name;
+                            d['site-id'] = s['site-id'];
+                            const fullPath = this.deletePath(
+                                enterpriseId.name,
+                                s['site-id'],
+                                d['slice-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                d[FORDELETE] = STRIKETHROUGH;
                             }
+                            this.data.push(d);
                         });
                     }
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting data from ',
-                        this.target,
-                        error
-                    );
-                },
-                () => {
-                    // table.refreshRows() does not seem to work - using this trick instead
-                    // const basketPreview = this.bs.buildPatchBody().Updates;
-                    onDataLoaded(this);
-                    this.paginator._changePageSize(this.paginator.pageSize);
-                }
-            );
+                });
+            },
+            (error) => {
+                console.warn('Error getting data from ', enterpriseId, error);
+            },
+            () => {
+                // table.refreshRows() does not seem to work - using this trick instead
+                // const basketPreview = this.bs.buildPatchBody().Updates;
+                onDataLoaded(this);
+                this.paginator._changePageSize(this.paginator.pageSize);
+            }
+        );
     }
 
-    getSortedData(
-        data: EnterprisesEnterpriseSiteDevice[]
-    ): EnterprisesEnterpriseSiteDevice[] {
+    getSortedData(data: SiteDevice[]): SiteDevice[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

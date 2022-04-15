@@ -5,97 +5,46 @@
  */
 
 export const applicationModelPath = [
-    'enterprises-2.0.0',
-    'enterprise',
+    'application-2.1.0',
     'application',
     'application-id',
 ];
 
-export const connectivityServiceModelPath = [
-    'Connectivity-services-2.0.0',
-    'connectivity-service',
-    'connectivity-service-id',
-];
-
-export const deviceModelPath = [
-    'enterprises-2.0.0',
-    'enterprise',
-    'site',
-    'device',
-    'device-id',
-];
+export const deviceModelPath = ['site-2.1.0', 'site', 'device', 'device-id'];
 
 export const deviceGroupModelPath = [
-    'enterprises-2.0.0',
-    'enterprise',
+    'site-2.1.0',
     'site',
     'device-group',
     'device-group-id',
 ];
 
-export const enterpriseModelPath = [
-    'enterprises-2.0.0',
-    'enterprise',
-    'enterprise-id',
-];
-
 export const ipDomainModelPath = [
-    'enterprises-2.0.0',
-    'enterprise',
+    'site-2.1.0',
     'site',
     'ip-domain',
     'ip-domain-id',
 ];
 
-export const simCardModelPath = [
-    'enterprises-2.0.0',
-    'enterprise',
-    'site',
-    'sim-card',
-    'sim-id',
-];
+export const simCardModelPath = ['site-2.1.0', 'site', 'sim-card', 'sim-id'];
 
-export const siteModelPath = [
-    'enterprises-2.0.0',
-    'enterprise',
-    'site',
-    'site-id',
-];
+export const siteModelPath = ['site-2.1.0', 'site', 'site-id'];
 
-export const sliceModelPath = [
-    'enterprises-2.0.0',
-    'enterprise',
-    'site',
-    'slice',
-    'slice-id',
-];
+export const sliceModelPath = ['site-2.1.0', 'site', 'slice', 'slice-id'];
 
 export const smallCellModelPath = [
-    'enterprises-2.0.0',
-    'enterprise',
+    'site-2.1.0',
     'site',
     'small-cell',
     'small-cell-id',
 ];
 
-export const templateModelPath = [
-    'enterprises-2.0.0',
-    'enterprise',
-    'template',
-    'template-id',
-];
+export const templateModelPath = ['template-2.1.0', 'template', 'template-id'];
 
 export const trafficClassModelPath = [
-    'enterprises-2.0.0',
-    'enterprise',
+    'traffic-class-2.1.0',
     'traffic-class',
     'traffic-class-id',
 ];
 
-export const upfModelPath = [
-    'enterprises-2.0.0',
-    'enterprise',
-    'site',
-    'upf',
-    'upf-id',
-];
+export const upfModelPath = ['site-2.1.0', 'site', 'upf', 'upf-id'];
