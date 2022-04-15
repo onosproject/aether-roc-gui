@@ -12,11 +12,6 @@ import { Observable } from 'rxjs';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { map, startWith } from 'rxjs/operators';
 import {
-    EnterprisesEnterpriseService,
-    EnterprisesEnterpriseSiteService,
-    Service as AetherService,
-} from 'src/openapi3/aether/2.0.0/services';
-import {
     BasketService,
     HEX2NUM,
     IDATTRIBS,
@@ -26,18 +21,21 @@ import {
 } from 'src/app/basket.service';
 import { HexPipe } from '../../utils/hex.pipe';
 import { SelectAppParam } from '../application-select/application-select.component';
-import {
-    EnterprisesEnterpriseTemplate,
-    EnterprisesEnterpriseSiteUpf,
-    EnterprisesEnterpriseSiteSlice,
-    EnterprisesEnterpriseSite,
-} from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseSiteSliceService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import * as _ from 'lodash';
 import { SliceDatasource } from '../slice/slice-datasource';
 import { sliceModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
+import {
+    SiteService,
+    SiteSliceService,
+    TemplateService,
+} from '../../../openapi3/aether/2.1.0/services';
+import {
+    SiteSlice,
+    Template,
+    SiteUpf,
+    Site,
+} from '../../../openapi3/aether/2.1.0/models';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -62,8 +60,8 @@ export class SliceEditComponent
     showApplicationDisplay = false;
     showDeviceGroupDisplay = false;
     sliceID: string;
-    templates: Array<EnterprisesEnterpriseTemplate>;
-    upfs: Array<EnterprisesEnterpriseSiteUpf> = [];
+    templates: Array<Template>;
+    upfs: Array<SiteUpf> = [];
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
@@ -88,7 +86,7 @@ export class SliceEditComponent
 
     defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL', 'ALLOW-PUBLIC'];
     bandwidthOptions: Observable<Bandwidths[]>;
-    data: EnterprisesEnterpriseSiteSlice;
+    data: SiteSlice;
     pathListAttr = 'slice';
     sdAsInt = HexPipe.hexAsInt;
 
@@ -172,11 +170,10 @@ export class SliceEditComponent
     });
 
     constructor(
-        protected sliceService: EnterprisesEnterpriseSiteSliceService,
-        protected enterpriseService20: EnterprisesEnterpriseService,
+        protected sliceService: SiteSliceService,
         protected enterpriseService: EnterpriseService,
-        public siteService: EnterprisesEnterpriseSiteService,
-        protected aetherService: AetherService,
+        public siteService: SiteService,
+        protected templateService: TemplateService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -189,8 +186,7 @@ export class SliceEditComponent
             bs,
             route,
             new SliceDatasource(enterpriseService, bs),
-            sliceModelPath,
-            aetherService
+            sliceModelPath
         );
         super.form = this.sliceForm;
         super.loadFunc = this.loadSliceSlice;
@@ -314,15 +310,14 @@ export class SliceEditComponent
             return;
         }
 
-        this.enterpriseService20
-            .getEnterprisesEnterprise({
-                target: AETHER_TARGET,
+        this.templateService
+            .getTemplateList({
                 'enterprise-id': this.enterpriseId,
             })
             .subscribe(
                 (value) => {
-                    this.templates = value.template;
-                    console.log('Got', value.template.length, 'Template');
+                    this.templates = value;
+                    console.log('Got', value.length, 'Template');
                 },
                 (error) => {
                     console.warn('Error getting Template for ', target, error);
@@ -330,9 +325,9 @@ export class SliceEditComponent
             );
     }
 
-    templateSelected(evt: { value: EnterprisesEnterpriseTemplate }): void {
+    templateSelected(evt: { value: Template }): void {
         if (this.isNewInstance) {
-            const eachTemplate: EnterprisesEnterpriseTemplate = evt.value;
+            const eachTemplate: Template = evt.value;
             const SdFormControl = this.sliceForm.get('sd');
             SdFormControl.setValue(
                 eachTemplate.sd.toString(16).toUpperCase().padStart(6, '0')
@@ -375,8 +370,7 @@ export class SliceEditComponent
 
     loadSliceSlice(target: string, id: string): void {
         this.sliceService
-            .getEnterprisesEnterpriseSiteSlice({
-                target: AETHER_TARGET,
+            .getSiteSlice({
                 'slice-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
@@ -402,9 +396,7 @@ export class SliceEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseSiteSlice
-                        );
+                        this.populateFormData(model as SiteSlice);
                     }
                     console.log('Finished loading SliceSlice(s)', target, id);
                 }
@@ -445,7 +437,7 @@ export class SliceEditComponent
         });
     }
 
-    public populateFormData(value: EnterprisesEnterpriseSiteSlice): void {
+    public populateFormData(value: SiteSlice): void {
         if (value['slice-id']) {
             this.sliceForm.get('slice-id').setValue(value['slice-id']);
             this.sliceForm.get('slice-id')[ORIGINAL] = value['slice-id'];
@@ -655,8 +647,7 @@ export class SliceEditComponent
         }
 
         this.siteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
+            .getSite({
                 'enterprise-id': this.enterpriseId,
                 'site-id': this.siteId,
             })
@@ -682,7 +673,7 @@ export class SliceEditComponent
                 (error) => {
                     console.warn(
                         'Error getting UPF for ',
-                        AETHER_TARGET,
+                        this.enterpriseId,
                         error
                     );
                 }
@@ -690,14 +681,14 @@ export class SliceEditComponent
     }
 
     // returns a list of UPFs IDs that are not used in other Slices in the same site
-    filterUpf(site: EnterprisesEnterpriseSite): EnterprisesEnterpriseSiteUpf[] {
+    filterUpf(site: Site): SiteUpf[] {
         const usedUpfs = site.slice.map((s) => s.upf);
         return site.upf.reduce((list, item) => {
             if (_.indexOf(usedUpfs, item['upf-id']) == -1) {
                 return [item, ...list];
             }
             return list;
-        }, [] as EnterprisesEnterpriseSiteUpf[]);
+        }, [] as SiteUpf[]);
     }
 
     public get EndpointLimit(): number {

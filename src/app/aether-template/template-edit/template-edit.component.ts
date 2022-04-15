@@ -6,7 +6,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
     BasketService,
     HEX2NUM,
@@ -22,13 +21,11 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { HexPipe } from '../../utils/hex.pipe';
-import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseTemplateService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { TemplateDatasource } from '../template/template-datasource';
 import { templateModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
+import { Template } from '../../../openapi3/aether/2.1.0/models';
+import { TemplateService } from '../../../openapi3/aether/2.1.0/services';
 
 export interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -54,7 +51,6 @@ export class TemplateEditComponent
     sdAsInt = HexPipe.hexAsInt;
 
     pathListAttr = 'template';
-    trafficClass: Array<EnterprisesEnterpriseTrafficClass>;
     templateID: string;
     defaultBehaviorOpitons = ['DENY-ALL', 'ALLOW-ALL'];
     options: Bandwidths[] = [
@@ -80,7 +76,7 @@ export class TemplateEditComponent
     ];
 
     bandwidthOptions: Observable<Bandwidths[]>;
-    data: EnterprisesEnterpriseTemplate;
+    data: Template;
     tempForm = this.fb.group({
         'template-id': [
             undefined,
@@ -153,8 +149,7 @@ export class TemplateEditComponent
     });
 
     constructor(
-        private templateTemplateService: EnterprisesEnterpriseTemplateService,
-        protected aetherService: AetherService,
+        private templateTemplateService: TemplateService,
         protected enterpriseService: EnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -168,8 +163,7 @@ export class TemplateEditComponent
             bs,
             route,
             new TemplateDatasource(enterpriseService, bs),
-            templateModelPath,
-            aetherService
+            templateModelPath
         );
         super.form = this.tempForm;
         super.loadFunc = this.loadTemplateTemplate;
@@ -208,8 +202,7 @@ export class TemplateEditComponent
 
     loadTemplateTemplate(target: string, id: string): void {
         this.templateTemplateService
-            .getEnterprisesEnterpriseTemplate({
-                target: AETHER_TARGET,
+            .getTemplate({
                 'template-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
@@ -234,9 +227,7 @@ export class TemplateEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseTemplate
-                        );
+                        this.populateFormData(model as Template);
                     }
 
                     console.log(
@@ -248,7 +239,7 @@ export class TemplateEditComponent
             );
     }
 
-    private populateFormData(value: EnterprisesEnterpriseTemplate): void {
+    private populateFormData(value: Template): void {
         if (value['template-id']) {
             this.tempForm.get('template-id').setValue(value['template-id']);
             this.tempForm.get('template-id')[ORIGINAL] = value['template-id'];

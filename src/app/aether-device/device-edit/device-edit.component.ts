@@ -6,25 +6,20 @@
 
 import { Component, OnInit } from '@angular/core';
 import { RocEditBase } from '../../roc-edit-base';
-import {
-    EnterprisesEnterpriseSiteDevice,
-    EnterprisesEnterpriseSiteSimCard,
-} from '../../../openapi3/aether/2.0.0/models';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BasketService, ORIGINAL } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import {
-    EnterprisesEnterpriseSiteDeviceService,
-    EnterprisesEnterpriseSiteService,
-    Service as AetherService,
-} from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import * as _ from 'lodash';
 import { DeviceDatasource } from '../device/device-datasource';
 import { deviceModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
+import { SiteSimCard, SiteDevice } from '../../../openapi3/aether/2.1.0/models';
+import {
+    SiteDeviceService,
+    SiteService,
+} from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-device-edit',
@@ -35,11 +30,11 @@ export class DeviceEditComponent
     extends RocEditBase<DeviceDatasource>
     implements OnInit
 {
-    data: EnterprisesEnterpriseSiteDevice;
+    data: SiteDevice;
     pathListAttr = 'device';
     deviceId: string;
     showParentDisplay = false;
-    simCards: Array<EnterprisesEnterpriseSiteSimCard> = [];
+    simCards: Array<SiteSimCard> = [];
 
     deviceForm = this.fb.group({
         'device-id': [
@@ -83,11 +78,10 @@ export class DeviceEditComponent
     });
 
     constructor(
-        private deviceService: EnterprisesEnterpriseSiteDeviceService,
-        private siteService: EnterprisesEnterpriseSiteService,
+        private deviceService: SiteDeviceService,
+        private siteService: SiteService,
         protected enterpriseService: EnterpriseService,
 
-        protected aetherService: AetherService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -100,8 +94,7 @@ export class DeviceEditComponent
             bs,
             route,
             new DeviceDatasource(enterpriseService, bs),
-            deviceModelPath,
-            aetherService
+            deviceModelPath
         );
         super.form = this.deviceForm;
         super.loadFunc = this.loadDevice;
@@ -124,8 +117,7 @@ export class DeviceEditComponent
         }
 
         this.deviceService
-            .getEnterprisesEnterpriseSiteDevice({
-                target: AETHER_TARGET,
+            .getSiteDevice({
                 'device-id': deviceId,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
@@ -138,7 +130,7 @@ export class DeviceEditComponent
                 },
                 (error) => {
                     console.warn(
-                        'Error getting EnterprisesEnterpriseSiteDevice(s) for ',
+                        'Error getting SiteDevice(s) for ',
                         target,
                         error
                     );
@@ -151,12 +143,10 @@ export class DeviceEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseSiteDevice
-                        );
+                        this.populateFormData(model as SiteDevice);
                     }
                     console.log(
-                        'Finished loading EnterprisesEnterpriseSiteDevice(s)',
+                        'Finished loading SiteDevice(s)',
                         target,
                         deviceId
                     );
@@ -165,7 +155,7 @@ export class DeviceEditComponent
             );
     }
 
-    private populateFormData(value: EnterprisesEnterpriseSiteDevice): void {
+    private populateFormData(value: SiteDevice): void {
         if (value['device-id']) {
             this.deviceForm.get('device-id').setValue(value['device-id']);
             this.deviceForm.get('device-id')[ORIGINAL] = value['device-id'];
@@ -197,8 +187,7 @@ export class DeviceEditComponent
             return;
         }
         this.siteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
+            .getSite({
                 'enterprise-id': this.enterpriseId,
                 'site-id': this.siteId,
             })
@@ -214,7 +203,7 @@ export class DeviceEditComponent
                             return [item, ...list];
                         }
                         return list;
-                    }, [] as EnterprisesEnterpriseSiteSimCard[]);
+                    }, [] as SiteSimCard[]);
                     console.log(
                         `Showing ${this.simCards.length} unused Sim Cards. Total ${value['sim-card'].length}`
                     );
@@ -223,7 +212,7 @@ export class DeviceEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SimCards for ',
-                        AETHER_TARGET,
+                        this.enterpriseId,
                         error
                     );
                 }

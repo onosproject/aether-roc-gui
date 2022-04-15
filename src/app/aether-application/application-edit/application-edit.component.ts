@@ -14,15 +14,6 @@ import {
     ValidatorFn,
     Validators,
 } from '@angular/forms';
-
-import {
-    EnterprisesEnterpriseService,
-    Service as AetherService,
-} from '../../../openapi3/aether/2.0.0/services';
-import {
-    EnterprisesEnterpriseApplication,
-    EnterprisesEnterpriseTrafficClass,
-} from '../../../openapi3/aether/2.0.0/models';
 import {
     BasketService,
     IDATTRIBS,
@@ -37,11 +28,15 @@ import { EndPointParam } from '../endpoint-select/endpoint-select.component';
 import { Observable } from 'rxjs';
 import { Bandwidths } from '../../aether-template/template-edit/template-edit.component';
 import { map, startWith } from 'rxjs/operators';
-import { EnterprisesEnterpriseApplicationService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { ApplicationDatasource } from '../application/application-datasource';
 import { applicationModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
+import { Application } from '../../../openapi3/aether/2.1.0/models';
+import {
+    ApplicationService,
+    TrafficClassService,
+} from '../../../openapi3/aether/2.1.0/services';
+import { TrafficClass } from '../../../openapi3/aether/2.1.0/models';
 
 const ValidatePortRange: ValidatorFn = (
     control: AbstractControl
@@ -73,10 +68,10 @@ export class ApplicationEditComponent
     showEndpointAddButton = true;
     showParentDisplay = false;
     readonly endpointLimit: number = 5;
-    trafficClassOptions: Array<EnterprisesEnterpriseTrafficClass>;
+    trafficClassOptions: Array<TrafficClass>;
     pathListAttr = 'application';
     applicationId: string;
-    data: EnterprisesEnterpriseApplication;
+    data: Application;
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
@@ -125,9 +120,8 @@ export class ApplicationEditComponent
     );
 
     constructor(
-        private applicationApplicationService: EnterprisesEnterpriseApplicationService,
-        private enterpriseService: EnterprisesEnterpriseService,
-        protected aetherService: AetherService,
+        private applicationApplicationService: ApplicationService,
+        private trafficClassService: TrafficClassService,
         protected entService: EnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -141,8 +135,7 @@ export class ApplicationEditComponent
             bs,
             route,
             new ApplicationDatasource(bs, entService),
-            applicationModelPath,
-            aetherService
+            applicationModelPath
         );
         super.form = this.appForm;
         super.loadFunc = this.loadApplicationApplication;
@@ -185,8 +178,7 @@ export class ApplicationEditComponent
 
     loadApplicationApplication(target: string, id: string): void {
         this.applicationApplicationService
-            .getEnterprisesEnterpriseApplication({
-                target: AETHER_TARGET,
+            .getApplication({
                 'application-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
@@ -198,7 +190,7 @@ export class ApplicationEditComponent
                 },
                 (error) => {
                     console.warn(
-                        'Error getting EnterprisesEnterpriseApplication(s) for ',
+                        'Error getting Application(s) for ',
                         target,
                         error
                     );
@@ -211,15 +203,9 @@ export class ApplicationEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseApplication
-                        );
+                        this.populateFormData(model as Application);
                     }
-                    console.log(
-                        'Finished loading EnterprisesEnterpriseApplication(s)',
-                        target,
-                        id
-                    );
+                    console.log('Finished loading Application(s)', target, id);
                 }
             );
     }
@@ -293,7 +279,7 @@ export class ApplicationEditComponent
         this.appForm.markAllAsTouched();
     }
 
-    private populateFormData(value: EnterprisesEnterpriseApplication): void {
+    private populateFormData(value: Application): void {
         if (value['application-id']) {
             this.appForm
                 .get('application-id')
@@ -511,24 +497,19 @@ export class ApplicationEditComponent
             return;
         }
 
-        this.enterpriseService
-            .getEnterprisesEnterprise({
-                target: AETHER_TARGET,
+        this.trafficClassService
+            .getTrafficClassList({
                 'enterprise-id': this.enterpriseId,
             })
             .subscribe(
                 (value) => {
-                    this.trafficClassOptions = value['traffic-class'];
-                    console.log(
-                        'Got',
-                        value['traffic-class'].length,
-                        'Traffic Class'
-                    );
+                    this.trafficClassOptions = value;
+                    console.log('Got', value.length, 'Traffic Class');
                 },
                 (error) => {
                     console.warn(
                         'Error getting Traffic Class for ',
-                        AETHER_TARGET,
+                        this.enterpriseId,
                         error
                     );
                 }

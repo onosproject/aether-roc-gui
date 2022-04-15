@@ -9,7 +9,7 @@ import {
     OpenPolicyAgentService,
     AETHER_ROC_ADMIN_USER,
 } from '../../open-policy-agent.service';
-import { ApiService as TopLevelApiService } from '../../../openapi3/top/level/services/api.service';
+import { ApiService as TopLevelApiService } from '../../../openapi3/top/level/services';
 
 @Component({
     selector: 'aether-sdcore',

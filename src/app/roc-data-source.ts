@@ -11,8 +11,8 @@ import { BasketService, FORDELETE, STRIKETHROUGH } from './basket.service';
 import { from, merge, Observable, of as observableOf } from 'rxjs';
 import { map, mergeMap, skipWhile } from 'rxjs/operators';
 import * as _ from 'lodash';
-import { Elements } from '../openapi3/top/level/models/elements';
-import { TargetName } from '../openapi3/top/level/models/target-name';
+import { Elements } from '../openapi3/top/level/models';
+import { TargetName } from '../openapi3/top/level/models';
 import { EnterpriseService } from './enterprise.service';
 
 /** Simple sort comparator for example ID/Name columns (for client-side sorting). */
@@ -24,7 +24,21 @@ export function compare(
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
 
-export interface GenericRocDataSource<T, U> {
+// eg: EnterprisesEnterpriseSiteSlice
+export interface RocGenericModelType {
+    // id: string;
+    description?: string;
+}
+
+// eg: Vcs
+export interface RocGenericContainerType {
+    toString(): string;
+}
+
+export interface GenericRocDataSource<
+    T extends RocGenericModelType,
+    U extends RocGenericContainerType
+> {
     connect(): Observable<T[]>;
 
     disconnect(): void;

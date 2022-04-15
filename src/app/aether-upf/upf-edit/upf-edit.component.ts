@@ -6,7 +6,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import { EnterprisesEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models';
 import {
     BasketService,
     ORIGINAL,
@@ -16,14 +15,11 @@ import {
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import {
-    EnterprisesEnterpriseSiteUpfService,
-    Service as AetherService,
-} from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { UpfDatasource } from '../upf/upf-datasource';
 import { upfModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
+import { SiteUpf } from '../../../openapi3/aether/2.1.0/models';
+import { SiteUpfService } from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-upf-edit',
@@ -34,7 +30,7 @@ export class UpfEditComponent
     extends RocEditBase<UpfDatasource>
     implements OnInit
 {
-    data: EnterprisesEnterpriseSiteUpf;
+    data: SiteUpf;
     pathListAttr = 'upf';
     SiteImisLength: number;
     ImsiRangeLimit: number;
@@ -83,8 +79,7 @@ export class UpfEditComponent
     });
 
     constructor(
-        private upfUpfService: EnterprisesEnterpriseSiteUpfService,
-        protected aetherService: AetherService,
+        private upfUpfService: SiteUpfService,
         protected enterpriseService: EnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -98,8 +93,7 @@ export class UpfEditComponent
             bs,
             route,
             new UpfDatasource(enterpriseService, bs),
-            upfModelPath,
-            aetherService
+            upfModelPath
         );
         super.form = this.upfForm;
         super.loadFunc = this.loadUpfUpf;
@@ -117,8 +111,7 @@ export class UpfEditComponent
 
     loadUpfUpf(target: string, upfId: string): void {
         this.upfUpfService
-            .getEnterprisesEnterpriseSiteUpf({
-                target: AETHER_TARGET,
+            .getSiteUpf({
                 'upf-id': upfId,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
@@ -131,7 +124,7 @@ export class UpfEditComponent
                 },
                 (error) => {
                     console.warn(
-                        'Error getting EnterprisesEnterpriseSiteUpf(s) for ',
+                        'Error getting SiteUpf(s) for ',
                         target,
                         error
                     );
@@ -144,20 +137,14 @@ export class UpfEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseSiteUpf
-                        );
+                        this.populateFormData(model as SiteUpf);
                     }
-                    console.log(
-                        'Finished loading EnterprisesEnterpriseSiteUpf(s)',
-                        target,
-                        upfId
-                    );
+                    console.log('Finished loading SiteUpf(s)', target, upfId);
                 }
             );
     }
 
-    private populateFormData(value: EnterprisesEnterpriseSiteUpf): void {
+    private populateFormData(value: SiteUpf): void {
         if (value['upf-id']) {
             this.upfForm.get('upf-id').setValue(value['upf-id']);
             this.upfForm.get('upf-id')[ORIGINAL] = value['upf-id'];

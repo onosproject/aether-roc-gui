@@ -10,11 +10,6 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-    EnterprisesEnterpriseService,
-    EnterprisesEnterpriseSiteService,
-    Service as AetherService,
-} from '../../../openapi3/aether/2.0.0/services';
-import {
     BasketService,
     IDATTRIBS,
     ORIGINAL,
@@ -25,14 +20,19 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { map, startWith } from 'rxjs/operators';
 import { Bandwidths } from '../../aether-template/template-edit/template-edit.component';
 import { Observable } from 'rxjs';
-import { EnterprisesEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseSiteDeviceGroupService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { DeviceGroupDatasource } from '../device-group/device-group-datasource';
 import { deviceGroupModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
+import {
+    TrafficClass,
+    SiteIpDomain,
+    SiteDeviceGroup,
+} from '../../../openapi3/aether/2.1.0/models';
+import {
+    TrafficClassService,
+    SiteService,
+    SiteDeviceGroupService,
+} from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-device-group-edit',
@@ -43,11 +43,11 @@ export class DeviceGroupEditComponent
     extends RocEditBase<DeviceGroupDatasource>
     implements OnInit
 {
-    data: EnterprisesEnterpriseSiteDeviceGroup;
-    ipdomain: Array<EnterprisesEnterpriseSiteIpDomain>;
+    data: SiteDeviceGroup;
+    ipdomain: Array<SiteIpDomain>;
     showParentDisplay = false;
     showDeviceDisplay: boolean;
-    trafficClass: Array<EnterprisesEnterpriseTrafficClass>;
+    trafficClass: Array<TrafficClass>;
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
@@ -106,11 +106,10 @@ export class DeviceGroupEditComponent
     deviceGroupId: string;
 
     constructor(
-        private deviceGroupDeviceGroupService: EnterprisesEnterpriseSiteDeviceGroupService,
-        protected entService: EnterprisesEnterpriseService,
+        private deviceGroupDeviceGroupService: SiteDeviceGroupService,
         protected enterpriseService: EnterpriseService,
-        protected aetherService: AetherService,
-        protected siteService: EnterprisesEnterpriseSiteService,
+        protected siteService: SiteService,
+        protected trafficClassService: TrafficClassService,
         protected route: ActivatedRoute,
         protected router: Router,
         private fb: FormBuilder,
@@ -123,8 +122,7 @@ export class DeviceGroupEditComponent
             bs,
             route,
             new DeviceGroupDatasource(enterpriseService, bs),
-            deviceGroupModelPath,
-            aetherService
+            deviceGroupModelPath
         );
         super.form = this.deviceGroupForm;
         super.loadFunc = this.loadDeviceGroupDeviceGroup;
@@ -213,9 +211,7 @@ export class DeviceGroupEditComponent
         );
     }
 
-    private populateFormData(
-        value: EnterprisesEnterpriseSiteDeviceGroup
-    ): void {
+    private populateFormData(value: SiteDeviceGroup): void {
         if (value['device-group-id']) {
             this.deviceGroupForm
                 .get('device-group-id')
@@ -245,7 +241,7 @@ export class DeviceGroupEditComponent
                 .get(['traffic-class'])
                 .setValue(value['traffic-class']);
             this.deviceGroupForm.get(['traffic-class'])[ORIGINAL] =
-                value.mbr['traffic-class'];
+                value['traffic-class'];
         }
         if (value.mbr) {
             this.deviceGroupForm
@@ -303,8 +299,7 @@ export class DeviceGroupEditComponent
         }
 
         this.deviceGroupDeviceGroupService
-            .getEnterprisesEnterpriseSiteDeviceGroup({
-                target: AETHER_TARGET,
+            .getSiteDeviceGroup({
                 'device-group-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
@@ -317,7 +312,7 @@ export class DeviceGroupEditComponent
                 },
                 (error) => {
                     console.warn(
-                        'Error getting EnterprisesEnterpriseSiteDeviceGroup(s) for ',
+                        'Error getting SiteDeviceGroup(s) for ',
                         target,
                         error
                     );
@@ -330,12 +325,10 @@ export class DeviceGroupEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseSiteDeviceGroup
-                        );
+                        this.populateFormData(model as SiteDeviceGroup);
                     }
                     console.log(
-                        'Finished loading EnterprisesEnterpriseSiteDeviceGroup(s)',
+                        'Finished loading SiteDeviceGroup(s)',
                         target,
                         id
                     );
@@ -347,19 +340,18 @@ export class DeviceGroupEditComponent
         if (this.enterpriseId == this.unknownEnterprise) {
             return;
         }
-        this.entService
-            .getEnterprisesEnterprise({
-                target: AETHER_TARGET,
+        this.trafficClassService
+            .getTrafficClassList({
                 'enterprise-id': this.enterpriseId,
             })
             .subscribe(
                 (value) => {
-                    this.trafficClass = value['traffic-class'];
+                    this.trafficClass = value;
                     this.form.get('traffic-class').enable();
                 },
                 (error) => {
                     console.warn(
-                        `Error getting Traffic Class for ${AETHER_TARGET}: ${error}`
+                        `Error getting Traffic Class for ${this.enterpriseId}: ${error}`
                     );
                 }
             );
@@ -374,8 +366,7 @@ export class DeviceGroupEditComponent
         }
 
         this.siteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
+            .getSite({
                 'enterprise-id': this.enterpriseId,
                 'site-id': this.siteId,
             })
@@ -384,7 +375,10 @@ export class DeviceGroupEditComponent
                     this.ipdomain = site['ip-domain'];
                     this.form.get('ip-domain').enable();
                 },
-                (error) => console.warn(`Error getting Ip Domand: ${error}`)
+                (error) =>
+                    console.warn(
+                        `Error getting Ip Domand for ${this.enterpriseId}: ${error}`
+                    )
             );
     }
 }

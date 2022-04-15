@@ -7,7 +7,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { TransactionListService } from '../../../openapi3/top/level/services';
 import { Transaction } from '../../../openapi3/top/level/models';
 import { MatTableDataSource } from '@angular/material/table';
-import { PathTarget } from '../../../openapi3/top/level/models/path-target';
+import { PathTarget } from '../../../openapi3/top/level/models';
 
 type UiTransaction = Transaction & {
     dataSource: MatTableDataSource<PathTarget>;

@@ -16,7 +16,7 @@ import {
 } from '../openapi3/aether/2.0.0/models';
 import { SiteDatasource } from './aether-site/site/site-datasource';
 import { EnterpriseDatasource } from './aether-enterprise/enterprise/enterprise-datasource';
-import { Elements } from '../openapi3/top/level/models/elements';
+import { Elements } from '../openapi3/top/level/models';
 
 describe('ROC Data Source', () => {
     let component: RocDataSource<EnterprisesEnterpriseSiteSlice, Enterprises>;

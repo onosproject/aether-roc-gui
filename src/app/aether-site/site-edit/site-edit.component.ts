@@ -6,7 +6,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
     BasketService,
     IDATTRIBS,
@@ -18,12 +17,11 @@ import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EdgeDeviceParam } from '../edge-device/edge-device.component';
-import { EnterprisesEnterpriseSite } from 'src/openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { SiteDatasource } from '../site/site-datasource';
 import { siteModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
+import { Site } from '../../../openapi3/aether/2.1.0/models';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-site-edit',
@@ -34,7 +32,7 @@ export class SiteEditComponent
     extends RocEditBase<SiteDatasource>
     implements OnInit
 {
-    data: EnterprisesEnterpriseSite;
+    data: Site;
     pathListAttr = 'site';
     showConnectDisplay = false;
     showEdgeDeviceDisplay = false;
@@ -101,8 +99,7 @@ export class SiteEditComponent
     siteId: string;
 
     constructor(
-        private siteSiteService: EnterprisesEnterpriseSiteService,
-        protected aetherService: AetherService,
+        private siteSiteService: SiteService,
         protected enterpriseService: EnterpriseService,
 
         protected route: ActivatedRoute,
@@ -117,8 +114,7 @@ export class SiteEditComponent
             bs,
             route,
             new SiteDatasource(enterpriseService, bs),
-            siteModelPath,
-            aetherService
+            siteModelPath
         );
         super.form = this.siteForm;
         super.loadFunc = this.loadSiteSite;
@@ -140,8 +136,7 @@ export class SiteEditComponent
 
     loadSiteSite(target: string, id: string): void {
         this.siteSiteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
+            .getSite({
                 'site-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
@@ -152,11 +147,7 @@ export class SiteEditComponent
                     this.populateFormData(value);
                 },
                 (error) => {
-                    console.warn(
-                        'Error getting EnterprisesEnterpriseSite(s) for ',
-                        target,
-                        error
-                    );
+                    console.warn('Error getting Site(s) for ', target, error);
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
@@ -166,15 +157,9 @@ export class SiteEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseSite
-                        );
+                        this.populateFormData(model as Site);
                     }
-                    console.log(
-                        'Finished loading EnterprisesEnterpriseSite(s)',
-                        target,
-                        id
-                    );
+                    console.log('Finished loading Site(s)', target, id);
                 }
             );
     }
@@ -187,7 +172,7 @@ export class SiteEditComponent
         return this.siteForm.get(['monitoring']) as FormGroup;
     }
 
-    private populateFormData(value: EnterprisesEnterpriseSite): void {
+    private populateFormData(value: Site): void {
         if (value['site-id']) {
             this.siteForm.get('site-id').setValue(value['site-id']);
             this.siteForm.get('site-id')[ORIGINAL] = value['site-id'];

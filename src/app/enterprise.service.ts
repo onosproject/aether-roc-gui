@@ -5,8 +5,8 @@
  */
 
 import { Injectable } from '@angular/core';
-import { TargetsNames } from '../openapi3/top/level/models/targets-names';
-import { ApiService as TopLevelApiService } from '../openapi3/top/level/services/api.service';
+import { TargetsNames } from '../openapi3/top/level/models';
+import { ApiService as TopLevelApiService } from '../openapi3/top/level/services';
 import { tap } from 'rxjs/operators';
 
 @Injectable({

@@ -13,8 +13,8 @@ import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { ipDomainModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
-import { SiteIpDomain } from '../../../openapi3/aether/2.1.0/models/site-ip-domain';
-import { SiteService } from '../../../openapi3/aether/2.1.0/services/site.service';
+import { SiteIpDomain } from '../../../openapi3/aether/2.1.0/models';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-ip-domain',

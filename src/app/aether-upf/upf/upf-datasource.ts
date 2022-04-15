@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 import { skipWhile } from 'rxjs/operators';
 import { EnterpriseService } from '../../enterprise.service';
 import { SiteUpf, SiteList } from '../../../openapi3/aether/2.1.0/models';
-import { TargetName } from '../../../openapi3/top/level/models/target-name';
+import { TargetName } from '../../../openapi3/top/level/models';
 
 export class UpfDatasource extends RocDataSource<SiteUpf, SiteList> {
     constructor(

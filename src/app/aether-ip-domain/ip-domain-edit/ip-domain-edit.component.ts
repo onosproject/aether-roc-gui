@@ -6,7 +6,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RocEditBase } from '../../roc-edit-base';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     BasketService,
@@ -16,12 +15,11 @@ import {
 } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { EnterprisesEnterpriseSiteIpDomainService } from '../../../openapi3/aether/2.0.0/services';
-import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { IpDomainDatasource } from '../ip-domain/ip-domain-datasource';
 import { ipDomainModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
+import { SiteIpDomain } from '../../../openapi3/aether/2.1.0/models';
+import { SiteIpDomainService } from '../../../openapi3/aether/2.1.0/services';
 
 export const UPDATED = 'updated';
 
@@ -40,7 +38,7 @@ export class IpDomainEditComponent
     secCardDisplay = false;
     subCardDisplay = false;
     showParentDisplay = false;
-    data: EnterprisesEnterpriseSiteIpDomain;
+    data: SiteIpDomain;
 
     displayOption: string;
 
@@ -102,8 +100,7 @@ export class IpDomainEditComponent
     ipDomainId: string;
 
     constructor(
-        private ipDomainIpDomainService: EnterprisesEnterpriseSiteIpDomainService,
-        protected aetherService: AetherService,
+        private ipDomainIpDomainService: SiteIpDomainService,
         protected enterpriseService: EnterpriseService,
 
         protected route: ActivatedRoute,
@@ -118,8 +115,7 @@ export class IpDomainEditComponent
             bs,
             route,
             new IpDomainDatasource(enterpriseService, bs),
-            ipDomainModelPath,
-            aetherService
+            ipDomainModelPath
         );
         super.form = this.ipForm;
         super.loadFunc = this.loadIpDomainIpDomain;
@@ -131,7 +127,7 @@ export class IpDomainEditComponent
         super.init();
     }
 
-    private populateFormData(value: EnterprisesEnterpriseSiteIpDomain): void {
+    private populateFormData(value: SiteIpDomain): void {
         this.displayOption = this.ipForm.get(['admin-status'])[ORIGINAL];
         if (value['ip-domain-id']) {
             this.ipForm.get('ip-domain-id').setValue(value['ip-domain-id']);
@@ -182,8 +178,7 @@ export class IpDomainEditComponent
 
     loadIpDomainIpDomain(target: string, id: string): void {
         this.ipDomainIpDomainService
-            .getEnterprisesEnterpriseSiteIpDomain({
-                target: AETHER_TARGET,
+            .getSiteIpDomain({
                 'ip-domain-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
@@ -196,7 +191,7 @@ export class IpDomainEditComponent
                 },
                 (error) => {
                     console.warn(
-                        'Error getting EnterprisesEnterpriseSiteIpDomain(s) for ',
+                        'Error getting SiteIpDomain(s) for ',
                         target,
                         error
                     );
@@ -209,15 +204,9 @@ export class IpDomainEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseSiteIpDomain
-                        );
+                        this.populateFormData(model as SiteIpDomain);
                     }
-                    console.log(
-                        'Finished loading EnterprisesEnterpriseSiteIpDomain(s)',
-                        target,
-                        id
-                    );
+                    console.log('Finished loading SiteIpDomain(s)', target, id);
                 }
             );
     }
