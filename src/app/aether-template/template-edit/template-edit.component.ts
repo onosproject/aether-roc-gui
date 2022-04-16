@@ -161,6 +161,8 @@ export class TemplateEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            undefined,
             route,
             new TemplateDatasource(enterpriseService, bs),
             templateModelPath
@@ -200,7 +202,7 @@ export class TemplateEditComponent
         return this.options.filter((option) => option.megabyte.numerical);
     }
 
-    loadTemplateTemplate(target: string, id: string): void {
+    loadTemplateTemplate(id: string): void {
         this.templateTemplateService
             .getTemplate({
                 'template-id': id,
@@ -215,7 +217,8 @@ export class TemplateEditComponent
                 (error) => {
                     console.warn(
                         'Error getting TemplateTemplte(s) for ',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         error
                     );
                 },
@@ -232,7 +235,8 @@ export class TemplateEditComponent
 
                     console.log(
                         'Finished loading TemplateTemplte(s)',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         id
                     );
                 }

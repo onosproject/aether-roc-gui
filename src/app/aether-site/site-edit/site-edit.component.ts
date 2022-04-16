@@ -112,6 +112,8 @@ export class SiteEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            undefined,
             route,
             new SiteDatasource(enterpriseService, bs),
             siteModelPath
@@ -134,7 +136,7 @@ export class SiteEditComponent
         super.init();
     }
 
-    loadSiteSite(target: string, id: string): void {
+    loadSiteSite(id: string): void {
         this.siteSiteService
             .getSite({
                 'site-id': id,
@@ -147,7 +149,11 @@ export class SiteEditComponent
                     this.populateFormData(value);
                 },
                 (error) => {
-                    console.warn('Error getting Site(s) for ', target, error);
+                    console.warn(
+                        'Error getting Site(s) for ',
+                        this.enterpriseId,
+                        error
+                    );
                 },
                 () => {
                     const basketPreview = this.bs.buildPatchBody().Updates;
@@ -159,7 +165,11 @@ export class SiteEditComponent
                     if (hasUpdates) {
                         this.populateFormData(model as Site);
                     }
-                    console.log('Finished loading Site(s)', target, id);
+                    console.log(
+                        'Finished loading Site(s)',
+                        this.enterpriseId,
+                        id
+                    );
                 }
             );
     }
@@ -208,7 +218,7 @@ export class SiteEditComponent
                     Object.keys(localStorage)
                         .filter((checkerKey) =>
                             checkerKey.startsWith(
-                                '/basket-delete/Site-2.0.0/site[id=' +
+                                '/basket-delete/Site-2.1.0/site[id=' +
                                     value['site-id'] +
                                     ']/monitoring/edge-device[edge-device-id='
                             )
@@ -323,7 +333,7 @@ export class SiteEditComponent
 
     deleteEDFromSelect(ed: string): void {
         this.bs.deleteIndexedEntry(
-            '/enterprises-2.0.0/enterprise[enterprise-id=' +
+            '/enterprises-2.1.0/enterprise[enterprise-id=' +
                 this.route.snapshot.params['enterprise-id'] +
                 ']/site[site-id=' +
                 this.siteId +

@@ -120,6 +120,8 @@ export class DeviceGroupEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
             new DeviceGroupDatasource(enterpriseService, bs),
             deviceGroupModelPath
@@ -261,7 +263,7 @@ export class DeviceGroupEditComponent
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/device-group-2.0.0/device-group[device-group-id=' +
+                            '/basket-delete/device-group-2.1.0/device-group[device-group-id=' +
                                 this.id +
                                 ']/device[device='
                         )
@@ -290,7 +292,7 @@ export class DeviceGroupEditComponent
         }
     }
 
-    loadDeviceGroupDeviceGroup(target: string, id: string): void {
+    loadDeviceGroupDeviceGroup(id: string): void {
         if (
             this.enterpriseId == this.unknownEnterprise ||
             this.siteId == this.unknownSite
@@ -313,7 +315,8 @@ export class DeviceGroupEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SiteDeviceGroup(s) for ',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         error
                     );
                 },
@@ -329,7 +332,8 @@ export class DeviceGroupEditComponent
                     }
                     console.log(
                         'Finished loading SiteDeviceGroup(s)',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         id
                     );
                 }

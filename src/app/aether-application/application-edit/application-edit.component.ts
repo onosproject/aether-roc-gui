@@ -34,6 +34,7 @@ import { EnterpriseService } from '../../enterprise.service';
 import { Application } from '../../../openapi3/aether/2.1.0/models';
 import {
     ApplicationService,
+    SiteService,
     TrafficClassService,
 } from '../../../openapi3/aether/2.1.0/services';
 import { TrafficClass } from '../../../openapi3/aether/2.1.0/models';
@@ -122,7 +123,9 @@ export class ApplicationEditComponent
     constructor(
         private applicationApplicationService: ApplicationService,
         private trafficClassService: TrafficClassService,
-        protected entService: EnterpriseService,
+        protected enterpriseService: EnterpriseService,
+        protected siteService: SiteService,
+
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -133,8 +136,10 @@ export class ApplicationEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
-            new ApplicationDatasource(bs, entService),
+            new ApplicationDatasource(bs, enterpriseService),
             applicationModelPath
         );
         super.form = this.appForm;
@@ -176,7 +181,7 @@ export class ApplicationEditComponent
         );
     }
 
-    loadApplicationApplication(target: string, id: string): void {
+    loadApplicationApplication(id: string): void {
         this.applicationApplicationService
             .getApplication({
                 'application-id': id,
@@ -191,7 +196,7 @@ export class ApplicationEditComponent
                 (error) => {
                     console.warn(
                         'Error getting Application(s) for ',
-                        target,
+                        this.enterpriseId,
                         error
                     );
                 },
@@ -205,7 +210,11 @@ export class ApplicationEditComponent
                     if (hasUpdates) {
                         this.populateFormData(model as Application);
                     }
-                    console.log('Finished loading Application(s)', target, id);
+                    console.log(
+                        'Finished loading Application(s)',
+                        this.enterpriseId,
+                        id
+                    );
                 }
             );
     }

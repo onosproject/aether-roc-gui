@@ -19,7 +19,10 @@ import { UpfDatasource } from '../upf/upf-datasource';
 import { upfModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
 import { SiteUpf } from '../../../openapi3/aether/2.1.0/models';
-import { SiteUpfService } from '../../../openapi3/aether/2.1.0/services';
+import {
+    SiteService,
+    SiteUpfService,
+} from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-upf-edit',
@@ -33,7 +36,6 @@ export class UpfEditComponent
     data: SiteUpf;
     pathListAttr = 'upf';
     SiteImisLength: number;
-    ImsiRangeLimit: number;
     upfId: string;
     showParentDisplay = false;
     upfForm = this.fb.group({
@@ -81,6 +83,7 @@ export class UpfEditComponent
     constructor(
         private upfUpfService: SiteUpfService,
         protected enterpriseService: EnterpriseService,
+        protected siteService: SiteService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -91,6 +94,8 @@ export class UpfEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
             new UpfDatasource(enterpriseService, bs),
             upfModelPath
@@ -109,7 +114,7 @@ export class UpfEditComponent
         this.showParentDisplay = false;
     }
 
-    loadUpfUpf(target: string, upfId: string): void {
+    loadUpfUpf(upfId: string): void {
         this.upfUpfService
             .getSiteUpf({
                 'upf-id': upfId,
@@ -125,7 +130,8 @@ export class UpfEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SiteUpf(s) for ',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         error
                     );
                 },
@@ -139,7 +145,12 @@ export class UpfEditComponent
                     if (hasUpdates) {
                         this.populateFormData(model as SiteUpf);
                     }
-                    console.log('Finished loading SiteUpf(s)', target, upfId);
+                    console.log(
+                        'Finished loading SiteUpf(s)',
+                        this.enterpriseId,
+                        this.siteId,
+                        upfId
+                    );
                 }
             );
     }

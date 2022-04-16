@@ -8,19 +8,18 @@ import { FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BasketService, REQDATTRIBS } from './basket.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { AETHER_TARGET } from '../environments/environment';
-import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
 import {
     GenericRocDataSource,
     RocGenericContainerType,
     RocGenericModelType,
 } from './roc-data-source';
-
-export interface EnterpriseID {
-    enterpriseId: string;
-    displayName: string;
-    sites: SiteID[];
-}
+import { TargetName } from '../openapi3/top/level/models';
+import { EnterpriseService } from './enterprise.service';
+import { SiteService } from '../openapi3/aether/2.1.0/services/site.service';
+import { mergeMap } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { MatOptionSelectionChange } from '@angular/material/core';
+import { SiteList } from '../openapi3/aether/2.1.0/models/site-list';
 
 export interface SiteID {
     siteID: string;
@@ -32,12 +31,12 @@ export abstract class RocEditBase<
 > {
     protected form: FormGroup;
     public isNewInstance: boolean; // For tests
-    protected loadFunc: (target: string, id: string) => void;
+    protected loadFunc: (id: string) => void;
     protected initFunc: () => string;
     public showParentDisplay = false;
     protected fullPath: string;
-    public enterprises = new Array<EnterpriseID>();
-    public enterpriseId: string;
+    public enterpriseId: TargetName;
+    public sites: SiteID[] = [];
     public siteId: string;
     public unknownEnterprise = 'unknownent';
     public unknownSite = 'unknownsite';
@@ -46,18 +45,19 @@ export abstract class RocEditBase<
     /**
      * @param snackBar The MatSnackBar service
      * @param bs The BasketService
+     * @param enterpriseService EnterpriseService
      * @param route The current route
      * @param ds A class that extends RocDataSource
      * @param modelPath The path for this model in the Yang tree
-     * @param aetherService The aetherService, used to load enterprises
      */
     protected constructor(
         protected snackBar: MatSnackBar,
         protected bs: BasketService,
+        protected enterpriseService: EnterpriseService,
+        protected siteService: SiteService,
         protected route: ActivatedRoute,
         public ds: T,
-        public modelPath: string[],
-        protected aetherService?: AetherService
+        public modelPath: string[]
     ) {
         this.datasource = ds;
     }
@@ -67,11 +67,8 @@ export abstract class RocEditBase<
             this.loadIds(value);
             if (value.get('id') === 'newinstance') {
                 this.isNewInstance = true;
-                if (value.keys.length > 1) {
-                    this.loadEnterprises();
-                }
             } else {
-                this.loadFunc(this.target, value.get('id'));
+                this.loadFunc(value.get('id'));
             }
             this.fullPath = this.calcFullPath(value);
             console.log('Full path', this.fullPath);
@@ -80,7 +77,9 @@ export abstract class RocEditBase<
 
     loadIds(params: ParamMap): void {
         this.siteId = params.get('site-id');
-        this.enterpriseId = params.get('enterprise-id');
+        this.enterpriseId = {
+            name: params.get('enterprise-id'),
+        } as TargetName;
         console.log(
             `Populated component with {enterpriseId: ${this.enterpriseId}, siteId: ${this.siteId}}`
         );
@@ -94,7 +93,7 @@ export abstract class RocEditBase<
         if (this.fullPath.includes(this.unknownEnterprise)) {
             this.fullPath = this.fullPath.replace(
                 this.unknownEnterprise,
-                this.enterpriseId
+                this.enterpriseId.name
             );
         }
         if (this.fullPath.includes(this.unknownSite)) {
@@ -128,10 +127,6 @@ export abstract class RocEditBase<
         return '??????????????????????????????/';
     }
 
-    get target(): string {
-        return AETHER_TARGET;
-    }
-
     public get isNew(): boolean {
         return this.isNewInstance;
     }
@@ -162,35 +157,22 @@ export abstract class RocEditBase<
         return fullPath;
     }
 
-    loadEnterprises(): void {
-        this.aetherService
-            .getEnterprises({ target: AETHER_TARGET })
-            .subscribe((es) => {
-                es.enterprise.forEach((e) => {
-                    const entID = {
-                        enterpriseId: e['enterprise-id'],
-                        displayName: e['display-name'],
-                        sites: new Array<SiteID>(),
-                    } as EnterpriseID;
-                    e.site.forEach((s) =>
-                        entID.sites.push({
-                            siteID: s['site-id'],
-                            displayName: s['display-name'],
-                        })
-                    );
-
-                    this.enterprises.push(entID);
-                });
+    public sitesOfEnterprise(optChange: MatOptionSelectionChange): void {
+        if (!optChange.isUserInput) {
+            return;
+        }
+        this.sites = [];
+        this.siteService
+            .getSiteList({
+                'enterprise-id': optChange.source.value,
+            })
+            .pipe(mergeMap((siteList: SiteList) => from(siteList)))
+            .subscribe((site) => {
+                this.sites.push({
+                    siteID: site['site-id'],
+                    displayName: site['display-name'],
+                } as SiteID);
             });
-    }
-
-    public sitesOfEnterprise(entID: string): SiteID[] {
-        if (entID == this.unknownEnterprise) {
-            return [];
-        }
-        if (this.enterprises.length && entID !== this.unknownEnterprise) {
-            return this.enterprises.find((e) => e.enterpriseId === entID).sites;
-        }
     }
 
     protected ucmap(): Map<string, string> {

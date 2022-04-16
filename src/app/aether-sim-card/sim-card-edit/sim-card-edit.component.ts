@@ -15,7 +15,10 @@ import { SimCardDatasource } from '../sim-card/sim-card-datasource';
 import { simCardModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
 import { SiteSimCard } from '../../../openapi3/aether/2.1.0/models';
-import { SiteSimCardService } from '../../../openapi3/aether/2.1.0/services';
+import {
+    SiteService,
+    SiteSimCardService,
+} from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-sim-card-edit',
@@ -69,6 +72,7 @@ export class SimCardEditComponent
     constructor(
         private simCardService: SiteSimCardService,
         protected enterpriseService: EnterpriseService,
+        protected siteService: SiteService,
 
         protected route: ActivatedRoute,
         protected router: Router,
@@ -80,6 +84,8 @@ export class SimCardEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
             new SimCardDatasource(enterpriseService, bs),
             simCardModelPath
@@ -97,7 +103,7 @@ export class SimCardEditComponent
         this.showParentDisplay = false;
     }
 
-    loadSimCard(target: string, simCardId: string): void {
+    loadSimCard(simCardId: string): void {
         this.simCardService
             .getSiteSimCard({
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
@@ -113,7 +119,8 @@ export class SimCardEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SiteSimCard(s) for ',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         error
                     );
                 },
@@ -129,7 +136,8 @@ export class SimCardEditComponent
                     }
                     console.log(
                         'Finished loading SiteSimCard(s)',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         simCardId
                     );
                 }

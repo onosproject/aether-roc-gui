@@ -19,7 +19,10 @@ import { IpDomainDatasource } from '../ip-domain/ip-domain-datasource';
 import { ipDomainModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
 import { SiteIpDomain } from '../../../openapi3/aether/2.1.0/models';
-import { SiteIpDomainService } from '../../../openapi3/aether/2.1.0/services';
+import {
+    SiteIpDomainService,
+    SiteService,
+} from '../../../openapi3/aether/2.1.0/services';
 
 export const UPDATED = 'updated';
 
@@ -102,6 +105,7 @@ export class IpDomainEditComponent
     constructor(
         private ipDomainIpDomainService: SiteIpDomainService,
         protected enterpriseService: EnterpriseService,
+        protected siteService: SiteService,
 
         protected route: ActivatedRoute,
         protected router: Router,
@@ -113,6 +117,8 @@ export class IpDomainEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
             new IpDomainDatasource(enterpriseService, bs),
             ipDomainModelPath
@@ -176,7 +182,7 @@ export class IpDomainEditComponent
         this.ipForm.get('admin-status').setValue(this.option);
     }
 
-    loadIpDomainIpDomain(target: string, id: string): void {
+    loadIpDomainIpDomain(id: string): void {
         this.ipDomainIpDomainService
             .getSiteIpDomain({
                 'ip-domain-id': id,
@@ -192,7 +198,8 @@ export class IpDomainEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SiteIpDomain(s) for ',
-                        target,
+                        this.enterpriseId,
+                        this.ipDomainId,
                         error
                     );
                 },
@@ -206,7 +213,12 @@ export class IpDomainEditComponent
                     if (hasUpdates) {
                         this.populateFormData(model as SiteIpDomain);
                     }
-                    console.log('Finished loading SiteIpDomain(s)', target, id);
+                    console.log(
+                        'Finished loading SiteIpDomain(s)',
+                        this.enterpriseId,
+                        this.ipDomainId,
+                        id
+                    );
                 }
             );
     }

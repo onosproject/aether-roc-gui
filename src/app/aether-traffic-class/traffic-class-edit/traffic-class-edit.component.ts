@@ -83,6 +83,8 @@ export class TrafficClassEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            undefined,
             route,
             new TrafficClassDatasource(enterpriseService, bs),
             trafficClassModelPath
@@ -95,7 +97,7 @@ export class TrafficClassEditComponent
         super.init();
     }
 
-    loadTrafficClassTrafficClass(target: string, id: string): void {
+    loadTrafficClassTrafficClass(id: string): void {
         this.trafficClassTrafficClassService
             .getTrafficClass({
                 'traffic-class-id': id,
@@ -110,7 +112,8 @@ export class TrafficClassEditComponent
                 (error) => {
                     console.warn(
                         'Error getting EnterprisesEnterpriseTrafficClass(s) for ',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         error
                     );
                 },
@@ -124,7 +127,12 @@ export class TrafficClassEditComponent
                     if (hasUpdates) {
                         this.populateFormData(model as TrafficClass);
                     }
-                    console.log('Finished loading TrafficClass(s)', target, id);
+                    console.log(
+                        'Finished loading TrafficClass(s)',
+                        this.enterpriseId,
+                        this.siteId,
+                        id
+                    );
                 }
             );
     }

@@ -184,6 +184,8 @@ export class SliceEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
             new SliceDatasource(enterpriseService, bs),
             sliceModelPath
@@ -209,7 +211,7 @@ export class SliceEditComponent
             this.sliceForm
                 .get('default-behavior')
                 .setValue(this.defaultBehaviorOptions[0]);
-            this.loadTemplate(this.target);
+            // this.loadTemplate(this.target); // TODO call this after enterprise has been chosen
         } else {
             this.sliceForm.get('sst').disable();
             this.sliceForm.get('sd').disable();
@@ -368,7 +370,7 @@ export class SliceEditComponent
         }
     }
 
-    loadSliceSlice(target: string, id: string): void {
+    loadSliceSlice(id: string): void {
         this.sliceService
             .getSiteSlice({
                 'slice-id': id,
@@ -384,7 +386,8 @@ export class SliceEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SliceSlice(s) for ',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         error
                     );
                 },
@@ -398,7 +401,12 @@ export class SliceEditComponent
                     if (hasUpdates) {
                         this.populateFormData(model as SiteSlice);
                     }
-                    console.log('Finished loading SliceSlice(s)', target, id);
+                    console.log(
+                        'Finished loading SliceSlice(s)',
+                        this.enterpriseId,
+                        this.siteId,
+                        id
+                    );
                 }
             );
     }
@@ -457,7 +465,7 @@ export class SliceEditComponent
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/slice-2.0.0/slice[id=' +
+                            '/basket-delete/slice-2.1.0/slice[id=' +
                                 this.id +
                                 ']/application[application='
                         )
@@ -547,7 +555,7 @@ export class SliceEditComponent
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/slice-2.0.0/slice[slice-id=' +
+                            '/basket-delete/slice-2.1.0/slice[slice-id=' +
                                 this.id +
                                 ']/device-group[device-group-id='
                         )

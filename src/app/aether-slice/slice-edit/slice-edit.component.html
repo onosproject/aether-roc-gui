@@ -39,7 +39,7 @@
                 id="enterpriseRowSelect"
                 *ngIf="isNew"
             >
-                <mat-label *ngIf="enterprises.length === 0"
+                <mat-label *ngIf="enterpriseService.enterprises.length === 0"
                     >No Enterprise available
                 </mat-label>
                 <mat-select
@@ -47,13 +47,15 @@
                     id="selectEnterprise"
                     [(value)]="enterpriseId"
                     placeholder="Please select an Enterprise"
-                    (selectionChange)="loadTemplate(AETHER_TARGET)"
+                    (selectionChange)="loadTemplate(enterpriseId.name)"
                 >
                     <mat-option
-                        *ngFor="let eachEnterprise of enterprises"
-                        [value]="eachEnterprise.enterpriseId"
-                        >{{ eachEnterprise.enterpriseId }}
-                        {{ eachEnterprise.displayName }}
+                        *ngFor="
+                            let eachEnterprise of enterpriseService.enterprises
+                        "
+                        [value]="eachEnterprise.name"
+                        (onSelectionChange)="sitesOfEnterprise($event)"
+                        >{{ eachEnterprise.name }}
                     </mat-option>
                 </mat-select>
                 <mat-hint><small>Enterprise</small></mat-hint>
@@ -63,7 +65,7 @@
                 id="siteRowSelect"
                 *ngIf="isNew"
             >
-                <mat-label *ngIf="enterprises.length === 0"
+                <mat-label *ngIf="sites.length === 0"
                     >No Site available
                 </mat-label>
                 <mat-select
@@ -74,7 +76,7 @@
                     (selectionChange)="loadUpf()"
                 >
                     <mat-option
-                        *ngFor="let eachSite of sitesOfEnterprise(enterpriseId)"
+                        *ngFor="let eachSite of sites"
                         [value]="eachSite.siteID"
                         >{{ eachSite.siteID }}
                         {{ eachSite.displayName }}

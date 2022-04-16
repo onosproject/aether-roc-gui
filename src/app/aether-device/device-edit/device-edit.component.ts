@@ -79,7 +79,7 @@ export class DeviceEditComponent
 
     constructor(
         private deviceService: SiteDeviceService,
-        private siteService: SiteService,
+        protected siteService: SiteService,
         protected enterpriseService: EnterpriseService,
 
         protected route: ActivatedRoute,
@@ -92,6 +92,8 @@ export class DeviceEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
             new DeviceDatasource(enterpriseService, bs),
             deviceModelPath
@@ -108,7 +110,7 @@ export class DeviceEditComponent
         this.showParentDisplay = false;
     }
 
-    loadDevice(target: string, deviceId: string): void {
+    loadDevice(deviceId: string): void {
         if (
             this.enterpriseId == this.unknownEnterprise ||
             this.siteId == this.unknownSite
@@ -131,7 +133,8 @@ export class DeviceEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SiteDevice(s) for ',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         error
                     );
                 },
@@ -147,7 +150,8 @@ export class DeviceEditComponent
                     }
                     console.log(
                         'Finished loading SiteDevice(s)',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         deviceId
                     );
                     this.loadSimCards(); // Needs Device to be loaded first

@@ -20,7 +20,10 @@ import { SmallCellDatasource } from '../small-cell/small-cell-datasource';
 import { smallCellModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
 import { SiteSmallCell } from '../../../openapi3/aether/2.1.0/models';
-import { SiteSmallCellService } from '../../../openapi3/aether/2.1.0/services';
+import {
+    SiteService,
+    SiteSmallCellService,
+} from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-small-cell-edit',
@@ -80,6 +83,8 @@ export class SmallCellEditComponent
     constructor(
         private smallCellService: SiteSmallCellService,
         protected enterpriseService: EnterpriseService,
+        protected siteService: SiteService,
+
         protected route: ActivatedRoute,
         protected router: Router,
         private fb: FormBuilder,
@@ -90,6 +95,8 @@ export class SmallCellEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
             new SmallCellDatasource(enterpriseService, bs),
             smallCellModelPath
@@ -137,7 +144,7 @@ export class SmallCellEditComponent
         }
     }
 
-    loadSmallCell(target: string, id: string): void {
+    loadSmallCell(id: string): void {
         this.smallCellService
             .getSiteSmallCell({
                 'small-cell-id': id,
@@ -153,7 +160,8 @@ export class SmallCellEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SiteSmallCell(s) for ',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         error
                     );
                 },
@@ -169,7 +177,8 @@ export class SmallCellEditComponent
                     }
                     console.log(
                         'Finished loading SiteSmallCell(s)',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         id
                     );
                 }
