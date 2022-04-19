@@ -20,8 +20,8 @@ export class SimCardDatasource extends RocDataSource<SiteSimCard, SiteList> {
         super(
             bs,
             enterpriseService,
-            'site-2.1.0',
-            ['site', 'sim-card'],
+            undefined,
+            ['site-2.1.0', 'sim-card'],
             ['site-id', 'sim-id']
         );
     }

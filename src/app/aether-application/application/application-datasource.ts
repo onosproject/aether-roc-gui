@@ -34,8 +34,8 @@ export class ApplicationDatasource extends RocDataSource<
         super(
             bs,
             enterpriseService,
-            'application-2.1.0',
-            ['application'],
+            undefined,
+            ['application-2.1.0'],
             ['application-id']
         );
     }

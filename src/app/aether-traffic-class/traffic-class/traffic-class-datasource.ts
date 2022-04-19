@@ -41,8 +41,8 @@ export class TrafficClassDatasource extends RocDataSource<
         super(
             bs,
             enterpriseService,
-            'traffic-class-2.1.0',
-            ['traffic-class'],
+            undefined,
+            ['traffic-class-2.1.0'],
             ['traffic-class-id']
         );
     }

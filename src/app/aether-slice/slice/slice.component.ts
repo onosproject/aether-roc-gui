@@ -49,8 +49,6 @@ export class SliceComponent
         'monitor',
     ];
 
-    modelPath = ['site-2.1.0', 'site', 'slice', 'slice-id'];
-
     constructor(
         public opaService: OpenPolicyAgentService,
         protected enterpriseService: EnterpriseService,

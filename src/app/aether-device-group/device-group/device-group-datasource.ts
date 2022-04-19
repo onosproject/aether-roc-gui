@@ -31,8 +31,8 @@ export class DeviceGroupDatasource extends RocDataSource<
         super(
             bs,
             enterpriseService,
-            'site-2.1.0',
-            ['site', 'device-group'],
+            undefined,
+            ['site-2.1.0', 'device-group'],
             ['site-id', 'device-group-id']
         );
     }

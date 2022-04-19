@@ -25,8 +25,8 @@ export class UpfDatasource extends RocDataSource<SiteUpf, SiteList> {
         super(
             bs,
             enterpriseService,
-            'site-2.1.0',
-            ['site', 'upf'],
+            undefined,
+            ['site-2.1.0', 'upf'],
             ['site-id', 'upf-id']
         );
     }

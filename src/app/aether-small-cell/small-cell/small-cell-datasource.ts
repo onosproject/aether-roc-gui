@@ -23,8 +23,8 @@ export class SmallCellDatasource extends RocDataSource<
         super(
             bs,
             enterpriseService,
-            'site-2.1.0',
-            ['site', 'small-cell'],
+            undefined,
+            ['site-2.1.0', 'small-cell'],
             ['site-id', 'small-cell-id']
         );
     }

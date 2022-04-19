@@ -25,8 +25,8 @@ export class IpDomainDatasource extends RocDataSource<SiteIpDomain, SiteList> {
         super(
             bs,
             enterpriseService,
-            'site-2.1.0',
-            ['site', 'ip-domain'],
+            undefined,
+            ['site-2.1.0', 'ip-domain'],
             ['site-id', 'ip-domain-id']
         );
     }

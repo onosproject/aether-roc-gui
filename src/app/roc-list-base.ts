@@ -44,7 +44,10 @@ export abstract class RocListBase<
             args[i] = entity[idAttrNames[i]] as string;
         }
 
-        const fullPath = this.dataSource.fullPath(...args);
+        const fullPath = this.dataSource.fullPath(
+            entity['enterprise-id'],
+            ...args
+        );
         console.log('Full path', fullPath, ...args);
         const ucMap = new Map<string, string>();
         if (this.reqdAttr.length > 0) {

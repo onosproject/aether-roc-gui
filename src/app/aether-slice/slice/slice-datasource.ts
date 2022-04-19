@@ -20,8 +20,8 @@ export class SliceDatasource extends RocDataSource<SiteSlice, SiteList> {
         super(
             bs,
             enterpriseService,
-            'site-2.1.0',
-            ['site', 'slice'],
+            undefined,
+            ['site-2.1.0', 'slice'],
             ['site-id', 'slice-id']
         );
     }

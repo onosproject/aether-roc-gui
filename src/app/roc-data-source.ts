@@ -48,9 +48,9 @@ export interface GenericRocDataSource<
         onDataLoaded: (dataSourceThisScope: RocDataSource<T, U>) => void
     ): void;
 
-    fullPath(...ids: string[]): string;
+    fullPath(enterpriseId: string, ...ids: string[]): string;
 
-    deletePath(...ids: string[]): string;
+    deletePath(enterpriseId: string, ...ids: string[]): string;
 }
 
 // RocDataSource is an abstract class that extends data source
@@ -329,8 +329,11 @@ export abstract class RocDataSource<T, U>
         return [!_.isNil(el), el];
     }
 
-    fullPath(...ids: string[]): string {
-        let fullPath = `${this.pathRoot}`;
+    fullPath(enterpriseId: string, ...ids: string[]): string {
+        let fullPath = enterpriseId;
+        if (this.pathRoot) {
+            fullPath = fullPath += `/${this.pathRoot}`;
+        }
         for (let i = 0; i < this.pathListAttr.length; i++) {
             fullPath =
                 fullPath += `/${this.pathListAttr[i]}[${this.indexAttr[i]}=${ids[i]}]`;
@@ -339,8 +342,8 @@ export abstract class RocDataSource<T, U>
         return fullPath;
     }
 
-    deletePath(...ids: string[]): string {
-        return `/${this.fullPath(...ids)}/${
+    deletePath(enterpriseId: string, ...ids: string[]): string {
+        return `/${this.fullPath(enterpriseId, ...ids)}/${
             this.indexAttr[this.indexAttr.length - 1]
         }`;
     }

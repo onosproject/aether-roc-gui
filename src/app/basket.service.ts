@@ -225,11 +225,10 @@ export class BasketService {
         // TODO - Add change-name-100 back
 
         const patchBody = {
-            'default-target': 'connectivity-service-v2',
+            'default-target': 'default-ent',
             Updates: {},
             Deletes: {},
             Extensions: {
-                'model-version-101': '2.0.0',
                 'model-type-102': 'Aether',
             },
         };
@@ -242,10 +241,11 @@ export class BasketService {
                     localStorage.getItem(updateKey)
                 );
                 this.recursePath(
-                    updatePathParts.slice(2),
+                    updatePathParts.slice(3),
                     patchBody.Updates,
                     updateValue,
-                    ['/unchanged-update']
+                    ['/unchanged-update', updatePathParts[2]],
+                    updatePathParts[2]
                 );
             });
 
@@ -257,10 +257,11 @@ export class BasketService {
                     localStorage.getItem(deleteKey)
                 );
                 this.recursePath(
-                    deletePathParts.slice(2),
+                    deletePathParts.slice(3),
                     patchBody.Deletes,
                     deleteValue,
-                    ['/unchanged-delete']
+                    ['/unchanged-delete', deletePathParts[2]],
+                    deletePathParts[2]
                 );
             });
 
@@ -271,14 +272,24 @@ export class BasketService {
         path: string[],
         object: unknown, // FIXME what type should object be?
         value: BasketValue,
-        unchangedPath?: string[]
+        unchangedPath?: string[],
+        target?: string
     ): void {
         const unchList = localStorage.getItem(unchangedPath.join('/'));
-        // console.log(path, 'Search storage for', unchangedPath.join('/'), unchList);
+        console.log(
+            path,
+            'Search storage for',
+            unchangedPath.join('/'),
+            unchList
+        );
         if (unchList !== null) {
-            object[ADDITIONALPROPS] = {
-                unchanged: unchList,
-            };
+            if (object[ADDITIONALPROPS]) {
+                object[ADDITIONALPROPS]['unchanged'] = unchList;
+            } else {
+                object[ADDITIONALPROPS] = {
+                    unchanged: unchList,
+                };
+            }
         }
 
         if (path.length === 1) {
@@ -318,6 +329,12 @@ export class BasketService {
                         part.lastIndexOf(']')
                     );
                     let childObj = {};
+
+                    if (target) {
+                        childObj[ADDITIONALPROPS] = {
+                            'enterprise-id': target,
+                        };
+                    }
 
                     object[container].forEach((child) => {
                         if (child[keyName] === keyValue) {

@@ -20,8 +20,8 @@ export class DeviceDatasource extends RocDataSource<SiteDevice, SiteList> {
         super(
             bs,
             enterpriseService,
-            'site-2.1.0',
-            ['site', 'device'],
+            undefined,
+            ['site-2.1.0', 'device'],
             ['site-id', 'device-id']
         );
     }

@@ -17,7 +17,7 @@ export class SiteDatasource extends RocDataSource<Site, SiteList> {
         protected enterpriseService: EnterpriseService,
         public bs: BasketService
     ) {
-        super(bs, enterpriseService, 'site-2.1.0', ['site'], ['site-id']);
+        super(bs, enterpriseService, undefined, ['site-2.1.0'], ['site-id']);
     }
 
     // TODO - move this back in to the roc-data-source base class

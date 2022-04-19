@@ -6,8 +6,8 @@
 
 import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
-import { Observable } from 'rxjs';
-import { skipWhile } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { mergeMap, skipWhile } from 'rxjs/operators';
 import { EnterpriseService } from '../../enterprise.service';
 import { Template, TemplateList } from '../../../openapi3/aether/2.1.0/models';
 import { TargetName } from '../../../openapi3/top/level/models';
@@ -20,8 +20,8 @@ export class TemplateDatasource extends RocDataSource<Template, TemplateList> {
         super(
             bs,
             enterpriseService,
-            'template-2.1.0',
-            ['template'],
+            undefined,
+            ['template-2.1.0'],
             ['template-id']
         );
     }
@@ -33,9 +33,13 @@ export class TemplateDatasource extends RocDataSource<Template, TemplateList> {
         ) => void,
         enterpriseId?: TargetName
     ): void {
-        dataSourceObservable.pipe(skipWhile((x) => x === undefined)).subscribe(
-            (value: TemplateList) => {
-                value.forEach((tp) => {
+        dataSourceObservable
+            .pipe(
+                skipWhile((x) => x === undefined),
+                mergeMap((templates: Template[]) => from(templates))
+            )
+            .subscribe(
+                (tp: Template) => {
                     tp['enterprise-id'] = enterpriseId.name;
                     const fullPath = this.deletePath(
                         enterpriseId.name,
@@ -45,18 +49,21 @@ export class TemplateDatasource extends RocDataSource<Template, TemplateList> {
                         tp[FORDELETE] = STRIKETHROUGH;
                     }
                     this.data.push(tp);
-                });
-            },
-            (error) => {
-                console.warn('Error getting data from ', enterpriseId, error);
-            },
-            () => {
-                // table.refreshRows() does not seem to work - using this trick instead
-                // const basketPreview = this.bs.buildPatchBody().Updates;
-                onDataLoaded(this);
-                this.paginator._changePageSize(this.paginator.pageSize);
-            }
-        );
+                },
+                (error) => {
+                    console.warn(
+                        'Error getting data from ',
+                        enterpriseId,
+                        error
+                    );
+                },
+                () => {
+                    // table.refreshRows() does not seem to work - using this trick instead
+                    // const basketPreview = this.bs.buildPatchBody().Updates;
+                    onDataLoaded(this);
+                    this.paginator._changePageSize(this.paginator.pageSize);
+                }
+            );
     }
 
     getSortedData(data: Template[]): Template[] {
