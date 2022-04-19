@@ -6,21 +6,20 @@
 
 import { Component, OnInit } from '@angular/core';
 import { RocMonitorBase } from '../../roc-monitor-base';
-import {
-    EnterprisesEnterpriseSiteDeviceGroupService,
-    EnterprisesEnterpriseSiteService,
-    EnterprisesEnterpriseSiteIpDomainService,
-} from '../../../openapi3/aether/2.0.0/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { IdTokClaims } from '../../idtoken';
 import {
-    EnterprisesEnterpriseSiteDeviceGroup,
-    EnterprisesEnterpriseSite,
-    EnterprisesEnterpriseSiteIpDomain,
-} from '../../../openapi3/aether/2.0.0/models';
+    SiteIpDomain,
+    Site,
+    SiteDeviceGroup,
+} from '../../../openapi3/aether/2.1.0/models';
+import {
+    SiteDeviceGroupService,
+    SiteService,
+    SiteIpDomainService,
+} from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-device-group-monitor',
@@ -33,15 +32,15 @@ export class DeviceGroupMonitorComponent
 {
     grafanaOrgId = 1;
     grafanaOrgName: string;
-    thisDg: EnterprisesEnterpriseSiteDeviceGroup;
-    site: EnterprisesEnterpriseSite;
-    ipDomain: EnterprisesEnterpriseSiteIpDomain;
+    thisDg: SiteDeviceGroup;
+    site: Site;
+    ipDomain: SiteIpDomain;
     selectedUeId: string;
 
     constructor(
-        protected dgService: EnterprisesEnterpriseSiteDeviceGroupService,
-        protected siteService: EnterprisesEnterpriseSiteService,
-        protected ipDomainService: EnterprisesEnterpriseSiteIpDomainService,
+        protected dgService: SiteDeviceGroupService,
+        protected siteService: SiteService,
+        protected ipDomainService: SiteIpDomainService,
         protected route: ActivatedRoute,
         protected router: Router,
         private httpClient: HttpClient,
@@ -65,8 +64,7 @@ export class DeviceGroupMonitorComponent
 
     private getChildrenOfDg(dgID: string): void {
         this.dgService
-            .getEnterprisesEnterpriseSiteDeviceGroup({
-                target: AETHER_TARGET,
+            .getSiteDeviceGroup({
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
                 'device-group-id': dgID,
@@ -74,9 +72,7 @@ export class DeviceGroupMonitorComponent
             .subscribe(
                 (value) => {
                     this.thisDg = value;
-                    this.getEnterprisesEnterpriseSiteIpDomain(
-                        value['ip-domain']
-                    );
+                    this.getSiteIpDomain(value['ip-domain']);
                 },
                 (err) => console.warn('Error getting DG', dgID, err)
             );
@@ -84,28 +80,25 @@ export class DeviceGroupMonitorComponent
 
     private getSite(siteID: string): void {
         this.siteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
+            .getSite({
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': siteID,
             })
             .subscribe(
-                (value: EnterprisesEnterpriseSite) => (this.site = value),
+                (value: Site) => (this.site = value),
                 (err) => console.warn('Error loading site', siteID, err)
             );
     }
 
-    private getEnterprisesEnterpriseSiteIpDomain(ipDomainID: string): void {
+    private getSiteIpDomain(ipDomainID: string): void {
         this.ipDomainService
-            .getEnterprisesEnterpriseSiteIpDomain({
-                target: AETHER_TARGET,
+            .getSiteIpDomain({
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
                 'ip-domain-id': ipDomainID,
             })
             .subscribe(
-                (value: EnterprisesEnterpriseSiteIpDomain) =>
-                    (this.ipDomain = value),
+                (value: SiteIpDomain) => (this.ipDomain = value),
                 (err) => console.warn('Error loading IPDomain', ipDomainID, err)
             );
     }

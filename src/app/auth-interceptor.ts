@@ -14,6 +14,7 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ID_TOKEN_ATTR } from './aether.component';
+import { Status } from '../openapi3/top/level/models';
 
 const TOKEN_HEADER_KEY = 'Authorization';
 const BEARER_KEYWORD = 'Bearer ';
@@ -38,9 +39,11 @@ export class AuthInterceptor implements HttpInterceptor {
                     (x) => x,
                     (err) => {
                         // Handle this err
-                        console.error(
-                            `Error performing request, status code = ${err.status}`
-                        );
+                        if (err.status != 404) {
+                            console.error(
+                                `Error performing request, status code = ${err.status}`
+                            );
+                        }
                     }
                 )
             );

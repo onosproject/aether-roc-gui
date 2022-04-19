@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { Subscription } from 'rxjs';
@@ -21,7 +20,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private resizeSubscription: Subscription;
 
     constructor(
-        private aetherService: AetherService,
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
         private resizeService: ResizeService

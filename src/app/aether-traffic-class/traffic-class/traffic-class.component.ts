@@ -13,7 +13,11 @@ import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { trafficClassModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
-import { TrafficClassService } from '../../../openapi3/aether/2.1.0/services';
+import {
+    ApplicationService,
+    SiteService,
+    TrafficClassService,
+} from '../../../openapi3/aether/2.1.0/services';
 import { TrafficClass } from '../../../openapi3/aether/2.1.0/models';
 
 @Component({
@@ -45,13 +49,20 @@ export class TrafficClassComponent
 
     constructor(
         protected enterpriseService: EnterpriseService,
+        protected applicationService: ApplicationService,
+        protected siteService: SiteService,
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
         private trafficClassService: TrafficClassService
     ) {
         super(
             basketService,
-            new TrafficClassDatasource(enterpriseService, basketService)
+            new TrafficClassDatasource(
+                enterpriseService,
+                applicationService,
+                siteService,
+                basketService
+            )
         );
     }
 

@@ -139,7 +139,7 @@ export class ApplicationEditComponent
             enterpriseService,
             siteService,
             route,
-            new ApplicationDatasource(bs, enterpriseService),
+            new ApplicationDatasource(bs, enterpriseService, siteService),
             applicationModelPath
         );
         super.form = this.appForm;

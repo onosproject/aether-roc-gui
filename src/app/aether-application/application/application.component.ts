@@ -7,7 +7,10 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { ApplicationService } from '../../../openapi3/aether/2.1.0/services';
+import {
+    ApplicationService,
+    SiteService,
+} from '../../../openapi3/aether/2.1.0/services';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { RocListBase } from '../../roc-list-base';
@@ -40,13 +43,18 @@ export class ApplicationComponent
 
     constructor(
         private applicationsService: ApplicationService,
+        protected siteService: SiteService,
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
         protected enterpriseService: EnterpriseService
     ) {
         super(
             basketService,
-            new ApplicationDatasource(basketService, enterpriseService)
+            new ApplicationDatasource(
+                basketService,
+                enterpriseService,
+                siteService
+            )
         );
         super.reqdAttr = ['address'];
     }
@@ -74,11 +82,5 @@ export class ApplicationComponent
                 enterpriseId
             );
         });
-        // console.log(
-        // this.aetherService
-        //     .getApplication({
-        //         target: AETHER_TARGET,
-        //     })
-        //     .subscribe((x) => console.log(x, 'output------'));
     }
 }

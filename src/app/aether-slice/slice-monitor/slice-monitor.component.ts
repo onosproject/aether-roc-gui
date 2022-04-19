@@ -6,31 +6,27 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { RocMonitorBase } from '../../roc-monitor-base';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-    EnterprisesEnterpriseSiteService,
-    EnterprisesEnterpriseTrafficClassService,
-    EnterprisesEnterpriseSiteUpfService,
-    EnterprisesEnterpriseSiteSliceService,
-    EnterprisesEnterpriseService,
-} from '../../../openapi3/aether/2.0.0/services';
-import {
-    AETHER_TARGET,
-    PERFORMANCE_METRICS_ENABLED,
-} from '../../../environments/environment';
+import { PERFORMANCE_METRICS_ENABLED } from '../../../environments/environment';
 import { filter, mergeMap, pluck } from 'rxjs/operators';
-import {
-    EnterprisesEnterpriseApplication,
-    EnterprisesEnterpriseSiteDeviceGroup,
-    EnterprisesEnterpriseSite,
-    EnterprisesEnterpriseTrafficClass,
-    EnterprisesEnterpriseSiteUpf,
-    EnterprisesEnterpriseSiteSlice,
-} from '../../../openapi3/aether/2.0.0/models';
 import { from } from 'rxjs';
 import { IdTokClaims } from '../../idtoken';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { VcsPromDataSource } from '../../utils/vcs-prom-data-source';
 import { HttpClient } from '@angular/common/http';
+import {
+    ApplicationService,
+    SiteDeviceGroupService,
+    SiteSliceService,
+    SiteUpfService,
+} from '../../../openapi3/aether/2.1.0/services';
+import {
+    Application,
+    Site,
+    SiteDeviceGroup,
+    SiteSlice,
+    SiteUpf,
+    TrafficClass,
+} from '../../../openapi3/aether/2.1.0/models';
 
 const vcsPromTags = ['vcs_latency', 'vcs_jitter', 'vcs_throughput'];
 
@@ -45,12 +41,12 @@ export class SliceMonitorComponent
 {
     performancePanels: string[] = [];
     ueConnectivityPanels: string[] = [];
-    thisVcs: EnterprisesEnterpriseSiteSlice;
-    deviceGroups: Map<EnterprisesEnterpriseSiteDeviceGroup, boolean>;
-    applications: Map<EnterprisesEnterpriseApplication, boolean>;
-    upf: EnterprisesEnterpriseSiteUpf;
-    site: EnterprisesEnterpriseSite;
-    trafficClass: EnterprisesEnterpriseTrafficClass;
+    thisVcs: SiteSlice;
+    deviceGroups: Map<SiteDeviceGroup, boolean>;
+    applications: Map<Application, boolean>;
+    upf: SiteUpf;
+    site: Site;
+    trafficClass: TrafficClass;
     connectivityPanelUrl: string;
     performancePanelUrl: string;
     grafanaOrgId = 1;
@@ -65,11 +61,10 @@ export class SliceMonitorComponent
     performanceMetricsEnabled: boolean = PERFORMANCE_METRICS_ENABLED;
 
     constructor(
-        protected sliceService: EnterprisesEnterpriseSiteSliceService,
-        protected upfService: EnterprisesEnterpriseSiteUpfService,
-        protected tcService: EnterprisesEnterpriseTrafficClassService,
-        protected siteService: EnterprisesEnterpriseSiteService,
-        protected enterpriseService: EnterprisesEnterpriseService,
+        protected sliceService: SiteSliceService,
+        protected upfService: SiteUpfService,
+        protected deviceGroupService: SiteDeviceGroupService,
+        protected applicationService: ApplicationService,
         protected route: ActivatedRoute,
         protected router: Router,
         private httpClient: HttpClient,
@@ -77,14 +72,8 @@ export class SliceMonitorComponent
         @Inject('grafana_api_proxy') private grafanaUrl: string
     ) {
         super(route, router);
-        this.deviceGroups = new Map<
-            EnterprisesEnterpriseSiteDeviceGroup,
-            boolean
-        >();
-        this.applications = new Map<
-            EnterprisesEnterpriseApplication,
-            boolean
-        >();
+        this.deviceGroups = new Map<SiteDeviceGroup, boolean>();
+        this.applications = new Map<Application, boolean>();
         this.promData = new VcsPromDataSource(httpClient);
     }
 
@@ -143,8 +132,7 @@ export class SliceMonitorComponent
 
     private getChildrenOfVcs(): void {
         this.sliceService
-            .getEnterprisesEnterpriseSiteSlice({
-                target: AETHER_TARGET,
+            .getSiteSlice({
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
                 'slice-id': this.id,
@@ -177,18 +165,14 @@ export class SliceMonitorComponent
     }
 
     private getDeviceGroupDetails(deviceGroups: Map<string, boolean>): void {
-        this.siteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
+        this.deviceGroupService
+            .getSiteDeviceGroupList({
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
             })
             .pipe(
-                pluck('device-group'),
-                mergeMap((items: EnterprisesEnterpriseSiteDeviceGroup[]) =>
-                    from(items)
-                ),
-                filter((dg: EnterprisesEnterpriseSiteDeviceGroup) =>
+                mergeMap((items: SiteDeviceGroup[]) => from(items)),
+                filter((dg: SiteDeviceGroup) =>
                     deviceGroups.has(dg['device-group-id'])
                 )
             )
@@ -204,31 +188,15 @@ export class SliceMonitorComponent
             );
     }
 
-    private getSite(siteID: string): void {
-        this.siteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
-                'enterprise-id': this.route.snapshot.params['enterprise-id'],
-                'site-id': siteID,
-            })
-            .subscribe(
-                (value: EnterprisesEnterpriseSite) => (this.site = value),
-                (err) => console.warn('Error loading site', siteID, err)
-            );
-    }
-
     private getApplicationDetails(application: Map<string, boolean>): void {
-        this.enterpriseService
-            .getEnterprisesEnterprise({
-                target: AETHER_TARGET,
+        this.applicationService
+            .getApplicationList({
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
             .pipe(
                 pluck('application'),
-                mergeMap((items: EnterprisesEnterpriseApplication[]) =>
-                    from(items)
-                ),
-                filter((app: EnterprisesEnterpriseApplication) =>
+                mergeMap((items: Application[]) => from(items)),
+                filter((app: Application) =>
                     application.has(app['application-id'])
                 )
             )
@@ -244,14 +212,13 @@ export class SliceMonitorComponent
 
     private getUpf(upfID: string): void {
         this.upfService
-            .getEnterprisesEnterpriseSiteUpf({
-                target: AETHER_TARGET,
+            .getSiteUpf({
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
                 'upf-id': upfID,
             })
             .subscribe(
-                (upf: EnterprisesEnterpriseSiteUpf) => (this.upf = upf),
+                (upf: SiteUpf) => (this.upf = upf),
                 (err) => console.warn('Error in getting UPF', err)
             );
     }

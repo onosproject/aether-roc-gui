@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
 import { RocListBase } from './roc-list-base';
 import { BasketService } from './basket.service';
 import { OpenPolicyAgentService } from './open-policy-agent.service';
@@ -42,7 +41,6 @@ class RocListBaseSpecComponent extends RocListBase<
     TestData
 > {
     constructor(
-        private aetherService: AetherService,
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService
     ) {

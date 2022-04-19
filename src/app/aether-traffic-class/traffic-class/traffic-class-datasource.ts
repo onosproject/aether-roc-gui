@@ -11,14 +11,18 @@ import {
     ISINUSE,
     STRIKETHROUGH,
 } from '../../basket.service';
-import { Observable } from 'rxjs';
-import { skipWhile } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { mergeMap, skipWhile } from 'rxjs/operators';
 import { EnterpriseService } from '../../enterprise.service';
 import {
+    Application,
+    Site,
     TrafficClass,
     TrafficClassList,
 } from '../../../openapi3/aether/2.1.0/models';
 import { TargetName } from '../../../openapi3/top/level/models';
+import { ApplicationService } from '../../../openapi3/aether/2.1.0/services/application.service';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services/site.service';
 
 export class TrafficClassDatasource extends RocDataSource<
     TrafficClass,
@@ -26,6 +30,8 @@ export class TrafficClassDatasource extends RocDataSource<
 > {
     constructor(
         protected enterpriseService: EnterpriseService,
+        protected applicationService: ApplicationService,
+        protected siteService: SiteService,
         public bs: BasketService,
         protected pelrAttr: string = 'pelr',
         protected pdbAttr: string = 'pdb',
@@ -48,9 +54,15 @@ export class TrafficClassDatasource extends RocDataSource<
         ) => void,
         enterpriseId?: TargetName
     ): void {
-        dataSourceObservable.pipe(skipWhile((x) => x === undefined)).subscribe(
-            (value: TrafficClassList) => {
-                value.forEach((tc) => {
+        dataSourceObservable
+            .pipe(
+                skipWhile((x) => x === undefined),
+                mergeMap((trafficClasses: TrafficClass[]) =>
+                    from(trafficClasses)
+                )
+            )
+            .subscribe(
+                (tc: TrafficClass) => {
                     tc['enterprise-id'] = enterpriseId.name;
                     const fullPath = this.deletePath(
                         enterpriseId.name,
@@ -60,69 +72,77 @@ export class TrafficClassDatasource extends RocDataSource<
                         tc[FORDELETE] = STRIKETHROUGH;
                     }
                     // Check for usages in applications
-                    // TODO: find a way to get list of applications
-                    // if (value.application) {
-                    //     value.application.forEach((app) => {
-                    //         if (app.endpoint) {
-                    //             app['endpoint'].forEach((appep) => {
-                    //                 if (
-                    //                     appep['traffic-class'] ===
-                    //                     tc['traffic-class-id']
-                    //                 ) {
-                    //                     tc[ISINUSE] = 'true'; // Any match will set it
-                    //                 }
-                    //             });
-                    //         }
-                    //     });
-                    // }
-                    // TODO: find a way to get a list of sites
+                    this.applicationService
+                        .getApplicationList({
+                            'enterprise-id': enterpriseId.name,
+                        })
+                        .pipe(
+                            mergeMap((applications: Application[]) =>
+                                from(applications)
+                            )
+                        )
+                        .subscribe((app: Application) => {
+                            if (app.endpoint) {
+                                app['endpoint'].forEach((appep) => {
+                                    if (
+                                        appep['traffic-class'] ===
+                                        tc['traffic-class-id']
+                                    ) {
+                                        tc[ISINUSE] = 'true'; // Any match will set it
+                                    }
+                                });
+                            }
+                        });
                     // Check for usages in device-groups
-                    // if (value.site) {
-                    //     value.site.forEach((site) => {
-                    //         if (site['device-group']) {
-                    //             site['device-group'].forEach((dg) => {
-                    //                 if (
-                    //                     dg['traffic-class'] ===
-                    //                     tc['traffic-class-id']
-                    //                 ) {
-                    //                     tc[ISINUSE] = 'true'; // Any match will set it
-                    //                 }
-                    //             });
-                    //         }
-                    //         // Check for usages in slices
-                    //         if (site.slice) {
-                    //             site.slice.forEach((slice) => {
-                    //                 if (
-                    //                     slice['priority-traffic-rule']
-                    //                 ) {
-                    //                     slice[
-                    //                         'priority-traffic-rule'
-                    //                     ].forEach((ptr) => {
-                    //                         if (
-                    //                             ptr['traffic-class'] ===
-                    //                             tc['traffic-class-id']
-                    //                         ) {
-                    //                             tc[ISINUSE] = 'true'; // Any match will set it
-                    //                         }
-                    //                     });
-                    //                 }
-                    //             });
-                    //         }
-                    //     });
-                    // }
+                    this.siteService
+                        .getSiteList({ 'enterprise-id': enterpriseId.name })
+                        .pipe(mergeMap((sites: Site[]) => from(sites)))
+                        .subscribe((site) => {
+                            if (site['device-group']) {
+                                site['device-group'].forEach((dg) => {
+                                    if (
+                                        dg['traffic-class'] ===
+                                        tc['traffic-class-id']
+                                    ) {
+                                        tc[ISINUSE] = 'true'; // Any match will set it
+                                    }
+                                });
+                            }
+                            // Check for usages in slices
+                            if (site.slice) {
+                                site.slice.forEach((slice) => {
+                                    if (slice['priority-traffic-rule']) {
+                                        slice['priority-traffic-rule'].forEach(
+                                            (ptr) => {
+                                                if (
+                                                    ptr['traffic-class'] ===
+                                                    tc['traffic-class-id']
+                                                ) {
+                                                    tc[ISINUSE] = 'true'; // Any match will set it
+                                                }
+                                            }
+                                        );
+                                    }
+                                });
+                            }
+                        });
                     this.data.push(tc);
-                });
-            },
-            (error) => {
-                console.warn('Error getting data from ', enterpriseId, error);
-            },
-            () => {
-                // table.refreshRows() does not seem to work - using this trick instead
-                // const basketPreview = this.bs.buildPatchBody().Updates;
-                onDataLoaded(this);
-                this.paginator._changePageSize(this.paginator.pageSize);
-            }
-        );
+                },
+
+                (error) => {
+                    console.warn(
+                        'Error getting data from ',
+                        enterpriseId,
+                        error
+                    );
+                },
+                () => {
+                    // table.refreshRows() does not seem to work - using this trick instead
+                    // const basketPreview = this.bs.buildPatchBody().Updates;
+                    onDataLoaded(this);
+                    this.paginator._changePageSize(this.paginator.pageSize);
+                }
+            );
     }
 
     getSortedData(data: TrafficClass[]): TrafficClass[] {

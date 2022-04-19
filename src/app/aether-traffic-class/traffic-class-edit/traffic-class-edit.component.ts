@@ -13,7 +13,11 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { TrafficClassDatasource } from '../traffic-class/traffic-class-datasource';
 import { trafficClassModelPath } from '../../models-info';
 import { EnterpriseService } from '../../enterprise.service';
-import { TrafficClassService } from '../../../openapi3/aether/2.1.0/services';
+import {
+    ApplicationService,
+    SiteService,
+    TrafficClassService,
+} from '../../../openapi3/aether/2.1.0/services';
 import { TrafficClass } from '../../../openapi3/aether/2.1.0/models';
 
 @Component({
@@ -72,6 +76,8 @@ export class TrafficClassEditComponent
 
     constructor(
         private trafficClassTrafficClassService: TrafficClassService,
+        protected applicationService: ApplicationService,
+        protected siteService: SiteService,
         protected enterpriseService: EnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
@@ -86,7 +92,12 @@ export class TrafficClassEditComponent
             enterpriseService,
             undefined,
             route,
-            new TrafficClassDatasource(enterpriseService, bs),
+            new TrafficClassDatasource(
+                enterpriseService,
+                applicationService,
+                siteService,
+                bs
+            ),
             trafficClassModelPath
         );
         super.form = this.tcForm;

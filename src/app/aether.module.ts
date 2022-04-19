@@ -26,7 +26,6 @@ import { MatListModule } from '@angular/material/list';
 import { ApiKeyComponent } from './api-key/api-key.component';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { ApiModule as ApiModuleAether } from '../openapi3/aether/2.0.0/api.module';
 import { ApiModule as ApiModuleTopLevel } from '../openapi3/top/level/api.module';
 
 export const API_INTERCEPTOR_PROVIDER: Provider = {

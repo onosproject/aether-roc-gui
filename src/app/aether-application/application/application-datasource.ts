@@ -14,11 +14,13 @@ import { compare, RocDataSource } from '../../roc-data-source';
 import {
     Application,
     ApplicationList,
+    Site,
 } from '../../../openapi3/aether/2.1.0/models';
-import { Observable } from 'rxjs';
-import { skipWhile } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { mergeMap, skipWhile } from 'rxjs/operators';
 import { EnterpriseService } from '../../enterprise.service';
 import { TargetName } from '../../../openapi3/top/level/models';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 
 export class ApplicationDatasource extends RocDataSource<
     Application,
@@ -26,7 +28,8 @@ export class ApplicationDatasource extends RocDataSource<
 > {
     constructor(
         public bs: BasketService,
-        protected enterpriseService: EnterpriseService
+        protected enterpriseService: EnterpriseService,
+        protected siteService: SiteService
     ) {
         super(
             bs,
@@ -56,30 +59,27 @@ export class ApplicationDatasource extends RocDataSource<
                         app[FORDELETE] = STRIKETHROUGH;
                     }
                     // Check for usages in slices
-                    // TODO: make a separate call to get slices for all sites to see if this is in use
-                    // if (value.site) {
-                    //     value.site.forEach((site) => {
-                    //         if (site.slice) {
-                    //             site.slice.forEach((slice) => {
-                    //                 if (slice.filter) {
-                    //                     slice.filter.forEach(
-                    //                         (filter) => {
-                    //                             if (
-                    //                                 filter.application ===
-                    //                                 app[
-                    //                                     'application-id'
-                    //                                 ]
-                    //                             ) {
-                    //                                 app[ISINUSE] =
-                    //                                     'true'; // Any match will set it
-                    //                             }
-                    //                         }
-                    //                     );
-                    //                 }
-                    //             });
-                    //         }
-                    //     });
-                    // }
+                    this.siteService
+                        .getSiteList({
+                            'enterprise-id': enterpriseId.name,
+                        })
+                        .pipe(mergeMap((sites: Site[]) => from(sites)))
+                        .subscribe((site: Site) => {
+                            if (site.slice) {
+                                site.slice.forEach((slice) => {
+                                    if (slice.filter) {
+                                        slice.filter.forEach((filter) => {
+                                            if (
+                                                filter.application ===
+                                                app['application-id']
+                                            ) {
+                                                app[ISINUSE] = 'true'; // Any match will set it
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     this.data.push(app);
                 });
             },

@@ -5,11 +5,9 @@
  */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RocSelectBase } from '../../roc-select-base';
-import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGET } from '../../../environments/environment';
+import { SiteDevice, Site } from '../../../openapi3/aether/2.1.0/models';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-device-select',
@@ -17,10 +15,7 @@ import { AETHER_TARGET } from '../../../environments/environment';
     styleUrls: ['../../common-panel.component.scss'],
 })
 export class DeviceSelectComponent
-    extends RocSelectBase<
-        EnterprisesEnterpriseSiteDevice,
-        EnterprisesEnterpriseSite
-    >
+    extends RocSelectBase<SiteDevice, Site>
     implements OnInit
 {
     @Input() alreadySelected: string[] = [];
@@ -28,17 +23,13 @@ export class DeviceSelectComponent
     @Input() selectedSite: string;
     @Output() closeEvent = new EventEmitter<string>();
 
-    constructor(
-        protected siteService: EnterprisesEnterpriseSiteService,
-        protected fb: FormBuilder
-    ) {
+    constructor(protected siteService: SiteService, protected fb: FormBuilder) {
         super(fb, 'device-id');
     }
 
     ngOnInit(): void {
         super.getData(
-            this.siteService.getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
+            this.siteService.getSite({
                 'enterprise-id': this.selectedEnterprise,
                 'site-id': this.selectedSite,
             }),

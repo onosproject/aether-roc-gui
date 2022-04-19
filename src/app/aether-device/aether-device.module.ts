@@ -27,7 +27,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ApiModule as ApiModuleAether20 } from '../../openapi3/aether/2.0.0/api.module';
 import { ApiModule as ApiModuleAether } from '../../openapi3/aether/2.1.0/api.module';
 import { AETHER_ROC_API_URL } from '../../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
@@ -38,7 +37,6 @@ import { DeviceEditComponent } from './device-edit/device-edit.component';
     declarations: [DeviceComponent, DeviceEditComponent],
     imports: [
         CommonModule,
-        ApiModuleAether20.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([

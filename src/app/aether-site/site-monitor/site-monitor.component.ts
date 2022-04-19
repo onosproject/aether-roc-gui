@@ -13,20 +13,14 @@ import {
 } from '@angular/core';
 import { RocMonitorBase } from '../../roc-monitor-base';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-    Service as AetherService,
-    EnterprisesEnterpriseSiteService,
-} from '../../../openapi3/aether/2.0.0/services';
-import {
-    AETHER_TARGET,
-    PERFORMANCE_METRICS_ENABLED,
-} from '../../../environments/environment';
-import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
+import { PERFORMANCE_METRICS_ENABLED } from '../../../environments/environment';
 import { IdTokClaims } from '../../idtoken';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { SitePromDataSource } from '../../utils/site-prom-data-source';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
+import { Site } from '../../../openapi3/aether/2.1.0/models';
 
 @Component({
     selector: 'aether-site-monitor',
@@ -39,7 +33,7 @@ export class SiteMonitorComponent
 {
     performancePanels: string[] = [];
     ueConnectivityPanels: string[] = [];
-    thisSite: EnterprisesEnterpriseSite;
+    thisSite: Site;
 
     clusterAvailabilityPanelUrl: string;
     agentAvailabilityPanelUrl: string;
@@ -57,8 +51,7 @@ export class SiteMonitorComponent
     @ViewChild('iframe') iframe: ElementRef;
 
     constructor(
-        protected aetherService: AetherService,
-        protected siteService: EnterprisesEnterpriseSiteService,
+        protected siteService: SiteService,
         protected route: ActivatedRoute,
         protected router: Router,
         private httpClient: HttpClient,
@@ -104,9 +97,8 @@ export class SiteMonitorComponent
         clearInterval(this.prometheusTimer);
     }
 
-    private getSite(): Observable<EnterprisesEnterpriseSite> {
-        return this.siteService.getEnterprisesEnterpriseSite({
-            target: AETHER_TARGET,
+    private getSite(): Observable<Site> {
+        return this.siteService.getSite({
             'enterprise-id': this.route.snapshot.params['enterprise-id'],
             'site-id': this.id,
         });
