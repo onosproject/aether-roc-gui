@@ -23,6 +23,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { TargetName } from '../../../openapi3/top/level/models';
 
 describe('SimCardEditComponent', () => {
     let component: SimCardEditComponent;
@@ -73,7 +74,9 @@ describe('SimCardEditComponent', () => {
         });
         spyOn(component.opaService, 'canWrite').and.returnValue(true);
         component.siteId = component.unknownSite;
-        component.enterpriseId = component.unknownEnterprise;
+        component.enterpriseId = {
+            name: component.unknownEnterprise,
+        } as TargetName;
 
         fixture.detectChanges();
         const button = fixture.nativeElement.querySelector('#submitButton');
@@ -88,7 +91,9 @@ describe('SimCardEditComponent', () => {
         });
         spyOn(component.opaService, 'canWrite').and.returnValue(true);
         component.siteId = 'site-id';
-        component.enterpriseId = 'ent-id';
+        component.enterpriseId = {
+            name: 'ent-id',
+        } as TargetName;
 
         fixture.detectChanges();
         const button = fixture.nativeElement.querySelector('#submitButton');
@@ -112,8 +117,9 @@ describe('SimCardEditComponent', () => {
 
         it('should add the object to the basket', () => {
             component.siteId = 'test-site';
-            component.enterpriseId = 'test-enterprise';
-
+            component.enterpriseId = {
+                name: 'test-enterprise',
+            } as TargetName;
             spyOn(component.bs, 'logKeyValuePairs');
             component.onSubmit();
             expect(component.bs.logKeyValuePairs).toHaveBeenCalled();

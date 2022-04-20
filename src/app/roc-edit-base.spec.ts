@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
 import { Component } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import {
@@ -13,8 +12,10 @@ import {
     RocGenericModelType,
 } from './roc-data-source';
 import { RocEditBase } from './roc-edit-base';
-import { deviceModelPath, enterpriseModelPath } from './models-info';
+import { deviceModelPath, siteModelPath } from './models-info';
 import * as _ from 'lodash';
+import { EnterpriseService } from './enterprise.service';
+import { SiteService } from '../openapi3/aether/2.1.0/services/site.service';
 
 // we cannot test an Abstract class directly,
 // so create a class that extends it
@@ -45,14 +46,18 @@ const route = jasmine.createSpyObj('route', {
 class RocEditBaseSpecComponent extends RocEditBase<
     GenericRocDataSource<RocGenericModelType, RocGenericContainerType>
 > {
-    constructor(public aetherService: AetherService) {
+    constructor(
+        protected enterpriseService: EnterpriseService,
+        protected siteService: SiteService
+    ) {
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
             TestDataSource,
-            enterpriseModelPath,
-            aetherService
+            siteModelPath
         );
     }
 }
@@ -105,7 +110,7 @@ describe('The Roc List Base class', () => {
         };
 
         it('should return the full path', () => {
-            component.modelPath = enterpriseModelPath;
+            component.modelPath = siteModelPath;
             const enterprisePath = component.calcFullPath(
                 mockParamsMap(enterpriseMockParams)
             );

@@ -8,6 +8,7 @@ import { RocSelectBase } from '../../roc-select-base';
 import { FormBuilder } from '@angular/forms';
 import { SiteDevice, Site } from '../../../openapi3/aether/2.1.0/models';
 import { SiteService } from '../../../openapi3/aether/2.1.0/services';
+import { TargetName } from '../../../openapi3/top/level/models';
 
 @Component({
     selector: 'aether-device-select',
@@ -19,7 +20,7 @@ export class DeviceSelectComponent
     implements OnInit
 {
     @Input() alreadySelected: string[] = [];
-    @Input() selectedEnterprise: string;
+    @Input() selectedEnterprise: TargetName;
     @Input() selectedSite: string;
     @Output() closeEvent = new EventEmitter<string>();
 
@@ -30,7 +31,7 @@ export class DeviceSelectComponent
     ngOnInit(): void {
         super.getData(
             this.siteService.getSite({
-                'enterprise-id': this.selectedEnterprise,
+                'enterprise-id': this.selectedEnterprise.name,
                 'site-id': this.selectedSite,
             }),
             'device'

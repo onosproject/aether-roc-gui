@@ -51,7 +51,7 @@
                         *ngFor="
                             let eachEnterprise of enterpriseService.enterprises
                         "
-                        [value]="eachEnterprise.name"
+                        [value]="eachEnterprise"
                         >{{ eachEnterprise.name }}
                     </mat-option>
                 </mat-select>

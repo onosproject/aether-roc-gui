@@ -16,6 +16,7 @@ import {
 } from '../../../openapi3/aether/2.1.0/models';
 import { EnterpriseService } from '../../enterprise.service';
 import { ApplicationService } from '../../../openapi3/aether/2.1.0/services';
+import { TargetName } from '../../../openapi3/top/level/models';
 
 export interface SelectAppParam {
     application: string;
@@ -54,7 +55,7 @@ export class ApplicationSelectComponent
         ],
     });
     @Input() alreadySelected: string[] = [];
-    @Input() selectedEnterprise: string;
+    @Input() selectedEnterprise: TargetName;
     @Output() appcloseEvent = new EventEmitter<SelectAppParam>();
 
     public endpointsAllowed: number = ENDPOINTSALLOWEDLIMIT;
@@ -78,7 +79,7 @@ export class ApplicationSelectComponent
         const candidates = new Array<Application>();
         this.applicationService
             .getApplicationList({
-                'enterprise-id': this.selectedEnterprise,
+                'enterprise-id': this.selectedEnterprise.name,
             })
             .pipe(mergeMap((items: Application[]) => from(items)))
             .subscribe(

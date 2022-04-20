@@ -12,7 +12,12 @@ describe('Roc Usage Base', () => {
 
     beforeEach(() => {
         // Using the Device Group Usage panel
-        component = new ShowVcsUsageComponent(undefined, undefined, undefined);
+        component = new ShowVcsUsageComponent(
+            undefined,
+            undefined,
+            undefined,
+            undefined
+        );
     });
 
     it('should create an instance', () => {

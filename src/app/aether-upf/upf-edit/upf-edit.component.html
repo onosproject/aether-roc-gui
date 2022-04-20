@@ -60,7 +60,7 @@
                         *ngFor="
                             let eachEnterprise of enterpriseService.enterprises
                         "
-                        [value]="eachEnterprise.name"
+                        [value]="eachEnterprise"
                         (onSelectionChange)="sitesOfEnterprise($event)"
                         >{{ eachEnterprise.name }}
                     </mat-option>
@@ -171,7 +171,7 @@
                         upfForm.touched &&
                         opaService.canWrite('/upf/upf') &&
                         siteId !== unknownSite &&
-                        enterpriseId !== unknownEnterprise
+                        enterpriseId.name !== unknownEnterprise
                     )
                 "
                 id="submitButton"
@@ -189,9 +189,9 @@
 <aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
-    [enterpriseID]="enterpriseId"
+    [enterpriseID]="enterpriseId.name"
     [siteID]="siteId"
     [upfID]="upfId"
-    (closeShowParentCardEvent)="closeShowParentCard($event)"
+    (closeShowParentCardEvent)="closeShowParentCard()"
 >
 </aether-show-vcs-usage>

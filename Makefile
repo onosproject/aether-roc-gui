@@ -66,7 +66,7 @@ openapi-gen: # @HELP compile the OpenAPI files in to Typescript
 	done
 
 aether-roc-gui-docker: # @HELP build aether-roc-gui Docker image
-	docker build . -f build/aether-roc-gui/Dockerfile \
+	docker build --platform linux/amd64 . -f build/aether-roc-gui/Dockerfile \
         --build-arg LOCAL_ONOSAPPS=$(LOCAL_ONOSAPPS) \
         --build-arg org_label_schema_version="${VERSION}" \
         --build-arg org_label_schema_vcs_url="${DOCKER_LABEL_VCS_URL}" \

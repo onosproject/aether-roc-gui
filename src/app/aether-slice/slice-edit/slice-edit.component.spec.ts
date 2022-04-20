@@ -23,14 +23,15 @@ import { SliceEditComponent } from './slice-edit.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
-import {
-    EnterprisesEnterpriseSite,
-    EnterprisesEnterpriseSiteSlice,
-} from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
 import { from } from 'rxjs';
+import {
+    Site,
+    SiteSlice,
+    Template,
+} from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
-const site: EnterprisesEnterpriseSite = {
+const site: Site = {
     'site-id': 'acme-chicago',
     slice: [
         {
@@ -119,7 +120,9 @@ describe('SliceEditComponent', () => {
     describe('when creating a Slice', () => {
         beforeEach(() => {
             component.isNewInstance = true;
-            component.enterpriseId = component.unknownEnterprise;
+            component.enterpriseId = {
+                name: component.unknownEnterprise,
+            } as TargetName;
             component.siteId = component.unknownSite;
             fixture.detectChanges();
         });
@@ -131,7 +134,9 @@ describe('SliceEditComponent', () => {
             expect(templateField.getAttribute('aria-disabled')).toEqual('true');
 
             // simulate the enterprise selection
-            component.enterpriseId = 'test-enterprise';
+            component.enterpriseId = {
+                name: 'test-enterprise',
+            } as TargetName;
             component.templates = [
                 {
                     'template-id': 'template 1',
@@ -149,7 +154,9 @@ describe('SliceEditComponent', () => {
         });
 
         it('should load the UPF once the site is selected', (done) => {
-            component.enterpriseId = 'test-enterprise';
+            component.enterpriseId = {
+                name: 'test-enterprise',
+            } as TargetName;
 
             // on page load the select is disabled
             let upfField = fixture.nativeElement.querySelector('#selectUpf');
@@ -158,10 +165,9 @@ describe('SliceEditComponent', () => {
             // simulate the enterprise site selection
             component.siteId = 'test-site';
             const siteResponse = from([site]);
-            spyOn(
-                component.siteService,
-                'getEnterprisesEnterpriseSite'
-            ).and.returnValue(siteResponse);
+            spyOn(component.siteService, 'getSite').and.returnValue(
+                siteResponse
+            );
             component.loadUpf();
             fixture.detectChanges();
 
@@ -176,7 +182,7 @@ describe('SliceEditComponent', () => {
 
     describe('when loading data from the backend', () => {
         it('should populate all the fields', () => {
-            const slice: EnterprisesEnterpriseSiteSlice = {
+            const slice: SiteSlice = {
                 'default-behavior': 'DENY-ALL',
                 description: 'Chicago Robots',
                 'device-group': [
@@ -243,7 +249,7 @@ describe('SliceEditComponent', () => {
     });
 
     describe('when selecting a template', () => {
-        const template: EnterprisesEnterpriseTemplate = {
+        const template: Template = {
             ['template-id']: 'test-template',
             sd: 12, // FIXME the method fails if this value is not present
             mbr: {

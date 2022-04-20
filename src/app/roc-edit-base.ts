@@ -81,7 +81,7 @@ export abstract class RocEditBase<
             name: params.get('enterprise-id'),
         } as TargetName;
         console.log(
-            `Populated component with {enterpriseId: ${this.enterpriseId}, siteId: ${this.siteId}}`
+            `Populated component with {enterpriseId: ${this.enterpriseId.name}, siteId: ${this.siteId}}`
         );
     }
 
@@ -139,15 +139,12 @@ export abstract class RocEditBase<
     // just read them
     public calcFullPath(paramMap: ParamMap): string {
         // set the base for the full path
-        let fullPath = this.modelPath[0];
+        let fullPath = paramMap.get('enterprise-id');
 
-        if (paramMap.has('enterprise-id')) {
-            fullPath += `/enterprise[enterprise-id=${paramMap.get(
-                'enterprise-id'
-            )}]`;
-        }
         if (paramMap.has('site-id')) {
-            fullPath += `/site[site-id=${paramMap.get('site-id')}]`;
+            fullPath += `/${this.modelPath[0]}[site-id=${paramMap.get(
+                'site-id'
+            )}]`;
         }
 
         const idAttr = this.modelPath[this.modelPath.length - 1];
@@ -164,7 +161,7 @@ export abstract class RocEditBase<
         this.sites = [];
         this.siteService
             .getSiteList({
-                'enterprise-id': optChange.source.value,
+                'enterprise-id': optChange.source.value['name'],
             })
             .pipe(mergeMap((siteList: SiteList) => from(siteList)))
             .subscribe((site) => {
