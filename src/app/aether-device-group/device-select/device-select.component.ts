@@ -20,7 +20,7 @@ export class DeviceSelectComponent
     implements OnInit
 {
     @Input() alreadySelected: string[] = [];
-    @Input() selectedEnterprise: TargetName;
+    @Input() selectedEnterprise: TargetName = { name: undefined };
     @Input() selectedSite: string;
     @Output() closeEvent = new EventEmitter<string>();
 

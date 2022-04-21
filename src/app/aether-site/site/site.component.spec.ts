@@ -22,23 +22,33 @@ import { of } from 'rxjs';
 import { SiteComponent } from './site.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { HttpClient } from '@angular/common/http';
-import { Enterprises } from '../../../openapi3/aether/2.0.0/models/enterprises';
+import { SiteList } from '../../../openapi3/aether/2.1.0/models/site-list';
+import { TargetsNames } from '../../../openapi3/top/level/models/targets-names';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
+import { EnterpriseService } from '../../enterprise.service';
 
-const testData: Enterprises = {
-    enterprise: [
-        {
-            'enterprise-id': 'ent1',
-            'display-name': 'Enterprise Test',
-            site: [
-                {
-                    'site-id': 'site-1',
-                    'display-name': 'Site 1',
-                    description: 'The first site',
-                },
-            ],
-        },
-    ],
-};
+const testData: SiteList = [
+    {
+        'site-id': 'site-1',
+        'display-name': 'Site 1',
+        description: 'The first site',
+    },
+    {
+        'site-id': 'site-2',
+        'display-name': 'Site 2',
+        description: 'The second site',
+    },
+];
+
+class mockEnterpriseService {
+    get enterprises(): TargetsNames {
+        return [
+            {
+                name: 'test-ent',
+            },
+        ] as TargetName[];
+    }
+}
 
 describe('SiteComponent', () => {
     let httpClient: HttpClient;
@@ -67,6 +77,10 @@ describe('SiteComponent', () => {
                     provide: ActivatedRoute,
                     useValue: { paramMap: of({ get: () => 'value' }) },
                 },
+                {
+                    provide: EnterpriseService,
+                    useClass: mockEnterpriseService,
+                },
             ],
         }).compileComponents();
     });
@@ -85,7 +99,7 @@ describe('SiteComponent', () => {
         // If no requests or multiple requests matched that URL
         // `expectOne()` would throw.
         const req = httpTestingController.expectOne(
-            '/aether/v2.0.x/connectivity-service-v2/enterprises'
+            '/aether/v2.1.x/test-ent/site'
         );
 
         // Assert that the request is a GET.
@@ -106,7 +120,7 @@ describe('SiteComponent', () => {
     });
 
     it('should find one site', () => {
-        expect(component.dataSource.data.length).toEqual(1);
+        expect(component.dataSource.data.length).toEqual(2);
     });
 
     it('should find site site-1', () => {
@@ -115,6 +129,8 @@ describe('SiteComponent', () => {
         expect(component.dataSource.data[0]['description']).toEqual(
             'The first site'
         );
-        expect(component.dataSource.data[0]['enterprise-id']).toEqual('ent1');
+        expect(component.dataSource.data[0]['enterprise-id']).toEqual(
+            'test-ent'
+        );
     });
 });

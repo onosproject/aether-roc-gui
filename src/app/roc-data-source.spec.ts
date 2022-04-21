@@ -6,18 +6,10 @@
 
 import { RocDataSource } from './roc-data-source';
 import { SliceDatasource } from './aether-slice/slice/slice-datasource';
-import {
-    EnterprisesEnterpriseApplication,
-    EnterprisesEnterpriseSiteSlice,
-} from '../openapi3/aether/2.0.0/models';
 import { SiteDatasource } from './aether-site/site/site-datasource';
 import { Elements } from '../openapi3/top/level/models';
-import {
-    SiteSlice,
-    SiteList,
-    Application,
-    AdditionalPropertiesUnchTarget,
-} from '../openapi3/aether/2.1.0/models';
+import { SiteSlice, SiteList } from '../openapi3/aether/2.1.0/models';
+import { sliceModelPath } from './models-info';
 
 describe('ROC Data Source', () => {
     let component: RocDataSource<SiteSlice, SiteList>;
@@ -27,7 +19,7 @@ describe('ROC Data Source', () => {
     ]);
 
     const enterpriseService = jasmine.createSpyObj('mockEnterpriseService', [
-        'containsDeleteEntry',
+        'enterprises',
     ]);
     beforeEach(() => {
         component = new SliceDatasource(enterpriseService, basketService);
@@ -37,14 +29,14 @@ describe('ROC Data Source', () => {
         it('should create a full path from slice', () => {
             const fp = component.fullPath('ent1', 'site1', 'slice1');
             expect(fp).toEqual(
-                'ent1/site[site-id=site1]/slice[slice-id=slice1]'
+                'ent1/site-2.1.0[site-id=site1]/slice[slice-id=slice1]'
             );
         });
 
         it('should create a delete path from slice', () => {
             const fp = component.deletePath('ent1', 'site1', 'slice1');
             expect(fp).toEqual(
-                '/ent1/site[site-id=site1]/slice[slice-id=slice1]/slice-id'
+                '/ent1/site-2.1.0[site-id=site1]/slice[slice-id=slice1]/slice-id'
             );
         });
 
@@ -54,7 +46,7 @@ describe('ROC Data Source', () => {
                 basketService
             );
             const fp = siteComponent.fullPath('ent1', 'site1');
-            expect(fp).toEqual('ent1/site[site-id=site1]');
+            expect(fp).toEqual('ent1/site-2.1.0[site-id=site1]');
         });
     });
 
@@ -63,7 +55,7 @@ describe('ROC Data Source', () => {
         // it doesn't really matter which model we are using since
         // hasUpdates is a pure function
         let existingModels: SiteSlice[] = [];
-        const sliceModelPath: string[] = ['site-2.1.0', 'site-id', 'slice-id'];
+        const sliceModelPath: string[] = ['site-2.1.0', 'slice', 'slice-id'];
         beforeEach(() => {
             existingModels = [
                 {
@@ -85,7 +77,7 @@ describe('ROC Data Source', () => {
         const basket: Elements = {
             'site-2.1.0': [
                 {
-                    'site-id': 'app-1',
+                    'site-id': 'site-1',
                     'additional-properties': {
                         'enterprise-id': 'test-enterprise',
                     },
@@ -107,7 +99,7 @@ describe('ROC Data Source', () => {
             ],
         } as Elements;
         it('should return true if a model has updates in the basket', () => {
-            // put some updates for app1 in the basket
+            // put some updates for site-1 in the basket
 
             const [hasUpdates, updatedModel] = component.hasUpdates(
                 basket,
@@ -131,7 +123,6 @@ describe('ROC Data Source', () => {
             {
                 'slice-id': 'slice1',
                 'default-behavior': 'DENY',
-                enterprise: 'onf',
                 sd: 1,
                 site: 'menlo',
                 sst: 1,
@@ -192,17 +183,14 @@ describe('ROC Data Source', () => {
             ],
         };
 
-        const sliceModelPath = ['site-2.1.0', 'slice', 'slice-id'];
-
         it('should combine basic fields from the basket with basic fields in the datasource', () => {
             component.data = existingItems;
             component.merge(basketItems, component.data, sliceModelPath, [
-                { fieldName: 'filter', idAttr: 'application' },
+                { fieldName: 'filter', idAttr: 'site' },
                 { fieldName: 'device-group', idAttr: 'device-group' },
             ]);
             const updatedSlice = component.data[0];
-            const basketSlice =
-                basketItems['enterprises-2.0.0'].enterprise[0].site[0].slice[0];
+            const basketSlice = basketItems['site-2.1.0'][0].slice[0];
             expect(updatedSlice['default-behavior']).toEqual(
                 basketSlice['default-behavior']
             );

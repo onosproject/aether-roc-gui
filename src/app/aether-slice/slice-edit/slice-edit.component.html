@@ -47,7 +47,7 @@
                     id="selectEnterprise"
                     [(value)]="enterpriseId"
                     placeholder="Please select an Enterprise"
-                    (selectionChange)="loadTemplate(enterpriseId.name)"
+                    (selectionChange)="loadTemplate(enterpriseId)"
                 >
                     <mat-option
                         *ngFor="
@@ -122,7 +122,7 @@
                 <mat-form-field class="field-margin full-width">
                     <mat-select
                         (selectionChange)="templateSelected($event)"
-                        [disabled]="enterpriseId === unknownEnterprise"
+                        [disabled]="enterpriseId.name === unknownEnterprise"
                         id="selectTemplate"
                     >
                         <mat-option

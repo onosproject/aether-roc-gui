@@ -6,7 +6,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IpDomainEditComponent } from './ip-domain-edit.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+    HttpClientTestingModule,
+    HttpTestingController,
+} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,8 +25,31 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { TargetsNames } from '../../../openapi3/top/level/models/targets-names';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
+import { EnterpriseService } from '../../enterprise.service';
+import { HttpClient } from '@angular/common/http';
+import { SiteIpDomain } from '../../../openapi3/aether/2.1.0/models/site-ip-domain';
+
+const testData: SiteIpDomain = {
+    'ip-domain-id': 'test-ipd-1',
+    dnn: 'test.dnn',
+    subnet: '10.10.10.10/24',
+};
+
+class mockEnterpriseService {
+    get enterprises(): TargetsNames {
+        return [
+            {
+                name: 'test-ent',
+            },
+        ] as TargetName[];
+    }
+}
 
 describe('IpDomainEditComponent', () => {
+    let httpClient: HttpClient;
+    let httpTestingController: HttpTestingController;
     let component: IpDomainEditComponent;
     let fixture: ComponentFixture<IpDomainEditComponent>;
 
@@ -34,6 +60,10 @@ describe('IpDomainEditComponent', () => {
                 {
                     provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
                     useValue: { appearance: 'standard' },
+                },
+                {
+                    provide: EnterpriseService,
+                    useClass: mockEnterpriseService,
                 },
             ],
             imports: [
@@ -56,9 +86,27 @@ describe('IpDomainEditComponent', () => {
     });
 
     beforeEach(() => {
+        // Inject the http service and test controller for each test
+        httpClient = TestBed.inject(HttpClient);
+        httpTestingController = TestBed.inject(HttpTestingController);
+
         fixture = TestBed.createComponent(IpDomainEditComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+
+        // The following `expectOne()` will match the request's URL.
+        // If no requests or multiple requests matched that URL
+        // `expectOne()` would throw.
+        const req = httpTestingController.expectOne(
+            '/aether/v2.1.x//site//ip-domain/'
+        );
+
+        // Assert that the request is a GET.
+        expect(req.request.method).toEqual('GET');
+
+        // Respond with mock data, causing Observable to resolve.
+        // Subscribe callback asserts that correct data was returned.
+        req.flush(testData);
     });
 
     it('should create', () => {
@@ -95,4 +143,12 @@ describe('IpDomainEditComponent', () => {
         console.log(dnnControl, 'dnnControl');
         expect(dnnControl.valid).toBeTruthy();
     });
+
+    it('should change admin status', () => {
+        const adminStControl = component.ipForm.get('admin-status');
+        expect(adminStControl.value).toBeNull();
+        component.option = 'ENABLE';
+        component.changeAdminStatus();
+        expect(adminStControl.value).toEqual('ENABLE');
+    })
 });

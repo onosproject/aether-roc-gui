@@ -8,9 +8,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { map, startWith } from 'rxjs/operators';
+import { map, mergeMap, startWith } from 'rxjs/operators';
 import {
     BasketService,
     HEX2NUM,
@@ -28,6 +28,7 @@ import { EnterpriseService } from '../../enterprise.service';
 import {
     SiteService,
     SiteSliceService,
+    SiteUpfService,
     TemplateService,
 } from '../../../openapi3/aether/2.1.0/services';
 import {
@@ -35,7 +36,9 @@ import {
     Template,
     SiteUpf,
     Site,
+    SiteUpfList,
 } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -174,6 +177,7 @@ export class SliceEditComponent
         protected enterpriseService: EnterpriseService,
         public siteService: SiteService,
         protected templateService: TemplateService,
+        protected upfService: SiteUpfService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -211,7 +215,6 @@ export class SliceEditComponent
             this.sliceForm
                 .get('default-behavior')
                 .setValue(this.defaultBehaviorOptions[0]);
-            // this.loadTemplate(this.target); // TODO call this after enterprise has been chosen
         } else {
             this.sliceForm.get('sst').disable();
             this.sliceForm.get('sd').disable();
@@ -307,14 +310,15 @@ export class SliceEditComponent
         return this.options.filter((option) => option.megabyte.numerical);
     }
 
-    loadTemplate(target: string): void {
+    loadTemplate(target: TargetName): void {
+        console.log('called on load template once target chosen', target);
         if (this.enterpriseId == this.unknownEnterprise) {
             return;
         }
 
         this.templateService
             .getTemplateList({
-                'enterprise-id': this.enterpriseId,
+                'enterprise-id': this.enterpriseId.name,
             })
             .subscribe(
                 (value) => {
@@ -653,7 +657,7 @@ export class SliceEditComponent
         ) {
             return;
         }
-
+        // Go through all the slices in all sites to see what UPFs have been used up
         this.siteService
             .getSite({
                 'enterprise-id': this.enterpriseId,

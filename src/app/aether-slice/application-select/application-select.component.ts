@@ -55,7 +55,7 @@ export class ApplicationSelectComponent
         ],
     });
     @Input() alreadySelected: string[] = [];
-    @Input() selectedEnterprise: TargetName;
+    @Input() selectedEnterprise: TargetName = { name: undefined };
     @Output() appcloseEvent = new EventEmitter<SelectAppParam>();
 
     public endpointsAllowed: number = ENDPOINTSALLOWEDLIMIT;

@@ -21,6 +21,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { DeviceGroupSelectComponent } from './device-group-select.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 describe('DeviceGroupSelectComponent', () => {
     let component: DeviceGroupSelectComponent;
@@ -50,6 +51,7 @@ describe('DeviceGroupSelectComponent', () => {
                 MatDividerModule,
                 MatSnackBarModule,
                 MatSelectModule,
+                MatChipsModule,
             ],
         }).compileComponents();
     });

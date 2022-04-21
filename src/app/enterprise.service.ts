@@ -13,7 +13,7 @@ import { tap } from 'rxjs/operators';
     providedIn: 'root',
 })
 export class EnterpriseService {
-    enterprises: TargetsNames;
+    private enterpriseList: TargetsNames = [];
 
     constructor(private aetherService: TopLevelApiService) {}
 
@@ -21,10 +21,14 @@ export class EnterpriseService {
         this.aetherService
             .targetsTopLevel()
             .pipe(tap((e) => console.log('Loaded enterprises', e)))
-            .subscribe((enterprises) => (this.enterprises = enterprises));
+            .subscribe((enterprises) => (this.enterpriseList = enterprises));
     }
 
     get isSingleton(): boolean {
         return this.enterprises.length === 1;
+    }
+
+    get enterprises(): TargetsNames {
+        return this.enterpriseList;
     }
 }

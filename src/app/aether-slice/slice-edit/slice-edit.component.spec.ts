@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+    HttpClientTestingModule,
+    HttpTestingController,
+} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -30,6 +33,10 @@ import {
     Template,
 } from '../../../openapi3/aether/2.1.0/models';
 import { TargetName } from '../../../openapi3/top/level/models/target-name';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { TargetsNames } from '../../../openapi3/top/level/models/targets-names';
+import { EnterpriseService } from '../../enterprise.service';
+import { HttpClient } from '@angular/common/http';
 
 const site: Site = {
     'site-id': 'acme-chicago',
@@ -60,7 +67,19 @@ const site: Site = {
     ],
 };
 
+class mockEnterpriseService {
+    get enterprises(): TargetsNames {
+        return [
+            {
+                name: 'test-ent',
+            },
+        ] as TargetName[];
+    }
+}
+
 describe('SliceEditComponent', () => {
+    let httpClient: HttpClient;
+    let httpTestingController: HttpTestingController;
     let component: SliceEditComponent;
     let fixture: ComponentFixture<SliceEditComponent>;
 
@@ -71,6 +90,10 @@ describe('SliceEditComponent', () => {
                 {
                     provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
                     useValue: { appearance: 'standard' },
+                },
+                {
+                    provide: EnterpriseService,
+                    useClass: mockEnterpriseService,
                 },
             ],
             imports: [
@@ -90,6 +113,7 @@ describe('SliceEditComponent', () => {
                 MatSlideToggleModule,
                 MatAutocompleteModule,
                 MatSelectModule,
+                MatTooltipModule,
             ],
         }).compileComponents();
     });
@@ -117,7 +141,7 @@ describe('SliceEditComponent', () => {
         expect(control.pristine).toBeFalsy();
     });
 
-    describe('when creating a Slice', () => {
+    describe('when creating a New Slice', () => {
         beforeEach(() => {
             component.isNewInstance = true;
             component.enterpriseId = {
@@ -128,6 +152,9 @@ describe('SliceEditComponent', () => {
         });
 
         it('should load the templates once the enterprise is selected', () => {
+            expect(component.enterpriseId.name).toEqual(
+                component.unknownEnterprise
+            );
             // on page load the select is disabled
             let templateField =
                 fixture.nativeElement.querySelector('#selectTemplate');

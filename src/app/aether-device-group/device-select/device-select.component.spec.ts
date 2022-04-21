@@ -24,6 +24,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
 
 describe('DeviceSelectComponent', () => {
     let component: DeviceSelectComponent;
@@ -55,6 +56,7 @@ describe('DeviceSelectComponent', () => {
                 MatSlideToggleModule,
                 MatAutocompleteModule,
                 MatSelectModule,
+                MatChipsModule,
             ],
         }).compileComponents();
     });

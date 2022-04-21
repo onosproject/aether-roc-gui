@@ -145,6 +145,18 @@ export abstract class RocEditBase<
             fullPath += `/${this.modelPath[0]}[site-id=${paramMap.get(
                 'site-id'
             )}]`;
+        } else if (paramMap.has('application-id')) {
+            fullPath += `/${this.modelPath[0]}[application-id=${paramMap.get(
+                'application-id'
+            )}]`;
+        } else if (paramMap.has('template-id')) {
+            fullPath += `/${this.modelPath[0]}[template-id=${paramMap.get(
+                'template-id'
+            )}]`;
+        } else if (paramMap.has('traffic-class-id')) {
+            fullPath += `/${this.modelPath[0]}[traffic-class-id=${paramMap.get(
+                'traffic-class-id'
+            )}]`;
         }
 
         const idAttr = this.modelPath[this.modelPath.length - 1];
