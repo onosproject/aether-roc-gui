@@ -21,6 +21,7 @@ import { SiteDeviceGroupService } from '../../../openapi3/aether/2.1.0/services'
 import { mergeMap } from 'rxjs/operators';
 import { from } from 'rxjs';
 import { SiteDeviceGroup } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
 export interface displayedColumns {
     id;
@@ -39,7 +40,7 @@ export class ShowDeviceGroupUsageComponent
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<UsageColumns>;
-    @Input() enterpriseID: string;
+    @Input() enterpriseID: TargetName = { name: undefined };
     @Input() siteID: string;
     @Input() ipDomainID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();

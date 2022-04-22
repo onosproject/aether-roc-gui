@@ -28,9 +28,9 @@ interface TestData {
 const TestDataSource = jasmine.createSpyObj('TestDataSource', {
     fullPath: jasmine.createSpy('fullPath').and.returnValue('full-path')(),
 });
-TestDataSource.pathRoot = 'enterprises-2.0.0';
-TestDataSource.pathListAttr = ['enterprise', 'test-data'];
-TestDataSource.indexAttr = ['enterprise-id', 'test-data-id'];
+TestDataSource.pathRoot = 'site-2.1.0';
+TestDataSource.pathListAttr = ['site', 'test-data'];
+TestDataSource.indexAttr = ['site-id', 'test-data-id'];
 
 @Component({
     selector: 'aether-list-base-spec',

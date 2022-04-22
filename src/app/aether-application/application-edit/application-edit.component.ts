@@ -502,13 +502,13 @@ export class ApplicationEditComponent
     }
 
     loadTrafficClass(): void {
-        if (this.enterpriseId == this.unknownEnterprise) {
+        if (this.enterpriseId.name == this.unknownEnterprise) {
             return;
         }
 
         this.trafficClassService
             .getTrafficClassList({
-                'enterprise-id': this.enterpriseId,
+                'enterprise-id': this.enterpriseId.name,
             })
             .subscribe(
                 (value) => {

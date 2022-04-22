@@ -19,7 +19,7 @@ import { SiteService } from '../openapi3/aether/2.1.0/services/site.service';
 import { mergeMap } from 'rxjs/operators';
 import { from } from 'rxjs';
 import { MatOptionSelectionChange } from '@angular/material/core';
-import { SiteList } from '../openapi3/aether/2.1.0/models/site-list';
+import { SiteList } from '../openapi3/aether/2.1.0/models';
 
 export interface SiteID {
     siteID: string;

@@ -30,7 +30,6 @@ const multipleEnterprises: TargetsNames = [
 ];
 
 describe('EnterpriseService', () => {
-    let httpClient: HttpClient;
     let httpTestingController: HttpTestingController;
     let service: EnterpriseService;
 
@@ -42,7 +41,7 @@ describe('EnterpriseService', () => {
 
     beforeEach(() => {
         // Inject the http service and test controller for each test
-        httpClient = TestBed.inject(HttpClient);
+        TestBed.inject(HttpClient);
         httpTestingController = TestBed.inject(HttpTestingController);
 
         // TestBed.configureTestingModule({});

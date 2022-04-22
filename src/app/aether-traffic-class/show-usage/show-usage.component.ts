@@ -24,6 +24,7 @@ import {
     SiteService,
 } from '../../../openapi3/aether/2.1.0/services';
 import { Application, Site } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
 export interface displayedColumns {
     'parent-module': string;
@@ -41,7 +42,7 @@ export class ShowUsageComponent extends RocUsageBase implements OnChanges {
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<UsageColumns>;
     @Input() trafficClassID: string;
-    @Input() enterpriseID: string;
+    @Input() enterpriseID: TargetName = { name: undefined };
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
     constructor(
@@ -57,7 +58,7 @@ export class ShowUsageComponent extends RocUsageBase implements OnChanges {
         this.parentModulesArray = [];
         this.siteService
             .getSiteList({
-                'enterprise-id': this.enterpriseID,
+                'enterprise-id': this.enterpriseID.name,
             })
             .pipe(mergeMap((items: Site[]) => from(items)))
             .subscribe(
@@ -72,7 +73,7 @@ export class ShowUsageComponent extends RocUsageBase implements OnChanges {
                                     'device-group-id',
                                 ],
                                 ids: [
-                                    this.enterpriseID,
+                                    this.enterpriseID.name,
                                     s['site-id'],
                                     dg['device-group-id'],
                                 ],
@@ -96,7 +97,7 @@ export class ShowUsageComponent extends RocUsageBase implements OnChanges {
                                             'slice-id',
                                         ],
                                         ids: [
-                                            this.enterpriseID,
+                                            this.enterpriseID.name,
                                             s['site-id'],
                                             sl['slice-id'],
                                         ],
@@ -116,7 +117,7 @@ export class ShowUsageComponent extends RocUsageBase implements OnChanges {
                     // When finished, get the application endpoints
                     this.applicationService
                         .getApplicationList({
-                            'enterprise-id': this.enterpriseID,
+                            'enterprise-id': this.enterpriseID.name,
                         })
                         .pipe(mergeMap((items: Application[]) => from(items)))
                         .subscribe(
@@ -135,7 +136,7 @@ export class ShowUsageComponent extends RocUsageBase implements OnChanges {
                                                     'application-id',
                                                 ],
                                                 ids: [
-                                                    this.enterpriseID,
+                                                    this.enterpriseID.name,
                                                     appElement[
                                                         'application-id'
                                                     ],

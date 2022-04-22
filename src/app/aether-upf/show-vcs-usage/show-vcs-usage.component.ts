@@ -18,6 +18,7 @@ import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { RocUsageBase, UsageColumns } from '../../roc-usage-base';
 import { SiteService } from '../../../openapi3/aether/2.1.0/services';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
 export interface displayedColumns {
     id;
@@ -33,7 +34,7 @@ export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<UsageColumns>;
-    @Input() enterpriseID: string;
+    @Input() enterpriseID: TargetName = { name: undefined };
     @Input() siteID: string;
     @Input() upfID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();

@@ -16,7 +16,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { ApiModule } from '../../../openapi3/aether/2.0.0/api.module';
+import { ApiModule } from '../../../openapi3/aether/2.1.0/api.module';
 import { HttpClient } from '@angular/common/http';
 import { Transaction } from '../../../openapi3/top/level/models';
 
@@ -76,7 +76,6 @@ const testData: Transaction[] = [
 ];
 
 describe('TransactionListComponent', () => {
-    let httpClient: HttpClient;
     let httpTestingController: HttpTestingController;
     let component: TransactionListComponent;
     let fixture: ComponentFixture<TransactionListComponent>;
@@ -100,7 +99,7 @@ describe('TransactionListComponent', () => {
 
     beforeEach(() => {
         // Inject the http service and test controller for each test
-        httpClient = TestBed.inject(HttpClient);
+        TestBed.inject(HttpClient);
         httpTestingController = TestBed.inject(HttpTestingController);
 
         fixture = TestBed.createComponent(TransactionListComponent);

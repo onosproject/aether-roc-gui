@@ -294,7 +294,7 @@ export class DeviceGroupEditComponent
 
     loadDeviceGroupDeviceGroup(id: string): void {
         if (
-            this.enterpriseId == this.unknownEnterprise ||
+            this.enterpriseId.name == this.unknownEnterprise ||
             this.siteId == this.unknownSite
         ) {
             return;
@@ -341,12 +341,12 @@ export class DeviceGroupEditComponent
     }
 
     loadTrafficClass(): void {
-        if (this.enterpriseId == this.unknownEnterprise) {
+        if (this.enterpriseId.name == this.unknownEnterprise) {
             return;
         }
         this.trafficClassService
             .getTrafficClassList({
-                'enterprise-id': this.enterpriseId,
+                'enterprise-id': this.enterpriseId.name,
             })
             .subscribe(
                 (value) => {
@@ -363,7 +363,7 @@ export class DeviceGroupEditComponent
 
     loadIpDomain(): void {
         if (
-            this.enterpriseId == this.unknownEnterprise ||
+            this.enterpriseId.name == this.unknownEnterprise ||
             this.siteId == this.unknownSite
         ) {
             return;
@@ -371,7 +371,7 @@ export class DeviceGroupEditComponent
 
         this.siteService
             .getSite({
-                'enterprise-id': this.enterpriseId,
+                'enterprise-id': this.enterpriseId.name,
                 'site-id': this.siteId,
             })
             .subscribe(

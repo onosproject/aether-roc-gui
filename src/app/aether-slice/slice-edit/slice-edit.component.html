@@ -14,7 +14,7 @@
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/slice/slice-monitor/{{ enterpriseId }}/{{
+                routerLink="/slice/slice-monitor/{{ enterpriseId.name }}/{{
                     siteId
                 }}/{{ sliceID }}"
                 id="monitorVcsButton"
@@ -226,7 +226,7 @@
                                 aria-hidden="false"
                                 aria-label="Application"
                                 routerLink="/application/application-edit/{{
-                                    enterpriseId
+                                    enterpriseId.name
                                 }}/{{ appForm.value.application }}"
                                 id="pointerApplication"
                                 >launch
@@ -289,7 +289,7 @@
                                 aria-hidden="false"
                                 aria-label="device-group"
                                 routerLink="/device-group/device-group-edit/{{
-                                    enterpriseId
+                                    enterpriseId.name
                                 }}/{{ siteId }}/{{
                                     dgForm.value['device-group']
                                 }}"
@@ -442,7 +442,7 @@
                                 '/slice/slice[slice-id={{sliceID}}]'
                             ) &&
                             siteId !== unknownSite &&
-                            enterpriseId !== unknownEnterprise
+                            enterpriseId.name !== unknownEnterprise
                         )
                     "
                 >

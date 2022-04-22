@@ -8,7 +8,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeviceGroupEditComponent } from './device-group-edit.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+    HttpClientTestingModule,
+    HttpTestingController,
+} from '@angular/common/http/testing';
 import {
     MAT_FORM_FIELD_DEFAULT_OPTIONS,
     MatFormFieldModule,
@@ -25,11 +28,56 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { SiteDeviceGroup } from '../../../openapi3/aether/2.1.0/models';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import * as _ from 'lodash';
+import { of } from 'rxjs';
+
+const testData: SiteDeviceGroup = {
+    'device-group-id': 'test-dg-1',
+    'display-name': 'Test DG 1',
+    device: [
+        {
+            'device-id': 'test-dev-1',
+            enable: true,
+        },
+        {
+            'device-id': 'test-dev-2',
+            enable: true,
+        },
+    ],
+    'traffic-class': 'class-1',
+    'ip-domain': 'test-ipd-1',
+};
 
 describe('DeviceGroupEditComponent', () => {
+    let httpTestingController: HttpTestingController;
+
     let component: DeviceGroupEditComponent;
     let fixture: ComponentFixture<DeviceGroupEditComponent>;
     const fb = new FormBuilder();
+
+    const dgdMockParams = {
+        'enterprise-id': 'test-ent',
+        'site-id': 'test-site',
+        id: `test-dg-1`,
+    };
+
+    const mockParamsMap = (params): ParamMap => {
+        return {
+            get: (id) => {
+                return params[id];
+            },
+            has: (id) => {
+                return !_.isNil(params[id]) ? true : false;
+            },
+            getAll: (name: string): string[] => {
+                return [];
+            },
+            keys: [],
+        } as ParamMap;
+    };
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -40,6 +88,13 @@ describe('DeviceGroupEditComponent', () => {
                     useValue: { appearance: 'standard' },
                 },
                 { provide: FormBuilder, useValue: fb },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        paramMap: of(mockParamsMap(dgdMockParams)),
+                        snapshot: { params: dgdMockParams },
+                    },
+                },
             ],
             imports: [
                 HttpClientTestingModule,
@@ -63,13 +118,37 @@ describe('DeviceGroupEditComponent', () => {
     });
 
     beforeEach(() => {
+        TestBed.inject(HttpClient);
+        httpTestingController = TestBed.inject(HttpTestingController);
+
         fixture = TestBed.createComponent(DeviceGroupEditComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-        component.deviceGroupForm.get('device-group-id').setValue('testDg');
-        component.deviceGroupForm.get('description').setValue('testDg');
-        component.deviceGroupForm.get('display-name').setValue('testDg');
-        component.deviceGroupForm.get('ip-domain').setValue('testDg');
+
+        // The following `expectOne()` will match the request's URL.
+        // If no requests or multiple requests matched that URL
+        // `expectOne()` would throw.
+        const req = httpTestingController.expectOne(
+            '/aether/v2.1.x/test-ent/site/test-site/device-group/test-dg-1'
+        );
+
+        httpTestingController.match('/aether/v2.1.x/test-ent/site/test-site');
+        httpTestingController.match(
+            '/aether/v2.1.x/test-ent/site/traffic-class'
+        );
+        httpTestingController.match('/aether/v2.1.x/test-ent/traffic-class');
+
+        // Assert that the request is a GET.
+        expect(req.request.method).toEqual('GET');
+
+        // Respond with mock data, causing Observable to resolve.
+        // Subscribe callback asserts that correct data was returned.
+        req.flush(testData);
+    });
+
+    afterEach(() => {
+        // Finally, assert that there are no outstanding requests.
+        httpTestingController.verify();
     });
 
     it('should create', () => {

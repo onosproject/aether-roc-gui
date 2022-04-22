@@ -135,7 +135,7 @@
                         simCardForm.touched &&
                         opaService.canWrite('/sim-card/sim-card') &&
                         siteId !== unknownSite &&
-                        enterpriseId !== unknownEnterprise
+                        enterpriseId.name !== unknownEnterprise
                     )
                 "
                 id="submitButton"

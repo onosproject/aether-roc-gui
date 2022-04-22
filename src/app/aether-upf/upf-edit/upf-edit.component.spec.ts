@@ -21,10 +21,34 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UpfEditComponent } from './upf-edit.component';
 import { MatSelectModule } from '@angular/material/select';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import * as _ from 'lodash';
+import { of } from 'rxjs';
 
 describe('UpfEditComponent', () => {
     let component: UpfEditComponent;
     let fixture: ComponentFixture<UpfEditComponent>;
+
+    const upfMockParams = {
+        'enterprise-id': 'test-ent',
+        'site-id': 'test-site',
+        id: `test-upf-1`,
+    };
+
+    const mockParamsMap = (params): ParamMap => {
+        return {
+            get: (id) => {
+                return params[id];
+            },
+            has: (id) => {
+                return !_.isNil(params[id]) ? true : false;
+            },
+            getAll: (name: string): string[] => {
+                return [];
+            },
+            keys: [],
+        } as ParamMap;
+    };
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -33,6 +57,13 @@ describe('UpfEditComponent', () => {
                 {
                     provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
                     useValue: { appearance: 'standard' },
+                },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        paramMap: of(mockParamsMap(upfMockParams)),
+                        snapshot: { params: upfMockParams },
+                    },
                 },
             ],
             imports: [

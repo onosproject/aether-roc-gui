@@ -22,9 +22,8 @@ import {
     SiteSliceService,
 } from '../../../openapi3/aether/2.1.0/services';
 import { mergeMap } from 'rxjs/operators';
-import { SiteDeviceGroup } from '../../../openapi3/aether/2.1.0/models/site-device-group';
 import { from } from 'rxjs';
-import { SiteSlice } from '../../../openapi3/aether/2.1.0/models/site-slice';
+import { SiteSlice } from '../../../openapi3/aether/2.1.0/models';
 
 @Component({
     selector: 'aether-show-vcs-usage',

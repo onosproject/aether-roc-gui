@@ -112,7 +112,7 @@ export class DeviceEditComponent
 
     loadDevice(deviceId: string): void {
         if (
-            this.enterpriseId == this.unknownEnterprise ||
+            this.enterpriseId.name == this.unknownEnterprise ||
             this.siteId == this.unknownSite
         ) {
             return;
@@ -185,14 +185,14 @@ export class DeviceEditComponent
 
     loadSimCards(): void {
         if (
-            this.enterpriseId == this.unknownEnterprise ||
+            this.enterpriseId.name == this.unknownEnterprise ||
             this.siteId == this.unknownSite
         ) {
             return;
         }
         this.siteService
             .getSite({
-                'enterprise-id': this.enterpriseId,
+                'enterprise-id': this.enterpriseId.name,
                 'site-id': this.siteId,
             })
             .subscribe(

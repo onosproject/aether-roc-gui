@@ -312,7 +312,7 @@ export class SliceEditComponent
 
     loadTemplate(target: TargetName): void {
         console.log('called on load template once target chosen', target);
-        if (this.enterpriseId == this.unknownEnterprise) {
+        if (this.enterpriseId.name == this.unknownEnterprise) {
             return;
         }
 
@@ -652,7 +652,7 @@ export class SliceEditComponent
 
     loadUpf(): void {
         if (
-            this.enterpriseId == this.unknownEnterprise ||
+            this.enterpriseId.name == this.unknownEnterprise ||
             this.siteId == this.unknownSite
         ) {
             return;
@@ -660,7 +660,7 @@ export class SliceEditComponent
         // Go through all the slices in all sites to see what UPFs have been used up
         this.siteService
             .getSite({
-                'enterprise-id': this.enterpriseId,
+                'enterprise-id': this.enterpriseId.name,
                 'site-id': this.siteId,
             })
             .subscribe(

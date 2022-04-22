@@ -272,7 +272,7 @@
                             appForm.errors?.isEndpointNotValid === null &&
                             appForm.touched &&
                             opaService.canWrite('/application/application') &&
-                            enterpriseId !== unknownEnterprise
+                            enterpriseId.name !== unknownEnterprise
                         )
                     "
                     id="submitButton"

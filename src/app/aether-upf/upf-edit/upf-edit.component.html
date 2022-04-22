@@ -23,9 +23,9 @@
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/upf/upf-monitor/{{ enterpriseId }}/{{ siteId }}/{{
-                    upfId
-                }}"
+                routerLink="/upf/upf-monitor/{{ enterpriseId.name }}/{{
+                    siteId
+                }}/{{ upfId }}"
                 id="monitorUpfButton"
                 >insights
             </mat-icon>
@@ -189,7 +189,7 @@
 <aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
-    [enterpriseID]="enterpriseId.name"
+    [enterpriseID]="enterpriseId"
     [siteID]="siteId"
     [upfID]="upfId"
     (closeShowParentCardEvent)="closeShowParentCard()"

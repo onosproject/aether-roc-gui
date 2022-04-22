@@ -16,15 +16,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { ApiModule } from '../../../openapi3/aether/2.0.0/api.module';
+import { ApiModule } from '../../../openapi3/aether/2.1.0/api.module';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { SiteComponent } from './site.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { HttpClient } from '@angular/common/http';
-import { SiteList } from '../../../openapi3/aether/2.1.0/models/site-list';
-import { TargetsNames } from '../../../openapi3/top/level/models/targets-names';
-import { TargetName } from '../../../openapi3/top/level/models/target-name';
+import { SiteList } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName, TargetsNames } from '../../../openapi3/top/level/models';
 import { EnterpriseService } from '../../enterprise.service';
 
 const testData: SiteList = [
@@ -51,7 +50,6 @@ class mockEnterpriseService {
 }
 
 describe('SiteComponent', () => {
-    let httpClient: HttpClient;
     let httpTestingController: HttpTestingController;
     let component: SiteComponent;
     let fixture: ComponentFixture<SiteComponent>;
@@ -87,7 +85,7 @@ describe('SiteComponent', () => {
 
     beforeEach(() => {
         // Inject the http service and test controller for each test
-        httpClient = TestBed.inject(HttpClient);
+        TestBed.inject(HttpClient);
         httpTestingController = TestBed.inject(HttpTestingController);
 
         fixture = TestBed.createComponent(SiteComponent);

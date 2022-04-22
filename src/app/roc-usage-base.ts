@@ -32,4 +32,8 @@ export abstract class RocUsageBase {
     keepCardOpen(cancelled: boolean): void {
         this.closeShowParentCardEvent.emit(cancelled);
     }
+
+    get arrayLen(): number {
+        return this.parentModulesArray.length;
+    }
 }

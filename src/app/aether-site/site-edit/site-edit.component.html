@@ -228,7 +228,7 @@
                             siteForm.valid &&
                             siteForm.touched &&
                             opaService.canWrite('/site/site') &&
-                            enterpriseId !== unknownEnterprise
+                            enterpriseId.name !== unknownEnterprise
                         )
                     "
                     id="submitButton"

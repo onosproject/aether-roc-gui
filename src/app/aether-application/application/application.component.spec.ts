@@ -21,14 +21,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ApiModule } from '../../../openapi3/aether/2.0.0/api.module';
+import { ApiModule } from '../../../openapi3/aether/2.1.0/api.module';
 import { EnterpriseService } from '../../enterprise.service';
 import { TargetsNames } from '../../../openapi3/top/level/models/targets-names';
 import { TargetName } from '../../../openapi3/top/level/models';
 import { HttpClient } from '@angular/common/http';
-import { ApplicationList } from '../../../openapi3/aether/2.1.0/models/application-list';
-import { Application } from '../../../openapi3/aether/2.1.0/models/application';
-import { SiteList } from '../../../openapi3/aether/2.1.0/models/site-list';
+import {
+    ApplicationList,
+    SiteList,
+} from '../../../openapi3/aether/2.1.0/models';
+import { MatChipsModule } from '@angular/material/chips';
 
 const applications: ApplicationList = [
     {
@@ -58,7 +60,6 @@ class mockEnterpriseService {
 }
 
 describe('ApplicationComponent', () => {
-    let httpClient: HttpClient;
     let httpTestingController: HttpTestingController;
     let component: ApplicationComponent;
     let fixture: ComponentFixture<ApplicationComponent>;
@@ -77,6 +78,7 @@ describe('ApplicationComponent', () => {
                 MatToolbarModule,
                 MatIconModule,
                 ApiModule,
+                MatChipsModule,
             ],
             providers: [
                 {
@@ -93,7 +95,7 @@ describe('ApplicationComponent', () => {
 
     beforeEach(() => {
         // Inject the http service and test controller for each test
-        httpClient = TestBed.inject(HttpClient);
+        TestBed.inject(HttpClient);
         httpTestingController = TestBed.inject(HttpTestingController);
 
         fixture = TestBed.createComponent(ApplicationComponent);

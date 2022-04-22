@@ -25,11 +25,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
-import { TargetsNames } from '../../../openapi3/top/level/models/targets-names';
-import { TargetName } from '../../../openapi3/top/level/models/target-name';
-import { EnterpriseService } from '../../enterprise.service';
 import { HttpClient } from '@angular/common/http';
-import { SiteIpDomain } from '../../../openapi3/aether/2.1.0/models/site-ip-domain';
+import { SiteIpDomain } from '../../../openapi3/aether/2.1.0/models';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { from, of } from 'rxjs';
+import * as _ from 'lodash';
 
 const testData: SiteIpDomain = {
     'ip-domain-id': 'test-ipd-1',
@@ -37,21 +37,31 @@ const testData: SiteIpDomain = {
     subnet: '10.10.10.10/24',
 };
 
-class mockEnterpriseService {
-    get enterprises(): TargetsNames {
-        return [
-            {
-                name: 'test-ent',
-            },
-        ] as TargetName[];
-    }
-}
-
 describe('IpDomainEditComponent', () => {
-    let httpClient: HttpClient;
     let httpTestingController: HttpTestingController;
     let component: IpDomainEditComponent;
     let fixture: ComponentFixture<IpDomainEditComponent>;
+
+    const ipdMockParams = {
+        'enterprise-id': 'test-ent',
+        'site-id': 'test-site',
+        id: `test-ipd-1`,
+    };
+
+    const mockParamsMap = (params): ParamMap => {
+        return {
+            get: (id) => {
+                return params[id];
+            },
+            has: (id) => {
+                return !_.isNil(params[id]) ? true : false;
+            },
+            getAll: (name: string): string[] => {
+                return [];
+            },
+            keys: [],
+        } as ParamMap;
+    };
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -62,8 +72,11 @@ describe('IpDomainEditComponent', () => {
                     useValue: { appearance: 'standard' },
                 },
                 {
-                    provide: EnterpriseService,
-                    useClass: mockEnterpriseService,
+                    provide: ActivatedRoute,
+                    useValue: {
+                        paramMap: of(mockParamsMap(ipdMockParams)),
+                        snapshot: { params: ipdMockParams },
+                    },
                 },
             ],
             imports: [
@@ -87,7 +100,7 @@ describe('IpDomainEditComponent', () => {
 
     beforeEach(() => {
         // Inject the http service and test controller for each test
-        httpClient = TestBed.inject(HttpClient);
+        TestBed.inject(HttpClient);
         httpTestingController = TestBed.inject(HttpTestingController);
 
         fixture = TestBed.createComponent(IpDomainEditComponent);
@@ -98,7 +111,7 @@ describe('IpDomainEditComponent', () => {
         // If no requests or multiple requests matched that URL
         // `expectOne()` would throw.
         const req = httpTestingController.expectOne(
-            '/aether/v2.1.x//site//ip-domain/'
+            '/aether/v2.1.x/test-ent/site/test-site/ip-domain/test-ipd-1'
         );
 
         // Assert that the request is a GET.
@@ -107,6 +120,11 @@ describe('IpDomainEditComponent', () => {
         // Respond with mock data, causing Observable to resolve.
         // Subscribe callback asserts that correct data was returned.
         req.flush(testData);
+    });
+
+    afterEach(() => {
+        // Finally, assert that there are no outstanding requests.
+        httpTestingController.verify();
     });
 
     it('should create', () => {
@@ -150,5 +168,5 @@ describe('IpDomainEditComponent', () => {
         component.option = 'ENABLE';
         component.changeAdminStatus();
         expect(adminStControl.value).toEqual('ENABLE');
-    })
+    });
 });

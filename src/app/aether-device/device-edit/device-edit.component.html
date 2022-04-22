@@ -140,7 +140,7 @@
                         deviceForm.touched &&
                         opaService.canWrite('/device/device') &&
                         siteId !== unknownSite &&
-                        enterpriseId !== unknownEnterprise
+                        enterpriseId.name !== unknownEnterprise
                     )
                 "
                 id="submitButton"

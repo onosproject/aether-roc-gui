@@ -26,7 +26,7 @@ import { SliceEditComponent } from './slice-edit.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
-import { from } from 'rxjs';
+import { from, of } from 'rxjs';
 import {
     Site,
     SiteSlice,
@@ -34,9 +34,9 @@ import {
 } from '../../../openapi3/aether/2.1.0/models';
 import { TargetName } from '../../../openapi3/top/level/models/target-name';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TargetsNames } from '../../../openapi3/top/level/models/targets-names';
-import { EnterpriseService } from '../../enterprise.service';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import * as _ from 'lodash';
 
 const site: Site = {
     'site-id': 'acme-chicago',
@@ -67,21 +67,30 @@ const site: Site = {
     ],
 };
 
-class mockEnterpriseService {
-    get enterprises(): TargetsNames {
-        return [
-            {
-                name: 'test-ent',
-            },
-        ] as TargetName[];
-    }
-}
-
 describe('SliceEditComponent', () => {
-    let httpClient: HttpClient;
-    let httpTestingController: HttpTestingController;
     let component: SliceEditComponent;
     let fixture: ComponentFixture<SliceEditComponent>;
+
+    const sliceMockParams = {
+        'enterprise-id': 'test-ent',
+        'site-id': 'test-site',
+        id: `test-slice-1`,
+    };
+
+    const mockParamsMap = (params): ParamMap => {
+        return {
+            get: (id) => {
+                return params[id];
+            },
+            has: (id) => {
+                return !_.isNil(params[id]) ? true : false;
+            },
+            getAll: (name: string): string[] => {
+                return [];
+            },
+            keys: [],
+        } as ParamMap;
+    };
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -92,8 +101,11 @@ describe('SliceEditComponent', () => {
                     useValue: { appearance: 'standard' },
                 },
                 {
-                    provide: EnterpriseService,
-                    useClass: mockEnterpriseService,
+                    provide: ActivatedRoute,
+                    useValue: {
+                        paramMap: of(mockParamsMap(sliceMockParams)),
+                        snapshot: { params: sliceMockParams },
+                    },
                 },
             ],
             imports: [
