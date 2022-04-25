@@ -11,11 +11,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 import { BasketService } from '../../basket.service';
-import { AETHER_TARGET } from '../../../environments/environment';
-import { EnterprisesEnterpriseSiteDevice } from '../../../openapi3/aether/2.0.0/models';
 import { deviceModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteDevice } from '../../../openapi3/aether/2.1.0/models';
 
 @Component({
     selector: 'aether-device',
@@ -23,12 +23,12 @@ import { deviceModelPath } from '../../models-info';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class DeviceComponent
-    extends RocListBase<DeviceDatasource, EnterprisesEnterpriseSiteDevice>
+    extends RocListBase<DeviceDatasource, SiteDevice>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteDevice>;
+    @ViewChild(MatTable) table: MatTable<SiteDevice>;
 
     displayedColumns = [
         'id',
@@ -41,22 +41,17 @@ export class DeviceComponent
         'usage/delete',
     ];
 
-    modelPath = [
-        'enterprises-2.0.0',
-        'enterprise',
-        'site',
-        'device',
-        'device-id',
-    ];
+    modelPath = ['site-2.1.0', 'site', 'device', 'device-id'];
 
     constructor(
         public opaService: OpenPolicyAgentService,
-        private aetherService: AetherService,
+        private siteService: SiteService,
+        protected enterpriseService: EnterpriseService,
         private basketService: BasketService
     ) {
         super(
             basketService,
-            new DeviceDatasource(aetherService, basketService, AETHER_TARGET)
+            new DeviceDatasource(enterpriseService, basketService)
         );
     }
 
@@ -72,11 +67,14 @@ export class DeviceComponent
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadData(
-            this.aetherService.getEnterprises({
-                target: AETHER_TARGET,
-            }),
-            this.onDataLoaded.bind(this)
-        );
+        this.enterpriseService.enterprises.forEach((enterpriseId) => {
+            this.dataSource.loadData(
+                this.siteService.getSiteList({
+                    'enterprise-id': enterpriseId.name,
+                }),
+                this.onDataLoaded.bind(this),
+                enterpriseId
+            );
+        });
     }
 }

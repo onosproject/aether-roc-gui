@@ -38,7 +38,6 @@ import { MatListModule } from '@angular/material/list';
     ],
     imports: [
         CommonModule,
-        ApiModuleTopLevel.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([
             { path: 'basket', component: BasketComponent },

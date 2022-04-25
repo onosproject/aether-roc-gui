@@ -5,17 +5,18 @@
  */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { EnterprisesEnterpriseService } from 'src/openapi3/aether/2.0.0/services';
-import {
-    EnterprisesEnterprise,
-    EnterprisesEnterpriseApplication,
-} from '../../../openapi3/aether/2.0.0/models';
 import { RocSelectBase } from '../../roc-select-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { from } from 'rxjs';
-import { mergeMap, pluck } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { MatTableDataSource } from '@angular/material/table';
+import {
+    Application,
+    ApplicationList,
+} from '../../../openapi3/aether/2.1.0/models';
+import { EnterpriseService } from '../../enterprise.service';
+import { ApplicationService } from '../../../openapi3/aether/2.1.0/services';
+import { TargetName } from '../../../openapi3/top/level/models';
 
 export interface SelectAppParam {
     application: string;
@@ -31,14 +32,11 @@ const ENDPOINTSALLOWEDLIMIT = 5;
     styleUrls: ['../../common-panel.component.scss'],
 })
 export class ApplicationSelectComponent
-    extends RocSelectBase<
-        EnterprisesEnterpriseApplication,
-        EnterprisesEnterprise
-    >
+    extends RocSelectBase<Application, ApplicationList>
     implements OnInit
 {
     closeEvent: EventEmitter<string>;
-    ApplicationOptions: Array<EnterprisesEnterpriseApplication> = [];
+    ApplicationOptions: Array<Application> = [];
     selectForm = this.fb.group({
         'select-item': [
             { value: undefined, disabled: true },
@@ -57,17 +55,18 @@ export class ApplicationSelectComponent
         ],
     });
     @Input() alreadySelected: string[] = [];
-    @Input() selectedEnterprise: string;
+    @Input() selectedEnterprise: TargetName = { name: undefined };
     @Output() appcloseEvent = new EventEmitter<SelectAppParam>();
 
     public endpointsAllowed: number = ENDPOINTSALLOWEDLIMIT;
-    public existingApplications: MatTableDataSource<EnterprisesEnterpriseApplication> =
+    public existingApplications: MatTableDataSource<Application> =
         new MatTableDataSource([]);
     public columnsToDisplay = ['application', 'endpoints'];
     public errorMessage = '';
 
     constructor(
-        protected enterpriseService: EnterprisesEnterpriseService,
+        protected enterpriseService: EnterpriseService,
+        protected applicationService: ApplicationService,
         protected fb: FormBuilder,
         protected snackBar: MatSnackBar
     ) {
@@ -77,18 +76,12 @@ export class ApplicationSelectComponent
     ngOnInit(): void {
         // Not using the base class getData, as this is more complex
         console.log('Already selected', this.alreadySelected);
-        const candidates = new Array<EnterprisesEnterpriseApplication>();
-        this.enterpriseService
-            .getEnterprisesEnterprise({
-                target: AETHER_TARGET,
-                'enterprise-id': this.selectedEnterprise,
+        const candidates = new Array<Application>();
+        this.applicationService
+            .getApplicationList({
+                'enterprise-id': this.selectedEnterprise.name,
             })
-            .pipe(
-                pluck('application'),
-                mergeMap((items: EnterprisesEnterpriseApplication[]) =>
-                    from(items)
-                )
-            )
+            .pipe(mergeMap((items: Application[]) => from(items)))
             .subscribe(
                 (value) => {
                     const exists = this.alreadySelected.includes(

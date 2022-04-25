@@ -5,11 +5,10 @@
  */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { EnterprisesEnterpriseSiteService } from 'src/openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { RocSelectBase } from '../../roc-select-base';
-import { EnterprisesEnterpriseSite } from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
+import { Site, SiteDeviceGroup } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models';
 
 @Component({
     selector: 'aether-device-group-select',
@@ -17,29 +16,22 @@ import { EnterprisesEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2
     styleUrls: ['../../common-panel.component.scss'],
 })
 export class DeviceGroupSelectComponent
-    extends RocSelectBase<
-        EnterprisesEnterpriseSiteDeviceGroup,
-        EnterprisesEnterpriseSite
-    >
+    extends RocSelectBase<SiteDeviceGroup, Site>
     implements OnInit
 {
     @Input() alreadySelected: string[] = [];
-    @Input() selectedEnterprise: string;
+    @Input() selectedEnterprise: TargetName = { name: undefined };
     @Input() selectedSite: string;
     @Output() closeEvent = new EventEmitter<string>();
 
-    constructor(
-        protected siteService: EnterprisesEnterpriseSiteService,
-        protected fb: FormBuilder
-    ) {
+    constructor(protected siteService: SiteService, protected fb: FormBuilder) {
         super(fb, 'device-group-id');
     }
 
     ngOnInit(): void {
         super.getData(
-            this.siteService.getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
-                'enterprise-id': this.selectedEnterprise,
+            this.siteService.getSite({
+                'enterprise-id': this.selectedEnterprise.name,
                 'site-id': this.selectedSite,
             }),
             'device-group'

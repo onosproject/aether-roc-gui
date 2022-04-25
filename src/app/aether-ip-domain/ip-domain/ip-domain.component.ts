@@ -9,12 +9,12 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { RocListBase } from '../../roc-list-base';
 import { IpDomainDatasource } from './ip-domain-datasource';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { AETHER_TARGET } from '../../../environments/environment';
-import { EnterprisesEnterpriseSiteIpDomain } from '../../../openapi3/aether/2.0.0/models';
 import { ipDomainModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteIpDomain } from '../../../openapi3/aether/2.1.0/models';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-ip-domain',
@@ -22,12 +22,12 @@ import { ipDomainModelPath } from '../../models-info';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class IpDomainComponent
-    extends RocListBase<IpDomainDatasource, EnterprisesEnterpriseSiteIpDomain>
+    extends RocListBase<IpDomainDatasource, SiteIpDomain>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteIpDomain>;
+    @ViewChild(MatTable) table: MatTable<SiteIpDomain>;
 
     displayedColumns = [
         'id',
@@ -43,22 +43,18 @@ export class IpDomainComponent
         'Usage/delete',
     ];
 
-    modelPath = [
-        'enterprises-2.0.0',
-        'enterprise',
-        'site',
-        'ip-domain',
-        'ip-domain-id',
-    ];
+    modelPath = ['site-2.1.0', 'site', 'ip-domain', 'ip-domain-id'];
 
     constructor(
-        private aetherService: AetherService,
+        protected enterpriseService: EnterpriseService,
+
         private basketService: BasketService,
-        public opaService: OpenPolicyAgentService
+        public opaService: OpenPolicyAgentService,
+        private siteService: SiteService
     ) {
         super(
             basketService,
-            new IpDomainDatasource(aetherService, basketService, AETHER_TARGET)
+            new IpDomainDatasource(enterpriseService, basketService)
         );
         super.reqdAttr = ['subnet', 'dnn'];
     }
@@ -75,11 +71,14 @@ export class IpDomainComponent
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadData(
-            this.aetherService.getEnterprises({
-                target: AETHER_TARGET,
-            }),
-            this.onDataLoaded.bind(this)
-        );
+        this.enterpriseService.enterprises.forEach((enterpriseId) => {
+            this.dataSource.loadData(
+                this.siteService.getSiteList({
+                    'enterprise-id': enterpriseId.name,
+                }),
+                this.onDataLoaded.bind(this),
+                enterpriseId
+            );
+        });
     }
 }

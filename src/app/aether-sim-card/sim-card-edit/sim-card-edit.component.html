@@ -28,7 +28,7 @@
                 id="enterpriseRowSelect"
                 *ngIf="isNew"
             >
-                <mat-label *ngIf="enterprises.length === 0"
+                <mat-label *ngIf="enterpriseService.enterprises.length === 0"
                     >No Enterprise available
                 </mat-label>
                 <mat-select
@@ -38,10 +38,12 @@
                     placeholder="Please select an Enterprise"
                 >
                     <mat-option
-                        *ngFor="let eachEnterprise of enterprises"
-                        [value]="eachEnterprise.enterpriseId"
-                        >{{ eachEnterprise.enterpriseId }}
-                        {{ eachEnterprise.displayName }}
+                        *ngFor="
+                            let eachEnterprise of enterpriseService.enterprises
+                        "
+                        [value]="eachEnterprise"
+                        (onSelectionChange)="sitesOfEnterprise($event)"
+                        >{{ eachEnterprise.name }}
                     </mat-option>
                 </mat-select>
                 <mat-hint><small>Enterprise</small></mat-hint>
@@ -51,7 +53,7 @@
                 id="siteRowSelect"
                 *ngIf="isNew"
             >
-                <mat-label *ngIf="enterprises.length === 0"
+                <mat-label *ngIf="sites.length === 0"
                     >No Site available
                 </mat-label>
                 <mat-select
@@ -61,7 +63,7 @@
                     placeholder="Please select a Site"
                 >
                     <mat-option
-                        *ngFor="let eachSite of sitesOfEnterprise(enterpriseId)"
+                        *ngFor="let eachSite of sites"
                         [value]="eachSite.siteID"
                         >{{ eachSite.siteID }}
                         {{ eachSite.displayName }}
@@ -133,7 +135,7 @@
                         simCardForm.touched &&
                         opaService.canWrite('/sim-card/sim-card') &&
                         siteId !== unknownSite &&
-                        enterpriseId !== unknownEnterprise
+                        enterpriseId.name !== unknownEnterprise
                     )
                 "
                 id="submitButton"

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
 import { Component } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import {
@@ -13,8 +12,14 @@ import {
     RocGenericModelType,
 } from './roc-data-source';
 import { RocEditBase } from './roc-edit-base';
-import { deviceModelPath, enterpriseModelPath } from './models-info';
+import {
+    applicationModelPath,
+    deviceModelPath,
+    siteModelPath,
+} from './models-info';
 import * as _ from 'lodash';
+import { EnterpriseService } from './enterprise.service';
+import { SiteService } from '../openapi3/aether/2.1.0/services/site.service';
 
 // we cannot test an Abstract class directly,
 // so create a class that extends it
@@ -22,9 +27,9 @@ import * as _ from 'lodash';
 const TestDataSource = jasmine.createSpyObj('TestDataSource', {
     fullPath: jasmine.createSpy('fullPath').and.returnValue('full-path')(),
 });
-TestDataSource.pathRoot = 'enterprises-2.0.0';
-TestDataSource.pathListAttr = 'enterprise';
-TestDataSource.indexAttr = 'enterprise-id';
+TestDataSource.pathRoot = undefined;
+TestDataSource.pathListAttr = 'site-2.1.0';
+TestDataSource.indexAttr = 'site-id';
 
 const snackBar = jasmine.createSpyObj('snackBar', {
     _overlay: jasmine.createSpy(),
@@ -45,14 +50,18 @@ const route = jasmine.createSpyObj('route', {
 class RocEditBaseSpecComponent extends RocEditBase<
     GenericRocDataSource<RocGenericModelType, RocGenericContainerType>
 > {
-    constructor(public aetherService: AetherService) {
+    constructor(
+        protected enterpriseService: EnterpriseService,
+        protected siteService: SiteService
+    ) {
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
             TestDataSource,
-            enterpriseModelPath,
-            aetherService
+            siteModelPath
         );
     }
 }
@@ -85,8 +94,9 @@ describe('The Roc List Base class', () => {
             id: `device-id-1`,
         };
 
-        const enterpriseMockParams = {
-            id: 'enterprise-1',
+        const applicationMockParams = {
+            'enterprise-id': 'test-enterprise-1',
+            id: `test-application-1`,
         };
 
         const mockParamsMap = (params) => {
@@ -105,12 +115,12 @@ describe('The Roc List Base class', () => {
         };
 
         it('should return the full path', () => {
-            component.modelPath = enterpriseModelPath;
-            const enterprisePath = component.calcFullPath(
-                mockParamsMap(enterpriseMockParams)
+            component.modelPath = applicationModelPath;
+            const applicationPath = component.calcFullPath(
+                mockParamsMap(applicationMockParams)
             );
-            expect(enterprisePath).toEqual(
-                'enterprises-2.0.0/enterprise[enterprise-id=enterprise-1]'
+            expect(applicationPath).toEqual(
+                'test-enterprise-1/application-2.1.0[application-id=test-application-1]'
             );
 
             component.modelPath = deviceModelPath;
@@ -118,7 +128,7 @@ describe('The Roc List Base class', () => {
                 mockParamsMap(deviceMockParams)
             );
             expect(devicePath).toEqual(
-                'enterprises-2.0.0/enterprise[enterprise-id=test-enterprise-1]/site[site-id=test-site-1]/device[device-id=device-id-1]'
+                'test-enterprise-1/site-2.1.0[site-id=test-site-1]/device[device-id=device-id-1]'
             );
         });
     });

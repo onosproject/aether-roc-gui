@@ -12,13 +12,18 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGET } from '../../../environments/environment';
-import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { RocUsageBase, UsageColumns } from '../../roc-usage-base';
+import {
+    SiteService,
+    SiteSliceService,
+} from '../../../openapi3/aether/2.1.0/services';
+import { mergeMap } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { SiteSlice } from '../../../openapi3/aether/2.1.0/models';
 
 @Component({
     selector: 'aether-show-vcs-usage',
@@ -37,25 +42,26 @@ export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
     constructor(
         protected fb: FormBuilder,
         protected route: ActivatedRoute,
-        private siteService: EnterprisesEnterpriseSiteService
+        private siteService: SiteService,
+        private sliceService: SiteSliceService
     ) {
         super(
-            'enterprises-2.0.0',
-            ['enterprise', 'site', 'device-group'],
-            ['enterprise-id', 'site-id', 'device-group-id']
+            'site-2.1.0',
+            ['site', 'device-group'],
+            ['site-id', 'device-group-id']
         );
     }
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
-        this.siteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
+        this.sliceService
+            .getSiteSliceList({
                 'enterprise-id': this.enterpriseID,
                 'site-id': this.siteID,
             })
-            .subscribe((displayData) => {
-                displayData.slice.forEach((sliceElement) => {
+            .pipe(mergeMap((items: SiteSlice[]) => from(items)))
+            .subscribe(
+                (sliceElement) => {
                     sliceElement['device-group'].forEach((dg) => {
                         if (dg['device-group'] === this.deviceGroupID) {
                             const displayParentModules = {
@@ -76,8 +82,9 @@ export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
                             this.parentModulesArray.push(displayParentModules);
                         }
                     });
-                });
-                this.table.dataSource = this.parentModulesArray;
-            });
+                },
+                (err) => console.error(err),
+                () => (this.table.dataSource = this.parentModulesArray)
+            );
     }
 }

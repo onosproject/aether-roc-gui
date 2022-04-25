@@ -4,7 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+    HttpClientTestingModule,
+    HttpTestingController,
+} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,14 +26,19 @@ import { SliceEditComponent } from './slice-edit.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
+import { from, of } from 'rxjs';
 import {
-    EnterprisesEnterpriseSite,
-    EnterprisesEnterpriseSiteSlice,
-} from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseTemplate } from '../../../openapi3/aether/2.0.0/models';
-import { from } from 'rxjs';
+    Site,
+    SiteSlice,
+    Template,
+} from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import * as _ from 'lodash';
 
-const site: EnterprisesEnterpriseSite = {
+const site: Site = {
     'site-id': 'acme-chicago',
     slice: [
         {
@@ -63,6 +71,27 @@ describe('SliceEditComponent', () => {
     let component: SliceEditComponent;
     let fixture: ComponentFixture<SliceEditComponent>;
 
+    const sliceMockParams = {
+        'enterprise-id': 'test-ent',
+        'site-id': 'test-site',
+        id: `test-slice-1`,
+    };
+
+    const mockParamsMap = (params): ParamMap => {
+        return {
+            get: (id) => {
+                return params[id];
+            },
+            has: (id) => {
+                return !_.isNil(params[id]) ? true : false;
+            },
+            getAll: (name: string): string[] => {
+                return [];
+            },
+            keys: [],
+        } as ParamMap;
+    };
+
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [SliceEditComponent],
@@ -70,6 +99,13 @@ describe('SliceEditComponent', () => {
                 {
                     provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
                     useValue: { appearance: 'standard' },
+                },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        paramMap: of(mockParamsMap(sliceMockParams)),
+                        snapshot: { params: sliceMockParams },
+                    },
                 },
             ],
             imports: [
@@ -89,6 +125,7 @@ describe('SliceEditComponent', () => {
                 MatSlideToggleModule,
                 MatAutocompleteModule,
                 MatSelectModule,
+                MatTooltipModule,
             ],
         }).compileComponents();
     });
@@ -116,22 +153,29 @@ describe('SliceEditComponent', () => {
         expect(control.pristine).toBeFalsy();
     });
 
-    describe('when creating a Slice', () => {
+    describe('when creating a New Slice', () => {
         beforeEach(() => {
             component.isNewInstance = true;
-            component.enterpriseId = component.unknownEnterprise;
+            component.enterpriseId = {
+                name: component.unknownEnterprise,
+            } as TargetName;
             component.siteId = component.unknownSite;
             fixture.detectChanges();
         });
 
         it('should load the templates once the enterprise is selected', () => {
+            expect(component.enterpriseId.name).toEqual(
+                component.unknownEnterprise
+            );
             // on page load the select is disabled
             let templateField =
                 fixture.nativeElement.querySelector('#selectTemplate');
             expect(templateField.getAttribute('aria-disabled')).toEqual('true');
 
             // simulate the enterprise selection
-            component.enterpriseId = 'test-enterprise';
+            component.enterpriseId = {
+                name: 'test-enterprise',
+            } as TargetName;
             component.templates = [
                 {
                     'template-id': 'template 1',
@@ -149,7 +193,9 @@ describe('SliceEditComponent', () => {
         });
 
         it('should load the UPF once the site is selected', (done) => {
-            component.enterpriseId = 'test-enterprise';
+            component.enterpriseId = {
+                name: 'test-enterprise',
+            } as TargetName;
 
             // on page load the select is disabled
             let upfField = fixture.nativeElement.querySelector('#selectUpf');
@@ -158,10 +204,9 @@ describe('SliceEditComponent', () => {
             // simulate the enterprise site selection
             component.siteId = 'test-site';
             const siteResponse = from([site]);
-            spyOn(
-                component.siteService,
-                'getEnterprisesEnterpriseSite'
-            ).and.returnValue(siteResponse);
+            spyOn(component.siteService, 'getSite').and.returnValue(
+                siteResponse
+            );
             component.loadUpf();
             fixture.detectChanges();
 
@@ -176,7 +221,7 @@ describe('SliceEditComponent', () => {
 
     describe('when loading data from the backend', () => {
         it('should populate all the fields', () => {
-            const slice: EnterprisesEnterpriseSiteSlice = {
+            const slice: SiteSlice = {
                 'default-behavior': 'DENY-ALL',
                 description: 'Chicago Robots',
                 'device-group': [
@@ -243,7 +288,7 @@ describe('SliceEditComponent', () => {
     });
 
     describe('when selecting a template', () => {
-        const template: EnterprisesEnterpriseTemplate = {
+        const template: Template = {
             ['template-id']: 'test-template',
             sd: 12, // FIXME the method fails if this value is not present
             mbr: {

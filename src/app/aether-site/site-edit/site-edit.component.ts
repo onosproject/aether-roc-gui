@@ -6,7 +6,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
     BasketService,
     IDATTRIBS,
@@ -18,11 +17,11 @@ import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EdgeDeviceParam } from '../edge-device/edge-device.component';
-import { EnterprisesEnterpriseSite } from 'src/openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { SiteDatasource } from '../site/site-datasource';
 import { siteModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
+import { Site } from '../../../openapi3/aether/2.1.0/models';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-site-edit',
@@ -33,7 +32,7 @@ export class SiteEditComponent
     extends RocEditBase<SiteDatasource>
     implements OnInit
 {
-    data: EnterprisesEnterpriseSite;
+    data: Site;
     pathListAttr = 'site';
     showConnectDisplay = false;
     showEdgeDeviceDisplay = false;
@@ -100,8 +99,9 @@ export class SiteEditComponent
     siteId: string;
 
     constructor(
-        private siteSiteService: EnterprisesEnterpriseSiteService,
-        protected aetherService: AetherService,
+        private siteSiteService: SiteService,
+        protected enterpriseService: EnterpriseService,
+
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -112,10 +112,11 @@ export class SiteEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            undefined,
             route,
-            new SiteDatasource(aetherService, bs, AETHER_TARGET),
-            siteModelPath,
-            aetherService
+            new SiteDatasource(enterpriseService, bs),
+            siteModelPath
         );
         super.form = this.siteForm;
         super.loadFunc = this.loadSiteSite;
@@ -135,10 +136,9 @@ export class SiteEditComponent
         super.init();
     }
 
-    loadSiteSite(target: string, id: string): void {
+    loadSiteSite(id: string): void {
         this.siteSiteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
+            .getSite({
                 'site-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
@@ -150,8 +150,8 @@ export class SiteEditComponent
                 },
                 (error) => {
                     console.warn(
-                        'Error getting EnterprisesEnterpriseSite(s) for ',
-                        target,
+                        'Error getting Site(s) for ',
+                        this.enterpriseId,
                         error
                     );
                 },
@@ -163,13 +163,11 @@ export class SiteEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseSite
-                        );
+                        this.populateFormData(model as Site);
                     }
                     console.log(
-                        'Finished loading EnterprisesEnterpriseSite(s)',
-                        target,
+                        'Finished loading Site(s)',
+                        this.enterpriseId,
                         id
                     );
                 }
@@ -184,7 +182,7 @@ export class SiteEditComponent
         return this.siteForm.get(['monitoring']) as FormGroup;
     }
 
-    private populateFormData(value: EnterprisesEnterpriseSite): void {
+    private populateFormData(value: Site): void {
         if (value['site-id']) {
             this.siteForm.get('site-id').setValue(value['site-id']);
             this.siteForm.get('site-id')[ORIGINAL] = value['site-id'];
@@ -220,7 +218,7 @@ export class SiteEditComponent
                     Object.keys(localStorage)
                         .filter((checkerKey) =>
                             checkerKey.startsWith(
-                                '/basket-delete/Site-2.0.0/site[id=' +
+                                '/basket-delete/Site-2.1.0/site[id=' +
                                     value['site-id'] +
                                     ']/monitoring/edge-device[edge-device-id='
                             )
@@ -335,7 +333,7 @@ export class SiteEditComponent
 
     deleteEDFromSelect(ed: string): void {
         this.bs.deleteIndexedEntry(
-            '/enterprises-2.0.0/enterprise[enterprise-id=' +
+            '/enterprises-2.1.0/enterprise[enterprise-id=' +
                 this.route.snapshot.params['enterprise-id'] +
                 ']/site[site-id=' +
                 this.siteId +

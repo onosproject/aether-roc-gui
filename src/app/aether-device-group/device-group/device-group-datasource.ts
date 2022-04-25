@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
     BasketService,
     FORDELETE,
@@ -12,108 +11,85 @@ import {
     STRIKETHROUGH,
 } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
+import { Observable } from 'rxjs';
+import { skipWhile } from 'rxjs/operators';
+import { EnterpriseService } from '../../enterprise.service';
 import {
-    Enterprises,
-    EnterprisesEnterprise,
-    EnterprisesEnterpriseSiteDeviceGroup,
-} from '../../../openapi3/aether/2.0.0/models';
-import { from, Observable } from 'rxjs';
-import { map, mergeMap, skipWhile } from 'rxjs/operators';
-import { AETHER_TARGET } from '../../../environments/environment';
+    SiteDeviceGroup,
+    SiteList,
+} from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models';
 
 export class DeviceGroupDatasource extends RocDataSource<
-    EnterprisesEnterpriseSiteDeviceGroup,
-    Enterprises
+    SiteDeviceGroup,
+    SiteList
 > {
     constructor(
-        protected aetherService: AetherService,
-        public bs: BasketService,
-        protected target: string
+        protected enterpriseService: EnterpriseService,
+        public bs: BasketService
     ) {
         super(
-            aetherService,
             bs,
-            target,
-            'enterprises-2.0.0',
-            ['enterprise', 'site', 'device-group'],
-            ['enterprise-id', 'site-id', 'device-group-id']
+            enterpriseService,
+            undefined,
+            ['site-2.1.0', 'device-group'],
+            ['site-id', 'device-group-id']
         );
     }
 
     loadData(
-        dataSourceObservable: Observable<Enterprises>,
+        dataSourceObservable: Observable<SiteList>,
         onDataLoaded: (
-            dataSourceThisScope: RocDataSource<
-                EnterprisesEnterpriseSiteDeviceGroup,
-                Enterprises
-            >
-        ) => void
+            dataSourceThisScope: RocDataSource<SiteDeviceGroup, SiteList>
+        ) => void,
+        enterpriseId?: TargetName
     ): void {
-        dataSourceObservable
-            .pipe(
-                map((x: Enterprises) => x?.enterprise),
-                skipWhile((x) => x === undefined),
-                mergeMap((items: EnterprisesEnterprise[]) => from(items))
-            )
-            .subscribe(
-                (value: EnterprisesEnterprise) => {
-                    if (value.site) {
-                        value.site.forEach((s) => {
-                            if (s['device-group']) {
-                                s['device-group'].forEach((dg) => {
-                                    dg['enterprise-id'] =
-                                        value['enterprise-id'];
-                                    dg['site-id'] = s['site-id'];
-                                    const fullPath = this.deletePath(
-                                        value['enterprise-id'],
-                                        s['site-id'],
-                                        dg['device-group-id']
-                                    );
-                                    if (this.bs.containsDeleteEntry(fullPath)) {
-                                        dg[FORDELETE] = STRIKETHROUGH;
-                                    }
-                                    // Check for usage in slices
-                                    if (s.slice) {
-                                        s.slice.forEach((slice) => {
-                                            slice['device-group'].forEach(
-                                                (slicedg) => {
-                                                    if (
-                                                        slicedg[
-                                                            'device-group'
-                                                        ] ===
-                                                        dg['device-group-id']
-                                                    ) {
-                                                        dg[ISINUSE] = 'true'; // Any match will set it
-                                                    }
-                                                }
-                                            );
-                                        });
-                                        this.data.push(dg);
-                                    }
+        dataSourceObservable.pipe(skipWhile((x) => x === undefined)).subscribe(
+            (value: SiteList) => {
+                value.forEach((s) => {
+                    if (s['device-group']) {
+                        s['device-group'].forEach((dg) => {
+                            dg['enterprise-id'] = enterpriseId.name;
+                            dg['site-id'] = s['site-id'];
+                            const fullPath = this.deletePath(
+                                enterpriseId.name,
+                                s['site-id'],
+                                dg['device-group-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                dg[FORDELETE] = STRIKETHROUGH;
+                            }
+                            // Check for usage in slices
+                            if (s.slice) {
+                                s.slice.forEach((slice) => {
+                                    slice['device-group'].forEach((slicedg) => {
+                                        if (
+                                            slicedg['device-group'] ===
+                                            dg['device-group-id']
+                                        ) {
+                                            dg[ISINUSE] = 'true'; // Any match will set it
+                                        }
+                                    });
                                 });
+                                this.data.push(dg);
                             }
                         });
                     }
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting data from ',
-                        AETHER_TARGET,
-                        error
-                    );
-                },
-                () => {
-                    // table.refreshRows() does not seem to work - using this trick instead
-                    // const basketPreview = this.bs.buildPatchBody().Updates;
-                    onDataLoaded(this);
-                    this.paginator._changePageSize(this.paginator.pageSize);
-                }
-            );
+                });
+            },
+            (error) => {
+                console.warn('Error getting data from ', enterpriseId, error);
+            },
+            () => {
+                // table.refreshRows() does not seem to work - using this trick instead
+                // const basketPreview = this.bs.buildPatchBody().Updates;
+                onDataLoaded(this);
+                this.paginator._changePageSize(this.paginator.pageSize);
+            }
+        );
     }
 
-    getSortedData(
-        data: EnterprisesEnterpriseSiteDeviceGroup[]
-    ): EnterprisesEnterpriseSiteDeviceGroup[] {
+    getSortedData(data: SiteDeviceGroup[]): SiteDeviceGroup[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

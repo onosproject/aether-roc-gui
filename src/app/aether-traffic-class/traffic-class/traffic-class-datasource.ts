@@ -6,127 +6,133 @@
 
 import { compare, RocDataSource } from '../../roc-data-source';
 import {
-    Enterprises,
-    EnterprisesEnterprise,
-    EnterprisesEnterpriseTrafficClass,
-} from '../../../openapi3/aether/2.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
-import {
     BasketService,
     FORDELETE,
     ISINUSE,
     STRIKETHROUGH,
 } from '../../basket.service';
 import { from, Observable } from 'rxjs';
-import { map, mergeMap, skipWhile } from 'rxjs/operators';
+import { mergeMap, skipWhile } from 'rxjs/operators';
+import { EnterpriseService } from '../../enterprise.service';
+import {
+    Application,
+    Site,
+    TrafficClass,
+    TrafficClassList,
+} from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models';
+import { ApplicationService } from '../../../openapi3/aether/2.1.0/services/application.service';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services/site.service';
 
 export class TrafficClassDatasource extends RocDataSource<
-    EnterprisesEnterpriseTrafficClass,
-    Enterprises
+    TrafficClass,
+    TrafficClassList
 > {
     constructor(
-        protected aetherService: AetherService,
+        protected enterpriseService: EnterpriseService,
+        protected applicationService: ApplicationService,
+        protected siteService: SiteService,
         public bs: BasketService,
-        protected target: string,
         protected pelrAttr: string = 'pelr',
         protected pdbAttr: string = 'pdb',
         protected arpAttr: string = 'arp',
         protected qciAttr: string = 'qci'
     ) {
         super(
-            aetherService,
             bs,
-            target,
-            'enterprises-2.0.0',
-            ['enterprise', 'traffic-class'],
-            ['enterprise-id', 'traffic-class-id']
+            enterpriseService,
+            undefined,
+            ['traffic-class-2.1.0'],
+            ['traffic-class-id']
         );
     }
 
     loadData(
-        dataSourceObservable: Observable<Enterprises>,
+        dataSourceObservable: Observable<TrafficClassList>,
         onDataLoaded: (
-            dataSourceThisScope: RocDataSource<
-                EnterprisesEnterpriseTrafficClass,
-                Enterprises
-            >
-        ) => void
+            dataSourceThisScope: RocDataSource<TrafficClass, TrafficClassList>
+        ) => void,
+        enterpriseId?: TargetName
     ): void {
         dataSourceObservable
             .pipe(
-                map((x: Enterprises) => x?.enterprise),
                 skipWhile((x) => x === undefined),
-                mergeMap((items: EnterprisesEnterprise[]) => from(items))
+                mergeMap((trafficClasses: TrafficClass[]) =>
+                    from(trafficClasses)
+                )
             )
             .subscribe(
-                (value: EnterprisesEnterprise) => {
-                    if (value['traffic-class']) {
-                        value['traffic-class'].forEach((tc) => {
-                            tc['enterprise-id'] = value['enterprise-id'];
-                            const fullPath = this.deletePath(
-                                value['enterprise-id'],
-                                tc['traffic-class-id']
-                            );
-                            if (this.bs.containsDeleteEntry(fullPath)) {
-                                tc[FORDELETE] = STRIKETHROUGH;
-                            }
-                            // Check for usages in applications
-                            if (value.application) {
-                                value.application.forEach((app) => {
-                                    if (app.endpoint) {
-                                        app['endpoint'].forEach((appep) => {
-                                            if (
-                                                appep['traffic-class'] ===
-                                                tc['traffic-class-id']
-                                            ) {
-                                                tc[ISINUSE] = 'true'; // Any match will set it
-                                            }
-                                        });
+                (tc: TrafficClass) => {
+                    tc['enterprise-id'] = enterpriseId.name;
+                    const fullPath = this.deletePath(
+                        enterpriseId.name,
+                        tc['traffic-class-id']
+                    );
+                    if (this.bs.containsDeleteEntry(fullPath)) {
+                        tc[FORDELETE] = STRIKETHROUGH;
+                    }
+                    // Check for usages in applications
+                    this.applicationService
+                        .getApplicationList({
+                            'enterprise-id': enterpriseId.name,
+                        })
+                        .pipe(
+                            mergeMap((applications: Application[]) =>
+                                from(applications)
+                            )
+                        )
+                        .subscribe((app: Application) => {
+                            if (app.endpoint) {
+                                app['endpoint'].forEach((appep) => {
+                                    if (
+                                        appep['traffic-class'] ===
+                                        tc['traffic-class-id']
+                                    ) {
+                                        tc[ISINUSE] = 'true'; // Any match will set it
                                     }
                                 });
-                            }
-                            // Check for usages in device-groups
-                            if (value.site) {
-                                value.site.forEach((site) => {
-                                    if (site['device-group']) {
-                                        site['device-group'].forEach((dg) => {
-                                            if (
-                                                dg['traffic-class'] ===
-                                                tc['traffic-class-id']
-                                            ) {
-                                                tc[ISINUSE] = 'true'; // Any match will set it
-                                            }
-                                        });
-                                    }
-                                    // Check for usages in slices
-                                    if (site.slice) {
-                                        site.slice.forEach((slice) => {
-                                            if (
-                                                slice['priority-traffic-rule']
-                                            ) {
-                                                slice[
-                                                    'priority-traffic-rule'
-                                                ].forEach((ptr) => {
-                                                    if (
-                                                        ptr['traffic-class'] ===
-                                                        tc['traffic-class-id']
-                                                    ) {
-                                                        tc[ISINUSE] = 'true'; // Any match will set it
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                });
-                                this.data.push(tc);
                             }
                         });
-                    }
+                    // Check for usages in device-groups
+                    this.siteService
+                        .getSiteList({ 'enterprise-id': enterpriseId.name })
+                        .pipe(mergeMap((sites: Site[]) => from(sites)))
+                        .subscribe((site) => {
+                            if (site['device-group']) {
+                                site['device-group'].forEach((dg) => {
+                                    if (
+                                        dg['traffic-class'] ===
+                                        tc['traffic-class-id']
+                                    ) {
+                                        tc[ISINUSE] = 'true'; // Any match will set it
+                                    }
+                                });
+                            }
+                            // Check for usages in slices
+                            if (site.slice) {
+                                site.slice.forEach((slice) => {
+                                    if (slice['priority-traffic-rule']) {
+                                        slice['priority-traffic-rule'].forEach(
+                                            (ptr) => {
+                                                if (
+                                                    ptr['traffic-class'] ===
+                                                    tc['traffic-class-id']
+                                                ) {
+                                                    tc[ISINUSE] = 'true'; // Any match will set it
+                                                }
+                                            }
+                                        );
+                                    }
+                                });
+                            }
+                        });
+                    this.data.push(tc);
                 },
+
                 (error) => {
                     console.warn(
                         'Error getting data from ',
-                        this.target,
+                        enterpriseId,
                         error
                     );
                 },
@@ -139,9 +145,7 @@ export class TrafficClassDatasource extends RocDataSource<
             );
     }
 
-    getSortedData(
-        data: EnterprisesEnterpriseTrafficClass[]
-    ): EnterprisesEnterpriseTrafficClass[] {
+    getSortedData(data: TrafficClass[]): TrafficClass[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -154,13 +158,13 @@ export class TrafficClassDatasource extends RocDataSource<
             const isAsc = this.sort.direction === 'asc';
             switch (this.sort.active) {
                 case 'qci':
-                    return compare(a[this.qciAttr], b[this.qciAttr], isAsc);
+                    return compare(a.qci, b.qci, isAsc);
                 case 'arp':
-                    return compare(a[this.arpAttr], b[this.arpAttr], isAsc);
+                    return compare(a.arp, b.arp, isAsc);
                 case 'pdb':
-                    return compare(a[this.pdbAttr], b[this.pdbAttr], isAsc);
+                    return compare(a.pdb, b.pdb, isAsc);
                 case 'pelr':
-                    return compare(a[this.pelrAttr], b[this.pelrAttr], isAsc);
+                    return compare(a.pelr, b.pelr, isAsc);
                 default:
                     return 0;
             }

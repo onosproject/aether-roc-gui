@@ -12,14 +12,19 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGET } from '../../../environments/environment';
-import { BasketService } from '../../basket.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
 import { ActivatedRoute } from '@angular/router';
 import { RocUsageBase, UsageColumns } from '../../roc-usage-base';
+import { mergeMap } from 'rxjs/operators';
+import { from } from 'rxjs';
+import {
+    ApplicationService,
+    SiteService,
+} from '../../../openapi3/aether/2.1.0/services';
+import { Application, Site } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
 export interface displayedColumns {
     'parent-module': string;
@@ -37,31 +42,27 @@ export class ShowUsageComponent extends RocUsageBase implements OnChanges {
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<UsageColumns>;
     @Input() trafficClassID: string;
-    @Input() enterpriseID: string;
+    @Input() enterpriseID: TargetName = { name: undefined };
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
     constructor(
         protected fb: FormBuilder,
-        private basketService: BasketService,
         protected route: ActivatedRoute,
-        private siteService: EnterprisesEnterpriseService
+        protected siteService: SiteService,
+        protected applicationService: ApplicationService
     ) {
-        super(
-            'enterprises-2.0.0',
-            ['enterprise', 'traffic-class'],
-            ['enterprise-id', 'traffic-class-id']
-        );
+        super('traffic-class-2.1.0', ['traffic-class'], ['traffic-class-id']);
     }
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
         this.siteService
-            .getEnterprisesEnterprise({
-                target: AETHER_TARGET,
-                'enterprise-id': this.enterpriseID,
+            .getSiteList({
+                'enterprise-id': this.enterpriseID.name,
             })
-            .subscribe((displayData) => {
-                displayData.site.forEach((s) => {
+            .pipe(mergeMap((items: Site[]) => from(items)))
+            .subscribe(
+                (s) => {
                     s['device-group'].forEach((dg) => {
                         if (dg['traffic-class'] === this.trafficClassID) {
                             const displayParentModules = {
@@ -72,7 +73,7 @@ export class ShowUsageComponent extends RocUsageBase implements OnChanges {
                                     'device-group-id',
                                 ],
                                 ids: [
-                                    this.enterpriseID,
+                                    this.enterpriseID.name,
                                     s['site-id'],
                                     dg['device-group-id'],
                                 ],
@@ -82,55 +83,92 @@ export class ShowUsageComponent extends RocUsageBase implements OnChanges {
                             this.parentModulesArray.push(displayParentModules);
                         }
                     });
-                    s.slice.forEach((sl) => {
-                        sl['priority-traffic-rule'].forEach((ptr) => {
-                            if (ptr['traffic-class'] === this.trafficClassID) {
-                                const displayParentModules = {
-                                    type: 'Slice',
-                                    'attr-names': [
-                                        'enterprise-id',
-                                        'site-id',
-                                        'slice-id',
-                                    ],
-                                    ids: [
-                                        this.enterpriseID,
-                                        s['site-id'],
-                                        sl['slice-id'],
-                                    ],
-                                    'display-name': sl['display-name'],
-                                    route: '/slice/slice-edit',
-                                } as UsageColumns;
-                                this.parentModulesArray.push(
-                                    displayParentModules
-                                );
-                            }
+                    if (s.slice) {
+                        s.slice.forEach((sl) => {
+                            sl['priority-traffic-rule'].forEach((ptr) => {
+                                if (
+                                    ptr['traffic-class'] === this.trafficClassID
+                                ) {
+                                    const displayParentModules = {
+                                        type: 'Slice',
+                                        'attr-names': [
+                                            'enterprise-id',
+                                            'site-id',
+                                            'slice-id',
+                                        ],
+                                        ids: [
+                                            this.enterpriseID.name,
+                                            s['site-id'],
+                                            sl['slice-id'],
+                                        ],
+                                        'display-name': sl['display-name'],
+                                        route: '/slice/slice-edit',
+                                    } as UsageColumns;
+                                    this.parentModulesArray.push(
+                                        displayParentModules
+                                    );
+                                }
+                            });
                         });
-                    });
-                });
-                displayData.application.forEach((appElement) => {
-                    appElement.endpoint.forEach((appEndpointElement) => {
-                        if (
-                            appEndpointElement['traffic-class'] ===
-                            this.trafficClassID
-                        ) {
-                            const displayParentModules = {
-                                type: 'Application',
-                                'attr-names': [
-                                    'enterprise-id',
-                                    'application-id',
-                                ],
-                                ids: [
-                                    this.enterpriseID,
-                                    appElement['application-id'],
-                                ],
-                                'display-name': appElement['display-name'],
-                                route: '/application/application-edit',
-                            } as UsageColumns;
-                            this.parentModulesArray.push(displayParentModules);
-                        }
-                    });
-                });
-                this.table.dataSource = this.parentModulesArray;
-            });
+                    }
+                },
+                (err) => console.error(err),
+                () => {
+                    // When finished, get the application endpoints
+                    this.applicationService
+                        .getApplicationList({
+                            'enterprise-id': this.enterpriseID.name,
+                        })
+                        .pipe(mergeMap((items: Application[]) => from(items)))
+                        .subscribe(
+                            (appElement) => {
+                                appElement.endpoint.forEach(
+                                    (appEndpointElement) => {
+                                        if (
+                                            appEndpointElement[
+                                                'traffic-class'
+                                            ] === this.trafficClassID
+                                        ) {
+                                            const displayParentModules = {
+                                                type: 'Application',
+                                                'attr-names': [
+                                                    'enterprise-id',
+                                                    'application-id',
+                                                ],
+                                                ids: [
+                                                    this.enterpriseID.name,
+                                                    appElement[
+                                                        'application-id'
+                                                    ],
+                                                ],
+                                                'display-name':
+                                                    appElement['display-name'],
+                                                route: '/application/application-edit',
+                                            } as UsageColumns;
+                                            this.parentModulesArray.push(
+                                                displayParentModules
+                                            );
+                                        }
+                                    }
+                                );
+                            },
+                            (err) => {
+                                if (err.status != 404) {
+                                    console.error(err);
+                                } else {
+                                    this.table.dataSource =
+                                        this.parentModulesArray;
+                                }
+                            },
+                            () => {
+                                console.log(
+                                    'Completed usage search for',
+                                    this.trafficClassID
+                                );
+                                this.table.dataSource = this.parentModulesArray;
+                            }
+                        );
+                }
+            );
     }
 }

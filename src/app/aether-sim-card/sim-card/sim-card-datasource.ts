@@ -5,90 +5,67 @@
  */
 
 import { compare, RocDataSource } from '../../roc-data-source';
-import { Enterprises } from '../../../openapi3/aether/2.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
-import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models';
-import { from, Observable } from 'rxjs';
-import { map, mergeMap, skipWhile } from 'rxjs/operators';
-import { EnterprisesEnterprise } from '../../../openapi3/aether/2.0.0/models';
+import { Observable } from 'rxjs';
+import { skipWhile } from 'rxjs/operators';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteSimCard, SiteList } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models';
 
-export class SimCardDatasource extends RocDataSource<
-    EnterprisesEnterpriseSiteSimCard,
-    Enterprises
-> {
+export class SimCardDatasource extends RocDataSource<SiteSimCard, SiteList> {
     constructor(
-        protected aetherService: AetherService,
-        public bs: BasketService,
-        protected target: string
+        protected enterpriseService: EnterpriseService,
+        public bs: BasketService
     ) {
         super(
-            aetherService,
             bs,
-            target,
-            'enterprises-2.0.0',
-            ['enterprise', 'site', 'sim-card'],
-            ['enterprise-id', 'site-id', 'sim-id']
+            enterpriseService,
+            undefined,
+            ['site-2.1.0', 'sim-card'],
+            ['site-id', 'sim-id']
         );
     }
 
     loadData(
-        dataSourceObservable: Observable<Enterprises>,
+        dataSourceObservable: Observable<SiteList>,
         onDataLoaded: (
-            dataSourceThisScope: RocDataSource<
-                EnterprisesEnterpriseSiteSimCard,
-                Enterprises
-            >
-        ) => void
+            dataSourceThisScope: RocDataSource<SiteSimCard, SiteList>
+        ) => void,
+        enterpriseId?: TargetName
     ): void {
-        dataSourceObservable
-            .pipe(
-                map((x: Enterprises) => x?.enterprise),
-                skipWhile((x) => x === undefined),
-                mergeMap((items: EnterprisesEnterprise[]) => from(items))
-            )
-            .subscribe(
-                (value: EnterprisesEnterprise) => {
-                    if (value.site) {
-                        value.site.forEach((s) => {
-                            if (s['sim-card']) {
-                                s['sim-card'].forEach((sc) => {
-                                    sc['enterprise-id'] =
-                                        value['enterprise-id'];
-                                    sc['site-id'] = s['site-id'];
-                                    const fullPath = this.deletePath(
-                                        value['enterprise-id'],
-                                        s['site-id'],
-                                        sc['sim-card-id']
-                                    );
-                                    if (this.bs.containsDeleteEntry(fullPath)) {
-                                        sc[FORDELETE] = STRIKETHROUGH;
-                                    }
-                                    this.data.push(sc);
-                                });
+        dataSourceObservable.pipe(skipWhile((x) => x === undefined)).subscribe(
+            (value: SiteList) => {
+                value.forEach((s) => {
+                    if (s['sim-card']) {
+                        s['sim-card'].forEach((sc) => {
+                            sc['enterprise-id'] = enterpriseId.name;
+                            sc['site-id'] = s['site-id'];
+                            const fullPath = this.deletePath(
+                                enterpriseId.name,
+                                s['site-id'],
+                                sc['sim-card-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                sc[FORDELETE] = STRIKETHROUGH;
                             }
+                            this.data.push(sc);
                         });
                     }
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting data from ',
-                        this.target,
-                        error
-                    );
-                },
-                () => {
-                    // table.refreshRows() does not seem to work - using this trick instead
-                    // const basketPreview = this.bs.buildPatchBody().Updates;
-                    onDataLoaded(this);
-                    this.paginator._changePageSize(this.paginator.pageSize);
-                }
-            );
+                });
+            },
+            (error) => {
+                console.warn('Error getting data from ', enterpriseId, error);
+            },
+            () => {
+                // table.refreshRows() does not seem to work - using this trick instead
+                // const basketPreview = this.bs.buildPatchBody().Updates;
+                onDataLoaded(this);
+                this.paginator._changePageSize(this.paginator.pageSize);
+            }
+        );
     }
 
-    getSortedData(
-        data: EnterprisesEnterpriseSiteSimCard[]
-    ): EnterprisesEnterpriseSiteSimCard[] {
+    getSortedData(data: SiteSimCard[]): SiteSimCard[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||

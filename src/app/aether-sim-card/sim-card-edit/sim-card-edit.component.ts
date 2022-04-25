@@ -6,19 +6,19 @@
 
 import { Component, OnInit } from '@angular/core';
 import { RocEditBase } from '../../roc-edit-base';
-import { EnterprisesEnterpriseSiteSimCard } from '../../../openapi3/aether/2.0.0/models';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BasketService, ORIGINAL, TYPE } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import {
-    EnterprisesEnterpriseSiteSimCardService,
-    Service as AetherService,
-} from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { SimCardDatasource } from '../sim-card/sim-card-datasource';
 import { simCardModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteSimCard } from '../../../openapi3/aether/2.1.0/models';
+import {
+    SiteService,
+    SiteSimCardService,
+} from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-sim-card-edit',
@@ -29,7 +29,7 @@ export class SimCardEditComponent
     extends RocEditBase<SimCardDatasource>
     implements OnInit
 {
-    data: EnterprisesEnterpriseSiteSimCard;
+    data: SiteSimCard;
     pathListAttr = 'sim-card';
     simCardId: string;
     showParentDisplay = false;
@@ -70,8 +70,10 @@ export class SimCardEditComponent
     });
 
     constructor(
-        private simCardService: EnterprisesEnterpriseSiteSimCardService,
-        protected aetherService: AetherService,
+        private simCardService: SiteSimCardService,
+        protected enterpriseService: EnterpriseService,
+        protected siteService: SiteService,
+
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -82,10 +84,11 @@ export class SimCardEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
-            new SimCardDatasource(aetherService, bs, AETHER_TARGET),
-            simCardModelPath,
-            aetherService
+            new SimCardDatasource(enterpriseService, bs),
+            simCardModelPath
         );
         super.form = this.simCardForm;
         super.loadFunc = this.loadSimCard;
@@ -100,10 +103,9 @@ export class SimCardEditComponent
         this.showParentDisplay = false;
     }
 
-    loadSimCard(target: string, simCardId: string): void {
+    loadSimCard(simCardId: string): void {
         this.simCardService
-            .getEnterprisesEnterpriseSiteSimCard({
-                target: AETHER_TARGET,
+            .getSiteSimCard({
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
                 'sim-id': simCardId,
@@ -116,8 +118,9 @@ export class SimCardEditComponent
                 },
                 (error) => {
                     console.warn(
-                        'Error getting EnterprisesEnterpriseSiteSimCard(s) for ',
-                        target,
+                        'Error getting SiteSimCard(s) for ',
+                        this.enterpriseId,
+                        this.siteId,
                         error
                     );
                 },
@@ -129,20 +132,19 @@ export class SimCardEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseSiteSimCard
-                        );
+                        this.populateFormData(model as SiteSimCard);
                     }
                     console.log(
-                        'Finished loading EnterprisesEnterpriseSiteSimCard(s)',
-                        target,
+                        'Finished loading SiteSimCard(s)',
+                        this.enterpriseId,
+                        this.siteId,
                         simCardId
                     );
                 }
             );
     }
 
-    private populateFormData(value: EnterprisesEnterpriseSiteSimCard): void {
+    private populateFormData(value: SiteSimCard): void {
         if (value['sim-id']) {
             this.simCardForm.get('sim-id').setValue(value['sim-id']);
             this.simCardForm.get('sim-id')[ORIGINAL] = value['sim-id'];

@@ -38,7 +38,7 @@
                 id="enterpriseRowSelect"
                 *ngIf="isNew"
             >
-                <mat-label *ngIf="enterprises.length === 0"
+                <mat-label *ngIf="enterpriseService.enterprises.length === 0"
                     >No Enterprise available
                 </mat-label>
                 <mat-select
@@ -48,10 +48,11 @@
                     placeholder="Please select an Enterprise"
                 >
                     <mat-option
-                        *ngFor="let eachEnterprise of enterprises"
-                        [value]="eachEnterprise.enterpriseId"
-                        >{{ eachEnterprise.enterpriseId }}
-                        {{ eachEnterprise.displayName }}
+                        *ngFor="
+                            let eachEnterprise of enterpriseService.enterprises
+                        "
+                        [value]="eachEnterprise"
+                        >{{ eachEnterprise.name }}
                     </mat-option>
                 </mat-select>
                 <mat-hint><small>Enterprise</small></mat-hint>
@@ -227,7 +228,7 @@
                             siteForm.valid &&
                             siteForm.touched &&
                             opaService.canWrite('/site/site') &&
-                            enterpriseId !== unknownEnterprise
+                            enterpriseId.name !== unknownEnterprise
                         )
                     "
                     id="submitButton"

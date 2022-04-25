@@ -14,7 +14,7 @@
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/slice/slice-monitor/{{ enterpriseId }}/{{
+                routerLink="/slice/slice-monitor/{{ enterpriseId.name }}/{{
                     siteId
                 }}/{{ sliceID }}"
                 id="monitorVcsButton"
@@ -39,7 +39,7 @@
                 id="enterpriseRowSelect"
                 *ngIf="isNew"
             >
-                <mat-label *ngIf="enterprises.length === 0"
+                <mat-label *ngIf="enterpriseService.enterprises.length === 0"
                     >No Enterprise available
                 </mat-label>
                 <mat-select
@@ -47,13 +47,15 @@
                     id="selectEnterprise"
                     [(value)]="enterpriseId"
                     placeholder="Please select an Enterprise"
-                    (selectionChange)="loadTemplate(AETHER_TARGET)"
+                    (selectionChange)="loadTemplate(enterpriseId)"
                 >
                     <mat-option
-                        *ngFor="let eachEnterprise of enterprises"
-                        [value]="eachEnterprise.enterpriseId"
-                        >{{ eachEnterprise.enterpriseId }}
-                        {{ eachEnterprise.displayName }}
+                        *ngFor="
+                            let eachEnterprise of enterpriseService.enterprises
+                        "
+                        [value]="eachEnterprise"
+                        (onSelectionChange)="sitesOfEnterprise($event)"
+                        >{{ eachEnterprise.name }}
                     </mat-option>
                 </mat-select>
                 <mat-hint><small>Enterprise</small></mat-hint>
@@ -63,7 +65,7 @@
                 id="siteRowSelect"
                 *ngIf="isNew"
             >
-                <mat-label *ngIf="enterprises.length === 0"
+                <mat-label *ngIf="sites.length === 0"
                     >No Site available
                 </mat-label>
                 <mat-select
@@ -74,7 +76,7 @@
                     (selectionChange)="loadUpf()"
                 >
                     <mat-option
-                        *ngFor="let eachSite of sitesOfEnterprise(enterpriseId)"
+                        *ngFor="let eachSite of sites"
                         [value]="eachSite.siteID"
                         >{{ eachSite.siteID }}
                         {{ eachSite.displayName }}
@@ -120,7 +122,7 @@
                 <mat-form-field class="field-margin full-width">
                     <mat-select
                         (selectionChange)="templateSelected($event)"
-                        [disabled]="enterpriseId === unknownEnterprise"
+                        [disabled]="enterpriseId.name === unknownEnterprise"
                         id="selectTemplate"
                     >
                         <mat-option
@@ -224,7 +226,7 @@
                                 aria-hidden="false"
                                 aria-label="Application"
                                 routerLink="/application/application-edit/{{
-                                    enterpriseId
+                                    enterpriseId.name
                                 }}/{{ appForm.value.application }}"
                                 id="pointerApplication"
                                 >launch
@@ -287,7 +289,7 @@
                                 aria-hidden="false"
                                 aria-label="device-group"
                                 routerLink="/device-group/device-group-edit/{{
-                                    enterpriseId
+                                    enterpriseId.name
                                 }}/{{ siteId }}/{{
                                     dgForm.value['device-group']
                                 }}"
@@ -440,7 +442,7 @@
                                 '/slice/slice[slice-id={{sliceID}}]'
                             ) &&
                             siteId !== unknownSite &&
-                            enterpriseId !== unknownEnterprise
+                            enterpriseId.name !== unknownEnterprise
                         )
                     "
                 >

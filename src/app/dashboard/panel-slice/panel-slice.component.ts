@@ -14,17 +14,9 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import {
-    Enterprises,
-    EnterprisesEnterpriseSiteSlice,
-} from '../../../openapi3/aether/2.0.0/models';
 import { RocListBase } from '../../roc-list-base';
-import {
-    AETHER_TARGET,
-    PERFORMANCE_METRICS_ENABLED,
-} from '../../../environments/environment';
+import { PERFORMANCE_METRICS_ENABLED } from '../../../environments/environment';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { PanelSliceDatasource } from './panel-slice-datasource';
 import { VcsPromDataSource } from '../../utils/vcs-prom-data-source';
@@ -32,6 +24,9 @@ import { HttpClient } from '@angular/common/http';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { IdTokClaims } from '../../idtoken';
 import { RocDataSource } from '../../roc-data-source';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteList, SiteSlice } from '../../../openapi3/aether/2.1.0/models';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 
 const vcsPromTags = ['vcs_active', 'vcs_inactive', 'vcs_idle'];
 
@@ -44,7 +39,7 @@ const vcsPromTags = ['vcs_active', 'vcs_inactive', 'vcs_idle'];
     ],
 })
 export class PanelSliceComponent
-    extends RocListBase<PanelSliceDatasource, EnterprisesEnterpriseSiteSlice>
+    extends RocListBase<PanelSliceDatasource, SiteSlice>
     implements AfterViewInit, OnDestroy
 {
     @Input() top: number;
@@ -53,7 +48,7 @@ export class PanelSliceComponent
     @Input() height: number;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteSlice>;
+    @ViewChild(MatTable) table: MatTable<SiteSlice>;
     loginTokenTimer;
     panelUrl: string;
     grafanaOrgId = 1;
@@ -73,36 +68,26 @@ export class PanelSliceComponent
 
     constructor(
         public opaService: OpenPolicyAgentService,
-        private aetherService: AetherService,
+        private siteService: SiteService,
         private basketService: BasketService,
         private httpClient: HttpClient,
         private oauthService: OAuthService,
+        protected enterpriseService: EnterpriseService,
         @Inject('grafana_api_proxy') private grafanaUrl: string
     ) {
         super(
             basketService,
-            new PanelSliceDatasource(
-                aetherService,
-                basketService,
-                AETHER_TARGET
-            )
+            new PanelSliceDatasource(enterpriseService, basketService)
         );
         super.reqdAttr = ['sd', 'traffic-class', 'sst', 'enterprise'];
         this.promData = new VcsPromDataSource(httpClient);
     }
 
-    onDataLoaded(
-        ScopeOfDataSource: RocDataSource<
-            EnterprisesEnterpriseSiteSlice,
-            Enterprises
-        >
-    ): void {
-        ScopeOfDataSource.data.forEach(
-            (vcs: EnterprisesEnterpriseSiteSlice) => {
-                // Add the tag on to Slice. the data is filled in below
-                vcsPromTags.forEach((tag: string) => (vcs[tag] = {}));
-            }
-        );
+    onDataLoaded(ScopeOfDataSource: RocDataSource<SiteSlice, SiteList>): void {
+        ScopeOfDataSource.data.forEach((vcs: SiteSlice) => {
+            // Add the tag on to Slice. the data is filled in below
+            vcsPromTags.forEach((tag: string) => (vcs[tag] = {}));
+        });
         console.log('Slice Data Loaded');
     }
 
@@ -124,16 +109,19 @@ export class PanelSliceComponent
                     this.grafanaOrgName
                 );
 
+                this.enterpriseService.enterprises.forEach((enterpriseId) => {
+                    this.dataSource.loadData(
+                        this.siteService.getSiteList({
+                            'enterprise-id': enterpriseId.name,
+                        }),
+                        this.onDataLoaded.bind(this),
+                        enterpriseId
+                    );
+                });
+
                 clearInterval(this.loginTokenTimer);
             }
-        }, 10);
-
-        this.dataSource.loadData(
-            this.aetherService.getEnterprises({
-                target: AETHER_TARGET,
-            }),
-            this.onDataLoaded.bind(this)
-        );
+        }, 1000);
     }
 
     ngOnDestroy(): void {

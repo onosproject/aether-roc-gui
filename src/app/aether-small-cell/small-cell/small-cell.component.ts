@@ -9,12 +9,12 @@ import { SmallCellDatasource } from './small-cell-datasource';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { EnterprisesEnterpriseSiteSmallCell } from '../../../openapi3/aether/2.0.0/models';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { smallCellModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteSmallCell } from '../../../openapi3/aether/2.1.0/models';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-small-cell',
@@ -22,12 +22,12 @@ import { smallCellModelPath } from '../../models-info';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class SmallCellComponent
-    extends RocListBase<SmallCellDatasource, EnterprisesEnterpriseSiteSmallCell>
+    extends RocListBase<SmallCellDatasource, SiteSmallCell>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteSmallCell>;
+    @ViewChild(MatTable) table: MatTable<SiteSmallCell>;
 
     displayedColumns = [
         'id',
@@ -40,22 +40,17 @@ export class SmallCellComponent
         'delete',
     ];
 
-    modelPath = [
-        'enterprises-2.0.0',
-        'enterprise',
-        'site',
-        'small-cell',
-        'small-cell-id',
-    ];
+    modelPath = ['site-2.1.0', 'site', 'small-cell', 'small-cell-id'];
 
     constructor(
-        private aetherService: AetherService,
         private basketService: BasketService,
+        protected enterpriseService: EnterpriseService,
+        private siteService: SiteService,
         public opaService: OpenPolicyAgentService
     ) {
         super(
             basketService,
-            new SmallCellDatasource(aetherService, basketService, AETHER_TARGET)
+            new SmallCellDatasource(enterpriseService, basketService)
         );
     }
 
@@ -71,11 +66,14 @@ export class SmallCellComponent
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadData(
-            this.aetherService.getEnterprises({
-                target: AETHER_TARGET,
-            }),
-            this.onDataLoaded.bind(this)
-        );
+        this.enterpriseService.enterprises.forEach((enterpriseId) => {
+            this.dataSource.loadData(
+                this.siteService.getSiteList({
+                    'enterprise-id': enterpriseId.name,
+                }),
+                this.onDataLoaded.bind(this),
+                enterpriseId
+            );
+        });
     }
 }

@@ -11,7 +11,10 @@ import {
     MAT_FORM_FIELD_DEFAULT_OPTIONS,
     MatFormFieldModule,
 } from '@angular/material/form-field';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+    HttpClientTestingModule,
+    HttpTestingController,
+} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,10 +26,43 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { TargetName } from '../../../openapi3/top/level/models';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import * as _ from 'lodash';
+import { of } from 'rxjs';
+import { SiteSimCard } from '../../../openapi3/aether/2.1.0/models';
 
+const testData: SiteSimCard = {
+    'sim-id': 'test-sim-1',
+    'display-name': 'Test Sim 1',
+    imsi: 123456,
+};
 describe('SimCardEditComponent', () => {
+    let httpTestingController: HttpTestingController;
     let component: SimCardEditComponent;
     let fixture: ComponentFixture<SimCardEditComponent>;
+
+    const simMockParams = {
+        'enterprise-id': 'test-ent',
+        'site-id': 'test-site',
+        id: `test-sim-1`,
+    };
+
+    const mockParamsMap = (params): ParamMap => {
+        return {
+            get: (id) => {
+                return params[id];
+            },
+            has: (id) => {
+                return !_.isNil(params[id]) ? true : false;
+            },
+            getAll: (name: string): string[] => {
+                return [];
+            },
+            keys: [],
+        } as ParamMap;
+    };
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -35,6 +71,13 @@ describe('SimCardEditComponent', () => {
                 {
                     provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
                     useValue: { appearance: 'standard' },
+                },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        paramMap: of(mockParamsMap(simMockParams)),
+                        snapshot: { params: simMockParams },
+                    },
                 },
             ],
             imports: [
@@ -57,9 +100,25 @@ describe('SimCardEditComponent', () => {
     });
 
     beforeEach(() => {
+        TestBed.inject(HttpClient);
+        httpTestingController = TestBed.inject(HttpTestingController);
+
         fixture = TestBed.createComponent(SimCardEditComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+
+        const req = httpTestingController.expectOne(
+            '/aether/v2.1.x/test-ent/site/test-site/sim-card/test-sim-1'
+        );
+
+        expect(req.request.method).toEqual('GET');
+
+        req.flush(testData);
+    });
+
+    afterEach(() => {
+        // Finally, assert that there are no outstanding requests.
+        httpTestingController.verify();
     });
 
     it('should create', () => {
@@ -73,7 +132,9 @@ describe('SimCardEditComponent', () => {
         });
         spyOn(component.opaService, 'canWrite').and.returnValue(true);
         component.siteId = component.unknownSite;
-        component.enterpriseId = component.unknownEnterprise;
+        component.enterpriseId = {
+            name: component.unknownEnterprise,
+        } as TargetName;
 
         fixture.detectChanges();
         const button = fixture.nativeElement.querySelector('#submitButton');
@@ -88,7 +149,9 @@ describe('SimCardEditComponent', () => {
         });
         spyOn(component.opaService, 'canWrite').and.returnValue(true);
         component.siteId = 'site-id';
-        component.enterpriseId = 'ent-id';
+        component.enterpriseId = {
+            name: 'ent-id',
+        } as TargetName;
 
         fixture.detectChanges();
         const button = fixture.nativeElement.querySelector('#submitButton');
@@ -112,8 +175,9 @@ describe('SimCardEditComponent', () => {
 
         it('should add the object to the basket', () => {
             component.siteId = 'test-site';
-            component.enterpriseId = 'test-enterprise';
-
+            component.enterpriseId = {
+                name: 'test-enterprise',
+            } as TargetName;
             spyOn(component.bs, 'logKeyValuePairs');
             component.onSubmit();
             expect(component.bs.logKeyValuePairs).toHaveBeenCalled();

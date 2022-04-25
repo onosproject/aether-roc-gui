@@ -8,14 +8,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { map, startWith } from 'rxjs/operators';
-import {
-    EnterprisesEnterpriseService,
-    EnterprisesEnterpriseSiteService,
-    Service as AetherService,
-} from 'src/openapi3/aether/2.0.0/services';
+import { map, mergeMap, startWith } from 'rxjs/operators';
 import {
     BasketService,
     HEX2NUM,
@@ -26,17 +21,24 @@ import {
 } from 'src/app/basket.service';
 import { HexPipe } from '../../utils/hex.pipe';
 import { SelectAppParam } from '../application-select/application-select.component';
-import {
-    EnterprisesEnterpriseTemplate,
-    EnterprisesEnterpriseSiteUpf,
-    EnterprisesEnterpriseSiteSlice,
-    EnterprisesEnterpriseSite,
-} from '../../../openapi3/aether/2.0.0/models';
-import { EnterprisesEnterpriseSiteSliceService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import * as _ from 'lodash';
 import { SliceDatasource } from '../slice/slice-datasource';
 import { sliceModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
+import {
+    SiteService,
+    SiteSliceService,
+    SiteUpfService,
+    TemplateService,
+} from '../../../openapi3/aether/2.1.0/services';
+import {
+    SiteSlice,
+    Template,
+    SiteUpf,
+    Site,
+    SiteUpfList,
+} from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };
@@ -61,8 +63,8 @@ export class SliceEditComponent
     showApplicationDisplay = false;
     showDeviceGroupDisplay = false;
     sliceID: string;
-    templates: Array<EnterprisesEnterpriseTemplate>;
-    upfs: Array<EnterprisesEnterpriseSiteUpf> = [];
+    templates: Array<Template>;
+    upfs: Array<SiteUpf> = [];
     options: Bandwidths[] = [
         { megabyte: { numerical: 1000000, inMb: '1Mbps' } },
         { megabyte: { numerical: 2000000, inMb: '2Mbps' } },
@@ -87,7 +89,7 @@ export class SliceEditComponent
 
     defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL', 'ALLOW-PUBLIC'];
     bandwidthOptions: Observable<Bandwidths[]>;
-    data: EnterprisesEnterpriseSiteSlice;
+    data: SiteSlice;
     pathListAttr = 'slice';
     sdAsInt = HexPipe.hexAsInt;
 
@@ -171,10 +173,11 @@ export class SliceEditComponent
     });
 
     constructor(
-        protected sliceService: EnterprisesEnterpriseSiteSliceService,
-        protected enterpriseService: EnterprisesEnterpriseService,
-        public siteService: EnterprisesEnterpriseSiteService,
-        protected aetherService: AetherService,
+        protected sliceService: SiteSliceService,
+        protected enterpriseService: EnterpriseService,
+        public siteService: SiteService,
+        protected templateService: TemplateService,
+        protected upfService: SiteUpfService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -185,10 +188,11 @@ export class SliceEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
-            new SliceDatasource(aetherService, bs, AETHER_TARGET),
-            sliceModelPath,
-            aetherService
+            new SliceDatasource(enterpriseService, bs),
+            sliceModelPath
         );
         super.form = this.sliceForm;
         super.loadFunc = this.loadSliceSlice;
@@ -211,7 +215,6 @@ export class SliceEditComponent
             this.sliceForm
                 .get('default-behavior')
                 .setValue(this.defaultBehaviorOptions[0]);
-            this.loadTemplate(this.target);
         } else {
             this.sliceForm.get('sst').disable();
             this.sliceForm.get('sd').disable();
@@ -307,20 +310,20 @@ export class SliceEditComponent
         return this.options.filter((option) => option.megabyte.numerical);
     }
 
-    loadTemplate(target: string): void {
-        if (this.enterpriseId == this.unknownEnterprise) {
+    loadTemplate(target: TargetName): void {
+        console.log('called on load template once target chosen', target);
+        if (this.enterpriseId.name == this.unknownEnterprise) {
             return;
         }
 
-        this.enterpriseService
-            .getEnterprisesEnterprise({
-                target: AETHER_TARGET,
-                'enterprise-id': this.enterpriseId,
+        this.templateService
+            .getTemplateList({
+                'enterprise-id': this.enterpriseId.name,
             })
             .subscribe(
                 (value) => {
-                    this.templates = value.template;
-                    console.log('Got', value.template.length, 'Template');
+                    this.templates = value;
+                    console.log('Got', value.length, 'Template');
                 },
                 (error) => {
                     console.warn('Error getting Template for ', target, error);
@@ -328,9 +331,9 @@ export class SliceEditComponent
             );
     }
 
-    templateSelected(evt: { value: EnterprisesEnterpriseTemplate }): void {
+    templateSelected(evt: { value: Template }): void {
         if (this.isNewInstance) {
-            const eachTemplate: EnterprisesEnterpriseTemplate = evt.value;
+            const eachTemplate: Template = evt.value;
             const SdFormControl = this.sliceForm.get('sd');
             SdFormControl.setValue(
                 eachTemplate.sd.toString(16).toUpperCase().padStart(6, '0')
@@ -371,10 +374,9 @@ export class SliceEditComponent
         }
     }
 
-    loadSliceSlice(target: string, id: string): void {
+    loadSliceSlice(id: string): void {
         this.sliceService
-            .getEnterprisesEnterpriseSiteSlice({
-                target: AETHER_TARGET,
+            .getSiteSlice({
                 'slice-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
@@ -388,7 +390,8 @@ export class SliceEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SliceSlice(s) for ',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         error
                     );
                 },
@@ -400,11 +403,14 @@ export class SliceEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseSiteSlice
-                        );
+                        this.populateFormData(model as SiteSlice);
                     }
-                    console.log('Finished loading SliceSlice(s)', target, id);
+                    console.log(
+                        'Finished loading SliceSlice(s)',
+                        this.enterpriseId,
+                        this.siteId,
+                        id
+                    );
                 }
             );
     }
@@ -443,7 +449,7 @@ export class SliceEditComponent
         });
     }
 
-    public populateFormData(value: EnterprisesEnterpriseSiteSlice): void {
+    public populateFormData(value: SiteSlice): void {
         if (value['slice-id']) {
             this.sliceForm.get('slice-id').setValue(value['slice-id']);
             this.sliceForm.get('slice-id')[ORIGINAL] = value['slice-id'];
@@ -463,7 +469,7 @@ export class SliceEditComponent
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/slice-2.0.0/slice[id=' +
+                            '/basket-delete/slice-2.1.0/slice[id=' +
                                 this.id +
                                 ']/application[application='
                         )
@@ -553,7 +559,7 @@ export class SliceEditComponent
                 Object.keys(localStorage)
                     .filter((checkerKey) =>
                         checkerKey.startsWith(
-                            '/basket-delete/slice-2.0.0/slice[slice-id=' +
+                            '/basket-delete/slice-2.1.0/slice[slice-id=' +
                                 this.id +
                                 ']/device-group[device-group-id='
                         )
@@ -646,16 +652,15 @@ export class SliceEditComponent
 
     loadUpf(): void {
         if (
-            this.enterpriseId == this.unknownEnterprise ||
+            this.enterpriseId.name == this.unknownEnterprise ||
             this.siteId == this.unknownSite
         ) {
             return;
         }
-
+        // Go through all the slices in all sites to see what UPFs have been used up
         this.siteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
-                'enterprise-id': this.enterpriseId,
+            .getSite({
+                'enterprise-id': this.enterpriseId.name,
                 'site-id': this.siteId,
             })
             .subscribe(
@@ -680,7 +685,7 @@ export class SliceEditComponent
                 (error) => {
                     console.warn(
                         'Error getting UPF for ',
-                        AETHER_TARGET,
+                        this.enterpriseId,
                         error
                     );
                 }
@@ -688,14 +693,14 @@ export class SliceEditComponent
     }
 
     // returns a list of UPFs IDs that are not used in other Slices in the same site
-    filterUpf(site: EnterprisesEnterpriseSite): EnterprisesEnterpriseSiteUpf[] {
+    filterUpf(site: Site): SiteUpf[] {
         const usedUpfs = site.slice.map((s) => s.upf);
         return site.upf.reduce((list, item) => {
             if (_.indexOf(usedUpfs, item['upf-id']) == -1) {
                 return [item, ...list];
             }
             return list;
-        }, [] as EnterprisesEnterpriseSiteUpf[]);
+        }, [] as SiteUpf[]);
     }
 
     public get EndpointLimit(): number {

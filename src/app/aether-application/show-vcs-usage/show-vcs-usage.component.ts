@@ -12,13 +12,15 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { EnterprisesEnterpriseService } from '../../../openapi3/aether/2.0.0/services';
 import { RocUsageBase, UsageColumns } from '../../roc-usage-base';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
+import { mergeMap } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { Site } from '../../../openapi3/aether/2.1.0/models';
 
 @Component({
     selector: 'aether-show-vcs-usage',
@@ -36,24 +38,20 @@ export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
     constructor(
         protected fb: FormBuilder,
         protected route: ActivatedRoute,
-        protected siteService: EnterprisesEnterpriseService
+        protected siteService: SiteService
     ) {
-        super(
-            'enterprises-2.0.0',
-            ['enterprise', 'application'],
-            ['enterprise-id', 'application-id']
-        );
+        super('application-2.1.0', ['application'], ['application-id']);
     }
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
         this.siteService
-            .getEnterprisesEnterprise({
-                target: AETHER_TARGET,
+            .getSiteList({
                 'enterprise-id': this.enterpriseID,
             })
-            .subscribe((displayData) => {
-                displayData.site.forEach((s) => {
+            .pipe(mergeMap((sites: Site[]) => from(sites)))
+            .subscribe(
+                (s) => {
                     s.slice.forEach((sliceElement) => {
                         sliceElement.filter.forEach((filterElement) => {
                             if (
@@ -67,7 +65,7 @@ export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
                                         'slice-id',
                                     ],
                                     ids: [
-                                        displayData['enterprise-id'],
+                                        this.enterpriseID,
                                         s['site-id'],
                                         sliceElement['slice-id'],
                                     ],
@@ -80,9 +78,10 @@ export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
                                 );
                             }
                         });
-                        this.table.dataSource = this.parentModulesArray;
                     });
-                });
-            });
+                },
+                (err) => console.error(err),
+                () => (this.table.dataSource = this.parentModulesArray)
+            );
     }
 }

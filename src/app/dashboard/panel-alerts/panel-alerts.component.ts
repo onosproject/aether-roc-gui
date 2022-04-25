@@ -7,9 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SocketService } from '../../socket.service';
 import { Observable } from 'rxjs';
 import { switchAll, tap, pluck, map } from 'rxjs/operators';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import { PROMETHEUS_PROXY } from '../../../environments/environment';
-import { OAuthService } from 'angular-oauth2-oidc';
 
 const RECEIVER = 'receiver';
 const COMMON_LABELS = 'commonLabels';
@@ -75,11 +73,7 @@ export class PanelAlertsComponent implements OnInit {
         return url.replace(prefix, PROMETHEUS_PROXY);
     }
 
-    constructor(
-        private socketService: SocketService,
-        private aetherService: AetherService,
-        private oauthService: OAuthService
-    ) {}
+    constructor(private socketService: SocketService) {}
 
     ngOnInit(): void {
         this.dataObs = this.openWebSocket();

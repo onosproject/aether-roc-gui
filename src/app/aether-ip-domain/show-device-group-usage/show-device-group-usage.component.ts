@@ -12,13 +12,16 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGET } from '../../../environments/environment';
-import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { RocUsageBase, UsageColumns } from '../../roc-usage-base';
+import { SiteDeviceGroupService } from '../../../openapi3/aether/2.1.0/services';
+import { mergeMap } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { SiteDeviceGroup } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
 export interface displayedColumns {
     id;
@@ -37,7 +40,7 @@ export class ShowDeviceGroupUsageComponent
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<UsageColumns>;
-    @Input() enterpriseID: string;
+    @Input() enterpriseID: TargetName = { name: undefined };
     @Input() siteID: string;
     @Input() ipDomainID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
@@ -45,25 +48,21 @@ export class ShowDeviceGroupUsageComponent
     constructor(
         protected fb: FormBuilder,
         protected route: ActivatedRoute,
-        private siteService: EnterprisesEnterpriseSiteService
+        private deviceGroupService: SiteDeviceGroupService
     ) {
-        super(
-            'enterprises-2.0.0',
-            ['enterprise', 'site', 'ip-domain'],
-            ['enterprise-id', 'site-id', 'ip-domain-id']
-        );
+        super('site-2.1.0', ['site', 'ip-domain'], ['site-id', 'ip-domain-id']);
     }
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
-        this.siteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
+        this.deviceGroupService
+            .getSiteDeviceGroupList({
                 'enterprise-id': this.enterpriseID,
                 'site-id': this.siteID,
             })
-            .subscribe((displayData) => {
-                displayData['device-group'].forEach((dg) => {
+            .pipe(mergeMap((items: SiteDeviceGroup[]) => from(items)))
+            .subscribe(
+                (dg) => {
                     if (dg['ip-domain'] === this.ipDomainID) {
                         const displayParentModules = {
                             type: 'Device-Group',
@@ -82,8 +81,9 @@ export class ShowDeviceGroupUsageComponent
                         } as UsageColumns;
                         this.parentModulesArray.push(displayParentModules);
                     }
-                });
-                this.table.dataSource = this.parentModulesArray;
-            });
+                },
+                (err) => console.error(err),
+                () => (this.table.dataSource = this.parentModulesArray)
+            );
     }
 }

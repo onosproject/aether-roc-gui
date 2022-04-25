@@ -17,12 +17,8 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IdTokClaims } from '../../idtoken';
-import { AETHER_TARGET } from '../../../environments/environment';
-import { EnterprisesEnterpriseSiteUpf } from '../../../openapi3/aether/2.0.0/models';
-import {
-    EnterprisesEnterpriseSiteUpfService,
-    Service as AetherService,
-} from '../../../openapi3/aether/2.0.0/services';
+import { SiteUpf } from '../../../openapi3/aether/2.1.0/models';
+import { SiteUpfService } from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-upf-monitor',
@@ -33,7 +29,7 @@ export class UpfMonitorComponent
     extends RocMonitorBase
     implements OnInit, OnDestroy
 {
-    thisUpf: EnterprisesEnterpriseSiteUpf;
+    thisUpf: SiteUpf;
 
     upfLatencyPanelUrl: string;
     upfJitterPanelUrl: string;
@@ -46,8 +42,7 @@ export class UpfMonitorComponent
     @ViewChild('iframe') iframe: ElementRef;
 
     constructor(
-        protected aetherService: AetherService,
-        protected upfService: EnterprisesEnterpriseSiteUpfService,
+        protected upfService: SiteUpfService,
         protected route: ActivatedRoute,
         protected router: Router,
         private httpClient: HttpClient,
@@ -102,9 +97,8 @@ export class UpfMonitorComponent
         console.log('Exited for UPF Monitor page');
     }
 
-    private getUpf(): Observable<EnterprisesEnterpriseSiteUpf> {
-        return this.upfService.getEnterprisesEnterpriseSiteUpf({
-            target: AETHER_TARGET,
+    private getUpf(): Observable<SiteUpf> {
+        return this.upfService.getSiteUpf({
             'enterprise-id': this.route.snapshot.params['enterprise-id'],
             'site-id': this.route.snapshot.params['site-id'],
             'upf-id': this.id,

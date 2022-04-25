@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
     BasketService,
     FORDELETE,
@@ -13,106 +12,90 @@ import {
 } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
 import {
-    Enterprises,
-    EnterprisesEnterprise,
-    EnterprisesEnterpriseApplication,
-} from '../../../openapi3/aether/2.0.0/models';
+    Application,
+    ApplicationList,
+    Site,
+} from '../../../openapi3/aether/2.1.0/models';
 import { from, Observable } from 'rxjs';
-import { map, mergeMap, skipWhile } from 'rxjs/operators';
+import { mergeMap, skipWhile } from 'rxjs/operators';
+import { EnterpriseService } from '../../enterprise.service';
+import { TargetName } from '../../../openapi3/top/level/models';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 
 export class ApplicationDatasource extends RocDataSource<
-    EnterprisesEnterpriseApplication,
-    Enterprises
+    Application,
+    ApplicationList
 > {
     constructor(
-        protected aetherService: AetherService,
         public bs: BasketService,
-        protected target: string
+        protected enterpriseService: EnterpriseService,
+        protected siteService: SiteService
     ) {
         super(
-            aetherService,
             bs,
-            target,
-            'enterprises-2.0.0',
-            ['enterprise', 'application'],
-            ['enterprise-id', 'application-id']
+            enterpriseService,
+            undefined,
+            ['application-2.1.0'],
+            ['application-id']
         );
     }
 
     loadData(
-        dataSourceObservable: Observable<Enterprises>,
+        dataSourceObservable: Observable<ApplicationList>,
         onDataLoaded: (
-            dataSourceThisScope: RocDataSource<
-                EnterprisesEnterpriseApplication,
-                Enterprises
-            >
-        ) => void
+            dataSourceThisScope: RocDataSource<Application, ApplicationList>
+        ) => void,
+        enterpriseId?: TargetName
     ): void {
-        dataSourceObservable
-            .pipe(
-                map((x: Enterprises) => x?.enterprise),
-                skipWhile((x) => x === undefined),
-                mergeMap((items: EnterprisesEnterprise[]) => from(items))
-            )
-            .subscribe(
-                (value: EnterprisesEnterprise) => {
-                    if (value.application) {
-                        value.application.forEach((app) => {
-                            app['enterprise-id'] = value['enterprise-id'];
-                            const fullPath = this.deletePath(
-                                value['enterprise-id'],
-                                app['application-id']
-                            );
-                            if (this.bs.containsDeleteEntry(fullPath)) {
-                                app[FORDELETE] = STRIKETHROUGH;
-                            }
-                            // Check for usages in slices
-                            if (value.site) {
-                                value.site.forEach((site) => {
-                                    if (site.slice) {
-                                        site.slice.forEach((slice) => {
-                                            if (slice.filter) {
-                                                slice.filter.forEach(
-                                                    (filter) => {
-                                                        if (
-                                                            filter.application ===
-                                                            app[
-                                                                'application-id'
-                                                            ]
-                                                        ) {
-                                                            app[ISINUSE] =
-                                                                'true'; // Any match will set it
-                                                        }
-                                                    }
-                                                );
+        dataSourceObservable.pipe(skipWhile((x) => x === undefined)).subscribe(
+            (appList: ApplicationList) => {
+                appList.forEach((app: Application) => {
+                    app['enterprise-id'] = enterpriseId.name;
+                    const fullPath = this.deletePath(
+                        enterpriseId.name,
+                        app['application-id']
+                    );
+                    if (this.bs.containsDeleteEntry(fullPath)) {
+                        app[FORDELETE] = STRIKETHROUGH;
+                    }
+                    // Check for usages in slices
+                    this.siteService
+                        .getSiteList({
+                            'enterprise-id': enterpriseId.name,
+                        })
+                        .pipe(mergeMap((sites: Site[]) => from(sites)))
+                        .subscribe((site: Site) => {
+                            if (site.slice) {
+                                site.slice.forEach((slice) => {
+                                    if (slice.filter) {
+                                        slice.filter.forEach((filter) => {
+                                            if (
+                                                filter.application ===
+                                                app['application-id']
+                                            ) {
+                                                app[ISINUSE] = 'true'; // Any match will set it
                                             }
                                         });
                                     }
                                 });
                             }
-                            this.data.push(app);
                         });
-                    }
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting data from ',
-                        this.target,
-                        error
-                    );
-                },
-                () => {
-                    // table.refreshRows() does not seem to work - using this trick instead
-                    // const basketPreview = this.bs.buildPatchBody().Updates;
-                    onDataLoaded(this);
-                    this.paginator._changePageSize(this.paginator.pageSize);
-                }
-            );
+                    this.data.push(app);
+                });
+            },
+            (error) => {
+                console.warn('Error getting data from ', enterpriseId, error);
+            },
+            () => {
+                // table.refreshRows() does not seem to work - using this trick instead
+                // const basketPreview = this.bs.buildPatchBody().Updates;
+                // onDataLoaded(this);
+                this.paginator._changePageSize(this.paginator.pageSize);
+            }
+        );
     }
 
-    getSortedData(
-        data: EnterprisesEnterpriseApplication[]
-    ): EnterprisesEnterpriseApplication[] {
+    getSortedData(data: Application[]): Application[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
@@ -126,8 +109,6 @@ export class ApplicationDatasource extends RocDataSource<
             switch (this.sort.active) {
                 case 'address':
                     return compare(a.address, b.address, isAsc);
-                // case 'enterprise':
-                //     return compare(a.enterprise, b.enterprise, isAsc);
                 default:
                     return 0;
             }

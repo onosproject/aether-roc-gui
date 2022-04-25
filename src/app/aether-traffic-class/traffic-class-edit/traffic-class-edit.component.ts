@@ -10,14 +10,15 @@ import { BasketService, ORIGINAL } from '../../basket.service';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
-import {
-    EnterprisesEnterpriseTrafficClassService,
-    Service as AetherService,
-} from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { TrafficClassDatasource } from '../traffic-class/traffic-class-datasource';
 import { trafficClassModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
+import {
+    ApplicationService,
+    SiteService,
+    TrafficClassService,
+} from '../../../openapi3/aether/2.1.0/services';
+import { TrafficClass } from '../../../openapi3/aether/2.1.0/models';
 
 @Component({
     selector: 'aether-traffic-class-edit',
@@ -29,7 +30,7 @@ export class TrafficClassEditComponent
     implements OnInit
 {
     pathListAttr = 'traffic-class';
-    data: EnterprisesEnterpriseTrafficClass;
+    data: TrafficClass;
     showParentDisplay = false;
     trafficClassId: string;
     tcForm = this.fb.group({
@@ -74,8 +75,10 @@ export class TrafficClassEditComponent
     });
 
     constructor(
-        private trafficClassTrafficClassService: EnterprisesEnterpriseTrafficClassService,
-        protected aetherService: AetherService,
+        private trafficClassTrafficClassService: TrafficClassService,
+        protected applicationService: ApplicationService,
+        protected siteService: SiteService,
+        protected enterpriseService: EnterpriseService,
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -86,10 +89,16 @@ export class TrafficClassEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            undefined,
             route,
-            new TrafficClassDatasource(aetherService, bs, AETHER_TARGET),
-            trafficClassModelPath,
-            aetherService
+            new TrafficClassDatasource(
+                enterpriseService,
+                applicationService,
+                siteService,
+                bs
+            ),
+            trafficClassModelPath
         );
         super.form = this.tcForm;
         super.loadFunc = this.loadTrafficClassTrafficClass;
@@ -99,10 +108,9 @@ export class TrafficClassEditComponent
         super.init();
     }
 
-    loadTrafficClassTrafficClass(target: string, id: string): void {
+    loadTrafficClassTrafficClass(id: string): void {
         this.trafficClassTrafficClassService
-            .getEnterprisesEnterpriseTrafficClass({
-                target: AETHER_TARGET,
+            .getTrafficClass({
                 'traffic-class-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
             })
@@ -115,7 +123,8 @@ export class TrafficClassEditComponent
                 (error) => {
                     console.warn(
                         'Error getting EnterprisesEnterpriseTrafficClass(s) for ',
-                        target,
+                        this.enterpriseId,
+                        this.siteId,
                         error
                     );
                 },
@@ -127,20 +136,19 @@ export class TrafficClassEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseTrafficClass
-                        );
+                        this.populateFormData(model as TrafficClass);
                     }
                     console.log(
-                        'Finished loading EnterprisesEnterpriseTrafficClass(s)',
-                        target,
+                        'Finished loading TrafficClass(s)',
+                        this.enterpriseId,
+                        this.siteId,
                         id
                     );
                 }
             );
     }
 
-    private populateFormData(value: EnterprisesEnterpriseTrafficClass): void {
+    private populateFormData(value: TrafficClass): void {
         if (value['traffic-class-id']) {
             this.tcForm
                 .get('traffic-class-id')

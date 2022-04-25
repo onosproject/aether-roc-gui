@@ -7,11 +7,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { RocEditBase } from '../../roc-edit-base';
-import { EnterprisesEnterpriseSiteSmallCell } from '../../../openapi3/aether/2.0.0/models';
-import {
-    EnterprisesEnterpriseService,
-    Service as AetherService,
-} from '../../../openapi3/aether/2.0.0/services';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
     BasketService,
@@ -21,10 +16,14 @@ import {
 } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { EnterprisesEnterpriseSiteSmallCellService } from '../../../openapi3/aether/2.0.0/services';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { SmallCellDatasource } from '../small-cell/small-cell-datasource';
 import { smallCellModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteSmallCell } from '../../../openapi3/aether/2.1.0/models';
+import {
+    SiteService,
+    SiteSmallCellService,
+} from '../../../openapi3/aether/2.1.0/services';
 
 @Component({
     selector: 'aether-small-cell-edit',
@@ -35,7 +34,7 @@ export class SmallCellEditComponent
     extends RocEditBase<SmallCellDatasource>
     implements OnInit
 {
-    data: EnterprisesEnterpriseSiteSmallCell;
+    data: SiteSmallCell;
 
     smallCellForm = this.fb.group({
         'small-cell-id': [
@@ -82,9 +81,10 @@ export class SmallCellEditComponent
     smallCellId: string;
 
     constructor(
-        private smallCellService: EnterprisesEnterpriseSiteSmallCellService,
-        protected entService: EnterprisesEnterpriseService,
-        protected aetherService: AetherService,
+        private smallCellService: SiteSmallCellService,
+        protected enterpriseService: EnterpriseService,
+        protected siteService: SiteService,
+
         protected route: ActivatedRoute,
         protected router: Router,
         private fb: FormBuilder,
@@ -95,10 +95,11 @@ export class SmallCellEditComponent
         super(
             snackBar,
             bs,
+            enterpriseService,
+            siteService,
             route,
-            new SmallCellDatasource(aetherService, bs, AETHER_TARGET),
-            smallCellModelPath,
-            aetherService
+            new SmallCellDatasource(enterpriseService, bs),
+            smallCellModelPath
         );
         super.form = this.smallCellForm;
         super.loadFunc = this.loadSmallCell;
@@ -110,7 +111,7 @@ export class SmallCellEditComponent
         super.init();
     }
 
-    private populateFormData(value: EnterprisesEnterpriseSiteSmallCell): void {
+    private populateFormData(value: SiteSmallCell): void {
         if (value['small-cell-id']) {
             this.smallCellForm
                 .get('small-cell-id')
@@ -143,10 +144,9 @@ export class SmallCellEditComponent
         }
     }
 
-    loadSmallCell(target: string, id: string): void {
+    loadSmallCell(id: string): void {
         this.smallCellService
-            .getEnterprisesEnterpriseSiteSmallCell({
-                target: AETHER_TARGET,
+            .getSiteSmallCell({
                 'small-cell-id': id,
                 'enterprise-id': this.route.snapshot.params['enterprise-id'],
                 'site-id': this.route.snapshot.params['site-id'],
@@ -159,8 +159,9 @@ export class SmallCellEditComponent
                 },
                 (error) => {
                     console.warn(
-                        'Error getting EnterprisesEnterpriseSiteSmallCell(s) for ',
-                        target,
+                        'Error getting SiteSmallCell(s) for ',
+                        this.enterpriseId,
+                        this.siteId,
                         error
                     );
                 },
@@ -172,13 +173,12 @@ export class SmallCellEditComponent
                         this.data
                     );
                     if (hasUpdates) {
-                        this.populateFormData(
-                            model as EnterprisesEnterpriseSiteSmallCell
-                        );
+                        this.populateFormData(model as SiteSmallCell);
                     }
                     console.log(
-                        'Finished loading EnterprisesEnterpriseSiteSmallCell(s)',
-                        target,
+                        'Finished loading SiteSmallCell(s)',
+                        this.enterpriseId,
+                        this.siteId,
                         id
                     );
                 }

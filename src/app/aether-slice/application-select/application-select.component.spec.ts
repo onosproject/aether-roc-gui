@@ -21,6 +21,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApplicationSelectComponent } from './application-select.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
 
 describe('ApplicationSelectComponent', () => {
     let component: ApplicationSelectComponent;
@@ -50,6 +51,7 @@ describe('ApplicationSelectComponent', () => {
                 MatDividerModule,
                 MatSnackBarModule,
                 MatSelectModule,
+                MatChipsModule,
             ],
         }).compileComponents();
     });

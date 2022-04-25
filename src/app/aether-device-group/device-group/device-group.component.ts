@@ -7,14 +7,14 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { BasketService } from '../../basket.service';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { RocListBase } from '../../roc-list-base';
 import { DeviceGroupDatasource } from './device-group-datasource';
-import { EnterprisesEnterpriseSiteDeviceGroup } from '../../../openapi3/aether/2.0.0/models';
 import { deviceGroupModelPath } from '../../models-info';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteDeviceGroup } from '../../../openapi3/aether/2.1.0/models';
 
 @Component({
     selector: 'aether-device-group',
@@ -22,15 +22,12 @@ import { deviceGroupModelPath } from '../../models-info';
     styleUrls: ['../../common-profiles.component.scss'],
 })
 export class DeviceGroupComponent
-    extends RocListBase<
-        DeviceGroupDatasource,
-        EnterprisesEnterpriseSiteDeviceGroup
-    >
+    extends RocListBase<DeviceGroupDatasource, SiteDeviceGroup>
     implements AfterViewInit
 {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatTable) table: MatTable<EnterprisesEnterpriseSiteDeviceGroup>;
+    @ViewChild(MatTable) table: MatTable<SiteDeviceGroup>;
 
     displayedColumns = [
         'id',
@@ -44,26 +41,17 @@ export class DeviceGroupComponent
         'monitor',
     ];
 
-    modelPath = [
-        'enterprises-2.0.0',
-        'enterprise',
-        'site',
-        'device-group',
-        'device-group-id',
-    ];
+    modelPath = ['site-2.1.0', 'site', 'device-group', 'device-group-id'];
 
     constructor(
-        private aetherService: AetherService,
+        protected enterpriseService: EnterpriseService,
         private basketService: BasketService,
-        public opaService: OpenPolicyAgentService
+        public opaService: OpenPolicyAgentService,
+        private siteService: SiteService
     ) {
         super(
             basketService,
-            new DeviceGroupDatasource(
-                aetherService,
-                basketService,
-                AETHER_TARGET
-            )
+            new DeviceGroupDatasource(enterpriseService, basketService)
         );
         super.reqdAttr = ['traffic-class'];
     }
@@ -81,11 +69,14 @@ export class DeviceGroupComponent
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         this.table.dataSource = this.dataSource;
-        this.dataSource.loadData(
-            this.aetherService.getEnterprises({
-                target: AETHER_TARGET,
-            }),
-            this.onDataLoaded.bind(this)
-        );
+        this.enterpriseService.enterprises.forEach((enterpriseId) => {
+            this.dataSource.loadData(
+                this.siteService.getSiteList({
+                    'enterprise-id': enterpriseId.name,
+                }),
+                this.onDataLoaded.bind(this),
+                enterpriseId
+            );
+        });
     }
 }

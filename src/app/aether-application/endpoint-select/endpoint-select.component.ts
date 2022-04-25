@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
     AbstractControl,
     FormBuilder,
@@ -13,10 +12,10 @@ import {
     ValidatorFn,
     Validators,
 } from '@angular/forms';
-import { EnterprisesEnterpriseTrafficClass } from '../../../openapi3/aether/2.0.0/models';
 import { Observable } from 'rxjs';
 import { Bandwidths } from '../../aether-template/template-edit/template-edit.component';
 import { map, startWith } from 'rxjs/operators';
+import { TrafficClass } from '../../../openapi3/aether/2.1.0/models';
 
 export interface EndPointParam {
     'endpoint-id': string;
@@ -58,7 +57,7 @@ export class EndpointSelectComponent {
     bandwidthOptions: Observable<Bandwidths[]>;
 
     @Input() alreadySelected: string[] = [];
-    @Input() trafficClassOptions: Array<EnterprisesEnterpriseTrafficClass> = [];
+    @Input() trafficClassOptions: Array<TrafficClass> = [];
     @Output() closeEvent = new EventEmitter<EndPointParam>();
 
     endpointForm = this.fb.group(
@@ -104,7 +103,7 @@ export class EndpointSelectComponent {
         { validators: ValidatePortRange }
     );
 
-    constructor(protected service: AetherService, protected fb: FormBuilder) {
+    constructor(protected fb: FormBuilder) {
         this.bandwidthOptions = this.endpointForm.valueChanges.pipe(
             startWith(''),
             map((value) =>

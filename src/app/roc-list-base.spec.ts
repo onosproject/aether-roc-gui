@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Service as AetherService } from '../openapi3/aether/2.0.0/services';
 import { RocListBase } from './roc-list-base';
 import { BasketService } from './basket.service';
 import { OpenPolicyAgentService } from './open-policy-agent.service';
@@ -29,9 +28,9 @@ interface TestData {
 const TestDataSource = jasmine.createSpyObj('TestDataSource', {
     fullPath: jasmine.createSpy('fullPath').and.returnValue('full-path')(),
 });
-TestDataSource.pathRoot = 'enterprises-2.0.0';
-TestDataSource.pathListAttr = ['enterprise', 'test-data'];
-TestDataSource.indexAttr = ['enterprise-id', 'test-data-id'];
+TestDataSource.pathRoot = 'site-2.1.0';
+TestDataSource.pathListAttr = ['site', 'test-data'];
+TestDataSource.indexAttr = ['site-id', 'test-data-id'];
 
 @Component({
     selector: 'aether-list-base-spec',
@@ -42,7 +41,6 @@ class RocListBaseSpecComponent extends RocListBase<
     TestData
 > {
     constructor(
-        private aetherService: AetherService,
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService
     ) {

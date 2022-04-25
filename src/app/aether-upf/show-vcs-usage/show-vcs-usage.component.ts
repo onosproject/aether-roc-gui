@@ -12,13 +12,13 @@ import {
     ViewChild,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AETHER_TARGET } from '../../../environments/environment';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { EnterprisesEnterpriseSiteService } from '../../../openapi3/aether/2.0.0/services';
 import { ActivatedRoute } from '@angular/router';
 import { RocUsageBase, UsageColumns } from '../../roc-usage-base';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
 export interface displayedColumns {
     id;
@@ -34,7 +34,7 @@ export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<UsageColumns>;
-    @Input() enterpriseID: string;
+    @Input() enterpriseID: TargetName = { name: undefined };
     @Input() siteID: string;
     @Input() upfID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
@@ -42,20 +42,15 @@ export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
     constructor(
         protected fb: FormBuilder,
         protected route: ActivatedRoute,
-        protected siteService: EnterprisesEnterpriseSiteService
+        protected siteService: SiteService
     ) {
-        super(
-            'enterprises-2.0.0',
-            ['enterprise', 'site', 'upf'],
-            ['enterprise-id', 'site-id', 'upf-id']
-        );
+        super('site-2.1.0', ['site', 'upf'], ['site-id', 'upf-id']);
     }
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
         this.siteService
-            .getEnterprisesEnterpriseSite({
-                target: AETHER_TARGET,
+            .getSite({
                 'site-id': this.siteID,
                 'enterprise-id': this.enterpriseID,
             })

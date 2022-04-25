@@ -6,7 +6,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IpDomainEditComponent } from './ip-domain-edit.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+    HttpClientTestingModule,
+    HttpTestingController,
+} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,10 +25,43 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { HttpClient } from '@angular/common/http';
+import { SiteIpDomain } from '../../../openapi3/aether/2.1.0/models';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { from, of } from 'rxjs';
+import * as _ from 'lodash';
+
+const testData: SiteIpDomain = {
+    'ip-domain-id': 'test-ipd-1',
+    dnn: 'test.dnn',
+    subnet: '10.10.10.10/24',
+};
 
 describe('IpDomainEditComponent', () => {
+    let httpTestingController: HttpTestingController;
     let component: IpDomainEditComponent;
     let fixture: ComponentFixture<IpDomainEditComponent>;
+
+    const ipdMockParams = {
+        'enterprise-id': 'test-ent',
+        'site-id': 'test-site',
+        id: `test-ipd-1`,
+    };
+
+    const mockParamsMap = (params): ParamMap => {
+        return {
+            get: (id) => {
+                return params[id];
+            },
+            has: (id) => {
+                return !_.isNil(params[id]) ? true : false;
+            },
+            getAll: (name: string): string[] => {
+                return [];
+            },
+            keys: [],
+        } as ParamMap;
+    };
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -34,6 +70,13 @@ describe('IpDomainEditComponent', () => {
                 {
                     provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
                     useValue: { appearance: 'standard' },
+                },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        paramMap: of(mockParamsMap(ipdMockParams)),
+                        snapshot: { params: ipdMockParams },
+                    },
                 },
             ],
             imports: [
@@ -56,9 +99,32 @@ describe('IpDomainEditComponent', () => {
     });
 
     beforeEach(() => {
+        // Inject the http service and test controller for each test
+        TestBed.inject(HttpClient);
+        httpTestingController = TestBed.inject(HttpTestingController);
+
         fixture = TestBed.createComponent(IpDomainEditComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+
+        // The following `expectOne()` will match the request's URL.
+        // If no requests or multiple requests matched that URL
+        // `expectOne()` would throw.
+        const req = httpTestingController.expectOne(
+            '/aether/v2.1.x/test-ent/site/test-site/ip-domain/test-ipd-1'
+        );
+
+        // Assert that the request is a GET.
+        expect(req.request.method).toEqual('GET');
+
+        // Respond with mock data, causing Observable to resolve.
+        // Subscribe callback asserts that correct data was returned.
+        req.flush(testData);
+    });
+
+    afterEach(() => {
+        // Finally, assert that there are no outstanding requests.
+        httpTestingController.verify();
     });
 
     it('should create', () => {
@@ -94,5 +160,13 @@ describe('IpDomainEditComponent', () => {
         dnnControl.setValue(12);
         console.log(dnnControl, 'dnnControl');
         expect(dnnControl.valid).toBeTruthy();
+    });
+
+    it('should change admin status', () => {
+        const adminStControl = component.ipForm.get('admin-status');
+        expect(adminStControl.value).toBeNull();
+        component.option = 'ENABLE';
+        component.changeAdminStatus();
+        expect(adminStControl.value).toEqual('ENABLE');
     });
 });

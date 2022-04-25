@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Service as AetherService } from '../../../openapi3/aether/2.0.0/services';
 import {
     BasketService,
     FORDELETE,
@@ -12,100 +11,74 @@ import {
     STRIKETHROUGH,
 } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
-import {
-    Enterprises,
-    EnterprisesEnterprise,
-    EnterprisesEnterpriseSiteIpDomain,
-} from '../../../openapi3/aether/2.0.0/models';
-import { from, Observable } from 'rxjs';
-import { map, mergeMap, skipWhile } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { skipWhile } from 'rxjs/operators';
+import { EnterpriseService } from '../../enterprise.service';
+import { SiteIpDomain, SiteList } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models';
 
-export class IpDomainDatasource extends RocDataSource<
-    EnterprisesEnterpriseSiteIpDomain,
-    Enterprises
-> {
+export class IpDomainDatasource extends RocDataSource<SiteIpDomain, SiteList> {
     constructor(
-        protected aetherService: AetherService,
-        public bs: BasketService,
-        protected target: string
+        protected enterpriseService: EnterpriseService,
+        public bs: BasketService
     ) {
         super(
-            aetherService,
             bs,
-            target,
-            'enterprises-2.0.0',
-            ['enterprise', 'site', 'ip-domain'],
-            ['enterprise-id', 'site-id', 'ip-domain-id']
+            enterpriseService,
+            undefined,
+            ['site-2.1.0', 'ip-domain'],
+            ['site-id', 'ip-domain-id']
         );
     }
 
     loadData(
-        dataSourceObservable: Observable<Enterprises>,
+        dataSourceObservable: Observable<SiteList>,
         onDataLoaded: (
-            dataSourceThisScope: RocDataSource<
-                EnterprisesEnterpriseSiteIpDomain,
-                Enterprises
-            >
-        ) => void
+            dataSourceThisScope: RocDataSource<SiteIpDomain, SiteList>
+        ) => void,
+        enterpriseId?: TargetName
     ): void {
-        dataSourceObservable
-            .pipe(
-                map((x: Enterprises) => x?.enterprise),
-                skipWhile((x) => x === undefined),
-                mergeMap((items: EnterprisesEnterprise[]) => from(items))
-            )
-            .subscribe(
-                (value: EnterprisesEnterprise) => {
-                    if (value.site) {
-                        value.site.forEach((s) => {
-                            if (s['ip-domain']) {
-                                s['ip-domain'].forEach((i) => {
-                                    i['enterprise-id'] = value['enterprise-id'];
-                                    i['site-id'] = s['site-id'];
-                                    const fullPath = this.deletePath(
-                                        value['enterprise-id'],
-                                        s['site-id'],
-                                        i['ip-domain-id']
-                                    );
-                                    if (this.bs.containsDeleteEntry(fullPath)) {
-                                        i[FORDELETE] = STRIKETHROUGH;
+        dataSourceObservable.pipe(skipWhile((x) => x === undefined)).subscribe(
+            (value: SiteList) => {
+                value.forEach((s) => {
+                    if (s['ip-domain']) {
+                        s['ip-domain'].forEach((i) => {
+                            i['enterprise-id'] = enterpriseId.name;
+                            i['site-id'] = s['site-id'];
+                            const fullPath = this.deletePath(
+                                enterpriseId.name,
+                                s['site-id'],
+                                i['ip-domain-id']
+                            );
+                            if (this.bs.containsDeleteEntry(fullPath)) {
+                                i[FORDELETE] = STRIKETHROUGH;
+                            }
+                            // Check for usages in device-groups
+                            if (s['device-group']) {
+                                s['device-group'].forEach((dg) => {
+                                    if (dg['ip-domain'] === i['ip-domain-id']) {
+                                        i[ISINUSE] = 'true'; // Any match will set it
                                     }
-                                    // Check for usages in device-groups
-                                    if (s['device-group']) {
-                                        s['device-group'].forEach((dg) => {
-                                            if (
-                                                dg['ip-domain'] ===
-                                                i['ip-domain-id']
-                                            ) {
-                                                i[ISINUSE] = 'true'; // Any match will set it
-                                            }
-                                        });
-                                    }
-                                    this.data.push(i);
                                 });
                             }
+                            this.data.push(i);
                         });
                     }
-                },
-                (error) => {
-                    console.warn(
-                        'Error getting data from ',
-                        this.target,
-                        error
-                    );
-                },
-                () => {
-                    // table.refreshRows() does not seem to work - using this trick instead
-                    // const basketPreview = this.bs.buildPatchBody().Updates;
-                    onDataLoaded(this);
-                    this.paginator._changePageSize(this.paginator.pageSize);
-                }
-            );
+                });
+            },
+            (error) => {
+                console.warn('Error getting data from ', enterpriseId, error);
+            },
+            () => {
+                // table.refreshRows() does not seem to work - using this trick instead
+                // const basketPreview = this.bs.buildPatchBody().Updates;
+                onDataLoaded(this);
+                this.paginator._changePageSize(this.paginator.pageSize);
+            }
+        );
     }
 
-    getSortedData(
-        data: EnterprisesEnterpriseSiteIpDomain[]
-    ): EnterprisesEnterpriseSiteIpDomain[] {
+    getSortedData(data: SiteIpDomain[]): SiteIpDomain[] {
         if (
             !this.sort.active ||
             this.sort.direction === '' ||
