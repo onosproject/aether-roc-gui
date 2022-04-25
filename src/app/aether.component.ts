@@ -80,6 +80,7 @@ export class AetherComponent implements OnInit, OnDestroy {
                     return fulfilled;
                 });
         } else {
+            this.enterpriseService.loadTargets();
             // When no auth is used just open Web socket and accept everything
             this.socketService.connect();
         }
