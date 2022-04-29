@@ -17,7 +17,7 @@ export class EnterpriseService {
 
     constructor(private aetherService: TopLevelApiService) {}
 
-    loadTargets() {
+    loadTargets(): void {
         this.aetherService
             .targetsTopLevel()
             .pipe(tap((e) => console.log('Loaded enterprises', e)))

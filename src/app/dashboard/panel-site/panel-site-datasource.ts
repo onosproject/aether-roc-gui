@@ -5,8 +5,8 @@
  */
 import { RocDataSource } from '../../roc-data-source';
 import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
-import { Observable } from 'rxjs';
-import { skipWhile } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { mergeMap, skipWhile } from 'rxjs/operators';
 import { EnterpriseService } from '../../enterprise.service';
 import { Site, SiteList } from '../../../openapi3/aether/2.1.0/models';
 import { TargetName } from '../../../openapi3/top/level/models';
@@ -28,9 +28,13 @@ export class PanelSiteDatasource extends RocDataSource<Site, SiteList> {
         ) => void,
         enterpriseId?: TargetName
     ): void {
-        dataSourceObservable.pipe(skipWhile((x) => x === undefined)).subscribe(
-            (value: SiteList) => {
-                value.forEach((s) => {
+        dataSourceObservable
+            .pipe(
+                skipWhile((x) => x === undefined),
+                mergeMap((items: Site[]) => from(items))
+            )
+            .subscribe(
+                (s: Site) => {
                     s['enterprise-id'] = enterpriseId.name;
                     const fullPath = this.deletePath(
                         enterpriseId.name,
@@ -40,17 +44,20 @@ export class PanelSiteDatasource extends RocDataSource<Site, SiteList> {
                         s[FORDELETE] = STRIKETHROUGH;
                     }
                     this.data.push(s);
-                });
-            },
-            (error) => {
-                console.warn('Error getting data from ', enterpriseId, error);
-            },
-            () => {
-                // table.refreshRows() does not seem to work - using this trick instead
-                // const basketPreview = this.bs.buildPatchBody().Updates;
-                onDataLoaded(this);
-                this.paginator._changePageSize(this.paginator.pageSize);
-            }
-        );
+                },
+                (error) => {
+                    console.warn(
+                        'Error getting Site data from ',
+                        enterpriseId,
+                        error
+                    );
+                },
+                () => {
+                    // table.refreshRows() does not seem to work - using this trick instead
+                    // const basketPreview = this.bs.buildPatchBody().Updates;
+                    onDataLoaded(this);
+                    this.paginator._changePageSize(this.paginator.pageSize);
+                }
+            );
     }
 }

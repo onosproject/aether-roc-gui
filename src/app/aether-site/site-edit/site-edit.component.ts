@@ -34,7 +34,6 @@ export class SiteEditComponent
 {
     data: Site;
     pathListAttr = 'site';
-    showConnectDisplay = false;
     showEdgeDeviceDisplay = false;
     showSmallCellAddButton = true;
     siteForm = this.fb.group({
@@ -61,9 +60,19 @@ export class SiteEditComponent
             ]),
         ],
         monitoring: this.fb.group({
-            'edge-cluster-prometheus-url': [undefined],
-            'edge-monitoring-prometheus-url': [undefined],
+            'edge-cluster-prometheus-url': [undefined, this.urlValidator],
+            'edge-monitoring-prometheus-url': [undefined, this.urlValidator],
             'edge-device': this.fb.array([]),
+        }),
+        'connectivity-service': this.fb.group({
+            'core-4g': this.fb.group({
+                endpoint: [undefined, this.urlValidator],
+                'acc-prometheus-url': [undefined, this.urlValidator],
+            }),
+            'core-5g': this.fb.group({
+                endpoint: [undefined, this.urlValidator],
+                'acc-prometheus-url': [undefined, this.urlValidator],
+            }),
         }),
         'imsi-definition': this.fb.group({
             mcc: [
@@ -178,6 +187,20 @@ export class SiteEditComponent
         return this.siteForm.get(['imsi-definition']) as FormGroup;
     }
 
+    get ConnectivityService4GControls(): FormGroup {
+        return this.siteForm.get([
+            'connectivity-service',
+            'core-4g',
+        ]) as FormGroup;
+    }
+
+    get ConnectivityService5GControls(): FormGroup {
+        return this.siteForm.get([
+            'connectivity-service',
+            'core-5g',
+        ]) as FormGroup;
+    }
+
     get MonitoringControls(): FormGroup {
         return this.siteForm.get(['monitoring']) as FormGroup;
     }
@@ -277,6 +300,55 @@ export class SiteEditComponent
                 }
             }
         }
+
+        if (value['connectivity-service']) {
+            const cs = value['connectivity-service'];
+            if (cs['core-4g']) {
+                this.siteForm
+                    .get(['connectivity-service', 'core-4g', 'endpoint'])
+                    .setValue(cs['core-4g'].endpoint);
+                this.siteForm.get([
+                    'connectivity-service',
+                    'core-4g',
+                    'endpoint',
+                ])[ORIGINAL] = cs['core-4g'];
+                this.siteForm
+                    .get([
+                        'connectivity-service',
+                        'core-4g',
+                        'acc-prometheus-url',
+                    ])
+                    .setValue(cs['core-4g']['acc-prometheus-url']);
+                this.siteForm.get([
+                    'connectivity-service',
+                    'core-4g',
+                    'acc-prometheus-url',
+                ])[ORIGINAL] = cs['core-4g']['acc-prometheus-url'];
+            }
+            if (cs['core-5g']) {
+                this.siteForm
+                    .get(['connectivity-service', 'core-5g', 'endpoint'])
+                    .setValue(cs['core-5g'].endpoint);
+                this.siteForm.get([
+                    'connectivity-service',
+                    'core-5g',
+                    'endpoint',
+                ])[ORIGINAL] = cs['core-5g'];
+                this.siteForm
+                    .get([
+                        'connectivity-service',
+                        'core-5g',
+                        'acc-prometheus-url',
+                    ])
+                    .setValue(cs['core-5g']['acc-prometheus-url']);
+                this.siteForm.get([
+                    'connectivity-service',
+                    'core-5g',
+                    'acc-prometheus-url',
+                ])[ORIGINAL] = cs['core-5g']['acc-prometheus-url'];
+            }
+        }
+
         if (value['imsi-definition']) {
             this.siteForm
                 .get(['imsi-definition', 'mcc'])

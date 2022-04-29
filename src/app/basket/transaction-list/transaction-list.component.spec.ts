@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ApiModule } from '../../../openapi3/aether/2.1.0/api.module';
 import { HttpClient } from '@angular/common/http';
 import { Transaction } from '../../../openapi3/top/level/models';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 
 const testData: Transaction[] = [
     {
@@ -93,6 +94,7 @@ describe('TransactionListComponent', () => {
                 MatToolbarModule,
                 MatIconModule,
                 ApiModule,
+                CdkAccordionModule,
             ],
         }).compileComponents();
     });

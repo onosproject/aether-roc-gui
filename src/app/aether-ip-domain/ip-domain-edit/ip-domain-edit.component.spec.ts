@@ -28,7 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { HttpClient } from '@angular/common/http';
 import { SiteIpDomain } from '../../../openapi3/aether/2.1.0/models';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { from, of } from 'rxjs';
+import { of } from 'rxjs';
 import * as _ from 'lodash';
 
 const testData: SiteIpDomain = {

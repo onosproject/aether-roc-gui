@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BasketService, REQDATTRIBS } from './basket.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -194,4 +194,19 @@ export abstract class RocEditBase<
         ucMap.set(sliceId, parentUc);
         return ucMap;
     }
+
+    public urlValidator: ValidatorFn = (control: AbstractControl) => {
+        let validUrl = true;
+        if (control.value == null) {
+            return null;
+        }
+
+        try {
+            new URL(control.value);
+        } catch {
+            validUrl = false;
+        }
+
+        return validUrl ? null : { invalidUrl: true };
+    };
 }

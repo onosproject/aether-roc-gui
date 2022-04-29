@@ -31,6 +31,12 @@ const testData: SiteList = [
         'site-id': 'site-1',
         'display-name': 'Site 1',
         description: 'The first site',
+        'connectivity-service': {
+            'core-5g': {
+                endpoint: 'http://test.addr',
+                'acc-prometheus-url': 'http://test.prom.aether',
+            },
+        },
     },
     {
         'site-id': 'site-2',
@@ -130,5 +136,15 @@ describe('SiteComponent', () => {
         expect(component.dataSource.data[0]['enterprise-id']).toEqual(
             'test-ent'
         );
+        expect(
+            component.dataSource.data[0]['connectivity-service']
+        ).not.toBeNull();
+        expect(
+            component.dataSource.data[0]['connectivity-service']['core-5g']
+        ).not.toBeNull();
+        expect(
+            component.dataSource.data[0]['connectivity-service']['core-5g']
+                .endpoint
+        ).toEqual('http://test.addr');
     });
 });

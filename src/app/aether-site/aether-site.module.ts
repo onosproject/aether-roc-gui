@@ -35,6 +35,7 @@ import { UtilsModule } from '../utils/utils.module';
 import { EdgeDeviceComponent } from './edge-device/edge-device.component';
 import { SiteMonitorComponent } from './site-monitor/site-monitor.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
     declarations: [
@@ -79,6 +80,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
         MatCheckboxModule,
         UtilsModule,
         MatExpansionModule,
+        MatDividerModule,
     ],
     providers: [
         {

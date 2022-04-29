@@ -81,6 +81,26 @@
             </td>
         </ng-container>
 
+        <!-- Connectivity Service Column -->
+        <ng-container matColumnDef="connectivity-service" id="csColumn">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                title="Connectivity Service"
+            >
+                CS
+            </th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+                [title]="row['connectivity-service']"
+            >
+                {{ row["connectivity-service"] }}
+            </td>
+        </ng-container>
+
         <!-- filter Column -->
         <ng-container matColumnDef="filter" id="filterColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>

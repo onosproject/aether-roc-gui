@@ -4,10 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-    HttpClientTestingModule,
-    HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,7 +31,6 @@ import {
 } from '../../../openapi3/aether/2.1.0/models';
 import { TargetName } from '../../../openapi3/top/level/models/target-name';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import * as _ from 'lodash';
 
@@ -284,6 +280,9 @@ describe('SliceEditComponent', () => {
             ).toEqual(slice.mbr['downlink-burst-size']);
             expect(component.sliceForm.get('sst').value).toEqual(slice['sst']);
             expect(component.sliceForm.get('upf').value).toEqual(slice['upf']);
+            expect(
+                component.sliceForm.get('connectivity-service').value
+            ).toEqual('5g'); // The default value
         });
     });
 
