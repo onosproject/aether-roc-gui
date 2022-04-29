@@ -176,8 +176,25 @@
                 />
                 <mat-hint>SST (Slice/Service type 1-255)</mat-hint>
             </mat-form-field>
+            <!-- Connectivity Service field -->
+            <div class="row">
+                <mat-form-field class="field-margin">
+                    <mat-select
+                        formControlName="connectivity-service"
+                        id="selectCs"
+                    >
+                        <mat-option
+                            *ngFor="let b of connectivityServiceOptions"
+                            [value]="b"
+                            >{{ b }}</mat-option
+                        >
+                    </mat-select>
+                    <mat-hint>Connectivity Service</mat-hint>
+                </mat-form-field>
+            </div>
 
             <div formArrayName="filter" class="subscriber-section field-margin">
+                <mat-divider></mat-divider>
                 <mat-hint>Filter</mat-hint>
                 <mat-icon
                     (click)="showApplicationDisplay = true"
@@ -258,6 +275,7 @@
                 formArrayName="device-group"
                 class="subscriber-section field-margin"
             >
+                <mat-divider></mat-divider>
                 <mat-hint>Device Group</mat-hint>
                 <mat-icon
                     (click)="showDeviceGroupDisplay = true"
@@ -322,6 +340,7 @@
             </div>
             <!-- uplink/downlink-->
             <div id="sliceMbrRow" class="subscriber-section field-margin">
+                <mat-divider></mat-divider>
                 <mat-hint>Maximum bitrate</mat-hint>
                 <div [formGroup]="mbrControls">
                     <div class="row float-left" id="UplinkRow">
@@ -412,7 +431,9 @@
             </div>
 
             <!--UPF dropdown-->
-            <div class="row">
+            <div class="row field-margin">
+                <mat-divider></mat-divider>
+                <mat-hint>UPF</mat-hint>
                 <mat-form-field class="field-margin full-width">
                     <mat-label *ngIf="upfs.length === 0"
                         >No UPF available</mat-label

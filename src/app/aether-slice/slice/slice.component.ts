@@ -39,6 +39,7 @@ export class SliceComponent
         'site',
         'filter',
         'default-behavior',
+        'connectivity-service',
         'mbr',
         'device-group',
         'sd',

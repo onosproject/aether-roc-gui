@@ -43,12 +43,6 @@ const applications: ApplicationList = [
     },
 ];
 
-const sites: SiteList = [
-    {
-        'site-id': 'test-site-1',
-    },
-];
-
 class mockEnterpriseService {
     get enterprises(): TargetsNames {
         return [

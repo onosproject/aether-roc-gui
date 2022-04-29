@@ -8,9 +8,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RocEditBase } from '../../roc-edit-base';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { from, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { map, mergeMap, startWith } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import {
     BasketService,
     HEX2NUM,
@@ -36,7 +36,6 @@ import {
     Template,
     SiteUpf,
     Site,
-    SiteUpfList,
 } from '../../../openapi3/aether/2.1.0/models';
 import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
@@ -88,6 +87,7 @@ export class SliceEditComponent
     ];
 
     defaultBehaviorOptions = ['DENY-ALL', 'ALLOW-ALL', 'ALLOW-PUBLIC'];
+    connectivityServiceOptions = ['4g', '5g'];
     bandwidthOptions: Observable<Bandwidths[]>;
     data: SiteSlice;
     pathListAttr = 'slice';
@@ -170,6 +170,7 @@ export class SliceEditComponent
             ]),
         ],
         upf: [{ value: '', disabled: true }],
+        'connectivity-service': [this.connectivityServiceOptions[1]],
     });
 
     constructor(
@@ -207,6 +208,8 @@ export class SliceEditComponent
         // need to set this to touched/dirty so that the basket will read the default value
         this.sliceForm.get('default-behavior').markAsTouched();
         this.sliceForm.get('default-behavior').markAsDirty();
+        this.sliceForm.get('connectivity-service').markAsTouched();
+        this.sliceForm.get('connectivity-service').markAsDirty();
     }
 
     ngOnInit(): void {
@@ -215,6 +218,9 @@ export class SliceEditComponent
             this.sliceForm
                 .get('default-behavior')
                 .setValue(this.defaultBehaviorOptions[0]);
+            this.sliceForm
+                .get('connectivity-service')
+                .setValue(this.connectivityServiceOptions[1]);
         } else {
             this.sliceForm.get('sst').disable();
             this.sliceForm.get('sd').disable();
@@ -371,6 +377,10 @@ export class SliceEditComponent
             dlBurstSize.setValue(eachTemplate.mbr['downlink-burst-size']);
             dlBurstSize.markAsTouched();
             dlBurstSize.markAsDirty();
+            const csFormControl = this.sliceForm.get('connectivity-service');
+            csFormControl.setValue(eachTemplate['connectivity-service']);
+            csFormControl.markAsTouched();
+            csFormControl.markAsDirty();
         }
     }
 
@@ -635,6 +645,13 @@ export class SliceEditComponent
                 .setValue(value['default-behavior']);
             this.sliceForm.get(['default-behavior'])[ORIGINAL] =
                 value['default-behavior'];
+        }
+        if (value['connectivity-service']) {
+            this.sliceForm
+                .get(['connectivity-service'])
+                .setValue(value['connectivity-service']);
+            this.sliceForm.get(['connectivity-service'])[ORIGINAL] =
+                value['connectivity-service'];
         }
         if (value.sst) {
             this.sliceForm.get(['sst']).setValue(value.sst);

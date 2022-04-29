@@ -86,6 +86,7 @@
                 </mat-form-field>
             </div>
 
+            <mat-divider></mat-divider>
             <mat-hint>Monitoring</mat-hint>
             <div [formGroup]="MonitoringControls">
                 <mat-form-field class="field-margin full-width">
@@ -105,6 +106,7 @@
                     <mat-hint>Edge Monitoring Prometheus Url</mat-hint>
                 </mat-form-field>
                 <div formArrayName="edge-device" class="subscriber-section">
+                    <mat-divider></mat-divider>
                     <mat-hint>Edge Device</mat-hint>
                     <mat-icon
                         (click)="showEdgeDeviceDisplay = true"
@@ -171,6 +173,49 @@
                 </div>
             </div>
 
+            <mat-divider></mat-divider>
+            <mat-hint>Connectivity Service 4G</mat-hint>
+            <div [formGroup]="ConnectivityService4GControls">
+                <mat-form-field class="field-margin full-width">
+                    <input
+                        matInput
+                        formControlName="endpoint"
+                        id="inputCsCore4gEndpoint"
+                    />
+                    <mat-hint>Endpoint (URI)</mat-hint>
+                </mat-form-field>
+                <mat-form-field class="field-margin full-width">
+                    <input
+                        matInput
+                        formControlName="acc-prometheus-url"
+                        id="inputCsCore4gAccPromUrl"
+                    />
+                    <mat-hint>ACC Prometheus URL (URI)</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <mat-divider></mat-divider>
+            <mat-hint>Connectivity Service 5G</mat-hint>
+            <div [formGroup]="ConnectivityService5GControls">
+                <mat-form-field class="field-margin full-width">
+                    <input
+                        matInput
+                        formControlName="endpoint"
+                        id="inputCsCore5gEndpoint"
+                    />
+                    <mat-hint>Endpoint (URI)</mat-hint>
+                </mat-form-field>
+                <mat-form-field class="field-margin full-width">
+                    <input
+                        matInput
+                        formControlName="acc-prometheus-url"
+                        id="inputCsCore5gAccPromUrl"
+                    />
+                    <mat-hint>ACC Prometheus URL</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <mat-divider></mat-divider>
             <mat-hint>IMSI</mat-hint>
             <div [formGroup]="ImsiControls">
                 <mat-form-field class="field-margin">
@@ -181,7 +226,7 @@
                         id="inputMCC"
                         required
                     />
-                    <mat-hint>MCC</mat-hint>
+                    <mat-hint>MCC (000-999)</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="field-margin">
                     <input
@@ -191,7 +236,7 @@
                         id="inputMNC"
                         required
                     />
-                    <mat-hint>MNC</mat-hint>
+                    <mat-hint>MNC (00-999)</mat-hint>
                 </mat-form-field>
                 <mat-form-field class="field-margin">
                     <input
@@ -212,7 +257,7 @@
                         id="inputformat"
                     />
                     <mat-hint
-                        >Format <br />(Example = CCCNNNEEESSSSSS
+                        >Format (length 15)<br />(Example = CCCNNNEEESSSSSS
                         <br />
                         C=MCC, N=MNC, E=Enterprise, S=Subscriber ID)
                     </mat-hint>

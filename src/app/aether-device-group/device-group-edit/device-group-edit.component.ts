@@ -88,6 +88,7 @@ export class DeviceGroupEditComponent
             uplink: [
                 undefined,
                 Validators.compose([
+                    Validators.required,
                     Validators.min(0),
                     Validators.max(4294967295),
                 ]),
@@ -95,6 +96,7 @@ export class DeviceGroupEditComponent
             downlink: [
                 undefined,
                 Validators.compose([
+                    Validators.required,
                     Validators.min(0),
                     Validators.max(4294967295),
                 ]),

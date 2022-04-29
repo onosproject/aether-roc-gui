@@ -120,7 +120,18 @@ export class PanelSliceComponent
                 });
 
                 clearInterval(this.loginTokenTimer);
+            } else {
+                this.enterpriseService.enterprises.forEach((enterpriseId) => {
+                    this.dataSource.loadData(
+                        this.siteService.getSiteList({
+                            'enterprise-id': enterpriseId.name,
+                        }),
+                        this.onDataLoaded.bind(this),
+                        enterpriseId
+                    );
+                });
             }
+            clearInterval(this.loginTokenTimer);
         }, 1000);
     }
 
