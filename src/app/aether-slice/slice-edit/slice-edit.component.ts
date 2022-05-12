@@ -37,7 +37,7 @@ import {
     SiteUpf,
     Site,
 } from '../../../openapi3/aether/2.1.0/models';
-import { TargetName } from '../../../openapi3/top/level/models/target-name';
+import { TargetName } from '../../../openapi3/top/level/models';
 
 interface Bandwidths {
     megabyte: { numerical: number; inMb: string };

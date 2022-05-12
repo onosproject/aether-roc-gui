@@ -12,7 +12,7 @@ import {
     HttpTestingController,
 } from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
-import { TargetsNames } from '../openapi3/top/level/models/targets-names';
+import { TargetsNames } from '../openapi3/top/level/models';
 
 const singleEnterprise: TargetsNames = [
     {

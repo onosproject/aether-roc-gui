@@ -21,7 +21,7 @@ import { SiteDeviceGroupService } from '../../../openapi3/aether/2.1.0/services'
 import { mergeMap } from 'rxjs/operators';
 import { from } from 'rxjs';
 import { SiteDeviceGroup } from '../../../openapi3/aether/2.1.0/models';
-import { TargetName } from '../../../openapi3/top/level/models/target-name';
+import { TargetName } from '../../../openapi3/top/level/models';
 
 export interface displayedColumns {
     id;
@@ -57,7 +57,7 @@ export class ShowDeviceGroupUsageComponent
         this.parentModulesArray = [];
         this.deviceGroupService
             .getSiteDeviceGroupList({
-                'enterprise-id': this.enterpriseID,
+                'enterprise-id': this.enterpriseID.name,
                 'site-id': this.siteID,
             })
             .pipe(mergeMap((items: SiteDeviceGroup[]) => from(items)))
@@ -72,7 +72,7 @@ export class ShowDeviceGroupUsageComponent
                                 'device-group-id',
                             ],
                             ids: [
-                                this.enterpriseID,
+                                this.enterpriseID.name,
                                 this.siteID,
                                 dg['device-group-id'],
                             ],

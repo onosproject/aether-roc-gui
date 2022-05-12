@@ -10,10 +10,11 @@ import {
     RocGenericContainerType,
     RocGenericModelType,
 } from './roc-data-source';
+import { TargetName } from '../openapi3/top/level/models';
 
 interface Selected {
     id: string;
-    enterprise: string;
+    enterprise: TargetName;
     site: string;
 }
 
@@ -27,7 +28,6 @@ export abstract class RocListBase<
     public dataSource: T;
     protected reqdAttr: string[] = [];
     public selected: Selected;
-    public usageArray = [];
     public showUsageCard = false;
 
     // identifies the location of the model in the gNMI tree
@@ -63,7 +63,8 @@ export abstract class RocListBase<
     }
 
     showUsage(id: string, enterprise?: string, site?: string): void {
-        this.selected = { id, enterprise, site } as Selected;
+        const ent = { name: enterprise } as TargetName;
+        this.selected = { id, enterprise: ent, site } as Selected;
         this.showUsageCard = true;
     }
 

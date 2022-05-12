@@ -300,7 +300,7 @@
 <aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showVcsUsageComponent"
-    [enterpriseID]="route.snapshot.params['enterprise-id']"
+    [enterpriseID]="{ name: route.snapshot.params['enterprise-id'] }"
     [applicationID]="applicationId"
     (closeShowParentCardEvent)="closeShowParentCard()"
 >

@@ -88,5 +88,6 @@ import { ShowDeviceGroupUsageComponent } from './show-device-group-usage/show-de
         AuthInterceptor,
         API_INTERCEPTOR_PROVIDER,
     ],
+    exports: [ShowDeviceGroupUsageComponent],
 })
 export class AetherIpDomainModule {}

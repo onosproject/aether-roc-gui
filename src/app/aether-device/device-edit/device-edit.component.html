@@ -10,6 +10,15 @@
                 >Device:
                 {{ this.deviceForm.get("device-id").value }}</mat-card-title
             >
+            <mat-icon
+                *ngIf="!isNew"
+                (click)="showParentDisplay = true; $event.preventDefault()"
+                class="subscriber-pointer"
+                id="showParentInformation"
+                color="accent"
+            >
+                assignment
+            </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
@@ -154,3 +163,12 @@
 <div>
     <button routerLink="/device" mat-raised-button color="primary">Back</button>
 </div>
+<aether-show-device-group-usage
+    *ngIf="showParentDisplay"
+    id="showDeviceGroupUsageComponent"
+    [enterpriseID]="{ name: route.snapshot.params['enterprise-id'] }"
+    [siteID]="route.snapshot.params['site-id']"
+    [deviceID]="deviceId"
+    (closeShowParentCardEvent)="closeShowParentCard()"
+>
+</aether-show-device-group-usage>

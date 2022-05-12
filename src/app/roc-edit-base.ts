@@ -15,7 +15,7 @@ import {
 } from './roc-data-source';
 import { TargetName } from '../openapi3/top/level/models';
 import { EnterpriseService } from './enterprise.service';
-import { SiteService } from '../openapi3/aether/2.1.0/services/site.service';
+import { SiteService } from '../openapi3/aether/2.1.0/services';
 import { mergeMap } from 'rxjs/operators';
 import { from } from 'rxjs';
 import { MatOptionSelectionChange } from '@angular/material/core';
@@ -35,7 +35,7 @@ export abstract class RocEditBase<
     protected initFunc: () => string;
     public showParentDisplay = false;
     protected fullPath: string;
-    public enterpriseId: TargetName;
+    public enterpriseId: TargetName = { name: undefined };
     public sites: SiteID[] = [];
     public siteId: string;
     public unknownEnterprise = 'unknownent';

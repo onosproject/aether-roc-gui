@@ -5,7 +5,12 @@
  */
 
 import { compare, RocDataSource } from '../../roc-data-source';
-import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
+import {
+    BasketService,
+    FORDELETE,
+    ISINUSE,
+    STRIKETHROUGH,
+} from '../../basket.service';
 import { Observable } from 'rxjs';
 import { skipWhile } from 'rxjs/operators';
 import { EnterpriseService } from '../../enterprise.service';
@@ -47,6 +52,21 @@ export class DeviceDatasource extends RocDataSource<SiteDevice, SiteList> {
                             );
                             if (this.bs.containsDeleteEntry(fullPath)) {
                                 d[FORDELETE] = STRIKETHROUGH;
+                            }
+                            // Check for usages in device-groups
+                            if (s['device-group']) {
+                                s['device-group'].forEach((dg) => {
+                                    if (
+                                        dg.device &&
+                                        dg.device.some(
+                                            (dev) =>
+                                                dev['device-id'] ===
+                                                d['device-id']
+                                        )
+                                    ) {
+                                        d[ISINUSE] = 'true'; // Any match will set it
+                                    }
+                                });
                             }
                             this.data.push(d);
                         });

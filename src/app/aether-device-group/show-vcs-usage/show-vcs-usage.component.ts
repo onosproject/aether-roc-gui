@@ -24,6 +24,7 @@ import {
 import { mergeMap } from 'rxjs/operators';
 import { from } from 'rxjs';
 import { SiteSlice } from '../../../openapi3/aether/2.1.0/models';
+import { TargetName } from '../../../openapi3/top/level/models';
 
 @Component({
     selector: 'aether-show-vcs-usage',
@@ -34,7 +35,7 @@ export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<UsageColumns>;
-    @Input() enterpriseID: string;
+    @Input() enterpriseID: TargetName = { name: undefined };
     @Input() siteID: string;
     @Input() deviceGroupID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
@@ -56,7 +57,7 @@ export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
         this.parentModulesArray = [];
         this.sliceService
             .getSiteSliceList({
-                'enterprise-id': this.enterpriseID,
+                'enterprise-id': this.enterpriseID.name,
                 'site-id': this.siteID,
             })
             .pipe(mergeMap((items: SiteSlice[]) => from(items)))
@@ -72,7 +73,7 @@ export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
                                     'slice-id',
                                 ],
                                 ids: [
-                                    this.enterpriseID,
+                                    this.enterpriseID.name,
                                     this.siteID,
                                     sliceElement['slice-id'],
                                 ],

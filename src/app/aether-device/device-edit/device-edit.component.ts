@@ -199,19 +199,24 @@ export class DeviceEditComponent
                 (value) => {
                     const simCardControl = this.deviceForm.get('sim-card');
                     const usedSims = value.device.map((d) => d['sim-card']);
-                    this.simCards = value['sim-card'].reduce((list, item) => {
-                        if (
-                            _.indexOf(usedSims, item['sim-id']) == -1 ||
-                            item['sim-id'] === simCardControl.value
-                        ) {
-                            return [item, ...list];
-                        }
-                        return list;
-                    }, [] as SiteSimCard[]);
-                    console.log(
-                        `Showing ${this.simCards.length} unused Sim Cards. Total ${value['sim-card'].length}`
-                    );
-                    simCardControl.enable();
+                    if (value['sim-card']) {
+                        this.simCards = value['sim-card'].reduce(
+                            (list, item) => {
+                                if (
+                                    _.indexOf(usedSims, item['sim-id']) == -1 ||
+                                    item['sim-id'] === simCardControl.value
+                                ) {
+                                    return [item, ...list];
+                                }
+                                return list;
+                            },
+                            [] as SiteSimCard[]
+                        );
+                        console.log(
+                            `Showing ${this.simCards.length} unused Sim Cards. Total ${value['sim-card'].length}`
+                        );
+                        simCardControl.enable();
+                    }
                 },
                 (error) => {
                     console.warn(

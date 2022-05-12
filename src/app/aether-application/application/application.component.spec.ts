@@ -23,13 +23,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApiModule } from '../../../openapi3/aether/2.1.0/api.module';
 import { EnterpriseService } from '../../enterprise.service';
-import { TargetsNames } from '../../../openapi3/top/level/models/targets-names';
-import { TargetName } from '../../../openapi3/top/level/models';
+import { TargetsNames, TargetName } from '../../../openapi3/top/level/models';
 import { HttpClient } from '@angular/common/http';
-import {
-    ApplicationList,
-    SiteList,
-} from '../../../openapi3/aether/2.1.0/models';
+import { ApplicationList } from '../../../openapi3/aether/2.1.0/models';
 import { MatChipsModule } from '@angular/material/chips';
 
 const applications: ApplicationList = [

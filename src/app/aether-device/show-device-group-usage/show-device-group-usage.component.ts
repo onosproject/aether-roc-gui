@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ * SPDX-FileCopyrightText: 2022-present Intel Corporation
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { RocUsageBase, UsageColumns } from '../../roc-usage-base';
-import { SiteService } from '../../../openapi3/aether/2.1.0/services';
+import { SiteDeviceGroupService } from '../../../openapi3/aether/2.1.0/services';
+import { mergeMap } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { SiteDeviceGroup } from '../../../openapi3/aether/2.1.0/models';
 import { TargetName } from '../../../openapi3/top/level/models';
 
 export interface displayedColumns {
@@ -26,56 +29,63 @@ export interface displayedColumns {
 }
 
 @Component({
-    selector: 'aether-show-vcs-usage',
-    templateUrl: './show-vcs-usage.component.html',
+    selector: 'aether-show-device-group-usage',
+    templateUrl: './show-device-group-usage.component.html',
     styleUrls: ['../../common-panel.component.scss'],
 })
-export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
+export class ShowDeviceGroupUsageComponent
+    extends RocUsageBase
+    implements OnChanges
+{
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<UsageColumns>;
     @Input() enterpriseID: TargetName = { name: undefined };
     @Input() siteID: string;
-    @Input() upfID: string;
+    @Input() deviceID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
     constructor(
         protected fb: FormBuilder,
         protected route: ActivatedRoute,
-        protected siteService: SiteService
+        private deviceGroupService: SiteDeviceGroupService
     ) {
-        super('site-2.1.0', ['site', 'upf'], ['site-id', 'upf-id']);
+        super('site-2.1.0', ['site', 'device'], ['site-id', 'device-id']);
     }
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
-        this.siteService
-            .getSite({
-                'site-id': this.siteID,
+        this.deviceGroupService
+            .getSiteDeviceGroupList({
                 'enterprise-id': this.enterpriseID.name,
+                'site-id': this.siteID,
             })
-            .subscribe((displayData) => {
-                displayData.slice.forEach((sliceElement) => {
-                    if (sliceElement.upf === this.upfID) {
+            .pipe(mergeMap((items: SiteDeviceGroup[]) => from(items)))
+            .subscribe(
+                (dg) => {
+                    if (
+                        dg.device.some((d) => d['device-id'] === this.deviceID)
+                    ) {
                         const displayParentModules = {
-                            type: 'Slice',
+                            type: 'Device-Group',
                             'attr-names': [
                                 'enterprise-id',
                                 'site-id',
-                                'slice-id',
+                                'device-group-id',
                             ],
                             ids: [
                                 this.enterpriseID.name,
                                 this.siteID,
-                                sliceElement['slice-id'],
+                                dg['device-group-id'],
                             ],
-                            'display-name': sliceElement['display-name'],
-                            route: '/slice/slice-edit',
+                            'display-name': dg['display-name'],
+                            route: '/device-group/device-group-edit',
                         } as UsageColumns;
                         this.parentModulesArray.push(displayParentModules);
                     }
-                });
-                this.table.dataSource = this.parentModulesArray;
-            });
+                },
+                (err) => console.error(err),
+                () => (this.table.dataSource = this.parentModulesArray)
+            );
     }
 }

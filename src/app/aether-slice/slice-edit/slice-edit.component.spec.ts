@@ -29,7 +29,7 @@ import {
     SiteSlice,
     Template,
 } from '../../../openapi3/aether/2.1.0/models';
-import { TargetName } from '../../../openapi3/top/level/models/target-name';
+import { TargetName } from '../../../openapi3/top/level/models';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import * as _ from 'lodash';
