@@ -21,8 +21,8 @@ import {
     TrafficClassList,
 } from '../../../openapi3/aether/2.1.0/models';
 import { TargetName } from '../../../openapi3/top/level/models';
-import { ApplicationService } from '../../../openapi3/aether/2.1.0/services/application.service';
-import { SiteService } from '../../../openapi3/aether/2.1.0/services/site.service';
+import { ApplicationService } from '../../../openapi3/aether/2.1.0/services';
+import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 
 export class TrafficClassDatasource extends RocDataSource<
     TrafficClass,

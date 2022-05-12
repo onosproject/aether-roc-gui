@@ -19,7 +19,7 @@ import {
 } from './models-info';
 import * as _ from 'lodash';
 import { EnterpriseService } from './enterprise.service';
-import { SiteService } from '../openapi3/aether/2.1.0/services/site.service';
+import { SiteService } from '../openapi3/aether/2.1.0/services';
 
 // we cannot test an Abstract class directly,
 // so create a class that extends it

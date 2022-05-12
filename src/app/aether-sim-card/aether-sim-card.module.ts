@@ -33,9 +33,14 @@ import { UtilsModule } from '../utils/utils.module';
 import { AuthInterceptor } from '../auth-interceptor';
 import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
 import { SimCardEditComponent } from './sim-card-edit/sim-card-edit.component';
+import { ShowDeviceUsageComponent } from './show-device-usage/show-device-usage.component';
 
 @NgModule({
-    declarations: [SimCardComponent, SimCardEditComponent],
+    declarations: [
+        SimCardComponent,
+        SimCardEditComponent,
+        ShowDeviceUsageComponent,
+    ],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),

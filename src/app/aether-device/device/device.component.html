@@ -189,12 +189,12 @@
     >
     </mat-paginator>
 </div>
-<!--<aether-show-vcs-usage-->
-<!--    *ngIf="showUsageCard"-->
-<!--    id="showVcsUsageComponent"-->
-<!--    [enterpriseID]="selected.enterprise"-->
-<!--    [siteID]="selected.site"-->
-<!--    [deviceID]="selected.id"-->
-<!--    (closeShowParentCardEvent)="closeShowParentCard()"-->
-<!--&gt;-->
-<!--</aether-show-vcs-usage>-->
+<aether-show-device-group-usage
+    *ngIf="showUsageCard"
+    id="showVcsUsageComponent"
+    [enterpriseID]="selected.enterprise"
+    [siteID]="selected.site"
+    [deviceID]="selected.id"
+    (closeShowParentCardEvent)="closeShowParentCard()"
+>
+</aether-show-device-group-usage>

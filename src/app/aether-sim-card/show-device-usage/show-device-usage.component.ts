@@ -1,8 +1,9 @@
 /*
- * SPDX-FileCopyrightText: 2021-present Open Networking Foundation <info@opennetworking.org>
+ * SPDX-FileCopyrightText: 2022-present Intel Corporation
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import {
     Component,
     EventEmitter,
@@ -11,14 +12,17 @@ import {
     Output,
     ViewChild,
 } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { RocUsageBase, UsageColumns } from '../../roc-usage-base';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
-import { RocUsageBase, UsageColumns } from '../../roc-usage-base';
-import { SiteService } from '../../../openapi3/aether/2.1.0/services';
 import { TargetName } from '../../../openapi3/top/level/models';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { SiteDeviceService } from '../../../openapi3/aether/2.1.0/services';
+import { mergeMap } from 'rxjs/operators';
+import { from } from 'rxjs';
+import { SiteDevice } from '../../../openapi3/aether/2.1.0/models';
 
 export interface displayedColumns {
     id;
@@ -26,56 +30,61 @@ export interface displayedColumns {
 }
 
 @Component({
-    selector: 'aether-show-vcs-usage',
-    templateUrl: './show-vcs-usage.component.html',
+    selector: 'aether-show-device-usage',
+    templateUrl: './show-device-usage.component.html',
     styleUrls: ['../../common-panel.component.scss'],
 })
-export class ShowVcsUsageComponent extends RocUsageBase implements OnChanges {
+export class ShowDeviceUsageComponent
+    extends RocUsageBase
+    implements OnChanges
+{
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<UsageColumns>;
     @Input() enterpriseID: TargetName = { name: undefined };
     @Input() siteID: string;
-    @Input() upfID: string;
+    @Input() simCardID: string;
     @Output() closeShowParentCardEvent = new EventEmitter<boolean>();
 
     constructor(
         protected fb: FormBuilder,
         protected route: ActivatedRoute,
-        protected siteService: SiteService
+        private deviceService: SiteDeviceService
     ) {
-        super('site-2.1.0', ['site', 'upf'], ['site-id', 'upf-id']);
+        super('site-2.1.0', ['site', 'sim-card'], ['site-id', 'sim-id']);
     }
 
     ngOnChanges(): void {
         this.parentModulesArray = [];
-        this.siteService
-            .getSite({
-                'site-id': this.siteID,
+        this.deviceService
+            .getSiteDeviceList({
                 'enterprise-id': this.enterpriseID.name,
+                'site-id': this.siteID,
             })
-            .subscribe((displayData) => {
-                displayData.slice.forEach((sliceElement) => {
-                    if (sliceElement.upf === this.upfID) {
+            .pipe(mergeMap((items: SiteDevice[]) => from(items)))
+            .subscribe(
+                (dev) => {
+                    if (dev['sim-card'] === this.simCardID) {
                         const displayParentModules = {
-                            type: 'Slice',
+                            type: 'Device',
                             'attr-names': [
                                 'enterprise-id',
                                 'site-id',
-                                'slice-id',
+                                'device-id',
                             ],
                             ids: [
                                 this.enterpriseID.name,
                                 this.siteID,
-                                sliceElement['slice-id'],
+                                dev['device-id'],
                             ],
-                            'display-name': sliceElement['display-name'],
-                            route: '/slice/slice-edit',
+                            'display-name': dev['display-name'],
+                            route: '/device/device-edit',
                         } as UsageColumns;
                         this.parentModulesArray.push(displayParentModules);
                     }
-                });
-                this.table.dataSource = this.parentModulesArray;
-            });
+                },
+                (err) => console.error(err),
+                () => (this.table.dataSource = this.parentModulesArray)
+            );
     }
 }

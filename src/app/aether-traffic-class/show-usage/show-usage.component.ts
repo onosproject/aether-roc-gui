@@ -24,7 +24,7 @@ import {
     SiteService,
 } from '../../../openapi3/aether/2.1.0/services';
 import { Application, Site } from '../../../openapi3/aether/2.1.0/models';
-import { TargetName } from '../../../openapi3/top/level/models/target-name';
+import { TargetName } from '../../../openapi3/top/level/models';
 
 export interface displayedColumns {
     'parent-module': string;

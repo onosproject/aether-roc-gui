@@ -5,7 +5,12 @@
  */
 
 import { compare, RocDataSource } from '../../roc-data-source';
-import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
+import {
+    BasketService,
+    FORDELETE,
+    ISINUSE,
+    STRIKETHROUGH,
+} from '../../basket.service';
 import { Observable } from 'rxjs';
 import { skipWhile } from 'rxjs/operators';
 import { EnterpriseService } from '../../enterprise.service';
@@ -47,6 +52,16 @@ export class SimCardDatasource extends RocDataSource<SiteSimCard, SiteList> {
                             );
                             if (this.bs.containsDeleteEntry(fullPath)) {
                                 sc[FORDELETE] = STRIKETHROUGH;
+                            }
+                            // Check for usages in device-groups
+                            if (s['device']) {
+                                if (
+                                    s['device'].some(
+                                        (d) => d['sim-card'] === sc['sim-id']
+                                    )
+                                ) {
+                                    sc[ISINUSE] = 'true'; // Any match will set it
+                                }
                             }
                             this.data.push(sc);
                         });

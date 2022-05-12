@@ -162,7 +162,7 @@
 <aether-show-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
-    [enterpriseID]="route.snapshot.params['enterprise-id']"
+    [enterpriseID]="{ name: route.snapshot.params['enterprise-id'] }"
     [trafficClassID]="trafficClassId"
     (closeShowParentCardEvent)="closeShowParentCard()"
 >

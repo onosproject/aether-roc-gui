@@ -32,9 +32,14 @@ import { AETHER_ROC_API_URL } from '../../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { UtilsModule } from '../utils/utils.module';
 import { DeviceEditComponent } from './device-edit/device-edit.component';
+import { ShowDeviceGroupUsageComponent } from './show-device-group-usage/show-device-group-usage.component';
 
 @NgModule({
-    declarations: [DeviceComponent, DeviceEditComponent],
+    declarations: [
+        DeviceComponent,
+        DeviceEditComponent,
+        ShowDeviceGroupUsageComponent,
+    ],
     imports: [
         CommonModule,
         ApiModuleAether.forRoot({ rootUrl: AETHER_ROC_API_URL }),
