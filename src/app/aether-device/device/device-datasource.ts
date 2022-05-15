@@ -16,6 +16,7 @@ import { skipWhile } from 'rxjs/operators';
 import { EnterpriseService } from '../../enterprise.service';
 import { SiteDevice, SiteList } from '../../../openapi3/aether/2.1.0/models';
 import { TargetName } from '../../../openapi3/top/level/models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export class DeviceDatasource extends RocDataSource<SiteDevice, SiteList> {
     constructor(
@@ -74,6 +75,12 @@ export class DeviceDatasource extends RocDataSource<SiteDevice, SiteList> {
                 });
             },
             (error) => {
+                if (
+                    error instanceof HttpErrorResponse &&
+                    error['status'] === 404
+                ) {
+                    return;
+                }
                 console.warn('Error getting data from ', enterpriseId, error);
             },
             () => {

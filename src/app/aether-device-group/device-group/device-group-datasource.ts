@@ -11,14 +11,16 @@ import {
     STRIKETHROUGH,
 } from '../../basket.service';
 import { compare, RocDataSource } from '../../roc-data-source';
-import { Observable } from 'rxjs';
-import { skipWhile } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { mergeMap, skipWhile } from 'rxjs/operators';
 import { EnterpriseService } from '../../enterprise.service';
 import {
+    Site,
     SiteDeviceGroup,
     SiteList,
 } from '../../../openapi3/aether/2.1.0/models';
 import { TargetName } from '../../../openapi3/top/level/models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export class DeviceGroupDatasource extends RocDataSource<
     SiteDeviceGroup,
@@ -44,9 +46,13 @@ export class DeviceGroupDatasource extends RocDataSource<
         ) => void,
         enterpriseId?: TargetName
     ): void {
-        dataSourceObservable.pipe(skipWhile((x) => x === undefined)).subscribe(
-            (value: SiteList) => {
-                value.forEach((s) => {
+        dataSourceObservable
+            .pipe(
+                skipWhile((x) => x === undefined),
+                mergeMap((items: Site[]) => from(items))
+            )
+            .subscribe(
+                (s: Site) => {
                     if (s['device-group']) {
                         s['device-group'].forEach((dg) => {
                             dg['enterprise-id'] = enterpriseId.name;
@@ -71,22 +77,31 @@ export class DeviceGroupDatasource extends RocDataSource<
                                         }
                                     });
                                 });
-                                this.data.push(dg);
                             }
+                            this.data.push(dg);
                         });
                     }
-                });
-            },
-            (error) => {
-                console.warn('Error getting data from ', enterpriseId, error);
-            },
-            () => {
-                // table.refreshRows() does not seem to work - using this trick instead
-                // const basketPreview = this.bs.buildPatchBody().Updates;
-                onDataLoaded(this);
-                this.paginator._changePageSize(this.paginator.pageSize);
-            }
-        );
+                },
+                (error) => {
+                    if (
+                        error instanceof HttpErrorResponse &&
+                        error['status'] === 404
+                    ) {
+                        return;
+                    }
+                    console.warn(
+                        'Error getting data from ',
+                        enterpriseId,
+                        error
+                    );
+                },
+                () => {
+                    // table.refreshRows() does not seem to work - using this trick instead
+                    // const basketPreview = this.bs.buildPatchBody().Updates;
+                    onDataLoaded(this);
+                    this.paginator._changePageSize(this.paginator.pageSize);
+                }
+            );
     }
 
     getSortedData(data: SiteDeviceGroup[]): SiteDeviceGroup[] {

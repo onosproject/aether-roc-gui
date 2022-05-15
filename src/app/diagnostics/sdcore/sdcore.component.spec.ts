@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ApiModule } from '../../../openapi3/top/level/api.module';
 import { MatCardModule } from '@angular/material/card';
 import { SDCORE_ADAPTER } from '../../../environments/environment';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 describe('SdcoreComponent', () => {
     let component: SdcoreComponent;
@@ -32,6 +33,7 @@ describe('SdcoreComponent', () => {
                 MatToolbarModule,
                 MatIconModule,
                 MatCardModule,
+                MatFormFieldModule,
                 ApiModule,
             ],
             providers: [
