@@ -23,6 +23,7 @@ import {
 import { TargetName } from '../../../openapi3/top/level/models';
 import { ApplicationService } from '../../../openapi3/aether/2.1.0/services';
 import { SiteService } from '../../../openapi3/aether/2.1.0/services';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export class TrafficClassDatasource extends RocDataSource<
     TrafficClass,
@@ -130,6 +131,12 @@ export class TrafficClassDatasource extends RocDataSource<
                 },
 
                 (error) => {
+                    if (
+                        error instanceof HttpErrorResponse &&
+                        error['status'] === 404
+                    ) {
+                        return;
+                    }
                     console.warn(
                         'Error getting data from ',
                         enterpriseId,

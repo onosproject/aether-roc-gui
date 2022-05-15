@@ -64,6 +64,7 @@ export class ShowDeviceGroupUsageComponent
             .subscribe(
                 (dg) => {
                     if (
+                        dg.device &&
                         dg.device.some((d) => d['device-id'] === this.deviceID)
                     ) {
                         const displayParentModules = {

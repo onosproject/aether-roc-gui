@@ -11,6 +11,7 @@ import { skipWhile } from 'rxjs/operators';
 import { EnterpriseService } from '../../enterprise.service';
 import { SiteSmallCell, SiteList } from '../../../openapi3/aether/2.1.0/models';
 import { TargetName } from '../../../openapi3/top/level/models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export class SmallCellDatasource extends RocDataSource<
     SiteSmallCell,
@@ -57,6 +58,12 @@ export class SmallCellDatasource extends RocDataSource<
                 });
             },
             (error) => {
+                if (
+                    error instanceof HttpErrorResponse &&
+                    error['status'] === 404
+                ) {
+                    return;
+                }
                 console.warn('Error getting data from ', enterpriseId, error);
             },
             () => {
