@@ -38,7 +38,7 @@ import { Application } from '../../../openapi3/aether/2.1.0/models';
 
 const testData: Application = {
     'application-id': 'test-app-1',
-    address: 'test.addr',
+    address: '10.20.30.40/32',
     'display-name': 'Test App 1',
     endpoint: [
         {
@@ -165,7 +165,7 @@ describe('ApplicationEditComponent', () => {
             'endpoint'
         ) as FormArray;
         component.appForm.get('application-id').setValue('testappform');
-        component.appForm.get('address').setValue('testaddress');
+        component.appForm.get('address').setValue('10.20.30.41/32');
         endpointControlArray.push(
             fb.group({
                 'endpoint-id': fb.control('first'),

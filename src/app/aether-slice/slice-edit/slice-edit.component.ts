@@ -169,7 +169,7 @@ export class SliceEditComponent
                 Validators.required,
             ]),
         ],
-        upf: [{ value: '', disabled: true }],
+        upf: [{ value: undefined, disabled: true }],
         'connectivity-service': [this.connectivityServiceOptions[1]],
     });
 
@@ -654,11 +654,11 @@ export class SliceEditComponent
                 value['connectivity-service'];
         }
         if (value.sst) {
-            this.sliceForm.get(['sst']).setValue(value.sst);
+            this.sliceForm.get('sst').setValue(value.sst);
             this.sliceForm.get('sst')[ORIGINAL] = value.sst;
         }
         if (value.upf) {
-            this.sliceForm.get(['upf']).setValue(value.upf);
+            this.sliceForm.get('upf').setValue(value.upf);
             this.sliceForm.get('upf')[ORIGINAL] = value.upf;
         }
     }
@@ -693,7 +693,6 @@ export class SliceEditComponent
                         ? this.filterUpf(site)
                         : [selectedUpf, ...this.filterUpf(site)];
 
-                    this.upfs = [...this.filterUpf(site)];
                     this.form.get('upf').enable();
                     console.log(
                         `Showing ${this.upfs.length} unused UPFs. Total ${site.upf.length}`
