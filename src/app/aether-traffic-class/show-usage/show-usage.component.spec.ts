@@ -70,6 +70,7 @@ const testApplications: ApplicationList = [
         endpoint: [
             {
                 'endpoint-id': 'ep-1',
+                'port-start': 100,
                 'traffic-class': 'test-tc-1',
             },
         ],

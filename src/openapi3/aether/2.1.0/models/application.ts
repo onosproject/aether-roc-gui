@@ -10,7 +10,7 @@ import { ApplicationEndpointList } from './application-endpoint-list';
 export interface Application {
 
   /**
-   * Address of this application. Either a hostname, an IP, or a subnet.
+   * Address of this application. An IP address with subnet (IPv4 or IPv6)
    */
   address: string;
 
