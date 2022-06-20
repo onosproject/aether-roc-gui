@@ -158,7 +158,6 @@ describe('IpDomainEditComponent', () => {
     it('should validate dnn if it doesnt exceeds', () => {
         const dnnControl = component.ipForm.get('dnn');
         dnnControl.setValue(12);
-        console.log(dnnControl, 'dnnControl');
         expect(dnnControl.valid).toBeTruthy();
     });
 

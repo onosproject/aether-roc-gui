@@ -80,6 +80,10 @@
             <mat-icon>menu</mat-icon>
             <span>Configuration</span>
         </button>
+        <button mat-menu-item [matMenuTriggerFor]="fabric" id="dropDownFabric">
+            <mat-icon>menu</mat-icon>
+            <span>Fabric</span>
+        </button>
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="apiKeyDisplay = true" id="apiButton">
             <mat-icon>vpn_key</mat-icon>
@@ -127,6 +131,24 @@
         <button mat-menu-item routerLink="/ipdomain" id="ipDomainButton">
             <mat-icon>ballot</mat-icon>
             <span>IP Domain</span>
+        </button>
+    </mat-menu>
+    <mat-menu #fabric="matMenu">
+        <button mat-menu-item routerLink="/switch" id="switchButton">
+            <mat-icon>hub</mat-icon>
+            <span>Switch</span>
+        </button>
+        <button mat-menu-item routerLink="/switch-model" id="switchModelButton">
+            <mat-icon>developer_board</mat-icon>
+            <span>Switch Model</span>
+        </button>
+        <button mat-menu-item routerLink="/route" id="routeButton">
+            <mat-icon>router</mat-icon>
+            <span>Route</span>
+        </button>
+        <button mat-menu-item routerLink="/dhcp-server" id="dhcpServerButton">
+            <mat-icon>settings_ethernet</mat-icon>
+            <span>DHCP Server</span>
         </button>
     </mat-menu>
 </div>
