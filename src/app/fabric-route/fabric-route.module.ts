@@ -21,6 +21,7 @@ import { UtilsModule } from '../utils/utils.module';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { AuthInterceptor } from '../auth-interceptor';
 import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     declarations: [RouteComponent],
@@ -37,6 +38,7 @@ import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
         MatSortModule,
         MatToolbarModule,
         MatIconModule,
+        MatButtonModule,
         CdkTableModule,
         UtilsModule,
     ],

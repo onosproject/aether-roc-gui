@@ -5,9 +5,10 @@
  */
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SwitchModelComponent } from './switch-model.component';
+
+import { PortComponent } from './port.component';
+import { SwitchPortList } from '../../../openapi3/sdn-fabric/0.1.0/models';
 import { TargetName, TargetsNames } from '../../../openapi3/top/level/models';
-import { SwitchModelList } from '../../../openapi3/sdn-fabric/0.1.0/models';
 import {
     HttpClientTestingModule,
     HttpTestingController,
@@ -27,41 +28,22 @@ import { of } from 'rxjs';
 import { EnterpriseService as FabricService } from '../../enterprise.service';
 import { HttpClient } from '@angular/common/http';
 
-const switchModels: SwitchModelList = [
+const ports: SwitchPortList = [
     {
-        'switch-model-id': 'test.switch.model.1',
-        'display-name': 'Test Model 1',
-        pipeline: 'dual',
-        attribute: [
-            {
-                'attribute-key': 'vendor',
-                value: 'test-vendor',
-            },
-        ],
-        port: [
-            {
-                'cage-number': 1,
-                'channel-number': 0,
-                speeds: ['speed-1g', 'speed-10g'],
-            },
-            {
-                'cage-number': 2,
-                'channel-number': 0,
-                speeds: ['speed-1g', 'speed-10g'],
-            },
-        ],
+        'cage-number': 1,
+        'channel-number': 0,
+        speed: 'speed-1g',
     },
     {
-        'switch-model-id': 'test.switch.model.2',
-        'display-name': 'Test Model 2',
-        pipeline: 'quad',
-        port: [
-            {
-                'cage-number': 2,
-                'channel-number': 0,
-                speeds: ['speed-1g', 'speed-10g', 'speed-100g'],
-            },
-        ],
+        'cage-number': 1,
+        'channel-number': 0,
+        'display-name': 'Port 1/0',
+        speed: 'speed-1g',
+        'dhcp-connect-point': ['dhcp-1', 'dhcp-2'],
+        vlans: {
+            untagged: 100,
+            tagged: [101],
+        },
     },
 ];
 
@@ -75,14 +57,14 @@ class mockFabricService {
     }
 }
 
-describe('SwitchModelComponent', () => {
+describe('PortComponent', () => {
     let httpTestingController: HttpTestingController;
-    let component: SwitchModelComponent;
-    let fixture: ComponentFixture<SwitchModelComponent>;
+    let component: PortComponent;
+    let fixture: ComponentFixture<PortComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [SwitchModelComponent],
+            declarations: [PortComponent],
             imports: [
                 HttpClientTestingModule,
                 RouterTestingModule,
@@ -114,13 +96,13 @@ describe('SwitchModelComponent', () => {
         TestBed.inject(HttpClient);
         httpTestingController = TestBed.inject(HttpTestingController);
 
-        fixture = TestBed.createComponent(SwitchModelComponent);
+        fixture = TestBed.createComponent(PortComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
 
         // assert that we're loading the data and return fake values
         const reqSwitch = httpTestingController.expectOne(
-            '/sdn-fabric/v0.1.x/test-fabric/switch-model'
+            '/sdn-fabric/v0.1.x/value/switch/value/port'
         );
 
         // Assert that the request is a GET.
@@ -128,7 +110,7 @@ describe('SwitchModelComponent', () => {
 
         // Respond with mock data, causing Observable to resolve.
         // Subscribe callback asserts that correct data was returned.
-        reqSwitch.flush(switchModels);
+        reqSwitch.flush(ports);
     });
 
     afterEach(() => {
@@ -137,12 +119,10 @@ describe('SwitchModelComponent', () => {
     });
 
     it('should create', () => {
-        httpTestingController.match('/sdn-fabric/v0.1.x/test-fabric/switch');
         expect(component).toBeTruthy();
     });
 
-    it('should contain switch models', () => {
-        httpTestingController.match('/sdn-fabric/v0.1.x/test-fabric/switch');
+    it('should contain ports', () => {
         expect(component.dataSource.data.length).toEqual(2);
     });
 });

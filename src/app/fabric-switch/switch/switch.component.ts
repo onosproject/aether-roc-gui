@@ -16,6 +16,7 @@ import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EnterpriseService as FabricService } from '../../enterprise.service';
 import { switchPath } from '../../models-info';
+import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
 @Component({
     selector: 'aether-switch',
@@ -29,12 +30,14 @@ export class SwitchComponent
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatTable) table: MatTable<Switch>;
+
     displayedColumns = [
         'id',
         'description',
         'fabric',
         'role',
         'model',
+        'paired',
         'ports',
         'vlans',
         'edit',

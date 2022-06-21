@@ -61,7 +61,6 @@ import { MatChipsModule } from '@angular/material/chips';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
-        MatPaginatorModule,
         MatSnackBarModule,
         MatToolbarModule,
         MatIconModule,

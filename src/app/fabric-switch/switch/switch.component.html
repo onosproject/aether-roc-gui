@@ -97,9 +97,46 @@
                 [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
-                [title]="row['model-id']"
             >
                 {{ row["model-id"] }}
+                <mat-icon
+                    class="table_icon small_icon"
+                    color="primary"
+                    aria-hidden="false"
+                    aria-label="Switch Model"
+                    id="pointerSwitchModel"
+                    routerLink="/switch-model/switch-model-edit/{{
+                        row['fabric-id']
+                    }}/{{ row['switch-model-id'] }}"
+                    >launch
+                </mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- Paired Column -->
+        <ng-container matColumnDef="paired" id="pairedColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Paired</th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
+                <ng-container *ngIf="row['switch-pair']">{{
+                    row["switch-pair"]["paired-switch"]
+                }}</ng-container>
+
+                <mat-icon
+                    *ngIf="row['switch-pair']"
+                    class="table_icon small_icon"
+                    color="primary"
+                    aria-hidden="false"
+                    aria-label="Paired Switch"
+                    id="pointerPairedSwitch"
+                    routerLink="/switch/switch-edit/{{ row['fabric-id'] }}/{{
+                        row['switch-id']
+                    }}"
+                    >launch
+                </mat-icon>
             </td>
         </ng-container>
 
@@ -107,11 +144,21 @@
         <ng-container matColumnDef="ports" id="portsColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Ports</th>
             <td
+                class="table_icon"
                 [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
+                routerLink="port/{{ row['fabric-id'] }}/{{ row['switch-id'] }}"
             >
                 {{ row.port.length }}
+                <mat-icon
+                    class="table_icon small_icon"
+                    color="primary"
+                    aria-hidden="false"
+                    aria-label="Ports List"
+                    id="pointerPortsList"
+                    >launch</mat-icon
+                >
             </td>
         </ng-container>
 

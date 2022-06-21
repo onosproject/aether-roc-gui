@@ -21,15 +21,19 @@ import { AETHER_ROC_API_URL } from '../../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { PortComponent } from './port/port.component';
 
 @NgModule({
-    declarations: [SwitchComponent],
+    declarations: [SwitchComponent, PortComponent],
     imports: [
         CommonModule,
         ApiModuleFabric.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([
             { path: 'switch', component: SwitchComponent },
+            { path: 'port/:fabric/:switch', component: PortComponent },
             { path: '', component: SwitchComponent, pathMatch: 'full' },
         ]),
         MatTableModule,
@@ -37,8 +41,10 @@ import { MatSortModule } from '@angular/material/sort';
         MatSortModule,
         MatToolbarModule,
         MatIconModule,
+        MatButtonModule,
         CdkTableModule,
         UtilsModule,
+        MatCardModule,
     ],
     providers: [
         {

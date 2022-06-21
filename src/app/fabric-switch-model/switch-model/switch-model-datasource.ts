@@ -6,15 +6,22 @@
 
 import { compare, RocDataSource } from '../../roc-data-source';
 import {
+    Switch,
     SwitchModel,
     SwitchModelList,
 } from '../../../openapi3/sdn-fabric/0.1.0/models';
-import { BasketService, FORDELETE, STRIKETHROUGH } from '../../basket.service';
+import {
+    BasketService,
+    FORDELETE,
+    ISINUSE,
+    STRIKETHROUGH,
+} from '../../basket.service';
 import { EnterpriseService as FabricService } from '../../enterprise.service';
 import { from, Observable } from 'rxjs';
 import { TargetName } from '../../../openapi3/top/level/models/target-name';
 import { mergeMap, skipWhile } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
+import { SwitchService } from '../../../openapi3/sdn-fabric/0.1.0/services/switch.service';
 
 export class SwitchModelDatasource extends RocDataSource<
     SwitchModel,
@@ -22,7 +29,8 @@ export class SwitchModelDatasource extends RocDataSource<
 > {
     constructor(
         public bs: BasketService,
-        protected fabricService: FabricService
+        protected fabricService: FabricService,
+        protected switchService: SwitchService
     ) {
         super(
             bs,
@@ -55,6 +63,17 @@ export class SwitchModelDatasource extends RocDataSource<
                     if (this.bs.containsDeleteEntry(fullPath)) {
                         sm[FORDELETE] = STRIKETHROUGH;
                     }
+                    // Check for usage in switches
+                    this.switchService
+                        .getSwitchList({
+                            'fabric-id': fabricId.name,
+                        })
+                        .pipe(mergeMap((switches: Switch[]) => from(switches)))
+                        .subscribe((sw: Switch) => {
+                            if (sw['model-id'] === sm['switch-model-id']) {
+                                sm[ISINUSE] = 'true';
+                            }
+                        });
                     this.data.push(sm);
                 },
                 (error) => {

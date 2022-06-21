@@ -113,10 +113,12 @@ describe('DhcpServerComponent', () => {
     });
 
     it('should create', () => {
+        httpTestingController.match('/sdn-fabric/v0.1.x/test-fabric/switch');
         expect(component).toBeTruthy();
     });
 
     it('should contain DHCP servers', () => {
+        httpTestingController.match('/sdn-fabric/v0.1.x/test-fabric/switch');
         expect(component.dataSource.data.length).toEqual(2);
     });
 });

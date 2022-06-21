@@ -9,7 +9,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { SwitchModel } from '../../../openapi3/sdn-fabric/0.1.0/models';
-import { SwitchModelService } from '../../../openapi3/sdn-fabric/0.1.0/services';
+import {
+    SwitchModelService,
+    SwitchService,
+} from '../../../openapi3/sdn-fabric/0.1.0/services';
 import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EnterpriseService as FabricService } from '../../enterprise.service';
@@ -36,18 +39,23 @@ export class SwitchModelComponent
         'pipeline',
         'ports',
         'edit',
-        'delete',
+        'Usage/delete',
     ];
 
     constructor(
-        private switchService: SwitchModelService,
+        private switchModelService: SwitchModelService,
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
-        protected fabricService: FabricService
+        protected fabricService: FabricService,
+        protected switchService: SwitchService
     ) {
         super(
             basketService,
-            new SwitchModelDatasource(basketService, fabricService)
+            new SwitchModelDatasource(
+                basketService,
+                fabricService,
+                switchService
+            )
         );
     }
 
@@ -67,7 +75,7 @@ export class SwitchModelComponent
 
         this.fabricService.enterprises.forEach((fabricId) => {
             this.dataSource.loadData(
-                this.switchService.getSwitchModelList({
+                this.switchModelService.getSwitchModelList({
                     'fabric-id': fabricId.name,
                 }),
                 this.onDataLoaded.bind(this),

@@ -18,12 +18,21 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { CdkTableModule } from '@angular/cdk/table';
 import { UtilsModule } from '../utils/utils.module';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import {
+    MAT_FORM_FIELD_DEFAULT_OPTIONS,
+    MatFormFieldModule,
+} from '@angular/material/form-field';
 import { AuthInterceptor } from '../auth-interceptor';
 import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
+import { MatButtonModule } from '@angular/material/button';
+import { ShowSwitchUsageComponent } from './show-switch-usage/show-switch-usage.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
-    declarations: [DhcpServerComponent],
+    declarations: [DhcpServerComponent, ShowSwitchUsageComponent],
     imports: [
         CommonModule,
         ApiModuleFabric.forRoot({ rootUrl: AETHER_ROC_API_URL }),
@@ -32,11 +41,18 @@ import { API_INTERCEPTOR_PROVIDER } from '../aether.module';
             { path: 'switch', component: DhcpServerComponent },
             { path: '', component: DhcpServerComponent, pathMatch: 'full' },
         ]),
+        FormsModule,
+        ReactiveFormsModule,
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
         MatToolbarModule,
         MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
         CdkTableModule,
         UtilsModule,
     ],

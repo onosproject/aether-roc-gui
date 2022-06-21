@@ -5,20 +5,20 @@
 -->
 <div>
     <mat-toolbar class="profile-toolbar" color="primary">
-        <p>SWITCH MODEL</p>
+        <p>PORTs of {{ switchId }}</p>
         <span class="toolbar-spacer"></span>
         <button
             mat-raised-button
             color="accent"
             type="submit"
-            aria-label="Add switch model"
-            id="addSwitchModelButton"
+            aria-label="Add port"
+            id="addPortButton"
             [disabled]="
                 !opaService.canWrite(
-                    'switch-model[fabric=unknownfabric]/[id=newinstance]'
+                    'switch/port[fabric=unknownfabric]/[cage-number=newcage]/[channel-number=newchanel]'
                 )
             "
-            routerLink="/switch-model/switch-model-edit/unknownfabric/newinstance"
+            routerLink="/port/port-edit/unknownfabric/newcage/newchannel"
         >
             Add
         </button>
@@ -28,7 +28,7 @@
         class="full-width-table"
         matSort
         aria-label="Elements"
-        id="switchModelTable"
+        id="switchTable"
     >
         <!-- Id Column -->
         <ng-container matColumnDef="id" id="idColumn">
@@ -40,14 +40,16 @@
             >
                 <span
                     *ngIf="row['display-name'] !== undefined"
-                    [title]="row['switch-model-id']"
+                    [title]="row['switch-id']"
                     >{{ row["display-name"] }} <br /><small
-                        >({{ row["switch-model-id"] }})</small
+                        >({{ row["cage-number"] }}/{{
+                            row["channel-number"]
+                        }})</small
                     ></span
                 >
-                <span *ngIf="row['display-name'] === undefined">{{
-                    row["switch-model-id"]
-                }}</span>
+                <span *ngIf="row['display-name'] === undefined"
+                    >{{ row["cage-number"] }}/{{ row["channel-number"] }}</span
+                >
             </td>
         </ng-container>
 
@@ -66,40 +68,92 @@
             </td>
         </ng-container>
 
-        <!-- Fabric Column -->
-        <ng-container matColumnDef="fabric" id="fabricColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fabric</th>
+        <!-- Speed Column -->
+        <ng-container matColumnDef="speed" id="fabricColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Speed</th>
             <td
                 [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
             >
-                {{ row["fabric-id"] }}
+                {{ row.speed }}
             </td>
         </ng-container>
 
-        <!-- Pipeline Column -->
-        <ng-container matColumnDef="pipeline" id="pipelineColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Pipeline</th>
+        <!-- Dhcp Connect Column -->
+        <ng-container
+            matColumnDef="dhcp-connect-point"
+            id="dhcpConnectPointColumn"
+        >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>DHCP</th>
             <td
                 [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
-                [title]="row.pipeline"
             >
-                {{ row.pipeline }}
+                {{ row["dhcp-connect-point"] }}
             </td>
         </ng-container>
 
-        <!-- Ports Column -->
-        <ng-container matColumnDef="ports" id="portsColumn">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ports</th>
+        <!-- Vlans untagged Column -->
+        <ng-container matColumnDef="vlans-untagged" id="vlansUntaggedColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Untagged VLAN
+            </th>
             <td
                 [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
             >
-                {{ row.port.length }}
+                <ng-container *ngIf="row.vlans">
+                    {{ row.vlans["untagged"] }}
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <!-- Vlans tagged Column -->
+        <ng-container matColumnDef="vlans-tagged" id="vlansTaggedColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Tagged VLANs
+            </th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
+                <ng-container *ngIf="row.vlans">
+                    {{ row.vlans["tagged"] }}
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <!-- Observed Speed Column -->
+        <ng-container matColumnDef="observed-speed" id="observedSpedColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Observed Speed
+            </th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
+                <ng-container *ngIf="row.state">
+                    {{ row.state["observed-speed"] }}
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <!-- Connected Column -->
+        <ng-container matColumnDef="connected" id="connectedColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Connected</th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
+                <ng-container *ngIf="row.state">
+                    {{ row.state["connected"] }}
+                </ng-container>
             </td>
         </ng-container>
 
@@ -111,9 +165,9 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                routerLink="/switch-model/switch-model-edit/{{
-                    row['fabric-id']
-                }}/{{ row['switch-model-id'] }}"
+                routerLink="/switch/port/port-edit/{{ row['fabric-id'] }}/{{
+                    row['cage-number']
+                }}"
                 id="editButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
@@ -121,39 +175,22 @@
         </ng-container>
 
         <!-- Delete Column -->
-        <ng-container matColumnDef="Usage/delete" id="usageDeleteColumn">
+        <ng-container matColumnDef="delete" id="deleteColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                Usage/Delete
+                Usage/delete
             </th>
-            <td mat-cell *matCellDef="let row; let i = index">
+            <td mat-cell *matCellDef="let row">
                 <button
-                    *ngIf="row['is-in-use']"
                     mat-icon-button
-                    id="usageButton"
-                    (click)="
-                        showUsage(
-                            row['switch-model-id'],
-                            row['fabric-id'],
-                            undefined
-                        )
-                    "
-                    color="accent"
-                >
-                    <mat-icon class="table_icon">assignment</mat-icon>
-                </button>
-                <button
-                    *ngIf="!row['is-in-use']"
-                    mat-icon-button
+                    id="deleteButton"
                     [disabled]="
                         !opaService.canWrite(
-                            '/switch-model/switch-model[switch-model-id=' +
-                                row['switch-model-id'] +
-                                ']'
+                            '/switch/port/port-edit[id=' + row.id + ']'
                         ) || row['for-delete-style']
                     "
                     (click)="delete(row)"
                     color="accent"
-                    id="deleteApplicationButton"
+                    id="deletePortButton"
                 >
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
@@ -170,7 +207,7 @@
 
     <mat-paginator
         #paginator
-        id="switchModelPaginator"
+        id="switchPaginator"
         [length]="dataSource?.data?.length"
         [pageIndex]="0"
         [pageSize]="10"
@@ -178,11 +215,3 @@
     >
     </mat-paginator>
 </div>
-<aether-show-switch-usage
-    *ngIf="showUsageCard"
-    id="showSwitchUsageComponent"
-    [fabricID]="selected.enterprise"
-    [modelID]="selected.id"
-    (closeShowParentCardEvent)="closeShowParentCard()"
->
-</aether-show-switch-usage>

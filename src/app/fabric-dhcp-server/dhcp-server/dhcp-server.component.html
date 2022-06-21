@@ -108,22 +108,35 @@
         </ng-container>
 
         <!-- Delete Column -->
-        <ng-container matColumnDef="delete" id="deleteColumn">
+        <ng-container matColumnDef="Usage/delete" id="usageDeleteColumn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
-                Usage/delete
+                Usage/Delete
             </th>
-            <td mat-cell *matCellDef="let row">
+            <td mat-cell *matCellDef="let row; let i = index">
                 <button
+                    *ngIf="row['is-in-use']"
                     mat-icon-button
-                    id="deleteButton"
+                    id="usageButton"
+                    (click)="
+                        showUsage(row['dhcp-id'], row['fabric-id'], undefined)
+                    "
+                    color="accent"
+                >
+                    <mat-icon class="table_icon">assignment</mat-icon>
+                </button>
+                <button
+                    *ngIf="!row['is-in-use']"
+                    mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
-                            '/dhcp-server/dhcp-server-edit[id=' + row.id + ']'
+                            '/dhcp-server/dhcp-server[dhcp-id=' +
+                                row['dhcp-id'] +
+                                ']'
                         ) || row['for-delete-style']
                     "
                     (click)="delete(row)"
                     color="accent"
-                    id="deleteDhcpServerButton"
+                    id="deleteApplicationButton"
                 >
                     <mat-icon class="table_icon">delete</mat-icon>
                 </button>
@@ -148,3 +161,11 @@
     >
     </mat-paginator>
 </div>
+<aether-show-switch-usage
+    *ngIf="showUsageCard"
+    id="showSwitchUsageComponent"
+    [fabricID]="selected.enterprise"
+    [dhcpServerID]="selected.id"
+    (closeShowParentCardEvent)="closeShowParentCard()"
+>
+</aether-show-switch-usage>

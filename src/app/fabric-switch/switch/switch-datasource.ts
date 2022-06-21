@@ -77,6 +77,8 @@ export class SwitchDatasource extends RocDataSource<Switch, SwitchList> {
             switch (this.sort.active) {
                 case 'model-id':
                     return compare(a['model-id'], b['model-id'], isAsc);
+                case 'role':
+                    return compare(a.role, b.role, isAsc);
                 default:
                     return 0;
             }

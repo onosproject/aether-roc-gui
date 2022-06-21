@@ -15,7 +15,10 @@ import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EnterpriseService as FabricService } from '../../enterprise.service';
 import { dhcpServerPath } from '../../models-info';
-import { DhcpServerService } from '../../../openapi3/sdn-fabric/0.1.0/services';
+import {
+    DhcpServerService,
+    SwitchService,
+} from '../../../openapi3/sdn-fabric/0.1.0/services';
 
 @Component({
     selector: 'aether-dhcp-server',
@@ -35,18 +38,23 @@ export class DhcpServerComponent
         'fabric',
         'address',
         'edit',
-        'delete',
+        'Usage/delete',
     ];
 
     constructor(
         private dhcpServerService: DhcpServerService,
         private basketService: BasketService,
         public opaService: OpenPolicyAgentService,
-        protected fabricService: FabricService
+        protected fabricService: FabricService,
+        protected switchService: SwitchService
     ) {
         super(
             basketService,
-            new DhcpServerDatasource(basketService, fabricService)
+            new DhcpServerDatasource(
+                basketService,
+                fabricService,
+                switchService
+            )
         );
     }
 
