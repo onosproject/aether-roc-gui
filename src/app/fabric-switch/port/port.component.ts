@@ -55,7 +55,12 @@ export class PortComponent
         protected fabricService: FabricService,
         protected route: ActivatedRoute
     ) {
-        super(basketService, new PortDatasource(basketService, fabricService));
+        super(
+            basketService,
+            new PortDatasource(basketService, fabricService),
+            'fabric-id'
+        );
+        super.reqdAttr = ['speed'];
     }
 
     ngOnInit(): void {
@@ -76,7 +81,8 @@ export class PortComponent
                 'switch-id': this.switchId,
             }),
             this.onDataLoaded.bind(this),
-            this.fabric
+            this.fabric,
+            this.switchId
         );
     }
 

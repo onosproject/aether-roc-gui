@@ -46,7 +46,12 @@ export class RouteComponent
         public opaService: OpenPolicyAgentService,
         protected fabricService: FabricService
     ) {
-        super(basketService, new RouteDatasource(basketService, fabricService));
+        super(
+            basketService,
+            new RouteDatasource(basketService, fabricService),
+            'fabric-id'
+        );
+        super.reqdAttr = ['prefix', 'address', 'metric'];
     }
 
     onDataLoaded(): void {

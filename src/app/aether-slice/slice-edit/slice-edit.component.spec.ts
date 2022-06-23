@@ -152,24 +152,22 @@ describe('SliceEditComponent', () => {
     describe('when creating a New Slice', () => {
         beforeEach(() => {
             component.isNewInstance = true;
-            component.enterpriseId = {
-                name: component.unknownEnterprise,
+            component.targetId = {
+                name: component.unknownTarget,
             } as TargetName;
             component.siteId = component.unknownSite;
             fixture.detectChanges();
         });
 
         it('should load the templates once the enterprise is selected', () => {
-            expect(component.enterpriseId.name).toEqual(
-                component.unknownEnterprise
-            );
+            expect(component.targetId.name).toEqual(component.unknownTarget);
             // on page load the select is disabled
             let templateField =
                 fixture.nativeElement.querySelector('#selectTemplate');
             expect(templateField.getAttribute('aria-disabled')).toEqual('true');
 
             // simulate the enterprise selection
-            component.enterpriseId = {
+            component.targetId = {
                 name: 'test-enterprise',
             } as TargetName;
             component.templates = [
@@ -189,7 +187,7 @@ describe('SliceEditComponent', () => {
         });
 
         it('should load the UPF once the site is selected', (done) => {
-            component.enterpriseId = {
+            component.targetId = {
                 name: 'test-enterprise',
             } as TargetName;
 

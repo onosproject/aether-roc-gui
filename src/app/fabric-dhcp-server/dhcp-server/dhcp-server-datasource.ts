@@ -32,7 +32,16 @@ export class DhcpServerDatasource extends RocDataSource<
         protected fabricService: FabricService,
         protected switchService: SwitchService
     ) {
-        super(bs, fabricService, undefined, ['dhcp-server-0.1.0'], ['dhcp-id']);
+        super(
+            bs,
+            fabricService,
+            undefined,
+            ['dhcp-server-0.1.0'],
+            ['dhcp-id'],
+            'display-name',
+            'description',
+            'fabric-id'
+        );
     }
 
     loadData(

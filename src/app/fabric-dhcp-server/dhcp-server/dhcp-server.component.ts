@@ -54,7 +54,8 @@ export class DhcpServerComponent
                 basketService,
                 fabricService,
                 switchService
-            )
+            ),
+            'fabric-id'
         );
     }
 

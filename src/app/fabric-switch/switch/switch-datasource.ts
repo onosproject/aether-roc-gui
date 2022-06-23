@@ -18,7 +18,16 @@ export class SwitchDatasource extends RocDataSource<Switch, SwitchList> {
         public bs: BasketService,
         protected fabricService: FabricService
     ) {
-        super(bs, fabricService, undefined, ['switch-0.1.0'], ['switch-id']);
+        super(
+            bs,
+            fabricService,
+            undefined,
+            ['switch-0.1.0'],
+            ['switch-id'],
+            'display-name',
+            'description',
+            'fabric-id'
+        );
     }
 
     loadData(

@@ -37,7 +37,10 @@ export class SwitchModelDatasource extends RocDataSource<
             fabricService,
             undefined,
             ['switch-model-0.1.0'],
-            ['switch-model-id']
+            ['switch-model-id'],
+            'display-name',
+            'description',
+            'fabric-id'
         );
     }
 

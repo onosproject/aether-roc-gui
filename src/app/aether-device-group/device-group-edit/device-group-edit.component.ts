@@ -296,7 +296,7 @@ export class DeviceGroupEditComponent
 
     loadDeviceGroupDeviceGroup(id: string): void {
         if (
-            this.enterpriseId.name == this.unknownEnterprise ||
+            this.targetId.name == this.unknownTarget ||
             this.siteId == this.unknownSite
         ) {
             return;
@@ -317,7 +317,7 @@ export class DeviceGroupEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SiteDeviceGroup(s) for ',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         error
                     );
@@ -334,7 +334,7 @@ export class DeviceGroupEditComponent
                     }
                     console.log(
                         'Finished loading SiteDeviceGroup(s)',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         id
                     );
@@ -343,12 +343,12 @@ export class DeviceGroupEditComponent
     }
 
     loadTrafficClass(): void {
-        if (this.enterpriseId.name == this.unknownEnterprise) {
+        if (this.targetId.name == this.unknownTarget) {
             return;
         }
         this.trafficClassService
             .getTrafficClassList({
-                'enterprise-id': this.enterpriseId.name,
+                'enterprise-id': this.targetId.name,
             })
             .subscribe(
                 (value) => {
@@ -357,7 +357,7 @@ export class DeviceGroupEditComponent
                 },
                 (error) => {
                     console.warn(
-                        `Error getting Traffic Class for ${this.enterpriseId}: ${error}`
+                        `Error getting Traffic Class for ${this.targetId}: ${error}`
                     );
                 }
             );
@@ -365,7 +365,7 @@ export class DeviceGroupEditComponent
 
     loadIpDomain(): void {
         if (
-            this.enterpriseId.name == this.unknownEnterprise ||
+            this.targetId.name == this.unknownTarget ||
             this.siteId == this.unknownSite
         ) {
             return;
@@ -373,7 +373,7 @@ export class DeviceGroupEditComponent
 
         this.siteService
             .getSite({
-                'enterprise-id': this.enterpriseId.name,
+                'enterprise-id': this.targetId.name,
                 'site-id': this.siteId,
             })
             .subscribe(
@@ -383,7 +383,7 @@ export class DeviceGroupEditComponent
                 },
                 (error) =>
                     console.warn(
-                        `Error getting Ip Domand for ${this.enterpriseId}: ${error}`
+                        `Error getting Ip Domand for ${this.targetId}: ${error}`
                     )
             );
     }

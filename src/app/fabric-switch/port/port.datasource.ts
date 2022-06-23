@@ -26,7 +26,10 @@ export class PortDatasource extends RocDataSource<SwitchPort, SwitchPortList> {
             fabricService,
             undefined,
             ['switch-0.1.0', 'port'],
-            ['cage-number', 'channel-number']
+            ['switch-id', 'cage-number', 'channel-number', 'cage-number'],
+            'display-name',
+            'description',
+            'fabric-id'
         );
     }
 
@@ -35,7 +38,8 @@ export class PortDatasource extends RocDataSource<SwitchPort, SwitchPortList> {
         onDataLoaded: (
             dataSourceThisScope: RocDataSource<SwitchPort, SwitchPortList>
         ) => void,
-        fabricId?: TargetName
+        fabricId?: TargetName,
+        switchId?: string
     ): void {
         dataSourceObservable
             .pipe(
@@ -45,8 +49,10 @@ export class PortDatasource extends RocDataSource<SwitchPort, SwitchPortList> {
             .subscribe(
                 (sp: SwitchPort) => {
                     sp['fabric-id'] = fabricId.name;
+                    sp['switch-id'] = switchId;
                     const fullPath = this.deletePath(
                         fabricId.name,
+                        String(sp['cage-number']),
                         String(sp['channel-number'])
                     );
                     if (this.bs.containsDeleteEntry(fullPath)) {

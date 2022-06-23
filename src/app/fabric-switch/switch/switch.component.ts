@@ -16,7 +16,6 @@ import { BasketService } from '../../basket.service';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { EnterpriseService as FabricService } from '../../enterprise.service';
 import { switchPath } from '../../models-info';
-import { TargetName } from '../../../openapi3/top/level/models/target-name';
 
 @Component({
     selector: 'aether-switch',
@@ -52,8 +51,10 @@ export class SwitchComponent
     ) {
         super(
             basketService,
-            new SwitchDatasource(basketService, fabricService)
+            new SwitchDatasource(basketService, fabricService),
+            'fabric-id'
         );
+        super.reqdAttr = ['model-id', 'role'];
     }
 
     onDataLoaded(): void {

@@ -29,14 +29,14 @@ describe('ROC Data Source', () => {
         it('should create a full path from slice', () => {
             const fp = component.fullPath('ent1', 'site1', 'slice1');
             expect(fp).toEqual(
-                'ent1/site-2.1.0[site-id=site1]/slice[slice-id=slice1]'
+                'enterprise-id/ent1/site-2.1.0[site-id=site1]/slice[slice-id=slice1]'
             );
         });
 
         it('should create a delete path from slice', () => {
             const fp = component.deletePath('ent1', 'site1', 'slice1');
             expect(fp).toEqual(
-                '/ent1/site-2.1.0[site-id=site1]/slice[slice-id=slice1]/slice-id'
+                '/enterprise-id/ent1/site-2.1.0[site-id=site1]/slice[slice-id=slice1]/slice-id'
             );
         });
 
@@ -46,7 +46,7 @@ describe('ROC Data Source', () => {
                 basketService
             );
             const fp = siteComponent.fullPath('ent1', 'site1');
-            expect(fp).toEqual('ent1/site-2.1.0[site-id=site1]');
+            expect(fp).toEqual('enterprise-id/ent1/site-2.1.0[site-id=site1]');
         });
     });
 

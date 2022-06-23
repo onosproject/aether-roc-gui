@@ -74,7 +74,8 @@ export abstract class RocDataSource<T, U>
         /** @deprecated */
         public indexAttr: string[], // TODO remove use modelPath
         protected nameAttr: string = 'display-name',
-        protected descAttr: string = 'description'
+        protected descAttr: string = 'description',
+        protected targetAttribute = 'enterprise-id'
     ) {
         super();
     }
@@ -330,13 +331,21 @@ export abstract class RocDataSource<T, U>
     }
 
     fullPath(enterpriseId: string, ...ids: string[]): string {
-        let fullPath = enterpriseId;
+        let fullPath = `${this.targetAttribute}/${enterpriseId}`;
         if (this.pathRoot) {
             fullPath = fullPath += `/${this.pathRoot}`;
         }
         for (let i = 0; i < this.pathListAttr.length; i++) {
             fullPath =
                 fullPath += `/${this.pathListAttr[i]}[${this.indexAttr[i]}=${ids[i]}]`;
+        }
+        // For any multi-keyed lists there will be more ids
+        for (
+            let i = this.pathListAttr.length;
+            i < this.indexAttr.length - 1;
+            i++
+        ) {
+            fullPath = fullPath += `[${this.indexAttr[i]}=${ids[i]}]`;
         }
 
         return fullPath;

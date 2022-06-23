@@ -18,7 +18,16 @@ export class RouteDatasource extends RocDataSource<Route, RouteList> {
         public bs: BasketService,
         protected fabricService: FabricService
     ) {
-        super(bs, fabricService, undefined, ['route-0.1.0'], ['route-id']);
+        super(
+            bs,
+            fabricService,
+            undefined,
+            ['route-0.1.0'],
+            ['route-id'],
+            'display-name',
+            'description',
+            'fabric-id'
+        );
     }
 
     loadData(

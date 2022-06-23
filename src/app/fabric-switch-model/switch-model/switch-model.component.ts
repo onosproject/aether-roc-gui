@@ -55,7 +55,8 @@ export class SwitchModelComponent
                 basketService,
                 fabricService,
                 switchService
-            )
+            ),
+            'fabric-id'
         );
     }
 

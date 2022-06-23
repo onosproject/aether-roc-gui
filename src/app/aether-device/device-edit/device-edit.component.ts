@@ -112,7 +112,7 @@ export class DeviceEditComponent
 
     loadDevice(deviceId: string): void {
         if (
-            this.enterpriseId.name == this.unknownEnterprise ||
+            this.targetId.name == this.unknownTarget ||
             this.siteId == this.unknownSite
         ) {
             return;
@@ -133,7 +133,7 @@ export class DeviceEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SiteDevice(s) for ',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         error
                     );
@@ -150,7 +150,7 @@ export class DeviceEditComponent
                     }
                     console.log(
                         'Finished loading SiteDevice(s)',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         deviceId
                     );
@@ -185,14 +185,14 @@ export class DeviceEditComponent
 
     loadSimCards(): void {
         if (
-            this.enterpriseId.name == this.unknownEnterprise ||
+            this.targetId.name == this.unknownTarget ||
             this.siteId == this.unknownSite
         ) {
             return;
         }
         this.siteService
             .getSite({
-                'enterprise-id': this.enterpriseId.name,
+                'enterprise-id': this.targetId.name,
                 'site-id': this.siteId,
             })
             .subscribe(
@@ -221,7 +221,7 @@ export class DeviceEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SimCards for ',
-                        this.enterpriseId,
+                        this.targetId,
                         error
                     );
                 }

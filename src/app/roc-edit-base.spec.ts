@@ -120,7 +120,7 @@ describe('The Roc List Base class', () => {
                 mockParamsMap(applicationMockParams)
             );
             expect(applicationPath).toEqual(
-                'test-enterprise-1/application-2.1.0[application-id=test-application-1]'
+                'enterprise-id/test-enterprise-1/application-2.1.0[application-id=test-application-1]'
             );
 
             component.modelPath = deviceModelPath;
@@ -128,7 +128,7 @@ describe('The Roc List Base class', () => {
                 mockParamsMap(deviceMockParams)
             );
             expect(devicePath).toEqual(
-                'test-enterprise-1/site-2.1.0[site-id=test-site-1]/device[device-id=device-id-1]'
+                'enterprise-id/test-enterprise-1/site-2.1.0[site-id=test-site-1]/device[device-id=device-id-1]'
             );
         });
     });

@@ -33,7 +33,11 @@ export abstract class RocListBase<
     // identifies the location of the model in the gNMI tree
     public modelPath = [];
 
-    protected constructor(public bs: BasketService, datasource: T) {
+    protected constructor(
+        public bs: BasketService,
+        datasource: T,
+        protected targetAttribute = 'enterprise-id'
+    ) {
         this.dataSource = datasource;
     }
 
@@ -45,7 +49,7 @@ export abstract class RocListBase<
         }
 
         const fullPath = this.dataSource.fullPath(
-            entity['enterprise-id'],
+            entity[this.targetAttribute],
             ...args
         );
         console.log('Full path', fullPath, ...args);

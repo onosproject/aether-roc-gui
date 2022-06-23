@@ -14,7 +14,7 @@
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/slice/slice-monitor/{{ enterpriseId.name }}/{{
+                routerLink="/slice/slice-monitor/{{ targetId.name }}/{{
                     siteId
                 }}/{{ sliceID }}"
                 id="monitorVcsButton"
@@ -45,9 +45,9 @@
                 <mat-select
                     class="row-pad"
                     id="selectEnterprise"
-                    [(value)]="enterpriseId"
+                    [(value)]="targetId"
                     placeholder="Please select an Enterprise"
-                    (selectionChange)="loadTemplate(enterpriseId)"
+                    (selectionChange)="loadTemplate(targetId)"
                 >
                     <mat-option
                         *ngFor="
@@ -122,7 +122,7 @@
                 <mat-form-field class="field-margin full-width">
                     <mat-select
                         (selectionChange)="templateSelected($event)"
-                        [disabled]="enterpriseId.name === unknownEnterprise"
+                        [disabled]="targetId.name === unknownTarget"
                         id="selectTemplate"
                     >
                         <mat-option
@@ -243,7 +243,7 @@
                                 aria-hidden="false"
                                 aria-label="Application"
                                 routerLink="/application/application-edit/{{
-                                    enterpriseId.name
+                                    targetId.name
                                 }}/{{ appForm.value.application }}"
                                 id="pointerApplication"
                                 >launch
@@ -307,7 +307,7 @@
                                 aria-hidden="false"
                                 aria-label="device-group"
                                 routerLink="/device-group/device-group-edit/{{
-                                    enterpriseId.name
+                                    targetId.name
                                 }}/{{ siteId }}/{{
                                     dgForm.value['device-group']
                                 }}"
@@ -463,7 +463,7 @@
                                 '/slice/slice[slice-id={{sliceID}}]'
                             ) &&
                             siteId !== unknownSite &&
-                            enterpriseId.name !== unknownEnterprise
+                            targetId.name !== unknownTarget
                         )
                     "
                 >
@@ -483,7 +483,7 @@
     "
     id="applicationSelectComponent"
     [alreadySelected]="selectedApplications()"
-    [selectedEnterprise]="enterpriseId"
+    [selectedEnterprise]="targetId"
     (appcloseEvent)="appSelected($event)"
 >
 </aether-application-select>
@@ -493,7 +493,7 @@
         opaService.canWrite('/slice/slice[slice-id=' + id + ']/device-group')
     "
     id="deviceGroupSelectComponent"
-    [selectedEnterprise]="enterpriseId"
+    [selectedEnterprise]="targetId"
     [selectedSite]="siteId"
     [alreadySelected]="deviceGroupExists"
     (closeEvent)="dgSelected($event)"

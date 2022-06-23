@@ -160,7 +160,7 @@ export class SiteEditComponent
                 (error) => {
                     console.warn(
                         'Error getting Site(s) for ',
-                        this.enterpriseId,
+                        this.targetId,
                         error
                     );
                 },
@@ -174,11 +174,7 @@ export class SiteEditComponent
                     if (hasUpdates) {
                         this.populateFormData(model as Site);
                     }
-                    console.log(
-                        'Finished loading Site(s)',
-                        this.enterpriseId,
-                        id
-                    );
+                    console.log('Finished loading Site(s)', this.targetId, id);
                 }
             );
     }

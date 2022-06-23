@@ -44,7 +44,7 @@
                 <mat-select
                     class="row-pad"
                     id="selectEnterprise"
-                    [(value)]="enterpriseId"
+                    [(value)]="targetId"
                     placeholder="Please select an Enterprise"
                 >
                     <mat-option
@@ -273,7 +273,7 @@
                             siteForm.valid &&
                             siteForm.touched &&
                             opaService.canWrite('/site/site') &&
-                            enterpriseId.name !== unknownEnterprise
+                            targetId.name !== unknownTarget
                         )
                     "
                     id="submitButton"

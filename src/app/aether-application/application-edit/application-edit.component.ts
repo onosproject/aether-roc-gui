@@ -199,7 +199,7 @@ export class ApplicationEditComponent
                 (error) => {
                     console.warn(
                         'Error getting Application(s) for ',
-                        this.enterpriseId,
+                        this.targetId,
                         error
                     );
                 },
@@ -215,7 +215,7 @@ export class ApplicationEditComponent
                     }
                     console.log(
                         'Finished loading Application(s)',
-                        this.enterpriseId,
+                        this.targetId,
                         id
                     );
                 }
@@ -505,13 +505,13 @@ export class ApplicationEditComponent
     }
 
     loadTrafficClass(): void {
-        if (this.enterpriseId.name == this.unknownEnterprise) {
+        if (this.targetId.name == this.unknownTarget) {
             return;
         }
 
         this.trafficClassService
             .getTrafficClassList({
-                'enterprise-id': this.enterpriseId.name,
+                'enterprise-id': this.targetId.name,
             })
             .subscribe(
                 (value) => {
@@ -521,7 +521,7 @@ export class ApplicationEditComponent
                 (error) => {
                     console.warn(
                         'Error getting Traffic Class for ',
-                        this.enterpriseId,
+                        this.targetId,
                         error
                     );
                 }
