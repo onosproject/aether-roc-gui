@@ -123,7 +123,7 @@ export class TrafficClassEditComponent
                 (error) => {
                     console.warn(
                         'Error getting EnterprisesEnterpriseTrafficClass(s) for ',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         error
                     );
@@ -140,7 +140,7 @@ export class TrafficClassEditComponent
                     }
                     console.log(
                         'Finished loading TrafficClass(s)',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         id
                     );

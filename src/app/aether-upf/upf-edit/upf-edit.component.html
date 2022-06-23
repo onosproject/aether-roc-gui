@@ -23,9 +23,9 @@
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/upf/upf-monitor/{{ enterpriseId.name }}/{{
-                    siteId
-                }}/{{ upfId }}"
+                routerLink="/upf/upf-monitor/{{ targetId.name }}/{{ siteId }}/{{
+                    upfId
+                }}"
                 id="monitorUpfButton"
                 >insights
             </mat-icon>
@@ -53,7 +53,7 @@
                 <mat-select
                     class="row-pad"
                     id="selectEnterprise"
-                    [(value)]="enterpriseId"
+                    [(value)]="targetId"
                     placeholder="Please select an Enterprise"
                 >
                     <mat-option
@@ -171,7 +171,7 @@
                         upfForm.touched &&
                         opaService.canWrite('/upf/upf') &&
                         siteId !== unknownSite &&
-                        enterpriseId.name !== unknownEnterprise
+                        targetId.name !== unknownTarget
                     )
                 "
                 id="submitButton"
@@ -189,7 +189,7 @@
 <aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
-    [enterpriseID]="enterpriseId"
+    [enterpriseID]="targetId"
     [siteID]="siteId"
     [upfID]="upfId"
     (closeShowParentCardEvent)="closeShowParentCard()"

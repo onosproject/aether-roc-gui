@@ -119,7 +119,7 @@ export class SimCardEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SiteSimCard(s) for ',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         error
                     );
@@ -136,7 +136,7 @@ export class SimCardEditComponent
                     }
                     console.log(
                         'Finished loading SiteSimCard(s)',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         simCardId
                     );

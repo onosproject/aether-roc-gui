@@ -130,7 +130,7 @@ export class UpfEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SiteUpf(s) for ',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         error
                     );
@@ -147,7 +147,7 @@ export class UpfEditComponent
                     }
                     console.log(
                         'Finished loading SiteUpf(s)',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         upfId
                     );

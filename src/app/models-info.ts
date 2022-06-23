@@ -32,3 +32,11 @@ export const trafficClassModelPath = [
 ];
 
 export const upfModelPath = ['site-2.1.0', 'upf', 'upf-id'];
+
+export const switchModelPath = ['switch-model-0.1.0', 'switch-model-id'];
+
+export const switchPath = ['switch-0.1.0', 'switch-id'];
+
+export const routePath = ['route-0.1.0', 'route-id'];
+
+export const dhcpServerPath = ['dhcp-server-0.1.0', 'dhcp-server-id'];

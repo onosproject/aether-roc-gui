@@ -30,13 +30,15 @@ export interface BasketValue {
     type: string;
 }
 
+export interface TargetNameAndType {
+    name: string;
+    type: string;
+}
+
 @Injectable({
     providedIn: 'root',
 })
 export class BasketService {
-    @Input() target: string = AETHER_TARGET;
-    apiKeyDisplay = false;
-    totalChanges = this.totalNumChanges();
     idMap = new Map();
     pathMap = new Map();
     arrayCounter: number;
@@ -228,9 +230,6 @@ export class BasketService {
             'default-target': 'default-ent',
             Updates: {},
             Deletes: {},
-            Extensions: {
-                'model-type-102': 'Aether',
-            },
         };
 
         Object.keys(localStorage)
@@ -241,11 +240,18 @@ export class BasketService {
                     localStorage.getItem(updateKey)
                 );
                 this.recursePath(
-                    updatePathParts.slice(3),
+                    updatePathParts.slice(4),
                     patchBody.Updates,
                     updateValue,
-                    ['/unchanged-update', updatePathParts[2]],
-                    updatePathParts[2]
+                    [
+                        '/unchanged-update',
+                        updatePathParts[2],
+                        updatePathParts[3],
+                    ],
+                    {
+                        name: updatePathParts[3],
+                        type: updatePathParts[2],
+                    } as TargetNameAndType
                 );
             });
 
@@ -257,11 +263,18 @@ export class BasketService {
                     localStorage.getItem(deleteKey)
                 );
                 this.recursePath(
-                    deletePathParts.slice(3),
+                    deletePathParts.slice(4),
                     patchBody.Deletes,
                     deleteValue,
-                    ['/unchanged-delete', deletePathParts[2]],
-                    deletePathParts[2]
+                    [
+                        '/unchanged-delete',
+                        deletePathParts[2],
+                        deletePathParts[3],
+                    ],
+                    {
+                        name: deletePathParts[3],
+                        type: deletePathParts[2],
+                    } as TargetNameAndType
                 );
             });
 
@@ -273,7 +286,7 @@ export class BasketService {
         object: unknown, // FIXME what type should object be?
         value: BasketValue,
         unchangedPath?: string[],
-        target?: string
+        target?: TargetNameAndType
     ): void {
         const unchList = localStorage.getItem(unchangedPath.join('/'));
         console.log(
@@ -319,6 +332,13 @@ export class BasketService {
             if (object[container] === undefined) {
                 object[container] = [];
             }
+            const keyNames = new Map();
+            let childObj = {};
+
+            if (target) {
+                childObj[ADDITIONALPROPS] = {};
+                childObj[ADDITIONALPROPS][target.type] = target.name;
+            }
             thisLevelPath
                 .split('[')
                 .filter((part) => part.endsWith(']'))
@@ -328,37 +348,35 @@ export class BasketService {
                         part.indexOf('=') + 1,
                         part.lastIndexOf(']')
                     );
-                    let childObj = {};
-
-                    if (target) {
-                        childObj[ADDITIONALPROPS] = {
-                            'enterprise-id': target,
-                        };
-                    }
-
-                    object[container].forEach((child) => {
-                        if (child[keyName] === keyValue) {
-                            // console.log(
-                            //     'Found existing child',
-                            //     keyName,
-                            //     '=',
-                            //     keyValue
-                            // );
-                            childObj = child;
-                        }
-                    });
-                    if (!childObj[keyName]) {
+                    // TODO - taking a chance here - if key is numeric, then use it as a number rather than a string
+                    const valAsNum = parseInt(keyValue);
+                    if (isNaN(valAsNum)) {
+                        keyNames.set(keyName, keyValue);
                         childObj[keyName] = keyValue;
-                        object[container].push(childObj);
+                    } else {
+                        keyNames.set(keyName, valAsNum);
+                        childObj[keyName] = valAsNum;
                     }
-
-                    this.recursePath(
-                        path.slice(1),
-                        childObj,
-                        value,
-                        unchangedPath
-                    );
                 });
+            let alreadyExists = false;
+            object[container].forEach((child) => {
+                let matchedCount = 0;
+                keyNames.forEach((k, v) => {
+                    if (String(child[k]) === String(v)) {
+                        matchedCount++;
+                    }
+                });
+                if (matchedCount === keyNames.size) {
+                    childObj = child;
+                    alreadyExists = true;
+                    console.log('Found existing child', childObj);
+                }
+            });
+            if (!alreadyExists) {
+                object[container].push(childObj);
+            }
+
+            this.recursePath(path.slice(1), childObj, value, unchangedPath);
         } else {
             if (object[path[0]] === undefined) {
                 object[path[0]] = {};

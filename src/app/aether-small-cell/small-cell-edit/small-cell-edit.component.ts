@@ -160,7 +160,7 @@ export class SmallCellEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SiteSmallCell(s) for ',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         error
                     );
@@ -177,7 +177,7 @@ export class SmallCellEditComponent
                     }
                     console.log(
                         'Finished loading SiteSmallCell(s)',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         id
                     );

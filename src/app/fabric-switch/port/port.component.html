@@ -1,0 +1,217 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Intel Corporation
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
+<div>
+    <mat-toolbar class="profile-toolbar" color="primary">
+        <p>PORTs of {{ switchId }}</p>
+        <span class="toolbar-spacer"></span>
+        <button
+            mat-raised-button
+            color="accent"
+            type="submit"
+            aria-label="Add port"
+            id="addPortButton"
+            [disabled]="
+                !opaService.canWrite(
+                    'switch/port[fabric=unknownfabric]/[cage-number=newcage]/[channel-number=newchanel]'
+                )
+            "
+            routerLink="/port/port-edit/unknownfabric/newcage/newchannel"
+        >
+            Add
+        </button>
+    </mat-toolbar>
+    <table
+        mat-table
+        class="full-width-table"
+        matSort
+        aria-label="Elements"
+        id="switchTable"
+    >
+        <!-- Id Column -->
+        <ng-container matColumnDef="id" id="idColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name (ID)</th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
+                <span
+                    *ngIf="row['display-name'] !== undefined"
+                    [title]="row['switch-id']"
+                    >{{ row["display-name"] }} <br /><small
+                        >({{ row["cage-number"] }}/{{
+                            row["channel-number"]
+                        }})</small
+                    ></span
+                >
+                <span *ngIf="row['display-name'] === undefined"
+                    >{{ row["cage-number"] }}/{{ row["channel-number"] }}</span
+                >
+            </td>
+        </ng-container>
+
+        <!-- Description Name Column -->
+        <ng-container matColumnDef="description" id="descriptionColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Description
+            </th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+                [title]="row.description"
+            >
+                {{ row.description | truncateText: 40 }}
+            </td>
+        </ng-container>
+
+        <!-- Speed Column -->
+        <ng-container matColumnDef="speed" id="fabricColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Speed</th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
+                {{ row.speed }}
+            </td>
+        </ng-container>
+
+        <!-- Dhcp Connect Column -->
+        <ng-container
+            matColumnDef="dhcp-connect-point"
+            id="dhcpConnectPointColumn"
+        >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>DHCP</th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
+                {{ row["dhcp-connect-point"] }}
+            </td>
+        </ng-container>
+
+        <!-- Vlans untagged Column -->
+        <ng-container matColumnDef="vlans-untagged" id="vlansUntaggedColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Untagged VLAN
+            </th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
+                <ng-container *ngIf="row.vlans">
+                    {{ row.vlans["untagged"] }}
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <!-- Vlans tagged Column -->
+        <ng-container matColumnDef="vlans-tagged" id="vlansTaggedColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Tagged VLANs
+            </th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
+                <ng-container *ngIf="row.vlans">
+                    {{ row.vlans["tagged"] }}
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <!-- Observed Speed Column -->
+        <ng-container matColumnDef="observed-speed" id="observedSpedColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Observed Speed
+            </th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
+                <ng-container *ngIf="row.state">
+                    {{ row.state["observed-speed"] }}
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <!-- Connected Column -->
+        <ng-container matColumnDef="connected" id="connectedColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Connected</th>
+            <td
+                [style]="row['for-delete-style']"
+                mat-cell
+                *matCellDef="let row"
+            >
+                <ng-container *ngIf="row.state">
+                    {{ row.state["connected"] }}
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <!-- Edit Column -->
+        <ng-container matColumnDef="edit" id="editColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
+                Edit
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let row"
+                routerLink="/switch/port/port-edit/{{ row['fabric-id'] }}/{{
+                    row['cage-number']
+                }}"
+                id="editButton"
+            >
+                <mat-icon class="table_icon" color="accent">edit</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- Delete Column -->
+        <ng-container matColumnDef="delete" id="deleteColumn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header disabled>
+                Usage/delete
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <button
+                    mat-icon-button
+                    id="deleteButton"
+                    [disabled]="
+                        !opaService.canWrite(
+                            '/switch/port/port-edit[id=' + row.id + ']'
+                        ) || row['for-delete-style']
+                    "
+                    (click)="delete(row)"
+                    color="accent"
+                    id="deletePortButton"
+                >
+                    <mat-icon class="table_icon">delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr
+            mat-header-row
+            class="profile-header"
+            *matHeaderRowDef="displayedColumns"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+        #paginator
+        id="switchPaginator"
+        [length]="dataSource?.data?.length"
+        [pageIndex]="0"
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 20, 40]"
+    >
+    </mat-paginator>
+</div>

@@ -20,9 +20,9 @@
                 *ngIf="!isNew"
                 class="subscriber-pointer"
                 color="accent"
-                routerLink="/device-group/device-group-monitor/{{
-                    enterpriseId
-                }}/{{ siteId }}/{{ deviceGroupId }}"
+                routerLink="/device-group/device-group-monitor/{{ targetId }}/{{
+                    siteId
+                }}/{{ deviceGroupId }}"
                 id="monitorDgButton"
                 >insights
             </mat-icon>
@@ -61,7 +61,7 @@
                 <mat-select
                     class="row-pad"
                     id="selectEnterprise"
-                    [(value)]="enterpriseId"
+                    [(value)]="targetId"
                     placeholder="Please select an Enterprise"
                     (selectionChange)="loadTrafficClass()"
                 >
@@ -268,7 +268,7 @@
                                     aria-hidden="false"
                                     aria-label="device-group"
                                     routerLink="/device/device-edit/{{
-                                        enterpriseId
+                                        targetId
                                     }}/{{ siteId }}/{{
                                         deviceForm.value['device-id']
                                     }}"
@@ -312,7 +312,7 @@
                             deviceGroupForm.touched &&
                             opaService.canWrite('/device-group/device-group') &&
                             siteId !== unknownSite &&
-                            enterpriseId !== unknownEnterprise
+                            targetId !== unknownTarget
                         )
                     "
                     id="submitButton"
@@ -338,7 +338,7 @@
         )
     "
     id="deviceSelectComponent"
-    [selectedEnterprise]="enterpriseId"
+    [selectedEnterprise]="targetId"
     [selectedSite]="siteId"
     [alreadySelected]="deviceExists"
     (closeEvent)="deviceSelected($event)"
@@ -347,7 +347,7 @@
 <aether-show-vcs-usage
     *ngIf="showParentDisplay"
     id="showParentModulesComponent"
-    [enterpriseID]="enterpriseId"
+    [enterpriseID]="targetId"
     [siteID]="siteId"
     [deviceGroupID]="deviceGroupId"
     (closeShowParentCardEvent)="closeShowParentCard()"

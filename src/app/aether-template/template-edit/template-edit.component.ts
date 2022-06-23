@@ -217,7 +217,7 @@ export class TemplateEditComponent
                 (error) => {
                     console.warn(
                         'Error getting TemplateTemplte(s) for ',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         error
                     );
@@ -235,7 +235,7 @@ export class TemplateEditComponent
 
                     console.log(
                         'Finished loading TemplateTemplte(s)',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         id
                     );

@@ -318,13 +318,13 @@ export class SliceEditComponent
 
     loadTemplate(target: TargetName): void {
         console.log('called on load template once target chosen', target);
-        if (this.enterpriseId.name == this.unknownEnterprise) {
+        if (this.targetId.name == this.unknownTarget) {
             return;
         }
 
         this.templateService
             .getTemplateList({
-                'enterprise-id': this.enterpriseId.name,
+                'enterprise-id': this.targetId.name,
             })
             .subscribe(
                 (value) => {
@@ -400,7 +400,7 @@ export class SliceEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SliceSlice(s) for ',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         error
                     );
@@ -417,7 +417,7 @@ export class SliceEditComponent
                     }
                     console.log(
                         'Finished loading SliceSlice(s)',
-                        this.enterpriseId,
+                        this.targetId,
                         this.siteId,
                         id
                     );
@@ -669,7 +669,7 @@ export class SliceEditComponent
 
     loadUpf(): void {
         if (
-            this.enterpriseId.name == this.unknownEnterprise ||
+            this.targetId.name == this.unknownTarget ||
             this.siteId == this.unknownSite
         ) {
             return;
@@ -677,7 +677,7 @@ export class SliceEditComponent
         // Go through all the slices in all sites to see what UPFs have been used up
         this.siteService
             .getSite({
-                'enterprise-id': this.enterpriseId.name,
+                'enterprise-id': this.targetId.name,
                 'site-id': this.siteId,
             })
             .subscribe(
@@ -701,7 +701,7 @@ export class SliceEditComponent
                 (error) => {
                     console.warn(
                         'Error getting UPF for ',
-                        this.enterpriseId,
+                        this.targetId,
                         error
                     );
                 }

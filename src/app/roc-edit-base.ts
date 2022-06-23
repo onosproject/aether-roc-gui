@@ -35,10 +35,10 @@ export abstract class RocEditBase<
     protected initFunc: () => string;
     public showParentDisplay = false;
     protected fullPath: string;
-    public enterpriseId: TargetName = { name: undefined };
+    public targetId: TargetName = { name: undefined };
     public sites: SiteID[] = [];
     public siteId: string;
-    public unknownEnterprise = 'unknownent';
+    public unknownTarget = 'unknownent';
     public unknownSite = 'unknownsite';
     public datasource: T;
 
@@ -46,9 +46,11 @@ export abstract class RocEditBase<
      * @param snackBar The MatSnackBar service
      * @param bs The BasketService
      * @param enterpriseService EnterpriseService
+     * @param siteService SiteService
      * @param route The current route
      * @param ds A class that extends RocDataSource
      * @param modelPath The path for this model in the Yang tree
+     * @param targetAttribute the target attribute for this model e.g. enterprise-id
      */
     protected constructor(
         protected snackBar: MatSnackBar,
@@ -57,7 +59,8 @@ export abstract class RocEditBase<
         protected siteService: SiteService,
         protected route: ActivatedRoute,
         public ds: T,
-        public modelPath: string[]
+        public modelPath: string[],
+        protected targetAttribute = 'enterprise-id'
     ) {
         this.datasource = ds;
     }
@@ -77,11 +80,11 @@ export abstract class RocEditBase<
 
     loadIds(params: ParamMap): void {
         this.siteId = params.get('site-id');
-        this.enterpriseId = {
+        this.targetId = {
             name: params.get('enterprise-id'),
         } as TargetName;
         console.log(
-            `Populated component with {enterpriseId: ${this.enterpriseId.name}, siteId: ${this.siteId}}`
+            `Populated component with {enterpriseId: ${this.targetId.name}, siteId: ${this.siteId}}`
         );
     }
 
@@ -89,11 +92,11 @@ export abstract class RocEditBase<
         console.log('Submitted!', this.form.getRawValue());
         const idAttr = this.modelPath[this.modelPath.length - 1];
         const submitId = this.form.get(idAttr).value as unknown as string;
-        console.log(this.fullPath, this.enterpriseId, this.siteId);
-        if (this.fullPath.includes(this.unknownEnterprise)) {
+        console.log(this.fullPath, this.targetId, this.siteId);
+        if (this.fullPath.includes(this.unknownTarget)) {
             this.fullPath = this.fullPath.replace(
-                this.unknownEnterprise,
-                this.enterpriseId.name
+                this.unknownTarget,
+                this.targetId.name
             );
         }
         if (this.fullPath.includes(this.unknownSite)) {
@@ -139,7 +142,9 @@ export abstract class RocEditBase<
     // just read them
     public calcFullPath(paramMap: ParamMap): string {
         // set the base for the full path
-        let fullPath = paramMap.get('enterprise-id');
+        let fullPath = `${this.targetAttribute}/${paramMap.get(
+            this.targetAttribute
+        )}`;
 
         if (paramMap.has('site-id')) {
             fullPath += `/${this.modelPath[0]}[site-id=${paramMap.get(
@@ -156,6 +161,22 @@ export abstract class RocEditBase<
         } else if (paramMap.has('traffic-class-id')) {
             fullPath += `/${this.modelPath[0]}[traffic-class-id=${paramMap.get(
                 'traffic-class-id'
+            )}]`;
+        } else if (paramMap.has('switch-model-id')) {
+            fullPath += `/${this.modelPath[0]}[switch-model-id=${paramMap.get(
+                'switch-model-id'
+            )}]`;
+        } else if (paramMap.has('switch-id')) {
+            fullPath += `/${this.modelPath[0]}[switch-id=${paramMap.get(
+                'switch-id'
+            )}]`;
+        } else if (paramMap.has('route-id')) {
+            fullPath += `/${this.modelPath[0]}[route-id=${paramMap.get(
+                'route-id'
+            )}]`;
+        } else if (paramMap.has('dhcp-server-id')) {
+            fullPath += `/${this.modelPath[0]}[dhcp-server-id=${paramMap.get(
+                'dhcp-server-id'
             )}]`;
         }
 

@@ -45,7 +45,7 @@
                 <mat-select
                     class="row-pad"
                     id="selectEnterprise"
-                    [(value)]="enterpriseId"
+                    [(value)]="targetId"
                     placeholder="Please select an Enterprise"
                     (selectionChange)="loadTrafficClass()"
                 >
@@ -273,7 +273,7 @@
                             appForm.errors?.isEndpointNotValid === null &&
                             appForm.touched &&
                             opaService.canWrite('/application/application') &&
-                            enterpriseId.name !== unknownEnterprise
+                            targetId.name !== unknownTarget
                         )
                     "
                     id="submitButton"

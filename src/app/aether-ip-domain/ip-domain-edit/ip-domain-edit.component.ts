@@ -198,7 +198,7 @@ export class IpDomainEditComponent
                 (error) => {
                     console.warn(
                         'Error getting SiteIpDomain(s) for ',
-                        this.enterpriseId,
+                        this.targetId,
                         this.ipDomainId,
                         error
                     );
@@ -215,7 +215,7 @@ export class IpDomainEditComponent
                     }
                     console.log(
                         'Finished loading SiteIpDomain(s)',
-                        this.enterpriseId,
+                        this.targetId,
                         this.ipDomainId,
                         id
                     );

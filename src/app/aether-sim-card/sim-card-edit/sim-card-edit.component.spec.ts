@@ -132,8 +132,8 @@ describe('SimCardEditComponent', () => {
         });
         spyOn(component.opaService, 'canWrite').and.returnValue(true);
         component.siteId = component.unknownSite;
-        component.enterpriseId = {
-            name: component.unknownEnterprise,
+        component.targetId = {
+            name: component.unknownTarget,
         } as TargetName;
 
         fixture.detectChanges();
@@ -149,7 +149,7 @@ describe('SimCardEditComponent', () => {
         });
         spyOn(component.opaService, 'canWrite').and.returnValue(true);
         component.siteId = 'site-id';
-        component.enterpriseId = {
+        component.targetId = {
             name: 'ent-id',
         } as TargetName;
 
@@ -175,7 +175,7 @@ describe('SimCardEditComponent', () => {
 
         it('should add the object to the basket', () => {
             component.siteId = 'test-site';
-            component.enterpriseId = {
+            component.targetId = {
                 name: 'test-enterprise',
             } as TargetName;
             spyOn(component.bs, 'logKeyValuePairs');
