@@ -81,10 +81,10 @@ export abstract class RocEditBase<
     loadIds(params: ParamMap): void {
         this.siteId = params.get('site-id');
         this.targetId = {
-            name: params.get('enterprise-id'),
+            name: params.get(this.targetAttribute),
         } as TargetName;
         console.log(
-            `Populated component with {enterpriseId: ${this.targetId.name}, siteId: ${this.siteId}}`
+            `Populated component with {${this.targetAttribute}: ${this.targetId.name}, siteId: ${this.siteId}}`
         );
     }
 

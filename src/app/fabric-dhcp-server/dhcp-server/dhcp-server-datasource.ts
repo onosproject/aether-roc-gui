@@ -37,7 +37,7 @@ export class DhcpServerDatasource extends RocDataSource<
             fabricService,
             undefined,
             ['dhcp-server-0.1.0'],
-            ['dhcp-id'],
+            ['dhcp-server-id'],
             'display-name',
             'description',
             'fabric-id'
@@ -61,7 +61,7 @@ export class DhcpServerDatasource extends RocDataSource<
                     ds['fabric-id'] = fabricId.name;
                     const fullPath = this.deletePath(
                         fabricId.name,
-                        ds['dhcp-id']
+                        ds['dhcp-server-id']
                     );
                     if (this.bs.containsDeleteEntry(fullPath)) {
                         ds[FORDELETE] = STRIKETHROUGH;
@@ -79,7 +79,7 @@ export class DhcpServerDatasource extends RocDataSource<
                                         (p) =>
                                             p['dhcp-connect-point'] &&
                                             p['dhcp-connect-point'].includes(
-                                                ds['dhcp-id']
+                                                ds['dhcp-server-id']
                                             )
                                     )
                                 ) {

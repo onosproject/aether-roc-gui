@@ -100,7 +100,7 @@ export class SwitchModelPortService extends BaseService {
   /**
    * Path part for operation getSwitchModelPort
    */
-  static readonly GetSwitchModelPortPath = '/sdn-fabric/v0.1.x/{fabric-id}/switch-model/{switch-model-id}/port/{cage-number}/{channel-number}';
+  static readonly GetSwitchModelPortPath = '/sdn-fabric/v0.1.x/{fabric-id}/switch-model/{switch-model-id}/port/{cage-number}';
 
   /**
    * GET /switch-model/{switch-model-id}/port Container.
@@ -128,11 +128,6 @@ export class SwitchModelPortService extends BaseService {
      * key {cage-number}
      */
     'cage-number': any;
-
-    /**
-     * key {channel-number}
-     */
-    'channel-number': any;
   }): Observable<StrictHttpResponse<SwitchModelPort>> {
 
     const rb = new RequestBuilder(this.rootUrl, SwitchModelPortService.GetSwitchModelPortPath, 'get');
@@ -140,7 +135,6 @@ export class SwitchModelPortService extends BaseService {
       rb.path('fabric-id', params['fabric-id'], {});
       rb.path('switch-model-id', params['switch-model-id'], {});
       rb.path('cage-number', params['cage-number'], {});
-      rb.path('channel-number', params['channel-number'], {});
     }
 
     return this.http.request(rb.build({
@@ -180,11 +174,6 @@ export class SwitchModelPortService extends BaseService {
      * key {cage-number}
      */
     'cage-number': any;
-
-    /**
-     * key {channel-number}
-     */
-    'channel-number': any;
   }): Observable<SwitchModelPort> {
 
     return this.getSwitchModelPort$Response(params).pipe(

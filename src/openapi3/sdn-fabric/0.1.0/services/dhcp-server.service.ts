@@ -89,7 +89,7 @@ export class DhcpServerService extends BaseService {
   /**
    * Path part for operation getDhcpServer
    */
-  static readonly GetDhcpServerPath = '/sdn-fabric/v0.1.x/{fabric-id}/dhcp-server/{dhcp-id}';
+  static readonly GetDhcpServerPath = '/sdn-fabric/v0.1.x/{fabric-id}/dhcp-server/{dhcp-server-id}';
 
   /**
    * GET /dhcp-server Container.
@@ -109,15 +109,15 @@ export class DhcpServerService extends BaseService {
     'fabric-id': any;
 
     /**
-     * key {dhcp-id}
+     * key {dhcp-server-id}
      */
-    'dhcp-id': any;
+    'dhcp-server-id': any;
   }): Observable<StrictHttpResponse<DhcpServer>> {
 
     const rb = new RequestBuilder(this.rootUrl, DhcpServerService.GetDhcpServerPath, 'get');
     if (params) {
       rb.path('fabric-id', params['fabric-id'], {});
-      rb.path('dhcp-id', params['dhcp-id'], {});
+      rb.path('dhcp-server-id', params['dhcp-server-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -149,9 +149,9 @@ export class DhcpServerService extends BaseService {
     'fabric-id': any;
 
     /**
-     * key {dhcp-id}
+     * key {dhcp-server-id}
      */
-    'dhcp-id': any;
+    'dhcp-server-id': any;
   }): Observable<DhcpServer> {
 
     return this.getDhcpServer$Response(params).pipe(

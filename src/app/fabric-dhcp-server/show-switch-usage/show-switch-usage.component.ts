@@ -45,7 +45,7 @@ export class ShowSwitchUsageComponent
         protected route: ActivatedRoute,
         protected switchService: SwitchService
     ) {
-        super('dhcp-server-0.1.0', ['dhcp-server'], ['dhcp-id']);
+        super('dhcp-server-0.1.0', ['dhcp-server'], ['dhcp-server-id']);
     }
 
     ngOnChanges(): void {
