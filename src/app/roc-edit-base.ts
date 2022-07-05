@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AbstractControl, FormGroup, ValidatorFn } from '@angular/forms';
+import {
+    AbstractControl,
+    FormArray,
+    FormGroup,
+    ValidatorFn,
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BasketService, REQDATTRIBS } from './basket.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -38,7 +43,6 @@ export abstract class RocEditBase<
     public targetId: TargetName = { name: undefined };
     public sites: SiteID[] = [];
     public siteId: string;
-    public unknownTarget = 'unknownent';
     public unknownSite = 'unknownsite';
     public datasource: T;
 
@@ -60,7 +64,8 @@ export abstract class RocEditBase<
         protected route: ActivatedRoute,
         public ds: T,
         public modelPath: string[],
-        protected targetAttribute = 'enterprise-id'
+        protected targetAttribute = 'enterprise-id',
+        public unknownTarget = 'unknownent'
     ) {
         this.datasource = ds;
     }
@@ -230,4 +235,24 @@ export abstract class RocEditBase<
 
         return validUrl ? null : { invalidUrl: true };
     };
+
+    deleteAttrFromSelect(attr: string): void {
+        this.bs.deleteIndexedEntry(
+            `/${this.fullPath}/attribute[attribute-key=${attr}]`,
+            'attribute-key',
+            attr,
+            this.ucmap()
+        );
+        const index = (
+            this.form.get('attribute') as FormArray
+        ).controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === attr);
+        (this.form.get('attribute') as FormArray).removeAt(index);
+        this.snackBar.open(
+            `Deletion of Attribute: ${attr} added to basket`,
+            undefined,
+            {
+                duration: 2000,
+            }
+        );
+    }
 }

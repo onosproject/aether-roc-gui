@@ -1,0 +1,130 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Intel Corporation
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
+<form
+    class="roc-edit-form"
+    [formGroup]="dhcpServerForm"
+    (ngSubmit)="onSubmit()"
+>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title
+                >DHCP Server ID:
+                {{
+                    this.dhcpServerForm.get("dhcp-server-id").value
+                }}</mat-card-title
+            >
+            <mat-icon
+                *ngIf="!isNew"
+                (click)="showParentDisplay = true; $event.preventDefault()"
+                class="subscriber-pointer"
+                id="showParentInformation"
+                color="accent"
+            >
+                assignment
+            </mat-icon>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row" *ngIf="isNew">
+                <mat-form-field class="full-width field-margin">
+                    <input
+                        matInput
+                        formControlName="dhcp-server-id"
+                        placeholder="Please specify an ID"
+                        title="This field is mandatory."
+                        id="inputID"
+                        required
+                    />
+                    <mat-hint>Name (ID)</mat-hint>
+                </mat-form-field>
+            </div>
+            <div
+                class="full-width field-margin"
+                id="fabricRowSelect"
+                *ngIf="isNew"
+            >
+                <mat-label *ngIf="fabricService.enterprises.length === 0"
+                    >No Fabric available
+                </mat-label>
+                <mat-select
+                    class="row-pad"
+                    id="selectFabric"
+                    [(value)]="targetId"
+                    placeholder="Please select an Fabric"
+                >
+                    <mat-option
+                        *ngFor="let eachFabric of fabricService.enterprises"
+                        [value]="eachFabric"
+                        >{{ eachFabric.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint><small>Fabric</small></mat-hint>
+            </div>
+            <div class="row" id="fabricRowReadOnly" *ngIf="!isNew">
+                <p class="field-margin full-width">
+                    <br /><mat-hint>Fabric</mat-hint>:&nbsp;{{
+                        route.snapshot.params["fabric-id"]
+                    }}
+                </p>
+            </div>
+            <div class="row" id="displayNameRow">
+                <mat-form-field class="field-margin full-width">
+                    <input
+                        matInput
+                        formControlName="display-name"
+                        id="inputDisplayName"
+                    />
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="descriptionRow">
+                <mat-form-field class="field-margin full-width">
+                    <textarea
+                        matInput
+                        formControlName="description"
+                        id="inputDescription"
+                    ></textarea>
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="addressRow">
+                <mat-form-field class="field-margin full-width">
+                    <input
+                        matInput
+                        formControlName="address"
+                        id="inputAddress"
+                    />
+                    <mat-hint>Address</mat-hint>
+                </mat-form-field>
+            </div>
+            <mat-card-actions>
+                <button
+                    mat-raised-button
+                    color="accent"
+                    type="submit"
+                    [disabled]="
+                        !(
+                            dhcpServerForm.valid &&
+                            dhcpServerForm.errors?.isEndpointNotValid ===
+                                null &&
+                            dhcpServerForm.touched &&
+                            opaService.canWrite('/dhcp-server') &&
+                            targetId.name !== unknownTarget
+                        )
+                    "
+                    id="submitButton"
+                >
+                    Update
+                </button>
+            </mat-card-actions>
+        </mat-card-content>
+    </mat-card>
+</form>
+
+<div>
+    <button routerLink="/dhcp-server" mat-raised-button color="primary">
+        Back
+    </button>
+</div>
