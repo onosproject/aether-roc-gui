@@ -41,12 +41,12 @@ const switchModels: SwitchModelList = [
         port: [
             {
                 'cage-number': 1,
-                'channel-number': 0,
+                'max-channel': 0,
                 speeds: ['speed-1g', 'speed-10g'],
             },
             {
                 'cage-number': 2,
-                'channel-number': 0,
+                'max-channel': 0,
                 speeds: ['speed-1g', 'speed-10g'],
             },
         ],
@@ -58,7 +58,7 @@ const switchModels: SwitchModelList = [
         port: [
             {
                 'cage-number': 2,
-                'channel-number': 0,
+                'max-channel': 4,
                 speeds: ['speed-1g', 'speed-10g', 'speed-100g'],
             },
         ],

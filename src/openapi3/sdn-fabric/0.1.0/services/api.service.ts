@@ -38,7 +38,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postDhcpServer
    */
-  static readonly PostDhcpServerPath = '/sdn-fabric/v0.1.x/{fabric-id}/dhcp-server/{dhcp-id}';
+  static readonly PostDhcpServerPath = '/sdn-fabric/v0.1.x/{fabric-id}/dhcp-server/{dhcp-server-id}';
 
   /**
    * POST /dhcp-server.
@@ -58,16 +58,16 @@ export class ApiService extends BaseService {
     'fabric-id': any;
 
     /**
-     * key {dhcp-id}
+     * key {dhcp-server-id}
      */
-    'dhcp-id': any;
+    'dhcp-server-id': any;
     body?: DhcpServer
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.PostDhcpServerPath, 'post');
     if (params) {
       rb.path('fabric-id', params['fabric-id'], {});
-      rb.path('dhcp-id', params['dhcp-id'], {});
+      rb.path('dhcp-server-id', params['dhcp-server-id'], {});
       rb.body(params.body, 'application/json');
     }
 
@@ -100,9 +100,9 @@ export class ApiService extends BaseService {
     'fabric-id': any;
 
     /**
-     * key {dhcp-id}
+     * key {dhcp-server-id}
      */
-    'dhcp-id': any;
+    'dhcp-server-id': any;
     body?: DhcpServer
   }): Observable<void> {
 
@@ -114,7 +114,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteDhcpServer
    */
-  static readonly DeleteDhcpServerPath = '/sdn-fabric/v0.1.x/{fabric-id}/dhcp-server/{dhcp-id}';
+  static readonly DeleteDhcpServerPath = '/sdn-fabric/v0.1.x/{fabric-id}/dhcp-server/{dhcp-server-id}';
 
   /**
    * DELETE /dhcp-server.
@@ -134,15 +134,15 @@ export class ApiService extends BaseService {
     'fabric-id': any;
 
     /**
-     * key {dhcp-id}
+     * key {dhcp-server-id}
      */
-    'dhcp-id': any;
+    'dhcp-server-id': any;
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteDhcpServerPath, 'delete');
     if (params) {
       rb.path('fabric-id', params['fabric-id'], {});
-      rb.path('dhcp-id', params['dhcp-id'], {});
+      rb.path('dhcp-server-id', params['dhcp-server-id'], {});
     }
 
     return this.http.request(rb.build({
@@ -174,9 +174,9 @@ export class ApiService extends BaseService {
     'fabric-id': any;
 
     /**
-     * key {dhcp-id}
+     * key {dhcp-server-id}
      */
-    'dhcp-id': any;
+    'dhcp-server-id': any;
   }): Observable<void> {
 
     return this.deleteDhcpServer$Response(params).pipe(
@@ -656,7 +656,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation postSwitchModelPort
    */
-  static readonly PostSwitchModelPortPath = '/sdn-fabric/v0.1.x/{fabric-id}/switch-model/{switch-model-id}/port/{cage-number}/{channel-number}';
+  static readonly PostSwitchModelPortPath = '/sdn-fabric/v0.1.x/{fabric-id}/switch-model/{switch-model-id}/port/{cage-number}';
 
   /**
    * POST /switch-model/{switch-model-id}/port.
@@ -684,11 +684,6 @@ export class ApiService extends BaseService {
      * key {cage-number}
      */
     'cage-number': any;
-
-    /**
-     * key {channel-number}
-     */
-    'channel-number': any;
     body?: SwitchModelPort
   }): Observable<StrictHttpResponse<void>> {
 
@@ -697,7 +692,6 @@ export class ApiService extends BaseService {
       rb.path('fabric-id', params['fabric-id'], {});
       rb.path('switch-model-id', params['switch-model-id'], {});
       rb.path('cage-number', params['cage-number'], {});
-      rb.path('channel-number', params['channel-number'], {});
       rb.body(params.body, 'application/json');
     }
 
@@ -738,11 +732,6 @@ export class ApiService extends BaseService {
      * key {cage-number}
      */
     'cage-number': any;
-
-    /**
-     * key {channel-number}
-     */
-    'channel-number': any;
     body?: SwitchModelPort
   }): Observable<void> {
 
@@ -754,7 +743,7 @@ export class ApiService extends BaseService {
   /**
    * Path part for operation deleteSwitchModelPort
    */
-  static readonly DeleteSwitchModelPortPath = '/sdn-fabric/v0.1.x/{fabric-id}/switch-model/{switch-model-id}/port/{cage-number}/{channel-number}';
+  static readonly DeleteSwitchModelPortPath = '/sdn-fabric/v0.1.x/{fabric-id}/switch-model/{switch-model-id}/port/{cage-number}';
 
   /**
    * DELETE /switch-model/{switch-model-id}/port.
@@ -782,11 +771,6 @@ export class ApiService extends BaseService {
      * key {cage-number}
      */
     'cage-number': any;
-
-    /**
-     * key {channel-number}
-     */
-    'channel-number': any;
   }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, ApiService.DeleteSwitchModelPortPath, 'delete');
@@ -794,7 +778,6 @@ export class ApiService extends BaseService {
       rb.path('fabric-id', params['fabric-id'], {});
       rb.path('switch-model-id', params['switch-model-id'], {});
       rb.path('cage-number', params['cage-number'], {});
-      rb.path('channel-number', params['channel-number'], {});
     }
 
     return this.http.request(rb.build({
@@ -834,11 +817,6 @@ export class ApiService extends BaseService {
      * key {cage-number}
      */
     'cage-number': any;
-
-    /**
-     * key {channel-number}
-     */
-    'channel-number': any;
   }): Observable<void> {
 
     return this.deleteSwitchModelPort$Response(params).pipe(

@@ -49,7 +49,8 @@ export class BasketService {
         path: string,
         indexName: string,
         originalValue: string,
-        unchanged?: Map<string, string>
+        unchanged?: Map<string, string>,
+        originalType = 'string'
     ): void {
         // If this item was already added in this basket, then remove it
         Object.keys(localStorage)
@@ -58,7 +59,11 @@ export class BasketService {
                 console.log('Removed from basket', p);
                 localStorage.removeItem(p);
             });
-        const value = { oldValue: originalValue, newValue: '' } as BasketValue;
+        const value = {
+            oldValue: originalValue,
+            newValue: '',
+            type: originalType,
+        } as BasketValue;
         localStorage.setItem(
             '/basket-delete' + path + '/' + indexName,
             JSON.stringify(value)
@@ -310,6 +315,8 @@ export class BasketService {
                 object[path[0]] = value.oldValue;
                 if (value.type === HEX2NUM) {
                     object[path[0]] = parseInt(value.oldValue, 16);
+                } else if (value.type === 'number') {
+                    object[path[0]] = parseInt(value.oldValue, 10);
                 }
             } else {
                 object[path[0]] = value.newValue;

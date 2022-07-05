@@ -17,7 +17,8 @@ export interface SwitchPort {
   'cage-number': number;
 
   /**
-   * reference to the channel-number of the port in the switch model
+   * reference to the channel-number of the port in the switch model.
+   * The value cannot exceed the max-channels of the corresponding port in the switch-model
    */
   'channel-number': number;
 

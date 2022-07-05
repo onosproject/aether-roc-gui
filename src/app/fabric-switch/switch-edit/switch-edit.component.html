@@ -1,0 +1,389 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Intel Corporation
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
+<form class="roc-edit-form" [formGroup]="switchForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title
+                >Switch ID:
+                {{ this.switchForm.get("switch-id").value }}</mat-card-title
+            >
+            <mat-icon
+                *ngIf="!isNew"
+                (click)="showParentDisplay = true; $event.preventDefault()"
+                class="subscriber-pointer"
+                id="showParentInformation"
+                color="accent"
+            >
+                assignment
+            </mat-icon>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row" *ngIf="isNew">
+                <mat-form-field class="full-width field-margin">
+                    <input
+                        matInput
+                        formControlName="switch-id"
+                        placeholder="Please specify an ID"
+                        title="This field is mandatory."
+                        id="inputID"
+                        required
+                    />
+                    <mat-hint>Name (ID)</mat-hint>
+                </mat-form-field>
+            </div>
+            <div
+                class="full-width field-margin"
+                id="fabricRowSelect"
+                *ngIf="isNew"
+            >
+                <mat-label *ngIf="fabricService.enterprises.length === 0"
+                    >No Fabric available
+                </mat-label>
+                <mat-select
+                    class="row-pad"
+                    id="selectFabric"
+                    [(value)]="targetId"
+                    placeholder="Please select an Fabric"
+                    (selectionChange)="loadSwitchModel()"
+                >
+                    <mat-option
+                        *ngFor="let eachFabric of fabricService.enterprises"
+                        [value]="eachFabric"
+                        >{{ eachFabric.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-hint><small>Fabric</small></mat-hint>
+            </div>
+            <div class="row" id="fabricRowReadOnly" *ngIf="!isNew">
+                <p class="field-margin full-width">
+                    <br /><mat-hint>Fabric</mat-hint>:&nbsp;{{
+                        route.snapshot.params["fabric-id"]
+                    }}
+                </p>
+            </div>
+            <div class="row" id="displayNameRow">
+                <mat-form-field class="field-margin full-width">
+                    <input
+                        matInput
+                        formControlName="display-name"
+                        id="inputDisplayName"
+                    />
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="descriptionRow">
+                <mat-form-field class="field-margin full-width">
+                    <textarea
+                        matInput
+                        formControlName="description"
+                        id="inputDescription"
+                    ></textarea>
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="modelRow">
+                <mat-form-field class="field-margin full-width">
+                    <mat-select
+                        id="selectSwitchModel"
+                        formControlName="model-id"
+                    >
+                        <mat-option
+                            *ngFor="let eachSwitchModel of switchModels"
+                            [value]="eachSwitchModel['switch-model-id']"
+                            >{{ eachSwitchModel["switch-model-id"] }}
+                            {{ eachSwitchModel["display-name"] }}</mat-option
+                        >
+                    </mat-select>
+                    <mat-hint>Switch Model</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="roleRow">
+                <mat-form-field class="field-margin">
+                    <mat-select id="selectRole" formControlName="role">
+                        <mat-option
+                            *ngFor="let eachRole of roleOptions"
+                            [value]="eachRole"
+                            >{{ eachRole }}</mat-option
+                        >
+                    </mat-select>
+                    <mat-hint>Role</mat-hint>
+                </mat-form-field>
+            </div>
+            <div
+                formArrayName="attribute"
+                class="field-margin subscriber-section"
+            >
+                <mat-divider></mat-divider>
+                <mat-hint>Attribute(s)</mat-hint>
+                <mat-icon
+                    class="subscriber-pointer"
+                    id="addAttribute"
+                    color="accent"
+                    >add
+                </mat-icon>
+                <div
+                    *ngFor="
+                        let attributeForm of attributeControls.controls;
+                        let i = index
+                    "
+                    class="row"
+                >
+                    <div
+                        [formGroup]="attributeForm"
+                        [id]="attributeForm.value['attribute-key']"
+                    >
+                        <div class="float-left">
+                            <mat-form-field class="field-margin">
+                                <input
+                                    matInput
+                                    readonly
+                                    formControlName="attribute-key"
+                                    id="inputAttributAttributeKey"
+                                />
+                                <mat-hint>Attribute Key</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field class="field-margin">
+                                <input
+                                    matInput
+                                    formControlName="value"
+                                    id="inputAttributeValue"
+                                />
+                                <mat-hint>Value</mat-hint>
+                            </mat-form-field>
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                [disabled]="
+                                    !opaService.canWrite(
+                                        '/switch/switch[switch-id={{id}}]'
+                                    )
+                                "
+                                (click)="
+                                    deleteAttrFromSelect(
+                                        attributeForm.value['attribute-key']
+                                    )
+                                "
+                                id="deleteAttribute"
+                            >
+                                <mat-icon class="pad-left subscriber-pointer"
+                                    >delete</mat-icon
+                                >
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div formArrayName="vlan" class="field-margin subscriber-section">
+                <mat-divider></mat-divider>
+                <mat-hint>Vlan(s)</mat-hint>
+                <mat-icon class="subscriber-pointer" id="addVlan" color="accent"
+                    >add
+                </mat-icon>
+                <div
+                    *ngFor="
+                        let vlanForm of vlanControls.controls;
+                        let i = index
+                    "
+                    class="row"
+                >
+                    <div
+                        [formGroup]="vlanForm"
+                        [id]="vlanForm.value['vlan-id']"
+                    >
+                        <div class="float-left">
+                            <mat-form-field class="field-margin">
+                                <input
+                                    matInput
+                                    readonly
+                                    formControlName="vlan-id"
+                                    id="inputVlanVlanId"
+                                />
+                                <mat-hint>Vlan ID</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field class="field-margin">
+                                <input
+                                    matInput
+                                    formControlName="display-name"
+                                    id="inputVlanDisplayName"
+                                />
+                                <mat-hint>Display Name</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field class="field-margin">
+                                <input
+                                    matInput
+                                    formControlName="description"
+                                    id="inputVlanDescription"
+                                />
+                                <mat-hint>Description</mat-hint>
+                            </mat-form-field>
+                            <!-- TODO: add in subnet leaf list -->
+                            <button
+                                mat-icon-button
+                                color="accent"
+                                [disabled]="
+                                    !opaService.canWrite(
+                                        '/switch/switch[switch-id={{id}}]'
+                                    )
+                                "
+                                (click)="
+                                    deleteVlanFromSelect(
+                                        vlanForm.value['vlan-id']
+                                    )
+                                "
+                                id="deleteVlan"
+                            >
+                                <mat-icon class="pad-left subscriber-pointer"
+                                    >delete</mat-icon
+                                >
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="switchMgmtRow" class="subscriber-section field-margin">
+                <mat-divider></mat-divider>
+                <mat-hint>Management</mat-hint>
+                <div [formGroup]="mgmtControls" class="row">
+                    <div class="row float-left" id="AddressRow">
+                        <mat-form-field class="field-margin">
+                            <input
+                                matInput
+                                formControlName="address"
+                                id="inputMgmtAddress"
+                            />
+                            <mat-hint>Address</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="row float-left" id="PortNumberRow">
+                        <mat-form-field class="field-margin">
+                            <input
+                                matInput
+                                formControlName="port-number"
+                                id="inputMgmtPortNumber"
+                            />
+                            <mat-hint>Port Number</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div id="switchPairRow" class="subscriber-section field-margin">
+                <mat-divider></mat-divider>
+                <mat-hint>Switch Pair</mat-hint>
+                <div [formGroup]="pairControls" class="row">
+                    <div class="row float-left" id="pairedSwitchRow">
+                        <mat-form-field class="field-margin">
+                            <input
+                                matInput
+                                formControlName="paired-switch"
+                                id="inputPairedSwitch"
+                            />
+                            <mat-hint>Paired Switch</mat-hint>
+                        </mat-form-field>
+                        <div
+                            formArrayName="pairing-port"
+                            class="subscriber-section"
+                        >
+                            <mat-hint>Pairing Port (0-1)</mat-hint>
+                            <mat-icon
+                                *ngIf="
+                                    pairingPortControls.controls.length === 0
+                                "
+                                (click)="showPairingPortDisplay = true"
+                                class="subscriber-pointer"
+                                id="addPairingPort"
+                                color="accent"
+                                >add
+                            </mat-icon>
+                            <div
+                                *ngFor="
+                                    let pqiringPortForm of pairingPortControls.controls
+                                "
+                            >
+                                <div
+                                    [formGroup]="pqiringPortForm"
+                                    [id]="
+                                        pqiringPortForm.value['cage-number'] +
+                                        pqiringPortForm.value[
+                                            'channel-number-id'
+                                        ]
+                                    "
+                                    class="row"
+                                >
+                                    <mat-form-field class="field-margin">
+                                        <input
+                                            matInput
+                                            readonly
+                                            formControlName="cage-number"
+                                            id="inputCageNumber"
+                                        />
+                                        <mat-hint>Cage Number</mat-hint>
+                                    </mat-form-field>
+                                    <mat-form-field class="field-margin">
+                                        <input
+                                            matInput
+                                            readonly
+                                            formControlName="channel-number"
+                                            id="inputChannelNumber"
+                                        />
+                                        <mat-hint>Channel Number</mat-hint>
+                                    </mat-form-field>
+                                    <button
+                                        mat-icon-button
+                                        color="accent"
+                                        [disabled]="
+                                            !opaService.canWrite(
+                                                '/switch[switch-id={{ id }}]'
+                                            )
+                                        "
+                                        (click)="
+                                            deletePairingPortFromSelect(
+                                                pqiringPortForm.value[
+                                                    'cage-number'
+                                                ],
+                                                pqiringPortForm.value[
+                                                    'channel-number'
+                                                ]
+                                            )
+                                        "
+                                        id="deleteEdgeDevice"
+                                    >
+                                        <mat-icon
+                                            class="pad-left subscriber-pointer"
+                                            >delete
+                                        </mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <mat-card-actions>
+                <button
+                    mat-raised-button
+                    color="accent"
+                    type="submit"
+                    [disabled]="
+                        !(
+                            switchForm.valid &&
+                            switchForm.errors?.isEndpointNotValid === null &&
+                            switchForm.touched &&
+                            opaService.canWrite('/switch') &&
+                            targetId.name !== unknownTarget
+                        )
+                    "
+                    id="submitButton"
+                >
+                    Update
+                </button>
+            </mat-card-actions>
+        </mat-card-content>
+    </mat-card>
+</form>
+
+<div>
+    <button routerLink="/switch" mat-raised-button color="primary">Back</button>
+</div>

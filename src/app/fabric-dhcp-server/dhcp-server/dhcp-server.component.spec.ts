@@ -30,12 +30,12 @@ import { HttpClient } from '@angular/common/http';
 
 const servers: DhcpServerList = [
     {
-        'dhcp-id': 'dhcp-1',
+        'dhcp-server-id': 'dhcp-1',
         'display-name': 'DHCP 1',
         address: '10.1.2.3',
     },
     {
-        'dhcp-id': 'dhcp-2',
+        'dhcp-server-id': 'dhcp-2',
         'display-name': 'DHCP 2',
         address: '10.2.2.3',
     },

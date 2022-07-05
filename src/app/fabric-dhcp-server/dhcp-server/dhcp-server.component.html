@@ -40,13 +40,13 @@
             >
                 <span
                     *ngIf="row['display-name'] !== undefined"
-                    [title]="row['dhcp-id']"
+                    [title]="row['dhcp-server-id']"
                     >{{ row["display-name"] }} <br /><small
-                        >({{ row["dhcp-id"] }})</small
+                        >({{ row["dhcp-server-id"] }})</small
                     ></span
                 >
                 <span *ngIf="row['display-name'] === undefined">{{
-                    row["dhcp-id"]
+                    row["dhcp-server-id"]
                 }}</span>
             </td>
         </ng-container>
@@ -100,7 +100,7 @@
                 *matCellDef="let row"
                 routerLink="/dhcp-server/dhcp-server-edit/{{
                     row['fabric-id']
-                }}/{{ row['dhcp-id'] }}"
+                }}/{{ row['dhcp-server-id'] }}"
                 id="editButton"
             >
                 <mat-icon class="table_icon" color="accent">edit</mat-icon>
@@ -118,7 +118,11 @@
                     mat-icon-button
                     id="usageButton"
                     (click)="
-                        showUsage(row['dhcp-id'], row['fabric-id'], undefined)
+                        showUsage(
+                            row['dhcp-server-id'],
+                            row['fabric-id'],
+                            undefined
+                        )
                     "
                     color="accent"
                 >
@@ -129,8 +133,8 @@
                     mat-icon-button
                     [disabled]="
                         !opaService.canWrite(
-                            '/dhcp-server/dhcp-server[dhcp-id=' +
-                                row['dhcp-id'] +
+                            '/dhcp-server/dhcp-server[dhcp-server-id=' +
+                                row['dhcp-server-id'] +
                                 ']'
                         ) || row['for-delete-style']
                     "
