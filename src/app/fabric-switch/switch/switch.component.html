@@ -150,15 +150,27 @@
                 *matCellDef="let row"
                 routerLink="port/{{ row['fabric-id'] }}/{{ row['switch-id'] }}"
             >
-                {{ row.port.length }}
-                <mat-icon
-                    class="table_icon small_icon"
-                    color="primary"
-                    aria-hidden="false"
-                    aria-label="Ports List"
-                    id="pointerPortsList"
-                    >launch</mat-icon
-                >
+                <ng-container *ngIf="row.port">
+                    {{ row.port.length }}
+                    <mat-icon
+                        class="table_icon small_icon"
+                        color="primary"
+                        aria-hidden="false"
+                        aria-label="Ports List"
+                        id="pointerPortsList"
+                        >launch</mat-icon
+                    >
+                </ng-container>
+                <ng-container *ngIf="!row.port">
+                    <mat-icon
+                        class="table_icon small_icon"
+                        color="primary"
+                        aria-hidden="false"
+                        aria-label="Ports Add"
+                        id="pointerPortAdd"
+                        >add</mat-icon
+                    >
+                </ng-container>
             </td>
         </ng-container>
 
@@ -170,7 +182,9 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                {{ row.vlan.length }}
+                <ng-container *ngIf="row.vlan">
+                    {{ row.vlan.length }}</ng-container
+                >
             </td>
         </ng-container>
 

@@ -33,9 +33,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
+import { PortEditComponent } from './port-edit/port-edit.component';
 
 @NgModule({
-    declarations: [SwitchComponent, PortComponent, SwitchEditComponent],
+    declarations: [
+        SwitchComponent,
+        PortComponent,
+        SwitchEditComponent,
+        PortEditComponent,
+    ],
     imports: [
         CommonModule,
         ApiModuleFabric.forRoot({ rootUrl: AETHER_ROC_API_URL }),
@@ -47,6 +53,10 @@ import { MatDividerModule } from '@angular/material/divider';
                 component: SwitchEditComponent,
             },
             { path: 'port/:fabric/:switch', component: PortComponent },
+            {
+                path: 'port/:fabric-id/:switch-id/:cage-number/:channel-number',
+                component: PortEditComponent,
+            },
             { path: '', component: SwitchComponent, pathMatch: 'full' },
         ]),
         FormsModule,

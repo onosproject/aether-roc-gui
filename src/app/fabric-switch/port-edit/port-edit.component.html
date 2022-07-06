@@ -1,0 +1,148 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Intel Corporation
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
+<form class="roc-edit-form" [formGroup]="portForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title
+                >Cage/Channel Number:
+                {{ this.portForm.get("cage-number").value }}/{{
+                    this.portForm.get("channel-number").value
+                }}
+                on Switch {{ switchId }} (Model
+                {{ switchModel }})</mat-card-title
+            >
+            <mat-icon
+                *ngIf="!isNew"
+                (click)="showParentDisplay = true; $event.preventDefault()"
+                class="subscriber-pointer"
+                id="showParentInformation"
+                color="accent"
+            >
+                assignment
+            </mat-icon>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="row" *ngIf="isNew">
+                <mat-form-field class="full-width field-margin">
+                    <mat-select
+                        class="row-pad"
+                        id="selectCage"
+                        [(value)]="cageNumber"
+                        placeholder="Please select a Cage"
+                        formControlName="cage-number"
+                    >
+                        <mat-option
+                            *ngFor="let eachModelPort of switchModelPort"
+                            [value]="eachModelPort['cage-number']"
+                            >{{ eachModelPort["cage-number"] }}:
+                            {{ eachModelPort["display-name"] }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Cage (from model)</mat-hint>
+                </mat-form-field>
+                <mat-form-field class="full-width field-margin">
+                    <mat-select
+                        class="row-pad"
+                        id="selectChannel"
+                        [(value)]="channelNumber"
+                        required
+                        placeholder="Please select a Channel"
+                        formControlName="cage-number"
+                    >
+                        <mat-option
+                            *ngFor="
+                                let eachChannelOption of [].constructor(
+                                    maxChannel + 1
+                                );
+                                let i = index
+                            "
+                            [value]="i"
+                            >{{ i }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Channel (0->max-channel)</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="fabricRowReadOnly">
+                <p class="field-margin full-width">
+                    <br /><mat-hint>Fabric</mat-hint>:&nbsp;{{
+                        route.snapshot.params["fabric-id"]
+                    }}
+                </p>
+            </div>
+            <div class="row" id="displayNameRow">
+                <mat-form-field class="field-margin full-width">
+                    <input
+                        matInput
+                        formControlName="display-name"
+                        id="inputDisplayName"
+                    />
+                    <mat-hint>Display Name</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="descriptionRow">
+                <mat-form-field class="field-margin full-width">
+                    <textarea
+                        matInput
+                        formControlName="description"
+                        id="inputDescription"
+                    ></textarea>
+                    <mat-hint>Description</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="speedRow">
+                <mat-form-field class="field-margin">
+                    <mat-select
+                        class="row-pad"
+                        id="selectSpeed"
+                        placeholder="Please select a Speed"
+                        formControlName="speed"
+                    >
+                        <mat-option
+                            *ngFor="let eachSpeed of speeds"
+                            [value]="eachSpeed"
+                            >{{ eachSpeed }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-hint>Speed</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="row" id="dhcpConnectPointRow">
+                <mat-form-field class="field-margin full-width">
+                    <input
+                        matInput
+                        formControlName="description"
+                        id="inputDhcpConnectPoint"
+                    />
+                    <mat-hint>Dhcp Connect Point</mat-hint>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button
+                mat-raised-button
+                color="accent"
+                type="submit"
+                [disabled]="
+                    !(
+                        portForm.valid &&
+                        portForm.errors?.isEndpointNotValid === null &&
+                        portForm.touched &&
+                        opaService.canWrite('/switch') &&
+                        targetId.name !== unknownTarget
+                    )
+                "
+                id="submitButton"
+            >
+                Update
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>
+
+<div>
+    <button routerLink="/switch" mat-raised-button color="primary">Back</button>
+</div>

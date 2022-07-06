@@ -70,7 +70,7 @@ export class SwitchEditComponent
             ]),
         ],
         attribute: this.fb.array([]),
-        'model-id': [],
+        'model-id': [undefined, Validators.required],
         role: [this.roleOptions[1], Validators.required],
         management: this.fb.group({
             address: [undefined],

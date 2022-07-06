@@ -325,6 +325,8 @@ export class BasketService {
                 object[path[0]] = value.newValue;
                 if (value.type === HEX2NUM) {
                     object[path[0]] = parseInt(value.newValue, 16);
+                } else if (value.type === 'number') {
+                    object[path[0]] = parseInt(value.newValue, 10);
                 }
             }
         } else if (path[0].includes('[')) {
