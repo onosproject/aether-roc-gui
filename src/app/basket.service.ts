@@ -143,7 +143,10 @@ export class BasketService {
                 // There might be more than one key for a list
                 const pathIndices: string[] = [];
                 if (!abstractControl[IDATTRIBS]) {
-                    console.warn('Expected Array Control to have IDATTRIBS');
+                    console.warn(
+                        'Expected Array Control to have IDATTRIBS',
+                        abstractControl
+                    );
                     return;
                 }
                 abstractControl[IDATTRIBS].forEach((ak) => {
@@ -322,6 +325,8 @@ export class BasketService {
                 object[path[0]] = value.newValue;
                 if (value.type === HEX2NUM) {
                     object[path[0]] = parseInt(value.newValue, 16);
+                } else if (value.type === 'number') {
+                    object[path[0]] = parseInt(value.newValue, 10);
                 }
             }
         } else if (path[0].includes('[')) {
@@ -368,7 +373,7 @@ export class BasketService {
             let alreadyExists = false;
             object[container].forEach((child) => {
                 let matchedCount = 0;
-                keyNames.forEach((k, v) => {
+                keyNames.forEach((v, k) => {
                     if (String(child[k]) === String(v)) {
                         matchedCount++;
                     }

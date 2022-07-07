@@ -30,15 +30,26 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { SwitchModelEditComponent } from './switch-model-edit/switch-model-edit.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
-    declarations: [SwitchModelComponent, ShowSwitchUsageComponent],
+    declarations: [
+        SwitchModelComponent,
+        ShowSwitchUsageComponent,
+        SwitchModelEditComponent,
+    ],
     imports: [
         CommonModule,
         ApiModuleFabric.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([
             { path: 'switch-model', component: SwitchModelComponent },
+            {
+                path: 'switch-model-edit/:fabric-id/:id',
+                component: SwitchModelEditComponent,
+            },
             { path: '', component: SwitchModelComponent, pathMatch: 'full' },
         ]),
         FormsModule,
@@ -46,6 +57,7 @@ import { MatButtonModule } from '@angular/material/button';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatSnackBarModule,
         MatToolbarModule,
         MatIconModule,
         MatCardModule,
@@ -55,6 +67,7 @@ import { MatButtonModule } from '@angular/material/button';
         MatButtonModule,
         CdkTableModule,
         UtilsModule,
+        MatDividerModule,
     ],
     providers: [
         {

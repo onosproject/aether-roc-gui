@@ -30,15 +30,26 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { DhcpServerEditComponent } from './dhcp-server-edit/dhcp-server-edit.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
-    declarations: [DhcpServerComponent, ShowSwitchUsageComponent],
+    declarations: [
+        DhcpServerComponent,
+        ShowSwitchUsageComponent,
+        DhcpServerEditComponent,
+    ],
     imports: [
         CommonModule,
         ApiModuleFabric.forRoot({ rootUrl: AETHER_ROC_API_URL }),
         HttpClientModule,
         RouterModule.forChild([
-            { path: 'switch', component: DhcpServerComponent },
+            { path: 'dhcp-server', component: DhcpServerComponent },
+            {
+                path: 'dhcp-server-edit/:fabric-id/:id',
+                component: DhcpServerEditComponent,
+            },
             { path: '', component: DhcpServerComponent, pathMatch: 'full' },
         ]),
         FormsModule,
@@ -46,6 +57,7 @@ import { MatInputModule } from '@angular/material/input';
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatSnackBarModule,
         MatToolbarModule,
         MatIconModule,
         MatCardModule,
@@ -55,6 +67,7 @@ import { MatInputModule } from '@angular/material/input';
         MatButtonModule,
         CdkTableModule,
         UtilsModule,
+        MatDividerModule,
     ],
     providers: [
         {

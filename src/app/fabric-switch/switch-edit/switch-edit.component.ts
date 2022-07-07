@@ -39,7 +39,6 @@ export class SwitchEditComponent
     pathListAttr: 'switch';
     switchId: string;
     data: Switch;
-    showAttributeAddButton = false;
     showPairingPortDisplay = false;
     showVlanAddButton = false;
     switchModels: Array<SwitchModel>;
@@ -71,8 +70,8 @@ export class SwitchEditComponent
             ]),
         ],
         attribute: this.fb.array([]),
-        'model-id': [],
-        role: [this.roleOptions[1], Validators.compose([Validators.required])],
+        'model-id': [undefined, Validators.required],
+        role: [this.roleOptions[1], Validators.required],
         management: this.fb.group({
             address: [undefined],
             'port-number': [
@@ -107,7 +106,8 @@ export class SwitchEditComponent
             route,
             new SwitchDatasource(bs, fabricService),
             switchPath,
-            'fabric-id'
+            'fabric-id',
+            'unknownfabric'
         );
         super.form = this.switchForm;
         super.loadFunc = this.loadSwitchSwitch;
@@ -130,27 +130,6 @@ export class SwitchEditComponent
         this.loadSwitchModel();
     }
 
-    deleteAttrFromSelect(attr: string): void {
-        this.bs.deleteIndexedEntry(
-            `/${this.fullPath}/attribute[attribute-key=${attr}]`,
-            'attribute-key',
-            attr,
-            this.ucmap()
-        );
-        const index = (
-            this.switchForm.get('attribute') as FormArray
-        ).controls.findIndex((c) => c.value[Object.keys(c.value)[0]] === attr);
-        (this.switchForm.get('attribute') as FormArray).removeAt(index);
-        this.showAttributeAddButton = true;
-        this.snackBar.open(
-            `Deletion of Attribute: ${attr} added to basket`,
-            undefined,
-            {
-                duration: 2000,
-            }
-        );
-    }
-
     deleteVlanFromSelect(vlanId: number): void {
         this.bs.deleteIndexedEntry(
             `/${this.fullPath}/vlan[vlan-id=${vlanId}]`,
@@ -165,7 +144,6 @@ export class SwitchEditComponent
             (c) => c.value[Object.keys(c.value)[0]] === vlanId
         );
         (this.switchForm.get('vlan') as FormArray).removeAt(index);
-        this.showAttributeAddButton = true;
         this.snackBar.open(
             'Deletion of Vlan: ' + vlanId + ' added to basket',
             undefined,
@@ -191,7 +169,6 @@ export class SwitchEditComponent
         (
             this.switchForm.get(['switch-pair', 'pairing-port']) as FormArray
         ).removeAt(index);
-        this.showAttributeAddButton = true;
         this.snackBar.open(
             `Deletion of Pairing Port: ${cageNumber}/${channelNumber} added to basket`,
             undefined,
@@ -248,7 +225,6 @@ export class SwitchEditComponent
             this.switchForm.get('description')[ORIGINAL] = value.description;
         }
         if (value.attribute) {
-            this.showAttributeAddButton = false;
             if (this.switchForm.value.attribute.length === 0) {
                 for (const attr of value.attribute) {
                     let isDeleted = false;
@@ -500,6 +476,7 @@ export class SwitchEditComponent
                             ['description']: descControl,
                             ['subnet']: subnetArrayControl,
                         });
+                        vlanGroupControl[IDATTRIBS] = ['vlan-id'];
                         (this.switchForm.get(['vlan']) as FormArray).push(
                             vlanGroupControl
                         );
@@ -507,35 +484,24 @@ export class SwitchEditComponent
                     isDeleted = false;
                 }
             } else {
-                const existingAttribute = this.switchForm.value.attribute;
-                value.attribute.forEach(
-                    (eachValueAttribute, eachFormAttributePosition) => {
-                        for (const eachFormAttribute of existingAttribute) {
-                            if (
-                                eachValueAttribute['attribute-key'] ===
-                                eachFormAttribute['attribute-key']
-                            ) {
-                                this.switchForm
-                                    .get([
-                                        'attribute',
-                                        eachFormAttributePosition,
-                                        'value',
-                                    ])
-                                    .setValue(eachValueAttribute.value);
-                            } else {
-                                (
-                                    this.switchForm.get([
-                                        'attribute',
-                                    ]) as FormArray
-                                ).push(
-                                    this.fb.group({
-                                        value: eachValueAttribute.value,
-                                    })
-                                );
-                            }
+                const existingVlan = this.switchForm.value.vlan;
+                value.vlan.forEach((eachVlanValue, eachFormVlanPosition) => {
+                    for (const eachFormVlan of existingVlan) {
+                        if (
+                            eachVlanValue['vlan-id'] === eachFormVlan['vlan-id']
+                        ) {
+                            this.switchForm
+                                .get(['vlan', eachFormVlanPosition, 'vlan-id'])
+                                .setValue(eachVlanValue['vlan-id']);
+                        } else {
+                            (this.switchForm.get(['vlan']) as FormArray).push(
+                                this.fb.group({
+                                    value: eachVlanValue['vlan-id'],
+                                })
+                            );
                         }
                     }
-                );
+                });
             }
         }
     }

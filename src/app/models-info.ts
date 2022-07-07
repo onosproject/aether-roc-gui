@@ -37,6 +37,13 @@ export const switchModelPath = ['switch-model-0.1.0', 'switch-model-id'];
 
 export const switchPath = ['switch-0.1.0', 'switch-id'];
 
+export const switchPortPath = [
+    'switch-0.1.0',
+    'switch-id',
+    'cage-number',
+    'channel-number',
+];
+
 export const routePath = ['route-0.1.0', 'route-id'];
 
 export const dhcpServerPath = ['dhcp-server-0.1.0', 'dhcp-server-id'];

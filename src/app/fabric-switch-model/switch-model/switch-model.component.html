@@ -99,7 +99,9 @@
                 mat-cell
                 *matCellDef="let row"
             >
-                {{ row.port.length }}
+                <ng-container *ngIf="row.port">
+                    {{ row.port.length }}
+                </ng-container>
             </td>
         </ng-container>
 
