@@ -35,7 +35,7 @@
                         formControlName="cage-number"
                     >
                         <mat-option
-                            *ngFor="let eachModelPort of switchModelPort"
+                            *ngFor="let eachModelPort of switchPortsNotInUse"
                             [value]="eachModelPort['cage-number']"
                             >{{ eachModelPort["cage-number"] }}:
                             {{ eachModelPort["display-name"] }}
@@ -53,14 +53,9 @@
                         formControlName="cage-number"
                     >
                         <mat-option
-                            *ngFor="
-                                let eachChannelOption of [].constructor(
-                                    maxChannel + 1
-                                );
-                                let i = index
-                            "
-                            [value]="i"
-                            >{{ i }}
+                            *ngFor="let eachChannelOption of availableChannels"
+                            [value]="eachChannelOption"
+                            >{{ eachChannelOption }}
                         </mat-option>
                     </mat-select>
                     <mat-hint>Channel (0->max-channel)</mat-hint>
@@ -110,15 +105,85 @@
                     <mat-hint>Speed</mat-hint>
                 </mat-form-field>
             </div>
-            <div class="row" id="dhcpConnectPointRow">
-                <mat-form-field class="field-margin full-width">
-                    <input
-                        matInput
-                        formControlName="description"
-                        id="inputDhcpConnectPoint"
-                    />
-                    <mat-hint>Dhcp Connect Point</mat-hint>
-                </mat-form-field>
+            <div
+                formArrayName="dhcp-connect-point"
+                class="row"
+                id="dhcpConnectPointRow"
+            >
+                <mat-divider></mat-divider>
+                <mat-hint
+                    >Dhcp Connect Point(s)
+                    <mat-icon
+                        class="subscriber-pointer"
+                        id="addDhcp"
+                        color="accent"
+                        (click)="displaySelectDhcp = true"
+                        >add
+                    </mat-icon>
+                </mat-hint>
+                <div *ngFor="let dhcp of dhcpServersControls.controls">
+                    <mat-form-field class="field-margin half-width">
+                        <input matInput readonly [value]="dhcp.value" />
+                        <mat-icon
+                            class="subscriber-pointer"
+                            id="removeDhcp"
+                            color="accent"
+                            (click)="deleteDhcpConnectPoint(dhcp.value)"
+                            >delete
+                        </mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div id="portVlanRow" class="subscriber-section field-margin">
+                <mat-divider></mat-divider>
+                <mat-hint>Vlan</mat-hint>
+                <div [formGroup]="vlanControls" class="row">
+                    <div class="row float-left" id="UntaggedRow">
+                        <mat-form-field class="field-margin">
+                            <mat-select
+                                class="row-pad"
+                                id="selectVlan"
+                                formControlName="untagged"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let eachvlan of switchVlansAvailable
+                                    "
+                                    [value]="eachvlan['vlan-id']"
+                                    >{{ eachvlan["vlan-id"] }}:
+                                    {{ eachvlan["display-name"] }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-hint>Untagged</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div formArrayName="tagged" class="row" id="taggedRow">
+                        <mat-hint>Tagged </mat-hint>
+                        <mat-icon
+                            class="subscriber-pointer"
+                            id="addTagged"
+                            color="accent"
+                            (click)="displaySelectVlan = true"
+                            >add
+                        </mat-icon>
+                        <div *ngFor="let tagged of vlanTaggedControls.controls">
+                            <mat-form-field class="field-margin half-width">
+                                <input
+                                    matInput
+                                    readonly
+                                    [value]="tagged.value"
+                                />
+                                <mat-icon
+                                    class="subscriber-pointer"
+                                    id="removeTagged"
+                                    color="accent"
+                                    (click)="deleteVlanTagged(tagged.value)"
+                                    >delete
+                                </mat-icon>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
             </div>
         </mat-card-content>
         <mat-card-actions>
@@ -146,3 +211,14 @@
 <div>
     <button routerLink="/switch" mat-raised-button color="primary">Back</button>
 </div>
+<aether-select-vlan
+    *ngIf="displaySelectVlan"
+    [vlansAvailable]="vlansAvailableNotUsed"
+    (closeEvent)="addVlanControl($event)"
+></aether-select-vlan>
+<aether-select-dhcp-connect-point
+    *ngIf="displaySelectDhcp"
+    [dhcpsAvailable]="dhcpAvailableNotUsed"
+    (closeEvent)="addDhcpConnectPoint($event)"
+>
+</aether-select-dhcp-connect-point>

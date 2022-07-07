@@ -152,25 +152,16 @@
             >
                 <ng-container *ngIf="row.port">
                     {{ row.port.length }}
-                    <mat-icon
-                        class="table_icon small_icon"
-                        color="primary"
-                        aria-hidden="false"
-                        aria-label="Ports List"
-                        id="pointerPortsList"
-                        >launch</mat-icon
-                    >
                 </ng-container>
-                <ng-container *ngIf="!row.port">
-                    <mat-icon
-                        class="table_icon small_icon"
-                        color="primary"
-                        aria-hidden="false"
-                        aria-label="Ports Add"
-                        id="pointerPortAdd"
-                        >add</mat-icon
-                    >
-                </ng-container>
+                <ng-container *ngIf="!row.port">0</ng-container>
+                <mat-icon
+                    class="table_icon small_icon"
+                    color="primary"
+                    aria-hidden="false"
+                    aria-label="Ports List"
+                    id="pointerPortsList"
+                    >launch</mat-icon
+                >
             </td>
         </ng-container>
 
