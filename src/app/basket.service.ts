@@ -12,6 +12,7 @@ export const TYPE = 'type';
 export const HEX2NUM = 'hex2num';
 export const IDATTRIBS = 'idAttribs';
 export const REQDATTRIBS = 'reqdAttribs';
+export const GRANDPARENT_REQDATTRIBS = 'grandparentReqdAttribs';
 export const FORDELETE = 'for-delete-style';
 export const STRIKETHROUGH = 'text-decoration: line-through';
 export const ISINUSE = 'is-in-use';
@@ -50,7 +51,8 @@ export class BasketService {
         indexName: string,
         originalValue: string,
         unchanged?: Map<string, string>,
-        originalType = 'string'
+        originalType = 'string',
+        unchangedParent?: Map<string, string>
     ): void {
         // If this item was already added in this basket, then remove it
         Object.keys(localStorage)
@@ -70,6 +72,14 @@ export class BasketService {
         );
         if (unchanged !== undefined) {
             unchanged.forEach((unchangedValue, unchangedPath) => {
+                localStorage.setItem(
+                    '/unchanged-delete' + unchangedPath,
+                    unchangedValue
+                );
+            });
+        }
+        if (unchangedParent !== undefined) {
+            unchangedParent.forEach((unchangedValue, unchangedPath) => {
                 localStorage.setItem(
                     '/unchanged-delete' + unchangedPath,
                     unchangedValue
@@ -105,6 +115,17 @@ export class BasketService {
                 unchangedUpdate.push(...abstractControl[REQDATTRIBS]);
                 unchangedDelete.push(...abstractControl[REQDATTRIBS]);
             }
+            const unchangedGpUpdate: string[] = [];
+            const unchangedGpDelete: string[] = [];
+            if (abstractControl[GRANDPARENT_REQDATTRIBS]) {
+                unchangedGpUpdate.push(
+                    ...abstractControl[GRANDPARENT_REQDATTRIBS]
+                );
+                unchangedGpDelete.push(
+                    ...abstractControl[GRANDPARENT_REQDATTRIBS]
+                );
+            }
+
             Object.keys(abstractControl.controls).forEach((key: string) => {
                 const changed = this.logKeyValuePairs(
                     abstractControl.controls[key],
@@ -131,11 +152,36 @@ export class BasketService {
             if (unchangedDelete.length > 0) {
                 localStorage.setItem(
                     '/unchanged-delete/' + parent,
-                    unchangedDelete.join()
+                    unchangedDelete.join(',')
                 );
             } else {
                 localStorage.removeItem('/unchanged-delete/' + parent);
             }
+            if (unchangedGpUpdate.length > 0) {
+                const grandParent = parent.slice(0, parent.lastIndexOf('/'));
+                const ls = localStorage.getItem(
+                    `/unchanged-update/${grandParent}`
+                );
+                if (ls == null) {
+                    localStorage.setItem(
+                        `/unchanged-update/${grandParent}`,
+                        unchangedGpUpdate.join(',')
+                    );
+                } // else there may be other changes in the basket
+            }
+            if (unchangedGpDelete.length > 0) {
+                const grandParent = parent.slice(0, parent.lastIndexOf('/'));
+                const ls = localStorage.getItem(
+                    `/unchanged-delete/${grandParent}`
+                );
+                if (ls == null) {
+                    localStorage.setItem(
+                        `/unchanged-delete/${grandParent}`,
+                        unchangedGpUpdate.join(',')
+                    );
+                } // else there may be other changes in the basket
+            }
+
             // If the control is not a FormGroup then we know it's a FormControl
         } else if (abstractControl instanceof FormArray) {
             (abstractControl as FormArray).controls.forEach((item) => {

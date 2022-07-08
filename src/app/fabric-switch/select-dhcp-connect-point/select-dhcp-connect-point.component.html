@@ -1,0 +1,33 @@
+<!--
+~ SPDX-FileCopyrightText: 2022-present Intel Corporation
+~
+~ SPDX-License-Identifier: Apache-2.0
+-->
+<mat-card class="card mat-elevation-z8">
+    <mat-card-header class="header">
+        <mat-card-title class="subheading-1 title"
+            >Add Dhcp-Connect-Point</mat-card-title
+        >
+    </mat-card-header>
+    <mat-card-content class="content">
+        <mat-select
+            id="selectDhcpConnectPoint"
+            placeholder="Please select a DHCP server"
+            (selectionChange)="closeCard(false, $event)"
+        >
+            <mat-option
+                *ngFor="let eachDhcp of dhcpsAvailable"
+                [value]="eachDhcp"
+                >{{ eachDhcp["dhcp-server-id"] }}:
+                {{ eachDhcp["display-name"] }}</mat-option
+            >
+        </mat-select>
+    </mat-card-content>
+    <button
+        mat-raised-button
+        color="primary"
+        (click)="closeCard(true, undefined)"
+    >
+        Close
+    </button>
+</mat-card>

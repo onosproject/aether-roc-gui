@@ -10,15 +10,6 @@
                 >Switch ID:
                 {{ this.switchForm.get("switch-id").value }}</mat-card-title
             >
-            <mat-icon
-                *ngIf="!isNew"
-                (click)="showParentDisplay = true; $event.preventDefault()"
-                class="subscriber-pointer"
-                id="showParentInformation"
-                color="accent"
-            >
-                assignment
-            </mat-icon>
         </mat-card-header>
         <mat-card-content>
             <div class="row" *ngIf="isNew">
@@ -176,6 +167,22 @@
                     </div>
                 </div>
             </div>
+            <div
+                class="field-margin subscriber-section"
+                routerLink="/switch/port/{{
+                    route.snapshot.params['fabric-id']
+                }}/{{ this.switchForm.get('switch-id').value }}"
+            >
+                <mat-divider></mat-divider>
+                <mat-hint>Port(s)</mat-hint>
+                <mat-icon
+                    class="subscriber-pointer"
+                    id="editPorts"
+                    color="primary"
+                    >launch
+                </mat-icon>
+            </div>
+
             <div formArrayName="vlan" class="field-margin subscriber-section">
                 <mat-divider></mat-divider>
                 <mat-hint>Vlan(s)</mat-hint>

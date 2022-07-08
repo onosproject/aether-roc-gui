@@ -83,6 +83,8 @@ describe('The Roc List Base class', () => {
                 '/full-path',
                 'test-data-id',
                 'test-1',
+                new Map(),
+                'string',
                 new Map()
             );
         });

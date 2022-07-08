@@ -34,6 +34,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { PortEditComponent } from './port-edit/port-edit.component';
+import { SelectVlanComponent } from './select-vlan/select-vlan.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { SelectDhcpConnectPointComponent } from './select-dhcp-connect-point/select-dhcp-connect-point.component';
 
 @NgModule({
     declarations: [
@@ -41,6 +44,8 @@ import { PortEditComponent } from './port-edit/port-edit.component';
         PortComponent,
         SwitchEditComponent,
         PortEditComponent,
+        SelectVlanComponent,
+        SelectDhcpConnectPointComponent,
     ],
     imports: [
         CommonModule,
@@ -75,6 +80,7 @@ import { PortEditComponent } from './port-edit/port-edit.component';
         CdkTableModule,
         UtilsModule,
         MatDividerModule,
+        MatChipsModule,
     ],
     providers: [
         {

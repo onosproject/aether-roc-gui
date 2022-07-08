@@ -171,6 +171,18 @@ export abstract class RocEditBase<
             fullPath += `/${this.modelPath[0]}[switch-model-id=${paramMap.get(
                 'switch-model-id'
             )}]`;
+        } else if (paramMap.has('channel-number')) {
+            fullPath += `/${this.modelPath[0]}[switch-id=${paramMap.get(
+                'switch-id'
+            )}]`;
+            fullPath += `/port`;
+            fullPath += `[${this.modelPath[2]}=${paramMap.get(
+                this.modelPath[2]
+            )}]`;
+            fullPath += `[${this.modelPath[3]}=${paramMap.get(
+                this.modelPath[3]
+            )}]`;
+            return fullPath;
         } else if (paramMap.has('switch-id')) {
             fullPath += `/${this.modelPath[0]}[switch-id=${paramMap.get(
                 'switch-id'

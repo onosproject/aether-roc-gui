@@ -5,16 +5,23 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
+    DhcpServer,
     SwitchModelPort,
     SwitchPort,
+    SwitchVlan,
 } from '../../../openapi3/sdn-fabric/0.1.0/models';
 import { RocEditBase } from '../../roc-edit-base';
 import { PortDatasource } from '../port/port.datasource';
 import { EnterpriseService as FabricService } from '../../enterprise.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BasketService, ORIGINAL } from '../../basket.service';
+import {
+    BasketService,
+    GRANDPARENT_REQDATTRIBS,
+    ORIGINAL,
+    REQDATTRIBS,
+} from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { switchPortPath } from '../../models-info';
@@ -41,6 +48,11 @@ export class PortEditComponent
     switchModel: string;
     switchId: string;
     switchModelPort: Array<SwitchModelPort> = [];
+    dhcpServersAvailable: Array<DhcpServer> = [];
+    switchVlansAvailable: SwitchVlan[] = [];
+    switchPortsExisting: SwitchPort[] = [];
+    displaySelectVlan = false;
+    displaySelectDhcp = false;
 
     portForm = this.fb.group({
         'cage-number': [
@@ -73,10 +85,10 @@ export class PortEditComponent
                 Validators.maxLength(1024),
             ]),
         ],
-        speed: [],
+        speed: [undefined, Validators.required],
         'dhcp-connect-point': this.fb.array([]),
         vlans: this.fb.group({
-            untagged: [],
+            untagged: [undefined, Validators.compose([Validators.max(4096)])],
             tagged: this.fb.array([]),
         }),
     });
@@ -107,6 +119,8 @@ export class PortEditComponent
         );
         super.form = this.portForm;
         super.loadFunc = this.loadSwitchPort;
+        this.form[REQDATTRIBS] = ['speed'];
+        this.form[GRANDPARENT_REQDATTRIBS] = ['model-id', 'role'];
     }
 
     ngOnInit(): void {
@@ -123,6 +137,7 @@ export class PortEditComponent
             console.log('Full path', this.fullPath);
         });
         this.loadSwitchModelPorts();
+        this.loadDhcpServers();
     }
 
     loadSwitchPort(id: string): void {
@@ -202,7 +217,7 @@ export class PortEditComponent
                         });
                     if (!isDeleted) {
                         const dhControl = this.fb.control(dh);
-
+                        dhControl[ORIGINAL] = dh;
                         (
                             this.portForm.get([
                                 'dhcp-connect-point',
@@ -212,9 +227,98 @@ export class PortEditComponent
                     isDeleted = false;
                 }
             } else {
+                console.log('dhcp-connect-point', value['dhcp-connect-point']);
                 // TODO complete this
             }
         }
+        if (value.vlans) {
+            if (value.vlans.untagged) {
+                this.portForm
+                    .get(['vlans', 'untagged'])
+                    .setValue(value.vlans.untagged);
+                this.portForm.get(['vlans', 'untagged'])[ORIGINAL] =
+                    value.vlans.untagged;
+            }
+            if (value.vlans.tagged) {
+                if (this.portForm.value.vlans.tagged.length === 0) {
+                    for (const t of value.vlans.tagged) {
+                        console.log('Tagged', t);
+                        let isDeleted = false;
+                        Object.keys(localStorage)
+                            .filter((checkerKey) =>
+                                checkerKey.startsWith(
+                                    '/basket-delete/fabric-id/' +
+                                        this.route.snapshot.params[
+                                            'fabric-id'
+                                        ] +
+                                        '/switch[switch-id=' +
+                                        value['switch-id '] +
+                                        ']/port[cage-number='
+                                )
+                            )
+                            .forEach((checkerKey) => {
+                                if (checkerKey.includes(String(t))) {
+                                    isDeleted = true;
+                                }
+                            });
+                        if (!isDeleted) {
+                            const taggedControl = this.fb.control(t);
+                            taggedControl[ORIGINAL] = t;
+                            (
+                                this.portForm.get([
+                                    'vlans',
+                                    'tagged',
+                                ]) as FormArray
+                            ).push(taggedControl);
+                        }
+                        isDeleted = false;
+                    }
+                }
+            }
+        }
+    }
+
+    deleteVlanTagged(vlanId: number): void {
+        this.bs.deleteIndexedEntry(
+            `/${this.fullPath}/vlans/tagged[vlan-id=${vlanId}]`,
+            'vlan-id',
+            String(vlanId),
+            this.ucmap(),
+            'number'
+        );
+        const index = (
+            this.portForm.get(['vlans', 'tagged']) as FormArray
+        ).controls.findIndex(
+            (c) => c.value[Object.keys(c.value)[0]] === vlanId
+        );
+        (this.portForm.get(['vlans', 'tagged']) as FormArray).removeAt(index);
+        this.snackBar.open(
+            'Deletion of Tagged: ' + vlanId + ' added to basket',
+            undefined,
+            { duration: 2000 }
+        );
+    }
+
+    deleteDhcpConnectPoint(dhcpId: string): void {
+        this.bs.deleteIndexedEntry(
+            `/${this.fullPath}/dhcp-connect-point[vlan-id=${dhcpId}]`,
+            'vlan-id',
+            String(dhcpId),
+            this.ucmap()
+        );
+        const index = (
+            this.portForm.get(['dhcp-connect-point']) as FormArray
+        ).controls.findIndex(
+            (c) => c.value[Object.keys(c.value)[0]] === dhcpId
+        );
+        (this.portForm.get(['dhcp-connect-point']) as FormArray).removeAt(
+            index
+        );
+        this.snackBar.open(
+            'Deletion of Dhcp-Connect-Point: ' + dhcpId + ' added to basket',
+            undefined,
+            { duration: 2000 }
+        );
     }
 
     loadSwitchModelPorts(): void {
@@ -230,6 +334,8 @@ export class PortEditComponent
                 (value) => {
                     // First we need the model of the switch we're working on, and then the ports of that models
                     this.switchModel = value['model-id'];
+                    this.switchVlansAvailable = value.vlan;
+                    this.switchPortsExisting = value.port;
                 },
                 (error) =>
                     console.log(
@@ -264,14 +370,47 @@ export class PortEditComponent
             );
     }
 
-    get maxChannel(): number {
+    loadDhcpServers(): void {
+        if (this.targetId.name === this.unknownTarget) {
+            return;
+        }
+        this.dhcpServerService
+            .getDhcpServerList({
+                'fabric-id': this.targetId.name,
+            })
+            .subscribe(
+                (value) => {
+                    this.dhcpServersAvailable = value;
+                },
+                (error) =>
+                    console.log(
+                        'Error loading dhcp-servers for Fabric',
+                        this.route.snapshot.params['fabric-id'],
+                        error
+                    )
+            );
+    }
+
+    get availableChannels(): number[] {
+        const availableChannels: number[] = [];
         const found = this.switchModelPort.find(
             (smp) => smp['cage-number'] === this.cageNumber
         );
         if (found === undefined || found['max-channel'] === undefined) {
-            return 0;
+            return [0];
         }
-        return found['max-channel'];
+        const alreadyUsedChannels: number[] = [];
+        this.switchPortsExisting
+            .filter((spe) => spe['cage-number'] === found['cage-number'])
+            .forEach((spem) =>
+                alreadyUsedChannels.push(spem['channel-number'])
+            );
+        for (let i = 0; i <= found['max-channel']; i++) {
+            if (!alreadyUsedChannels.includes(i)) {
+                availableChannels.push(i);
+            }
+        }
+        return availableChannels;
     }
 
     get speeds(): string[] {
@@ -282,5 +421,73 @@ export class PortEditComponent
             return [];
         }
         return found.speeds;
+    }
+
+    get dhcpServersControls(): FormArray {
+        return this.portForm.get(['dhcp-connect-point']) as FormArray;
+    }
+
+    get vlanControls(): FormGroup {
+        return this.portForm.get(['vlans']) as FormGroup;
+    }
+
+    get vlanTaggedControls(): FormArray {
+        return this.portForm.get(['vlans', 'tagged']) as FormArray;
+    }
+
+    get vlansAvailableNotUsed(): SwitchVlan[] {
+        const vlans = this.switchVlansAvailable.filter(
+            (vl) =>
+                vl['vlan-id'] !== this.portForm.get(['vlans', 'untagged']).value
+        );
+        // Also remove any tagged vlans already chosen in form
+        return vlans.filter(
+            (vl) =>
+                !this.vlanTaggedControls.controls.some(
+                    (taggedCtl) => taggedCtl.value === vl['vlan-id']
+                )
+        );
+    }
+
+    get dhcpAvailableNotUsed(): DhcpServer[] {
+        const dhcps = this.dhcpServersAvailable.filter(
+            (dh) =>
+                !this.dhcpServersControls.controls.some(
+                    (dcp) => dcp.value === dh['dhcp-server-id']
+                )
+        );
+        return dhcps;
+    }
+
+    get switchPortsNotInUse(): SwitchModelPort[] {
+        if (!this.switchPortsExisting) {
+            return this.switchModelPort;
+        }
+        return this.switchModelPort.filter((smp) => {
+            const matchingExisting = this.switchPortsExisting.filter(
+                (spe) => spe['cage-number'] === smp['cage-number']
+            );
+            // Include model port if not all of its channel numbers are used up
+            return (
+                smp['max-channel'] === undefined ||
+                matchingExisting.length < smp['max-channel'] + 1
+            );
+        });
+    }
+
+    addVlanControl(vlan: SwitchVlan): void {
+        if (vlan !== undefined) {
+            this.vlanTaggedControls.push(this.fb.control(vlan['vlan-id']));
+        }
+        this.displaySelectVlan = false;
+    }
+
+    addDhcpConnectPoint(dhcpServer: DhcpServer): void {
+        if (dhcpServer !== undefined) {
+            this.dhcpServersControls.push(
+                this.fb.control(dhcpServer['dhcp-server-id'])
+            );
+        }
+        this.displaySelectDhcp = false;
     }
 }

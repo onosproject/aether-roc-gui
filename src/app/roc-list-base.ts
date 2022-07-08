@@ -27,6 +27,7 @@ export abstract class RocListBase<
 > {
     public dataSource: T;
     protected reqdAttr: string[] = [];
+    protected reqdParentAttr: string[] = [];
     public selected: Selected;
     public showUsageCard = false;
 
@@ -57,11 +58,18 @@ export abstract class RocListBase<
         if (this.reqdAttr.length > 0) {
             ucMap.set(`/${fullPath}`, this.reqdAttr.join(','));
         }
+        const ucParentMap = new Map<string, string>();
+        if (this.reqdParentAttr.length > 0) {
+            const parentPath = fullPath.slice(0, fullPath.lastIndexOf('/'));
+            ucParentMap.set(`/${parentPath}`, this.reqdParentAttr.join(','));
+        }
         this.bs.deleteIndexedEntry(
             `/${fullPath}`,
             idAttrNames[idAttrNames.length - 1],
             args[args.length - 1], // last one
-            ucMap
+            ucMap,
+            'string',
+            ucParentMap
         );
         entity[FORDELETE] = STRIKETHROUGH;
     }
