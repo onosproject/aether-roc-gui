@@ -16,7 +16,12 @@ import { RocEditBase } from '../../roc-edit-base';
 import { PortDatasource } from '../port/port.datasource';
 import { EnterpriseService as FabricService } from '../../enterprise.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BasketService, ORIGINAL } from '../../basket.service';
+import {
+    BasketService,
+    GRANDPARENT_REQDATTRIBS,
+    ORIGINAL,
+    REQDATTRIBS,
+} from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { switchPortPath } from '../../models-info';
@@ -114,6 +119,8 @@ export class PortEditComponent
         );
         super.form = this.portForm;
         super.loadFunc = this.loadSwitchPort;
+        this.form[REQDATTRIBS] = ['speed'];
+        this.form[GRANDPARENT_REQDATTRIBS] = ['model-id', 'role'];
     }
 
     ngOnInit(): void {

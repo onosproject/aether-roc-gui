@@ -90,7 +90,7 @@ export class SwitchEditComponent
     constructor(
         private switchService: SwitchService,
         protected fabricService: FabricService,
-        protected route: ActivatedRoute,
+        public route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
         protected bs: BasketService,

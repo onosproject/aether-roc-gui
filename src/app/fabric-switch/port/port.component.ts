@@ -61,6 +61,7 @@ export class PortComponent
             'fabric-id'
         );
         super.reqdAttr = ['speed'];
+        super.reqdParentAttr = ['model-id', 'role'];
     }
 
     ngOnInit(): void {
