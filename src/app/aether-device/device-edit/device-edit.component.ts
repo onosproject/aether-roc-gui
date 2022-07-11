@@ -95,6 +95,7 @@ export class DeviceEditComponent
             enterpriseService,
             siteService,
             route,
+            fb,
             new DeviceDatasource(enterpriseService, bs),
             deviceModelPath
         );

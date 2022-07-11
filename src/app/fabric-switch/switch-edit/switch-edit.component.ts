@@ -104,6 +104,7 @@ export class SwitchEditComponent
             fabricService,
             null,
             route,
+            fb,
             new SwitchDatasource(bs, fabricService),
             switchPath,
             'fabric-id',
@@ -127,6 +128,10 @@ export class SwitchEditComponent
 
     ngOnInit(): void {
         super.init();
+        if (this.isNewInstance) {
+            this.switchForm.get(['role']).markAsTouched();
+            this.switchForm.get(['role']).markAsDirty();
+        }
         this.loadSwitchModel();
     }
 
@@ -468,6 +473,7 @@ export class SwitchEditComponent
                             const subnetControl = this.fb.control(sn);
                             subnetControl[ORIGINAL] = sn;
                             subnetArrayControl.push(subnetControl);
+                            subnetArrayControl[IDATTRIBS] = [];
                         });
 
                         const vlanGroupControl = this.fb.group({
@@ -477,6 +483,7 @@ export class SwitchEditComponent
                             ['subnet']: subnetArrayControl,
                         });
                         vlanGroupControl[IDATTRIBS] = ['vlan-id'];
+
                         (this.switchForm.get(['vlan']) as FormArray).push(
                             vlanGroupControl
                         );
@@ -510,12 +517,15 @@ export class SwitchEditComponent
         return this.switchForm.get(['attribute']) as FormArray;
     }
 
-    get portControls(): FormArray {
-        return this.switchForm.get(['port']) as FormArray;
-    }
-
     get vlanControls(): FormArray {
         return this.switchForm.get(['vlan']) as FormArray;
+    }
+
+    vlanSubnetControls(index: number): FormArray {
+        if (this.switchForm.get(['vlan', index, 'subnet']) !== null) {
+            return this.switchForm.get(['vlan', index, 'subnet']) as FormArray;
+        }
+        return this.fb.array([]);
     }
 
     get mgmtControls(): FormGroup {

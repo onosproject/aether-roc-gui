@@ -164,6 +164,7 @@ export class TemplateEditComponent
             enterpriseService,
             undefined,
             route,
+            fb,
             new TemplateDatasource(enterpriseService, bs),
             templateModelPath
         );

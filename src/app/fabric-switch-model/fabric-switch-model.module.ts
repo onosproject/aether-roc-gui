@@ -33,12 +33,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { SwitchModelEditComponent } from './switch-model-edit/switch-model-edit.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SelectAttributeComponent } from './select-attribute/select-attribute.component';
+import { SelectPortComponent } from './select-port/select-port.component';
 
 @NgModule({
     declarations: [
         SwitchModelComponent,
         ShowSwitchUsageComponent,
         SwitchModelEditComponent,
+        SelectAttributeComponent,
+        SelectPortComponent,
     ],
     imports: [
         CommonModule,

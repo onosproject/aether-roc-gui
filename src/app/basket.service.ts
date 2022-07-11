@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { Injectable, Input } from '@angular/core';
-import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+import {
+    AbstractControl,
+    FormArray,
+    FormControl,
+    FormGroup,
+} from '@angular/forms';
 import { AETHER_TARGET } from '../environments/environment';
 import { PatchBody } from '../openapi3/top/level/models';
 
@@ -184,6 +189,26 @@ export class BasketService {
 
             // If the control is not a FormGroup then we know it's a FormControl
         } else if (abstractControl instanceof FormArray) {
+            if (
+                abstractControl[IDATTRIBS] &&
+                abstractControl[IDATTRIBS].length === 0
+            ) {
+                // implies a leaf list - gather elements together and form item as array
+                const leafListValue: string[] = [];
+                (abstractControl as FormArray).controls.forEach((item) => {
+                    leafListValue.push(item.value);
+                });
+                const item = new FormControl();
+                item.setValue(leafListValue);
+                if (abstractControl.dirty) {
+                    item.markAsDirty();
+                }
+                if (abstractControl.touched) {
+                    item.markAsTouched();
+                }
+                this.logKeyValuePairs(item, parent);
+                return;
+            }
             (abstractControl as FormArray).controls.forEach((item) => {
                 // There should be an extra attribute 'idAttribs' set on the Form Array after creation defining what the keys IDs are
                 // There might be more than one key for a list

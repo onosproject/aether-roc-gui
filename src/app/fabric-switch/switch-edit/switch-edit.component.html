@@ -79,6 +79,7 @@
                 <mat-form-field class="field-margin full-width">
                     <mat-select
                         id="selectSwitchModel"
+                        placeholder="Please select a model"
                         formControlName="model-id"
                     >
                         <mat-option
@@ -113,6 +114,7 @@
                     class="subscriber-pointer"
                     id="addAttribute"
                     color="accent"
+                    (click)="displaySelectAttribute = true"
                     >add
                 </mat-icon>
                 <div
@@ -226,6 +228,38 @@
                                 />
                                 <mat-hint>Description</mat-hint>
                             </mat-form-field>
+                            <ng-container formArrayName="subnet" id="subnetRow">
+                                <mat-hint
+                                    >Subnet(s)
+                                    <mat-icon
+                                        class="subscriber-pointer"
+                                        id="addSubnet"
+                                        color="accent"
+                                        >add
+                                    </mat-icon>
+                                </mat-hint>
+                                <ng-container
+                                    *ngFor="
+                                        let sn of vlanSubnetControls(i).controls
+                                    "
+                                >
+                                    <mat-form-field
+                                        class="field-margin half-width"
+                                    >
+                                        <input
+                                            matInput
+                                            readonly
+                                            [value]="sn.value"
+                                        />
+                                        <mat-icon
+                                            class="subscriber-pointer"
+                                            id="removeSubnet"
+                                            color="accent"
+                                            >delete
+                                        </mat-icon>
+                                    </mat-form-field>
+                                </ng-container>
+                            </ng-container>
                             <!-- TODO: add in subnet leaf list -->
                             <button
                                 mat-icon-button
@@ -394,3 +428,10 @@
 <div>
     <button routerLink="/switch" mat-raised-button color="primary">Back</button>
 </div>
+
+<aether-select-attribute
+    *ngIf="displaySelectAttribute"
+    id="attributeAddComponent"
+    (closeEvent)="attributeAdded($event)"
+>
+</aether-select-attribute>

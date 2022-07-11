@@ -111,6 +111,7 @@
                     class="subscriber-pointer"
                     id="addAttribute"
                     color="accent"
+                    (click)="displaySelectAttribute = true"
                     >add
                 </mat-icon>
                 <div
@@ -168,7 +169,11 @@
             <div formArrayName="port" class="field-margin subscriber-section">
                 <mat-divider></mat-divider>
                 <mat-hint>Port(s)</mat-hint>
-                <mat-icon class="subscriber-pointer" id="addPort" color="accent"
+                <mat-icon
+                    class="subscriber-pointer"
+                    id="addPort"
+                    color="accent"
+                    (click)="displaySelectPort = true"
                     >add
                 </mat-icon>
                 <div
@@ -268,3 +273,18 @@
         Back
     </button>
 </div>
+
+<aether-select-attribute
+    *ngIf="displaySelectAttribute"
+    [keysAlreadyUsed]="attrKeyAlreadyUsed"
+    id="attributeAddComponent"
+    (closeEvent)="attributeAdded($event)"
+>
+</aether-select-attribute>
+<aether-select-port
+    *ngIf="displaySelectPort"
+    id="portAddComponent"
+    [portsAlreadyUsed]="portsAlreadyUsed"
+    (closeEvent)="portAdded($event)"
+>
+</aether-select-port>

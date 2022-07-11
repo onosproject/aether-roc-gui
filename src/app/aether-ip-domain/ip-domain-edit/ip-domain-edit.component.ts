@@ -109,7 +109,7 @@ export class IpDomainEditComponent
 
         protected route: ActivatedRoute,
         protected router: Router,
-        private fb: FormBuilder,
+        protected fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
@@ -120,6 +120,7 @@ export class IpDomainEditComponent
             enterpriseService,
             siteService,
             route,
+            fb,
             new IpDomainDatasource(enterpriseService, bs),
             ipDomainModelPath
         );

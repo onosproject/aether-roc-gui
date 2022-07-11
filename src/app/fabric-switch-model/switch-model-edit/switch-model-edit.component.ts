@@ -23,7 +23,11 @@ import {
 } from '../../../openapi3/sdn-fabric/0.1.0/services';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { switchModelPath } from '../../models-info';
-import { SwitchModel } from '../../../openapi3/sdn-fabric/0.1.0/models';
+import {
+    SwitchModel,
+    SwitchModelAttribute,
+    SwitchModelPort,
+} from '../../../openapi3/sdn-fabric/0.1.0/models';
 
 @Component({
     selector: 'aether-switch-model-edit',
@@ -38,6 +42,7 @@ export class SwitchModelEditComponent
     pathListAttr: 'switch-model';
     switchModelId: string;
     data: SwitchModel;
+    displaySelectPort = false;
 
     switchModelForm = this.fb.group({
         'switch-model-id': [
@@ -84,6 +89,7 @@ export class SwitchModelEditComponent
             fabricService,
             null,
             route,
+            fb,
             new SwitchModelDatasource(bs, fabricService, switchService),
             switchModelPath,
             'fabric-id',
@@ -98,6 +104,10 @@ export class SwitchModelEditComponent
 
     ngOnInit(): void {
         super.init();
+        if (this.isNewInstance) {
+            this.switchModelForm.get('pipeline').markAsTouched();
+            this.switchModelForm.get('pipeline').markAsDirty();
+        }
     }
 
     deletePortFromSelect(cageNumber: number): void {
@@ -232,7 +242,7 @@ export class SwitchModelEditComponent
             } else {
                 const existingAttribute = this.switchModelForm.value.attribute;
                 value.attribute.forEach(
-                    (eachValueAttribute, eachFormAttributePosition) => {
+                    (eachValueAttribute, eachValueAttributePosition) => {
                         for (const eachFormAttribute of existingAttribute) {
                             if (
                                 eachValueAttribute['attribute-key'] ===
@@ -241,7 +251,7 @@ export class SwitchModelEditComponent
                                 this.switchModelForm
                                     .get([
                                         'attribute',
-                                        eachFormAttributePosition,
+                                        eachValueAttributePosition,
                                         'value',
                                     ])
                                     .setValue(eachValueAttribute.value);
@@ -252,6 +262,8 @@ export class SwitchModelEditComponent
                                     ]) as FormArray
                                 ).push(
                                     this.fb.group({
+                                        'attribute-key':
+                                            eachValueAttribute['attribute-key'],
                                         value: eachValueAttribute.value,
                                     })
                                 );
@@ -297,11 +309,13 @@ export class SwitchModelEditComponent
                         maxChannelControl[ORIGINAL] = p['max-channel'];
 
                         const speedsArrayControl = this.fb.array([]);
-                        p.speeds.forEach((sp) => {
-                            const speedControl = this.fb.control(sp);
-                            speedControl[ORIGINAL] = sp;
-                            speedsArrayControl.push(speedControl);
-                        });
+                        if (p.speeds) {
+                            p.speeds.forEach((sp) => {
+                                const speedControl = this.fb.control(sp);
+                                speedControl[ORIGINAL] = sp;
+                                speedsArrayControl.push(speedControl);
+                            });
+                        }
 
                         const portGroupControl = this.fb.group({
                             ['cage-number']: cageNumberControl,
@@ -331,12 +345,37 @@ export class SwitchModelEditComponent
                                     'cage-number',
                                 ])
                                 .setValue(eachValuePort['cage-number']);
+                            this.switchModelForm
+                                .get([
+                                    'port',
+                                    eachFormPortPosition,
+                                    'display-name',
+                                ])
+                                .setValue(eachValuePort['display-name']);
+                            this.switchModelForm
+                                .get([
+                                    'port',
+                                    eachFormPortPosition,
+                                    'description',
+                                ])
+                                .setValue(eachValuePort['description']);
+                            this.switchModelForm
+                                .get([
+                                    'port',
+                                    eachFormPortPosition,
+                                    'max-channel',
+                                ])
+                                .setValue(eachValuePort['max-channel']);
                         } else {
                             (
                                 this.switchModelForm.get(['port']) as FormArray
                             ).push(
                                 this.fb.group({
-                                    value: eachValuePort['cage-number'],
+                                    'cage-number': eachValuePort['cage-number'],
+                                    'display-name':
+                                        eachValuePort['display-name'],
+                                    description: eachValuePort.description,
+                                    'max-channel': eachValuePort['max-channel'],
                                 })
                             );
                         }
@@ -344,5 +383,61 @@ export class SwitchModelEditComponent
                 });
             }
         }
+    }
+
+    portAdded(port: SwitchModelPort): void {
+        this.displaySelectPort = false;
+
+        if (port === undefined) {
+            return;
+        }
+
+        const portCageNumControl = this.fb.control(port['cage-number']);
+        portCageNumControl.markAsTouched();
+        portCageNumControl.markAsDirty();
+
+        const portDisplayControl = this.fb.control(port['display-name']);
+        portDisplayControl.markAsTouched();
+        portDisplayControl.markAsDirty();
+
+        const portDescControl = this.fb.control(port.description);
+        portDescControl.markAsTouched();
+        portDescControl.markAsDirty();
+
+        const portMaxChannelControl = this.fb.control(port['max-channel']);
+        portMaxChannelControl.markAsTouched();
+        portMaxChannelControl.markAsDirty();
+
+        const portGroupControl = this.fb.group({
+            'cage-number': portCageNumControl,
+            'display-name': portDisplayControl,
+            description: portDescControl,
+            'max-channel': portMaxChannelControl,
+        });
+
+        (this.switchModelForm.get(['port']) as FormArray).push(
+            portGroupControl
+        );
+        this.switchModelForm.markAllAsTouched();
+    }
+
+    get portsAlreadyUsed(): number[] {
+        const portNumbers: number[] = [];
+        (this.switchModelForm.get('port') as FormArray).controls.forEach(
+            (ctl) => {
+                portNumbers.push(ctl.value['cage-number']);
+            }
+        );
+        return portNumbers;
+    }
+
+    get attrKeyAlreadyUsed(): string[] {
+        const keys: string[] = [];
+        (this.switchModelForm.get('attribute') as FormArray).controls.forEach(
+            (ctl) => {
+                keys.push(ctl.value['attribute-key']);
+            }
+        );
+        return keys;
     }
 }
