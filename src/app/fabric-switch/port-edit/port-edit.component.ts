@@ -19,6 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
     BasketService,
     GRANDPARENT_REQDATTRIBS,
+    IDATTRIBS,
     ORIGINAL,
     REQDATTRIBS,
 } from '../../basket.service';
@@ -112,6 +113,7 @@ export class PortEditComponent
             fabricService,
             null,
             route,
+            fb,
             new PortDatasource(bs, fabricService),
             switchPortPath,
             'fabric-id',
@@ -121,6 +123,8 @@ export class PortEditComponent
         super.loadFunc = this.loadSwitchPort;
         this.form[REQDATTRIBS] = ['speed'];
         this.form[GRANDPARENT_REQDATTRIBS] = ['model-id', 'role'];
+        this.form.get(['dhcp-connect-point'])[IDATTRIBS] = [];
+        this.form.get(['vlans', 'tagged'])[IDATTRIBS] = [];
     }
 
     ngOnInit(): void {
@@ -128,6 +132,8 @@ export class PortEditComponent
             this.loadIds(value);
             if (value.get('cage-number') === 'newcage') {
                 this.portForm.get('channel-number').setValue(0);
+                this.portForm.get('channel-number').markAsTouched();
+                this.portForm.get('channel-number').markAsDirty();
                 this.isNewInstance = true;
             } else {
                 this.loadFunc(value.get('id'));
@@ -138,6 +144,29 @@ export class PortEditComponent
         });
         this.loadSwitchModelPorts();
         this.loadDhcpServers();
+    }
+
+    onSubmitDoubleKey(): void {
+        console.log('Submitted!', this.form.getRawValue());
+        console.log(this.fullPath, this.targetId);
+        if (this.fullPath.includes('newcage')) {
+            this.fullPath = this.fullPath.replace(
+                'newcage',
+                this.form.get(['cage-number']).value
+            );
+        }
+        if (this.fullPath.includes('newchannel')) {
+            this.fullPath = this.fullPath.replace(
+                'newchannel',
+                this.form.get(['channel-number']).value
+            );
+        }
+        console.log('Updated', this.fullPath);
+        this.bs.logKeyValuePairs(this.form, this.fullPath);
+        this.snackBar.open('Added to basket', undefined, {
+            duration: 2000,
+            politeness: 'polite',
+        });
     }
 
     loadSwitchPort(id: string): void {
@@ -400,11 +429,13 @@ export class PortEditComponent
             return [0];
         }
         const alreadyUsedChannels: number[] = [];
-        this.switchPortsExisting
-            .filter((spe) => spe['cage-number'] === found['cage-number'])
-            .forEach((spem) =>
-                alreadyUsedChannels.push(spem['channel-number'])
-            );
+        if (this.switchPortsExisting !== null) {
+            this.switchPortsExisting
+                .filter((spe) => spe['cage-number'] === found['cage-number'])
+                .forEach((spem) =>
+                    alreadyUsedChannels.push(spem['channel-number'])
+                );
+        }
         for (let i = 0; i <= found['max-channel']; i++) {
             if (!alreadyUsedChannels.includes(i)) {
                 availableChannels.push(i);
@@ -478,6 +509,8 @@ export class PortEditComponent
     addVlanControl(vlan: SwitchVlan): void {
         if (vlan !== undefined) {
             this.vlanTaggedControls.push(this.fb.control(vlan['vlan-id']));
+            this.vlanTaggedControls.markAsTouched();
+            this.vlanTaggedControls.markAsDirty();
         }
         this.displaySelectVlan = false;
     }
@@ -487,6 +520,8 @@ export class PortEditComponent
             this.dhcpServersControls.push(
                 this.fb.control(dhcpServer['dhcp-server-id'])
             );
+            this.dhcpServersControls.markAsTouched();
+            this.dhcpServersControls.markAsDirty();
         }
         this.displaySelectDhcp = false;
     }

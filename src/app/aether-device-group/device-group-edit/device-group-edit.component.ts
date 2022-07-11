@@ -114,7 +114,7 @@ export class DeviceGroupEditComponent
         protected trafficClassService: TrafficClassService,
         protected route: ActivatedRoute,
         protected router: Router,
-        private fb: FormBuilder,
+        protected fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
@@ -125,6 +125,7 @@ export class DeviceGroupEditComponent
             enterpriseService,
             siteService,
             route,
+            fb,
             new DeviceGroupDatasource(enterpriseService, bs),
             deviceGroupModelPath
         );

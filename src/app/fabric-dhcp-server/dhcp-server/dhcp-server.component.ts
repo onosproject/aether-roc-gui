@@ -57,6 +57,7 @@ export class DhcpServerComponent
             ),
             'fabric-id'
         );
+        super.reqdAttr = ['address'];
     }
 
     onDataLoaded(): void {

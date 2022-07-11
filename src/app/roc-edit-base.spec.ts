@@ -20,6 +20,7 @@ import {
 import * as _ from 'lodash';
 import { EnterpriseService } from './enterprise.service';
 import { SiteService } from '../openapi3/aether/2.1.0/services';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // we cannot test an Abstract class directly,
 // so create a class that extends it
@@ -52,7 +53,8 @@ class RocEditBaseSpecComponent extends RocEditBase<
 > {
     constructor(
         protected enterpriseService: EnterpriseService,
-        protected siteService: SiteService
+        protected siteService: SiteService,
+        protected fb: FormBuilder
     ) {
         super(
             snackBar,
@@ -60,6 +62,7 @@ class RocEditBaseSpecComponent extends RocEditBase<
             enterpriseService,
             siteService,
             route,
+            fb,
             TestDataSource,
             siteModelPath
         );
@@ -73,7 +76,11 @@ describe('The Roc List Base class', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [RocEditBaseSpecComponent],
-            imports: [HttpClientTestingModule],
+            imports: [
+                HttpClientTestingModule,
+                ReactiveFormsModule,
+                FormsModule,
+            ],
         }).compileComponents();
     });
 

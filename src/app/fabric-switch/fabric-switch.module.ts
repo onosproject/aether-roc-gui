@@ -37,6 +37,7 @@ import { PortEditComponent } from './port-edit/port-edit.component';
 import { SelectVlanComponent } from './select-vlan/select-vlan.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { SelectDhcpConnectPointComponent } from './select-dhcp-connect-point/select-dhcp-connect-point.component';
+import { SelectAttributeComponent } from './select-attribute/select-attribute.component';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import { SelectDhcpConnectPointComponent } from './select-dhcp-connect-point/sel
         PortEditComponent,
         SelectVlanComponent,
         SelectDhcpConnectPointComponent,
+        SelectAttributeComponent,
     ],
     imports: [
         CommonModule,
@@ -90,5 +92,6 @@ import { SelectDhcpConnectPointComponent } from './select-dhcp-connect-point/sel
         AuthInterceptor,
         API_INTERCEPTOR_PROVIDER,
     ],
+    exports: [SelectAttributeComponent],
 })
 export class FabricSwitchModule {}

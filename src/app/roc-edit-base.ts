@@ -7,6 +7,7 @@
 import {
     AbstractControl,
     FormArray,
+    FormBuilder,
     FormGroup,
     ValidatorFn,
 } from '@angular/forms';
@@ -25,6 +26,7 @@ import { mergeMap } from 'rxjs/operators';
 import { from } from 'rxjs';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { SiteList } from '../openapi3/aether/2.1.0/models';
+import { SwitchAttribute } from '../openapi3/sdn-fabric/0.1.0/models/switch-attribute';
 
 export interface SiteID {
     siteID: string;
@@ -45,6 +47,7 @@ export abstract class RocEditBase<
     public siteId: string;
     public unknownSite = 'unknownsite';
     public datasource: T;
+    displaySelectAttribute = false;
 
     /**
      * @param snackBar The MatSnackBar service
@@ -52,9 +55,11 @@ export abstract class RocEditBase<
      * @param enterpriseService EnterpriseService
      * @param siteService SiteService
      * @param route The current route
+     * @param fb the form builder
      * @param ds A class that extends RocDataSource
      * @param modelPath The path for this model in the Yang tree
      * @param targetAttribute the target attribute for this model e.g. enterprise-id
+     * @param unknownTarget a temporary value used when the target is not known
      */
     protected constructor(
         protected snackBar: MatSnackBar,
@@ -62,6 +67,7 @@ export abstract class RocEditBase<
         protected enterpriseService: EnterpriseService,
         protected siteService: SiteService,
         protected route: ActivatedRoute,
+        protected fb: FormBuilder,
         public ds: T,
         public modelPath: string[],
         protected targetAttribute = 'enterprise-id',
@@ -266,5 +272,28 @@ export abstract class RocEditBase<
                 duration: 2000,
             }
         );
+    }
+
+    attributeAdded(attr: SwitchAttribute): void {
+        this.displaySelectAttribute = false;
+        if (attr === undefined) {
+            return;
+        }
+
+        const attrKeyControl = this.fb.control(attr['attribute-key']);
+        attrKeyControl.markAsTouched();
+        attrKeyControl.markAsDirty();
+
+        const attrValueControl = this.fb.control(attr['value']);
+        attrValueControl.markAsTouched();
+        attrValueControl.markAsDirty();
+
+        const attrGroupControl = this.fb.group({
+            'attribute-key': attrKeyControl,
+            value: attrValueControl,
+        });
+
+        (this.form.get(['attribute']) as FormArray).push(attrGroupControl);
+        this.form.markAllAsTouched();
     }
 }

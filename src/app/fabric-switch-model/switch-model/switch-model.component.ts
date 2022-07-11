@@ -58,6 +58,7 @@ export class SwitchModelComponent
             ),
             'fabric-id'
         );
+        super.reqdAttr = ['pipeline'];
     }
 
     onDataLoaded(): void {

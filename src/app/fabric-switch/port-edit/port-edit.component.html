@@ -3,7 +3,11 @@
 ~
 ~ SPDX-License-Identifier: Apache-2.0
 -->
-<form class="roc-edit-form" [formGroup]="portForm" (ngSubmit)="onSubmit()">
+<form
+    class="roc-edit-form"
+    [formGroup]="portForm"
+    (ngSubmit)="onSubmitDoubleKey()"
+>
     <mat-card>
         <mat-card-header>
             <mat-card-title

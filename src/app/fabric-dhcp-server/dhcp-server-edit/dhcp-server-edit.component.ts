@@ -60,6 +60,7 @@ export class DhcpServerEditComponent
         address: [
             undefined,
             Validators.compose([
+                Validators.required,
                 Validators.pattern(
                     '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5]).){3}' +
                         '([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])'
@@ -85,6 +86,7 @@ export class DhcpServerEditComponent
             fabricService,
             null,
             route,
+            fb,
             new DhcpServerDatasource(bs, fabricService, switchService),
             dhcpServerPath,
             'fabric-id',

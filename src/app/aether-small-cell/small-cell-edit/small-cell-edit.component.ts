@@ -87,7 +87,7 @@ export class SmallCellEditComponent
 
         protected route: ActivatedRoute,
         protected router: Router,
-        private fb: FormBuilder,
+        protected fb: FormBuilder,
         protected bs: BasketService,
         protected snackBar: MatSnackBar,
         public opaService: OpenPolicyAgentService
@@ -98,6 +98,7 @@ export class SmallCellEditComponent
             enterpriseService,
             siteService,
             route,
+            fb,
             new SmallCellDatasource(enterpriseService, bs),
             smallCellModelPath
         );
