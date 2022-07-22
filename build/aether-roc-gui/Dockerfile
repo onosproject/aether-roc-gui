@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # This stage builds the js code
-FROM node:14.15-stretch as builder
+FROM node:16.14 as builder
 
 ENV CODE_DEST /var/www
 COPY . ${CODE_DEST}
@@ -14,7 +14,7 @@ RUN npm run build:prod
 
 # This stage moves the generated and minified code into the final image
 
-FROM nginx:1.21.4-alpine
+FROM nginx:1.23.1-alpine
 
 ENV KUBECTL_VERSION="v1.17.0"
 ENV CODE /var/www

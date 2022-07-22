@@ -45,42 +45,61 @@
             }}</span>
         </button>
         <mat-divider></mat-divider>
-        <button mat-menu-item routerLink="/dashboard" id="dashboardButton">
-            <mat-icon>dashboard</mat-icon>
-            <span>Dashboard</span>
-        </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item routerLink="/slice" id="sliceButton">
-            <mat-icon>local_pizza</mat-icon>
-            <span>Slice</span>
-        </button>
-        <button mat-menu-item routerLink="/upf" id="upfButton">
-            <mat-icon>recent_actors</mat-icon>
-            <span>UPF</span>
-        </button>
-        <button mat-menu-item routerLink="/application" id="applicationButton">
-            <mat-icon>layers</mat-icon>
-            <span>Application</span>
-        </button>
-        <button mat-menu-item routerLink="/device-group" id="deviceGroupButton">
-            <mat-icon>devices_other</mat-icon>
-            <span>Device Group</span>
-        </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item routerLink="/device" id="devicesButton">
-            <mat-icon>smartphone</mat-icon>
-            <span>Devices</span>
-        </button>
-        <button mat-menu-item routerLink="/sim-card" id="simCardsButton">
-            <mat-icon>sim_card</mat-icon>
-            <span>Sim Cards</span>
-        </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item [matMenuTriggerFor]="config" id="dropDownConfig">
-            <mat-icon>menu</mat-icon>
-            <span>Configuration</span>
-        </button>
-        <button mat-menu-item [matMenuTriggerFor]="fabric" id="dropDownFabric">
+        <ng-container *ngIf="featureAether">
+            <button mat-menu-item routerLink="/dashboard" id="dashboardButton">
+                <mat-icon>dashboard</mat-icon>
+                <span>Dashboard</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item routerLink="/slice" id="sliceButton">
+                <mat-icon>local_pizza</mat-icon>
+                <span>Slice</span>
+            </button>
+            <button mat-menu-item routerLink="/upf" id="upfButton">
+                <mat-icon>recent_actors</mat-icon>
+                <span>UPF</span>
+            </button>
+            <button
+                mat-menu-item
+                routerLink="/application"
+                id="applicationButton"
+            >
+                <mat-icon>layers</mat-icon>
+                <span>Application</span>
+            </button>
+            <button
+                mat-menu-item
+                routerLink="/device-group"
+                id="deviceGroupButton"
+            >
+                <mat-icon>devices_other</mat-icon>
+                <span>Device Group</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item routerLink="/device" id="devicesButton">
+                <mat-icon>smartphone</mat-icon>
+                <span>Devices</span>
+            </button>
+            <button mat-menu-item routerLink="/sim-card" id="simCardsButton">
+                <mat-icon>sim_card</mat-icon>
+                <span>Sim Cards</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button
+                mat-menu-item
+                [matMenuTriggerFor]="config"
+                id="dropDownConfig"
+            >
+                <mat-icon>menu</mat-icon>
+                <span>Configuration</span>
+            </button>
+        </ng-container>
+        <button
+            mat-menu-item
+            [matMenuTriggerFor]="fabric"
+            id="dropDownFabric"
+            *ngIf="featureSdnFabric"
+        >
             <mat-icon>menu</mat-icon>
             <span>Fabric</span>
         </button>

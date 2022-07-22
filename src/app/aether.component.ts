@@ -142,4 +142,20 @@ export class AetherComponent implements OnInit, OnDestroy {
     get apiKey(): string {
         return localStorage.getItem(ID_TOKEN_ATTR);
     }
+
+    get featureAether(): boolean {
+        const metaElement = this.meta.getTag('name=feature-aether');
+        if (metaElement && metaElement.content.includes('false')) {
+            return false;
+        }
+        return true;
+    }
+
+    get featureSdnFabric(): boolean {
+        const metaElement = this.meta.getTag('name=feature-sdn-fabric');
+        if (metaElement && metaElement.content.includes('false')) {
+            return false;
+        }
+        return true;
+    }
 }
