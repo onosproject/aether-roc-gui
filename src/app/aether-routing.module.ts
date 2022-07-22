@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, Route, ROUTES } from '@angular/router';
+import { Meta } from '@angular/platform-browser';
 
 /**
  * The set of Routes in the application - can be chosen from nav menu or
@@ -107,6 +108,9 @@ const aetherRoutes: Routes = [
                 (m) => m.DiagnosticsModule
             ),
     },
+];
+
+const sdnFabricRoutes = [
     {
         path: 'switch',
         loadChildren: () =>
@@ -135,6 +139,9 @@ const aetherRoutes: Routes = [
                 (m) => m.FabricDhcpServerModule
             ),
     },
+];
+
+const defaultRoute = [
     {
         path: '',
         redirectTo: 'dashboard',
@@ -142,15 +149,48 @@ const aetherRoutes: Routes = [
     },
 ];
 
+const sdnOnlyDefaultRoute = [
+    {
+        path: '',
+        redirectTo: 'switch',
+        pathMatch: 'full',
+    },
+];
+
 @NgModule({
-    imports: [
-        RouterModule.forRoot(aetherRoutes, {
-            useHash: true,
-            onSameUrlNavigation: 'reload',
-            relativeLinkResolution: 'legacy',
-        }),
-    ],
+    imports: [RouterModule.forRoot([])],
     exports: [RouterModule],
-    providers: [],
+    providers: [
+        {
+            provide: ROUTES,
+            useFactory: (metaService: Meta): Routes => {
+                const activeRoutes: Route[] = [];
+                const fabricMeta = metaService.getTag(
+                    'name=feature-sdn-fabric'
+                );
+                if (
+                    !fabricMeta ||
+                    !fabricMeta.content ||
+                    !fabricMeta.content.includes('false')
+                ) {
+                    activeRoutes.push(...sdnFabricRoutes);
+                }
+                const aetherMeta = metaService.getTag('name=feature-aether');
+                if (
+                    !aetherMeta ||
+                    !aetherMeta.content ||
+                    !aetherMeta.content.includes('false')
+                ) {
+                    activeRoutes.push(...aetherRoutes);
+                    activeRoutes.push(...defaultRoute);
+                } else {
+                    activeRoutes.push(...sdnOnlyDefaultRoute);
+                }
+                return activeRoutes;
+            },
+            multi: true,
+            deps: [Meta],
+        },
+    ],
 })
 export class AetherRoutingModule {}
