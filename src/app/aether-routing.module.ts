@@ -27,11 +27,6 @@ const aetherRoutes: Routes = [
             ),
     },
     {
-        path: 'basket',
-        loadChildren: () =>
-            import('./basket/basket.module').then((m) => m.BasketModule),
-    },
-    {
         path: 'device-group',
         loadChildren: () =>
             import('./aether-device-group/aether-device-group.module').then(
@@ -157,6 +152,14 @@ const sdnOnlyDefaultRoute = [
     },
 ];
 
+const bothTypesRoutes = [
+    {
+        path: 'basket',
+        loadChildren: () =>
+            import('./basket/basket.module').then((m) => m.BasketModule),
+    },
+];
+
 @NgModule({
     imports: [RouterModule.forRoot([])],
     exports: [RouterModule],
@@ -164,7 +167,7 @@ const sdnOnlyDefaultRoute = [
         {
             provide: ROUTES,
             useFactory: (metaService: Meta): Routes => {
-                const activeRoutes: Route[] = [];
+                const activeRoutes: Route[] = bothTypesRoutes;
                 const fabricMeta = metaService.getTag(
                     'name=feature-sdn-fabric'
                 );

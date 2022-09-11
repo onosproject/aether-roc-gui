@@ -369,7 +369,8 @@ export class PortEditComponent
                 (error) =>
                     console.log(
                         'Error loading switch',
-                        this.route.snapshot.params['switch-id']
+                        this.route.snapshot.params['switch-id'],
+                        error
                     ),
                 () => {
                     this.switchModelPortService
@@ -494,15 +495,24 @@ export class PortEditComponent
         if (!this.switchPortsExisting) {
             return this.switchModelPort;
         }
-        return this.switchModelPort.filter((smp) => {
+        const portList = this.switchModelPort.filter((smp) => {
             const matchingExisting = this.switchPortsExisting.filter(
                 (spe) => spe['cage-number'] === smp['cage-number']
             );
             // Include model port if not all of its channel numbers are used up
             return (
-                smp['max-channel'] === undefined ||
+                (matchingExisting.length < 1 &&
+                    smp['max-channel'] === undefined) ||
                 matchingExisting.length < smp['max-channel'] + 1
             );
+        });
+        return portList.sort((a, b) => {
+            if (a['cage-number'] < b['cage-number']) {
+                return -1;
+            } else if (a['cage-number'] > b['cage-number']) {
+                return 1;
+            }
+            return 0;
         });
     }
 
