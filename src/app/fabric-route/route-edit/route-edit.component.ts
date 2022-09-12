@@ -7,7 +7,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RocEditBase } from '../../roc-edit-base';
 import { RouteDatasource } from '../route/route-datasource';
-import { Route, Switch } from '../../../openapi3/sdn-fabric/0.1.0/models';
+import { Route } from '../../../openapi3/sdn-fabric/0.1.0/models';
 import { FormBuilder, Validators } from '@angular/forms';
 import { EnterpriseService as FabricService } from '../../enterprise.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +19,7 @@ import {
 } from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
-import { routePath, switchPath } from '../../models-info';
+import { routePath } from '../../models-info';
 import { RouteService } from '../../../openapi3/sdn-fabric/0.1.0/services';
 
 @Component({

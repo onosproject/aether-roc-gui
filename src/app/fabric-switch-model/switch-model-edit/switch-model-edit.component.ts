@@ -25,7 +25,6 @@ import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { switchModelPath } from '../../models-info';
 import {
     SwitchModel,
-    SwitchModelAttribute,
     SwitchModelPort,
 } from '../../../openapi3/sdn-fabric/0.1.0/models';
 
