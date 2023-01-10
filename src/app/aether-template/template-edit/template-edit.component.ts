@@ -197,8 +197,7 @@ export class TemplateEditComponent
                 megabyte ? this._filter() : this.options.slice()
             )
         );
-        this.tempForm.get('sd')[TYPE] = HEX2NUM;
-        this.tempForm.get('sst')[TYPE] = 'number';
+        this.tempForm[REQDATTRIBS] = ['default-behavior'];
         this.tempForm.get(['mbr', 'uplink'])[TYPE] = 'number';
         this.tempForm.get(['mbr', 'downlink'])[TYPE] = 'number';
         this.tempForm.get(['mbr', 'uplink-burst-size'])[TYPE] = 'number';
@@ -271,13 +270,12 @@ export class TemplateEditComponent
             this.tempForm.get(['sst']).setValue(value.sst);
             this.tempForm.get(['sst'])[ORIGINAL] = value.sst;
         }
-        if (value['default-behavior']) {
-            this.tempForm
-                .get(['default-behavior'])
-                .setValue(value['default-behavior']);
-            this.tempForm.get(['default-behavior'])[ORIGINAL] =
-                value['default-behavior'];
-        }
+
+        this.tempForm
+            .get(['default-behavior'])
+            .setValue(value['default-behavior']);
+        this.tempForm.get(['default-behavior'])[ORIGINAL] =
+            value['default-behavior'];
 
         if (value.mbr) {
             this.tempForm.get(['mbr', 'uplink']).setValue(value.mbr.uplink);

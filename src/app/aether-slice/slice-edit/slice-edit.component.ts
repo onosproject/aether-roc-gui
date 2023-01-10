@@ -202,8 +202,6 @@ export class SliceEditComponent
         this.sliceForm[REQDATTRIBS] = ['sd', 'sst', 'default-behavior'];
         this.sliceForm.get(['mbr', 'uplink'])[TYPE] = 'number';
         this.sliceForm.get(['mbr', 'downlink'])[TYPE] = 'number';
-        this.sliceForm.get(['sst'])[TYPE] = 'number';
-        this.sliceForm.get(['sd'])[TYPE] = HEX2NUM;
         this.sliceForm.get(['filter'])[IDATTRIBS] = ['application'];
         this.sliceForm.get(['device-group'])[IDATTRIBS] = ['device-group'];
 
@@ -631,10 +629,13 @@ export class SliceEditComponent
                 }
             );
         }
-        if (value.sd) {
-            this.sliceForm.get(['sd']).setValue(value.sd);
-            this.sliceForm.get('sd')[ORIGINAL] = value.sd;
-        }
+
+        this.sliceForm.get(['sd']).setValue(value.sd);
+        this.sliceForm.get('sd')[ORIGINAL] = value.sd;
+
+        this.sliceForm.get('sst').setValue(value.sst);
+        this.sliceForm.get('sst')[ORIGINAL] = value.sst;
+
         if (value['default-behavior']) {
             this.sliceForm
                 .get(['default-behavior'])
@@ -648,10 +649,6 @@ export class SliceEditComponent
                 .setValue(value['connectivity-service']);
             this.sliceForm.get(['connectivity-service'])[ORIGINAL] =
                 value['connectivity-service'];
-        }
-        if (value.sst) {
-            this.sliceForm.get('sst').setValue(value.sst);
-            this.sliceForm.get('sst')[ORIGINAL] = value.sst;
         }
         if (value.upf) {
             this.sliceForm.get('upf').setValue(value.upf);
