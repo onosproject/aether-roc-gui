@@ -74,6 +74,9 @@ aether-roc-gui-docker: # @HELP build aether-roc-gui Docker image
         --build-arg org_label_schema_vcs_ref="${DOCKER_LABEL_VCS_REF}" \
         --build-arg org_label_schema_build_date="${DOCKER_LABEL_BUILD_DATE}" \
         --build-arg org_opencord_vcs_commit_date="${DOCKER_LABEL_COMMIT_DATE}" \
+        --build-arg http_proxy=${http_proxy} \
+        --build-arg https_proxy=${https_proxy} \
+        --build-arg no_proxy=${no_proxy} \
 		-t ${DOCKER_IMAGENAME}
 
 images: # @HELP build all Docker images (the build happens inside a docker container)

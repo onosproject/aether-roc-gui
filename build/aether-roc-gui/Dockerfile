@@ -9,6 +9,11 @@ ENV CODE_DEST /var/www
 COPY . ${CODE_DEST}
 
 WORKDIR ${CODE_DEST}
+
+ARG http_proxy=""
+ARG https_proxy=""
+ARG no_proxy=""
+
 RUN npm install
 RUN npm run build:prod
 
