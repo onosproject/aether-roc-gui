@@ -181,4 +181,175 @@ export class SiteSmallCellService extends BaseService {
     );
   }
 
+  /**
+   * Path part for operation postSiteSmallCell
+   */
+  static readonly PostSiteSmallCellPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/small-cell/{small-cell-id}';
+
+  /**
+   * POST /site/{site-id}/small-cell.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postSiteSmallCell()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteSmallCell$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {small-cell-id}
+     */
+    'small-cell-id': any;
+    body?: SiteSmallCell
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSmallCellService.PostSiteSmallCellPath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('small-cell-id', params['small-cell-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /site/{site-id}/small-cell.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postSiteSmallCell$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteSmallCell(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {small-cell-id}
+     */
+    'small-cell-id': any;
+    body?: SiteSmallCell
+  }): Observable<void> {
+
+    return this.postSiteSmallCell$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteSiteSmallCell
+   */
+  static readonly DeleteSiteSmallCellPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/small-cell/{small-cell-id}';
+
+  /**
+   * DELETE /site/{site-id}/small-cell.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSiteSmallCell()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteSmallCell$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {small-cell-id}
+     */
+    'small-cell-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSmallCellService.DeleteSiteSmallCellPath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('small-cell-id', params['small-cell-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /site/{site-id}/small-cell.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteSiteSmallCell$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteSmallCell(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {small-cell-id}
+     */
+    'small-cell-id': any;
+  }): Observable<void> {
+
+    return this.deleteSiteSmallCell$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
 }

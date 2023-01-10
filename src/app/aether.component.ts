@@ -150,12 +150,4 @@ export class AetherComponent implements OnInit, OnDestroy {
         }
         return true;
     }
-
-    get featureSdnFabric(): boolean {
-        const metaElement = this.meta.getTag('name=feature-sdn-fabric');
-        if (metaElement && metaElement.content.includes('false')) {
-            return false;
-        }
-        return true;
-    }
 }

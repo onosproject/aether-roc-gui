@@ -183,6 +183,177 @@ export class ApplicationEndpointService extends BaseService {
   }
 
   /**
+   * Path part for operation postApplicationEndpoint
+   */
+  static readonly PostApplicationEndpointPath = '/aether/v2.1.x/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}';
+
+  /**
+   * POST /application/{application-id}/endpoint.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postApplicationEndpoint()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postApplicationEndpoint$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+
+    /**
+     * key {endpoint-id}
+     */
+    'endpoint-id': any;
+    body?: ApplicationEndpoint
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApplicationEndpointService.PostApplicationEndpointPath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('application-id', params['application-id'], {});
+      rb.path('endpoint-id', params['endpoint-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /application/{application-id}/endpoint.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postApplicationEndpoint$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postApplicationEndpoint(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+
+    /**
+     * key {endpoint-id}
+     */
+    'endpoint-id': any;
+    body?: ApplicationEndpoint
+  }): Observable<void> {
+
+    return this.postApplicationEndpoint$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteApplicationEndpoint
+   */
+  static readonly DeleteApplicationEndpointPath = '/aether/v2.1.x/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}';
+
+  /**
+   * DELETE /application/{application-id}/endpoint.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteApplicationEndpoint()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteApplicationEndpoint$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+
+    /**
+     * key {endpoint-id}
+     */
+    'endpoint-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApplicationEndpointService.DeleteApplicationEndpointPath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('application-id', params['application-id'], {});
+      rb.path('endpoint-id', params['endpoint-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /application/{application-id}/endpoint.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteApplicationEndpoint$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteApplicationEndpoint(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+
+    /**
+     * key {endpoint-id}
+     */
+    'endpoint-id': any;
+  }): Observable<void> {
+
+    return this.deleteApplicationEndpoint$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
    * Path part for operation getApplicationEndpointMbr
    */
   static readonly GetApplicationEndpointMbrPath = '/aether/v2.1.x/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr';
@@ -263,6 +434,177 @@ export class ApplicationEndpointService extends BaseService {
 
     return this.getApplicationEndpointMbr$Response(params).pipe(
       map((r: StrictHttpResponse<ApplicationEndpointMbr>) => r.body as ApplicationEndpointMbr)
+    );
+  }
+
+  /**
+   * Path part for operation postApplicationEndpointMbr
+   */
+  static readonly PostApplicationEndpointMbrPath = '/aether/v2.1.x/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr';
+
+  /**
+   * POST /application/{application-id}/endpoint/{endpoint-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postApplicationEndpointMbr()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postApplicationEndpointMbr$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+
+    /**
+     * key {endpoint-id}
+     */
+    'endpoint-id': any;
+    body?: ApplicationEndpointMbr
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApplicationEndpointService.PostApplicationEndpointMbrPath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('application-id', params['application-id'], {});
+      rb.path('endpoint-id', params['endpoint-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /application/{application-id}/endpoint/{endpoint-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postApplicationEndpointMbr$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postApplicationEndpointMbr(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+
+    /**
+     * key {endpoint-id}
+     */
+    'endpoint-id': any;
+    body?: ApplicationEndpointMbr
+  }): Observable<void> {
+
+    return this.postApplicationEndpointMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteApplicationEndpointMbr
+   */
+  static readonly DeleteApplicationEndpointMbrPath = '/aether/v2.1.x/{enterprise-id}/application/{application-id}/endpoint/{endpoint-id}/mbr';
+
+  /**
+   * DELETE /application/{application-id}/endpoint/{endpoint-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteApplicationEndpointMbr()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteApplicationEndpointMbr$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+
+    /**
+     * key {endpoint-id}
+     */
+    'endpoint-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, ApplicationEndpointService.DeleteApplicationEndpointMbrPath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('application-id', params['application-id'], {});
+      rb.path('endpoint-id', params['endpoint-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /application/{application-id}/endpoint/{endpoint-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteApplicationEndpointMbr$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteApplicationEndpointMbr(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {application-id}
+     */
+    'application-id': any;
+
+    /**
+     * key {endpoint-id}
+     */
+    'endpoint-id': any;
+  }): Observable<void> {
+
+    return this.deleteApplicationEndpointMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 

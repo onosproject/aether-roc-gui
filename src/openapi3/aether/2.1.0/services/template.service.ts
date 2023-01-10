@@ -161,6 +161,155 @@ export class TemplateService extends BaseService {
   }
 
   /**
+   * Path part for operation postTemplate
+   */
+  static readonly PostTemplatePath = '/aether/v2.1.x/{enterprise-id}/template/{template-id}';
+
+  /**
+   * POST /template.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postTemplate()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postTemplate$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+    body?: Template
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, TemplateService.PostTemplatePath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('template-id', params['template-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /template.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postTemplate$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postTemplate(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+    body?: Template
+  }): Observable<void> {
+
+    return this.postTemplate$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteTemplate
+   */
+  static readonly DeleteTemplatePath = '/aether/v2.1.x/{enterprise-id}/template/{template-id}';
+
+  /**
+   * DELETE /template.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteTemplate()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteTemplate$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, TemplateService.DeleteTemplatePath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('template-id', params['template-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /template.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteTemplate$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteTemplate(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+  }): Observable<void> {
+
+    return this.deleteTemplate$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
    * Path part for operation getTemplateMbr
    */
   static readonly GetTemplateMbrPath = '/aether/v2.1.x/{enterprise-id}/template/{template-id}/mbr';
@@ -230,6 +379,155 @@ export class TemplateService extends BaseService {
 
     return this.getTemplateMbr$Response(params).pipe(
       map((r: StrictHttpResponse<TemplateMbr>) => r.body as TemplateMbr)
+    );
+  }
+
+  /**
+   * Path part for operation postTemplateMbr
+   */
+  static readonly PostTemplateMbrPath = '/aether/v2.1.x/{enterprise-id}/template/{template-id}/mbr';
+
+  /**
+   * POST /template/{template-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postTemplateMbr()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postTemplateMbr$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+    body?: TemplateMbr
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, TemplateService.PostTemplateMbrPath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('template-id', params['template-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /template/{template-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postTemplateMbr$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postTemplateMbr(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+    body?: TemplateMbr
+  }): Observable<void> {
+
+    return this.postTemplateMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteTemplateMbr
+   */
+  static readonly DeleteTemplateMbrPath = '/aether/v2.1.x/{enterprise-id}/template/{template-id}/mbr';
+
+  /**
+   * DELETE /template/{template-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteTemplateMbr()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteTemplateMbr$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, TemplateService.DeleteTemplateMbrPath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('template-id', params['template-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /template/{template-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteTemplateMbr$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteTemplateMbr(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {template-id}
+     */
+    'template-id': any;
+  }): Observable<void> {
+
+    return this.deleteTemplateMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 

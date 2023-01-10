@@ -159,4 +159,153 @@ export class TrafficClassService extends BaseService {
     );
   }
 
+  /**
+   * Path part for operation postTrafficClass
+   */
+  static readonly PostTrafficClassPath = '/aether/v2.1.x/{enterprise-id}/traffic-class/{traffic-class-id}';
+
+  /**
+   * POST /traffic-class.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postTrafficClass()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postTrafficClass$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {traffic-class-id}
+     */
+    'traffic-class-id': any;
+    body?: TrafficClass
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, TrafficClassService.PostTrafficClassPath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('traffic-class-id', params['traffic-class-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /traffic-class.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postTrafficClass$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postTrafficClass(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {traffic-class-id}
+     */
+    'traffic-class-id': any;
+    body?: TrafficClass
+  }): Observable<void> {
+
+    return this.postTrafficClass$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteTrafficClass
+   */
+  static readonly DeleteTrafficClassPath = '/aether/v2.1.x/{enterprise-id}/traffic-class/{traffic-class-id}';
+
+  /**
+   * DELETE /traffic-class.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteTrafficClass()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteTrafficClass$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {traffic-class-id}
+     */
+    'traffic-class-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, TrafficClassService.DeleteTrafficClassPath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('traffic-class-id', params['traffic-class-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /traffic-class.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteTrafficClass$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteTrafficClass(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {traffic-class-id}
+     */
+    'traffic-class-id': any;
+  }): Observable<void> {
+
+    return this.deleteTrafficClass$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
 }

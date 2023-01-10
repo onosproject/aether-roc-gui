@@ -181,4 +181,175 @@ export class SiteMonitoringEdgeDeviceService extends BaseService {
     );
   }
 
+  /**
+   * Path part for operation postSiteMonitoringEdgeDevice
+   */
+  static readonly PostSiteMonitoringEdgeDevicePath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/monitoring/edge-device/{edge-device-id}';
+
+  /**
+   * POST /site/{site-id}/monitoring/edge-device.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postSiteMonitoringEdgeDevice()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteMonitoringEdgeDevice$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {edge-device-id}
+     */
+    'edge-device-id': any;
+    body?: SiteMonitoringEdgeDevice
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteMonitoringEdgeDeviceService.PostSiteMonitoringEdgeDevicePath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('edge-device-id', params['edge-device-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /site/{site-id}/monitoring/edge-device.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postSiteMonitoringEdgeDevice$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteMonitoringEdgeDevice(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {edge-device-id}
+     */
+    'edge-device-id': any;
+    body?: SiteMonitoringEdgeDevice
+  }): Observable<void> {
+
+    return this.postSiteMonitoringEdgeDevice$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteSiteMonitoringEdgeDevice
+   */
+  static readonly DeleteSiteMonitoringEdgeDevicePath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/monitoring/edge-device/{edge-device-id}';
+
+  /**
+   * DELETE /site/{site-id}/monitoring/edge-device.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSiteMonitoringEdgeDevice()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteMonitoringEdgeDevice$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {edge-device-id}
+     */
+    'edge-device-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteMonitoringEdgeDeviceService.DeleteSiteMonitoringEdgeDevicePath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('edge-device-id', params['edge-device-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /site/{site-id}/monitoring/edge-device.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteSiteMonitoringEdgeDevice$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteMonitoringEdgeDevice(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {edge-device-id}
+     */
+    'edge-device-id': any;
+  }): Observable<void> {
+
+    return this.deleteSiteMonitoringEdgeDevice$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
 }

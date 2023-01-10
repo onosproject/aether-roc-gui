@@ -105,37 +105,6 @@ const aetherRoutes: Routes = [
     },
 ];
 
-const sdnFabricRoutes = [
-    {
-        path: 'switch',
-        loadChildren: () =>
-            import('./fabric-switch/fabric-switch.module').then(
-                (m) => m.FabricSwitchModule
-            ),
-    },
-    {
-        path: 'switch-model',
-        loadChildren: () =>
-            import('./fabric-switch-model/fabric-switch-model.module').then(
-                (m) => m.FabricSwitchModelModule
-            ),
-    },
-    {
-        path: 'route',
-        loadChildren: () =>
-            import('./fabric-route/fabric-route.module').then(
-                (m) => m.FabricRouteModule
-            ),
-    },
-    {
-        path: 'dhcp-server',
-        loadChildren: () =>
-            import('./fabric-dhcp-server/fabric-dhcp-server.module').then(
-                (m) => m.FabricDhcpServerModule
-            ),
-    },
-];
-
 const defaultRoute = [
     {
         path: '',
@@ -168,16 +137,6 @@ const bothTypesRoutes = [
             provide: ROUTES,
             useFactory: (metaService: Meta): Routes => {
                 const activeRoutes: Route[] = bothTypesRoutes;
-                const fabricMeta = metaService.getTag(
-                    'name=feature-sdn-fabric'
-                );
-                if (
-                    !fabricMeta ||
-                    !fabricMeta.content ||
-                    !fabricMeta.content.includes('false')
-                ) {
-                    activeRoutes.push(...sdnFabricRoutes);
-                }
                 const aetherMeta = metaService.getTag('name=feature-aether');
                 if (
                     !aetherMeta ||

@@ -66,7 +66,14 @@ export class SimCardEditComponent
                 Validators.maxLength(22),
             ]),
         ],
-        imsi: [undefined],
+        imsi: [
+            undefined,
+            Validators.compose([
+                Validators.minLength(14),
+                Validators.maxLength(15),
+                Validators.pattern('0-9]{14,15}'),
+            ]),
+        ],
     });
 
     constructor(

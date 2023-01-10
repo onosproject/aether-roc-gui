@@ -181,4 +181,175 @@ export class SiteIpDomainService extends BaseService {
     );
   }
 
+  /**
+   * Path part for operation postSiteIpDomain
+   */
+  static readonly PostSiteIpDomainPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/ip-domain/{ip-domain-id}';
+
+  /**
+   * POST /site/{site-id}/ip-domain.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postSiteIpDomain()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteIpDomain$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {ip-domain-id}
+     */
+    'ip-domain-id': any;
+    body?: SiteIpDomain
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteIpDomainService.PostSiteIpDomainPath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('ip-domain-id', params['ip-domain-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /site/{site-id}/ip-domain.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postSiteIpDomain$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteIpDomain(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {ip-domain-id}
+     */
+    'ip-domain-id': any;
+    body?: SiteIpDomain
+  }): Observable<void> {
+
+    return this.postSiteIpDomain$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteSiteIpDomain
+   */
+  static readonly DeleteSiteIpDomainPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/ip-domain/{ip-domain-id}';
+
+  /**
+   * DELETE /site/{site-id}/ip-domain.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSiteIpDomain()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteIpDomain$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {ip-domain-id}
+     */
+    'ip-domain-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteIpDomainService.DeleteSiteIpDomainPath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('ip-domain-id', params['ip-domain-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /site/{site-id}/ip-domain.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteSiteIpDomain$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteIpDomain(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {ip-domain-id}
+     */
+    'ip-domain-id': any;
+  }): Observable<void> {
+
+    return this.deleteSiteIpDomain$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
 }

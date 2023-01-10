@@ -39,7 +39,7 @@ export interface SiteSlice {
   /**
    * Slice differentiator. Immutable.
    */
-  sd: number;
+  sd: string;
 
   /**
    * ID for this slice.
@@ -49,12 +49,12 @@ export interface SiteSlice {
   /**
    * Slice/Service type. Immutable.
    */
-  sst: number;
+  sst: string;
 
   /**
    * Link to user plane that implements this vcf
    */
   upf?: string;
 
-  [key: string]: '4g' | '5g' | AdditionalPropertyUnchanged | SiteSliceDeviceGroupList | SiteSliceFilterList | SiteSliceMbr | SiteSlicePriorityTrafficRuleList | number | string | undefined;
+  [key: string]: '4g' | '5g' | AdditionalPropertyUnchanged | SiteSliceDeviceGroupList | SiteSliceFilterList | SiteSliceMbr | SiteSlicePriorityTrafficRuleList | string | undefined;
 }

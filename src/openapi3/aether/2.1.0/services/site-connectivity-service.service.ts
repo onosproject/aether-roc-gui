@@ -98,6 +98,155 @@ export class SiteConnectivityServiceService extends BaseService {
   }
 
   /**
+   * Path part for operation postSiteConnectivityServiceCore4G
+   */
+  static readonly PostSiteConnectivityServiceCore4GPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/connectivity-service/core-4g';
+
+  /**
+   * POST /site/{site-id}/connectivity-service/core-4g.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postSiteConnectivityServiceCore4G()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteConnectivityServiceCore4G$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+    body?: SiteConnectivityServiceCore4G
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteConnectivityServiceService.PostSiteConnectivityServiceCore4GPath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /site/{site-id}/connectivity-service/core-4g.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postSiteConnectivityServiceCore4G$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteConnectivityServiceCore4G(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+    body?: SiteConnectivityServiceCore4G
+  }): Observable<void> {
+
+    return this.postSiteConnectivityServiceCore4G$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteSiteConnectivityServiceCore4G
+   */
+  static readonly DeleteSiteConnectivityServiceCore4GPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/connectivity-service/core-4g';
+
+  /**
+   * DELETE /site/{site-id}/connectivity-service/core-4g.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSiteConnectivityServiceCore4G()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteConnectivityServiceCore4G$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteConnectivityServiceService.DeleteSiteConnectivityServiceCore4GPath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /site/{site-id}/connectivity-service/core-4g.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteSiteConnectivityServiceCore4G$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteConnectivityServiceCore4G(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<void> {
+
+    return this.deleteSiteConnectivityServiceCore4G$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
    * Path part for operation getSiteConnectivityServiceCore5G
    */
   static readonly GetSiteConnectivityServiceCore5GPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/connectivity-service/core-5g';
@@ -167,6 +316,155 @@ export class SiteConnectivityServiceService extends BaseService {
 
     return this.getSiteConnectivityServiceCore5G$Response(params).pipe(
       map((r: StrictHttpResponse<SiteConnectivityServiceCore5G>) => r.body as SiteConnectivityServiceCore5G)
+    );
+  }
+
+  /**
+   * Path part for operation postSiteConnectivityServiceCore5G
+   */
+  static readonly PostSiteConnectivityServiceCore5GPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/connectivity-service/core-5g';
+
+  /**
+   * POST /site/{site-id}/connectivity-service/core-5g.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postSiteConnectivityServiceCore5G()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteConnectivityServiceCore5G$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+    body?: SiteConnectivityServiceCore5G
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteConnectivityServiceService.PostSiteConnectivityServiceCore5GPath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /site/{site-id}/connectivity-service/core-5g.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postSiteConnectivityServiceCore5G$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteConnectivityServiceCore5G(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+    body?: SiteConnectivityServiceCore5G
+  }): Observable<void> {
+
+    return this.postSiteConnectivityServiceCore5G$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteSiteConnectivityServiceCore5G
+   */
+  static readonly DeleteSiteConnectivityServiceCore5GPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/connectivity-service/core-5g';
+
+  /**
+   * DELETE /site/{site-id}/connectivity-service/core-5g.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSiteConnectivityServiceCore5G()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteConnectivityServiceCore5G$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteConnectivityServiceService.DeleteSiteConnectivityServiceCore5GPath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /site/{site-id}/connectivity-service/core-5g.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteSiteConnectivityServiceCore5G$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteConnectivityServiceCore5G(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<void> {
+
+    return this.deleteSiteConnectivityServiceCore5G$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 

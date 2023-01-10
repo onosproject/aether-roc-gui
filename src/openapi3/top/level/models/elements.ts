@@ -8,12 +8,6 @@ import {
     Template as Template210,
 
 } from "../../../aether/2.1.0/models";
-import {
-    SwitchModel as SwitchModel010,
-    Switch as Switch010,
-    Route as Route010,
-    DhcpServer as DhcpServer010
-} from "../../../sdn-fabric/0.1.0/models"
 
 export interface Elements {
 
@@ -36,24 +30,4 @@ export interface Elements {
      * The top level application list
      */
     'template-2.1.0'?: Template210[]
-
-    /**
-     * The top level switch-model list
-     */
-    'switch-model-0.1.0'?: SwitchModel010[]
-
-    /**
-     * The top level switch list
-     */
-    'switch-0.1.0'?: Switch010[]
-
-    /**
-     * The top level route list
-     */
-    'route-0.1.0'?: Route010[]
-
-    /**
-     * The top level dhcp-server list
-     */
-    'dhcp-server-0.1.0'?: DhcpServer010[]
 }

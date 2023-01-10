@@ -155,17 +155,18 @@ export class SliceEditComponent
         sd: [
             undefined,
             Validators.compose([
-                Validators.minLength(6),
-                Validators.maxLength(6),
-                Validators.pattern('^[A-F0-9]{6}'),
+                Validators.minLength(0),
+                Validators.maxLength(8),
+                Validators.pattern('^[0-9A-F\\.]{0,8}'),
                 Validators.required,
             ]),
         ],
         sst: [
             undefined,
             Validators.compose([
-                Validators.min(1),
-                Validators.max(255),
+                Validators.minLength(1),
+                Validators.maxLength(3),
+                Validators.pattern('^[0-9A-F\\.]{0,3}'),
                 Validators.required,
             ]),
         ],
@@ -342,9 +343,7 @@ export class SliceEditComponent
         if (this.isNewInstance) {
             const eachTemplate: Template = evt.value;
             const SdFormControl = this.sliceForm.get('sd');
-            SdFormControl.setValue(
-                eachTemplate.sd.toString(16).toUpperCase().padStart(6, '0')
-            );
+            SdFormControl.setValue(eachTemplate.sd);
             SdFormControl.markAsTouched();
             SdFormControl.markAsDirty();
             const SstFormControl = this.sliceForm.get('sst');
@@ -633,12 +632,8 @@ export class SliceEditComponent
             );
         }
         if (value.sd) {
-            this.sliceForm
-                .get(['sd'])
-                .setValue(value.sd.toString(16).toUpperCase());
-            this.sliceForm.get('sd')[ORIGINAL] = value.sd
-                .toString(16)
-                .toUpperCase();
+            this.sliceForm.get(['sd']).setValue(value.sd);
+            this.sliceForm.get('sd')[ORIGINAL] = value.sd;
         }
         if (value['default-behavior']) {
             this.sliceForm
