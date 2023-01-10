@@ -46,8 +46,8 @@ const testSites: SiteList = [
         slice: [
             {
                 'slice-id': 'slice-1',
-                sd: 123,
-                sst: 456,
+                sd: '123',
+                sst: '456',
                 'default-behavior': 'ALLOW',
                 'priority-traffic-rule': [
                     {

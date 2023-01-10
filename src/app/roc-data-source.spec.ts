@@ -61,15 +61,15 @@ describe('ROC Data Source', () => {
                 {
                     'slice-id': 'slice-1',
                     'enterprise-id': 'test-enterprise',
-                    sd: 11,
-                    sst: 12,
+                    sd: '11',
+                    sst: '12',
                     'default-behavior': 'ALLOW-ALL',
                 },
                 {
                     'slice-id': 'slice-2',
                     'enterprise-id': 'test-enterprise',
-                    sd: 21,
-                    sst: 22,
+                    sd: '21',
+                    sst: '22',
                     'default-behavior': 'DENY-ALL',
                 },
             ];
@@ -84,14 +84,14 @@ describe('ROC Data Source', () => {
                     slice: [
                         {
                             'slice-id': 'slice-1',
-                            sd: 11,
-                            sst: 12,
+                            sd: '11',
+                            sst: '12',
                             'default-behavior': 'DENY-ALL',
                         },
                         {
                             'slice-id': 'slice-2',
-                            sd: 21,
-                            sst: 22,
+                            sd: '21',
+                            sst: '22',
                             'default-behavior': 'ALLOW-ALL',
                         },
                     ],
@@ -110,8 +110,8 @@ describe('ROC Data Source', () => {
             const updatedSite = updatedModel as SiteSlice;
             expect(updatedSite).toEqual({
                 'slice-id': 'slice-1',
-                sd: 11,
-                sst: 12,
+                sd: '11',
+                sst: '12',
                 'default-behavior': 'DENY-ALL',
             });
         });
@@ -123,9 +123,9 @@ describe('ROC Data Source', () => {
             {
                 'slice-id': 'slice1',
                 'default-behavior': 'DENY',
-                sd: 1,
+                sd: '1',
                 site: 'menlo',
-                sst: 1,
+                sst: '1',
                 mbr: {
                     'uplink-burst-size': 10,
                     'downlink-burst-size': 10,
@@ -156,8 +156,8 @@ describe('ROC Data Source', () => {
                         {
                             'slice-id': 'slice1',
                             'default-behavior': 'ALLOW-ALL',
-                            sd: 22,
-                            sst: 12,
+                            sd: '22',
+                            sst: '12',
                             enterprise: 'onf-updated',
                             site: 'menlo-updated',
 

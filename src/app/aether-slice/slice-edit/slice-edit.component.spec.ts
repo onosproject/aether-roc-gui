@@ -39,9 +39,9 @@ const site: Site = {
     slice: [
         {
             'default-behavior': 'DENY-ALL',
-            sd: 2973238,
+            sd: '2973238',
             'slice-id': 'acme-chicago-robots',
-            sst: 79,
+            sst: '79',
             upf: 'acme-chicago-pool-entry1',
         },
     ],
@@ -232,7 +232,7 @@ describe('SliceEditComponent', () => {
                     },
                 ],
                 'slice-id': 'acme-chicago-robots',
-                sd: 2973238,
+                sd: '2973238',
                 mbr: {
                     downlink: 5000000,
                     'downlink-burst-size': 600000,
@@ -240,7 +240,7 @@ describe('SliceEditComponent', () => {
                     'uplink-burst-size': 13,
                 },
 
-                sst: 79,
+                sst: '79',
                 upf: 'acme-chicago-pool-entry1',
             };
 
@@ -261,9 +261,7 @@ describe('SliceEditComponent', () => {
             expect(
                 component.sliceForm.get(['filter', 0, 'allow']).value
             ).toEqual(slice['filter'][0].allow);
-            expect(component.sliceForm.get('sd').value).toEqual(
-                slice.sd.toString(16).toUpperCase()
-            );
+            expect(component.sliceForm.get('sd').value).toEqual(slice.sd);
             expect(component.sliceForm.get(['mbr', 'uplink']).value).toEqual(
                 slice.mbr.uplink
             );
@@ -287,7 +285,7 @@ describe('SliceEditComponent', () => {
     describe('when selecting a template', () => {
         const template: Template = {
             ['template-id']: 'test-template',
-            sd: 12, // FIXME the method fails if this value is not present
+            sd: '12', // FIXME the method fails if this value is not present
             mbr: {
                 'uplink-burst-size': 10,
                 'downlink-burst-size': 5,

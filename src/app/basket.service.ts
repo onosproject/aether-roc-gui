@@ -432,8 +432,9 @@ export class BasketService {
                         part.lastIndexOf(']')
                     );
                     // TODO - taking a chance here - if key is numeric, then use it as a number rather than a string
-                    const valAsNum = parseInt(keyValue);
-                    if (isNaN(valAsNum)) {
+                    const isnum = /^\d+$/.test(keyValue); // true if chars are only digits
+                    const valAsNum = parseInt(keyValue); // will succeed on a string starting with a number
+                    if (!isnum || isNaN(valAsNum)) {
                         keyNames.set(keyName, keyValue);
                         childObj[keyName] = keyValue;
                     } else {
