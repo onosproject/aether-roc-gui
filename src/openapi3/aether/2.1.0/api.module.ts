@@ -6,22 +6,31 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { ApplicationService } from './services/application.service';
-import { ListService } from './services/list.service';
-import { ContainerService } from './services/container.service';
-import { ApiService } from './services/api.service';
 import { ApplicationEndpointService } from './services/application-endpoint.service';
+import { ApplicationEndpointTrafficClassService } from './services/application-endpoint-traffic-class.service';
 import { SiteService } from './services/site.service';
 import { SiteConnectivityServiceService } from './services/site-connectivity-service.service';
 import { SiteDeviceService } from './services/site-device.service';
 import { SiteDeviceGroupService } from './services/site-device-group.service';
 import { SiteDeviceGroupDeviceService } from './services/site-device-group-device.service';
+import { SiteDeviceGroupDeviceDeviceIdService } from './services/site-device-group-device-device-id.service';
+import { SiteDeviceGroupIpDomainService } from './services/site-device-group-ip-domain.service';
+import { SiteDeviceGroupTrafficClassService } from './services/site-device-group-traffic-class.service';
+import { SiteDeviceSimCardService } from './services/site-device-sim-card.service';
 import { SiteIpDomainService } from './services/site-ip-domain.service';
 import { SiteMonitoringEdgeDeviceService } from './services/site-monitoring-edge-device.service';
 import { SiteSimCardService } from './services/site-sim-card.service';
 import { SiteSliceService } from './services/site-slice.service';
 import { SiteSliceDeviceGroupService } from './services/site-slice-device-group.service';
+import { SiteSliceDeviceGroupDeviceGroupService } from './services/site-slice-device-group-device-group.service';
 import { SiteSliceFilterService } from './services/site-slice-filter.service';
+import { SiteSliceFilterApplicationService } from './services/site-slice-filter-application.service';
 import { SiteSlicePriorityTrafficRuleService } from './services/site-slice-priority-traffic-rule.service';
+import { SiteSlicePriorityTrafficRuleApplicationService } from './services/site-slice-priority-traffic-rule-application.service';
+import { SiteSlicePriorityTrafficRuleDeviceService } from './services/site-slice-priority-traffic-rule-device.service';
+import { SiteSlicePriorityTrafficRuleEndpointService } from './services/site-slice-priority-traffic-rule-endpoint.service';
+import { SiteSlicePriorityTrafficRuleTrafficClassService } from './services/site-slice-priority-traffic-rule-traffic-class.service';
+import { SiteSliceUpfService } from './services/site-slice-upf.service';
 import { SiteSmallCellService } from './services/site-small-cell.service';
 import { SiteUpfService } from './services/site-upf.service';
 import { TemplateService } from './services/template.service';
@@ -36,22 +45,31 @@ import { TrafficClassService } from './services/traffic-class.service';
   declarations: [],
   providers: [
     ApplicationService,
-    ListService,
-    ContainerService,
-    ApiService,
     ApplicationEndpointService,
+    ApplicationEndpointTrafficClassService,
     SiteService,
     SiteConnectivityServiceService,
     SiteDeviceService,
     SiteDeviceGroupService,
     SiteDeviceGroupDeviceService,
+    SiteDeviceGroupDeviceDeviceIdService,
+    SiteDeviceGroupIpDomainService,
+    SiteDeviceGroupTrafficClassService,
+    SiteDeviceSimCardService,
     SiteIpDomainService,
     SiteMonitoringEdgeDeviceService,
     SiteSimCardService,
     SiteSliceService,
     SiteSliceDeviceGroupService,
+    SiteSliceDeviceGroupDeviceGroupService,
     SiteSliceFilterService,
+    SiteSliceFilterApplicationService,
     SiteSlicePriorityTrafficRuleService,
+    SiteSlicePriorityTrafficRuleApplicationService,
+    SiteSlicePriorityTrafficRuleDeviceService,
+    SiteSlicePriorityTrafficRuleEndpointService,
+    SiteSlicePriorityTrafficRuleTrafficClassService,
+    SiteSliceUpfService,
     SiteSmallCellService,
     SiteUpfService,
     TemplateService,

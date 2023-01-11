@@ -8,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 import { RocEditBase } from '../../roc-edit-base';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BasketService, ORIGINAL, TYPE } from '../../basket.service';
+import {
+    BasketService,
+    ORIGINAL,
+    REQDATTRIBS,
+    TYPE,
+} from '../../basket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OpenPolicyAgentService } from '../../open-policy-agent.service';
 import { SimCardDatasource } from '../sim-card/sim-card-datasource';
@@ -66,14 +71,21 @@ export class SimCardEditComponent
                 Validators.maxLength(22),
             ]),
         ],
-        imsi: [undefined],
+        imsi: [
+            undefined,
+            Validators.compose([
+                Validators.minLength(14),
+                Validators.maxLength(15),
+                Validators.pattern('[0-9]{14,15}'),
+            ]),
+        ],
+        enable: [undefined],
     });
 
     constructor(
         private simCardService: SiteSimCardService,
         protected enterpriseService: EnterpriseService,
         protected siteService: SiteService,
-
         protected route: ActivatedRoute,
         protected router: Router,
         protected fb: FormBuilder,
@@ -93,11 +105,12 @@ export class SimCardEditComponent
         );
         super.form = this.simCardForm;
         super.loadFunc = this.loadSimCard;
+        this.simCardForm[REQDATTRIBS] = ['enable'];
+        this.simCardForm.get('enable')[TYPE] = 'boolean';
     }
 
     ngOnInit(): void {
         super.init();
-        this.simCardForm.get('imsi')[TYPE] = 'number';
     }
 
     closeShowParentCard(): void {
@@ -146,6 +159,8 @@ export class SimCardEditComponent
     }
 
     private populateFormData(value: SiteSimCard): void {
+        this.simCardForm.get('enable').setValue(value.enable);
+        this.simCardForm.get('enable')[ORIGINAL] = value.enable;
         if (value['sim-id']) {
             this.simCardForm.get('sim-id').setValue(value['sim-id']);
             this.simCardForm.get('sim-id')[ORIGINAL] = value['sim-id'];

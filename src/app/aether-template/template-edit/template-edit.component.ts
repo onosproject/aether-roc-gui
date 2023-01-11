@@ -103,9 +103,10 @@ export class TemplateEditComponent
         sd: [
             undefined,
             Validators.compose([
-                Validators.minLength(6),
-                Validators.maxLength(6),
-                Validators.pattern('^[A-F0-9]{6}'),
+                Validators.minLength(0),
+                Validators.maxLength(8),
+                Validators.pattern('^[0-9A-F\\.]{0,8}'),
+                Validators.required,
             ]),
         ],
         'default-behavior': [
@@ -114,7 +115,12 @@ export class TemplateEditComponent
         ],
         sst: [
             undefined,
-            Validators.compose([Validators.min(1), Validators.max(255)]),
+            Validators.compose([
+                Validators.minLength(1),
+                Validators.maxLength(3),
+                Validators.pattern('^[0-9A-F\\.]{0,3}'),
+                Validators.required,
+            ]),
         ],
         mbr: this.fb.group({
             uplink: [
@@ -191,8 +197,7 @@ export class TemplateEditComponent
                 megabyte ? this._filter() : this.options.slice()
             )
         );
-        this.tempForm.get('sd')[TYPE] = HEX2NUM;
-        this.tempForm.get('sst')[TYPE] = 'number';
+        this.tempForm[REQDATTRIBS] = ['default-behavior'];
         this.tempForm.get(['mbr', 'uplink'])[TYPE] = 'number';
         this.tempForm.get(['mbr', 'downlink'])[TYPE] = 'number';
         this.tempForm.get(['mbr', 'uplink-burst-size'])[TYPE] = 'number';
@@ -258,24 +263,19 @@ export class TemplateEditComponent
             this.tempForm.get(['description'])[ORIGINAL] = value.description;
         }
         if (value.sd) {
-            this.tempForm
-                .get(['sd'])
-                .setValue(value.sd.toString(16).toUpperCase());
-            this.tempForm.get(['sd'])[ORIGINAL] = value.sd
-                .toString(16)
-                .toUpperCase();
+            this.tempForm.get(['sd']).setValue(value.sd);
+            this.tempForm.get(['sd'])[ORIGINAL] = value.sd;
         }
         if (value.sst) {
             this.tempForm.get(['sst']).setValue(value.sst);
             this.tempForm.get(['sst'])[ORIGINAL] = value.sst;
         }
-        if (value['default-behavior']) {
-            this.tempForm
-                .get(['default-behavior'])
-                .setValue(value['default-behavior']);
-            this.tempForm.get(['default-behavior'])[ORIGINAL] =
-                value['default-behavior'];
-        }
+
+        this.tempForm
+            .get(['default-behavior'])
+            .setValue(value['default-behavior']);
+        this.tempForm.get(['default-behavior'])[ORIGINAL] =
+            value['default-behavior'];
 
         if (value.mbr) {
             this.tempForm.get(['mbr', 'uplink']).setValue(value.mbr.uplink);

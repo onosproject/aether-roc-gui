@@ -71,8 +71,8 @@ export class SmallCellEditComponent
             undefined,
             Validators.compose([
                 Validators.required,
-                Validators.pattern('[0-9A-F\\.]*'),
-                Validators.minLength(4),
+                Validators.pattern('[0-9A-F\\.]{0,8}'),
+                Validators.minLength(0),
                 Validators.maxLength(8),
             ]),
         ],

@@ -203,4 +203,197 @@ export class SiteSliceDeviceGroupService extends BaseService {
     );
   }
 
+  /**
+   * Path part for operation postSiteSliceDeviceGroup
+   */
+  static readonly PostSiteSliceDeviceGroupPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group/{device-group}';
+
+  /**
+   * POST /site/{site-id}/slice/{slice-id}/device-group.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postSiteSliceDeviceGroup()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteSliceDeviceGroup$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {device-group}
+     */
+    'device-group': any;
+    body?: SiteSliceDeviceGroup
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSliceDeviceGroupService.PostSiteSliceDeviceGroupPath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+      rb.path('device-group', params['device-group'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /site/{site-id}/slice/{slice-id}/device-group.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postSiteSliceDeviceGroup$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteSliceDeviceGroup(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {device-group}
+     */
+    'device-group': any;
+    body?: SiteSliceDeviceGroup
+  }): Observable<void> {
+
+    return this.postSiteSliceDeviceGroup$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteSiteSliceDeviceGroup
+   */
+  static readonly DeleteSiteSliceDeviceGroupPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/slice/{slice-id}/device-group/{device-group}';
+
+  /**
+   * DELETE /site/{site-id}/slice/{slice-id}/device-group.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSiteSliceDeviceGroup()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteSliceDeviceGroup$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {device-group}
+     */
+    'device-group': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSliceDeviceGroupService.DeleteSiteSliceDeviceGroupPath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+      rb.path('device-group', params['device-group'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /site/{site-id}/slice/{slice-id}/device-group.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteSiteSliceDeviceGroup$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteSliceDeviceGroup(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {device-group}
+     */
+    'device-group': any;
+  }): Observable<void> {
+
+    return this.deleteSiteSliceDeviceGroup$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
 }

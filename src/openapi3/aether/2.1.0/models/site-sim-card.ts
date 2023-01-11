@@ -18,6 +18,11 @@ export interface SiteSimCard {
   'display-name'?: string;
 
   /**
+   * Enable this Sim-Card. Sim-Cards that are disabled will not be usable in any device in any slice.
+   */
+  enable?: boolean;
+
+  /**
    * ICCID for this sim card
    */
   iccid?: string;
@@ -25,7 +30,7 @@ export interface SiteSimCard {
   /**
    * IMSI for this sim card
    */
-  imsi?: number;
+  imsi?: string;
 
   /**
    * ID for this sim card.

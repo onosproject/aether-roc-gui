@@ -32,11 +32,13 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import * as _ from 'lodash';
 import { of } from 'rxjs';
 import { SiteSimCard } from '../../../openapi3/aether/2.1.0/models';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const testData: SiteSimCard = {
     'sim-id': 'test-sim-1',
     'display-name': 'Test Sim 1',
-    imsi: 123456,
+    imsi: '123456123456123',
+    enable: true,
 };
 describe('SimCardEditComponent', () => {
     let httpTestingController: HttpTestingController;
@@ -47,6 +49,7 @@ describe('SimCardEditComponent', () => {
         'enterprise-id': 'test-ent',
         'site-id': 'test-site',
         id: `test-sim-1`,
+        enable: true,
     };
 
     const mockParamsMap = (params): ParamMap => {
@@ -95,6 +98,7 @@ describe('SimCardEditComponent', () => {
                 MatDividerModule,
                 MatSnackBarModule,
                 MatSelectModule,
+                MatSlideToggleModule,
             ],
         }).compileComponents();
     });
@@ -142,7 +146,7 @@ describe('SimCardEditComponent', () => {
         expect(button.disabled).toBeTruthy();
     });
 
-    it('should enable the submit button if site and enterprise id are set', () => {
+    it('should enable the submit button if site and target id are set', () => {
         Object.defineProperty(component.simCardForm, 'valid', { value: true });
         Object.defineProperty(component.simCardForm, 'touched', {
             value: true,
@@ -170,6 +174,7 @@ describe('SimCardEditComponent', () => {
                 .setValue('test-description');
             component.simCardForm.get('iccid').setValue('890000000000000000F');
             component.simCardForm.get('imsi').setValue(1234011);
+            component.simCardForm.get('enable').setValue(true);
             fixture.detectChanges();
         });
 

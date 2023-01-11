@@ -26,7 +26,6 @@ import { mergeMap } from 'rxjs/operators';
 import { from } from 'rxjs';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { SiteList } from '../openapi3/aether/2.1.0/models';
-import { SwitchAttribute } from '../openapi3/sdn-fabric/0.1.0/models/switch-attribute';
 
 export interface SiteID {
     siteID: string;
@@ -272,28 +271,5 @@ export abstract class RocEditBase<
                 duration: 2000,
             }
         );
-    }
-
-    attributeAdded(attr: SwitchAttribute): void {
-        this.displaySelectAttribute = false;
-        if (attr === undefined) {
-            return;
-        }
-
-        const attrKeyControl = this.fb.control(attr['attribute-key']);
-        attrKeyControl.markAsTouched();
-        attrKeyControl.markAsDirty();
-
-        const attrValueControl = this.fb.control(attr['value']);
-        attrValueControl.markAsTouched();
-        attrValueControl.markAsDirty();
-
-        const attrGroupControl = this.fb.group({
-            'attribute-key': attrKeyControl,
-            value: attrValueControl,
-        });
-
-        (this.form.get(['attribute']) as FormArray).push(attrGroupControl);
-        this.form.markAllAsTouched();
     }
 }

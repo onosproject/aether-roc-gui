@@ -28,17 +28,17 @@ export interface Template {
   /**
    * Slice differentiator
    */
-  sd?: number;
+  sd?: string;
 
   /**
    * Slice/Service type
    */
-  sst?: number;
+  sst?: string;
 
   /**
    * ID for this slice template.
    */
   'template-id': string;
 
-  [key: string]: AdditionalPropertiesUnchTarget | TemplateMbr | number | string | undefined;
+  [key: string]: AdditionalPropertiesUnchTarget | TemplateMbr | string | undefined;
 }

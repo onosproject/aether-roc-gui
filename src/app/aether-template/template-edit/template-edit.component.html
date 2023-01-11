@@ -95,26 +95,18 @@
             </div>
             <div class="row" id="sdRow">
                 <mat-form-field class="field-margin full-width">
-                    <input
-                        matInput
-                        formControlName="sd"
-                        id="inputSd"
-                        [title]="sdAsInt(tempForm.get('sd').value)"
-                    />
+                    <input matInput formControlName="sd" id="inputSd" />
                     <mat-hint
-                        >SD (Slice differentiator - 6 hex characters)</mat-hint
+                        >SD (Slice differentiator - 8 hex characters)</mat-hint
                     >
                 </mat-form-field>
             </div>
             <div class="row" id="sstRow">
                 <mat-form-field class="field-margin full-width">
-                    <input
-                        matInput
-                        type="number"
-                        formControlName="sst"
-                        id="inputSst"
-                    />
-                    <mat-hint>SST (Slice/Service type 1-255)</mat-hint>
+                    <input matInput formControlName="sst" id="inputSst" />
+                    <mat-hint
+                        >SST (Slice/Service type - 0-3 hex characters)</mat-hint
+                    >
                 </mat-form-field>
             </div>
             <div id="mbrRow" class="subscriber-section">

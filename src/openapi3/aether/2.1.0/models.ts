@@ -7,6 +7,8 @@ export { ApplicationEndpoint } from './models/application-endpoint';
 export { ApplicationEndpointList } from './models/application-endpoint-list';
 export { ApplicationEndpointMbr } from './models/application-endpoint-mbr';
 export { ApplicationList } from './models/application-list';
+export { LeafRefOption } from './models/leaf-ref-option';
+export { LeafRefOptions } from './models/leaf-ref-options';
 export { Site } from './models/site';
 export { SiteConnectivityService } from './models/site-connectivity-service';
 export { SiteConnectivityServiceCore4G } from './models/site-connectivity-service-core-4-g';
