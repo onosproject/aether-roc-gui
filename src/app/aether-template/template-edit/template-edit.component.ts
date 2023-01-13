@@ -103,10 +103,9 @@ export class TemplateEditComponent
         sd: [
             undefined,
             Validators.compose([
-                Validators.minLength(0),
-                Validators.maxLength(8),
-                Validators.pattern('^[0-9A-F\\.]{0,8}'),
-                Validators.required,
+                Validators.minLength(1),
+                Validators.maxLength(6),
+                Validators.pattern('^[0-9A-F\\.]{1,6}'),
             ]),
         ],
         'default-behavior': [
@@ -117,9 +116,8 @@ export class TemplateEditComponent
             undefined,
             Validators.compose([
                 Validators.minLength(1),
-                Validators.maxLength(3),
-                Validators.pattern('^[0-9A-F\\.]{0,3}'),
-                Validators.required,
+                Validators.maxLength(2),
+                Validators.pattern('^[0-9A-F\\.]{0,2}'),
             ]),
         ],
         mbr: this.fb.group({

@@ -158,10 +158,11 @@
                     matInput
                     placeholder="Please specify an SD"
                     formControlName="sd"
+                    required
                     id="inputSd"
                 />
                 <mat-hint
-                    >SD (Slice differentiator - 8 hex characters)</mat-hint
+                    >SD (Slice differentiator - 1-6 hex characters)</mat-hint
                 >
             </mat-form-field>
             <!--SST field-->
@@ -170,9 +171,12 @@
                     matInput
                     placeholder="Please specify an SST"
                     formControlName="sst"
+                    required
                     id="inputSst"
                 />
-                <mat-hint>SST (Slice/Service type - 3 hex characters)</mat-hint>
+                <mat-hint
+                    >SST (Slice/Service type - 1-2 hex characters)</mat-hint
+                >
             </mat-form-field>
             <!-- Connectivity Service field -->
             <div class="row">
