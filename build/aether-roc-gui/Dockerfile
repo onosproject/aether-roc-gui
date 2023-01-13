@@ -13,7 +13,9 @@ WORKDIR ${CODE_DEST}
 ARG http_proxy=""
 ARG https_proxy=""
 ARG no_proxy=""
-
+RUN npm config set https-proxy=$https_proxy
+RUN npm config set proxy=$http_proxy
+RUN npm config list
 RUN npm install
 RUN npm run build:prod
 

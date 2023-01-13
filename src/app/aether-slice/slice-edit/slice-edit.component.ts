@@ -155,9 +155,9 @@ export class SliceEditComponent
         sd: [
             undefined,
             Validators.compose([
-                Validators.minLength(0),
-                Validators.maxLength(8),
-                Validators.pattern('^[0-9A-F\\.]{0,8}'),
+                Validators.minLength(1),
+                Validators.maxLength(6),
+                Validators.pattern('^[0-9A-F\\.]{1,6}'),
                 Validators.required,
             ]),
         ],
@@ -165,8 +165,8 @@ export class SliceEditComponent
             undefined,
             Validators.compose([
                 Validators.minLength(1),
-                Validators.maxLength(3),
-                Validators.pattern('^[0-9A-F\\.]{0,3}'),
+                Validators.maxLength(2),
+                Validators.pattern('^[0-9A-F\\.]{1,2}'),
                 Validators.required,
             ]),
         ],

@@ -23,6 +23,8 @@ DOCKER_LABEL_VCS_URL     ?= $(shell git remote get-url $(shell git remote | head
 DOCKER_LABEL_BUILD_DATE  ?= $(shell date -u "+%Y-%m-%dT%H:%M:%SZ")
 DOCKER_LABEL_COMMIT_DATE = $(shell git show -s --format=%cd --date=iso-strict HEAD)
 
+PLATFORM ?= linux/amd64
+
 NODE                = docker run --rm --user $$(id -u):$$(id -g) -v ${CURDIR}:/app $(shell test -t 0 && echo "-it") weboaks/node-karma-protractor-chrome:debian-node14
 
 ifeq ($(shell git ls-files --others --modified --exclude-standard 2>/dev/null | wc -l | sed -e 's/ //g'),0)
@@ -67,7 +69,7 @@ openapi-gen: # @HELP compile the OpenAPI files in to Typescript
 	done
 
 aether-roc-gui-docker: # @HELP build aether-roc-gui Docker image
-	docker build --platform linux/amd64 . -f build/aether-roc-gui/Dockerfile \
+	docker build --progress=plain --no-cache --platform ${PLATFORM} . -f build/aether-roc-gui/Dockerfile \
         --build-arg LOCAL_ONOSAPPS=$(LOCAL_ONOSAPPS) \
         --build-arg org_label_schema_version="${VERSION}" \
         --build-arg org_label_schema_vcs_url="${DOCKER_LABEL_VCS_URL}" \
