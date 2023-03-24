@@ -37,7 +37,7 @@
                 [style]="row['for-delete-style']"
                 mat-cell
                 *matCellDef="let row"
-                [class]="row.enable ? '' : 'semitransparent'"
+                [class]="row.enable === false ? 'semitransparent' : ''"
             >
                 <span
                     *ngIf="row['display-name'] !== undefined"
@@ -62,7 +62,7 @@
                 mat-cell
                 *matCellDef="let row"
                 [title]="row.description"
-                [class]="row.enable ? '' : 'semitransparent'"
+                [class]="row.enable === false ? 'semitransparent' : ''"
             >
                 {{ row.description | truncateText: 35 }}
             </td>
@@ -76,7 +76,7 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                [class]="row.enable ? '' : 'semitransparent'"
+                [class]="row.enable === false ? 'semitransparent' : ''"
             >
                 {{ row["enterprise-id"] }}
             </td>
@@ -88,7 +88,7 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                [class]="row.enable ? '' : 'semitransparent'"
+                [class]="row.enable === false ? 'semitransparent' : ''"
             >
                 {{ row.iccid }}
             </td>
@@ -100,7 +100,7 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                [class]="row.enable ? '' : 'semitransparent'"
+                [class]="row.enable === false ? 'semitransparent' : ''"
             >
                 {{ row.imsi }}
             </td>
@@ -112,7 +112,7 @@
             <td
                 mat-cell
                 *matCellDef="let row"
-                [class]="row.enable ? '' : 'semitransparent'"
+                [class]="row.enable === false ? 'semitransparent' : ''"
             >
                 {{ row["site-id"] }}
                 <mat-icon
