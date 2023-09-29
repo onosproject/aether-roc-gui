@@ -216,6 +216,19 @@
             </div>
 
             <mat-divider></mat-divider>
+            <mat-hint>Connectivity Service XAPP</mat-hint>
+            <div [formGroup]="ConnectivityServiceXAPPControls">
+                <mat-form-field class="field-margin full-width">
+                    <input
+                        matInput
+                        formControlName="xapp-endpoint"
+                        id="inputCsCoreXappEndpoint"
+                    />
+                    <mat-hint>Endpoint (URI)</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <mat-divider></mat-divider>
             <mat-hint>IMSI</mat-hint>
             <div [formGroup]="ImsiControls">
                 <mat-form-field class="field-margin">

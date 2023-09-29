@@ -233,6 +233,11 @@ describe('SliceEditComponent', () => {
                 ],
                 'slice-id': 'acme-chicago-robots',
                 sd: '2973238',
+                xapp: {
+                    'rrm-min': 50,
+                    'rrm-max': 90,
+                    'rrm-dedicated': 70,
+                },
                 mbr: {
                     downlink: 5000000,
                     'downlink-burst-size': 600000,
@@ -262,6 +267,15 @@ describe('SliceEditComponent', () => {
                 component.sliceForm.get(['filter', 0, 'allow']).value
             ).toEqual(slice['filter'][0].allow);
             expect(component.sliceForm.get('sd').value).toEqual(slice.sd);
+            expect(component.sliceForm.get(['xapp', 'rrm-min']).value).toEqual(
+                slice.xapp['rrm-min']
+            );
+            expect(component.sliceForm.get(['xapp', 'rrm-max']).value).toEqual(
+                slice.xapp['rrm-max']
+            );
+            expect(component.sliceForm.get(['xapp', 'rrm-dedicated']).value).toEqual(
+                slice.xapp['rrm-dedicated']
+            );
             expect(component.sliceForm.get(['mbr', 'uplink']).value).toEqual(
                 slice.mbr.uplink
             );

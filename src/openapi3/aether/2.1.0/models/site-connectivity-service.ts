@@ -3,6 +3,7 @@
 /* eslint-disable */
 import { SiteConnectivityServiceCore4G } from './site-connectivity-service-core-4-g';
 import { SiteConnectivityServiceCore5G } from './site-connectivity-service-core-5-g';
+import { SiteConnectivityServiceRan5GService } from './site-connectivity-service-ran-5-g-service';
 
 /**
  * Connectivity to the mobile core
@@ -10,4 +11,5 @@ import { SiteConnectivityServiceCore5G } from './site-connectivity-service-core-
 export interface SiteConnectivityService {
   'core-4g'?: SiteConnectivityServiceCore4G;
   'core-5g'?: SiteConnectivityServiceCore5G;
+  'ran-5g-service'?: SiteConnectivityServiceRan5GService;
 }

@@ -12,6 +12,7 @@ import { map, filter } from 'rxjs/operators';
 
 import { SiteConnectivityServiceCore4G } from '../models/site-connectivity-service-core-4-g';
 import { SiteConnectivityServiceCore5G } from '../models/site-connectivity-service-core-5-g';
+import { SiteConnectivityServiceRan5GService } from '../models/site-connectivity-service-ran-5-g-service';
 
 @Injectable({
   providedIn: 'root',
@@ -464,6 +465,228 @@ export class SiteConnectivityServiceService extends BaseService {
   }): Observable<void> {
 
     return this.deleteSiteConnectivityServiceCore5G$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation getSiteConnectivityServiceRan5GService
+   */
+  static readonly GetSiteConnectivityServiceRan5GServicePath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/connectivity-service/ran-5g-service';
+
+  /**
+   * GET /site/{site-id}/connectivity-service/ran-5g-service Container.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getSiteConnectivityServiceRan5GService()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getSiteConnectivityServiceRan5GService$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<StrictHttpResponse<SiteConnectivityServiceRan5GService>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteConnectivityServiceService.GetSiteConnectivityServiceRan5GServicePath, 'get');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<SiteConnectivityServiceRan5GService>;
+      })
+    );
+  }
+
+  /**
+   * GET /site/{site-id}/connectivity-service/ran-5g-service Container.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getSiteConnectivityServiceRan5GService$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getSiteConnectivityServiceRan5GService(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<SiteConnectivityServiceRan5GService> {
+
+    return this.getSiteConnectivityServiceRan5GService$Response(params).pipe(
+      map((r: StrictHttpResponse<SiteConnectivityServiceRan5GService>) => r.body as SiteConnectivityServiceRan5GService)
+    );
+  }
+
+  /**
+   * Path part for operation postSiteConnectivityServiceRan5GService
+   */
+  static readonly PostSiteConnectivityServiceRan5GServicePath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/connectivity-service/ran-5g-service';
+
+  /**
+   * POST /site/{site-id}/connectivity-service/ran-5g-service.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postSiteConnectivityServiceRan5GService()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteConnectivityServiceRan5GService$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+    body?: SiteConnectivityServiceRan5GService
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteConnectivityServiceService.PostSiteConnectivityServiceRan5GServicePath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /site/{site-id}/connectivity-service/ran-5g-service.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postSiteConnectivityServiceRan5GService$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteConnectivityServiceRan5GService(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+    body?: SiteConnectivityServiceRan5GService
+  }): Observable<void> {
+
+    return this.postSiteConnectivityServiceRan5GService$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteSiteConnectivityServiceRan5GService
+   */
+  static readonly DeleteSiteConnectivityServiceRan5GServicePath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/connectivity-service/ran-5g-service';
+
+  /**
+   * DELETE /site/{site-id}/connectivity-service/ran-5g-service.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSiteConnectivityServiceRan5GService()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteConnectivityServiceRan5GService$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteConnectivityServiceService.DeleteSiteConnectivityServiceRan5GServicePath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /site/{site-id}/connectivity-service/ran-5g-service.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteSiteConnectivityServiceRan5GService$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteConnectivityServiceRan5GService(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+  }): Observable<void> {
+
+    return this.deleteSiteConnectivityServiceRan5GService$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

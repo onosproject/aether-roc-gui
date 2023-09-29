@@ -13,6 +13,7 @@ import { map, filter } from 'rxjs/operators';
 import { SiteSlice } from '../models/site-slice';
 import { SiteSliceList } from '../models/site-slice-list';
 import { SiteSliceMbr } from '../models/site-slice-mbr';
+import { SiteSliceXapp } from '../models/site-slice-xapp';
 
 @Injectable({
   providedIn: 'root',
@@ -604,6 +605,261 @@ export class SiteSliceService extends BaseService {
   }): Observable<void> {
 
     return this.deleteSiteSliceMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation getSiteSliceXapp
+   */
+  static readonly GetSiteSliceXappPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/slice/{slice-id}/xapp';
+
+  /**
+   * GET /site/{site-id}/slice/{slice-id}/xapp Container.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getSiteSliceXapp()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getSiteSliceXapp$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+  }): Observable<StrictHttpResponse<SiteSliceXapp>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSliceService.GetSiteSliceXappPath, 'get');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<SiteSliceXapp>;
+      })
+    );
+  }
+
+  /**
+   * GET /site/{site-id}/slice/{slice-id}/xapp Container.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getSiteSliceXapp$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getSiteSliceXapp(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+  }): Observable<SiteSliceXapp> {
+
+    return this.getSiteSliceXapp$Response(params).pipe(
+      map((r: StrictHttpResponse<SiteSliceXapp>) => r.body as SiteSliceXapp)
+    );
+  }
+
+  /**
+   * Path part for operation postSiteSliceXapp
+   */
+  static readonly PostSiteSliceXappPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/slice/{slice-id}/xapp';
+
+  /**
+   * POST /site/{site-id}/slice/{slice-id}/xapp.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postSiteSliceXapp()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteSliceXapp$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+    body?: SiteSliceXapp
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSliceService.PostSiteSliceXappPath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /site/{site-id}/slice/{slice-id}/xapp.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postSiteSliceXapp$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteSliceXapp(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+    body?: SiteSliceXapp
+  }): Observable<void> {
+
+    return this.postSiteSliceXapp$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteSiteSliceXapp
+   */
+  static readonly DeleteSiteSliceXappPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/slice/{slice-id}/xapp';
+
+  /**
+   * DELETE /site/{site-id}/slice/{slice-id}/xapp.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSiteSliceXapp()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteSliceXapp$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSliceService.DeleteSiteSliceXappPath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /site/{site-id}/slice/{slice-id}/xapp.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteSiteSliceXapp$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteSliceXapp(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+  }): Observable<void> {
+
+    return this.deleteSiteSliceXapp$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
