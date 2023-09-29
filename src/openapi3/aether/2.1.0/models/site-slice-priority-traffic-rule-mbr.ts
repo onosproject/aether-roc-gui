@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 /**
- * For choice bitrate:mbr-case
+ * Per-Device per-Application MBR (Maximum BitRate) in bps
  */
 export interface SiteSlicePriorityTrafficRuleMbr {
 

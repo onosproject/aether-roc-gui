@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 /**
- * For choice bitrate:gbr-case
+ * Per-Device per-Application GBR (Guaranteed BitRate) in bps
  */
 export interface SiteSlicePriorityTrafficRuleGbr {
 

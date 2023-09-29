@@ -6,6 +6,7 @@ import { SiteSliceDeviceGroupList } from './site-slice-device-group-list';
 import { SiteSliceFilterList } from './site-slice-filter-list';
 import { SiteSliceMbr } from './site-slice-mbr';
 import { SiteSlicePriorityTrafficRuleList } from './site-slice-priority-traffic-rule-list';
+import { SiteSliceXapp } from './site-slice-xapp';
 
 /**
  * List of Slices (single)
@@ -55,6 +56,7 @@ export interface SiteSlice {
    * Link to user plane that implements this vcf
    */
   upf?: string;
+  xapp?: SiteSliceXapp;
 
-  [key: string]: '4g' | '5g' | AdditionalPropertyUnchanged | SiteSliceDeviceGroupList | SiteSliceFilterList | SiteSliceMbr | SiteSlicePriorityTrafficRuleList | string | undefined;
+  [key: string]: '4g' | '5g' | AdditionalPropertyUnchanged | SiteSliceDeviceGroupList | SiteSliceFilterList | SiteSliceMbr | SiteSlicePriorityTrafficRuleList | SiteSliceXapp | string | undefined;
 }

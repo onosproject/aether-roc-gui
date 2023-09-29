@@ -117,6 +117,29 @@ export class SliceEditComponent
             ]),
         ],
         filter: this.fb.array([]),
+        xapp: this.fb.group({
+            'rrm-min': [
+                undefined,
+                Validators.compose([
+                    Validators.min(0),
+                    Validators.max(100),
+                ]),
+            ],
+            'rrm-max': [
+                undefined,
+                Validators.compose([
+                    Validators.min(0),
+                    Validators.max(100),
+                ]),
+            ],
+            'rrm-dedicated': [
+                undefined,
+                Validators.compose([
+                    Validators.min(0),
+                    Validators.max(100),
+                ]),
+            ],
+        }),
         mbr: this.fb.group({
             uplink: [
                 undefined,
@@ -200,6 +223,9 @@ export class SliceEditComponent
         super.form = this.sliceForm;
         super.loadFunc = this.loadSliceSlice;
         this.sliceForm[REQDATTRIBS] = ['sd', 'sst', 'default-behavior'];
+        this.sliceForm.get(['xapp', 'rrm-min'])[TYPE] = 'number';
+        this.sliceForm.get(['xapp', 'rrm-max'])[TYPE] = 'number';
+        this.sliceForm.get(['xapp', 'rrm-dedicated'])[TYPE] = 'number';
         this.sliceForm.get(['mbr', 'uplink'])[TYPE] = 'number';
         this.sliceForm.get(['mbr', 'downlink'])[TYPE] = 'number';
         this.sliceForm.get(['filter'])[IDATTRIBS] = ['application'];
@@ -352,6 +378,18 @@ export class SliceEditComponent
             dbFormControl.setValue(eachTemplate['default-behavior']);
             dbFormControl.markAsTouched();
             dbFormControl.markAsDirty();
+            const RrmminFormControl = this.sliceForm.get(['xapp', 'rrm-min']);
+            RrmminFormControl.setValue(eachTemplate.xapp['rrm-min']);
+            RrmminFormControl.markAsTouched();
+            RrmminFormControl.markAsDirty();
+            const RrmmaxFormControl = this.sliceForm.get(['xapp', 'rrm-max']);
+            RrmmaxFormControl.setValue(eachTemplate.xapp['rrm-max']);
+            RrmmaxFormControl.markAsTouched();
+            RrmmaxFormControl.markAsDirty();
+            const RrmdedicatedFormControl = this.sliceForm.get(['xapp', 'rrm-dedicated']);
+            RrmdedicatedFormControl.setValue(eachTemplate.xapp['rrm-dedicated']);
+            RrmdedicatedFormControl.markAsTouched();
+            RrmdedicatedFormControl.markAsDirty();
             const UplinkFormControl = this.sliceForm.get(['mbr', 'uplink']);
             UplinkFormControl.setValue(eachTemplate.mbr.uplink);
             UplinkFormControl.markAsTouched();
@@ -538,6 +576,19 @@ export class SliceEditComponent
                 }
             );
         }
+        if (value.xapp) {
+            this.sliceForm.get(['xapp', 'rrm-min']).setValue(value.xapp['rrm-min']);
+            this.sliceForm.get(['xapp', 'rrm-max']).setValue(value.xapp['rrm-max']);
+            this.sliceForm
+                .get(['xapp', 'rrm-dedicated'])
+                .setValue(value.xapp['rrm-dedicated']);
+            this.sliceForm.get(['xapp', 'rrm-min'])[ORIGINAL] =
+		value.xapp['rrm-min'];
+            this.sliceForm.get(['xapp', 'rrm-max'])[ORIGINAL] =
+                value.xapp['rrm-max'];
+            this.sliceForm.get(['xapp', 'rrm-dedicated'])[ORIGINAL] =
+                value.xapp['rrm-dedicated'];
+	}
         if (value.mbr) {
             this.sliceForm.get(['mbr', 'uplink']).setValue(value.mbr.uplink);
             this.sliceForm
@@ -654,6 +705,10 @@ export class SliceEditComponent
             this.sliceForm.get('upf').setValue(value.upf);
             this.sliceForm.get('upf')[ORIGINAL] = value.upf;
         }
+    }
+
+    get xappControls(): FormGroup {
+        return this.sliceForm.get(['xapp']) as FormGroup;
     }
 
     get mbrControls(): FormGroup {
