@@ -20,7 +20,9 @@ jobs:
         with:
           node-version-file: 'package.json'
       - name: Build
-        run: npm run build:prod
+        run: |
+          NG_CLI_ANALYTICS=false npm install
+          npm run build:prod
 
   lint:
     runs-on: ubuntu-latest
