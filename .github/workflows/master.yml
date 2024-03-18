@@ -46,7 +46,9 @@ jobs:
         with:
           node-version: '12.22.9'
       - name: Unit tests
-        run: npm test
+        run: |
+          npm install
+          npm test
 
   docker-build:
     runs-on: ubuntu-latest
