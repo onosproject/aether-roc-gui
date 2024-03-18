@@ -21,7 +21,7 @@ jobs:
           node-version-file: 'package.json'
       - name: Build
         run: |
-          npm link @angular/cli
+          npm install
           npm run build:prod
 
   lint:
@@ -33,7 +33,9 @@ jobs:
         with:
           node-version-file: 'package.json'
       - name: Unit tests
-        run: npm run lint
+        run: |
+          NG_CLI_ANALYTICS=false npm install
+          npm run lint
 
   unit-tests:
     runs-on: ubuntu-latest
