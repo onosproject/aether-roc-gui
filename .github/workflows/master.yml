@@ -1,0 +1,75 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright 2024 Intel Corporation
+
+name: Master workflow
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+      - name: Build
+        run: |
+          npm install
+          npm run build:prod
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+      - name: lint
+        run: |
+          NG_CLI_ANALYTICS=false npm install
+          npm run lint
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+      - name: Unit tests
+        run: |
+          npm install
+          npm test
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+      - name: Build Docker image
+        run: make aether-roc-gui-docker
+
+  license-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: reuse lint
+        uses: fsfe/reuse-action@v3
+
+  fossa-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: FOSSA scan
+        uses: fossa-contrib/fossa-action@v3
+        with:
+          fossa-api-key: 6d304c09a3ec097ba4517724e4a4d17d
