@@ -73,6 +73,9 @@ export class SiteEditComponent
                 endpoint: [undefined, this.urlValidator],
                 'acc-prometheus-url': [undefined, this.urlValidator],
             }),
+            'ran-5g-service': this.fb.group({
+                'xapp-endpoint': [undefined, this.urlValidator],
+            }),
         }),
         'imsi-definition': this.fb.group({
             mcc: [
@@ -195,6 +198,13 @@ export class SiteEditComponent
         return this.siteForm.get([
             'connectivity-service',
             'core-5g',
+        ]) as FormGroup;
+    }
+
+    get ConnectivityServiceXAPPControls(): FormGroup {
+        return this.siteForm.get([
+            'connectivity-service',
+            'ran-5g-service',
         ]) as FormGroup;
     }
 
@@ -343,6 +353,16 @@ export class SiteEditComponent
                     'core-5g',
                     'acc-prometheus-url',
                 ])[ORIGINAL] = cs['core-5g']['acc-prometheus-url'];
+            }
+            if (cs['ran-5g-service']) {
+                this.siteForm
+                    .get(['connectivity-service', 'ran-5g-service', 'xapp-endpoint'])
+                    .setValue(cs['ran-5g-service']['xapp-endpoint']);
+                this.siteForm.get([
+                    'connectivity-service',
+                    'ran-5g-service',
+                    'xapp-endpoint',
+                ])[ORIGINAL] = cs['ran-5g-service'];
             }
         }
 

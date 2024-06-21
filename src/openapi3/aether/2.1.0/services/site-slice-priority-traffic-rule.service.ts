@@ -11,7 +11,9 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { SiteSlicePriorityTrafficRule } from '../models/site-slice-priority-traffic-rule';
+import { SiteSlicePriorityTrafficRuleGbr } from '../models/site-slice-priority-traffic-rule-gbr';
 import { SiteSlicePriorityTrafficRuleList } from '../models/site-slice-priority-traffic-rule-list';
+import { SiteSlicePriorityTrafficRuleMbr } from '../models/site-slice-priority-traffic-rule-mbr';
 
 @Injectable({
   providedIn: 'root',
@@ -392,6 +394,582 @@ export class SiteSlicePriorityTrafficRuleService extends BaseService {
   }): Observable<void> {
 
     return this.deleteSiteSlicePriorityTrafficRule$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation getSiteSlicePriorityTrafficRuleGbr
+   */
+  static readonly GetSiteSlicePriorityTrafficRuleGbrPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/gbr';
+
+  /**
+   * GET /site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/gbr Container.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getSiteSlicePriorityTrafficRuleGbr()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getSiteSlicePriorityTrafficRuleGbr$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+  }): Observable<StrictHttpResponse<SiteSlicePriorityTrafficRuleGbr>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSlicePriorityTrafficRuleService.GetSiteSlicePriorityTrafficRuleGbrPath, 'get');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+      rb.path('priority-traffic-rule-id', params['priority-traffic-rule-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<SiteSlicePriorityTrafficRuleGbr>;
+      })
+    );
+  }
+
+  /**
+   * GET /site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/gbr Container.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getSiteSlicePriorityTrafficRuleGbr$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getSiteSlicePriorityTrafficRuleGbr(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+  }): Observable<SiteSlicePriorityTrafficRuleGbr> {
+
+    return this.getSiteSlicePriorityTrafficRuleGbr$Response(params).pipe(
+      map((r: StrictHttpResponse<SiteSlicePriorityTrafficRuleGbr>) => r.body as SiteSlicePriorityTrafficRuleGbr)
+    );
+  }
+
+  /**
+   * Path part for operation postSiteSlicePriorityTrafficRuleGbr
+   */
+  static readonly PostSiteSlicePriorityTrafficRuleGbrPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/gbr';
+
+  /**
+   * POST /site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/gbr.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postSiteSlicePriorityTrafficRuleGbr()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteSlicePriorityTrafficRuleGbr$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+    body?: SiteSlicePriorityTrafficRuleGbr
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSlicePriorityTrafficRuleService.PostSiteSlicePriorityTrafficRuleGbrPath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+      rb.path('priority-traffic-rule-id', params['priority-traffic-rule-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/gbr.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postSiteSlicePriorityTrafficRuleGbr$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteSlicePriorityTrafficRuleGbr(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+    body?: SiteSlicePriorityTrafficRuleGbr
+  }): Observable<void> {
+
+    return this.postSiteSlicePriorityTrafficRuleGbr$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteSiteSlicePriorityTrafficRuleGbr
+   */
+  static readonly DeleteSiteSlicePriorityTrafficRuleGbrPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/gbr';
+
+  /**
+   * DELETE /site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/gbr.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSiteSlicePriorityTrafficRuleGbr()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteSlicePriorityTrafficRuleGbr$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSlicePriorityTrafficRuleService.DeleteSiteSlicePriorityTrafficRuleGbrPath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+      rb.path('priority-traffic-rule-id', params['priority-traffic-rule-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/gbr.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteSiteSlicePriorityTrafficRuleGbr$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteSlicePriorityTrafficRuleGbr(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+  }): Observable<void> {
+
+    return this.deleteSiteSlicePriorityTrafficRuleGbr$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation getSiteSlicePriorityTrafficRuleMbr
+   */
+  static readonly GetSiteSlicePriorityTrafficRuleMbrPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/mbr';
+
+  /**
+   * GET /site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/mbr Container.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getSiteSlicePriorityTrafficRuleMbr()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getSiteSlicePriorityTrafficRuleMbr$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+  }): Observable<StrictHttpResponse<SiteSlicePriorityTrafficRuleMbr>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSlicePriorityTrafficRuleService.GetSiteSlicePriorityTrafficRuleMbrPath, 'get');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+      rb.path('priority-traffic-rule-id', params['priority-traffic-rule-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<SiteSlicePriorityTrafficRuleMbr>;
+      })
+    );
+  }
+
+  /**
+   * GET /site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/mbr Container.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getSiteSlicePriorityTrafficRuleMbr$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getSiteSlicePriorityTrafficRuleMbr(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+  }): Observable<SiteSlicePriorityTrafficRuleMbr> {
+
+    return this.getSiteSlicePriorityTrafficRuleMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<SiteSlicePriorityTrafficRuleMbr>) => r.body as SiteSlicePriorityTrafficRuleMbr)
+    );
+  }
+
+  /**
+   * Path part for operation postSiteSlicePriorityTrafficRuleMbr
+   */
+  static readonly PostSiteSlicePriorityTrafficRuleMbrPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/mbr';
+
+  /**
+   * POST /site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `postSiteSlicePriorityTrafficRuleMbr()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteSlicePriorityTrafficRuleMbr$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+    body?: SiteSlicePriorityTrafficRuleMbr
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSlicePriorityTrafficRuleService.PostSiteSlicePriorityTrafficRuleMbrPath, 'post');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+      rb.path('priority-traffic-rule-id', params['priority-traffic-rule-id'], {});
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * POST /site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `postSiteSlicePriorityTrafficRuleMbr$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  postSiteSlicePriorityTrafficRuleMbr(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+    body?: SiteSlicePriorityTrafficRuleMbr
+  }): Observable<void> {
+
+    return this.postSiteSlicePriorityTrafficRuleMbr$Response(params).pipe(
+      map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation deleteSiteSlicePriorityTrafficRuleMbr
+   */
+  static readonly DeleteSiteSlicePriorityTrafficRuleMbrPath = '/aether/v2.1.x/{enterprise-id}/site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/mbr';
+
+  /**
+   * DELETE /site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSiteSlicePriorityTrafficRuleMbr()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteSlicePriorityTrafficRuleMbr$Response(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+  }): Observable<StrictHttpResponse<void>> {
+
+    const rb = new RequestBuilder(this.rootUrl, SiteSlicePriorityTrafficRuleService.DeleteSiteSlicePriorityTrafficRuleMbrPath, 'delete');
+    if (params) {
+      rb.path('enterprise-id', params['enterprise-id'], {});
+      rb.path('site-id', params['site-id'], {});
+      rb.path('slice-id', params['slice-id'], {});
+      rb.path('priority-traffic-rule-id', params['priority-traffic-rule-id'], {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'text',
+      accept: '*/*'
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+      })
+    );
+  }
+
+  /**
+   * DELETE /site/{site-id}/slice/{slice-id}/priority-traffic-rule/{priority-traffic-rule-id}/mbr.
+   *
+   *
+   *
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `deleteSiteSlicePriorityTrafficRuleMbr$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSiteSlicePriorityTrafficRuleMbr(params: {
+
+    /**
+     * enterprise-id (target in onos-config)
+     */
+    'enterprise-id': any;
+
+    /**
+     * key {site-id}
+     */
+    'site-id': any;
+
+    /**
+     * key {slice-id}
+     */
+    'slice-id': any;
+
+    /**
+     * key {priority-traffic-rule-id}
+     */
+    'priority-traffic-rule-id': any;
+  }): Observable<void> {
+
+    return this.deleteSiteSlicePriorityTrafficRuleMbr$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }

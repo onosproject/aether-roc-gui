@@ -340,6 +340,47 @@
                     </div>
                 </div>
             </div>
+            <!-- rrm-min/rrm-max/rrm-dedicated-->
+            <div id="sliceXappRow" class="subscriber-section field-margin">
+                <mat-divider></mat-divider>
+                <mat-hint>RAN Policy Ratio</mat-hint>
+                <div [formGroup]="xappControls">
+                    <div class="row float-left" id="rrm-minRow">
+                        <mat-form-field class="field-margin">
+                            <input
+                                matInput
+                                type="number"
+                                id="inputxappRrm-min"
+                                formControlName="rrm-min"
+                            />
+                            <mat-hint>Rrm-min (ratio)</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="row" id="rrm-maxRow">
+                        <mat-form-field class="field-margin">
+                            <input
+                                matInput
+                                type="number"
+                                id="inputxappRrm-max"
+                                formControlName="rrm-max"
+                            />
+                            <mat-hint>Rrm-max (ratio)</mat-hint>
+                        </mat-form-field>
+                    </div>
+                    <div class="row" id="rrm-dedicatedRow">
+                        <mat-form-field class="field-margin">
+                            <input
+                                matInput
+                                type="number"
+                                id="inputxappRrm-dedicated"
+                                formControlName="rrm-dedicated"
+                            />
+                            <mat-hint>Rrm-dedicated (ratio)</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
             <!-- uplink/downlink-->
             <div id="sliceMbrRow" class="subscriber-section field-margin">
                 <mat-divider></mat-divider>
