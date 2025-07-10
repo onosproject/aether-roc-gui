@@ -59,17 +59,7 @@ jobs:
         run: make aether-roc-gui-docker
 
   license-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: reuse lint
-        uses: fsfe/reuse-action@v3
+    uses: onosproject/.github/.github/workflows/license-check.yml@main
 
   fossa-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: FOSSA scan
-        uses: fossa-contrib/fossa-action@v3
-        with:
-          fossa-api-key: 6d304c09a3ec097ba4517724e4a4d17d
+    uses: onosproject/.github/.github/workflows/fossa-scan.yml@main
